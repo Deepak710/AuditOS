@@ -129,7 +129,10 @@ body {
 
 /* ========================================
  * REGION 3: WORKSPACE CONTENT AREA
- * Flexible, scrollable content region
+ * Flexible region that hosts the Workspace Host component
+ * (.aos-workspace-host, styled in workspace.css). The region only
+ * establishes the grid placement, surface, and clipping; the component owns
+ * the internal header / body / footer structure and the canvas scrolling.
  * ======================================== */
 
 .aos-workspace {
@@ -139,13 +142,6 @@ body {
   min-height: 0; /* Critical for flex scrolling */
   background-color: var(--aos-surface-workspace);
   overflow: hidden;
-}
-
-.aos-workspace__canvas {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: var(--aos-space-6);
 }
 
 /* ========================================
@@ -179,20 +175,33 @@ body {
  * Desktop-first, progressive enhancement
  * ======================================== */
 
-/* Tablet - collapse panel by default */
-@media (max-width: 1440px) {
+/* Tablet - collapse panel by default.
+ * Bounded to the tablet range (above the mobile breakpoint). The panel-state
+ * override below uses :not(), which raises this rule's specificity; leaving
+ * the query open-ended let it leak past the mobile breakpoint and win over
+ * the lower-specificity mobile stacked-grid rule, corrupting the mobile
+ * layout. Constraining the lower bound keeps tablet specificity inside the
+ * tablet range. */
+@media (min-width: 1025px) and (max-width: 1440px) {
   .aos-shell {
     grid-template-columns: var(--aos-space-nav-width) 1fr 0;
   }
-  
+
   .aos-shell:not(.aos-shell--panel-collapsed) {
     grid-template-columns: var(--aos-space-nav-width) 1fr var(--aos-space-panel-width);
   }
 }
 
-/* Mobile - stack layout, drawer navigation */
+/* Mobile - stack layout, drawer navigation.
+ * The collapsed-state modifiers are listed so the stacked grid reset matches
+ * their specificity (.aos-shell--nav-collapsed.aos-shell--panel-collapsed is
+ * 0,2,0). Without them, an active collapse state would override the single
+ * column reset and reintroduce the desktop track structure on mobile. */
 @media (max-width: 1024px) {
-  .aos-shell {
+  .aos-shell,
+  .aos-shell--nav-collapsed,
+  .aos-shell--panel-collapsed,
+  .aos-shell--nav-collapsed.aos-shell--panel-collapsed {
     grid-template-rows: var(--aos-space-header-height) auto 1fr;
     grid-template-columns: 1fr;
     grid-template-areas:
@@ -200,7 +209,7 @@ body {
       "nav"
       "workspace";
   }
-  
+
   .aos-navigation {
     position: fixed;
     top: var(--aos-space-header-height);
@@ -230,10 +239,6 @@ body {
   .aos-shell--panel-open .aos-panel {
     transform: translateX(0);
   }
-  
-  .aos-workspace__canvas {
-    padding: var(--aos-space-4);
-  }
 }
 
 /* Small mobile */
@@ -241,11 +246,7 @@ body {
   .aos-header {
     padding: 0 var(--aos-space-3);
   }
-  
-  .aos-workspace__canvas {
-    padding: var(--aos-space-3);
-  }
-  
+
   .aos-navigation,
   .aos-panel {
     width: 100%;

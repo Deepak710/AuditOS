@@ -1,0 +1,97 @@
+/**
+ * AuditOS Workspace Host Foundation
+ * Application Shell — Chapter 114 / Workspace Shell — Chapter 62 / Layout Components — Chapter 75
+ *
+ * Reusable structural workspace host mounted inside the shell's workspace
+ * region (<main class="aos-workspace">). Structure only — a header, a
+ * scrollable body, and a footer region, plus reserved empty and loading
+ * state placeholders. No page content, breadcrumbs, toolbar, tabs, routing,
+ * business logic, or interactions. Consumes only the Design Token Foundation;
+ * introduces no new visual values.
+ */
+
+@import 'variables.css';
+
+/* ========================================
+ * WORKSPACE HOST COMPONENT CONTAINER
+ * Fills the shell workspace region and stacks the workspace host regions as
+ * a single vertical column: header, body (grows), footer.
+ * ======================================== */
+
+.aos-workspace-host {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ========================================
+ * REGION: WORKSPACE HEADER
+ * Reserved for breadcrumbs, page title, the workspace toolbar, and workspace
+ * actions. Sits above the body and keeps its intrinsic height. Structure
+ * only — this foundation adds no chrome, so the empty region contributes no
+ * visible height until later work populates it.
+ * ======================================== */
+
+.aos-workspace-host__header {
+  flex-shrink: 0;
+}
+
+/* ========================================
+ * REGION: WORKSPACE BODY
+ * Primary operational canvas that hosts the active workspace. Grows to
+ * consume free vertical space and scrolls independently of the header and
+ * footer. Carries id="workspace-canvas" — the shell skip-link target.
+ * ======================================== */
+
+.aos-workspace-host__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--aos-space-6);
+}
+
+/* ========================================
+ * REGION: WORKSPACE FOOTER
+ * Reserved for the persistent workspace footer / status bar. Anchored to the
+ * base of the workspace column and keeps its intrinsic height. Structure only
+ * — the empty region contributes no visible height until later work
+ * populates it.
+ * ======================================== */
+
+.aos-workspace-host__footer {
+  flex-shrink: 0;
+}
+
+/* ========================================
+ * STATE PLACEHOLDERS: EMPTY & LOADING
+ * Reserved workspace-state scaffolds (Design System §15.12) that live inside
+ * the body. Later work toggles between the empty state, the loading skeleton,
+ * and the ready workspace. Structure only — this foundation defines no state
+ * behavior, so both placeholders render empty.
+ * ======================================== */
+
+.aos-workspace-host__empty,
+.aos-workspace-host__loading {
+  /* Reserved — populated and toggled by later workspace issues. */
+}
+
+/* ========================================
+ * RESPONSIVE BODY PADDING
+ * The workspace canvas relaxes its padding as the viewport narrows, matching
+ * the shell's tablet and mobile breakpoints.
+ * ======================================== */
+
+@media (max-width: 1024px) {
+  .aos-workspace-host__body {
+    padding: var(--aos-space-4);
+  }
+}
+
+@media (max-width: 640px) {
+  .aos-workspace-host__body {
+    padding: var(--aos-space-3);
+  }
+}

@@ -59,8 +59,29 @@
       </div>
     </nav>
 
-    <main class="aos-workspace">
-      <div id="workspace-canvas" class="aos-workspace__canvas"></div>
+    <main class="aos-workspace" aria-label="Workspace">
+      <!-- ========================================================= -->
+      <!-- Workspace Host Component                                  -->
+      <!-- Canonical source: components/workspace/workspace-host.html -->
+      <!-- Structure only — header, body, footer, plus empty and     -->
+      <!-- loading state placeholders for later issues.              -->
+      <!-- ========================================================= -->
+      <div class="aos-workspace-host">
+        <!-- Workspace header region — reserved for breadcrumbs, page title, workspace toolbar, and workspace actions -->
+        <div class="aos-workspace-host__header" data-region="workspace-header"></div>
+
+        <!-- Workspace body region — primary operational canvas that hosts the active workspace; scrolls independently -->
+        <div id="workspace-canvas" class="aos-workspace-host__body" data-region="workspace-body">
+          <!-- Empty state placeholder — reserved for the workspace empty state (explanation, primary action, guidance) -->
+          <div class="aos-workspace-host__empty" data-region="empty-placeholder"></div>
+
+          <!-- Loading state placeholder — reserved for the workspace loading skeleton -->
+          <div class="aos-workspace-host__loading" data-region="loading-placeholder"></div>
+        </div>
+
+        <!-- Workspace footer region — reserved for the persistent workspace footer / status bar -->
+        <div class="aos-workspace-host__footer" data-region="workspace-footer"></div>
+      </div>
     </main>
 
     <aside class="aos-panel" aria-label="Context panel">

@@ -1,0 +1,34 @@
+<!--
+  AuditOS Workspace Host Component
+  Application Shell — Chapter 114 / Workspace Shell — Chapter 62 / Layout Components — Chapter 75
+
+  Reusable structural workspace host mounted inside the shell's workspace
+  region: <main class="aos-workspace" aria-label="Workspace">. It hosts the
+  active workspace once later issues populate it. Structure only — a header,
+  a scrollable body, and a footer region, plus reserved empty and loading
+  state placeholders. No page content, breadcrumbs, toolbar, tabs, routing,
+  business logic, or JavaScript.
+
+  The body carries id="workspace-canvas" so the shell's skip link jumps
+  straight to the primary content region.
+
+  No component loader or build step exists in the prototype yet, so this
+  markup is also embedded directly inside index.html. This file is the
+  canonical source for that markup; keep the two in sync.
+-->
+<div class="aos-workspace-host">
+  <!-- Workspace header region — reserved for breadcrumbs, page title, workspace toolbar, and workspace actions -->
+  <div class="aos-workspace-host__header" data-region="workspace-header"></div>
+
+  <!-- Workspace body region — primary operational canvas that hosts the active workspace; scrolls independently -->
+  <div id="workspace-canvas" class="aos-workspace-host__body" data-region="workspace-body">
+    <!-- Empty state placeholder — reserved for the workspace empty state (explanation, primary action, guidance) -->
+    <div class="aos-workspace-host__empty" data-region="empty-placeholder"></div>
+
+    <!-- Loading state placeholder — reserved for the workspace loading skeleton -->
+    <div class="aos-workspace-host__loading" data-region="loading-placeholder"></div>
+  </div>
+
+  <!-- Workspace footer region — reserved for the persistent workspace footer / status bar -->
+  <div class="aos-workspace-host__footer" data-region="workspace-footer"></div>
+</div>
