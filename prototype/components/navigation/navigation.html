@@ -4,8 +4,10 @@
 
   Reusable structural navigation mounted inside the shell's navigation
   region: <nav class="aos-navigation" aria-label="Primary navigation">.
-  Structure only — five empty regions that later issues populate with
-  the brand mark, menu destinations, and controls.
+  Five structural regions. The primary-navigation region is populated at
+  runtime by navigation.js with one destination per registered workspace,
+  driven by the Workspace Registry; the brand, secondary, utility, and
+  collapse regions stay empty for later issues.
 
   No component loader or build step exists in the prototype yet, so this
   markup is also embedded directly inside index.html. This file is the
@@ -15,7 +17,7 @@
   <!-- Brand region — reserved for the AuditOS brand mark / wordmark -->
   <div class="aos-nav__brand" data-region="brand"></div>
 
-  <!-- Primary navigation region — reserved for primary workspace destinations -->
+  <!-- Primary navigation region — workspace destinations rendered by navigation.js -->
   <div class="aos-nav__primary" data-region="primary-navigation"></div>
 
   <!-- Secondary navigation region — reserved for secondary destinations -->

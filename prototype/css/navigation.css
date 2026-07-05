@@ -56,6 +56,60 @@
 }
 
 /* ========================================
+ * PRIMARY NAVIGATION DESTINATIONS
+ * The destination list rendered into the primary region by
+ * components/navigation/navigation.js — one destination per registered
+ * workspace, driven by the Workspace Registry. Consumes only design tokens;
+ * introduces no new visual values.
+ * ======================================== */
+
+.aos-nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0 var(--aos-space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-nav-item-gap);
+}
+
+.aos-nav__item {
+  display: block;
+}
+
+.aos-nav__link {
+  display: flex;
+  align-items: center;
+  gap: var(--aos-space-3);
+  padding: var(--aos-space-2) var(--aos-space-3);
+  border-radius: var(--aos-radius-md);
+  color: var(--aos-text-secondary);
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-medium);
+  line-height: var(--aos-leading-normal);
+  text-decoration: none;
+  transition: background-color var(--aos-transition-fast),
+    color var(--aos-transition-fast);
+}
+
+.aos-nav__link:hover {
+  background: var(--aos-surface-hover);
+  color: var(--aos-text-primary);
+}
+
+.aos-nav__link:focus-visible {
+  outline: none;
+  box-shadow: var(--aos-focus-ring);
+}
+
+/* Active destination follows the current route (set via aria-current by
+ * navigation.js), giving keyboard and screen-reader users the same signal. */
+.aos-nav__link.is-active {
+  background: var(--aos-color-primary-50);
+  color: var(--aos-text-link);
+  font-weight: var(--aos-font-semibold);
+}
+
+/* ========================================
  * REGION: SECONDARY NAVIGATION
  * Reserved for secondary destinations (for example administration or
  * settings). Sits beneath the primary region, above the utility region.

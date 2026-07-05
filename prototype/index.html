@@ -39,13 +39,15 @@
       <!-- ========================================================= -->
       <!-- Left Navigation Component                                 -->
       <!-- Canonical source: components/navigation/navigation.html   -->
-      <!-- Structure only — five empty regions for later issues.     -->
+      <!-- Structural regions. The primary-navigation region is       -->
+      <!-- populated at runtime by components/navigation/navigation.js -->
+      <!-- from the Workspace Registry; the others await later issues. -->
       <!-- ========================================================= -->
       <div class="aos-nav">
         <!-- Brand region — reserved for the AuditOS brand mark / wordmark -->
         <div class="aos-nav__brand" data-region="brand"></div>
 
-        <!-- Primary navigation region — reserved for primary workspace destinations -->
+        <!-- Primary navigation region — workspace destinations rendered by navigation.js -->
         <div class="aos-nav__primary" data-region="primary-navigation"></div>
 
         <!-- Secondary navigation region — reserved for secondary destinations -->
@@ -118,5 +120,13 @@
   <script src="js/router/workspace-registry.js"></script>
   <script src="js/router/router.js"></script>
   <script src="js/main.js"></script>
+
+  <!-- ========================================================= -->
+  <!-- Navigation Content                                        -->
+  <!-- Renders workspace destinations from the registry and      -->
+  <!-- follows the current route. Loads after the bootstrap so    -->
+  <!-- the router has resolved the initial route first.          -->
+  <!-- ========================================================= -->
+  <script src="components/navigation/navigation.js"></script>
 </body>
 </html>
