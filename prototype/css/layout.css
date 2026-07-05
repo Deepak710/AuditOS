@@ -1,0 +1,326 @@
+/**
+ * AuditOS Layout System
+ * Workspace Design System - Chapter 15
+ * Core shell layout with 5 persistent regions
+ */
+
+@import 'variables.css';
+
+/* ========================================
+ * CSS RESET & BASE
+ * ======================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--aos-font-sans);
+  font-size: var(--aos-text-base);
+  line-height: var(--aos-leading-normal);
+  color: var(--aos-text-primary);
+  background-color: var(--aos-surface-app);
+  min-height: 100vh;
+  overflow: hidden; /* Shell manages scrolling */
+}
+
+/* ========================================
+ * APPLICATION SHELL - Root Layout
+ * 5 Persistent Regions:
+ * 1. Application Shell (root)
+ * 2. Left Navigation
+ * 3. Top Header
+ * 4. Workspace Content Area
+ * 5. Right Context Panel
+ * ======================================== */
+
+.aos-shell {
+  display: grid;
+  grid-template-rows: var(--aos-space-header-height) 1fr;
+  grid-template-columns: var(--aos-space-nav-width) 1fr var(--aos-space-panel-width);
+  grid-template-areas:
+    "header header header"
+    "nav workspace panel";
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  transition: grid-template-columns var(--aos-transition-normal);
+}
+
+/* Collapsed navigation state */
+.aos-shell--nav-collapsed {
+  grid-template-columns: var(--aos-space-nav-width-collapsed) 1fr var(--aos-space-panel-width);
+}
+
+/* Collapsed panel state */
+.aos-shell--panel-collapsed {
+  grid-template-columns: var(--aos-space-nav-width) 1fr var(--aos-space-panel-width-collapsed);
+}
+
+/* Both collapsed */
+.aos-shell--nav-collapsed.aos-shell--panel-collapsed {
+  grid-template-columns: var(--aos-space-nav-width-collapsed) 1fr var(--aos-space-panel-width-collapsed);
+}
+
+/* ========================================
+ * REGION 1: TOP HEADER
+ * Fixed height, spans full width
+ * ======================================== */
+
+.aos-header {
+  grid-area: header;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--aos-space-header-height);
+  padding: 0 var(--aos-space-4);
+  background-color: var(--aos-surface-panel);
+  border-bottom: 1px solid var(--aos-surface-border);
+  z-index: var(--aos-z-fixed);
+  flex-shrink: 0;
+}
+
+/* ========================================
+ * REGION 2: LEFT NAVIGATION
+ * Fixed width, full height below header
+ * ======================================== */
+
+.aos-navigation {
+  grid-area: nav;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--aos-surface-panel);
+  border-right: 1px solid var(--aos-surface-border);
+  overflow: hidden;
+  z-index: var(--aos-z-fixed);
+  transition: width var(--aos-transition-normal), transform var(--aos-transition-normal);
+}
+
+/* Navigation collapsed - icon only */
+.aos-shell--nav-collapsed .aos-navigation {
+  width: var(--aos-space-nav-width-collapsed);
+}
+
+.aos-shell--nav-collapsed .aos-nav__label,
+.aos-shell--nav-collapsed .aos-nav__section-title,
+.aos-shell--nav-collapsed .aos-nav__brand-text,
+.aos-shell--nav-collapsed .aos-nav__user-info {
+  display: none;
+}
+
+.aos-shell--nav-collapsed .aos-nav__item {
+  justify-content: center;
+  padding: var(--aos-space-3);
+}
+
+.aos-shell--nav-collapsed .aos-nav__icon {
+  margin-right: 0;
+}
+
+/* ========================================
+ * REGION 3: WORKSPACE CONTENT AREA
+ * Flexible, scrollable content region
+ * ======================================== */
+
+.aos-workspace {
+  grid-area: workspace;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* Critical for flex scrolling */
+  background-color: var(--aos-surface-workspace);
+  overflow: hidden;
+}
+
+.aos-workspace__canvas {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--aos-space-6);
+}
+
+/* ========================================
+ * REGION 4: RIGHT CONTEXT PANEL
+ * Fixed width, full height below header
+ * ======================================== */
+
+.aos-panel {
+  grid-area: panel;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--aos-surface-panel);
+  border-left: 1px solid var(--aos-surface-border);
+  overflow: hidden;
+  z-index: var(--aos-z-fixed);
+  transition: width var(--aos-transition-normal), transform var(--aos-transition-normal);
+}
+
+.aos-shell--panel-collapsed .aos-panel {
+  width: var(--aos-space-panel-width-collapsed);
+  border-left: none;
+}
+
+.aos-shell--panel-collapsed .aos-panel__content {
+  display: none;
+}
+
+/* ========================================
+ * RESPONSIVE BREAKPOINTS
+ * Desktop-first, progressive enhancement
+ * ======================================== */
+
+/* Tablet - collapse panel by default */
+@media (max-width: 1440px) {
+  .aos-shell {
+    grid-template-columns: var(--aos-space-nav-width) 1fr 0;
+  }
+  
+  .aos-shell:not(.aos-shell--panel-collapsed) {
+    grid-template-columns: var(--aos-space-nav-width) 1fr var(--aos-space-panel-width);
+  }
+}
+
+/* Mobile - stack layout, drawer navigation */
+@media (max-width: 1024px) {
+  .aos-shell {
+    grid-template-rows: var(--aos-space-header-height) auto 1fr;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "nav"
+      "workspace";
+  }
+  
+  .aos-navigation {
+    position: fixed;
+    top: var(--aos-space-header-height);
+    left: 0;
+    height: calc(100vh - var(--aos-space-header-height));
+    width: var(--aos-space-nav-width);
+    z-index: var(--aos-z-fixed);
+    transform: translateX(-100%);
+    box-shadow: var(--aos-shadow-xl);
+  }
+  
+  .aos-shell--nav-open .aos-navigation {
+    transform: translateX(0);
+  }
+  
+  .aos-panel {
+    position: fixed;
+    top: var(--aos-space-header-height);
+    right: 0;
+    height: calc(100vh - var(--aos-space-header-height));
+    width: var(--aos-space-panel-width);
+    z-index: var(--aos-z-fixed);
+    transform: translateX(100%);
+    box-shadow: var(--aos-shadow-xl);
+  }
+  
+  .aos-shell--panel-open .aos-panel {
+    transform: translateX(0);
+  }
+  
+  .aos-workspace__canvas {
+    padding: var(--aos-space-4);
+  }
+}
+
+/* Small mobile */
+@media (max-width: 640px) {
+  .aos-header {
+    padding: 0 var(--aos-space-3);
+  }
+  
+  .aos-workspace__canvas {
+    padding: var(--aos-space-3);
+  }
+  
+  .aos-navigation,
+  .aos-panel {
+    width: 100%;
+    max-width: 20rem;
+  }
+}
+
+/* ========================================
+ * OVERLAY BACKDROPS (Mobile)
+ * ======================================== */
+
+.aos-shell__backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: var(--aos-z-modal-backdrop);
+  opacity: 0;
+  transition: opacity var(--aos-transition-fast);
+}
+
+@media (max-width: 1024px) {
+  .aos-shell--nav-open .aos-shell__backdrop--nav,
+  .aos-shell--panel-open .aos-shell__backdrop--panel {
+    display: block;
+    opacity: 1;
+  }
+}
+
+/* ========================================
+ * FOCUS VISIBLE POLYFILL
+ * ======================================== */
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--aos-focus-ring);
+  border-radius: var(--aos-radius-sm);
+}
+
+/* ========================================
+ * SCROLLBAR STYLING
+ * Subtle, consistent
+ * ======================================== */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--aos-color-neutral-300);
+  border-radius: var(--aos-radius-full);
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--aos-color-neutral-400);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--aos-color-neutral-300) transparent;
+}

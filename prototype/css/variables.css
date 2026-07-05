@@ -1,0 +1,236 @@
+/**
+ * AuditOS Design Tokens
+ * Visual Design System - Chapter 17
+ * All values use CSS Custom Properties for theming and consistency
+ */
+
+:root {
+  /* ========================================
+   * COLOR SYSTEM
+   * Purpose-driven, not decorative
+   * ======================================== */
+
+  /* Brand / Primary - Used for primary actions, focus, selection */
+  --aos-color-primary-50: #eff6ff;
+  --aos-color-primary-100: #dbeafe;
+  --aos-color-primary-200: #bfdbfe;
+  --aos-color-primary-300: #93c5fd;
+  --aos-color-primary-400: #60a5fa;
+  --aos-color-primary-500: #3b82f6;
+  --aos-color-primary-600: #2563eb;
+  --aos-color-primary-700: #1d4ed8;
+  --aos-color-primary-800: #1e40af;
+  --aos-color-primary-900: #1e3a8a;
+
+  /* Semantic Colors - Status, Severity, Progress */
+  --aos-color-success-50: #f0fdf4;
+  --aos-color-success-500: #22c55e;
+  --aos-color-success-600: #16a34a;
+  --aos-color-success-700: #15803d;
+
+  --aos-color-warning-50: #fffbeb;
+  --aos-color-warning-500: #f59e0b;
+  --aos-color-warning-600: #d97706;
+  --aos-color-warning-700: #b45309;
+
+  --aos-color-error-50: #fef2f2;
+  --aos-color-error-500: #ef4444;
+  --aos-color-error-600: #dc2626;
+  --aos-color-error-700: #b91c1c;
+
+  --aos-color-info-50: #eff6ff;
+  --aos-color-info-500: #3b82f6;
+  --aos-color-info-600: #2563eb;
+
+  /* Neutral Scale - Surfaces, Text, Borders */
+  --aos-color-neutral-0: #ffffff;
+  --aos-color-neutral-25: #fafafa;
+  --aos-color-neutral-50: #f5f5f5;
+  --aos-color-neutral-100: #e5e5e5;
+  --aos-color-neutral-200: #d4d4d4;
+  --aos-color-neutral-300: #a3a3a3;
+  --aos-color-neutral-400: #737373;
+  --aos-color-neutral-500: #525252;
+  --aos-color-neutral-600: #404040;
+  --aos-color-neutral-700: #262626;
+  --aos-color-neutral-800: #171717;
+  --aos-color-neutral-900: #0a0a0a;
+  --aos-color-neutral-950: #030303;
+
+  /* Surface Hierarchy - Depth without shadows */
+  --aos-surface-app: var(--aos-color-neutral-0);
+  --aos-surface-workspace: var(--aos-color-neutral-50);
+  --aos-surface-panel: var(--aos-color-neutral-0);
+  --aos-surface-card: var(--aos-color-neutral-0);
+  --aos-surface-hover: var(--aos-color-neutral-50);
+  --aos-surface-active: var(--aos-color-neutral-100);
+  --aos-surface-border: var(--aos-color-neutral-200);
+  --aos-surface-border-strong: var(--aos-color-neutral-300);
+
+  /* Text Hierarchy */
+  --aos-text-primary: var(--aos-color-neutral-900);
+  --aos-text-secondary: var(--aos-color-neutral-600);
+  --aos-text-tertiary: var(--aos-color-neutral-400);
+  --aos-text-inverse: var(--aos-color-neutral-0);
+  --aos-text-link: var(--aos-color-primary-600);
+  --aos-text-link-hover: var(--aos-color-primary-700);
+
+  /* ========================================
+   * TYPOGRAPHY SYSTEM
+   * Hierarchy before color
+   * ======================================== */
+
+  /* Font Families */
+  --aos-font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --aos-font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+
+  /* Font Sizes - Fluid scale */
+  --aos-text-xs: 0.75rem;    /* 12px */
+  --aos-text-sm: 0.875rem;   /* 14px */
+  --aos-text-base: 1rem;     /* 16px */
+  --aos-text-lg: 1.125rem;   /* 18px */
+  --aos-text-xl: 1.25rem;    /* 20px */
+  --aos-text-2xl: 1.5rem;    /* 24px */
+  --aos-text-3xl: 1.875rem;  /* 30px */
+  --aos-text-4xl: 2.25rem;   /* 36px */
+
+  /* Font Weights */
+  --aos-font-normal: 400;
+  --aos-font-medium: 500;
+  --aos-font-semibold: 600;
+  --aos-font-bold: 700;
+
+  /* Line Heights */
+  --aos-leading-tight: 1.25;
+  --aos-leading-snug: 1.375;
+  --aos-leading-normal: 1.5;
+  --aos-leading-relaxed: 1.625;
+
+  /* ========================================
+   * SPACING SYSTEM
+   * Mathematical consistency
+   * Base unit: 4px (0.25rem)
+   * ======================================== */
+
+  --aos-space-0: 0;
+  --aos-space-1: 0.25rem;   /* 4px */
+  --aos-space-2: 0.5rem;    /* 8px */
+  --aos-space-3: 0.75rem;   /* 12px */
+  --aos-space-4: 1rem;      /* 16px */
+  --aos-space-5: 1.25rem;   /* 20px */
+  --aos-space-6: 1.5rem;    /* 24px */
+  --aos-space-8: 2rem;      /* 32px */
+  --aos-space-10: 2.5rem;   /* 40px */
+  --aos-space-12: 3rem;     /* 48px */
+  --aos-space-16: 4rem;     /* 64px */
+  --aos-space-20: 5rem;     /* 80px */
+  --aos-space-24: 6rem;     /* 96px */
+
+  /* Component-specific spacing */
+  --aos-space-nav-item-gap: var(--aos-space-2);
+  --aos-space-nav-section-gap: var(--aos-space-6);
+  --aos-space-header-height: 3.5rem;      /* 56px */
+  --aos-space-nav-width: 16rem;           /* 256px */
+  --aos-space-nav-width-collapsed: 3.5rem; /* 56px */
+  --aos-space-panel-width: 20rem;         /* 320px */
+  --aos-space-panel-width-collapsed: 0;
+
+  /* ========================================
+   * BORDER RADIUS
+   * ======================================== */
+
+  --aos-radius-none: 0;
+  --aos-radius-sm: 0.25rem;   /* 4px */
+  --aos-radius-md: 0.375rem;  /* 6px */
+  --aos-radius-lg: 0.5rem;    /* 8px */
+  --aos-radius-xl: 0.75rem;   /* 12px */
+  --aos-radius-2xl: 1rem;     /* 16px */
+  --aos-radius-full: 9999px;
+
+  /* ========================================
+   * SHADOWS / ELEVATION
+   * Subtle, purposeful
+   * ======================================== */
+
+  --aos-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --aos-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --aos-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --aos-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+  /* ========================================
+   * TRANSITIONS / MOTION
+   * Fast, purposeful
+   * ======================================== */
+
+  --aos-transition-fast: 100ms ease;
+  --aos-transition-normal: 200ms ease;
+  --aos-transition-slow: 300ms ease;
+
+  /* ========================================
+   * BREAKPOINTS
+   * Mobile-first, but desktop-primary for AuditOS
+   * ======================================== */
+
+  --aos-breakpoint-sm: 640px;
+  --aos-breakpoint-md: 1024px;
+  --aos-breakpoint-lg: 1440px;
+  --aos-breakpoint-xl: 1920px;
+
+  /* ========================================
+   * Z-INDEX SCALE
+   * ======================================== */
+
+  --aos-z-base: 0;
+  --aos-z-dropdown: 100;
+  --aos-z-sticky: 200;
+  --aos-z-fixed: 300;
+  --aos-z-modal-backdrop: 400;
+  --aos-z-modal: 500;
+  --aos-z-popover: 600;
+  --aos-z-tooltip: 700;
+  --aos-z-toast: 800;
+
+  /* ========================================
+   * FOCUS RING
+   * Accessible, visible
+   * ======================================== */
+
+  --aos-focus-ring: 0 0 0 2px var(--aos-color-primary-500);
+  --aos-focus-ring-offset: 2px;
+}
+
+/* ========================================
+ * DARK MODE SUPPORT (Future-ready)
+ * ======================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --aos-surface-app: var(--aos-color-neutral-950);
+    --aos-surface-workspace: var(--aos-color-neutral-900);
+    --aos-surface-panel: var(--aos-color-neutral-900);
+    --aos-surface-card: var(--aos-color-neutral-800);
+    --aos-surface-hover: var(--aos-color-neutral-800);
+    --aos-surface-active: var(--aos-color-neutral-700);
+    --aos-surface-border: var(--aos-color-neutral-700);
+    --aos-surface-border-strong: var(--aos-color-neutral-600);
+
+    --aos-text-primary: var(--aos-color-neutral-50);
+    --aos-text-secondary: var(--aos-color-neutral-400);
+    --aos-text-tertiary: var(--aos-color-neutral-500);
+    --aos-text-inverse: var(--aos-color-neutral-950);
+    --aos-text-link: var(--aos-color-primary-400);
+    --aos-text-link-hover: var(--aos-color-primary-300);
+  }
+}
+
+/* ========================================
+ * REDUCED MOTION
+ * ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --aos-transition-fast: 0ms;
+    --aos-transition-normal: 0ms;
+    --aos-transition-slow: 0ms;
+  }
+}
