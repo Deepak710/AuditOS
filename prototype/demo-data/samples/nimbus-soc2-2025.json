@@ -1,0 +1,1058 @@
+{
+  "metadata": {
+    "version": "2.0.0",
+    "dataset": "NimbusCloud SOC 2 Type II FY2025 Samples",
+    "companyId": "CMP-001",
+    "engagementId": "ENG-002",
+    "description": "Sample selections derived from accepted evidence. Samples are tested individually and linked back to evidence."
+  },
+  "summary": {
+    "sampleSets": 20,
+    "totalSamples": 100,
+    "pendingTesting": 28,
+    "passed": 68,
+    "failed": 4
+  },
+  "sampleSets": [
+    {
+      "id": "SSET-001",
+      "engagementId": "ENG-002",
+      "evidenceId": "EVD-001",
+      "requirementId": "REQ-001",
+      "controlIds": [
+        "ENGCTRL-0001",
+        "ENGCTRL-0008"
+      ],
+      "populationName": "Employee Population",
+      "populationSize": 125,
+      "samplingMethod": "Random",
+      "plannedSampleSize": 5,
+      "selectedSampleCount": 5,
+      "samples": [
+        {
+          "sampleId": "SMP-001-01",
+          "sampleReference": "EMP-1011",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-001-02",
+          "sampleReference": "EMP-1012",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-001-03",
+          "sampleReference": "EMP-1013",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-001-04",
+          "sampleReference": "EMP-1014",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-001-05",
+          "sampleReference": "EMP-1015",
+          "status": "Pending",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        }
+      ]
+    },
+    {
+      "id": "SSET-002",
+      "engagementId": "ENG-002",
+      "evidenceId": "EVD-002",
+      "requirementId": "REQ-002",
+      "controlIds": [
+        "ENGCTRL-0002",
+        "ENGCTRL-0009"
+      ],
+      "populationName": "Background Verification",
+      "populationSize": 150,
+      "samplingMethod": "Random",
+      "plannedSampleSize": 5,
+      "selectedSampleCount": 5,
+      "samples": [
+        {
+          "sampleId": "SMP-002-01",
+          "sampleReference": "BAC-1021",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-002-02",
+          "sampleReference": "BAC-1022",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-002-03",
+          "sampleReference": "BAC-1023",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-002-04",
+          "sampleReference": "BAC-1024",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-002-05",
+          "sampleReference": "BAC-1025",
+          "status": "Pending",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        }
+      ]
+    },
+    {
+      "id": "SSET-003",
+      "engagementId": "ENG-002",
+      "evidenceId": "EVD-003",
+      "requirementId": "REQ-003",
+      "controlIds": [
+        "ENGCTRL-0003",
+        "ENGCTRL-0010"
+      ],
+      "populationName": "Security Awareness",
+      "populationSize": 175,
+      "samplingMethod": "Random",
+      "plannedSampleSize": 5,
+      "selectedSampleCount": 5,
+      "samples": [
+        {
+          "sampleId": "SMP-003-01",
+          "sampleReference": "SEC-1031",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-003-02",
+          "sampleReference": "SEC-1032",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-003-03",
+          "sampleReference": "SEC-1033",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-003-04",
+          "sampleReference": "SEC-1034",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-003-05",
+          "sampleReference": "SEC-1035",
+          "status": "Pending",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        }
+      ]
+    },
+    {
+      "id": "SSET-004",
+      "engagementId": "ENG-002",
+      "evidenceId": "EVD-004",
+      "requirementId": "REQ-004",
+      "controlIds": [
+        "ENGCTRL-0004",
+        "ENGCTRL-0011"
+      ],
+      "populationName": "User Access",
+      "populationSize": 200,
+      "samplingMethod": "Random",
+      "plannedSampleSize": 5,
+      "selectedSampleCount": 5,
+      "samples": [
+        {
+          "sampleId": "SMP-004-01",
+          "sampleReference": "USE-1041",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-004-02",
+          "sampleReference": "USE-1042",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-004-03",
+          "sampleReference": "USE-1043",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-004-04",
+          "sampleReference": "USE-1044",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-004-05",
+          "sampleReference": "USE-1045",
+          "status": "Pending",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        }
+      ]
+    },
+    {
+      "id": "SSET-005",
+      "engagementId": "ENG-002",
+      "evidenceId": "EVD-005",
+      "requirementId": "REQ-005",
+      "controlIds": [
+        "ENGCTRL-0005",
+        "ENGCTRL-0012"
+      ],
+      "populationName": "Privileged Access",
+      "populationSize": 225,
+      "samplingMethod": "Random",
+      "plannedSampleSize": 5,
+      "selectedSampleCount": 5,
+      "samples": [
+        {
+          "sampleId": "SMP-005-01",
+          "sampleReference": "PRI-1051",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-005-02",
+          "sampleReference": "PRI-1052",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-005-03",
+          "sampleReference": "PRI-1053",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-005-04",
+          "sampleReference": "PRI-1054",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-005-05",
+          "sampleReference": "PRI-1055",
+          "status": "Failed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        }
+      ]
+    },
+    {
+      "id": "SSET-006",
+      "engagementId": "ENG-002",
+      "evidenceId": "EVD-006",
+      "requirementId": "REQ-006",
+      "controlIds": [
+        "ENGCTRL-0006",
+        "ENGCTRL-0013"
+      ],
+      "populationName": "Joiners",
+      "populationSize": 250,
+      "samplingMethod": "Random",
+      "plannedSampleSize": 5,
+      "selectedSampleCount": 5,
+      "samples": [
+        {
+          "sampleId": "SMP-006-01",
+          "sampleReference": "JOI-1061",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-006-02",
+          "sampleReference": "JOI-1062",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-006-03",
+          "sampleReference": "JOI-1063",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-006-04",
+          "sampleReference": "JOI-1064",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-006-05",
+          "sampleReference": "JOI-1065",
+          "status": "Pending",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        }
+      ]
+    },
+    {
+      "id": "SSET-007",
+      "engagementId": "ENG-002",
+      "evidenceId": "EVD-007",
+      "requirementId": "REQ-007",
+      "controlIds": [
+        "ENGCTRL-0007",
+        "ENGCTRL-0014"
+      ],
+      "populationName": "Leavers",
+      "populationSize": 275,
+      "samplingMethod": "Random",
+      "plannedSampleSize": 5,
+      "selectedSampleCount": 5,
+      "samples": [
+        {
+          "sampleId": "SMP-007-01",
+          "sampleReference": "LEA-1071",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-007-02",
+          "sampleReference": "LEA-1072",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-007-03",
+          "sampleReference": "LEA-1073",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-007-04",
+          "sampleReference": "LEA-1074",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-007-05",
+          "sampleReference": "LEA-1075",
+          "status": "Pending",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        }
+      ]
+    },
+    {
+      "id": "SSET-008",
+      "engagementId": "ENG-002",
+      "evidenceId": "EVD-008",
+      "requirementId": "REQ-008",
+      "controlIds": [
+        "ENGCTRL-0008",
+        "ENGCTRL-0015"
+      ],
+      "populationName": "Firewall Rules",
+      "populationSize": 300,
+      "samplingMethod": "Random",
+      "plannedSampleSize": 5,
+      "selectedSampleCount": 5,
+      "samples": [
+        {
+          "sampleId": "SMP-008-01",
+          "sampleReference": "FIR-1081",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-008-02",
+          "sampleReference": "FIR-1082",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-008-03",
+          "sampleReference": "FIR-1083",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-008-04",
+          "sampleReference": "FIR-1084",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-008-05",
+          "sampleReference": "FIR-1085",
+          "status": "Pending",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        }
+      ]
+    },
+    {
+      "id": "SSET-009",
+      "engagementId": "ENG-002",
+      "evidenceId": "EVD-009",
+      "requirementId": "REQ-009",
+      "controlIds": [
+        "ENGCTRL-0009",
+        "ENGCTRL-0016"
+      ],
+      "populationName": "VPN Users",
+      "populationSize": 325,
+      "samplingMethod": "Random",
+      "plannedSampleSize": 5,
+      "selectedSampleCount": 5,
+      "samples": [
+        {
+          "sampleId": "SMP-009-01",
+          "sampleReference": "VPN-1091",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-009-02",
+          "sampleReference": "VPN-1092",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-009-03",
+          "sampleReference": "VPN-1093",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-009-04",
+          "sampleReference": "VPN-1094",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-009-05",
+          "sampleReference": "VPN-1095",
+          "status": "Pending",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        }
+      ]
+    },
+    {
+      "id": "SSET-010",
+      "engagementId": "ENG-002",
+      "evidenceId": "EVD-010",
+      "requirementId": "REQ-010",
+      "controlIds": [
+        "ENGCTRL-0010",
+        "ENGCTRL-0017"
+      ],
+      "populationName": "Patch Records",
+      "populationSize": 350,
+      "samplingMethod": "Random",
+      "plannedSampleSize": 5,
+      "selectedSampleCount": 5,
+      "samples": [
+        {
+          "sampleId": "SMP-010-01",
+          "sampleReference": "PAT-1101",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-010-02",
+          "sampleReference": "PAT-1102",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-010-03",
+          "sampleReference": "PAT-1103",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-010-04",
+          "sampleReference": "PAT-1104",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-010-05",
+          "sampleReference": "PAT-1105",
+          "status": "Failed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        }
+      ]
+    },
+    {
+      "id": "SSET-011",
+      "engagementId": "ENG-002",
+      "evidenceId": "EVD-011",
+      "requirementId": "REQ-011",
+      "controlIds": [
+        "ENGCTRL-0011",
+        "ENGCTRL-0018"
+      ],
+      "populationName": "Vulnerability Findings",
+      "populationSize": 375,
+      "samplingMethod": "Random",
+      "plannedSampleSize": 5,
+      "selectedSampleCount": 5,
+      "samples": [
+        {
+          "sampleId": "SMP-011-01",
+          "sampleReference": "VUL-1111",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-011-02",
+          "sampleReference": "VUL-1112",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-011-03",
+          "sampleReference": "VUL-1113",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-011-04",
+          "sampleReference": "VUL-1114",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-011-05",
+          "sampleReference": "VUL-1115",
+          "status": "Pending",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        }
+      ]
+    },
+    {
+      "id": "SSET-012",
+      "engagementId": "ENG-002",
+      "evidenceId": "EVD-012",
+      "requirementId": "REQ-012",
+      "controlIds": [
+        "ENGCTRL-0012",
+        "ENGCTRL-0019"
+      ],
+      "populationName": "Production Changes",
+      "populationSize": 400,
+      "samplingMethod": "Random",
+      "plannedSampleSize": 5,
+      "selectedSampleCount": 5,
+      "samples": [
+        {
+          "sampleId": "SMP-012-01",
+          "sampleReference": "PRO-1121",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-012-02",
+          "sampleReference": "PRO-1122",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-012-03",
+          "sampleReference": "PRO-1123",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-012-04",
+          "sampleReference": "PRO-1124",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-012-05",
+          "sampleReference": "PRO-1125",
+          "status": "Pending",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        }
+      ]
+    },
+    {
+      "id": "SSET-013",
+      "engagementId": "ENG-002",
+      "evidenceId": "EVD-013",
+      "requirementId": "REQ-013",
+      "controlIds": [
+        "ENGCTRL-0013",
+        "ENGCTRL-0020"
+      ],
+      "populationName": "Code Reviews",
+      "populationSize": 425,
+      "samplingMethod": "Random",
+      "plannedSampleSize": 5,
+      "selectedSampleCount": 5,
+      "samples": [
+        {
+          "sampleId": "SMP-013-01",
+          "sampleReference": "COD-1131",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-013-02",
+          "sampleReference": "COD-1132",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-013-03",
+          "sampleReference": "COD-1133",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-013-04",
+          "sampleReference": "COD-1134",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-013-05",
+          "sampleReference": "COD-1135",
+          "status": "Pending",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        }
+      ]
+    },
+    {
+      "id": "SSET-014",
+      "engagementId": "ENG-002",
+      "evidenceId": "EVD-014",
+      "requirementId": "REQ-014",
+      "controlIds": [
+        "ENGCTRL-0014",
+        "ENGCTRL-0021"
+      ],
+      "populationName": "Backup Jobs",
+      "populationSize": 450,
+      "samplingMethod": "Random",
+      "plannedSampleSize": 5,
+      "selectedSampleCount": 5,
+      "samples": [
+        {
+          "sampleId": "SMP-014-01",
+          "sampleReference": "BAC-1141",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-014-02",
+          "sampleReference": "BAC-1142",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-014-03",
+          "sampleReference": "BAC-1143",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-014-04",
+          "sampleReference": "BAC-1144",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-014-05",
+          "sampleReference": "BAC-1145",
+          "status": "Pending",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        }
+      ]
+    },
+    {
+      "id": "SSET-015",
+      "engagementId": "ENG-002",
+      "evidenceId": "EVD-015",
+      "requirementId": "REQ-015",
+      "controlIds": [
+        "ENGCTRL-0015",
+        "ENGCTRL-0022"
+      ],
+      "populationName": "Restore Tests",
+      "populationSize": 475,
+      "samplingMethod": "Random",
+      "plannedSampleSize": 5,
+      "selectedSampleCount": 5,
+      "samples": [
+        {
+          "sampleId": "SMP-015-01",
+          "sampleReference": "RES-1151",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-015-02",
+          "sampleReference": "RES-1152",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-015-03",
+          "sampleReference": "RES-1153",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-015-04",
+          "sampleReference": "RES-1154",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-015-05",
+          "sampleReference": "RES-1155",
+          "status": "Failed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        }
+      ]
+    },
+    {
+      "id": "SSET-016",
+      "engagementId": "ENG-002",
+      "evidenceId": "EVD-016",
+      "requirementId": "REQ-016",
+      "controlIds": [
+        "ENGCTRL-0016",
+        "ENGCTRL-0023"
+      ],
+      "populationName": "Vendor Reviews",
+      "populationSize": 500,
+      "samplingMethod": "Random",
+      "plannedSampleSize": 5,
+      "selectedSampleCount": 5,
+      "samples": [
+        {
+          "sampleId": "SMP-016-01",
+          "sampleReference": "VEN-1161",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-016-02",
+          "sampleReference": "VEN-1162",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-016-03",
+          "sampleReference": "VEN-1163",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-016-04",
+          "sampleReference": "VEN-1164",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-016-05",
+          "sampleReference": "VEN-1165",
+          "status": "Pending",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        }
+      ]
+    },
+    {
+      "id": "SSET-017",
+      "engagementId": "ENG-002",
+      "evidenceId": "EVD-017",
+      "requirementId": "REQ-017",
+      "controlIds": [
+        "ENGCTRL-0017",
+        "ENGCTRL-0024"
+      ],
+      "populationName": "Risk Register",
+      "populationSize": 525,
+      "samplingMethod": "Random",
+      "plannedSampleSize": 5,
+      "selectedSampleCount": 5,
+      "samples": [
+        {
+          "sampleId": "SMP-017-01",
+          "sampleReference": "RIS-1171",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-017-02",
+          "sampleReference": "RIS-1172",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-017-03",
+          "sampleReference": "RIS-1173",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-017-04",
+          "sampleReference": "RIS-1174",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-017-05",
+          "sampleReference": "RIS-1175",
+          "status": "Pending",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        }
+      ]
+    },
+    {
+      "id": "SSET-018",
+      "engagementId": "ENG-002",
+      "evidenceId": "EVD-018",
+      "requirementId": "REQ-018",
+      "controlIds": [
+        "ENGCTRL-0018",
+        "ENGCTRL-0025"
+      ],
+      "populationName": "Incident Register",
+      "populationSize": 550,
+      "samplingMethod": "Random",
+      "plannedSampleSize": 5,
+      "selectedSampleCount": 5,
+      "samples": [
+        {
+          "sampleId": "SMP-018-01",
+          "sampleReference": "INC-1181",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-018-02",
+          "sampleReference": "INC-1182",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-018-03",
+          "sampleReference": "INC-1183",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-018-04",
+          "sampleReference": "INC-1184",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-018-05",
+          "sampleReference": "INC-1185",
+          "status": "Pending",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        }
+      ]
+    },
+    {
+      "id": "SSET-019",
+      "engagementId": "ENG-002",
+      "evidenceId": "EVD-019",
+      "requirementId": "REQ-019",
+      "controlIds": [
+        "ENGCTRL-0019",
+        "ENGCTRL-0026"
+      ],
+      "populationName": "Asset Inventory",
+      "populationSize": 575,
+      "samplingMethod": "Random",
+      "plannedSampleSize": 5,
+      "selectedSampleCount": 5,
+      "samples": [
+        {
+          "sampleId": "SMP-019-01",
+          "sampleReference": "ASS-1191",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-019-02",
+          "sampleReference": "ASS-1192",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-019-03",
+          "sampleReference": "ASS-1193",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-019-04",
+          "sampleReference": "ASS-1194",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-019-05",
+          "sampleReference": "ASS-1195",
+          "status": "Pending",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        }
+      ]
+    },
+    {
+      "id": "SSET-020",
+      "engagementId": "ENG-002",
+      "evidenceId": "EVD-020",
+      "requirementId": "REQ-020",
+      "controlIds": [
+        "ENGCTRL-0020",
+        "ENGCTRL-0027"
+      ],
+      "populationName": "BCP/DR Exercise",
+      "populationSize": 600,
+      "samplingMethod": "Random",
+      "plannedSampleSize": 5,
+      "selectedSampleCount": 5,
+      "samples": [
+        {
+          "sampleId": "SMP-020-01",
+          "sampleReference": "BCP-1201",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-020-02",
+          "sampleReference": "BCP-1202",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-020-03",
+          "sampleReference": "BCP-1203",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-020-04",
+          "sampleReference": "BCP-1204",
+          "status": "Passed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        },
+        {
+          "sampleId": "SMP-020-05",
+          "sampleReference": "BCP-1205",
+          "status": "Failed",
+          "assignedTester": "USR-003",
+          "linkedTestId": null
+        }
+      ]
+    }
+  ]
+}

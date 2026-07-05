@@ -1,0 +1,143 @@
+{
+  "metadata": {
+    "version": "2.0.0",
+    "dataset": "NimbusCloud SOC 2 Type II FY2026 Findings",
+    "companyId": "CMP-001",
+    "engagementId": "ENG-001",
+    "description": "Audit findings for FY2026 demonstrating prior-year knowledge reuse while maintaining engagement independence."
+  },
+  "summary": {
+    "findings": 5,
+    "open": 2,
+    "closed": 2,
+    "acceptedRisk": 1,
+    "linkedPriorYearFindings": 3
+  },
+  "findings": [
+    {
+      "id": "OBS-2026-004-05",
+      "engagementId": "ENG-001",
+      "controlId": "ENGCTRL-1004",
+      "libraryControlId": "LIB-CTRL-0001",
+      "testId": "TEST-2026-004-05",
+      "sampleId": "SMP-2026-004-05",
+      "workingPaperId": "WP-1004",
+      "severity": "Medium",
+      "title": "Firewall rule review evidence lacked documented approval",
+      "observation": "Firewall rule review evidence lacked documented approval.",
+      "risk": "Control effectiveness may be reduced until remediation is completed.",
+      "recommendation": "Implement corrective action and validate through retesting.",
+      "managementResponse": "Updated change workflow implemented.",
+      "ownerPocId": "POC-001",
+      "targetClosureDate": "2027-03-11",
+      "status": "Open",
+      "reportable": true,
+      "linkedPriorYearFindingId": "OBS-005-05",
+      "knowledgeReuse": {
+        "priorFindingReviewed": true,
+        "sourceEngagementId": "ENG-002"
+      },
+      "reportSection": "Control Exceptions"
+    },
+    {
+      "id": "OBS-2026-008-05",
+      "engagementId": "ENG-001",
+      "controlId": "ENGCTRL-1008",
+      "libraryControlId": "LIB-CTRL-0002",
+      "testId": "TEST-2026-008-05",
+      "sampleId": "SMP-2026-008-05",
+      "workingPaperId": "WP-1008",
+      "severity": "Low",
+      "title": "VPN access review completed late",
+      "observation": "VPN access review completed late.",
+      "risk": "Control effectiveness may be reduced until remediation is completed.",
+      "recommendation": "Implement corrective action and validate through retesting.",
+      "managementResponse": "Review schedule automated.",
+      "ownerPocId": "POC-002",
+      "targetClosureDate": "2027-03-12",
+      "status": "Closed",
+      "reportable": false,
+      "linkedPriorYearFindingId": null,
+      "knowledgeReuse": {
+        "priorFindingReviewed": false,
+        "sourceEngagementId": null
+      },
+      "reportSection": "Control Exceptions"
+    },
+    {
+      "id": "OBS-2026-012-05",
+      "engagementId": "ENG-001",
+      "controlId": "ENGCTRL-1012",
+      "libraryControlId": "LIB-CTRL-0003",
+      "testId": "TEST-2026-012-05",
+      "sampleId": "SMP-2026-012-05",
+      "workingPaperId": "WP-1012",
+      "severity": "High",
+      "title": "Privileged access review exception identified",
+      "observation": "Privileged access review exception identified.",
+      "risk": "Control effectiveness may be reduced until remediation is completed.",
+      "recommendation": "Implement corrective action and validate through retesting.",
+      "managementResponse": "Quarterly privileged access governance implemented.",
+      "ownerPocId": "POC-003",
+      "targetClosureDate": "2027-03-13",
+      "status": "Open",
+      "reportable": true,
+      "linkedPriorYearFindingId": "OBS-015-05",
+      "knowledgeReuse": {
+        "priorFindingReviewed": true,
+        "sourceEngagementId": "ENG-002"
+      },
+      "reportSection": "Control Exceptions"
+    },
+    {
+      "id": "OBS-2026-016-05",
+      "engagementId": "ENG-001",
+      "controlId": "ENGCTRL-1016",
+      "libraryControlId": "LIB-CTRL-0004",
+      "testId": "TEST-2026-016-05",
+      "sampleId": "SMP-2026-016-05",
+      "workingPaperId": "WP-1016",
+      "severity": "Low",
+      "title": "Vendor evidence missing reviewer sign-off",
+      "observation": "Vendor evidence missing reviewer sign-off.",
+      "risk": "Control effectiveness may be reduced until remediation is completed.",
+      "recommendation": "Implement corrective action and validate through retesting.",
+      "managementResponse": "Reviewer checklist introduced.",
+      "ownerPocId": "POC-004",
+      "targetClosureDate": "2027-03-14",
+      "status": "Accepted Risk",
+      "reportable": false,
+      "linkedPriorYearFindingId": "OBS-020-05",
+      "knowledgeReuse": {
+        "priorFindingReviewed": true,
+        "sourceEngagementId": "ENG-002"
+      },
+      "reportSection": "Control Exceptions"
+    },
+    {
+      "id": "OBS-2026-020-05",
+      "engagementId": "ENG-001",
+      "controlId": "ENGCTRL-1020",
+      "libraryControlId": "LIB-CTRL-0005",
+      "testId": "TEST-2026-020-05",
+      "sampleId": "SMP-2026-020-05",
+      "workingPaperId": "WP-1020",
+      "severity": "Medium",
+      "title": "Patch deployment evidence incomplete for sampled systems",
+      "observation": "Patch deployment evidence incomplete for sampled systems.",
+      "risk": "Control effectiveness may be reduced until remediation is completed.",
+      "recommendation": "Implement corrective action and validate through retesting.",
+      "managementResponse": "Patch reporting enhanced.",
+      "ownerPocId": "POC-005",
+      "targetClosureDate": "2027-03-15",
+      "status": "Closed",
+      "reportable": true,
+      "linkedPriorYearFindingId": null,
+      "knowledgeReuse": {
+        "priorFindingReviewed": false,
+        "sourceEngagementId": null
+      },
+      "reportSection": "Control Exceptions"
+    }
+  ]
+}

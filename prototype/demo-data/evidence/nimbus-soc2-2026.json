@@ -1,0 +1,719 @@
+{
+  "metadata": {
+    "version": "2.0.0",
+    "dataset": "NimbusCloud SOC 2 Type II FY2026 Evidence",
+    "companyId": "CMP-001",
+    "engagementId": "ENG-001",
+    "description": "Canonical evidence inventory for FY2026 demonstrating evidence reuse within the same company."
+  },
+  "summary": {
+    "evidenceItems": 20,
+    "reusedEvidence": 15,
+    "newEvidence": 5,
+    "approved": 12,
+    "pendingReview": 6,
+    "rejected": 2
+  },
+  "evidence": [
+    {
+      "id": "EVD-2026-001",
+      "engagementId": "ENG-001",
+      "requestId": "REQST-2026-001",
+      "requirementId": "REQ-001",
+      "title": "Employee Population.xlsx",
+      "fileName": "Employee Population.xlsx",
+      "fileType": "XLSX",
+      "version": "2.0",
+      "uploadedByPocId": "POC-001",
+      "uploadedOn": "2027-01-02",
+      "reviewStatus": "Approved",
+      "linkedRequestIds": [
+        "REQST-2026-001"
+      ],
+      "linkedRequirementIds": [
+        "REQ-001"
+      ],
+      "linkedControlIds": [
+        "ENGCTRL-1001",
+        "ENGCTRL-1008"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-002",
+        "sourceEvidenceId": "EVD-001",
+        "reuseDecision": "Reused After Review"
+      },
+      "storagePath": "/evidence/nimbus/2026/Employee Population.xlsx",
+      "tags": [
+        "prototype",
+        "soc2",
+        "shared-evidence"
+      ]
+    },
+    {
+      "id": "EVD-2026-002",
+      "engagementId": "ENG-001",
+      "requestId": "REQST-2026-002",
+      "requirementId": "REQ-002",
+      "title": "Background Verification Report.xlsx",
+      "fileName": "Background Verification Report.xlsx",
+      "fileType": "XLSX",
+      "version": "2.0",
+      "uploadedByPocId": "POC-002",
+      "uploadedOn": "2027-01-03",
+      "reviewStatus": "Approved",
+      "linkedRequestIds": [
+        "REQST-2026-002"
+      ],
+      "linkedRequirementIds": [
+        "REQ-002"
+      ],
+      "linkedControlIds": [
+        "ENGCTRL-1002",
+        "ENGCTRL-1009"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-002",
+        "sourceEvidenceId": "EVD-002",
+        "reuseDecision": "Reused After Review"
+      },
+      "storagePath": "/evidence/nimbus/2026/Background Verification Report.xlsx",
+      "tags": [
+        "prototype",
+        "soc2",
+        "shared-evidence"
+      ]
+    },
+    {
+      "id": "EVD-2026-003",
+      "engagementId": "ENG-001",
+      "requestId": "REQST-2026-003",
+      "requirementId": "REQ-003",
+      "title": "Security Awareness Completion.xlsx",
+      "fileName": "Security Awareness Completion.xlsx",
+      "fileType": "XLSX",
+      "version": "2.0",
+      "uploadedByPocId": "POC-003",
+      "uploadedOn": "2027-01-04",
+      "reviewStatus": "Pending Review",
+      "linkedRequestIds": [
+        "REQST-2026-003"
+      ],
+      "linkedRequirementIds": [
+        "REQ-003"
+      ],
+      "linkedControlIds": [
+        "ENGCTRL-1003",
+        "ENGCTRL-1010"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-002",
+        "sourceEvidenceId": "EVD-003",
+        "reuseDecision": "Reused After Review"
+      },
+      "storagePath": "/evidence/nimbus/2026/Security Awareness Completion.xlsx",
+      "tags": [
+        "prototype",
+        "soc2",
+        "shared-evidence"
+      ]
+    },
+    {
+      "id": "EVD-2026-004",
+      "engagementId": "ENG-001",
+      "requestId": "REQST-2026-004",
+      "requirementId": "REQ-004",
+      "title": "User Access Export.csv",
+      "fileName": "User Access Export.csv",
+      "fileType": "CSV",
+      "version": "2.0",
+      "uploadedByPocId": "POC-004",
+      "uploadedOn": "2027-01-05",
+      "reviewStatus": "Approved",
+      "linkedRequestIds": [
+        "REQST-2026-004"
+      ],
+      "linkedRequirementIds": [
+        "REQ-004"
+      ],
+      "linkedControlIds": [
+        "ENGCTRL-1004",
+        "ENGCTRL-1011"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-002",
+        "sourceEvidenceId": "EVD-004",
+        "reuseDecision": "Reused After Review"
+      },
+      "storagePath": "/evidence/nimbus/2026/User Access Export.csv",
+      "tags": [
+        "prototype",
+        "soc2",
+        "shared-evidence"
+      ]
+    },
+    {
+      "id": "EVD-2026-005",
+      "engagementId": "ENG-001",
+      "requestId": "REQST-2026-005",
+      "requirementId": "REQ-005",
+      "title": "Privileged Access Export.csv",
+      "fileName": "Privileged Access Export.csv",
+      "fileType": "CSV",
+      "version": "2.0",
+      "uploadedByPocId": "POC-005",
+      "uploadedOn": "2027-01-06",
+      "reviewStatus": "Pending Review",
+      "linkedRequestIds": [
+        "REQST-2026-005"
+      ],
+      "linkedRequirementIds": [
+        "REQ-005"
+      ],
+      "linkedControlIds": [
+        "ENGCTRL-1005",
+        "ENGCTRL-1012"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-002",
+        "sourceEvidenceId": "EVD-005",
+        "reuseDecision": "Reused After Review"
+      },
+      "storagePath": "/evidence/nimbus/2026/Privileged Access Export.csv",
+      "tags": [
+        "prototype",
+        "soc2",
+        "shared-evidence"
+      ]
+    },
+    {
+      "id": "EVD-2026-006",
+      "engagementId": "ENG-001",
+      "requestId": "REQST-2026-006",
+      "requirementId": "REQ-006",
+      "title": "Joiner Tickets.xlsx",
+      "fileName": "Joiner Tickets.xlsx",
+      "fileType": "XLSX",
+      "version": "2.0",
+      "uploadedByPocId": "POC-006",
+      "uploadedOn": "2027-01-07",
+      "reviewStatus": "Approved",
+      "linkedRequestIds": [
+        "REQST-2026-006"
+      ],
+      "linkedRequirementIds": [
+        "REQ-006"
+      ],
+      "linkedControlIds": [
+        "ENGCTRL-1006",
+        "ENGCTRL-1013"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-002",
+        "sourceEvidenceId": "EVD-006",
+        "reuseDecision": "Reused After Review"
+      },
+      "storagePath": "/evidence/nimbus/2026/Joiner Tickets.xlsx",
+      "tags": [
+        "prototype",
+        "soc2",
+        "shared-evidence"
+      ]
+    },
+    {
+      "id": "EVD-2026-007",
+      "engagementId": "ENG-001",
+      "requestId": "REQST-2026-007",
+      "requirementId": "REQ-007",
+      "title": "Leaver Tickets.xlsx",
+      "fileName": "Leaver Tickets.xlsx",
+      "fileType": "XLSX",
+      "version": "2.0",
+      "uploadedByPocId": "POC-007",
+      "uploadedOn": "2027-01-08",
+      "reviewStatus": "Rejected",
+      "linkedRequestIds": [
+        "REQST-2026-007"
+      ],
+      "linkedRequirementIds": [
+        "REQ-007"
+      ],
+      "linkedControlIds": [
+        "ENGCTRL-1007",
+        "ENGCTRL-1014"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-002",
+        "sourceEvidenceId": "EVD-007",
+        "reuseDecision": "Reused After Review"
+      },
+      "storagePath": "/evidence/nimbus/2026/Leaver Tickets.xlsx",
+      "tags": [
+        "prototype",
+        "soc2",
+        "shared-evidence"
+      ]
+    },
+    {
+      "id": "EVD-2026-008",
+      "engagementId": "ENG-001",
+      "requestId": "REQST-2026-008",
+      "requirementId": "REQ-008",
+      "title": "Firewall Configuration.pdf",
+      "fileName": "Firewall Configuration.pdf",
+      "fileType": "PDF",
+      "version": "2.0",
+      "uploadedByPocId": "POC-008",
+      "uploadedOn": "2027-01-09",
+      "reviewStatus": "Approved",
+      "linkedRequestIds": [
+        "REQST-2026-008"
+      ],
+      "linkedRequirementIds": [
+        "REQ-008"
+      ],
+      "linkedControlIds": [
+        "ENGCTRL-1008",
+        "ENGCTRL-1015"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-002",
+        "sourceEvidenceId": "EVD-008",
+        "reuseDecision": "Reused After Review"
+      },
+      "storagePath": "/evidence/nimbus/2026/Firewall Configuration.pdf",
+      "tags": [
+        "prototype",
+        "soc2",
+        "shared-evidence"
+      ]
+    },
+    {
+      "id": "EVD-2026-009",
+      "engagementId": "ENG-001",
+      "requestId": "REQST-2026-009",
+      "requirementId": "REQ-009",
+      "title": "VPN Users.csv",
+      "fileName": "VPN Users.csv",
+      "fileType": "CSV",
+      "version": "2.0",
+      "uploadedByPocId": "POC-009",
+      "uploadedOn": "2027-01-10",
+      "reviewStatus": "Pending Review",
+      "linkedRequestIds": [
+        "REQST-2026-009"
+      ],
+      "linkedRequirementIds": [
+        "REQ-009"
+      ],
+      "linkedControlIds": [
+        "ENGCTRL-1009",
+        "ENGCTRL-1016"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-002",
+        "sourceEvidenceId": "EVD-009",
+        "reuseDecision": "Reused After Review"
+      },
+      "storagePath": "/evidence/nimbus/2026/VPN Users.csv",
+      "tags": [
+        "prototype",
+        "soc2",
+        "shared-evidence"
+      ]
+    },
+    {
+      "id": "EVD-2026-010",
+      "engagementId": "ENG-001",
+      "requestId": "REQST-2026-010",
+      "requirementId": "REQ-010",
+      "title": "Patch Compliance.xlsx",
+      "fileName": "Patch Compliance.xlsx",
+      "fileType": "XLSX",
+      "version": "2.0",
+      "uploadedByPocId": "POC-010",
+      "uploadedOn": "2027-01-11",
+      "reviewStatus": "Approved",
+      "linkedRequestIds": [
+        "REQST-2026-010"
+      ],
+      "linkedRequirementIds": [
+        "REQ-010"
+      ],
+      "linkedControlIds": [
+        "ENGCTRL-1010",
+        "ENGCTRL-1017"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-002",
+        "sourceEvidenceId": "EVD-010",
+        "reuseDecision": "Reused After Review"
+      },
+      "storagePath": "/evidence/nimbus/2026/Patch Compliance.xlsx",
+      "tags": [
+        "prototype",
+        "soc2",
+        "shared-evidence"
+      ]
+    },
+    {
+      "id": "EVD-2026-011",
+      "engagementId": "ENG-001",
+      "requestId": "REQST-2026-011",
+      "requirementId": "REQ-011",
+      "title": "Vulnerability Scan.pdf",
+      "fileName": "Vulnerability Scan.pdf",
+      "fileType": "PDF",
+      "version": "2.0",
+      "uploadedByPocId": "POC-011",
+      "uploadedOn": "2027-01-12",
+      "reviewStatus": "Pending Review",
+      "linkedRequestIds": [
+        "REQST-2026-011"
+      ],
+      "linkedRequirementIds": [
+        "REQ-011"
+      ],
+      "linkedControlIds": [
+        "ENGCTRL-1011",
+        "ENGCTRL-1018"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-002",
+        "sourceEvidenceId": "EVD-011",
+        "reuseDecision": "Reused After Review"
+      },
+      "storagePath": "/evidence/nimbus/2026/Vulnerability Scan.pdf",
+      "tags": [
+        "prototype",
+        "soc2",
+        "shared-evidence"
+      ]
+    },
+    {
+      "id": "EVD-2026-012",
+      "engagementId": "ENG-001",
+      "requestId": "REQST-2026-012",
+      "requirementId": "REQ-012",
+      "title": "Approved Changes.xlsx",
+      "fileName": "Approved Changes.xlsx",
+      "fileType": "XLSX",
+      "version": "2.0",
+      "uploadedByPocId": "POC-012",
+      "uploadedOn": "2027-01-13",
+      "reviewStatus": "Approved",
+      "linkedRequestIds": [
+        "REQST-2026-012"
+      ],
+      "linkedRequirementIds": [
+        "REQ-012"
+      ],
+      "linkedControlIds": [
+        "ENGCTRL-1012",
+        "ENGCTRL-1019"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-002",
+        "sourceEvidenceId": "EVD-012",
+        "reuseDecision": "Reused After Review"
+      },
+      "storagePath": "/evidence/nimbus/2026/Approved Changes.xlsx",
+      "tags": [
+        "prototype",
+        "soc2",
+        "shared-evidence"
+      ]
+    },
+    {
+      "id": "EVD-2026-013",
+      "engagementId": "ENG-001",
+      "requestId": "REQST-2026-013",
+      "requirementId": "REQ-013",
+      "title": "Pull Request Reviews.pdf",
+      "fileName": "Pull Request Reviews.pdf",
+      "fileType": "PDF",
+      "version": "2.0",
+      "uploadedByPocId": "POC-001",
+      "uploadedOn": "2027-01-14",
+      "reviewStatus": "Approved",
+      "linkedRequestIds": [
+        "REQST-2026-013"
+      ],
+      "linkedRequirementIds": [
+        "REQ-013"
+      ],
+      "linkedControlIds": [
+        "ENGCTRL-1013",
+        "ENGCTRL-1020"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-002",
+        "sourceEvidenceId": "EVD-013",
+        "reuseDecision": "Reused After Review"
+      },
+      "storagePath": "/evidence/nimbus/2026/Pull Request Reviews.pdf",
+      "tags": [
+        "prototype",
+        "soc2",
+        "shared-evidence"
+      ]
+    },
+    {
+      "id": "EVD-2026-014",
+      "engagementId": "ENG-001",
+      "requestId": "REQST-2026-014",
+      "requirementId": "REQ-014",
+      "title": "Backup Success Logs.pdf",
+      "fileName": "Backup Success Logs.pdf",
+      "fileType": "PDF",
+      "version": "2.0",
+      "uploadedByPocId": "POC-002",
+      "uploadedOn": "2027-01-15",
+      "reviewStatus": "Rejected",
+      "linkedRequestIds": [
+        "REQST-2026-014"
+      ],
+      "linkedRequirementIds": [
+        "REQ-014"
+      ],
+      "linkedControlIds": [
+        "ENGCTRL-1014",
+        "ENGCTRL-1021"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-002",
+        "sourceEvidenceId": "EVD-014",
+        "reuseDecision": "Reused After Review"
+      },
+      "storagePath": "/evidence/nimbus/2026/Backup Success Logs.pdf",
+      "tags": [
+        "prototype",
+        "soc2",
+        "shared-evidence"
+      ]
+    },
+    {
+      "id": "EVD-2026-015",
+      "engagementId": "ENG-001",
+      "requestId": "REQST-2026-015",
+      "requirementId": "REQ-015",
+      "title": "Restore Test Results.pdf",
+      "fileName": "Restore Test Results.pdf",
+      "fileType": "PDF",
+      "version": "2.0",
+      "uploadedByPocId": "POC-003",
+      "uploadedOn": "2027-01-16",
+      "reviewStatus": "Approved",
+      "linkedRequestIds": [
+        "REQST-2026-015"
+      ],
+      "linkedRequirementIds": [
+        "REQ-015"
+      ],
+      "linkedControlIds": [
+        "ENGCTRL-1015",
+        "ENGCTRL-1022"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-002",
+        "sourceEvidenceId": "EVD-015",
+        "reuseDecision": "Reused After Review"
+      },
+      "storagePath": "/evidence/nimbus/2026/Restore Test Results.pdf",
+      "tags": [
+        "prototype",
+        "soc2",
+        "shared-evidence"
+      ]
+    },
+    {
+      "id": "EVD-2026-016",
+      "engagementId": "ENG-001",
+      "requestId": "REQST-2026-016",
+      "requirementId": "REQ-016",
+      "title": "Vendor Assessment.pdf",
+      "fileName": "Vendor Assessment.pdf",
+      "fileType": "PDF",
+      "version": "1.0",
+      "uploadedByPocId": "POC-004",
+      "uploadedOn": "2027-01-17",
+      "reviewStatus": "Pending Review",
+      "linkedRequestIds": [
+        "REQST-2026-016"
+      ],
+      "linkedRequirementIds": [
+        "REQ-016"
+      ],
+      "linkedControlIds": [
+        "ENGCTRL-1016",
+        "ENGCTRL-1023"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "sourceEvidenceId": null,
+        "reuseDecision": "Fresh Collection"
+      },
+      "storagePath": "/evidence/nimbus/2026/Vendor Assessment.pdf",
+      "tags": [
+        "prototype",
+        "soc2",
+        "shared-evidence"
+      ]
+    },
+    {
+      "id": "EVD-2026-017",
+      "engagementId": "ENG-001",
+      "requestId": "REQST-2026-017",
+      "requirementId": "REQ-017",
+      "title": "Risk Register.xlsx",
+      "fileName": "Risk Register.xlsx",
+      "fileType": "XLSX",
+      "version": "1.0",
+      "uploadedByPocId": "POC-005",
+      "uploadedOn": "2027-01-18",
+      "reviewStatus": "Approved",
+      "linkedRequestIds": [
+        "REQST-2026-017"
+      ],
+      "linkedRequirementIds": [
+        "REQ-017"
+      ],
+      "linkedControlIds": [
+        "ENGCTRL-1017",
+        "ENGCTRL-1024"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "sourceEvidenceId": null,
+        "reuseDecision": "Fresh Collection"
+      },
+      "storagePath": "/evidence/nimbus/2026/Risk Register.xlsx",
+      "tags": [
+        "prototype",
+        "soc2",
+        "shared-evidence"
+      ]
+    },
+    {
+      "id": "EVD-2026-018",
+      "engagementId": "ENG-001",
+      "requestId": "REQST-2026-018",
+      "requirementId": "REQ-018",
+      "title": "Incident Register.xlsx",
+      "fileName": "Incident Register.xlsx",
+      "fileType": "XLSX",
+      "version": "1.0",
+      "uploadedByPocId": "POC-006",
+      "uploadedOn": "2027-01-19",
+      "reviewStatus": "Approved",
+      "linkedRequestIds": [
+        "REQST-2026-018"
+      ],
+      "linkedRequirementIds": [
+        "REQ-018"
+      ],
+      "linkedControlIds": [
+        "ENGCTRL-1018",
+        "ENGCTRL-1025"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "sourceEvidenceId": null,
+        "reuseDecision": "Fresh Collection"
+      },
+      "storagePath": "/evidence/nimbus/2026/Incident Register.xlsx",
+      "tags": [
+        "prototype",
+        "soc2",
+        "shared-evidence"
+      ]
+    },
+    {
+      "id": "EVD-2026-019",
+      "engagementId": "ENG-001",
+      "requestId": "REQST-2026-019",
+      "requirementId": "REQ-019",
+      "title": "Asset Inventory.xlsx",
+      "fileName": "Asset Inventory.xlsx",
+      "fileType": "XLSX",
+      "version": "1.0",
+      "uploadedByPocId": "POC-007",
+      "uploadedOn": "2027-01-20",
+      "reviewStatus": "Pending Review",
+      "linkedRequestIds": [
+        "REQST-2026-019"
+      ],
+      "linkedRequirementIds": [
+        "REQ-019"
+      ],
+      "linkedControlIds": [
+        "ENGCTRL-1019",
+        "ENGCTRL-1026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "sourceEvidenceId": null,
+        "reuseDecision": "Fresh Collection"
+      },
+      "storagePath": "/evidence/nimbus/2026/Asset Inventory.xlsx",
+      "tags": [
+        "prototype",
+        "soc2",
+        "shared-evidence"
+      ]
+    },
+    {
+      "id": "EVD-2026-020",
+      "engagementId": "ENG-001",
+      "requestId": "REQST-2026-020",
+      "requirementId": "REQ-020",
+      "title": "BCP-DR Exercise Report.pdf",
+      "fileName": "BCP-DR Exercise Report.pdf",
+      "fileType": "PDF",
+      "version": "1.0",
+      "uploadedByPocId": "POC-008",
+      "uploadedOn": "2027-01-21",
+      "reviewStatus": "Approved",
+      "linkedRequestIds": [
+        "REQST-2026-020"
+      ],
+      "linkedRequirementIds": [
+        "REQ-020"
+      ],
+      "linkedControlIds": [
+        "ENGCTRL-1020",
+        "ENGCTRL-1027"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "sourceEvidenceId": null,
+        "reuseDecision": "Fresh Collection"
+      },
+      "storagePath": "/evidence/nimbus/2026/BCP-DR Exercise Report.pdf",
+      "tags": [
+        "prototype",
+        "soc2",
+        "shared-evidence"
+      ]
+    }
+  ]
+}

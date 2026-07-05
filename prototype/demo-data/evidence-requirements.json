@@ -1,0 +1,8 @@
+{
+  "datasets": [
+    "requirements/nimbus-soc2-2025.json",
+    "requirements/nimbus-soc2-2026.json",
+    "requirements/helix-soc2-2026.json",
+    "requirements/helix-iso27001-2026.json"
+  ]
+}

@@ -1,0 +1,857 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "dataset": "Helix Financial Systems ISO 27001 FY2026",
+    "companyId": "CMP-002",
+    "engagementId": "ENG-004",
+    "framework": "ISO/IEC 27001:2022",
+    "description": "Static prototype ISO 27001 control dataset for AuditOS Release 1."
+  },
+  "summary": {
+    "controls": 30,
+    "framework": "ISO/IEC 27001:2022",
+    "annexADomains": 4
+  },
+  "controls": [
+    {
+      "id": "ISOCTRL-0001",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.5-01",
+      "title": "Information Security Policies",
+      "annexAControl": "A.5",
+      "category": "Organizational Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-101",
+      "teamId": "TEAM-101",
+      "controlOwner": "POC-101",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-001-01",
+        "REQ-ISO-001-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-001",
+      "riskRating": "Medium",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0002",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.6-02",
+      "title": "Information Security Roles",
+      "annexAControl": "A.6",
+      "category": "People Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-102",
+      "teamId": "TEAM-102",
+      "controlOwner": "POC-102",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-002-01",
+        "REQ-ISO-002-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-002",
+      "riskRating": "High",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0003",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.7-03",
+      "title": "Segregation of Duties",
+      "annexAControl": "A.7",
+      "category": "Physical Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-103",
+      "teamId": "TEAM-103",
+      "controlOwner": "POC-101",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-003-01",
+        "REQ-ISO-003-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-003",
+      "riskRating": "Low",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0004",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.8-04",
+      "title": "Management Responsibilities",
+      "annexAControl": "A.8",
+      "category": "Technological Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-101",
+      "teamId": "TEAM-101",
+      "controlOwner": "POC-102",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-004-01",
+        "REQ-ISO-004-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-004",
+      "riskRating": "Medium",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0005",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.5-05",
+      "title": "Threat Intelligence",
+      "annexAControl": "A.5",
+      "category": "Organizational Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-102",
+      "teamId": "TEAM-102",
+      "controlOwner": "POC-101",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-005-01",
+        "REQ-ISO-005-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-005",
+      "riskRating": "High",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0006",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.6-06",
+      "title": "Information Security in Project Management",
+      "annexAControl": "A.6",
+      "category": "People Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-103",
+      "teamId": "TEAM-103",
+      "controlOwner": "POC-102",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-006-01",
+        "REQ-ISO-006-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-006",
+      "riskRating": "Low",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0007",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.7-07",
+      "title": "Asset Inventory",
+      "annexAControl": "A.7",
+      "category": "Physical Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-101",
+      "teamId": "TEAM-101",
+      "controlOwner": "POC-101",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-007-01",
+        "REQ-ISO-007-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-007",
+      "riskRating": "Medium",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0008",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.8-08",
+      "title": "Acceptable Use of Assets",
+      "annexAControl": "A.8",
+      "category": "Technological Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-102",
+      "teamId": "TEAM-102",
+      "controlOwner": "POC-102",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-008-01",
+        "REQ-ISO-008-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-008",
+      "riskRating": "High",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0009",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.5-09",
+      "title": "Return of Assets",
+      "annexAControl": "A.5",
+      "category": "Organizational Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-103",
+      "teamId": "TEAM-103",
+      "controlOwner": "POC-101",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-009-01",
+        "REQ-ISO-009-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-009",
+      "riskRating": "Low",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0010",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.6-10",
+      "title": "Information Classification",
+      "annexAControl": "A.6",
+      "category": "People Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-101",
+      "teamId": "TEAM-101",
+      "controlOwner": "POC-102",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-010-01",
+        "REQ-ISO-010-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-010",
+      "riskRating": "Medium",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0011",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.7-11",
+      "title": "Information Labelling",
+      "annexAControl": "A.7",
+      "category": "Physical Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-102",
+      "teamId": "TEAM-102",
+      "controlOwner": "POC-101",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-011-01",
+        "REQ-ISO-011-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-011",
+      "riskRating": "High",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0012",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.8-12",
+      "title": "Information Transfer",
+      "annexAControl": "A.8",
+      "category": "Technological Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-103",
+      "teamId": "TEAM-103",
+      "controlOwner": "POC-102",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-012-01",
+        "REQ-ISO-012-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-012",
+      "riskRating": "Low",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0013",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.5-13",
+      "title": "Access Control Policy",
+      "annexAControl": "A.5",
+      "category": "Organizational Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-101",
+      "teamId": "TEAM-101",
+      "controlOwner": "POC-101",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-013-01",
+        "REQ-ISO-013-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-013",
+      "riskRating": "Medium",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0014",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.6-14",
+      "title": "Identity Management",
+      "annexAControl": "A.6",
+      "category": "People Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-102",
+      "teamId": "TEAM-102",
+      "controlOwner": "POC-102",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-014-01",
+        "REQ-ISO-014-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-014",
+      "riskRating": "High",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0015",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.7-15",
+      "title": "Authentication Information",
+      "annexAControl": "A.7",
+      "category": "Physical Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-103",
+      "teamId": "TEAM-103",
+      "controlOwner": "POC-101",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-015-01",
+        "REQ-ISO-015-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-015",
+      "riskRating": "Low",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0016",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.8-16",
+      "title": "Privileged Access Rights",
+      "annexAControl": "A.8",
+      "category": "Technological Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-101",
+      "teamId": "TEAM-101",
+      "controlOwner": "POC-102",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-016-01",
+        "REQ-ISO-016-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-016",
+      "riskRating": "Medium",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0017",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.5-17",
+      "title": "Access Review",
+      "annexAControl": "A.5",
+      "category": "Organizational Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-102",
+      "teamId": "TEAM-102",
+      "controlOwner": "POC-101",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-017-01",
+        "REQ-ISO-017-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-017",
+      "riskRating": "High",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0018",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.6-18",
+      "title": "Supplier Security",
+      "annexAControl": "A.6",
+      "category": "People Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-103",
+      "teamId": "TEAM-103",
+      "controlOwner": "POC-102",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-018-01",
+        "REQ-ISO-018-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-018",
+      "riskRating": "Low",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0019",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.7-19",
+      "title": "Cloud Service Security",
+      "annexAControl": "A.7",
+      "category": "Physical Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-101",
+      "teamId": "TEAM-101",
+      "controlOwner": "POC-101",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-019-01",
+        "REQ-ISO-019-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-019",
+      "riskRating": "Medium",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0020",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.8-20",
+      "title": "ICT Readiness for Business Continuity",
+      "annexAControl": "A.8",
+      "category": "Technological Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-102",
+      "teamId": "TEAM-102",
+      "controlOwner": "POC-102",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-020-01",
+        "REQ-ISO-020-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-020",
+      "riskRating": "High",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0021",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.5-21",
+      "title": "Logging",
+      "annexAControl": "A.5",
+      "category": "Organizational Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-103",
+      "teamId": "TEAM-103",
+      "controlOwner": "POC-101",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-021-01",
+        "REQ-ISO-021-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-021",
+      "riskRating": "Low",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0022",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.6-22",
+      "title": "Monitoring Activities",
+      "annexAControl": "A.6",
+      "category": "People Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-101",
+      "teamId": "TEAM-101",
+      "controlOwner": "POC-102",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-022-01",
+        "REQ-ISO-022-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-022",
+      "riskRating": "Medium",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0023",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.7-23",
+      "title": "Web Filtering",
+      "annexAControl": "A.7",
+      "category": "Physical Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-102",
+      "teamId": "TEAM-102",
+      "controlOwner": "POC-101",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-023-01",
+        "REQ-ISO-023-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-023",
+      "riskRating": "High",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0024",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.8-24",
+      "title": "Use of Cryptography",
+      "annexAControl": "A.8",
+      "category": "Technological Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-103",
+      "teamId": "TEAM-103",
+      "controlOwner": "POC-102",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-024-01",
+        "REQ-ISO-024-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-024",
+      "riskRating": "Low",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0025",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.5-25",
+      "title": "Secure Development Lifecycle",
+      "annexAControl": "A.5",
+      "category": "Organizational Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-101",
+      "teamId": "TEAM-101",
+      "controlOwner": "POC-101",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-025-01",
+        "REQ-ISO-025-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-025",
+      "riskRating": "Medium",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0026",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.6-26",
+      "title": "Secure Coding",
+      "annexAControl": "A.6",
+      "category": "People Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-102",
+      "teamId": "TEAM-102",
+      "controlOwner": "POC-102",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-026-01",
+        "REQ-ISO-026-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-026",
+      "riskRating": "High",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0027",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.7-27",
+      "title": "Configuration Management",
+      "annexAControl": "A.7",
+      "category": "Physical Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-103",
+      "teamId": "TEAM-103",
+      "controlOwner": "POC-101",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-027-01",
+        "REQ-ISO-027-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-027",
+      "riskRating": "Low",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0028",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.8-28",
+      "title": "Change Management",
+      "annexAControl": "A.8",
+      "category": "Technological Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-101",
+      "teamId": "TEAM-101",
+      "controlOwner": "POC-102",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-028-01",
+        "REQ-ISO-028-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-028",
+      "riskRating": "Medium",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0029",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.5-29",
+      "title": "Backup",
+      "annexAControl": "A.5",
+      "category": "Organizational Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-102",
+      "teamId": "TEAM-102",
+      "controlOwner": "POC-101",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-029-01",
+        "REQ-ISO-029-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-029",
+      "riskRating": "High",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    },
+    {
+      "id": "ISOCTRL-0030",
+      "engagementId": "ENG-004",
+      "companyId": "CMP-002",
+      "controlId": "A.6-30",
+      "title": "Malware Protection",
+      "annexAControl": "A.6",
+      "category": "People Controls",
+      "status": "Planning",
+      "auditYear": "2026-2027",
+      "businessUnitId": "BU-103",
+      "teamId": "TEAM-103",
+      "controlOwner": "POC-102",
+      "implementationStatus": "Partially Implemented",
+      "testingFrequency": "Annual",
+      "requirementIds": [
+        "REQ-ISO-030-01",
+        "REQ-ISO-030-02"
+      ],
+      "linkedEvidence": [],
+      "workingPaperId": "WP-ISO-030",
+      "riskRating": "Low",
+      "knowledgeReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      }
+    }
+  ]
+}

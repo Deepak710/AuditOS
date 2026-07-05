@@ -1,0 +1,222 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "name": "AuditOS Framework Mappings",
+    "description": "Maps master control library controls to multiple compliance frameworks."
+  },
+  "frameworks": [
+    {
+      "id": "FW-001",
+      "code": "SOC2",
+      "name": "SOC 2 Type II",
+      "version": "2017 Trust Services Criteria"
+    },
+    {
+      "id": "FW-002",
+      "code": "ISO27001",
+      "name": "ISO/IEC 27001",
+      "version": "2022"
+    },
+    {
+      "id": "FW-003",
+      "code": "NIST-CSF",
+      "name": "NIST Cybersecurity Framework",
+      "version": "2.0"
+    },
+    {
+      "id": "FW-004",
+      "code": "CIS18",
+      "name": "CIS Critical Security Controls",
+      "version": "v8"
+    }
+  ],
+  "mappings": [
+    {
+      "libraryControlId": "LIB-CTRL-0001",
+      "title": "User Access Provisioning",
+      "frameworkMappings": {
+        "SOC2": [
+          "CC6.1",
+          "CC6.2"
+        ],
+        "ISO27001": [
+          "A.5.15",
+          "A.5.16",
+          "A.8.2"
+        ],
+        "NIST-CSF": [
+          "PR.AA-01",
+          "PR.AA-02"
+        ],
+        "CIS18": [
+          "Control 5",
+          "Control 6"
+        ]
+      }
+    },
+    {
+      "libraryControlId": "LIB-CTRL-0002",
+      "title": "User Access Review",
+      "frameworkMappings": {
+        "SOC2": [
+          "CC6.3",
+          "CC6.6"
+        ],
+        "ISO27001": [
+          "A.5.18"
+        ],
+        "NIST-CSF": [
+          "PR.AA-05"
+        ],
+        "CIS18": [
+          "Control 6"
+        ]
+      }
+    },
+    {
+      "libraryControlId": "LIB-CTRL-0003",
+      "title": "Privileged Access Management",
+      "frameworkMappings": {
+        "SOC2": [
+          "CC6.2",
+          "CC6.7"
+        ],
+        "ISO27001": [
+          "A.5.15",
+          "A.8.2"
+        ],
+        "NIST-CSF": [
+          "PR.AA-03"
+        ],
+        "CIS18": [
+          "Control 5"
+        ]
+      }
+    },
+    {
+      "libraryControlId": "LIB-CTRL-0004",
+      "title": "Background Verification",
+      "frameworkMappings": {
+        "SOC2": [
+          "CC1.2"
+        ],
+        "ISO27001": [
+          "A.6.1"
+        ],
+        "NIST-CSF": [
+          "GV.OV-01"
+        ],
+        "CIS18": []
+      }
+    },
+    {
+      "libraryControlId": "LIB-CTRL-0005",
+      "title": "Security Awareness Training",
+      "frameworkMappings": {
+        "SOC2": [
+          "CC2.2"
+        ],
+        "ISO27001": [
+          "A.6.3"
+        ],
+        "NIST-CSF": [
+          "PR.AT-01"
+        ],
+        "CIS18": [
+          "Control 14"
+        ]
+      }
+    },
+    {
+      "libraryControlId": "LIB-CTRL-0006",
+      "title": "Asset Inventory",
+      "frameworkMappings": {
+        "SOC2": [
+          "CC6.6"
+        ],
+        "ISO27001": [
+          "A.5.9"
+        ],
+        "NIST-CSF": [
+          "ID.AM-01"
+        ],
+        "CIS18": [
+          "Control 1"
+        ]
+      }
+    },
+    {
+      "libraryControlId": "LIB-CTRL-0007",
+      "title": "Patch Management",
+      "frameworkMappings": {
+        "SOC2": [
+          "CC7.1"
+        ],
+        "ISO27001": [
+          "A.8.8"
+        ],
+        "NIST-CSF": [
+          "PR.IP-12"
+        ],
+        "CIS18": [
+          "Control 7"
+        ]
+      }
+    },
+    {
+      "libraryControlId": "LIB-CTRL-0008",
+      "title": "Vulnerability Management",
+      "frameworkMappings": {
+        "SOC2": [
+          "CC7.1",
+          "CC7.2"
+        ],
+        "ISO27001": [
+          "A.8.8"
+        ],
+        "NIST-CSF": [
+          "DE.CM-08"
+        ],
+        "CIS18": [
+          "Control 7"
+        ]
+      }
+    },
+    {
+      "libraryControlId": "LIB-CTRL-0009",
+      "title": "Change Management",
+      "frameworkMappings": {
+        "SOC2": [
+          "CC8.1"
+        ],
+        "ISO27001": [
+          "A.8.32"
+        ],
+        "NIST-CSF": [
+          "PR.IP-03"
+        ],
+        "CIS18": [
+          "Control 4"
+        ]
+      }
+    },
+    {
+      "libraryControlId": "LIB-CTRL-0010",
+      "title": "Business Continuity",
+      "frameworkMappings": {
+        "SOC2": [
+          "A1.2"
+        ],
+        "ISO27001": [
+          "A.5.30"
+        ],
+        "NIST-CSF": [
+          "RC.RP-01"
+        ],
+        "CIS18": [
+          "Control 11"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "metadata": {
+    "version": "2.0.0",
+    "dataset": "Helix Financial Systems ISO/IEC 27001:2022 FY2026 Findings",
+    "companyId": "CMP-002",
+    "engagementId": "ENG-004",
+    "framework": "ISO/IEC 27001:2022",
+    "description": "Audit findings for the Helix ISO 27001 engagement demonstrating cross-framework methodology reuse while maintaining framework-specific observations."
+  },
+  "summary": {
+    "findings": 4,
+    "open": 2,
+    "closed": 1,
+    "acceptedRisk": 1,
+    "crossFrameworkMethodologyReferenced": 4
+  },
+  "findings": [
+    {
+      "id": "OBS-ISO-005-05",
+      "engagementId": "ENG-004",
+      "framework": "ISO/IEC 27001:2022",
+      "controlId": "ENGCTRL-ISO-0005",
+      "libraryControlId": "LIB-CTRL-0001",
+      "testId": "TEST-ISO-005-05",
+      "sampleId": "SMP-ISO-005-05",
+      "workingPaperId": "WP-ISO-0005",
+      "annexASection": "A.5",
+      "severity": "Medium",
+      "title": "Security awareness evidence did not demonstrate completion within the required timeframe",
+      "observation": "Security awareness evidence did not demonstrate completion within the required timeframe.",
+      "risk": "Control effectiveness may be reduced until remediation is completed.",
+      "recommendation": "Implement corrective action and perform follow-up testing.",
+      "managementResponse": "Training notification process updated.",
+      "ownerPocId": "POC-101",
+      "targetClosureDate": "2027-07-11",
+      "status": "Open",
+      "reportable": true,
+      "frameworkReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      },
+      "reportSection": "Control Exceptions"
+    },
+    {
+      "id": "OBS-ISO-010-05",
+      "engagementId": "ENG-004",
+      "framework": "ISO/IEC 27001:2022",
+      "controlId": "ENGCTRL-ISO-0010",
+      "libraryControlId": "LIB-CTRL-0002",
+      "testId": "TEST-ISO-010-05",
+      "sampleId": "SMP-ISO-010-05",
+      "workingPaperId": "WP-ISO-0010",
+      "annexASection": "A.6",
+      "severity": "Low",
+      "title": "Patch deployment report was missing one production server",
+      "observation": "Patch deployment report was missing one production server.",
+      "risk": "Control effectiveness may be reduced until remediation is completed.",
+      "recommendation": "Implement corrective action and perform follow-up testing.",
+      "managementResponse": "Asset inventory synchronization improved.",
+      "ownerPocId": "POC-102",
+      "targetClosureDate": "2027-07-12",
+      "status": "Closed",
+      "reportable": false,
+      "frameworkReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      },
+      "reportSection": "Control Exceptions"
+    },
+    {
+      "id": "OBS-ISO-012-05",
+      "engagementId": "ENG-004",
+      "framework": "ISO/IEC 27001:2022",
+      "controlId": "ENGCTRL-ISO-0012",
+      "libraryControlId": "LIB-CTRL-0003",
+      "testId": "TEST-ISO-012-05",
+      "sampleId": "SMP-ISO-015-05",
+      "workingPaperId": "WP-ISO-0015",
+      "annexASection": "A.7",
+      "severity": "High",
+      "title": "Change approval documentation was not retained for a sampled deployment",
+      "observation": "Change approval documentation was not retained for a sampled deployment.",
+      "risk": "Control effectiveness may be reduced until remediation is completed.",
+      "recommendation": "Implement corrective action and perform follow-up testing.",
+      "managementResponse": "Mandatory approval validation added to deployment workflow.",
+      "ownerPocId": "POC-101",
+      "targetClosureDate": "2027-07-13",
+      "status": "Open",
+      "reportable": true,
+      "frameworkReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      },
+      "reportSection": "Control Exceptions"
+    },
+    {
+      "id": "OBS-ISO-015-05",
+      "engagementId": "ENG-004",
+      "framework": "ISO/IEC 27001:2022",
+      "controlId": "ENGCTRL-ISO-0015",
+      "libraryControlId": "LIB-CTRL-0004",
+      "testId": "TEST-ISO-015-05",
+      "sampleId": "SMP-ISO-020-05",
+      "workingPaperId": "WP-ISO-0020",
+      "annexASection": "A.8",
+      "severity": "Low",
+      "title": "Business continuity exercise attendance sheet lacked management sign-off",
+      "observation": "Business continuity exercise attendance sheet lacked management sign-off.",
+      "risk": "Control effectiveness may be reduced until remediation is completed.",
+      "recommendation": "Implement corrective action and perform follow-up testing.",
+      "managementResponse": "Risk accepted until next annual exercise.",
+      "ownerPocId": "POC-102",
+      "targetClosureDate": "2027-07-14",
+      "status": "Accepted Risk",
+      "reportable": false,
+      "frameworkReuse": {
+        "sourceFramework": "SOC 2 Type II",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      },
+      "reportSection": "Control Exceptions"
+    }
+  ]
+}

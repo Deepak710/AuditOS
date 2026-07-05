@@ -1,0 +1,365 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "name": "AuditOS Control Library",
+    "description": "Framework-agnostic master control catalog used by all engagements. Engagement datasets reference this library instead of duplicating control definitions."
+  },
+  "controlFamilies": [
+    {
+      "id": "CF-001",
+      "name": "Governance"
+    },
+    {
+      "id": "CF-002",
+      "name": "Human Resources"
+    },
+    {
+      "id": "CF-003",
+      "name": "Identity & Access Management"
+    },
+    {
+      "id": "CF-004",
+      "name": "Infrastructure Security"
+    },
+    {
+      "id": "CF-005",
+      "name": "Operations"
+    },
+    {
+      "id": "CF-006",
+      "name": "Change Management"
+    },
+    {
+      "id": "CF-007",
+      "name": "Secure Development"
+    },
+    {
+      "id": "CF-008",
+      "name": "Business Continuity"
+    },
+    {
+      "id": "CF-009",
+      "name": "Vendor Management"
+    },
+    {
+      "id": "CF-010",
+      "name": "Monitoring & Incident Response"
+    }
+  ],
+  "controls": [
+    {
+      "id": "LIB-CTRL-0001",
+      "controlCode": "CSC-01",
+      "title": "User Access Provisioning",
+      "description": "Master definition for User Access Provisioning.",
+      "controlFamilyId": "CF-003",
+      "frameworkMappings": {
+        "soc2": {
+          "trustServicesCriteria": [
+            "CC6.1",
+            "CC6.2"
+          ]
+        },
+        "iso27001": {
+          "annexA": [
+            "Mapped during engagement"
+          ]
+        },
+        "customFrameworks": []
+      },
+      "defaultRequirementIds": [],
+      "recommendedSamplingMethod": "Random",
+      "defaultTestingFrequency": "Annual",
+      "automationPotential": "High",
+      "knowledgeTags": [
+        "csc-01",
+        "cf-003",
+        "soc2",
+        "iso27001"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-CTRL-0002",
+      "controlCode": "CSC-02",
+      "title": "User Access Review",
+      "description": "Master definition for User Access Review.",
+      "controlFamilyId": "CF-003",
+      "frameworkMappings": {
+        "soc2": {
+          "trustServicesCriteria": [
+            "CC6.3",
+            "CC6.6"
+          ]
+        },
+        "iso27001": {
+          "annexA": [
+            "Mapped during engagement"
+          ]
+        },
+        "customFrameworks": []
+      },
+      "defaultRequirementIds": [],
+      "recommendedSamplingMethod": "Random",
+      "defaultTestingFrequency": "Annual",
+      "automationPotential": "High",
+      "knowledgeTags": [
+        "csc-02",
+        "cf-003",
+        "soc2",
+        "iso27001"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-CTRL-0003",
+      "controlCode": "CSC-03",
+      "title": "Privileged Access Management",
+      "description": "Master definition for Privileged Access Management.",
+      "controlFamilyId": "CF-003",
+      "frameworkMappings": {
+        "soc2": {
+          "trustServicesCriteria": [
+            "CC6.2",
+            "CC6.7"
+          ]
+        },
+        "iso27001": {
+          "annexA": [
+            "Mapped during engagement"
+          ]
+        },
+        "customFrameworks": []
+      },
+      "defaultRequirementIds": [],
+      "recommendedSamplingMethod": "Random",
+      "defaultTestingFrequency": "Annual",
+      "automationPotential": "High",
+      "knowledgeTags": [
+        "csc-03",
+        "cf-003",
+        "soc2",
+        "iso27001"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-CTRL-0004",
+      "controlCode": "CSC-04",
+      "title": "Background Verification",
+      "description": "Master definition for Background Verification.",
+      "controlFamilyId": "CF-002",
+      "frameworkMappings": {
+        "soc2": {
+          "trustServicesCriteria": [
+            "CC1.2"
+          ]
+        },
+        "iso27001": {
+          "annexA": [
+            "Mapped during engagement"
+          ]
+        },
+        "customFrameworks": []
+      },
+      "defaultRequirementIds": [],
+      "recommendedSamplingMethod": "Random",
+      "defaultTestingFrequency": "Annual",
+      "automationPotential": "Medium",
+      "knowledgeTags": [
+        "csc-04",
+        "cf-002",
+        "soc2",
+        "iso27001"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-CTRL-0005",
+      "controlCode": "CSC-05",
+      "title": "Security Awareness Training",
+      "description": "Master definition for Security Awareness Training.",
+      "controlFamilyId": "CF-002",
+      "frameworkMappings": {
+        "soc2": {
+          "trustServicesCriteria": [
+            "CC2.2"
+          ]
+        },
+        "iso27001": {
+          "annexA": [
+            "Mapped during engagement"
+          ]
+        },
+        "customFrameworks": []
+      },
+      "defaultRequirementIds": [],
+      "recommendedSamplingMethod": "Random",
+      "defaultTestingFrequency": "Annual",
+      "automationPotential": "Medium",
+      "knowledgeTags": [
+        "csc-05",
+        "cf-002",
+        "soc2",
+        "iso27001"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-CTRL-0006",
+      "controlCode": "CSC-06",
+      "title": "Asset Inventory",
+      "description": "Master definition for Asset Inventory.",
+      "controlFamilyId": "CF-005",
+      "frameworkMappings": {
+        "soc2": {
+          "trustServicesCriteria": [
+            "CC6.6"
+          ]
+        },
+        "iso27001": {
+          "annexA": [
+            "Mapped during engagement"
+          ]
+        },
+        "customFrameworks": []
+      },
+      "defaultRequirementIds": [],
+      "recommendedSamplingMethod": "Random",
+      "defaultTestingFrequency": "Annual",
+      "automationPotential": "Medium",
+      "knowledgeTags": [
+        "csc-06",
+        "cf-005",
+        "soc2",
+        "iso27001"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-CTRL-0007",
+      "controlCode": "CSC-07",
+      "title": "Patch Management",
+      "description": "Master definition for Patch Management.",
+      "controlFamilyId": "CF-004",
+      "frameworkMappings": {
+        "soc2": {
+          "trustServicesCriteria": [
+            "CC7.1"
+          ]
+        },
+        "iso27001": {
+          "annexA": [
+            "Mapped during engagement"
+          ]
+        },
+        "customFrameworks": []
+      },
+      "defaultRequirementIds": [],
+      "recommendedSamplingMethod": "Random",
+      "defaultTestingFrequency": "Annual",
+      "automationPotential": "Medium",
+      "knowledgeTags": [
+        "csc-07",
+        "cf-004",
+        "soc2",
+        "iso27001"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-CTRL-0008",
+      "controlCode": "CSC-08",
+      "title": "Vulnerability Management",
+      "description": "Master definition for Vulnerability Management.",
+      "controlFamilyId": "CF-004",
+      "frameworkMappings": {
+        "soc2": {
+          "trustServicesCriteria": [
+            "CC7.1",
+            "CC7.2"
+          ]
+        },
+        "iso27001": {
+          "annexA": [
+            "Mapped during engagement"
+          ]
+        },
+        "customFrameworks": []
+      },
+      "defaultRequirementIds": [],
+      "recommendedSamplingMethod": "Random",
+      "defaultTestingFrequency": "Annual",
+      "automationPotential": "Medium",
+      "knowledgeTags": [
+        "csc-08",
+        "cf-004",
+        "soc2",
+        "iso27001"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-CTRL-0009",
+      "controlCode": "CSC-09",
+      "title": "Change Management",
+      "description": "Master definition for Change Management.",
+      "controlFamilyId": "CF-006",
+      "frameworkMappings": {
+        "soc2": {
+          "trustServicesCriteria": [
+            "CC8.1"
+          ]
+        },
+        "iso27001": {
+          "annexA": [
+            "Mapped during engagement"
+          ]
+        },
+        "customFrameworks": []
+      },
+      "defaultRequirementIds": [],
+      "recommendedSamplingMethod": "Random",
+      "defaultTestingFrequency": "Annual",
+      "automationPotential": "High",
+      "knowledgeTags": [
+        "csc-09",
+        "cf-006",
+        "soc2",
+        "iso27001"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-CTRL-0010",
+      "controlCode": "CSC-10",
+      "title": "Business Continuity",
+      "description": "Master definition for Business Continuity.",
+      "controlFamilyId": "CF-008",
+      "frameworkMappings": {
+        "soc2": {
+          "trustServicesCriteria": [
+            "A1.2"
+          ]
+        },
+        "iso27001": {
+          "annexA": [
+            "Mapped during engagement"
+          ]
+        },
+        "customFrameworks": []
+      },
+      "defaultRequirementIds": [],
+      "recommendedSamplingMethod": "Random",
+      "defaultTestingFrequency": "Annual",
+      "automationPotential": "Medium",
+      "knowledgeTags": [
+        "csc-10",
+        "cf-008",
+        "soc2",
+        "iso27001"
+      ],
+      "version": "1.0"
+    }
+  ]
+}

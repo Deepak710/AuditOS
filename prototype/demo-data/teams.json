@@ -1,0 +1,177 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-01-01T00:00:00Z",
+    "description": "AuditOS Release 1 Static Team Dataset"
+  },
+  "teams": [
+    {
+      "id": "TEAM-001",
+      "companyId": "CMP-001",
+      "departmentId": "DEP-001",
+      "code": "SECENG",
+      "name": "Security Engineering",
+      "description": "Owns enterprise security controls, IAM, vulnerability management, endpoint security and cloud security.",
+      "manager": "POC-001",
+      "members": 18,
+      "primaryFrameworks": [
+        "SOC 2 Type II",
+        "ISO 27001"
+      ],
+      "responsibleControlFamilies": [
+        "CC6",
+        "CC7"
+      ]
+    },
+    {
+      "id": "TEAM-002",
+      "companyId": "CMP-001",
+      "departmentId": "DEP-001",
+      "code": "CLOUDOPS",
+      "name": "Cloud Operations",
+      "description": "Responsible for production infrastructure, cloud platforms and privileged administration.",
+      "manager": "POC-004",
+      "members": 24,
+      "primaryFrameworks": [
+        "SOC 2 Type II"
+      ],
+      "responsibleControlFamilies": [
+        "CC6",
+        "CC8"
+      ]
+    },
+    {
+      "id": "TEAM-003",
+      "companyId": "CMP-001",
+      "departmentId": "DEP-002",
+      "code": "ITOPS",
+      "name": "IT Operations",
+      "description": "Manages endpoints, Active Directory, MDM, asset inventory and user lifecycle.",
+      "manager": "POC-007",
+      "members": 15,
+      "primaryFrameworks": [
+        "SOC 2 Type II"
+      ],
+      "responsibleControlFamilies": [
+        "CC6"
+      ]
+    },
+    {
+      "id": "TEAM-004",
+      "companyId": "CMP-001",
+      "departmentId": "DEP-003",
+      "code": "HROPS",
+      "name": "HR Operations",
+      "description": "Maintains employee lifecycle records including onboarding, offboarding and HR documentation.",
+      "manager": "POC-011",
+      "members": 11,
+      "primaryFrameworks": [
+        "SOC 2 Type II"
+      ],
+      "responsibleControlFamilies": [
+        "CC1",
+        "CC2"
+      ]
+    },
+    {
+      "id": "TEAM-005",
+      "companyId": "CMP-001",
+      "departmentId": "DEP-003",
+      "code": "LND",
+      "name": "Learning and Development",
+      "description": "Owns security awareness training and mandatory compliance training.",
+      "manager": "POC-013",
+      "members": 8,
+      "primaryFrameworks": [
+        "SOC 2 Type II"
+      ],
+      "responsibleControlFamilies": [
+        "CC2"
+      ]
+    },
+    {
+      "id": "TEAM-006",
+      "companyId": "CMP-001",
+      "departmentId": "DEP-004",
+      "code": "LEGAL",
+      "name": "Legal and Compliance",
+      "description": "Owns contracts, privacy, compliance obligations and vendor legal reviews.",
+      "manager": "POC-016",
+      "members": 7,
+      "primaryFrameworks": [
+        "SOC 2 Type II",
+        "ISO 27701"
+      ],
+      "responsibleControlFamilies": [
+        "CC1",
+        "CC9"
+      ]
+    },
+    {
+      "id": "TEAM-007",
+      "companyId": "CMP-001",
+      "departmentId": "DEP-005",
+      "code": "FINANCE",
+      "name": "Finance",
+      "description": "Responsible for financial approvals, procurement and vendor payments.",
+      "manager": "POC-018",
+      "members": 12,
+      "primaryFrameworks": [
+        "SOC 2 Type II"
+      ],
+      "responsibleControlFamilies": [
+        "CC1"
+      ]
+    },
+    {
+      "id": "TEAM-101",
+      "companyId": "CMP-002",
+      "departmentId": "DEP-101",
+      "code": "SECENG",
+      "name": "Security Engineering",
+      "description": "Responsible for security operations and cloud security.",
+      "manager": "POC-101",
+      "members": 14,
+      "primaryFrameworks": [
+        "SOC 2 Type II"
+      ],
+      "responsibleControlFamilies": [
+        "CC6",
+        "CC7"
+      ]
+    },
+    {
+      "id": "TEAM-102",
+      "companyId": "CMP-002",
+      "departmentId": "DEP-102",
+      "code": "ITOPS",
+      "name": "IT Operations",
+      "description": "Responsible for identity management, endpoint administration and user provisioning.",
+      "manager": "POC-104",
+      "members": 10,
+      "primaryFrameworks": [
+        "SOC 2 Type II"
+      ],
+      "responsibleControlFamilies": [
+        "CC6"
+      ]
+    },
+    {
+      "id": "TEAM-103",
+      "companyId": "CMP-002",
+      "departmentId": "DEP-103",
+      "code": "HROPS",
+      "name": "HR Operations",
+      "description": "Maintains employee lifecycle and personnel records.",
+      "manager": "POC-107",
+      "members": 9,
+      "primaryFrameworks": [
+        "SOC 2 Type II"
+      ],
+      "responsibleControlFamilies": [
+        "CC1",
+        "CC2"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+{
+  "metadata": {
+    "version": "2.0.0",
+    "dataset": "Helix Financial Systems SOC 2 Type II FY2026 Findings",
+    "companyId": "CMP-002",
+    "engagementId": "ENG-003",
+    "description": "Audit findings for the Helix SOC 2 engagement demonstrating client-specific observations while leveraging reusable methodology."
+  },
+  "summary": {
+    "findings": 5,
+    "open": 2,
+    "closed": 2,
+    "acceptedRisk": 1,
+    "methodologyReferenced": 5
+  },
+  "findings": [
+    {
+      "id": "OBS-HLX-004-05",
+      "engagementId": "ENG-003",
+      "controlId": "ENGCTRL-HLX-0004",
+      "libraryControlId": "LIB-CTRL-0001",
+      "testId": "TEST-HLX-004-05",
+      "sampleId": "SMP-HLX-004-05",
+      "workingPaperId": "WP-HLX-0004",
+      "severity": "Medium",
+      "title": "User access approval evidence was incomplete",
+      "observation": "User access approval evidence was incomplete.",
+      "risk": "Control effectiveness may be reduced until remediation is completed.",
+      "recommendation": "Implement corrective action and validate with follow-up testing.",
+      "managementResponse": "Approval workflow updated.",
+      "ownerPocId": "POC-101",
+      "targetClosureDate": "2027-06-11",
+      "status": "Open",
+      "reportable": true,
+      "knowledgeReuse": {
+        "sourceCompanyId": "CMP-001",
+        "sourceEngagementId": "ENG-001",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      },
+      "reportSection": "Control Exceptions"
+    },
+    {
+      "id": "OBS-HLX-008-05",
+      "engagementId": "ENG-003",
+      "controlId": "ENGCTRL-HLX-0008",
+      "libraryControlId": "LIB-CTRL-0002",
+      "testId": "TEST-HLX-008-05",
+      "sampleId": "SMP-HLX-008-05",
+      "workingPaperId": "WP-HLX-0008",
+      "severity": "Low",
+      "title": "Firewall review completed after target date",
+      "observation": "Firewall review completed after target date.",
+      "risk": "Control effectiveness may be reduced until remediation is completed.",
+      "recommendation": "Implement corrective action and validate with follow-up testing.",
+      "managementResponse": "Review calendar automated.",
+      "ownerPocId": "POC-102",
+      "targetClosureDate": "2027-06-12",
+      "status": "Closed",
+      "reportable": false,
+      "knowledgeReuse": {
+        "sourceCompanyId": "CMP-001",
+        "sourceEngagementId": "ENG-001",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      },
+      "reportSection": "Control Exceptions"
+    },
+    {
+      "id": "OBS-HLX-012-05",
+      "engagementId": "ENG-003",
+      "controlId": "ENGCTRL-HLX-0012",
+      "libraryControlId": "LIB-CTRL-0003",
+      "testId": "TEST-HLX-012-05",
+      "sampleId": "SMP-HLX-012-05",
+      "workingPaperId": "WP-HLX-0012",
+      "severity": "High",
+      "title": "Privileged access review exception identified",
+      "observation": "Privileged access review exception identified.",
+      "risk": "Control effectiveness may be reduced until remediation is completed.",
+      "recommendation": "Implement corrective action and validate with follow-up testing.",
+      "managementResponse": "Quarterly governance process implemented.",
+      "ownerPocId": "POC-101",
+      "targetClosureDate": "2027-06-13",
+      "status": "Open",
+      "reportable": true,
+      "knowledgeReuse": {
+        "sourceCompanyId": "CMP-001",
+        "sourceEngagementId": "ENG-001",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      },
+      "reportSection": "Control Exceptions"
+    },
+    {
+      "id": "OBS-HLX-016-05",
+      "engagementId": "ENG-003",
+      "controlId": "ENGCTRL-HLX-0016",
+      "libraryControlId": "LIB-CTRL-0004",
+      "testId": "TEST-HLX-016-05",
+      "sampleId": "SMP-HLX-016-05",
+      "workingPaperId": "WP-HLX-0016",
+      "severity": "Low",
+      "title": "Vendor assessment missing reviewer acknowledgement",
+      "observation": "Vendor assessment missing reviewer acknowledgement.",
+      "risk": "Control effectiveness may be reduced until remediation is completed.",
+      "recommendation": "Implement corrective action and validate with follow-up testing.",
+      "managementResponse": "Risk accepted until annual renewal.",
+      "ownerPocId": "POC-102",
+      "targetClosureDate": "2027-06-14",
+      "status": "Accepted Risk",
+      "reportable": false,
+      "knowledgeReuse": {
+        "sourceCompanyId": "CMP-001",
+        "sourceEngagementId": "ENG-001",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      },
+      "reportSection": "Control Exceptions"
+    },
+    {
+      "id": "OBS-HLX-018-05",
+      "engagementId": "ENG-003",
+      "controlId": "ENGCTRL-HLX-0018",
+      "libraryControlId": "LIB-CTRL-0005",
+      "testId": "TEST-HLX-018-05",
+      "sampleId": "SMP-HLX-020-05",
+      "workingPaperId": "WP-HLX-0020",
+      "severity": "Medium",
+      "title": "Backup monitoring evidence incomplete",
+      "observation": "Backup monitoring evidence incomplete.",
+      "risk": "Control effectiveness may be reduced until remediation is completed.",
+      "recommendation": "Implement corrective action and validate with follow-up testing.",
+      "managementResponse": "Monitoring dashboard enhanced.",
+      "ownerPocId": "POC-101",
+      "targetClosureDate": "2027-06-15",
+      "status": "Closed",
+      "reportable": true,
+      "knowledgeReuse": {
+        "sourceCompanyId": "CMP-001",
+        "sourceEngagementId": "ENG-001",
+        "methodologyReusable": true,
+        "evidenceReusable": false
+      },
+      "reportSection": "Control Exceptions"
+    }
+  ]
+}
