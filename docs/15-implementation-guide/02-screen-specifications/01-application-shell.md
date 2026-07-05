@@ -532,7 +532,65 @@ The shell is the permanent foundation of every AuditOS screen.
 
 ---
 
-### 114.26 Relationship to Other Documents
+### 114.26 Shell Layout Implementation
+
+The Application Shell is realized as a single CSS Grid layout spanning four persistent structural regions.
+
+```text
+┌───────────────────────────────────────────────────────────────┐
+│ Header                                                         │
+├────────────────┬───────────────────────────────┬──────────────┤
+│ Navigation      │ Workspace                       │ Context      │
+│ Sidebar         │ Content Area                    │ Panel        │
+└────────────────┴───────────────────────────────┴──────────────┘
+```
+
+The grid defines four named areas — header, nav, workspace, and panel. The Header spans the full width across the top row. The Navigation Sidebar, Workspace Content Area, and Context Panel occupy the row beneath it. The Footer and Status Bar described in Section 114.9 do not yet participate in the grid.
+
+Each region currently renders as an empty structural placeholder. The Navigation Sidebar contains no menu content, the Workspace Content Area contains no page content, and the Context Panel contains no AI Copilot content. These regions exist to receive the navigation, workspace, and AI Copilot capabilities described elsewhere in this chapter as later work populates them.
+
+The layout also defines collapsed and expanded structural states for the Navigation Sidebar and Context Panel, allowing either region to narrow to an icon-only or hidden width. These states are expressed purely as CSS structure; nothing in the shell currently switches between them.
+
+---
+
+### 114.27 Shell Layout Tokens
+
+The shell's grid regions are sized using a small set of shell-scoped layout tokens:
+
+* Header height
+* Navigation width
+* Collapsed navigation width
+* Context panel width
+* Collapsed context panel width
+
+These tokens are distinct from the Design Token Foundation. The Design Token Foundation (`variables.css`) declares the platform's reusable visual values — color, typography, spacing, radius, shadow, motion, breakpoints, and accessibility tokens — consumed by every workspace and component across AuditOS. Shell layout tokens instead size the shell's own grid regions. They describe shell-specific structural measurements rather than platform-wide visual values, so they are declared alongside the shell's own layout stylesheet rather than within the Design Token Foundation.
+
+`main.css` remains the single stylesheet entry point for the prototype. It imports the Design Token Foundation first, followed by the shell's layout and navigation stylesheets, so that every page loads the same token foundation and shell architecture through one file.
+
+---
+
+### 114.28 Global Header Foundation
+
+The Global Header is realized as a single reusable component, `.aos-global-header`, rendered inside the shell's header region (`.aos-header`) described in Section 114.26.
+
+The component defines four structural regions, arranged as a leading group and a trailing group:
+
+* Brand
+* Workspace Title
+* Global Actions
+* User Profile
+
+The Brand and Workspace Title regions form the leading group. The Global Actions and User Profile regions form the trailing group. Each region currently renders as an empty structural placeholder — no logo, title text, action controls, or profile content are present. These regions exist to receive the brand mark, contextual workspace title, global action controls, and user profile control as later work populates them.
+
+The header's structure is styled by a dedicated stylesheet, `header.css`, imported by `main.css` alongside the shell's layout and navigation stylesheets. Like the rest of the shell, the header stylesheet consumes only the Design Token Foundation and introduces no new visual values.
+
+In this release, the header markup is rendered directly within the page rather than through a component loader or template engine. No such loader or build process exists yet in the prototype, so the header's structure is written once inside the shell's header region rather than duplicated through a separate include.
+
+On narrow viewports, the Workspace Title region yields horizontal space first, preserving the Brand, Global Actions, and User Profile regions at the expense of contextual title text.
+
+---
+
+### 114.29 Relationship to Other Documents
 
 This document should be implemented before:
 
@@ -552,7 +610,7 @@ All screen specifications inherit this document.
 
 ---
 
-### 114.27 Summary
+### 114.30 Summary
 
 The Application Shell establishes the permanent visual and interaction framework of AuditOS.
 

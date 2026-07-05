@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AuditOS</title>
+  <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <a href="#workspace-canvas" class="aos-skip-link">Skip to main content</a>
+
+  <div class="aos-shell">
+    <header class="aos-header" aria-label="Global header">
+      <!-- ========================================================= -->
+      <!-- Global Header Component                                   -->
+      <!-- ========================================================= -->
+      <div class="aos-global-header">
+        <div class="aos-global-header__start">
+          <!-- Brand region — reserved for the AuditOS logo / wordmark -->
+          <div class="aos-global-header__brand" data-region="brand"></div>
+
+          <!-- Workspace title region — reserved for the current workspace / engagement context -->
+          <div class="aos-global-header__title" data-region="workspace-title"></div>
+        </div>
+
+        <div class="aos-global-header__end">
+          <!-- Global actions region — reserved for search, command palette, notifications, AI status -->
+          <div class="aos-global-header__actions" data-region="global-actions"></div>
+
+          <!-- User profile region — reserved for the user profile / account control -->
+          <div class="aos-global-header__profile" data-region="user-profile"></div>
+        </div>
+      </div>
+    </header>
+
+    <nav class="aos-navigation" aria-label="Primary navigation"></nav>
+
+    <main class="aos-workspace">
+      <div id="workspace-canvas" class="aos-workspace__canvas"></div>
+    </main>
+
+    <aside class="aos-panel" aria-label="Context panel"></aside>
+  </div>
+</body>
+</html>

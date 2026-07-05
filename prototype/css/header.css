@@ -1,0 +1,114 @@
+/**
+ * AuditOS Global Header Component
+ * Application Shell - Chapter 114 / Layout Components - Chapter 75
+ * Reusable structural header mounted inside the shell's header region.
+ * Structure only — no business content, icons, or interactions.
+ */
+
+@import 'variables.css';
+
+/* ========================================
+ * GLOBAL HEADER CONTAINER
+ * Fills the shell header region and lays out the four
+ * permanent header regions across two aligned groups.
+ * ======================================== */
+
+.aos-global-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--aos-space-4);
+  width: 100%;
+  height: 100%;
+}
+
+/* Leading (brand + title) and trailing (actions + profile) groups */
+.aos-global-header__start,
+.aos-global-header__end {
+  display: flex;
+  align-items: center;
+  gap: var(--aos-space-4);
+}
+
+.aos-global-header__start {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.aos-global-header__end {
+  flex: 0 0 auto;
+}
+
+/* ========================================
+ * REGION: BRAND
+ * Reserved for the AuditOS logo / wordmark.
+ * ======================================== */
+
+.aos-global-header__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+  flex-shrink: 0;
+  min-width: var(--aos-space-8);
+  min-height: var(--aos-space-8);
+}
+
+/* ========================================
+ * REGION: WORKSPACE TITLE
+ * Reserved for the current workspace / engagement context.
+ * Yields horizontal space before the fixed side regions.
+ * ======================================== */
+
+.aos-global-header__title {
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: var(--aos-space-8);
+  overflow: hidden;
+}
+
+/* ========================================
+ * REGION: GLOBAL ACTIONS
+ * Reserved for search, command palette, notifications, AI status.
+ * ======================================== */
+
+.aos-global-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+  flex-shrink: 0;
+  min-height: var(--aos-space-8);
+}
+
+/* ========================================
+ * REGION: USER PROFILE
+ * Reserved for the user profile / account control.
+ * ======================================== */
+
+.aos-global-header__profile {
+  display: flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+  flex-shrink: 0;
+  min-width: var(--aos-space-8);
+  min-height: var(--aos-space-8);
+}
+
+/* ========================================
+ * RESPONSIVE BEHAVIOR
+ * On narrow viewports the workspace title region yields first,
+ * preserving the brand, actions, and profile regions.
+ * ======================================== */
+
+@media (max-width: 640px) {
+  .aos-global-header,
+  .aos-global-header__start,
+  .aos-global-header__end {
+    gap: var(--aos-space-3);
+  }
+
+  .aos-global-header__title {
+    display: none;
+  }
+}

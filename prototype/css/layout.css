@@ -35,13 +35,27 @@ body {
 }
 
 /* ========================================
+ * APPLICATION SHELL TOKENS
+ * Shell-scoped implementation tokens. These size the shell's own
+ * grid regions and are not part of the Design Token Foundation
+ * (variables.css), so they stay defined here with the shell that uses them.
+ * ======================================== */
+
+:root {
+  --aos-space-header-height: 4rem;
+  --aos-space-nav-width: 16rem;
+  --aos-space-nav-width-collapsed: 4.5rem;
+  --aos-space-panel-width: 20rem;
+  --aos-space-panel-width-collapsed: 0rem;
+}
+
+/* ========================================
  * APPLICATION SHELL - Root Layout
- * 5 Persistent Regions:
- * 1. Application Shell (root)
+ * 4 Persistent Regions:
+ * 1. Top Header
  * 2. Left Navigation
- * 3. Top Header
- * 4. Workspace Content Area
- * 5. Right Context Panel
+ * 3. Workspace Content Area
+ * 4. Right Context Panel
  * ======================================== */
 
 .aos-shell {
