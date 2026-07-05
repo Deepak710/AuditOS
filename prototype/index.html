@@ -108,5 +108,15 @@
       </div>
     </aside>
   </div>
+
+  <!-- ========================================================= -->
+  <!-- Static Routing Foundation                                 -->
+  <!-- Classic scripts (no build step / module loader) so the    -->
+  <!-- prototype runs directly from file://. Order matters:      -->
+  <!-- registry, then router engine, then application bootstrap. -->
+  <!-- ========================================================= -->
+  <script src="js/router/workspace-registry.js"></script>
+  <script src="js/router/router.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
