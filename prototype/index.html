@@ -35,7 +35,29 @@
       </div>
     </header>
 
-    <nav class="aos-navigation" aria-label="Primary navigation"></nav>
+    <nav class="aos-navigation" aria-label="Primary navigation">
+      <!-- ========================================================= -->
+      <!-- Left Navigation Component                                 -->
+      <!-- Canonical source: components/navigation/navigation.html   -->
+      <!-- Structure only — five empty regions for later issues.     -->
+      <!-- ========================================================= -->
+      <div class="aos-nav">
+        <!-- Brand region — reserved for the AuditOS brand mark / wordmark -->
+        <div class="aos-nav__brand" data-region="brand"></div>
+
+        <!-- Primary navigation region — reserved for primary workspace destinations -->
+        <div class="aos-nav__primary" data-region="primary-navigation"></div>
+
+        <!-- Secondary navigation region — reserved for secondary destinations -->
+        <div class="aos-nav__secondary" data-region="secondary-navigation"></div>
+
+        <!-- Bottom utility region — reserved for the persistent utility / account area -->
+        <div class="aos-nav__utility" data-region="utility"></div>
+
+        <!-- Collapse placeholder region — reserved for the future collapse / expand control -->
+        <div class="aos-nav__collapse" data-region="collapse"></div>
+      </div>
+    </nav>
 
     <main class="aos-workspace">
       <div id="workspace-canvas" class="aos-workspace__canvas"></div>

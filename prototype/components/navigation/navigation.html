@@ -1,0 +1,29 @@
+<!--
+  AuditOS Left Navigation Component
+  Navigation Components — Chapter 76 / Application Shell — Chapter 114
+
+  Reusable structural navigation mounted inside the shell's navigation
+  region: <nav class="aos-navigation" aria-label="Primary navigation">.
+  Structure only — five empty regions that later issues populate with
+  the brand mark, menu destinations, and controls.
+
+  No component loader or build step exists in the prototype yet, so this
+  markup is also embedded directly inside index.html. This file is the
+  canonical source for that markup; keep the two in sync.
+-->
+<div class="aos-nav">
+  <!-- Brand region — reserved for the AuditOS brand mark / wordmark -->
+  <div class="aos-nav__brand" data-region="brand"></div>
+
+  <!-- Primary navigation region — reserved for primary workspace destinations -->
+  <div class="aos-nav__primary" data-region="primary-navigation"></div>
+
+  <!-- Secondary navigation region — reserved for secondary destinations -->
+  <div class="aos-nav__secondary" data-region="secondary-navigation"></div>
+
+  <!-- Bottom utility region — reserved for the persistent utility / account area -->
+  <div class="aos-nav__utility" data-region="utility"></div>
+
+  <!-- Collapse placeholder region — reserved for the future collapse / expand control -->
+  <div class="aos-nav__collapse" data-region="collapse"></div>
+</div>

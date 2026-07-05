@@ -121,25 +121,10 @@ body {
   transition: width var(--aos-transition-normal), transform var(--aos-transition-normal);
 }
 
-/* Navigation collapsed - icon only */
+/* Navigation collapsed - icon rail width (shell region).
+ * Region-internal collapse behavior lives in navigation.css. */
 .aos-shell--nav-collapsed .aos-navigation {
   width: var(--aos-space-nav-width-collapsed);
-}
-
-.aos-shell--nav-collapsed .aos-nav__label,
-.aos-shell--nav-collapsed .aos-nav__section-title,
-.aos-shell--nav-collapsed .aos-nav__brand-text,
-.aos-shell--nav-collapsed .aos-nav__user-info {
-  display: none;
-}
-
-.aos-shell--nav-collapsed .aos-nav__item {
-  justify-content: center;
-  padding: var(--aos-space-3);
-}
-
-.aos-shell--nav-collapsed .aos-nav__icon {
-  margin-right: 0;
 }
 
 /* ========================================

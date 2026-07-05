@@ -1,337 +1,119 @@
 /**
- * AuditOS Navigation Components
- * Navigation Components - Chapter 76
- * Left sidebar navigation with workspace switching
+ * AuditOS Left Navigation Foundation
+ * Navigation Components — Chapter 76 / Application Shell — Chapter 114
+ *
+ * Reusable structural navigation mounted inside the shell's navigation
+ * region (<nav class="aos-navigation">). Structure only — five empty
+ * regions with no menu items, icons, labels, routing, or interactions.
+ * Consumes only the Design Token Foundation; introduces no new visual values.
  */
 
 @import 'variables.css';
 
 /* ========================================
- * NAVIGATION CONTAINER
+ * NAVIGATION COMPONENT CONTAINER
+ * Fills the shell navigation region and stacks the five permanent
+ * navigation regions as a single vertical column.
  * ======================================== */
 
 .aos-nav {
   display: flex;
   flex-direction: column;
+  width: 100%;
   height: 100%;
   overflow: hidden;
 }
 
 /* ========================================
- * NAVIGATION BRAND / LOGO
+ * REGION: BRAND
+ * Reserved for the AuditOS brand mark / product wordmark.
+ * Matches the header height so the sidebar brand aligns with the
+ * global header across the top of the shell.
  * ======================================== */
 
 .aos-nav__brand {
   display: flex;
   align-items: center;
   gap: var(--aos-space-3);
-  padding: var(--aos-space-4);
-  border-bottom: 1px solid var(--aos-surface-border);
   flex-shrink: 0;
   min-height: var(--aos-space-header-height);
-}
-
-.aos-nav__brand-link {
-  display: flex;
-  align-items: center;
-  gap: var(--aos-space-3);
-  text-decoration: none;
-  color: var(--aos-text-primary);
-  width: 100%;
-}
-
-.aos-nav__brand-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  background: linear-gradient(135deg, var(--aos-color-primary-600), var(--aos-color-primary-400));
-  border-radius: var(--aos-radius-lg);
-  color: var(--aos-text-inverse);
-  flex-shrink: 0;
-}
-
-.aos-nav__brand-icon svg {
-  width: 1.5rem;
-  height: 1.5rem;
-}
-
-.aos-nav__brand-text {
-  font-size: var(--aos-text-lg);
-  font-weight: var(--aos-font-semibold);
-  letter-spacing: -0.02em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.aos-shell--nav-collapsed .aos-nav__brand {
-  justify-content: center;
-  padding: var(--aos-space-3);
+  padding: 0 var(--aos-space-4);
+  border-bottom: 1px solid var(--aos-surface-border);
 }
 
 /* ========================================
- * NAVIGATION SECTIONS
+ * REGION: PRIMARY NAVIGATION
+ * Reserved for the primary workspace destinations. Grows to consume
+ * free vertical space and scrolls independently of the fixed regions.
  * ======================================== */
 
-.aos-nav__sections {
-  flex: 1;
+.aos-nav__primary {
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
   padding: var(--aos-space-3) 0;
 }
 
-.aos-nav__section {
-  margin-bottom: var(--aos-space-nav-section-gap);
-}
+/* ========================================
+ * REGION: SECONDARY NAVIGATION
+ * Reserved for secondary destinations (for example administration or
+ * settings). Sits beneath the primary region, above the utility region.
+ * ======================================== */
 
-.aos-nav__section-title {
-  font-size: var(--aos-text-xs);
-  font-weight: var(--aos-font-semibold);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--aos-text-tertiary);
-  padding: var(--aos-space-2) var(--aos-space-4);
-  margin-bottom: var(--aos-space-1);
-}
-
-.aos-shell--nav-collapsed .aos-nav__section-title {
-  display: none;
+.aos-nav__secondary {
+  flex-shrink: 0;
+  padding: var(--aos-space-3) 0;
 }
 
 /* ========================================
- * NAVIGATION ITEMS
+ * REGION: BOTTOM UTILITY
+ * Reserved for the persistent utility area (for example the user /
+ * account control). Anchored to the base of the navigation column.
  * ======================================== */
 
-.aos-nav__list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.aos-nav__item {
-  display: flex;
-  align-items: center;
-  gap: var(--aos-space-3);
-  padding: var(--aos-space-2) var(--aos-space-4);
-  color: var(--aos-text-secondary);
-  text-decoration: none;
-  font-size: var(--aos-text-sm);
-  font-weight: var(--aos-font-medium);
-  border-left: 3px solid transparent;
-  margin: 0 var(--aos-space-2);
-  border-radius: 0 var(--aos-radius-md) var(--aos-radius-md) 0;
-  transition: all var(--aos-transition-fast);
-  white-space: nowrap;
-}
-
-.aos-nav__item:hover {
-  background-color: var(--aos-surface-hover);
-  color: var(--aos-text-primary);
-  border-left-color: var(--aos-color-primary-300);
-}
-
-.aos-nav__item:focus-visible {
-  background-color: var(--aos-surface-hover);
-  color: var(--aos-text-primary);
-  border-left-color: var(--aos-color-primary-500);
-  box-shadow: var(--aos-focus-ring);
-}
-
-.aos-nav__item--active {
-  background-color: var(--aos-color-primary-50);
-  color: var(--aos-color-primary-700);
-  border-left-color: var(--aos-color-primary-600);
-  font-weight: var(--aos-font-semibold);
-}
-
-.aos-nav__item--active:hover {
-  background-color: var(--aos-color-primary-100);
-  color: var(--aos-color-primary-800);
-}
-
-@media (prefers-color-scheme: dark) {
-  .aos-nav__item--active {
-    background-color: var(--aos-color-primary-900);
-    color: var(--aos-color-primary-100);
-    border-left-color: var(--aos-color-primary-400);
-  }
-  
-  .aos-nav__item--active:hover {
-    background-color: var(--aos-color-primary-800);
-  }
-}
-
-/* Icon styling */
-.aos-nav__icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.25rem;
-  height: 1.25rem;
+.aos-nav__utility {
   flex-shrink: 0;
-  color: inherit;
-  opacity: 0.8;
-}
-
-.aos-nav__icon svg {
-  width: 100%;
-  height: 100%;
-}
-
-.aos-nav__item--active .aos-nav__icon {
-  opacity: 1;
-  color: var(--aos-color-primary-600);
-}
-
-@media (prefers-color-scheme: dark) {
-  .aos-nav__item--active .aos-nav__icon {
-    color: var(--aos-color-primary-400);
-  }
-}
-
-/* Label */
-.aos-nav__label {
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Badge for notifications/counts */
-.aos-nav__badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 1.25rem;
-  height: 1.25rem;
-  padding: 0 var(--aos-space-1);
-  font-size: var(--aos-text-xs);
-  font-weight: var(--aos-font-semibold);
-  color: var(--aos-text-inverse);
-  background-color: var(--aos-color-primary-600);
-  border-radius: var(--aos-radius-full);
-  flex-shrink: 0;
-}
-
-/* ========================================
- * NAVIGATION FOOTER / USER SECTION
- * ======================================== */
-
-.aos-nav__footer {
-  border-top: 1px solid var(--aos-surface-border);
   padding: var(--aos-space-3) var(--aos-space-4);
-  flex-shrink: 0;
-}
-
-.aos-nav__user {
-  display: flex;
-  align-items: center;
-  gap: var(--aos-space-3);
-  padding: var(--aos-space-2);
-  border-radius: var(--aos-radius-md);
-  transition: background-color var(--aos-transition-fast);
-}
-
-.aos-nav__user:hover {
-  background-color: var(--aos-surface-hover);
-}
-
-.aos-nav__avatar {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: var(--aos-radius-full);
-  background: linear-gradient(135deg, var(--aos-color-primary-500), var(--aos-color-primary-300));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--aos-text-inverse);
-  font-weight: var(--aos-font-semibold);
-  font-size: var(--aos-text-sm);
-  flex-shrink: 0;
-}
-
-.aos-nav__user-info {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  overflow: hidden;
-}
-
-.aos-nav__user-name {
-  font-size: var(--aos-text-sm);
-  font-weight: var(--aos-font-medium);
-  color: var(--aos-text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.aos-nav__user-role {
-  font-size: var(--aos-text-xs);
-  color: var(--aos-text-tertiary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.aos-shell--nav-collapsed .aos-nav__footer {
-  padding: var(--aos-space-3);
-  display: flex;
-  justify-content: center;
-}
-
-.aos-shell--nav-collapsed .aos-nav__user {
-  padding: var(--aos-space-2);
-}
-
-.aos-shell--nav-collapsed .aos-nav__avatar {
-  width: 2rem;
-  height: 2rem;
-  font-size: var(--aos-text-xs);
+  border-top: 1px solid var(--aos-surface-border);
 }
 
 /* ========================================
- * MOBILE NAVIGATION TOGGLE
+ * REGION: COLLAPSE PLACEHOLDER
+ * Reserved for the future navigation collapse / expand control.
+ * Structure only — this foundation defines no toggle behavior.
  * ======================================== */
 
-.aos-nav__toggle {
-  display: none;
-  position: fixed;
-  top: calc(var(--aos-space-header-height) + var(--aos-space-3));
-  left: var(--aos-space-3);
-  z-index: var(--aos-z-fixed);
-  width: 2.5rem;
-  height: 2.5rem;
-  border: 1px solid var(--aos-surface-border);
-  background: var(--aos-surface-panel);
-  border-radius: var(--aos-radius-md);
+.aos-nav__collapse {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  color: var(--aos-text-primary);
-  box-shadow: var(--aos-shadow-md);
-}
-
-@media (max-width: 1024px) {
-  .aos-nav__toggle {
-    display: flex;
-  }
-  
-  .aos-shell--nav-open .aos-nav__toggle {
-    left: calc(var(--aos-space-nav-width) + var(--aos-space-3));
-  }
+  flex-shrink: 0;
+  min-height: var(--aos-space-10);
+  padding: var(--aos-space-2) var(--aos-space-4);
 }
 
 /* ========================================
- * KEYBOARD NAVIGATION SUPPORT
+ * COLLAPSED STRUCTURAL STATE
+ * Pairs with the shell-level `.aos-shell--nav-collapsed` state defined
+ * in layout.css. Centers region content to the icon rail as the
+ * sidebar narrows. Structure only — nothing toggles this state yet.
  * ======================================== */
 
-.aos-nav__list:focus-within .aos-nav__item:focus-visible {
-  z-index: 1;
+.aos-shell--nav-collapsed .aos-nav__brand,
+.aos-shell--nav-collapsed .aos-nav__utility,
+.aos-shell--nav-collapsed .aos-nav__collapse {
+  justify-content: center;
+  padding-left: var(--aos-space-3);
+  padding-right: var(--aos-space-3);
 }
 
-/* Skip link for accessibility */
+/* ========================================
+ * SKIP LINK
+ * Accessibility affordance letting keyboard and screen-reader users
+ * bypass the navigation and jump to the workspace canvas. Visually
+ * hidden until it receives focus.
+ * ======================================== */
+
 .aos-skip-link {
   position: absolute;
   top: -100%;
@@ -341,8 +123,8 @@
   color: var(--aos-text-inverse);
   text-decoration: none;
   border-radius: var(--aos-radius-md);
-  z-index: var(--aos-z-toast);
   font-weight: var(--aos-font-medium);
+  z-index: var(--aos-z-toast);
 }
 
 .aos-skip-link:focus {
