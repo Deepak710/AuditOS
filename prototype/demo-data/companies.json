@@ -78,7 +78,8 @@
       "riskRating": "High",
       "customerTier": "Enterprise",
       "engagements": [
-        "ENG-003"
+        "ENG-003",
+        "ENG-004"
       ],
       "products": [
         "Helix Core",
@@ -86,7 +87,8 @@
         "Helix Identity"
       ],
       "frameworks": [
-        "SOC 2 Type II"
+        "SOC 2 Type II",
+        "ISO 27001"
       ],
       "departments": [
         "DEP-101",

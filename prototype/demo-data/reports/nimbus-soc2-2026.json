@@ -2,19 +2,15 @@
   "metadata": {
     "version": "2.0.0",
     "templateId": "SOC2-T2-STD",
-    "reportId": "RPT-NIM-2025-SOC2",
+    "reportId": "RPT-NIM-2026-SOC2",
     "engagementId": "ENG-001",
     "companyId": "CMP-001",
     "framework": "SOC 2 Type II"
   },
   "document": {
     "title": "System and Organization Controls (SOC) 2 Type II Report",
-    "status": "Final",
-    "version": "1.0",
-    "reportingPeriod": {
-      "from": "2025-01-01",
-      "to": "2025-12-31"
-    },
+    "status": "Draft",
+    "version": "0.1",
     "outputFormats": [
       "docx",
       "pdf"
@@ -46,7 +42,7 @@
         "engagement": "ENG-001",
         "businessUnits": "business-units.json",
         "teams": "teams.json",
-        "pocs": "pocs.json",
+        "locations": "companies.json",
         "applications": "applications.json",
         "policies": "policies.json"
       }
@@ -58,13 +54,11 @@
       "editable": true,
       "included": true,
       "references": {
-        "controls": "controls/nimbus-soc2-2025.json",
-        "requirements": "requirements/nimbus-soc2-2025-requirements.json",
-        "evidenceRequests": "evidence-requests/nimbus-soc2-2025.json",
-        "evidence": "evidence/nimbus-soc2-2025.json",
-        "samples": "samples/nimbus-soc2-2025.json",
-        "testing": "testing/nimbus-soc2-2025.json",
-        "findings": "findings/nimbus-soc2-2025.json"
+        "controls": "controls/nimbus-soc2-2026.json",
+        "requirements": "requirements/nimbus-soc2-2026-requirements.json",
+        "evidenceRequests": "evidence-requests/nimbus-soc2-2026.json",
+        "evidence": "evidence/nimbus-soc2-2026.json",
+        "findings": "findings/nimbus-soc2-2026.json"
       }
     }
   ],
@@ -72,9 +66,7 @@
     "renderEngine": "Document Studio",
     "futureAutomation": {
       "aiRegeneration": true,
-      "humanApprovalRequired": true,
-      "trackChanges": true,
-      "versionHistory": true
+      "humanApprovalRequired": true
     }
   }
 }

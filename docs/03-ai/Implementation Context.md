@@ -122,6 +122,49 @@ eventual implementation target.
   SharePoint document libraries.
 - Demo-data is read-only for implementation issues unless a GitHub issue
   explicitly grants ownership.
+- Every per-engagement domain, including `reports/`, has a root manifest and
+  uses the same dataset file naming (e.g. `reports/nimbus-soc2-2026.json`).
+- `demo-data/demo-data.js` is the GENERATED classic-script projection of the
+  canonical JSON (`AuditOS.demoDataBundle`), loaded via a script tag so the
+  Shared Audit State behaves identically under file:// and http(s), fully
+  offline. Never edit it by hand. After any demo-data change, regenerate it:
+  `node prototype/tools/generate-demo-data-bundle.js`.
+- Only the Shared Audit State store consumes the bundle. All other components
+  consume `AuditOS.state`; none may read demo-data files or the bundle
+  directly.
+
+---
+
+# Shared Audit State (Runtime Foundation)
+
+`prototype/js/state/` is the runtime state layer — the single source of truth
+for runtime application data (Shared Audit State, Chapter 9; Shared Audit
+State Model, Chapter 45).
+
+- `demo-data-registry.js` is the structural catalog of demo-data collections
+  (identifier, scope, path, records key, id key). No behavior, no business
+  data.
+- `state-store.js` (`window.AuditOS.state`) loads demo-data exactly once,
+  deep-freezes that baseline, and maintains a runtime in-memory working copy
+  behind a framework-agnostic API: read (documents, records, datasets),
+  simulated write (create/update/remove — runtime memory only, never
+  persisted), reset (restore baseline), and publish/subscribe state events
+  (`auditos:state-loaded`, `auditos:state-changed`, `auditos:state-reset`)
+  via the store's own subscribe mechanism, not DOM events.
+- The bootstrap (`js/main.js`) initializes the state before the router.
+
+Rules:
+
+- Workspaces and components read runtime business data only through
+  `AuditOS.state` and mutate it only through the simulated write API. Reads
+  return defensive copies; direct state mutation is impossible by design.
+- The store loads from the generated demo-data bundle
+  (`demo-data/demo-data.js`), never via fetch, so behavior is identical
+  under file:// and http(s): fully offline, no network, no localhost.
+  Consumers cannot tell how the data was loaded.
+- Governance and approval flows are NOT implemented; the simulated write API
+  is the mechanical substrate later governance issues build in front of.
+  AI remains advisory; human approval remains mandatory.
 
 ---
 
@@ -137,10 +180,13 @@ Completed foundations, in order:
 5. Navigation Content (registry-driven destinations).
 6. Shared Workspace Rendering Foundation and enterprise design language
    (framework renderer, template, stylesheet).
+7. Shared Audit State Foundation (`js/state/` — demo-data registry, state
+   store, bootstrap integration).
 
 The prototype renders the universal workspace skeleton for every registered
-workspace. Workspace content, business bindings, and workspace states remain
-owned by later issues. No business content is implemented.
+workspace and maintains a runtime Shared Audit State loaded from demo-data.
+Workspace content, business bindings, workspace states, and business
+workflows remain owned by later issues. No business content is implemented.
 
 ---
 

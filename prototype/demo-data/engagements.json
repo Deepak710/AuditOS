@@ -34,7 +34,7 @@
       "controls": [],
       "evidence": [],
       "findings": [],
-      "reportId": "RPT-001",
+      "reportId": "RPT-NIM-2026-SOC2",
       "overallStatus": {
         "controlsCompleted": 0,
         "controlsTotal": 52,
@@ -80,7 +80,7 @@
       "controls": [],
       "evidence": [],
       "findings": [],
-      "reportId": "RPT-002",
+      "reportId": "RPT-NIM-2025-SOC2",
       "overallStatus": {
         "controlsCompleted": 52,
         "controlsTotal": 52,
@@ -126,7 +126,7 @@
       "controls": [],
       "evidence": [],
       "findings": [],
-      "reportId": "RPT-003",
+      "reportId": "RPT-HLX-2026-SOC2",
       "overallStatus": {
         "controlsCompleted": 0,
         "controlsTotal": 47,
@@ -145,6 +145,52 @@
         "reusedEvidence": 0
       },
       "notes": "Used to demonstrate AuditOS knowledge transfer and reusable testing methodologies between different clients while maintaining complete client isolation."
+    },
+    {
+      "id": "ENG-004",
+      "companyId": "CMP-002",
+      "engagementCode": "HEL-ISO27001-2026",
+      "name": "ISO/IEC 27001:2022 FY2026",
+      "framework": "ISO/IEC 27001:2022",
+      "auditType": "External",
+      "status": "In Progress",
+      "auditPeriod": {
+        "startDate": "2026-01-01",
+        "endDate": "2026-12-31"
+      },
+      "fieldworkPeriod": {
+        "startDate": "2027-01-08",
+        "endDate": "2027-02-12"
+      },
+      "reportReleaseDate": "2027-03-05",
+      "auditor": "EY Tech Risk",
+      "engagementManager": "USR-011",
+      "engagementLead": "USR-012",
+      "engagementTeam": [
+        "USR-013",
+        "USR-014"
+      ],
+      "controlSet": "CTRLSET-ISO27001-2026",
+      "controls": [],
+      "evidence": [],
+      "findings": [],
+      "reportId": "RPT-HLX-2026-ISO27001",
+      "overallStatus": {
+        "controlsCompleted": 24,
+        "controlsTotal": 30,
+        "evidenceCollected": 9,
+        "evidenceRequired": 15,
+        "samplesCompleted": 60,
+        "samplesRequired": 75,
+        "testingCompleted": 60,
+        "testingTotal": 75
+      },
+      "evidenceReuse": {
+        "eligible": false,
+        "sourceEngagements": [],
+        "reusedEvidence": 0
+      },
+      "notes": "Helix ISO/IEC 27001:2022 engagement backing the helix-iso27001-2026 datasets; demonstrates cross-framework methodology reuse within the same client."
     }
   ]
 }

@@ -115,10 +115,29 @@
   <!-- Static Routing Foundation                                 -->
   <!-- Classic scripts (no build step / module loader) so the    -->
   <!-- prototype runs directly from file://. Order matters:      -->
-  <!-- registry, then router engine, then application bootstrap. -->
+  <!-- registry, then router engine.                             -->
   <!-- ========================================================= -->
   <script src="js/router/workspace-registry.js"></script>
   <script src="js/router/router.js"></script>
+
+  <!-- ========================================================= -->
+  <!-- Shared Audit State Foundation                             -->
+  <!-- Runtime state layer: generated demo-data bundle, then the -->
+  <!-- structural catalog, then the state store. The bundle is a -->
+  <!-- generated projection of demo-data JSON so loading behaves -->
+  <!-- identically under file:// and http(s), fully offline.     -->
+  <!-- Loads before the bootstrap so main.js can initialize the  -->
+  <!-- state alongside the router.                               -->
+  <!-- ========================================================= -->
+  <script src="demo-data/demo-data.js"></script>
+  <script src="js/state/demo-data-registry.js"></script>
+  <script src="js/state/state-store.js"></script>
+
+  <!-- ========================================================= -->
+  <!-- Application Bootstrap                                     -->
+  <!-- Starts the Shared Audit State and the router once the     -->
+  <!-- shell markup is ready.                                    -->
+  <!-- ========================================================= -->
   <script src="js/main.js"></script>
 
   <!-- ========================================================= -->
