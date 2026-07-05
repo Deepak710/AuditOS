@@ -1,0 +1,761 @@
+/**
+ * AuditOS Shared Enterprise Component Library
+ * Component Architecture — Chapter 74 / Layout Components — Chapter 75 /
+ * Navigation Components — Chapter 76 / Visual Design System — Chapter 17
+ *
+ * The single approved source of reusable presentation primitives for AuditOS.
+ * Every workspace, present and future, composes its interface from these
+ * components instead of inventing duplicate UI. This stylesheet owns the
+ * component layer of the CSS architecture (variables → layout → COMPONENTS →
+ * workspace); it consumes only the Design Token Foundation (variables.css) and
+ * introduces no new visual values.
+ *
+ * Every component here is PRESENTATION ONLY. Components never read or write
+ * AuditOS.state, never read demo-data, and hold no business or workflow logic.
+ * They establish the permanent AuditOS enterprise component language: calm
+ * bordered surfaces instead of decorative color, a token-based spacing rhythm,
+ * typography-first hierarchy, information density, subtle purposeful motion,
+ * and accessibility (keyboard focus, semantic structure, color independence,
+ * reduced motion) built in rather than bolted on.
+ *
+ * The registry (components/component-library/component-library.js) is the
+ * canonical catalog of the components defined below; the gallery
+ * (components/component-library/component-library.html) is the canonical markup
+ * reference. Keep all three in sync.
+ */
+
+@import 'variables.css';
+
+/* ============================================================================
+ * FOUNDATION — SURFACE (§74.7 Foundation)
+ * The base bordered container primitive every other surface composes from: a
+ * calm card background, a hairline border, a soft radius, and the subtlest
+ * elevation. Padding is intentionally a consumer concern (`--padded` opts in)
+ * so a surface can host flush content — a table, a list, a nested header —
+ * without fighting its own inset.
+ * ========================================================================== */
+
+.aos-surface {
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-lg);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-surface--padded {
+  padding: var(--aos-space-6);
+}
+
+/* Recessed surface — for instrument strips and quiet contextual regions. */
+.aos-surface--muted {
+  background-color: var(--aos-surface-workspace);
+  box-shadow: none;
+}
+
+/* A surface that reads as slightly lifted — reserved for focal regions. */
+.aos-surface--raised {
+  box-shadow: var(--aos-shadow-md);
+}
+
+/* ============================================================================
+ * FOUNDATION — CARD (§74.7 Foundation)
+ * A Surface composed with an optional header / body / footer rhythm. The
+ * interactive variant is a keyboard- and pointer-navigable card: a visible
+ * focus ring, a restrained hover lift, and a motion that collapses to nothing
+ * under reduced-motion (durations are zeroed at the token layer).
+ * ========================================================================== */
+
+.aos-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-lg);
+  box-shadow: var(--aos-shadow-sm);
+  overflow: hidden;
+}
+
+.aos-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--aos-space-3);
+  padding: var(--aos-space-4) var(--aos-space-5);
+  border-bottom: 1px solid var(--aos-surface-border);
+}
+
+.aos-card__title {
+  font-size: var(--aos-text-base);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-primary);
+}
+
+.aos-card__body {
+  flex: 1 1 auto;
+  padding: var(--aos-space-5);
+  font-size: var(--aos-text-sm);
+  line-height: var(--aos-leading-normal);
+  color: var(--aos-text-secondary);
+}
+
+.aos-card__footer {
+  display: flex;
+  align-items: center;
+  gap: var(--aos-space-3);
+  padding: var(--aos-space-3) var(--aos-space-5);
+  border-top: 1px solid var(--aos-surface-border);
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-card--interactive {
+  cursor: pointer;
+  transition: box-shadow var(--aos-transition-fast),
+    border-color var(--aos-transition-fast),
+    transform var(--aos-transition-fast);
+}
+
+.aos-card--interactive:hover {
+  border-color: var(--aos-surface-border-strong);
+  box-shadow: var(--aos-shadow-md);
+}
+
+.aos-card--interactive:focus-visible {
+  outline: none;
+  box-shadow: var(--aos-focus-ring);
+}
+
+/* ============================================================================
+ * FOUNDATION — SECTION (§74.7 Foundation)
+ * A content grouping used to structure information inside a surface or canvas.
+ * It owns vertical rhythm and an optional titled header (title + supporting
+ * description) — not chrome. Sections stack predictably so dense workspaces
+ * stay readable.
+ * ========================================================================== */
+
+.aos-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
+  min-width: 0;
+}
+
+.aos-section__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+}
+
+.aos-section__title {
+  font-size: var(--aos-text-lg);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-tight);
+  letter-spacing: -0.01em;
+  color: var(--aos-text-primary);
+}
+
+.aos-section__description {
+  font-size: var(--aos-text-sm);
+  line-height: var(--aos-leading-normal);
+  color: var(--aos-text-secondary);
+}
+
+.aos-section__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
+  min-width: 0;
+}
+
+/* ============================================================================
+ * FOUNDATION — PANEL SECTION (§74.7 Foundation / §75.10 Panels)
+ * A titled bordered region: a compact header (title + optional actions) closed
+ * by a hairline rule, over a body. This is the reusable panel primitive the
+ * Shared Workspace Framework's supporting panels (§15.7) compose from, so the
+ * universal secondary panels and any future panel share one definition.
+ * ========================================================================== */
+
+.aos-panel-section {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-lg);
+  box-shadow: var(--aos-shadow-sm);
+  overflow: hidden;
+}
+
+.aos-panel-section__header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--aos-space-3);
+  padding: var(--aos-space-3) var(--aos-space-4);
+  border-bottom: 1px solid var(--aos-surface-border);
+}
+
+.aos-panel-section__title {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-secondary);
+}
+
+.aos-panel-section__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+  flex-shrink: 0;
+}
+
+.aos-panel-section__actions:empty {
+  display: none;
+}
+
+.aos-panel-section__body {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: var(--aos-space-4);
+  font-size: var(--aos-text-sm);
+  line-height: var(--aos-leading-normal);
+  color: var(--aos-text-secondary);
+}
+
+/* ============================================================================
+ * FOUNDATION — DIVIDER (§74.7 Foundation / Separators)
+ * A hairline separator with true separator semantics. Horizontal by default;
+ * a vertical variant divides toolbar and inline groups. The labeled variant
+ * places a quiet caption in the rule for sectioning long content.
+ * ========================================================================== */
+
+.aos-divider {
+  border: none;
+  border-top: 1px solid var(--aos-surface-border);
+  margin: var(--aos-space-4) 0;
+}
+
+.aos-divider--vertical {
+  border-top: none;
+  border-left: 1px solid var(--aos-surface-border);
+  align-self: stretch;
+  margin: 0 var(--aos-space-2);
+  width: 0;
+}
+
+.aos-divider--labeled {
+  display: flex;
+  align-items: center;
+  gap: var(--aos-space-3);
+  border: none;
+  margin: var(--aos-space-5) 0;
+  color: var(--aos-text-tertiary);
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.aos-divider--labeled::before,
+.aos-divider--labeled::after {
+  content: '';
+  flex: 1 1 auto;
+  border-top: 1px solid var(--aos-surface-border);
+}
+
+/* ============================================================================
+ * DATA DISPLAY — KPI TILE (§74.7 Visualization / §75.12 Grid)
+ * A metric tile: an uppercase eyebrow label, a dominant value, an optional
+ * directional delta, and a supporting caption. Trend direction is conveyed by
+ * an arrow glyph in addition to color, so meaning survives without color
+ * (accessibility — color independence).
+ * ========================================================================== */
+
+.aos-kpi-tile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+  padding: var(--aos-space-5);
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-lg);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-kpi-tile__label {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-kpi-tile__value {
+  font-size: var(--aos-text-3xl);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-tight);
+  letter-spacing: -0.02em;
+  color: var(--aos-text-primary);
+}
+
+.aos-kpi-tile__delta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-1);
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-secondary);
+}
+
+.aos-kpi-tile__delta--positive {
+  color: var(--aos-color-success-600);
+}
+
+.aos-kpi-tile__delta--negative {
+  color: var(--aos-color-error-600);
+}
+
+.aos-kpi-tile__delta--neutral {
+  color: var(--aos-text-tertiary);
+}
+
+.aos-kpi-tile__caption {
+  font-size: var(--aos-text-xs);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-tertiary);
+}
+
+/* ============================================================================
+ * DATA DISPLAY — STATUS BADGE (§74.7 Data Presentation)
+ * A compact status pill. Tone is carried by a semantic surface and text pair
+ * AND by the badge's own text label — never color alone — so status remains
+ * legible in high-contrast and color-blind conditions. An optional leading dot
+ * reinforces tone without becoming the only signal.
+ * ========================================================================== */
+
+.aos-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-1) var(--aos-space-3);
+  border-radius: var(--aos-radius-full);
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-tight);
+  white-space: nowrap;
+  background-color: var(--aos-surface-active);
+  color: var(--aos-text-secondary);
+}
+
+.aos-status-badge__dot {
+  width: var(--aos-space-2);
+  height: var(--aos-space-2);
+  border-radius: var(--aos-radius-full);
+  background-color: currentColor;
+  flex-shrink: 0;
+}
+
+.aos-status-badge--info {
+  background-color: var(--aos-color-info-50);
+  color: var(--aos-color-info-600);
+}
+
+.aos-status-badge--success {
+  background-color: var(--aos-color-success-50);
+  color: var(--aos-color-success-700);
+}
+
+.aos-status-badge--warning {
+  background-color: var(--aos-color-warning-50);
+  color: var(--aos-color-warning-700);
+}
+
+.aos-status-badge--error {
+  background-color: var(--aos-color-error-50);
+  color: var(--aos-color-error-700);
+}
+
+/* ============================================================================
+ * DATA DISPLAY — CHIP (§74.7 Data Presentation / §76.14 Quick Actions)
+ * A compact token for tags, filters, and selections. Interactive chips are
+ * real buttons: keyboard focusable with a visible focus ring. A selected state
+ * reads through weight and surface, and an optional remove control is itself a
+ * labelled, focusable button.
+ * ========================================================================== */
+
+.aos-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-1) var(--aos-space-3);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-full);
+  background-color: var(--aos-surface-card);
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-medium);
+  line-height: var(--aos-leading-tight);
+  color: var(--aos-text-secondary);
+  white-space: nowrap;
+}
+
+/* Interactive chips (rendered as <button>) reset native chrome. */
+button.aos-chip {
+  cursor: pointer;
+  font-family: inherit;
+  transition: background-color var(--aos-transition-fast),
+    border-color var(--aos-transition-fast),
+    color var(--aos-transition-fast);
+}
+
+button.aos-chip:hover {
+  background-color: var(--aos-surface-hover);
+  border-color: var(--aos-surface-border-strong);
+}
+
+button.aos-chip:focus-visible {
+  outline: none;
+  box-shadow: var(--aos-focus-ring);
+}
+
+.aos-chip--selected {
+  background-color: var(--aos-color-primary-50);
+  border-color: var(--aos-color-primary-300);
+  color: var(--aos-color-primary-700);
+  font-weight: var(--aos-font-semibold);
+}
+
+.aos-chip__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--aos-space-4);
+  height: var(--aos-space-4);
+  padding: 0;
+  border: none;
+  border-radius: var(--aos-radius-full);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.aos-chip__remove:focus-visible {
+  outline: none;
+  box-shadow: var(--aos-focus-ring);
+}
+
+/* ============================================================================
+ * DATA DISPLAY — PROPERTY ROW (§74.7 Data Presentation / Property Panels)
+ * A single label / value pair. Label and value align on one row on wide
+ * layouts and stack on narrow ones, so property data stays scannable at any
+ * width. Composed inside a Property Grid or used standalone.
+ * ========================================================================== */
+
+.aos-property-row {
+  display: grid;
+  grid-template-columns: minmax(0, 12rem) minmax(0, 1fr);
+  gap: var(--aos-space-2) var(--aos-space-4);
+  align-items: baseline;
+  padding: var(--aos-space-2) 0;
+}
+
+.aos-property-row__label {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-medium);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-property-row__value {
+  font-size: var(--aos-text-sm);
+  line-height: var(--aos-leading-normal);
+  color: var(--aos-text-primary);
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 640px) {
+  .aos-property-row {
+    grid-template-columns: 1fr;
+    gap: var(--aos-space-1);
+  }
+}
+
+/* ============================================================================
+ * DATA DISPLAY — PROPERTY GRID (§74.7 Data Presentation / §75.12 Grid)
+ * A dense, divided collection of Property Rows for object detail views. Rows
+ * are separated by hairline rules for scannability; the grid can expand to two
+ * columns on wide layouts and collapses to one on narrow ones.
+ * ========================================================================== */
+
+.aos-property-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: var(--aos-space-8);
+}
+
+.aos-property-grid > .aos-property-row {
+  border-top: 1px solid var(--aos-surface-border);
+}
+
+.aos-property-grid > .aos-property-row:first-child {
+  border-top: none;
+}
+
+.aos-property-grid--two-column {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.aos-property-grid--two-column > .aos-property-row:nth-child(2) {
+  border-top: none;
+}
+
+@media (max-width: 1024px) {
+  .aos-property-grid--two-column {
+    grid-template-columns: 1fr;
+  }
+
+  .aos-property-grid--two-column > .aos-property-row:nth-child(2) {
+    border-top: 1px solid var(--aos-surface-border);
+  }
+}
+
+/* ============================================================================
+ * DATA DISPLAY — METADATA LIST (§74.7 Data Presentation / §15.16 Context)
+ * A description list (<dl>) of term / detail metadata pairs — created, owner,
+ * framework, period. Semantic <dt>/<dd> structure gives assistive technology a
+ * real term/definition relationship rather than styled text.
+ * ========================================================================== */
+
+.aos-metadata-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-3);
+  margin: 0;
+}
+
+.aos-metadata-list__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  min-width: 0;
+}
+
+.aos-metadata-list__term {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-metadata-list__detail {
+  margin: 0;
+  font-size: var(--aos-text-sm);
+  line-height: var(--aos-leading-normal);
+  color: var(--aos-text-primary);
+  overflow-wrap: break-word;
+}
+
+.aos-metadata-list--inline .aos-metadata-list__item {
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--aos-space-3);
+}
+
+.aos-metadata-list--inline .aos-metadata-list__term {
+  flex: 0 0 8rem;
+}
+
+/* ============================================================================
+ * LAYOUT — TOOLBAR GROUP (§76.14 Quick Actions / §75.15 Navigation)
+ * A horizontal cluster of related toolbar controls with a consistent gap. It
+ * wraps gracefully on narrow layouts and carries toolbar semantics
+ * (role="toolbar" / role="group") set by the consumer. The divided variant
+ * separates sub-clusters with a hairline.
+ * ========================================================================== */
+
+.aos-toolbar-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-toolbar-group--divided {
+  padding-left: var(--aos-space-3);
+  margin-left: var(--aos-space-1);
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+/* ============================================================================
+ * LAYOUT — ACTION GROUP (§15.11 Workspace Actions)
+ * A cluster of workspace actions with predictable spacing and alignment.
+ * Primary actions sit consistently; alignment variants place the cluster to
+ * the end or spread it. Presentation only — the buttons' behavior and
+ * consequences belong to workflow issues, never here.
+ * ========================================================================== */
+
+.aos-action-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--aos-space-3);
+  min-width: 0;
+}
+
+.aos-action-group--end {
+  justify-content: flex-end;
+}
+
+.aos-action-group--between {
+  justify-content: space-between;
+}
+
+@media (max-width: 640px) {
+  .aos-action-group--stack {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* ============================================================================
+ * STATE — EMPTY STATE (§15.12 Empty)
+ * The reusable "no information yet" surface. It explains why the region is
+ * empty, what happens next, and offers a reserved action slot — professional
+ * guidance, not a dead end. Centered and calm so it never reads as an error.
+ * ========================================================================== */
+
+.aos-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--aos-space-3);
+  padding: var(--aos-space-12) var(--aos-space-6);
+  text-align: center;
+}
+
+.aos-empty-state__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--aos-space-12);
+  height: var(--aos-space-12);
+  border-radius: var(--aos-radius-full);
+  background-color: var(--aos-surface-workspace);
+  color: var(--aos-text-tertiary);
+  font-size: var(--aos-text-2xl);
+}
+
+.aos-empty-state__title {
+  font-size: var(--aos-text-lg);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-primary);
+}
+
+.aos-empty-state__description {
+  max-width: 40ch;
+  font-size: var(--aos-text-sm);
+  line-height: var(--aos-leading-relaxed);
+  color: var(--aos-text-secondary);
+}
+
+.aos-empty-state__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--aos-space-3);
+  margin-top: var(--aos-space-2);
+}
+
+.aos-empty-state__actions:empty {
+  display: none;
+}
+
+/* ============================================================================
+ * STATE — LOADING STATE (§15.12 Loading)
+ * A layout-stable loading region that preserves structure while data resolves.
+ * It carries role="status" / aria-busy semantics (set by the consumer) and a
+ * visually-hidden live label so assistive technology announces progress while
+ * sighted users see structural skeletons rather than a spinner.
+ * ========================================================================== */
+
+.aos-loading-state {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-3);
+  padding: var(--aos-space-5);
+}
+
+.aos-loading-state__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ============================================================================
+ * STATE — SKELETON (§15.12 Loading)
+ * A decorative placeholder block that mirrors the shape of pending content.
+ * Its shimmer is a token-driven pulse that collapses to a static block under
+ * prefers-reduced-motion. Skeletons are aria-hidden; the Loading State owns
+ * the accessible announcement.
+ * ========================================================================== */
+
+.aos-skeleton {
+  display: block;
+  background-color: var(--aos-surface-active);
+  border-radius: var(--aos-radius-sm);
+  animation: aos-skeleton-pulse 1.4s var(--aos-ease-in-out) infinite;
+}
+
+.aos-skeleton--text {
+  height: var(--aos-text-sm);
+  border-radius: var(--aos-radius-sm);
+}
+
+.aos-skeleton--title {
+  height: var(--aos-text-xl);
+  width: 40%;
+  border-radius: var(--aos-radius-sm);
+}
+
+.aos-skeleton--block {
+  height: var(--aos-space-16);
+  border-radius: var(--aos-radius-md);
+}
+
+.aos-skeleton--circle {
+  width: var(--aos-space-10);
+  height: var(--aos-space-10);
+  border-radius: var(--aos-radius-full);
+}
+
+@keyframes aos-skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aos-skeleton {
+    animation: none;
+  }
+}

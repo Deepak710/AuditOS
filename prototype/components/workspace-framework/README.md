@@ -17,7 +17,15 @@ internal structure rather than inventing its own. Styled by
 The framework **owns layout only**. It renders the permanent internal regions
 of a workspace page, their enterprise design language, and their responsive
 behavior. Every slot it renders is an empty, reserved mount point for later
-workspace issues. It contains no business content, business objects, ribbon
+workspace issues.
+
+It composes the [Shared Enterprise Component Library](../component-library/README.md)
+rather than duplicating surface chrome: the primary content and context ribbon
+are **Surface** components (`.aos-surface`) and the three supporting panels are
+**Panel Section** components (`.aos-panel-section`). The framework stylesheet
+keeps only the framework-specific layout (vertical rhythm, growth, the
+supporting-panels grid, reserved minimums, `:empty` collapse, the enter
+animation, and responsive collapse). It contains no business content, business objects, ribbon
 items, panel content, actions, or routing — business data belongs exclusively
 to `prototype/demo-data`, and no workspace may hardcode business content. AI
 surfaces rendered by the framework are reserved presentation regions only: AI

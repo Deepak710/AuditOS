@@ -96,7 +96,7 @@
    * the stylesheet hides the empty strip.
    */
   function buildRibbon() {
-    var ribbon = createRegion('div', 'aos-workspace-framework__ribbon', 'context-ribbon', 'context-ribbon');
+    var ribbon = createRegion('div', 'aos-surface aos-workspace-framework__ribbon', 'context-ribbon', 'context-ribbon');
     ribbon.setAttribute('role', 'group');
     ribbon.setAttribute('aria-label', 'Workspace context');
     return ribbon;
@@ -108,27 +108,31 @@
    * workspace issues render into.
    */
   function buildContent() {
-    var content = createRegion('section', 'aos-workspace-framework__content', 'primary-content', 'primary-content');
+    var content = createRegion('section', 'aos-surface aos-workspace-framework__content', 'primary-content', 'primary-content');
     content.setAttribute('aria-label', 'Primary content');
     return content;
   }
 
-  /** Builds one universal supporting panel: titled header plus empty body slot. */
+  /**
+   * Builds one universal supporting panel as a Panel Section component
+   * (Component Library — §74.7): a titled header plus an empty body slot. The
+   * framework contributes only the panel modifier used for grid placement.
+   */
   function buildPanel(panel) {
     var section = createRegion(
       'section',
-      'aos-workspace-framework__panel aos-workspace-framework__' + panel.modifier,
+      'aos-panel-section aos-workspace-framework__panel aos-workspace-framework__' + panel.modifier,
       panel.region
     );
     section.setAttribute('aria-label', panel.title);
 
-    var header = createRegion('header', 'aos-workspace-framework__panel-header');
-    var heading = createRegion('h2', 'aos-workspace-framework__panel-title');
+    var header = createRegion('header', 'aos-panel-section__header');
+    var heading = createRegion('h2', 'aos-panel-section__title');
     heading.textContent = panel.title;
     header.appendChild(heading);
     section.appendChild(header);
 
-    section.appendChild(createRegion('div', 'aos-workspace-framework__panel-body', null, panel.region));
+    section.appendChild(createRegion('div', 'aos-panel-section__body', null, panel.region));
     return section;
   }
 

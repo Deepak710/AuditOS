@@ -14,8 +14,16 @@
  * mathematically consistent spacing rhythm, typography-first hierarchy, and
  * subtle purposeful motion ("enterprise confidence with modern clarity",
  * §17.3). Layout only — no business content, no workspace-specific styling.
- * Consumes only the Design Token Foundation (variables.css); introduces no
- * new visual values.
+ *
+ * The framework composes the Shared Enterprise Component Library (css/
+ * components.css) rather than duplicating its surface chrome: the primary
+ * content and context ribbon are Surface components (.aos-surface) and the
+ * supporting panels are Panel Section components (.aos-panel-section). This
+ * stylesheet owns only the framework-specific layout — the vertical rhythm,
+ * the growth behavior, the supporting-panels grid, the reserved minimums, the
+ * :empty collapse, the enter animation, and the responsive collapse. Consumes
+ * only the Design Token Foundation (variables.css); introduces no new visual
+ * values.
  */
 
 @import 'variables.css';
@@ -139,9 +147,10 @@
 /* ========================================
  * REGION: CONTEXT RIBBON (§15.5)
  * The operational strip that travels with the user — current control,
- * reviewer, outstanding evidence, pending approvals, risk level. A quiet
- * bordered surface that reads as instrumentation, not decoration. Hidden
- * entirely while empty so the reserved region never renders as a blank band.
+ * reviewer, outstanding evidence, pending approvals, risk level. Composes the
+ * Surface component for its bordered card chrome (.aos-surface, in the markup);
+ * this rule owns only the instrument-strip layout. Hidden entirely while empty
+ * so the reserved region never renders as a blank band.
  * ======================================== */
 
 .aos-workspace-framework__ribbon {
@@ -151,10 +160,6 @@
   flex-wrap: wrap;
   gap: var(--aos-space-2) var(--aos-space-4);
   padding: var(--aos-space-3) var(--aos-space-4);
-  background-color: var(--aos-surface-card);
-  border: 1px solid var(--aos-surface-border);
-  border-radius: var(--aos-radius-lg);
-  box-shadow: var(--aos-shadow-sm);
   font-size: var(--aos-text-sm);
   color: var(--aos-text-secondary);
 }
@@ -165,10 +170,11 @@
 
 /* ========================================
  * REGION: PRIMARY CONTENT (§15.6)
- * The operational focus of the workspace. A card surface that dominates the
- * layout — it grows to consume free vertical space so supporting information
- * never competes with the primary task. The minimum height keeps the canvas
- * present while the region awaits content.
+ * The operational focus of the workspace. Composes the Surface component
+ * (.aos-surface, in the markup) for its card chrome; this rule owns only the
+ * growth behavior — it consumes free vertical space so supporting information
+ * never competes with the primary task — its inset, and a reserved minimum
+ * height that keeps the canvas present while the region awaits content.
  * ======================================== */
 
 .aos-workspace-framework__content {
@@ -176,19 +182,17 @@
   min-width: 0;
   min-height: var(--aos-space-24);
   padding: var(--aos-space-6);
-  background-color: var(--aos-surface-card);
-  border: 1px solid var(--aos-surface-border);
-  border-radius: var(--aos-radius-lg);
-  box-shadow: var(--aos-shadow-sm);
 }
 
 /* ========================================
  * REGION: SUPPORTING PANELS (§15.7)
  * The universal band of persistent secondary panels beneath the primary
  * content — Related Information (§15.9), AI Recommendations (§15.8), and
- * Activity (§15.10) — three equal card columns with titled headers. The
- * titles are the fixed structural region names of the design system, so
- * every workspace presents the same secondary geography.
+ * Activity (§15.10). Each panel is a Panel Section component
+ * (.aos-panel-section, in the markup); the titles are the fixed structural
+ * region names of the design system, so every workspace presents the same
+ * secondary geography. This rule owns only the three-column grid placement and
+ * a reserved minimum body height.
  * ======================================== */
 
 .aos-workspace-framework__panels {
@@ -198,36 +202,8 @@
   gap: var(--aos-space-5);
 }
 
-.aos-workspace-framework__panel {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  background-color: var(--aos-surface-card);
-  border: 1px solid var(--aos-surface-border);
-  border-radius: var(--aos-radius-lg);
-  box-shadow: var(--aos-shadow-sm);
-  overflow: hidden;
-}
-
-.aos-workspace-framework__panel-header {
-  flex-shrink: 0;
-  padding: var(--aos-space-3) var(--aos-space-4);
-  border-bottom: 1px solid var(--aos-surface-border);
-}
-
-.aos-workspace-framework__panel-title {
-  font-size: var(--aos-text-sm);
-  font-weight: var(--aos-font-semibold);
-  line-height: var(--aos-leading-snug);
-  color: var(--aos-text-secondary);
-}
-
-.aos-workspace-framework__panel-body {
-  flex: 1 1 auto;
+.aos-workspace-framework__panel .aos-panel-section__body {
   min-height: var(--aos-space-20);
-  padding: var(--aos-space-4);
-  font-size: var(--aos-text-sm);
-  color: var(--aos-text-secondary);
 }
 
 /* ========================================

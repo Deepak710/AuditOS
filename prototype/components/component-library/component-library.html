@@ -1,0 +1,178 @@
+<!--
+  AuditOS Shared Enterprise Component Library — Canonical Markup
+  Component Architecture — Chapter 74 / Layout Components — Chapter 75 /
+  Navigation Components — Chapter 76 / Visual Design System — Chapter 17
+
+  The canonical markup reference for every reusable presentation component in
+  AuditOS. Workspaces copy these exact structures instead of inventing their
+  own UI. Each component is presentation only — no business objects, Shared
+  Audit State, demo-data, or workflow logic appear here; the sample text below
+  is placeholder illustration, never product content.
+
+  Styling comes exclusively from css/components.css (which consumes only the
+  Design Token Foundation, css/variables.css). The registry
+  (component-library.js) is the machine-readable catalog of the same set. Keep
+  the stylesheet, the registry, and this reference in sync.
+-->
+
+<!-- ======================================================================= -->
+<!-- FOUNDATION                                                              -->
+<!-- ======================================================================= -->
+
+<!-- Surface — base bordered container. `--padded` opts into inset; content is
+     otherwise flush. -->
+<div class="aos-surface aos-surface--padded">Surface content</div>
+
+<!-- Card — Surface with optional header / body / footer. The interactive
+     variant is a real focusable control (tabindex + role, or a native button
+     wrapper) with a visible focus ring. -->
+<article class="aos-card">
+  <header class="aos-card__header">
+    <h3 class="aos-card__title">Card title</h3>
+  </header>
+  <div class="aos-card__body">Card body</div>
+  <footer class="aos-card__footer">Card footer</footer>
+</article>
+
+<article class="aos-card aos-card--interactive" tabindex="0" role="button" aria-label="Open item">
+  <div class="aos-card__body">Interactive card</div>
+</article>
+
+<!-- Section — content grouping with an optional titled header and a body. -->
+<section class="aos-section">
+  <header class="aos-section__header">
+    <h2 class="aos-section__title">Section title</h2>
+    <p class="aos-section__description">Supporting description for the section.</p>
+  </header>
+  <div class="aos-section__body">Section body</div>
+</section>
+
+<!-- Panel Section — titled bordered region. The Shared Workspace Framework's
+     supporting panels compose from this primitive. -->
+<section class="aos-panel-section" aria-label="Panel title">
+  <header class="aos-panel-section__header">
+    <h2 class="aos-panel-section__title">Panel title</h2>
+    <div class="aos-panel-section__actions"><!-- reserved for panel actions --></div>
+  </header>
+  <div class="aos-panel-section__body">Panel body</div>
+</section>
+
+<!-- Divider — hairline separator with separator semantics. -->
+<hr class="aos-divider" />
+<div class="aos-divider--labeled" role="separator" aria-label="Section break"><span>Section</span></div>
+
+<!-- ======================================================================= -->
+<!-- DATA DISPLAY                                                             -->
+<!-- ======================================================================= -->
+
+<!-- KPI Tile — metric tile. The delta arrow conveys direction in addition to
+     color so meaning survives without color. -->
+<div class="aos-kpi-tile">
+  <span class="aos-kpi-tile__label">Label</span>
+  <span class="aos-kpi-tile__value">128</span>
+  <span class="aos-kpi-tile__delta aos-kpi-tile__delta--positive">
+    <span aria-hidden="true">▲</span> 12%
+  </span>
+  <span class="aos-kpi-tile__caption">Supporting caption</span>
+</div>
+
+<!-- Status Badge — tone reads through surface AND the text label, plus an
+     optional reinforcing dot. -->
+<span class="aos-status-badge aos-status-badge--success">
+  <span class="aos-status-badge__dot" aria-hidden="true"></span> Complete
+</span>
+<span class="aos-status-badge aos-status-badge--warning">In review</span>
+<span class="aos-status-badge aos-status-badge--error">Blocked</span>
+<span class="aos-status-badge aos-status-badge--info">Draft</span>
+<span class="aos-status-badge">Neutral</span>
+
+<!-- Chip — compact token. Interactive chips are real buttons; the remove
+     control is a labelled, focusable button. -->
+<span class="aos-chip">Tag</span>
+<button type="button" class="aos-chip aos-chip--selected">
+  Selected
+  <span class="aos-chip__remove" role="img" aria-hidden="true">×</span>
+</button>
+<button type="button" class="aos-chip">
+  Removable
+  <button type="button" class="aos-chip__remove" aria-label="Remove filter">×</button>
+</button>
+
+<!-- Property Row — a single label / value pair. -->
+<div class="aos-property-row">
+  <span class="aos-property-row__label">Label</span>
+  <span class="aos-property-row__value">Value</span>
+</div>
+
+<!-- Property Grid — divided collection of Property Rows; one or two columns. -->
+<div class="aos-property-grid aos-property-grid--two-column">
+  <div class="aos-property-row">
+    <span class="aos-property-row__label">Owner</span>
+    <span class="aos-property-row__value">Placeholder</span>
+  </div>
+  <div class="aos-property-row">
+    <span class="aos-property-row__label">Status</span>
+    <span class="aos-property-row__value">Placeholder</span>
+  </div>
+</div>
+
+<!-- Metadata List — semantic description list of term / detail pairs. -->
+<dl class="aos-metadata-list">
+  <div class="aos-metadata-list__item">
+    <dt class="aos-metadata-list__term">Created</dt>
+    <dd class="aos-metadata-list__detail">Placeholder</dd>
+  </div>
+  <div class="aos-metadata-list__item">
+    <dt class="aos-metadata-list__term">Framework</dt>
+    <dd class="aos-metadata-list__detail">Placeholder</dd>
+  </div>
+</dl>
+
+<!-- ======================================================================= -->
+<!-- LAYOUT                                                                  -->
+<!-- ======================================================================= -->
+
+<!-- Toolbar Group — horizontal cluster of toolbar controls; consumer supplies
+     role="toolbar" / role="group" and a label. -->
+<div class="aos-toolbar-group" role="toolbar" aria-label="Workspace toolbar">
+  <button type="button">Action</button>
+  <button type="button">Action</button>
+  <div class="aos-toolbar-group aos-toolbar-group--divided" role="group" aria-label="More">
+    <button type="button">Action</button>
+  </div>
+</div>
+
+<!-- Action Group — cluster of workspace actions; alignment variants only,
+     presentation without action logic. -->
+<div class="aos-action-group aos-action-group--end">
+  <button type="button">Secondary</button>
+  <button type="button">Primary</button>
+</div>
+
+<!-- ======================================================================= -->
+<!-- STATE (§15.12)                                                          -->
+<!-- ======================================================================= -->
+
+<!-- Empty State — explains why a region is empty and what happens next. -->
+<div class="aos-empty-state">
+  <span class="aos-empty-state__icon" aria-hidden="true">◇</span>
+  <p class="aos-empty-state__title">Nothing here yet</p>
+  <p class="aos-empty-state__description">Explain why the region is empty and which workflow creates information.</p>
+  <div class="aos-empty-state__actions">
+    <button type="button">Primary action</button>
+  </div>
+</div>
+
+<!-- Loading State — layout-stable region that announces progress to assistive
+     technology while showing structural skeletons. -->
+<div class="aos-loading-state" role="status" aria-busy="true">
+  <span class="aos-loading-state__label">Loading</span>
+  <span class="aos-skeleton aos-skeleton--title" aria-hidden="true"></span>
+  <span class="aos-skeleton aos-skeleton--text" aria-hidden="true"></span>
+  <span class="aos-skeleton aos-skeleton--text" aria-hidden="true"></span>
+  <span class="aos-skeleton aos-skeleton--block" aria-hidden="true"></span>
+</div>
+
+<!-- Skeleton — decorative placeholder; aria-hidden. Shimmer collapses to a
+     static block under prefers-reduced-motion. -->
+<span class="aos-skeleton aos-skeleton--circle" aria-hidden="true"></span>

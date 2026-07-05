@@ -30,36 +30,36 @@
     <div class="aos-workspace-framework__actions" data-slot="workspace-actions"></div>
   </header>
 
-  <!-- Context ribbon (§15.5) — reserved for operational context that travels with the user (current control, reviewer, outstanding evidence, pending approvals, risk level). Hidden while empty. -->
-  <div class="aos-workspace-framework__ribbon" data-region="context-ribbon" data-slot="context-ribbon" role="group" aria-label="Workspace context"></div>
+  <!-- Context ribbon (§15.5) — a Surface component (.aos-surface) reserved for operational context that travels with the user (current control, reviewer, outstanding evidence, pending approvals, risk level). Hidden while empty. -->
+  <div class="aos-surface aos-workspace-framework__ribbon" data-region="context-ribbon" data-slot="context-ribbon" role="group" aria-label="Workspace context"></div>
 
-  <!-- Primary content (§15.6) — the operational focus of the workspace; dominates the layout and grows to fill free space. -->
-  <section class="aos-workspace-framework__content" data-region="primary-content" data-slot="primary-content" aria-label="Primary content"></section>
+  <!-- Primary content (§15.6) — a Surface component (.aos-surface); the operational focus of the workspace; dominates the layout and grows to fill free space. -->
+  <section class="aos-surface aos-workspace-framework__content" data-region="primary-content" data-slot="primary-content" aria-label="Primary content"></section>
 
-  <!-- Supporting panels (§15.7) — the universal band of persistent secondary panels beneath the primary content. -->
+  <!-- Supporting panels (§15.7) — the universal band of persistent secondary panels beneath the primary content. Each panel is a Panel Section component (.aos-panel-section). -->
   <div class="aos-workspace-framework__panels" data-region="supporting-panels">
     <!-- Related information panel (§15.9) — reserved for related business objects and the relationship graph. -->
-    <section class="aos-workspace-framework__panel aos-workspace-framework__related" data-region="related-information" aria-label="Related information">
-      <header class="aos-workspace-framework__panel-header">
-        <h2 class="aos-workspace-framework__panel-title">Related information</h2>
+    <section class="aos-panel-section aos-workspace-framework__panel aos-workspace-framework__related" data-region="related-information" aria-label="Related information">
+      <header class="aos-panel-section__header">
+        <h2 class="aos-panel-section__title">Related information</h2>
       </header>
-      <div class="aos-workspace-framework__panel-body" data-slot="related-information"></div>
+      <div class="aos-panel-section__body" data-slot="related-information"></div>
     </section>
 
     <!-- AI recommendations panel (§15.8) — reserved for contextual AI recommendations, explanations, and insights. AI remains advisory only. -->
-    <section class="aos-workspace-framework__panel aos-workspace-framework__ai" data-region="ai-recommendations" aria-label="AI recommendations">
-      <header class="aos-workspace-framework__panel-header">
-        <h2 class="aos-workspace-framework__panel-title">AI recommendations</h2>
+    <section class="aos-panel-section aos-workspace-framework__panel aos-workspace-framework__ai" data-region="ai-recommendations" aria-label="AI recommendations">
+      <header class="aos-panel-section__header">
+        <h2 class="aos-panel-section__title">AI recommendations</h2>
       </header>
-      <div class="aos-workspace-framework__panel-body" data-slot="ai-recommendations"></div>
+      <div class="aos-panel-section__body" data-slot="ai-recommendations"></div>
     </section>
 
     <!-- Activity panel (§15.10) — reserved for the contextual timeline / activity feed. -->
-    <section class="aos-workspace-framework__panel aos-workspace-framework__activity" data-region="activity" aria-label="Activity">
-      <header class="aos-workspace-framework__panel-header">
-        <h2 class="aos-workspace-framework__panel-title">Activity</h2>
+    <section class="aos-panel-section aos-workspace-framework__panel aos-workspace-framework__activity" data-region="activity" aria-label="Activity">
+      <header class="aos-panel-section__header">
+        <h2 class="aos-panel-section__title">Activity</h2>
       </header>
-      <div class="aos-workspace-framework__panel-body" data-slot="activity"></div>
+      <div class="aos-panel-section__body" data-slot="activity"></div>
     </section>
   </div>
 

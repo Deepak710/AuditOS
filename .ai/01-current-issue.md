@@ -1,3 +1,3 @@
 # Current Issue
 
-Current Issue: #3 - Build the AuditOS Application Shell Foundation.
+Current Issue: #14 - Establish the Shared Enterprise Component Library Foundation.

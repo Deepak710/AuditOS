@@ -168,6 +168,53 @@ Rules:
 
 ---
 
+# Shared Enterprise Component Library (Presentation Foundation)
+
+`prototype/css/components.css` and `prototype/components/component-library/`
+are the Shared Enterprise Component Library — the single approved source of
+reusable, presentation-only UI primitives (Component Architecture, Chapter 74;
+Layout Components, Chapter 75). Every workspace composes its interface from
+these components; no workspace may invent duplicate UI primitives.
+
+- `css/components.css` owns the visual definition of all sixteen components —
+  Surface, Card, Section, Panel Section, Divider (foundation); KPI Tile, Status
+  Badge, Chip, Property Row, Property Grid, Metadata List (data display);
+  Toolbar Group, Action Group (layout); Empty State, Loading State, Skeleton
+  (state, §15.12). It occupies the component layer of the CSS architecture
+  (variables → layout → components → workspace), imported by `css/main.css`
+  after `layout.css` and before the workspace stylesheets, and consumes only
+  the Design Token Foundation (`variables.css`).
+- `components/component-library/component-library.js`
+  (`window.AuditOS.componentLibrary`) is the authoritative catalog of the
+  components — identifier, name, category, base class, description — with
+  `findById` / `findByCategory` lookups. It is a pure, side-effect-free
+  registry loaded as a classic script; the components themselves are CSS.
+- `components/component-library/component-library.html` is the canonical,
+  accessible markup reference each workspace copies component structure from.
+  `components/component-library/README.md` documents the library.
+
+Rules:
+
+- Components are presentation only. They never read or write `AuditOS.state`,
+  never read demo-data, and hold no business or workflow logic. Business data
+  belongs to demo-data; runtime data is read only through `AuditOS.state`.
+- Every component consumes Design Tokens only and supports keyboard navigation,
+  responsive layouts, and reduced motion; status is never encoded by color
+  alone.
+- The Shared Workspace Framework is the first consumer and reuses the library
+  rather than duplicating surface chrome: its supporting panels are Panel
+  Section components and its primary content and context ribbon are Surface
+  components. Future workspaces extend the library through composition, never
+  by recreating primitives.
+
+Governing specification: `docs/09-components/01-component-architecture.md`
+(Chapter 74 — Component Architecture) is the permanent architectural document
+for the Component Library. GitHub Issue #14's Documentation Manifest referenced
+this as `docs/09-components/01-component-principles.md`, which does not exist in
+the repository; the correct permanent document is `01-component-architecture.md`.
+
+---
+
 # Implementation Status
 
 Completed foundations, in order:
@@ -182,9 +229,13 @@ Completed foundations, in order:
    (framework renderer, template, stylesheet).
 7. Shared Audit State Foundation (`js/state/` — demo-data registry, state
    store, bootstrap integration).
+8. Shared Enterprise Component Library (`css/components.css`,
+   `components/component-library/` — sixteen token-driven, presentation-only UI
+   primitives and their registry; reused by the Shared Workspace Framework).
 
 The prototype renders the universal workspace skeleton for every registered
-workspace and maintains a runtime Shared Audit State loaded from demo-data.
+workspace, maintains a runtime Shared Audit State loaded from demo-data, and
+provides a Shared Enterprise Component Library that workspaces compose from.
 Workspace content, business bindings, workspace states, and business
 workflows remain owned by later issues. No business content is implemented.
 
@@ -192,9 +243,21 @@ workflows remain owned by later issues. No business content is implemented.
 
 # Validation
 
-Run:
+Two layers validate the prototype:
 
-`node prototype/tools/validate.js`
+- Offline source contracts — `node prototype/tests/run-tests.js` runs the
+  Smoke, Unit, and Integration suites (Node standard library only; no browser,
+  no network). Suites are auto-discovered from
+  `prototype/tests/{smoke,unit,integration}/` and share reusable helpers in
+  `prototype/tests/lib/` (`prototype.js` script/file access, `css.js`
+  stylesheet contracts, `harness.js`). Add a suite by dropping a `*.test.js`
+  into a category directory — no runner edit.
+- Browser validation — `node prototype/tools/validate.js` renders
+  `prototype/index.html` in headless Playwright and checks the live DOM and
+  console. Its reusable steps (Playwright resolution, `file://` targeting,
+  console/asset collection, landmark checks, responsive capture, PASS/FAIL
+  summary) live in `prototype/tools/lib/validation.js` for future validation
+  scripts to compose.
 
 Do NOT:
 
