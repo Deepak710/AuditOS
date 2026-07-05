@@ -1,0 +1,130 @@
+/**
+ * AuditOS Shared Workspace Framework
+ * Workspace Design System — Chapter 15 / Layout Components — Chapter 75
+ *
+ * The reusable internal page layout inherited by every AuditOS workspace.
+ * Where the Workspace Host (workspace.css) is the shell-level mount, this
+ * framework is the page skeleton each workspace fills inside that host — the
+ * Universal Workspace Structure of Design System §15.3: workspace header,
+ * context ribbon, primary content, supporting panels, and footer / status.
+ *
+ * Structure only — this framework defines the permanent internal regions and
+ * their responsive behavior. It contains no workspace content, business
+ * objects, headings, ribbon items, panels content, actions, routing, business
+ * logic, or interactions. Consumes only the Design Token Foundation
+ * (variables.css); introduces no new visual values.
+ */
+
+@import 'variables.css';
+
+/* ========================================
+ * WORKSPACE FRAMEWORK CONTAINER
+ * Fills the workspace canvas and stacks the internal workspace regions as a
+ * single vertical column: header, ribbon, content (grows), panels, footer.
+ * ======================================== */
+
+.aos-workspace-framework {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ========================================
+ * REGION: WORKSPACE HEADER (§15.4)
+ * Reserved for workspace orientation — workspace name, client, engagement,
+ * audit period, current phase, workspace status, global actions, search, and
+ * AI availability. Keeps its intrinsic height above the ribbon. Structure
+ * only — the empty region contributes no visible height until later work
+ * populates it.
+ * ======================================== */
+
+.aos-workspace-framework__header {
+  flex-shrink: 0;
+}
+
+/* ========================================
+ * REGION: CONTEXT RIBBON (§15.5)
+ * Reserved for the operational context that travels with the user — current
+ * control, requirement, reviewer, outstanding evidence, pending approvals,
+ * related findings, risk level, engagement health. Sits directly beneath the
+ * header and keeps its intrinsic height.
+ * ======================================== */
+
+.aos-workspace-framework__ribbon {
+  flex-shrink: 0;
+}
+
+/* ========================================
+ * REGION: PRIMARY CONTENT (§15.6)
+ * The operational focus of the workspace. Dominates the layout — it grows to
+ * consume free vertical space and scrolls independently of the surrounding
+ * regions so supporting information never competes with the primary task.
+ * ======================================== */
+
+.aos-workspace-framework__content {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--aos-space-6);
+}
+
+/* ========================================
+ * REGION: SUPPORTING PANELS (§15.7)
+ * Reserved band of persistent secondary panels beneath the primary content —
+ * Related Information, AI Recommendations, and Activity — arranged side by
+ * side as three equal columns. Keeps its intrinsic height so it enriches
+ * understanding without disrupting the primary workflow.
+ * ======================================== */
+
+.aos-workspace-framework__panels {
+  flex-shrink: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--aos-space-4);
+}
+
+/* Supporting sub-regions — the three persistent panels of §15.7. Reserved for
+ * related business objects (§15.9), AI recommendations (§15.8), and the
+ * contextual timeline / activity feed (§15.10). Structure only. */
+.aos-workspace-framework__related,
+.aos-workspace-framework__ai,
+.aos-workspace-framework__activity {
+  min-width: 0;
+}
+
+/* ========================================
+ * REGION: FOOTER / STATUS
+ * Reserved for the persistent workspace footer / status region. Anchored to
+ * the base of the workspace column and keeps its intrinsic height.
+ * ======================================== */
+
+.aos-workspace-framework__footer {
+  flex-shrink: 0;
+}
+
+/* ========================================
+ * RESPONSIVE ARCHITECTURE
+ * The primary content relaxes its padding as the viewport narrows, matching
+ * the shell's tablet and mobile breakpoints. The supporting panels collapse
+ * from three columns to a single stacked column so each panel keeps a usable
+ * width on smaller presentation environments.
+ * ======================================== */
+
+@media (max-width: 1024px) {
+  .aos-workspace-framework__content {
+    padding: var(--aos-space-4);
+  }
+
+  .aos-workspace-framework__panels {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .aos-workspace-framework__content {
+    padding: var(--aos-space-3);
+  }
+}
