@@ -610,3 +610,21 @@ The platform should not resemble a traditional enterprise application, nor shoul
 Instead, it should establish its own identity: an AI-native operating system for modern assurance that communicates professionalism, intelligence, and trust through disciplined visual design rather than visual excess.
 
 The result should be a product that feels unmistakably like AuditOS, regardless of future technologies, themes, frameworks, or implementation platforms.
+
+---
+
+## 17.26 Design Token Foundation
+
+The visual language described throughout this chapter is implemented as a foundation of CSS Custom Properties.
+
+Every design token uses the `--aos-` namespace, distinguishing AuditOS tokens from Bootstrap's own custom properties and preventing collision between the two systems.
+
+Tokens are organized into logical categories: colors, typography, spacing, border radius, shadows, motion, breakpoints, z-index, and accessibility. Each category groups related primitives so that any future stylesheet consumes a consistent, predictable vocabulary rather than hardcoded values.
+
+`variables.css` contains only these reusable design primitives. It defines the raw visual language of AuditOS — no layout rules, no component styling, no element selectors.
+
+`main.css` exists only as the stylesheet entry point. It imports the token foundation and nothing more.
+
+Application Shell dimensions — such as navigation width, panel width, and header height — are intentionally excluded from the Design Token Foundation. These values describe structural composition rather than reusable visual language, and belong to the Application Shell architecture described in the Workspace Design System.
+
+This separation keeps the token foundation implementation-agnostic: any future workspace, shell, or layout can consume the same visual language without inheriting assumptions about a specific structural implementation.

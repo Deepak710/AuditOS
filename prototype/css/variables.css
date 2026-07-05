@@ -38,9 +38,10 @@
   --aos-color-error-600: #dc2626;
   --aos-color-error-700: #b91c1c;
 
-  --aos-color-info-50: #eff6ff;
-  --aos-color-info-500: #3b82f6;
-  --aos-color-info-600: #2563eb;
+  /* Info reuses the Primary hue — same operational meaning, no duplicated literal values */
+  --aos-color-info-50: var(--aos-color-primary-50);
+  --aos-color-info-500: var(--aos-color-primary-500);
+  --aos-color-info-600: var(--aos-color-primary-600);
 
   /* Neutral Scale - Surfaces, Text, Borders */
   --aos-color-neutral-0: #ffffff;
@@ -126,14 +127,9 @@
   --aos-space-20: 5rem;     /* 80px */
   --aos-space-24: 6rem;     /* 96px */
 
-  /* Component-specific spacing */
+  /* Semantic spacing aliases */
   --aos-space-nav-item-gap: var(--aos-space-2);
   --aos-space-nav-section-gap: var(--aos-space-6);
-  --aos-space-header-height: 3.5rem;      /* 56px */
-  --aos-space-nav-width: 16rem;           /* 256px */
-  --aos-space-nav-width-collapsed: 3.5rem; /* 56px */
-  --aos-space-panel-width: 20rem;         /* 320px */
-  --aos-space-panel-width-collapsed: 0;
 
   /* ========================================
    * BORDER RADIUS
@@ -158,13 +154,25 @@
   --aos-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 
   /* ========================================
-   * TRANSITIONS / MOTION
+   * MOTION
    * Fast, purposeful
    * ======================================== */
 
-  --aos-transition-fast: 100ms ease;
-  --aos-transition-normal: 200ms ease;
-  --aos-transition-slow: 300ms ease;
+  /* Animation Durations */
+  --aos-duration-fast: 100ms;
+  --aos-duration-normal: 200ms;
+  --aos-duration-slow: 300ms;
+
+  /* Transition Timing Functions */
+  --aos-ease-linear: linear;
+  --aos-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --aos-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --aos-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Composed Transitions */
+  --aos-transition-fast: var(--aos-duration-fast) var(--aos-ease-out);
+  --aos-transition-normal: var(--aos-duration-normal) var(--aos-ease-out);
+  --aos-transition-slow: var(--aos-duration-slow) var(--aos-ease-in-out);
 
   /* ========================================
    * BREAKPOINTS
@@ -191,8 +199,8 @@
   --aos-z-toast: 800;
 
   /* ========================================
-   * FOCUS RING
-   * Accessible, visible
+   * ACCESSIBILITY
+   * Focus ring — accessible, visible
    * ======================================== */
 
   --aos-focus-ring: 0 0 0 2px var(--aos-color-primary-500);
@@ -229,8 +237,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   :root {
-    --aos-transition-fast: 0ms;
-    --aos-transition-normal: 0ms;
-    --aos-transition-slow: 0ms;
+    --aos-duration-fast: 0ms;
+    --aos-duration-normal: 0ms;
+    --aos-duration-slow: 0ms;
   }
 }

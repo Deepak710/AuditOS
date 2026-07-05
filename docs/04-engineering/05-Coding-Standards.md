@@ -431,6 +431,8 @@ Implementation should embrace these technologies without introducing unnecessary
 
 No framework-specific patterns should appear during the prototype phase.
 
+Global styling is implemented through a Design Token Foundation. Every reusable visual value — color, typography, spacing, radius, shadow, motion, breakpoint, and accessibility token — is declared once as a CSS Custom Property using the `--aos-` naming convention and consumed everywhere else. `variables.css` holds this token foundation. `main.css` serves only as the stylesheet entry point that imports it. No stylesheet should declare a hardcoded value where an existing token applies.
+
 ---
 
 ## 30.22 Code Review Checklist
