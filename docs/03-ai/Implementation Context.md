@@ -80,6 +80,70 @@ Treat all other files as read-only unless the GitHub issue explicitly expands ow
 
 ---
 
+# Rendering Foundation
+
+The Shared Workspace Framework (`prototype/components/workspace-framework/`)
+is the canonical rendering engine of AuditOS.
+
+- `workspace-framework.js` renders the Universal Workspace Structure
+  (Workspace Design System §15.3) into the active workspace host on every
+  route change, driven by the router's public `auditos:route-changed` event.
+- `workspace-framework.html` is the canonical template the renderer mirrors.
+- `workspace-framework.css` owns the enterprise design language of the
+  workspace surface: token-based spacing rhythm, typography-first hierarchy,
+  bordered card surfaces, responsive collapse, and reduced-motion-safe
+  animation.
+
+Rules:
+
+- Every future workspace inherits this framework. Workspaces populate its
+  `data-slot` mount points; they never re-invent the page structure.
+- The framework owns layout only. No workspace may hardcode business content.
+- The Workspace Host canvas is the single scroll surface; the framework flows
+  inside it.
+- AI regions are reserved presentation surfaces only. AI remains advisory;
+  human approval remains mandatory.
+
+---
+
+# Demo Data (Canonical)
+
+`prototype/demo-data/` is the canonical Release 1 simulated SharePoint
+structure — the static stand-in for the SharePoint libraries and lists of the
+eventual implementation target.
+
+- Business data belongs exclusively to demo-data. Workspaces bind to it;
+  they never embed business content in markup, CSS, or scripts.
+- Root JSON files hold cross-engagement collections (companies, engagements,
+  business units, teams, POCs, control library, framework mappings).
+- Per-engagement folders (`controls/`, `evidence/`, `findings/`, `reports/`,
+  `requests/`, `requirements/`, `samples/`, `testing/`) hold one JSON document
+  per engagement (e.g. `nimbus-soc2-2026.json`), simulating per-engagement
+  SharePoint document libraries.
+- Demo-data is read-only for implementation issues unless a GitHub issue
+  explicitly grants ownership.
+
+---
+
+# Implementation Status
+
+Completed foundations, in order:
+
+1. Design Token Foundation (`variables.css`).
+2. Application Shell (`layout.css`, `index.html` landmarks).
+3. Global Header, Left Navigation, Right Context Panel, Workspace Host
+   (structural components).
+4. Static Routing Foundation (registry, router, bootstrap).
+5. Navigation Content (registry-driven destinations).
+6. Shared Workspace Rendering Foundation and enterprise design language
+   (framework renderer, template, stylesheet).
+
+The prototype renders the universal workspace skeleton for every registered
+workspace. Workspace content, business bindings, and workspace states remain
+owned by later issues. No business content is implemented.
+
+---
+
 # Validation
 
 Run:

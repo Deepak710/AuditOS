@@ -2,42 +2,67 @@
   AuditOS Shared Workspace Framework
   Workspace Design System — Chapter 15 / Layout Components — Chapter 75
 
-  The reusable internal page layout inherited by every AuditOS workspace. It
-  is the page skeleton a workspace fills inside the Workspace Host's canvas
-  (<div id="workspace-canvas" class="aos-workspace-host__body">). It models the
-  Universal Workspace Structure of Design System §15.3: a workspace header, a
-  context ribbon, a primary content region, a supporting-panels band (Related
-  Information, AI Recommendations, Activity), and a footer / status region.
+  The permanent rendering foundation inherited by every AuditOS workspace —
+  the Universal Workspace Structure of Design System §15.3 rendered inside the
+  Workspace Host's canvas: workspace header, context ribbon, primary content,
+  supporting panels (Related Information, AI Recommendations, Activity), and
+  footer / status.
 
-  Structure only — this is a template, not a mounted workspace instance. It
-  carries no workspace content, business objects, headings, ribbon items,
-  actions, routing, business logic, or JavaScript. No workspace exists yet to
-  inherit it, so it is intentionally not embedded in index.html; later
-  workspace issues render it into the workspace canvas. This file is the
-  canonical source for that markup.
+  Layout only. Every data-slot is an empty, reserved mount point owned by
+  later workspace issues. The workspace title is populated at runtime from
+  the Workspace Registry (navigation identity, not business content); the
+  supporting panel titles are the fixed structural region names of the design
+  system (§15.7–§15.10), identical in every workspace. Business content
+  belongs exclusively to demo-data and never lives in this framework.
+
+  This file is the canonical template for the framework structure. At runtime
+  workspace-framework.js builds this exact markup and renders it into the
+  active workspace host on every route change. Keep the two in sync.
 -->
-<div class="aos-workspace-framework">
-  <!-- Workspace header region — reserved for workspace name, client, engagement, audit period, phase, status, actions, search, and AI availability -->
-  <div class="aos-workspace-framework__header" data-region="workspace-header"></div>
+<article class="aos-workspace-framework" data-region="workspace-framework">
+  <!-- Workspace header (§15.4) — orientation and reserved action surface. Eyebrow: client / engagement / audit period. Title: workspace name (populated from the registry at runtime). Meta: phase / status. Actions: global actions, search, AI availability. Empty slots collapse. -->
+  <header class="aos-workspace-framework__header" data-region="workspace-header">
+    <div class="aos-workspace-framework__orientation">
+      <p class="aos-workspace-framework__eyebrow" data-slot="workspace-eyebrow"></p>
+      <h1 class="aos-workspace-framework__title" data-slot="workspace-title"></h1>
+      <p class="aos-workspace-framework__meta" data-slot="workspace-meta"></p>
+    </div>
+    <div class="aos-workspace-framework__actions" data-slot="workspace-actions"></div>
+  </header>
 
-  <!-- Context ribbon region — reserved for operational context that travels with the user (current control, reviewer, outstanding evidence, pending approvals, risk level) -->
-  <div class="aos-workspace-framework__ribbon" data-region="context-ribbon"></div>
+  <!-- Context ribbon (§15.5) — reserved for operational context that travels with the user (current control, reviewer, outstanding evidence, pending approvals, risk level). Hidden while empty. -->
+  <div class="aos-workspace-framework__ribbon" data-region="context-ribbon" data-slot="context-ribbon" role="group" aria-label="Workspace context"></div>
 
-  <!-- Primary content region — the operational focus of the workspace; grows to fill free space and scrolls independently -->
-  <div class="aos-workspace-framework__content" data-region="primary-content"></div>
+  <!-- Primary content (§15.6) — the operational focus of the workspace; dominates the layout and grows to fill free space. -->
+  <section class="aos-workspace-framework__content" data-region="primary-content" data-slot="primary-content" aria-label="Primary content"></section>
 
-  <!-- Supporting panels region — persistent secondary panels beneath the primary content -->
+  <!-- Supporting panels (§15.7) — the universal band of persistent secondary panels beneath the primary content. -->
   <div class="aos-workspace-framework__panels" data-region="supporting-panels">
-    <!-- Related information panel — reserved for related business objects and the relationship graph -->
-    <div class="aos-workspace-framework__related" data-region="related-information"></div>
+    <!-- Related information panel (§15.9) — reserved for related business objects and the relationship graph. -->
+    <section class="aos-workspace-framework__panel aos-workspace-framework__related" data-region="related-information" aria-label="Related information">
+      <header class="aos-workspace-framework__panel-header">
+        <h2 class="aos-workspace-framework__panel-title">Related information</h2>
+      </header>
+      <div class="aos-workspace-framework__panel-body" data-slot="related-information"></div>
+    </section>
 
-    <!-- AI recommendations panel — reserved for contextual AI recommendations, explanations, and insights -->
-    <div class="aos-workspace-framework__ai" data-region="ai-recommendations"></div>
+    <!-- AI recommendations panel (§15.8) — reserved for contextual AI recommendations, explanations, and insights. AI remains advisory only. -->
+    <section class="aos-workspace-framework__panel aos-workspace-framework__ai" data-region="ai-recommendations" aria-label="AI recommendations">
+      <header class="aos-workspace-framework__panel-header">
+        <h2 class="aos-workspace-framework__panel-title">AI recommendations</h2>
+      </header>
+      <div class="aos-workspace-framework__panel-body" data-slot="ai-recommendations"></div>
+    </section>
 
-    <!-- Activity panel — reserved for the contextual timeline / activity feed -->
-    <div class="aos-workspace-framework__activity" data-region="activity"></div>
+    <!-- Activity panel (§15.10) — reserved for the contextual timeline / activity feed. -->
+    <section class="aos-workspace-framework__panel aos-workspace-framework__activity" data-region="activity" aria-label="Activity">
+      <header class="aos-workspace-framework__panel-header">
+        <h2 class="aos-workspace-framework__panel-title">Activity</h2>
+      </header>
+      <div class="aos-workspace-framework__panel-body" data-slot="activity"></div>
+    </section>
   </div>
 
-  <!-- Footer region — reserved for the persistent workspace footer / status region -->
-  <div class="aos-workspace-framework__footer" data-region="workspace-footer"></div>
-</div>
+  <!-- Footer / status region — reserved for the persistent workspace footer. Hidden while empty. -->
+  <footer class="aos-workspace-framework__footer" data-region="workspace-footer" data-slot="workspace-footer"></footer>
+</article>

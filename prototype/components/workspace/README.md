@@ -12,8 +12,11 @@ Design Token Foundation (`prototype/css/variables.css`).
 This is a **foundation**: structure only. It defines the permanent regions and
 state placeholders that host the active workspace. It contains no page content,
 breadcrumbs, page title, toolbar, tabs, filters, business objects, routing,
-business logic, or JavaScript. It is the final permanent region of the shell —
-the surface that later workspace issues render into.
+business logic, or JavaScript. It is the final permanent region of the shell.
+At runtime the Static Router mounts its outlet inside the body's canvas and the
+[Shared Workspace Framework](../workspace-framework/README.md) renders the
+universal workspace skeleton there on every route change; the canvas remains
+the single scroll surface.
 
 ## Regions
 
