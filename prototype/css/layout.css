@@ -170,7 +170,7 @@ body {
   border-left: none;
 }
 
-.aos-shell--panel-collapsed .aos-panel__content {
+.aos-shell--panel-collapsed .aos-context-panel {
   display: none;
 }
 

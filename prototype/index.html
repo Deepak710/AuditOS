@@ -63,7 +63,29 @@
       <div id="workspace-canvas" class="aos-workspace__canvas"></div>
     </main>
 
-    <aside class="aos-panel" aria-label="Context panel"></aside>
+    <aside class="aos-panel" aria-label="Context panel">
+      <!-- ========================================================= -->
+      <!-- Right Context Panel Component                             -->
+      <!-- Canonical source: components/context-panel/context-panel.html -->
+      <!-- Structure only — five empty regions for later issues.     -->
+      <!-- ========================================================= -->
+      <div class="aos-context-panel">
+        <!-- Panel header region — reserved for the panel title / close and collapse controls -->
+        <div class="aos-context-panel__header" data-region="panel-header"></div>
+
+        <!-- Primary content region — reserved for the primary contextual information -->
+        <div class="aos-context-panel__primary" data-region="primary-content"></div>
+
+        <!-- Secondary content region — reserved for supporting contextual information -->
+        <div class="aos-context-panel__secondary" data-region="secondary-content"></div>
+
+        <!-- Footer region — reserved for the persistent panel footer / status area -->
+        <div class="aos-context-panel__footer" data-region="footer"></div>
+
+        <!-- Collapse placeholder region — reserved for the future collapse / expand control -->
+        <div class="aos-context-panel__collapse" data-region="collapse"></div>
+      </div>
+    </aside>
   </div>
 </body>
 </html>

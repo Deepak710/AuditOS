@@ -1,0 +1,103 @@
+/**
+ * AuditOS Right Context Panel Foundation
+ * Application Shell — Chapter 114 / Layout Components — Chapter 75
+ *
+ * Reusable structural context panel mounted inside the shell's panel
+ * region (<aside class="aos-panel">). Structure only — five empty
+ * regions with no supporting content, relationships, timeline, activity,
+ * AI insights, routing, or interactions. Consumes only the Design Token
+ * Foundation; introduces no new visual values.
+ */
+
+@import 'variables.css';
+
+/* ========================================
+ * CONTEXT PANEL COMPONENT CONTAINER
+ * Fills the shell panel region and stacks the five permanent context
+ * panel regions as a single vertical column.
+ * ======================================== */
+
+.aos-context-panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ========================================
+ * REGION: PANEL HEADER
+ * Reserved for the context panel title / close and collapse controls.
+ * Matches the header height so the panel header aligns with the global
+ * header and the sidebar brand across the top of the shell.
+ * ======================================== */
+
+.aos-context-panel__header {
+  display: flex;
+  align-items: center;
+  gap: var(--aos-space-3);
+  flex-shrink: 0;
+  min-height: var(--aos-space-header-height);
+  padding: 0 var(--aos-space-4);
+  border-bottom: 1px solid var(--aos-surface-border);
+}
+
+/* ========================================
+ * REGION: PRIMARY CONTENT
+ * Reserved for the primary contextual information relevant to the active
+ * workspace. Grows to consume free vertical space and scrolls
+ * independently of the fixed regions.
+ * ======================================== */
+
+.aos-context-panel__primary {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--aos-space-4);
+}
+
+/* ========================================
+ * REGION: SECONDARY CONTENT
+ * Reserved for supporting contextual information. Sits beneath the
+ * primary region, above the footer region.
+ * ======================================== */
+
+.aos-context-panel__secondary {
+  flex-shrink: 0;
+  padding: var(--aos-space-4);
+}
+
+/* ========================================
+ * REGION: FOOTER
+ * Reserved for the persistent panel footer / status area. Anchored to
+ * the base of the panel column above the collapse region.
+ * ======================================== */
+
+.aos-context-panel__footer {
+  flex-shrink: 0;
+  padding: var(--aos-space-3) var(--aos-space-4);
+  border-top: 1px solid var(--aos-surface-border);
+}
+
+/* ========================================
+ * REGION: COLLAPSE PLACEHOLDER
+ * Reserved for the future panel collapse / expand control.
+ * Structure only — this foundation defines no toggle behavior.
+ * ======================================== */
+
+.aos-context-panel__collapse {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  min-height: var(--aos-space-10);
+  padding: var(--aos-space-2) var(--aos-space-4);
+}
+
+/* ========================================
+ * COLLAPSED STRUCTURAL STATE
+ * The panel's collapsed width is zero (see layout.css), so the shell-level
+ * `.aos-shell--panel-collapsed` state hides the component entirely rather
+ * than narrowing it to an icon rail. Structure only — nothing toggles this
+ * state yet.
+ * ======================================== */
