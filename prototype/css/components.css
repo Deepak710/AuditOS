@@ -966,6 +966,104 @@ button.aos-chip:focus-visible {
 }
 
 /* ============================================================================
+ * INPUT — SEARCH FIELD (§78.7 Form Components / §62.13 Global Search)
+ * A compact search control: a leading glyph and a borderless text input inside
+ * a bordered field. The whole field lifts the shared focus ring through
+ * :focus-within, so keyboard focus is always visible on the field rather than
+ * just the bare input. Presentation only — Release 1 search is a placeholder;
+ * querying and results belong to their owning issues, never here.
+ * ========================================================================== */
+
+.aos-search-field {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+  min-width: 0;
+  padding: var(--aos-space-2) var(--aos-space-3);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  background-color: var(--aos-surface-card);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-search-field:focus-within {
+  border-color: var(--aos-surface-border-strong);
+  box-shadow: var(--aos-focus-ring);
+}
+
+.aos-search-field__icon {
+  flex-shrink: 0;
+  font-size: var(--aos-text-sm);
+  line-height: 1;
+}
+
+.aos-search-field__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: inherit;
+  font-size: var(--aos-text-sm);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-primary);
+}
+
+.aos-search-field__input::placeholder {
+  color: var(--aos-text-tertiary);
+}
+
+/* ============================================================================
+ * INPUT — SELECT (§78.7 Form Components)
+ * A native <select> styled to the enterprise field language: a bordered control
+ * with a custom caret drawn by a decorative overlay (the native chevron is
+ * suppressed with appearance:none). Native semantics keep it fully keyboard and
+ * screen-reader accessible; the visible focus ring inherits from the token
+ * layer. Used by the workspace toolbar (sort, view) and filter bar (dropdowns).
+ * ========================================================================== */
+
+.aos-select {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.aos-select__control {
+  appearance: none;
+  -webkit-appearance: none;
+  min-width: 0;
+  padding: var(--aos-space-2) var(--aos-space-8) var(--aos-space-2) var(--aos-space-3);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  background-color: var(--aos-surface-card);
+  box-shadow: var(--aos-shadow-sm);
+  color: var(--aos-text-primary);
+  font-family: inherit;
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-medium);
+  line-height: var(--aos-leading-tight);
+  cursor: pointer;
+}
+
+.aos-select__control:hover {
+  border-color: var(--aos-surface-border-strong);
+}
+
+.aos-select__control:focus-visible {
+  outline: none;
+  box-shadow: var(--aos-focus-ring);
+}
+
+.aos-select__caret {
+  position: absolute;
+  right: var(--aos-space-3);
+  pointer-events: none;
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+/* ============================================================================
  * LAYOUT — TOOLBAR GROUP (§76.14 Quick Actions / §75.15 Navigation)
  * A horizontal cluster of related toolbar controls with a consistent gap. It
  * wraps gracefully on narrow layouts and carries toolbar semantics

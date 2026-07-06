@@ -161,8 +161,26 @@
 .aos-workspace-framework__actions {
   display: flex;
   align-items: center;
-  gap: var(--aos-space-2);
+  flex-wrap: wrap;
+  gap: var(--aos-space-2) var(--aos-space-3);
   flex-shrink: 0;
+}
+
+/* The configurable header action cluster (Issue #17): framework badges and a
+ * status badge, a quiet "last updated" line, and the action buttons. Composed
+ * from Status Badge, Button, and Action Group components; this rule owns only
+ * the inline arrangement inside the reserved actions slot. */
+.aos-workspace-framework__badges {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--aos-space-2);
+}
+
+.aos-workspace-framework__last-updated {
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+  white-space: nowrap;
 }
 
 .aos-workspace-framework__eyebrow:empty,
@@ -192,6 +210,99 @@
 }
 
 .aos-workspace-framework__ribbon:empty {
+  display: none;
+}
+
+/* Context summary items (Issue #17 §3): uppercase label + value pairs read
+ * from shared state. Presentation only; the ribbon Surface owns the chrome. */
+.aos-workspace-framework__context-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+}
+
+.aos-workspace-framework__context-label {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-workspace-framework__context-value {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-primary);
+}
+
+/* ========================================
+ * REGION: WORKSPACE TOOLBAR (Issue #17 §4)
+ * The utility strip beneath the context summary — search, filter, sort, view,
+ * refresh, export (start), and additional workspace actions (end). Composes
+ * Search Field, Select, Button, and Toolbar Group components; this rule owns
+ * only the row layout and its responsive wrap. Each control's visibility is a
+ * configuration concern. Hidden entirely while empty.
+ * ======================================== */
+
+.aos-workspace-framework__toolbar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--aos-space-2) var(--aos-space-4);
+}
+
+.aos-workspace-framework__toolbar:empty {
+  display: none;
+}
+
+/* ========================================
+ * REGION: FILTER BAR (Issue #17 §5)
+ * The filter strip — selected filter chips and labeled dropdowns (status,
+ * framework, date). Composes Chip and Select components; this rule owns only
+ * the inline arrangement and its responsive wrap. Hidden entirely while empty.
+ * ======================================== */
+
+.aos-workspace-framework__filters {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--aos-space-2) var(--aos-space-3);
+}
+
+.aos-workspace-framework__filters:empty {
+  display: none;
+}
+
+.aos-workspace-framework__filter {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+}
+
+.aos-workspace-framework__filter-label {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+/* ========================================
+ * REGION: WORKSPACE ACTIONS (§15.11 / Issue #17 §6)
+ * The primary workspace action area — add, import, export, generate, create.
+ * Composes an end-aligned Action Group of Button components; the Action Group
+ * owns its own layout, so this region only reserves the row and collapses when
+ * no actions are configured.
+ * ======================================== */
+
+.aos-workspace-framework__action-bar {
+  flex-shrink: 0;
+}
+
+.aos-workspace-framework__action-bar:empty {
   display: none;
 }
 
@@ -306,6 +417,13 @@
 
   .aos-workspace-framework__title {
     font-size: var(--aos-text-xl);
+  }
+
+  /* The toolbar stacks its utilities above its actions on the narrowest
+   * layouts so neither cluster is squeezed. */
+  .aos-workspace-framework__toolbar {
+    align-items: stretch;
+    justify-content: flex-start;
   }
 
   .aos-workspace-framework__content {

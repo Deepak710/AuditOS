@@ -30,8 +30,17 @@
     <div class="aos-workspace-framework__actions" data-slot="workspace-actions"></div>
   </header>
 
-  <!-- Context ribbon (§15.5) — a Surface component (.aos-surface) reserved for operational context that travels with the user (current control, reviewer, outstanding evidence, pending approvals, risk level). Hidden while empty. -->
+  <!-- Context ribbon / context summary (§15.5 / Issue #17) — a Surface component (.aos-surface) reserved for operational context that travels with the user (current control, reviewer, outstanding evidence, pending approvals, risk level). Populated from configuration; hidden while empty. -->
   <div class="aos-surface aos-workspace-framework__ribbon" data-region="context-ribbon" data-slot="context-ribbon" role="group" aria-label="Workspace context"></div>
+
+  <!-- Workspace toolbar (Issue #17) — reserved for search, filter, sort, view, refresh, export, and additional workspace actions. Composes Search Field, Select, Button, and Toolbar Group components; each control's visibility is configurable. Populated from configuration; hidden while empty. -->
+  <div class="aos-workspace-framework__toolbar" data-region="workspace-toolbar" data-slot="workspace-toolbar" role="toolbar" aria-label="Workspace toolbar"></div>
+
+  <!-- Filter bar (Issue #17) — reserved for filter chips and dropdowns (status, framework, date). Composes Chip and Select components. Populated from configuration; hidden while empty. -->
+  <div class="aos-workspace-framework__filters" data-region="workspace-filters" data-slot="workspace-filters" role="group" aria-label="Filters"></div>
+
+  <!-- Workspace actions (§15.11 / Issue #17) — reserved for the primary workspace action area (add, import, export, generate, create). Composes an Action Group of Button components. Populated from configuration; hidden while empty. -->
+  <div class="aos-workspace-framework__action-bar" data-region="workspace-action-bar" data-slot="workspace-action-bar"></div>
 
   <!-- Primary content (§15.6) — a Surface component (.aos-surface); the operational focus of the workspace; dominates the layout and grows to fill free space. -->
   <section class="aos-surface aos-workspace-framework__content" data-region="primary-content" data-slot="primary-content" aria-label="Primary content"></section>

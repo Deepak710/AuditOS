@@ -199,6 +199,10 @@ Activity Components
 
 This composition model ensures consistency across the platform.
 
+#### Release 1 Implementation (GitHub Issue #17)
+
+The Shared Workspace Framework (`prototype/components/workspace-framework/`) is the concrete realization of this composition model for Release 1. It renders one Universal Workspace Structure — workspace header, context summary, toolbar, filter bar, workspace actions, primary content, and supporting panels — into every workspace host, so no workspace assembles its own layout. A workspace configures the inherited structure through a single declarative descriptor (`AuditOS.workspaceFramework.configure`) rather than composing bespoke regions, realizing the Composable and Consistent principles (§61.4) in code.
+
 ---
 
 ### 61.8 Workspace Categories

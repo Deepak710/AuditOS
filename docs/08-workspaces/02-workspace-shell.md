@@ -240,6 +240,10 @@ The canvas changes as users navigate.
 
 The surrounding shell remains stable.
 
+#### Release 1 Implementation (GitHub Issue #17)
+
+Within the Workspace Canvas, the Shared Workspace Framework renders the Universal Workspace Structure on every route change: workspace header, context summary strip, toolbar, filter bar, workspace actions, primary content, and supporting panels (Related Information, AI Recommendations, Activity), followed by a footer / status region. Each region is independently configurable through a declarative descriptor; a region left unconfigured collapses rather than rendering empty chrome, so the canvas stays clean until a workspace populates it.
+
 ---
 
 ### 62.11 Context Panel

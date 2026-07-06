@@ -442,6 +442,10 @@ Illustrative status information includes:
 
 Status values originate from Business Objects rather than UI logic.
 
+#### Release 1 Implementation (GitHub Issue #17)
+
+The Shared Workspace Framework's configurable workspace header composes the Status Badge component to surface framework badges and a status badge alongside the workspace title, so header status communication reuses the same primitive as every other status display in the platform.
+
 ---
 
 ### 77.17 Filtering and Sorting

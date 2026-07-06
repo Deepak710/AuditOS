@@ -283,6 +283,10 @@ Responsibilities include:
 
 Business workflows remain external to the canvas.
 
+#### Release 1 Implementation (GitHub Issue #17)
+
+The Shared Workspace Framework (`prototype/components/workspace-framework/`) realizes the Workspace Canvas as one reusable renderer: a workspace header, a context summary strip, a toolbar, a filter bar, a workspace action area, the primary content region, and the supporting panel band, in that fixed order. A workspace configures these regions through a declarative descriptor (`AuditOS.workspaceFramework.configure`) instead of assembling its own canvas layout; regions left unconfigured collapse via the stylesheet.
+
 ---
 
 ### 75.10 Panel Components

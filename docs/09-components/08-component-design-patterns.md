@@ -70,6 +70,10 @@ The following principles govern every Component Design Pattern.
 
 Patterns compose reusable components.
 
+##### Release 1 Implementation (GitHub Issue #17)
+
+The Shared Workspace Framework applies this principle through configuration-driven rendering: a workspace supplies one declarative descriptor (header, context summary, toolbar, filter bar, workspace actions, empty state, loading state), and a pure resolver (`normalizeConfiguration`) turns it into a fixed set of Shared Enterprise Component Library compositions — never bespoke markup.
+
 ---
 
 #### Consistency Over Creativity
@@ -534,6 +538,10 @@ Illustrative information includes:
 
 Empty states should educate rather than merely inform.
 
+#### Release 1 Implementation (GitHub Issue #17)
+
+`AuditOS.workspaceFramework.buildEmptyState(descriptor)` is the one shared implementation of this pattern: an icon, a title, a description, and an optional primary and secondary action, composed from the Empty State and Button components. Every workspace reuses this builder instead of rendering its own empty-state markup.
+
 ---
 
 ### 81.20 Loading Pattern
@@ -549,6 +557,10 @@ Illustrative characteristics include:
 * accessibility announcements
 
 Loading indicators remain consistent throughout the platform.
+
+#### Release 1 Implementation (GitHub Issue #17)
+
+`AuditOS.workspaceFramework.buildLoadingSkeleton(variant, label)` is the one shared implementation of this pattern, composing the Loading State and Skeleton components into five predictable content shapes — table, cards, list, form, and detail — so a workspace requests a shape rather than assembling its own skeleton.
 
 ---
 

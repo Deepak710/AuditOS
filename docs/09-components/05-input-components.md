@@ -177,6 +177,10 @@ Illustrative examples include:
 * checkboxes
 * toggles
 
+##### Release 1 Implementation (GitHub Issue #17)
+
+Release 1 implements two Form Components: Select (a native dropdown styled with a custom caret, used for sort and view controls and filter-bar dropdowns) and Search Field (a placeholder search control with no query behavior yet). Both are Shared Enterprise Component Library primitives composed by the Shared Workspace Framework's toolbar and filter bar; no workspace defines its own.
+
 ---
 
 #### Selection Components

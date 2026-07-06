@@ -78,4 +78,43 @@ module.exports = function registerIntegrationTests(harness) {
     assert.match(frameworkCss, /\.aos-workspace-framework__panel .aos-panel-section__body\s*\{[\s\S]*?min-height/,
       'framework keeps the reserved panel-body minimum height');
   });
+
+  // ---- Issue #17: configurable toolbar, filter bar, and workspace actions ----
+
+  test('the template reserves the toolbar, filter bar, and workspace action regions', function () {
+    assert.match(frameworkHtml, /data-slot="workspace-toolbar"/, 'toolbar region is reserved');
+    assert.match(frameworkHtml, /data-slot="workspace-filters"/, 'filter bar region is reserved');
+    assert.match(frameworkHtml, /data-slot="workspace-action-bar"/, 'workspace action region is reserved');
+  });
+
+  test('the renderer builds the toolbar, filter bar, and workspace action regions', function () {
+    assert.match(frameworkJs, /aos-workspace-framework__toolbar/, 'renderer builds the toolbar region');
+    assert.match(frameworkJs, /aos-workspace-framework__filters/, 'renderer builds the filter bar region');
+    assert.match(frameworkJs, /aos-workspace-framework__action-bar/, 'renderer builds the workspace action region');
+  });
+
+  test('the configurable sections compose only registered library components', function () {
+    // Search Field, Select, Chip, Status Badge, Button, Toolbar Group, and
+    // Action Group — every configurable control reuses the library.
+    ['aos-search-field', 'aos-select', 'aos-chip', 'aos-status-badge', 'aos-button', 'aos-toolbar-group', 'aos-action-group']
+      .forEach(function (className) {
+        assert.match(frameworkJs, new RegExp(className), 'renderer reuses ' + className);
+        assert.ok(registry.findById(className.replace(/^aos-/, '')),
+          className + ' resolves to a registered component');
+      });
+  });
+
+  test('the new input primitives are registered and defined in components.css', function () {
+    assert.ok(registry.findById('search-field'), 'Search Field is registered');
+    assert.ok(registry.findById('select'), 'Select is registered');
+    assert.ok(css.definesSelector(componentsCss, 'aos-search-field'), '.aos-search-field is defined');
+    assert.ok(css.definesSelector(componentsCss, 'aos-select'), '.aos-select is defined');
+  });
+
+  test('the framework stylesheet collapses every reserved region while empty', function () {
+    ['toolbar', 'filters', 'action-bar'].forEach(function (region) {
+      assert.match(frameworkCss, new RegExp('\\.aos-workspace-framework__' + region + ':empty\\s*\\{\\s*display:\\s*none'),
+        region + ' region collapses while empty');
+    });
+  });
 };

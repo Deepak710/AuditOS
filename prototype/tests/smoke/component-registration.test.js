@@ -17,7 +17,7 @@ const EXPECTED_COMPONENT_IDS = [
   'surface', 'card', 'section', 'panel-section', 'divider',
   'kpi-tile', 'status-badge', 'chip', 'property-row', 'property-grid', 'metadata-list',
   'progress', 'item-list', 'timeline',
-  'button',
+  'button', 'search-field', 'select',
   'toolbar-group', 'action-group',
   'empty-state', 'loading-state', 'skeleton'
 ];

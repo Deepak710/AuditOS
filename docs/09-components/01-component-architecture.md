@@ -231,6 +231,10 @@ Examples include:
 * dialogs
 * approval controls
 
+##### Release 1 Implementation (GitHub Issue #17)
+
+The Shared Enterprise Component Library realizes filters and selectors as two concrete Input primitives: Search Field (a presentation-only placeholder search control) and Select (a native dropdown with a custom caret). Both are composed by the Shared Workspace Framework's toolbar and filter bar regions rather than being reimplemented per workspace.
+
 ---
 
 #### Collaboration Components

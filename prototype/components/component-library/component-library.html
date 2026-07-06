@@ -199,6 +199,24 @@
 <button type="button" class="aos-button aos-button--subtle">Subtle</button>
 <a class="aos-button aos-button--small" href="#/">Small link action</a>
 
+<!-- Search Field — leading glyph and a borderless input in a bordered field.
+     The field lifts its focus ring through :focus-within. Release 1: the search
+     is a presentation-only placeholder; no querying behavior. -->
+<div class="aos-search-field">
+  <span class="aos-search-field__icon" aria-hidden="true">⌕</span>
+  <input class="aos-search-field__input" type="search" placeholder="Search" aria-label="Search" />
+</div>
+
+<!-- Select — a native <select> styled to the field language with a custom
+     caret; the native chevron is suppressed with appearance:none. -->
+<div class="aos-select">
+  <select class="aos-select__control" aria-label="Sort by">
+    <option>Most recent</option>
+    <option>Oldest first</option>
+  </select>
+  <span class="aos-select__caret" aria-hidden="true">▾</span>
+</div>
+
 <!-- ======================================================================= -->
 <!-- LAYOUT                                                                  -->
 <!-- ======================================================================= -->

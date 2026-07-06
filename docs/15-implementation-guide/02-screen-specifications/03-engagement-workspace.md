@@ -89,6 +89,10 @@ Footer
 
 Every section is modular.
 
+#### Release 1 Foundation (GitHub Issue #17)
+
+The sections above describe the full target vision for the Engagement Workspace; no engagement-specific business logic or UI has been implemented yet. The Shared Workspace Framework (`prototype/components/workspace-framework/`) already provides the reusable foundation this workspace will configure when it is built: a workspace header (title, description, engagement context, framework badges, status, last updated, actions — §116.5), a context summary strip, a toolbar (search, filter, sort, view, refresh, export — §116.22, §116.23), a filter bar, a workspace action area (§116.23), the primary content region, and the supporting panel band, plus shared empty-state and loading-state builders (§116.27). The Engagement Workspace will compose this existing framework through a declarative configuration rather than implementing its own layout.
+
 ---
 
 ### 116.5 Workspace Header

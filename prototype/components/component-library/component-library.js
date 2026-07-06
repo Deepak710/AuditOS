@@ -153,6 +153,20 @@
       description: 'The standard action control for buttons and button-styled links; primary, subtle, and small variants with a visible focus ring.'
     },
     {
+      id: 'search-field',
+      name: 'Search Field',
+      category: COMPONENT_CATEGORIES.INPUT,
+      className: 'aos-search-field',
+      description: 'A compact search control — a leading glyph and a borderless input in a bordered field that lifts the focus ring through :focus-within; placeholder only in Release 1.'
+    },
+    {
+      id: 'select',
+      name: 'Select',
+      category: COMPONENT_CATEGORIES.INPUT,
+      className: 'aos-select',
+      description: 'A native select styled to the enterprise field language with a custom caret; fully keyboard and screen-reader accessible. Powers the toolbar sort/view and filter-bar dropdowns.'
+    },
+    {
       id: 'toolbar-group',
       name: 'Toolbar Group',
       category: COMPONENT_CATEGORIES.LAYOUT,

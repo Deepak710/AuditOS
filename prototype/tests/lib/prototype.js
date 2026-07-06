@@ -29,7 +29,8 @@ const SCRIPTS = {
   demoDataBundle: ['demo-data', 'demo-data.js'],
   demoDataRegistry: ['js', 'state', 'demo-data-registry.js'],
   stateStore: ['js', 'state', 'state-store.js'],
-  homeWorkspace: ['js', 'workspaces', 'home.js']
+  homeWorkspace: ['js', 'workspaces', 'home.js'],
+  workspaceFramework: ['components', 'workspace-framework', 'workspace-framework.js']
 };
 
 /** Resolves a path inside the prototype from path segments. */
@@ -84,6 +85,15 @@ function loadHomeWorkspace() {
 }
 
 /**
+ * Loads the Shared Workspace Framework module
+ * (window.AuditOS.workspaceFramework). The module guards its DOM self-init on
+ * `document`, so it registers cleanly in the sandbox where no document exists.
+ */
+function loadWorkspaceFramework() {
+  return loadClassicScript(SCRIPTS.workspaceFramework).AuditOS.workspaceFramework;
+}
+
+/**
  * Normalizes a value produced inside the vm sandbox into this realm. Arrays
  * created in the sandbox have a different Array.prototype, which trips strict
  * deep-equality; suites pass registry-derived collections through this before
@@ -102,5 +112,6 @@ module.exports = {
   loadClassicScripts: loadClassicScripts,
   loadComponentLibrary: loadComponentLibrary,
   loadHomeWorkspace: loadHomeWorkspace,
+  loadWorkspaceFramework: loadWorkspaceFramework,
   toHostArray: toHostArray
 };
