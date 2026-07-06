@@ -47,9 +47,9 @@ registry entry, and a markup reference.
 | Component | Class | Category | Responsibility |
 |-----------|-------|----------|----------------|
 | Surface | `.aos-surface` | Foundation | Base bordered container primitive. `--padded`, `--muted`, `--raised`. |
-| Card | `.aos-card` | Foundation | Surface with `__header` / `__body` / `__footer`; `--interactive` (focusable). |
-| Section | `.aos-section` | Foundation | Content grouping with `__header` (`__title`, `__description`) and `__body`. |
-| Panel Section | `.aos-panel-section` | Foundation | Titled bordered region (`__header`, `__title`, `__actions`, `__body`). |
+| Card | `.aos-card` | Foundation | Surface with `__header` / `__body` / `__footer`; `--interactive` (focusable, subtle brand-tinted hover). |
+| Section | `.aos-section` | Foundation | Content grouping with `__header` (`__eyebrow`, `__title`, `__description`) and `__body`. |
+| Panel Section | `.aos-panel-section` | Foundation | Titled bordered region (`__header` recessed on the workspace surface, `__title`, `__actions`, `__body`). |
 | Divider | `.aos-divider` | Foundation | Hairline separator; `--vertical`, `--labeled`. |
 | KPI Tile | `.aos-kpi-tile` | Data display | `__label`, `__value`, `__delta` (`--positive`/`--negative`/`--neutral`), `__caption`. |
 | Status Badge | `.aos-status-badge` | Data display | Status pill; `--info`/`--success`/`--warning`/`--error` + `__dot`. |
@@ -57,8 +57,12 @@ registry entry, and a markup reference.
 | Property Row | `.aos-property-row` | Data display | Label/value pair (`__label`, `__value`); stacks when narrow. |
 | Property Grid | `.aos-property-grid` | Data display | Divided Property Rows; `--two-column` collapses responsively. |
 | Metadata List | `.aos-metadata-list` | Data display | `<dl>` of `__item` (`__term`/`__detail`); `--inline`. |
+| Progress | `.aos-progress` | Data display | Labeled meter (`__label`, `__value`, `__track`, `__indicator`); `--success`/`--warning`/`--error`; value always reads as text. |
+| Item List | `.aos-item-list` | Data display | Semantic list of `__item` rows (`__marker` tones, `__content`, `__title`, `__description`, `__meta`); `--compact`, `__item--critical` (dominant prioritized row). |
+| Timeline | `.aos-timeline` | Data display | Ordered `__event` list with `__marker` tones on a connecting rail (`__meta`, `__title`, `__description`). |
+| Button | `.aos-button` | Input | Standard action control for buttons and button-styled links; `--primary`/`--subtle`/`--small`. |
 | Toolbar Group | `.aos-toolbar-group` | Layout | Horizontal control cluster; `--divided`; wraps responsively. |
-| Action Group | `.aos-action-group` | Layout | Action cluster; `--end`/`--between`/`--stack`. |
+| Action Group | `.aos-action-group` | Layout | Action cluster; `--end`/`--between`/`--stack`; collapses when empty. |
 | Empty State | `.aos-empty-state` | State | `__icon`, `__title`, `__description`, `__actions` (§15.12 Empty). |
 | Loading State | `.aos-loading-state` | State | Layout-stable region with `__label` live text (§15.12 Loading). |
 | Skeleton | `.aos-skeleton` | State | Placeholder; `--text`/`--title`/`--block`/`--circle`; reduced-motion safe. |
@@ -72,7 +76,8 @@ spacing rhythm, hairline rules for structure, and subtle motion. Dark mode is
 inherited automatically from the token foundation. No glassmorphism, no
 consumer-UI styling, no dashboard-template chrome.
 
-**Accessibility.** Interactive components (interactive Card, Chip, chip remove)
+**Accessibility.** Interactive components (interactive Card, Chip, chip remove,
+Button)
 expose a visible focus ring via `--aos-focus-ring` and are keyboard operable.
 Status is never encoded by color alone — badges and KPI deltas carry text and
 glyphs as well. State components carry the accessible semantics their consumers
@@ -99,4 +104,6 @@ available to every component and workspace above them.
 The [Shared Workspace Framework](../workspace-framework/README.md) is the first
 consumer: its supporting panels compose from **Panel Section** and its primary
 content and context ribbon compose from **Surface**, so the framework reuses the
-library rather than duplicating surface chrome.
+library rather than duplicating surface chrome. The [AuditOS Home workspace](../workspaces/home/README.md)
+is the first business consumer, composing every one of its sections from these
+primitives via a declarative view model rather than bespoke markup.

@@ -16,6 +16,8 @@ const { loadComponentLibrary, toHostArray, readText } = require('../lib/prototyp
 const EXPECTED_COMPONENT_IDS = [
   'surface', 'card', 'section', 'panel-section', 'divider',
   'kpi-tile', 'status-badge', 'chip', 'property-row', 'property-grid', 'metadata-list',
+  'progress', 'item-list', 'timeline',
+  'button',
   'toolbar-group', 'action-group',
   'empty-state', 'loading-state', 'skeleton'
 ];

@@ -48,7 +48,10 @@
    * (Routing Architecture §130.5).
    */
   var WORKSPACES = [
-    { id: WORKSPACE_IDS.DASHBOARD,   path: 'dashboard',    label: 'Dashboard',           title: 'Dashboard' },
+    // Renamed by GitHub Issue #15: the Dashboard becomes AuditOS Home, the
+    // permanent operational landing workspace. The identifier and hash path
+    // stay stable so routing, deep links, and history remain unchanged.
+    { id: WORKSPACE_IDS.DASHBOARD,   path: 'dashboard',    label: 'AuditOS Home',        title: 'AuditOS Home' },
     { id: WORKSPACE_IDS.ENGAGEMENT,  path: 'engagements',  label: 'Engagement',          title: 'Engagement' },
     { id: WORKSPACE_IDS.WALKTHROUGH, path: 'walkthroughs', label: 'Walkthrough',         title: 'Walkthrough' },
     { id: WORKSPACE_IDS.CONTROLS,    path: 'controls',     label: 'Controls',            title: 'Controls' },

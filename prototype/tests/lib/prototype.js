@@ -25,7 +25,11 @@ const PROTOTYPE_DIR = path.resolve(__dirname, '..', '..');
  */
 const SCRIPTS = {
   componentLibrary: ['components', 'component-library', 'component-library.js'],
-  workspaceRegistry: ['js', 'router', 'workspace-registry.js']
+  workspaceRegistry: ['js', 'router', 'workspace-registry.js'],
+  demoDataBundle: ['demo-data', 'demo-data.js'],
+  demoDataRegistry: ['js', 'state', 'demo-data-registry.js'],
+  stateStore: ['js', 'state', 'state-store.js'],
+  homeWorkspace: ['js', 'workspaces', 'home.js']
 };
 
 /** Resolves a path inside the prototype from path segments. */
@@ -53,9 +57,30 @@ function loadClassicScript(segments) {
   return windowObject;
 }
 
+/**
+ * Executes several classic prototype scripts, in order, against one shared
+ * `window`, mirroring how index.html stacks its script tags. Returns the
+ * populated window so a suite can exercise foundations that build on each
+ * other (e.g. bundle → registry → state store → home workspace).
+ */
+function loadClassicScripts(scriptList) {
+  const windowObject = {};
+  const sandbox = { window: windowObject };
+  scriptList.forEach(function (segments) {
+    const code = fs.readFileSync(prototypePath.apply(null, segments), 'utf8');
+    vm.runInNewContext(code, sandbox, { filename: segments.join('/') });
+  });
+  return windowObject;
+}
+
 /** Loads the component library registry (window.AuditOS.componentLibrary). */
 function loadComponentLibrary() {
   return loadClassicScript(SCRIPTS.componentLibrary).AuditOS.componentLibrary;
+}
+
+/** Loads the Home workspace module (window.AuditOS.homeWorkspace). */
+function loadHomeWorkspace() {
+  return loadClassicScript(SCRIPTS.homeWorkspace).AuditOS.homeWorkspace;
 }
 
 /**
@@ -74,6 +99,8 @@ module.exports = {
   prototypePath: prototypePath,
   readText: readText,
   loadClassicScript: loadClassicScript,
+  loadClassicScripts: loadClassicScripts,
   loadComponentLibrary: loadComponentLibrary,
+  loadHomeWorkspace: loadHomeWorkspace,
   toHostArray: toHostArray
 };

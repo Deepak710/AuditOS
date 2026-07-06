@@ -25,8 +25,16 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { createHarness } = require('./lib/harness');
 
-/** Suite categories, run in this order (GitHub Issue #14 — Testing). */
-const CATEGORIES = ['smoke', 'unit', 'integration'];
+/** Suite categories, run in this order (GitHub Issues #14 / #15 — Testing). */
+const CATEGORIES = [
+  'smoke',
+  'unit',
+  'integration',
+  'visual-contract',
+  'responsive',
+  'accessibility',
+  'animation'
+];
 
 /** Discovers `[label, register]` pairs for every `*.test.js` in the category directories. */
 function discoverSuites() {
@@ -52,40 +60,47 @@ let passed = 0;
 let failed = 0;
 const failures = [];
 
-discoverSuites().forEach(function (entry) {
-  const label = entry[0];
-  const register = entry[1];
-  const harness = createHarness();
+/**
+ * Runs every discovered suite in order. Test functions may be synchronous or
+ * return a promise (integration suites await the Shared Audit State's
+ * promise-based load); a returned promise is awaited so its failures count.
+ */
+async function runSuites() {
+  for (const [label, register] of discoverSuites()) {
+    const harness = createHarness();
 
-  try {
-    register(harness);
-  } catch (error) {
-    failed += 1;
-    failures.push({ label: label, name: '(suite registration)', error: error });
-    console.log('  FAIL  [' + label + '] (suite registration)');
-    return;
-  }
-
-  harness.cases.forEach(function (testCase) {
     try {
-      testCase.fn();
-      passed += 1;
-      console.log('  PASS  [' + label + '] ' + testCase.name);
+      register(harness);
     } catch (error) {
       failed += 1;
-      failures.push({ label: label, name: testCase.name, error: error });
-      console.log('  FAIL  [' + label + '] ' + testCase.name);
+      failures.push({ label: label, name: '(suite registration)', error: error });
+      console.log('  FAIL  [' + label + '] (suite registration)');
+      continue;
     }
-  });
-});
 
-if (failures.length > 0) {
-  console.log('\nFailures:');
-  failures.forEach(function (failure) {
-    console.log('  [' + failure.label + '] ' + failure.name);
-    console.log('    ' + (failure.error && failure.error.message ? failure.error.message : failure.error));
-  });
+    for (const testCase of harness.cases) {
+      try {
+        await testCase.fn();
+        passed += 1;
+        console.log('  PASS  [' + label + '] ' + testCase.name);
+      } catch (error) {
+        failed += 1;
+        failures.push({ label: label, name: testCase.name, error: error });
+        console.log('  FAIL  [' + label + '] ' + testCase.name);
+      }
+    }
+  }
 }
 
-console.log('\n' + (failed === 0 ? 'PASS' : 'FAIL') + ': ' + passed + ' passed, ' + failed + ' failed');
-process.exit(failed === 0 ? 0 : 1);
+runSuites().then(function () {
+  if (failures.length > 0) {
+    console.log('\nFailures:');
+    failures.forEach(function (failure) {
+      console.log('  [' + failure.label + '] ' + failure.name);
+      console.log('    ' + (failure.error && failure.error.message ? failure.error.message : failure.error));
+    });
+  }
+
+  console.log('\n' + (failed === 0 ? 'PASS' : 'FAIL') + ': ' + passed + ' passed, ' + failed + ' failed');
+  process.exit(failed === 0 ? 0 : 1);
+});

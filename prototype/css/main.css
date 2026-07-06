@@ -1,8 +1,12 @@
 /**
  * AuditOS Stylesheet Entry Point
+ *
+ * Layer order: Design Tokens → Enterprise Design Language → Application
+ * Shell → Components → Workspace Framework → Workspaces.
  */
 
 @import url('./variables.css');
+@import url('./design-language.css');
 @import url('./layout.css');
 @import url('./components.css');
 @import url('./navigation.css');
@@ -10,3 +14,4 @@
 @import url('./panel.css');
 @import url('./workspace.css');
 @import url('./workspace-framework.css');
+@import url('./home.css');

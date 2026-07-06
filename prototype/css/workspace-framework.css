@@ -92,6 +92,14 @@
  * ======================================== */
 
 .aos-workspace-framework__header {
+  /* Sticky contextual header (Issue #15 — enterprise design language): the
+   * orientation stays visible while the workspace canvas scrolls beneath it.
+   * The workspace surface background masks passing content; the enter
+   * animation leaves no persistent transform, so stickiness is unaffected. */
+  position: sticky;
+  top: 0;
+  z-index: var(--aos-z-sticky);
+  background-color: var(--aos-surface-workspace);
   flex-shrink: 0;
   display: flex;
   align-items: flex-end;
@@ -100,6 +108,18 @@
   gap: var(--aos-space-3) var(--aos-space-4);
   padding-bottom: var(--aos-space-4);
   border-bottom: 1px solid var(--aos-surface-border);
+}
+
+/* Masks the canvas's top padding strip while the header is stuck, so
+ * scrolling content never bleeds into the gap above the orientation. */
+.aos-workspace-framework__header::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: var(--aos-space-6);
+  background-color: var(--aos-surface-workspace);
 }
 
 .aos-workspace-framework__orientation {
@@ -182,6 +202,20 @@
   min-width: 0;
   min-height: var(--aos-space-24);
   padding: var(--aos-space-6);
+}
+
+/* Flush-canvas opt-in (layout only, workspace-agnostic): a workspace may mark
+ * its content root with data-canvas="flush" and its sections then sit
+ * directly on the workspace surface — an operating-system canvas instead of
+ * one large bordered card. The framework keeps the Surface composition in
+ * its markup; this rule only neutralizes the chrome for opted-in roots.
+ * Browsers without :has() keep the bordered surface — graceful degradation. */
+.aos-workspace-framework__content:has(> [data-canvas='flush']) {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
 }
 
 /* ========================================

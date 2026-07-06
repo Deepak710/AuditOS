@@ -1,0 +1,289 @@
+/**
+ * AuditOS Home Workspace
+ * Workspaces and Navigation — Chapter 12 (§12.6 Home) / Workspace Design
+ * System — Chapter 15 / Layout Components — Chapter 75
+ *
+ * The workspace-layer stylesheet of AuditOS Home. It owns only the
+ * Home-specific layout — the resume-card grid, the KPI band, the entity-card
+ * and signal-panel grids, the list surfaces, the context-ribbon items, and
+ * the footer items — plus their responsive behavior. Every visible surface
+ * inside those grids is a Shared Enterprise Component Library component
+ * (css/components.css); this stylesheet never redefines component chrome.
+ * Consumes only the Design Token Foundation (variables.css); introduces no
+ * new visual values. Home declares no keyframes of its own — entrance motion
+ * comes from the shared design language (design-language.css), whose
+ * durations collapse under prefers-reduced-motion at the token layer.
+ *
+ * Every selector in this file is scoped under the `.aos-home` prefix so the
+ * workspace layer can never leak into the shell, components, or other
+ * workspaces.
+ */
+
+@import 'variables.css';
+
+/* ========================================
+ * HOME COLUMN
+ * One generous vertical rhythm for the landing bands: resume, urgent,
+ * assigned, pulse, portfolio, signals. Whitespace separates
+ * responsibilities (§17.8); each band is a Section component.
+ * ======================================== */
+
+.aos-home {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-10);
+  min-width: 0;
+}
+
+/* ========================================
+ * CONTINUE WORKING — RESUME CARDS
+ * Interactive Card components that link back into the operational
+ * workspaces. A quiet arrow affordance slides on hover; the count leads the
+ * typography so resumable work reads at a glance.
+ * ======================================== */
+
+.aos-home__resume {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--aos-space-4);
+  align-items: stretch;
+}
+
+.aos-home__resume-card {
+  position: relative;
+  flex-direction: row;
+  align-items: stretch;
+  text-decoration: none;
+  color: inherit;
+}
+
+.aos-home__resume-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  color: var(--aos-text-secondary);
+}
+
+.aos-home__resume-value {
+  font-size: var(--aos-text-4xl);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-tight);
+  letter-spacing: -0.02em;
+  color: var(--aos-text-primary);
+}
+
+.aos-home__resume-title {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-primary);
+}
+
+.aos-home__resume-description {
+  font-size: var(--aos-text-xs);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-secondary);
+}
+
+/* The task's destination — the workspace it resumes into — pinned to the
+ * card base so every resume card reads "count · task · where it continues". */
+.aos-home__resume-destination {
+  margin-top: auto;
+  padding-top: var(--aos-space-3);
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-link);
+}
+
+.aos-home__resume-arrow {
+  position: absolute;
+  bottom: var(--aos-space-5);
+  right: var(--aos-space-4);
+  font-size: var(--aos-text-xs);
+  line-height: var(--aos-leading-tight);
+  color: var(--aos-text-tertiary);
+  transition: transform var(--aos-transition-fast), color var(--aos-transition-fast);
+}
+
+.aos-home__resume-card:hover .aos-home__resume-arrow {
+  transform: translateX(var(--aos-space-1));
+  color: var(--aos-text-link);
+}
+
+/* ========================================
+ * LIST SURFACES
+ * Urgent work, assigned work, and section empty states sit on one calm
+ * Surface each, so lists read as a single quiet region rather than chrome.
+ * ======================================== */
+
+.aos-home__list-surface {
+  min-width: 0;
+}
+
+/* ========================================
+ * ENGAGEMENT PULSE — KPI BAND
+ * A fluid KPI band; tiles keep a readable minimum width and wrap naturally.
+ * The decorative meter inside a tile sits below the caption.
+ * ======================================== */
+
+.aos-home__kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: var(--aos-space-4);
+}
+
+.aos-home__kpis .aos-progress {
+  margin-top: var(--aos-space-2);
+}
+
+/* ========================================
+ * CLIENTS — ENTITY CARDS
+ * One business-object card per client: identity, risk badge, readiness
+ * meter, and engagement facts.
+ * ======================================== */
+
+.aos-home__entities {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+  gap: var(--aos-space-4);
+  align-items: stretch;
+}
+
+.aos-home__entity-identity {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  min-width: 0;
+}
+
+.aos-home__entity-subtitle {
+  font-size: var(--aos-text-xs);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-home__entity-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
+}
+
+/* The client's engagements — the contents of the entry point — separated
+ * from the profile facts by a hairline rule. */
+.aos-home__entity-engagements {
+  border-top: 1px solid var(--aos-surface-border);
+  padding-top: var(--aos-space-3);
+}
+
+/* ========================================
+ * SIGNALS — PANEL GRID
+ * Notifications and calendar as Panel Section components in one row.
+ * ======================================== */
+
+.aos-home__panel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: var(--aos-space-4);
+  align-items: stretch;
+}
+
+/* ========================================
+ * CONTEXT RIBBON ITEMS (§15.5)
+ * Compact label / value instruments inside the framework's ribbon Surface.
+ * ======================================== */
+
+.aos-home-ribbon__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-home-ribbon__label {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+  white-space: nowrap;
+}
+
+.aos-home-ribbon__value {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-primary);
+  white-space: nowrap;
+}
+
+/* ========================================
+ * WORKSPACE FOOTER ITEMS
+ * Environment, demo status, version, client, and loaded demo data, divided
+ * by hairline rules inside the framework footer.
+ * ======================================== */
+
+.aos-home-footer__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  white-space: nowrap;
+}
+
+.aos-home-footer__item:not(:first-child) {
+  padding-left: var(--aos-space-4);
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+.aos-home-footer__label {
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-home-footer__value {
+  color: var(--aos-text-secondary);
+}
+
+/* ========================================
+ * RESPONSIVE ARCHITECTURE
+ * The grids are fluid by construction — auto-fit tracks with readable
+ * minimum widths absorb the canvas width at every shell state (context
+ * panel open or collapsed). The shell breakpoints then tighten the rhythm
+ * on tablets and settle everything into a single relaxed column on mobile.
+ * ======================================== */
+
+@media (max-width: 1024px) {
+  .aos-home {
+    gap: var(--aos-space-8);
+  }
+
+  .aos-home__resume,
+  .aos-home__kpis {
+    gap: var(--aos-space-3);
+  }
+
+  .aos-home__entities,
+  .aos-home__panel-grid {
+    grid-template-columns: 1fr;
+    gap: var(--aos-space-3);
+  }
+}
+
+@media (max-width: 640px) {
+  .aos-home {
+    gap: var(--aos-space-6);
+  }
+
+  .aos-home__resume {
+    grid-template-columns: 1fr;
+  }
+
+  .aos-home__kpis {
+    grid-template-columns: 1fr;
+  }
+
+  .aos-home-footer__item {
+    white-space: normal;
+  }
+}

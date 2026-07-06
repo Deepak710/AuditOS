@@ -1,0 +1,207 @@
+<!--
+  AuditOS Home Workspace — Canonical Markup
+  Workspaces and Navigation — Chapter 12 (§12.6 Home) / Workspace Design
+  System — Chapter 15 / Dashboard Workspace — Chapter 115 / Component
+  Architecture — Chapter 74
+
+  The canonical structural reference for AuditOS Home, the operating-system
+  landing experience. At runtime js/workspaces/home.js collects a declarative
+  view model from the Shared Audit State (Business → ViewModel → Components →
+  DOM) and assembles this composition from generic section builders into the
+  Shared Workspace Framework's reserved data-slot mount points — Home never
+  re-invents the page structure. Keep the renderer and this reference in sync.
+
+  Every visible surface composes the Shared Enterprise Component Library
+  (Section, Card, Panel Section, Surface, KPI Tile, Status Badge, Progress,
+  Item List, Timeline, Metadata List, Button, Action Group, Empty State,
+  Loading State, Skeleton). Layout comes from css/home.css; component chrome
+  from css/components.css; entrance motion from css/design-language.css.
+
+  All sample values below are placeholder illustration only. At runtime every
+  business value is read through the Shared Audit State (AuditOS.state) —
+  never hardcoded, never read from demo-data files directly — so the frontend
+  cannot tell whether data comes from JSON, SharePoint, or AI. Sections whose
+  data does not exist render Empty State components; nothing is fabricated.
+  The AI surfaces are reserved placeholders: AI remains advisory; human
+  approval remains mandatory.
+
+  Slot map (framework template: workspace-framework.html):
+    workspace-eyebrow    → client · engagement code · audit period
+    workspace-title      → "AuditOS Home" (framework, from the registry)
+    workspace-meta       → framework — phase · fieldwork period
+    workspace-actions    → quick actions (navigation-only button links)
+    context-ribbon       → operational context items (§15.5)
+    primary-content      → the Home section column below
+    related-information  → engagement relationship metadata (§15.9)
+    ai-recommendations   → reserved AI advisory placeholder (§15.8)
+    activity             → recent activity feed (§15.10)
+    workspace-footer     → environment / demo status / version / client / data
+
+  Section descriptors (view model → generic body builders):
+    continue-working     → kind "link-cards"   (resume points)
+    urgent-work          → kind "items"        (at-risk work)
+    assigned-to-me       → kind "items"        (current user's work)
+    engagement-overview  → kind "kpis"         (engagement pulse)
+    clients              → kind "entity-cards" (portfolio)
+    signals              → kind "panel-grid"   (notifications, calendar)
+-->
+
+<!-- workspace-actions slot — Quick actions (navigation only). -->
+<div class="aos-action-group aos-action-group--end" role="group" aria-label="Quick actions">
+  <a class="aos-button aos-button--small aos-button--primary" href="#/">Destination</a>
+  <a class="aos-button aos-button--small" href="#/">Destination</a>
+</div>
+
+<!-- context-ribbon slot — label / value context instruments. -->
+<span class="aos-home-ribbon__item">
+  <span class="aos-home-ribbon__label">Label</span>
+  <span class="aos-home-ribbon__value">Value</span>
+</span>
+
+<!-- primary-content slot — the Home section column. data-canvas="flush" opts
+     the framework's content region into the flush canvas (sections sit
+     directly on the workspace surface). Sections enter with the shared rise
+     cascade (aos-rise-in / aos-rise-in--N). -->
+<div class="aos-home" data-canvas="flush">
+  <!-- Continue working — kind "link-cards". Resume points derived from the
+       operational domain summaries; renders an Empty State when caught up. -->
+  <section class="aos-section aos-home__section aos-rise-in" aria-label="Continue working">
+    <header class="aos-section__header">
+      <p class="aos-section__eyebrow">Resume</p>
+      <h2 class="aos-section__title">Continue working</h2>
+      <p class="aos-section__description"><!-- derived engagement brief --></p>
+    </header>
+    <div class="aos-section__body">
+      <div class="aos-home__resume">
+        <a class="aos-card aos-card--interactive aos-home__resume-card" href="#/" aria-label="Resume point">
+          <div class="aos-card__body aos-home__resume-body">
+            <span class="aos-home__resume-value aos-numeric">0</span>
+            <span class="aos-home__resume-title">Resume point</span>
+            <span class="aos-home__resume-description">Derived description</span>
+            <span class="aos-home__resume-destination">Destination workspace</span>
+          </div>
+          <span class="aos-home__resume-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Urgent work — kind "items". High-severity findings, rejected evidence,
+       failed tests; Empty State when nothing is urgent. -->
+  <section class="aos-section aos-home__section aos-rise-in aos-rise-in--1" aria-label="Urgent work">
+    <header class="aos-section__header">
+      <p class="aos-section__eyebrow">Needs attention</p>
+      <h2 class="aos-section__title">Urgent work</h2>
+    </header>
+    <div class="aos-section__body">
+      <div class="aos-surface aos-surface--padded aos-home__list-surface">
+        <ul class="aos-item-list">
+          <li class="aos-item-list__item aos-item-list__item--critical"><!-- critical rows dominate --></li>
+          <!-- remaining derived urgent items -->
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Assigned to me — kind "items". Engagements the current user leads or
+       manages and tests they execute or review. -->
+  <section class="aos-section aos-home__section aos-rise-in aos-rise-in--2" aria-label="Assigned to me">
+    <header class="aos-section__header">
+      <p class="aos-section__eyebrow">Your work</p>
+      <h2 class="aos-section__title">Assigned to me</h2>
+      <p class="aos-section__description"><!-- signed-in identity, from state --></p>
+    </header>
+    <div class="aos-section__body">
+      <div class="aos-surface aos-surface--padded aos-home__list-surface">
+        <ul class="aos-item-list"><!-- derived assignments --></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Engagement overview — kind "kpis". Pulse of the current engagement. -->
+  <section class="aos-section aos-home__section aos-rise-in aos-rise-in--3" aria-label="Engagement overview">
+    <header class="aos-section__header">
+      <p class="aos-section__eyebrow">Pulse</p>
+      <h2 class="aos-section__title">Engagement overview</h2>
+    </header>
+    <div class="aos-section__body">
+      <div class="aos-home__kpis">
+        <div class="aos-kpi-tile">
+          <span class="aos-kpi-tile__label">Label</span>
+          <span class="aos-kpi-tile__value aos-numeric">0</span>
+          <span class="aos-kpi-tile__caption">Caption</span>
+          <div class="aos-progress" aria-hidden="true">
+            <div class="aos-progress__track"><div class="aos-progress__indicator"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Clients — kind "entity-cards". One card per company in the state. -->
+  <section class="aos-section aos-home__section aos-rise-in aos-rise-in--3" aria-label="Clients">
+    <header class="aos-section__header">
+      <p class="aos-section__eyebrow">Portfolio</p>
+      <h2 class="aos-section__title">Clients</h2>
+    </header>
+    <div class="aos-section__body">
+      <div class="aos-home__entities">
+        <article class="aos-card aos-home__entity-card">
+          <header class="aos-card__header">
+            <div class="aos-home__entity-identity">
+              <h3 class="aos-card__title">Client name</h3>
+              <span class="aos-home__entity-subtitle">Industry</span>
+            </div>
+            <span class="aos-status-badge">Risk</span>
+          </header>
+          <div class="aos-card__body aos-home__entity-body">
+            <div class="aos-progress" role="progressbar" aria-label="Audit readiness" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><!-- readiness --></div>
+            <dl class="aos-metadata-list aos-metadata-list--inline"><!-- engagement facts --></dl>
+            <div class="aos-home__entity-engagements">
+              <ul class="aos-item-list aos-item-list--compact"><!-- the client's engagements --></ul>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Signals — kind "panel-grid". Notifications and calendar panels. -->
+  <section class="aos-section aos-home__section aos-rise-in aos-rise-in--3" aria-label="Signals">
+    <header class="aos-section__header">
+      <p class="aos-section__eyebrow">Today</p>
+      <h2 class="aos-section__title">Signals</h2>
+    </header>
+    <div class="aos-section__body">
+      <div class="aos-home__panel-grid">
+        <section class="aos-panel-section" aria-label="Notifications">
+          <header class="aos-panel-section__header"><h3 class="aos-panel-section__title">Notifications</h3></header>
+          <div class="aos-panel-section__body"><ul class="aos-item-list aos-item-list--compact"><!-- derived notifications --></ul></div>
+        </section>
+        <section class="aos-panel-section" aria-label="Calendar">
+          <header class="aos-panel-section__header"><h3 class="aos-panel-section__title">Calendar</h3></header>
+          <div class="aos-panel-section__body"><ol class="aos-timeline"><!-- derived milestones --></ol></div>
+        </section>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- related-information slot — engagement relationship metadata. -->
+<dl class="aos-metadata-list aos-fade-in"><!-- client / engagement / framework / periods / control set / report --></dl>
+
+<!-- ai-recommendations slot — reserved AI advisory placeholder. -->
+<div class="aos-empty-state aos-tint-brand aos-fade-in">
+  <span class="aos-empty-state__icon" aria-hidden="true">✦</span>
+  <p class="aos-empty-state__title">Reserved for AI advisory</p>
+  <p class="aos-empty-state__description">Advisory recommendations appear here once the AI foundation is implemented. AI remains advisory; human approval remains mandatory.</p>
+</div>
+
+<!-- activity slot — recent activity feed. -->
+<ul class="aos-item-list aos-item-list--compact aos-fade-in"><!-- derived activity --></ul>
+
+<!-- workspace-footer slot — environment / demo status / version / client / data. -->
+<span class="aos-home-footer__item">
+  <span class="aos-home-footer__label">Label</span>
+  <span class="aos-home-footer__value aos-numeric">Value</span>
+</span>

@@ -33,6 +33,7 @@
   var COMPONENT_CATEGORIES = {
     FOUNDATION: 'foundation',
     DATA_DISPLAY: 'data-display',
+    INPUT: 'input',
     LAYOUT: 'layout',
     STATE: 'state'
   };
@@ -122,6 +123,34 @@
       category: COMPONENT_CATEGORIES.DATA_DISPLAY,
       className: 'aos-metadata-list',
       description: 'A semantic description list of term/detail metadata pairs; stacked or inline.'
+    },
+    {
+      id: 'progress',
+      name: 'Progress',
+      category: COMPONENT_CATEGORIES.DATA_DISPLAY,
+      className: 'aos-progress',
+      description: 'A labeled progress meter whose value always reads as text beside the track, never through the bar alone.'
+    },
+    {
+      id: 'item-list',
+      name: 'Item List',
+      category: COMPONENT_CATEGORIES.DATA_DISPLAY,
+      className: 'aos-item-list',
+      description: 'A semantic list of operational items — tone marker, content, trailing meta — for feeds, notifications, tasks, and documents.'
+    },
+    {
+      id: 'timeline',
+      name: 'Timeline',
+      category: COMPONENT_CATEGORIES.DATA_DISPLAY,
+      className: 'aos-timeline',
+      description: 'An ordered list of dated events with tone markers on a connecting rail; the reusable timeline primitive (§15.10).'
+    },
+    {
+      id: 'button',
+      name: 'Button',
+      category: COMPONENT_CATEGORIES.INPUT,
+      className: 'aos-button',
+      description: 'The standard action control for buttons and button-styled links; primary, subtle, and small variants with a visible focus ring.'
     },
     {
       id: 'toolbar-group',

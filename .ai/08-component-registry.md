@@ -16,7 +16,7 @@ demo-data and hold no business or workflow logic. Every component consumes
 Design Tokens only and supports keyboard navigation, responsive layouts, and
 reduced motion.
 
-## Registered components (16)
+## Registered components (20)
 
 | Component | Class | Category |
 |-----------|-------|----------|
@@ -31,26 +31,48 @@ reduced motion.
 | Property Row | `.aos-property-row` | Data display |
 | Property Grid | `.aos-property-grid` | Data display |
 | Metadata List | `.aos-metadata-list` | Data display |
+| Progress | `.aos-progress` | Data display |
+| Item List | `.aos-item-list` | Data display |
+| Timeline | `.aos-timeline` | Data display |
+| Button | `.aos-button` | Input |
 | Toolbar Group | `.aos-toolbar-group` | Layout |
 | Action Group | `.aos-action-group` | Layout |
 | Empty State | `.aos-empty-state` | State |
 | Loading State | `.aos-loading-state` | State |
 | Skeleton | `.aos-skeleton` | State |
 
+Notable sub-parts added alongside the Home workspace (Issue #15): Section's
+`__eyebrow` kicker line; Item List's `--critical` row variant (dominant
+prioritized row, tone still carried by glyph + text, never color alone);
+Card's `--interactive` hover gained a subtle token-mixed brand tint; Panel
+Section's `__header` gained a recessed workspace-surface background; Action
+Group collapses when empty.
+
 ## Dependency graph
 
 ```text
 variables.css  (Design Tokens)
-    └── components.css  (Component Library — all 16 primitives)
+    └── components.css  (Component Library — all 20 primitives)
             └── workspace-framework.css / .js
                     ├── Surface        → primary content, context ribbon
+                    │                     (opt-out via data-canvas="flush")
                     └── Panel Section  → the three supporting panels
+            └── home.css / .js (AuditOS Home workspace)
+                    ├── Section, Card              → resume cards, KPI band
+                    ├── Panel Section, Item List    → signals, urgent work
+                    ├── Timeline, Metadata List      → calendar, related info
+                    ├── Empty State, Loading State   → every §15.12 state
+                    └── Button, Action Group         → quick actions
 
 index.html
-    └── component-library.js  (registry catalog; no runtime dependents yet)
+    └── component-library.js  (registry catalog; consumed by workspace-framework
+                                and home renderers)
 ```
 
 - The library depends only on the Design Token Foundation.
 - The Shared Workspace Framework is the first consumer and reuses Surface and
   Panel Section rather than duplicating surface chrome.
+- AuditOS Home (Issue #15) is the first business-workspace consumer: every
+  section is a declarative view-model descriptor rendered through generic
+  builders over these primitives — no bespoke business UI.
 - The registry catalog is a pure, side-effect-free classic script.

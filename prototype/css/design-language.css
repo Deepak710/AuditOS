@@ -1,0 +1,128 @@
+/**
+ * AuditOS Enterprise Design Language
+ * Visual Design System — Chapter 17 / Workspace Design System — Chapter 15
+ *
+ * The application-wide design language layer established by GitHub Issue #15.
+ * It sits directly above the Design Token Foundation (variables → DESIGN
+ * LANGUAGE → layout → components → workspace) and owns the cross-cutting
+ * refinements every surface inherits: text selection, numeric typography, the
+ * shared motion language, and the subtle brand tint used by reserved AI
+ * surfaces. It defines the language once so no component or workspace
+ * stylesheet re-invents it.
+ *
+ * Boundaries: the Application Shell (layout.css) keeps ownership of the shell
+ * grid, scrollbars, and the focus-visible ring; the Component Library
+ * (components.css) keeps ownership of component chrome. This layer never
+ * duplicates either. It consumes only the Design Token Foundation
+ * (variables.css) and introduces no new visual values; every duration and
+ * easing comes from the motion tokens, which the token foundation zeroes
+ * under prefers-reduced-motion.
+ */
+
+@import 'variables.css';
+
+/* ========================================
+ * TEXT SELECTION
+ * A calm, brand-tinted selection that stays legible in both color schemes:
+ * the fixed primary-200 / neutral-900 pair keeps accessible contrast whether
+ * the surrounding surface is light or dark.
+ * ======================================== */
+
+::selection {
+  background-color: var(--aos-color-primary-200);
+  color: var(--aos-color-neutral-900);
+}
+
+/* ========================================
+ * NUMERIC TYPOGRAPHY
+ * Enterprise data reads in columns. Tabular figures keep metric values,
+ * counts, and dates from shifting as they change, so KPI values, progress
+ * figures, and dated lists align predictably.
+ * ======================================== */
+
+.aos-numeric {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ========================================
+ * MOTION LANGUAGE
+ * The two entrance motions of AuditOS: a subtle fade for content that
+ * replaces a loading state in place, and a soft rise for content entering a
+ * canvas. Both consume the motion tokens, so they collapse to nothing under
+ * prefers-reduced-motion; the explicit guard below removes even the
+ * zero-duration animation frames for assistive stability.
+ * ======================================== */
+
+@keyframes aos-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes aos-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--aos-space-2));
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.aos-fade-in {
+  animation: aos-fade-in var(--aos-duration-normal) var(--aos-ease-out) both;
+}
+
+.aos-rise-in {
+  animation: aos-rise-in var(--aos-duration-normal) var(--aos-ease-out) both;
+}
+
+/* Entrance cascade — successive regions rise a half-beat apart, so a page
+ * settles top-to-bottom instead of appearing at once. Delays are composed
+ * from the motion tokens and vanish with them under reduced motion. */
+.aos-rise-in--1 {
+  animation-delay: calc(var(--aos-duration-fast) / 2);
+}
+
+.aos-rise-in--2 {
+  animation-delay: var(--aos-duration-fast);
+}
+
+.aos-rise-in--3 {
+  animation-delay: calc(var(--aos-duration-fast) * 1.5);
+}
+
+/* ========================================
+ * BRAND TINT
+ * The subtle gradient reserved for AI presentation surfaces (§15.8): a faint
+ * primary wash over the card surface, mixed from tokens so it adapts to both
+ * color schemes. Browsers without color-mix simply render the plain surface —
+ * graceful degradation, never an error.
+ * ======================================== */
+
+.aos-tint-brand {
+  background-image: linear-gradient(
+    to bottom right,
+    color-mix(in srgb, var(--aos-color-primary-500) 6%, transparent),
+    transparent 65%
+  );
+}
+
+/* ========================================
+ * REDUCED MOTION
+ * The duration tokens already collapse to 0ms; this guard additionally
+ * removes the animation frames entirely so entering content simply appears.
+ * ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .aos-fade-in,
+  .aos-rise-in {
+    animation: none;
+  }
+}

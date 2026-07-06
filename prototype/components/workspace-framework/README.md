@@ -64,6 +64,20 @@ primary task. Reserved regions that are still empty (ribbon, footer, header
 eyebrow / meta / actions) collapse via `:empty`, so the page stays clean until
 later issues populate them.
 
+## Flush canvas opt-in
+
+The primary content region is a bordered **Surface** by default — appropriate
+for workspaces whose content is a single focused card. A workspace whose
+content is itself a composition of many sections (an operating-system canvas
+rather than one large card) may opt out of that chrome: mark the content
+root rendered into the `primary-content` slot with `data-canvas="flush"`, and
+`workspace-framework.css` neutralizes the Surface's background, border,
+radius, shadow, and padding via a `:has()` selector. The framework's own
+markup is untouched — it still composes the Surface class — so this is a
+pure CSS opt-in, not a structural fork; a browser without `:has()` support
+simply keeps the bordered Surface (graceful degradation, never an error). The
+[AuditOS Home workspace](../workspaces/home/README.md) is the first consumer.
+
 ## Rendering strategy
 
 `workspace-framework.js` is the canonical rendering engine:

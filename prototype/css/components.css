@@ -120,6 +120,9 @@
 .aos-card--interactive:hover {
   border-color: var(--aos-surface-border-strong);
   box-shadow: var(--aos-shadow-md);
+  /* A whisper of brand over the card surface, mixed from tokens so it adapts
+   * to both color schemes; browsers without color-mix keep the plain lift. */
+  background-color: color-mix(in srgb, var(--aos-color-primary-500) 3%, var(--aos-surface-card));
 }
 
 .aos-card--interactive:focus-visible {
@@ -148,8 +151,18 @@
   gap: var(--aos-space-1);
 }
 
+/* Optional kicker above the title — quiet structural orientation that lets
+ * the title itself stay calm (typography-first hierarchy, §17.9). */
+.aos-section__eyebrow {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
 .aos-section__title {
-  font-size: var(--aos-text-lg);
+  font-size: var(--aos-text-xl);
   font-weight: var(--aos-font-semibold);
   line-height: var(--aos-leading-tight);
   letter-spacing: -0.01em;
@@ -196,6 +209,8 @@
   gap: var(--aos-space-3);
   padding: var(--aos-space-3) var(--aos-space-4);
   border-bottom: 1px solid var(--aos-surface-border);
+  /* Recessed header — quiet depth that separates chrome from content. */
+  background-color: var(--aos-surface-workspace);
 }
 
 .aos-panel-section__title {
@@ -572,6 +587,385 @@ button.aos-chip:focus-visible {
 }
 
 /* ============================================================================
+ * DATA DISPLAY — PROGRESS (§74.7 Visualization / §15.12 Updating)
+ * A labeled progress meter: a compact header pairing an uppercase label with a
+ * tabular numeric value, over a slim track. The value always reads as text
+ * beside the track, so completion is never encoded by the bar alone
+ * (accessibility — color independence). Consumers carry the progressbar
+ * semantics (role="progressbar", aria-valuenow/min/max) and set the indicator
+ * width inline from data.
+ * ========================================================================== */
+
+.aos-progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-progress__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--aos-space-3);
+}
+
+.aos-progress__label {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-progress__value {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  font-variant-numeric: tabular-nums;
+  color: var(--aos-text-primary);
+  white-space: nowrap;
+}
+
+.aos-progress__track {
+  height: var(--aos-space-2);
+  border-radius: var(--aos-radius-full);
+  background-color: var(--aos-surface-active);
+  overflow: hidden;
+}
+
+.aos-progress__indicator {
+  height: 100%;
+  border-radius: var(--aos-radius-full);
+  background-color: var(--aos-color-primary-500);
+  transition: width var(--aos-transition-slow);
+}
+
+.aos-progress--success .aos-progress__indicator {
+  background-color: var(--aos-color-success-500);
+}
+
+.aos-progress--warning .aos-progress__indicator {
+  background-color: var(--aos-color-warning-500);
+}
+
+.aos-progress--error .aos-progress__indicator {
+  background-color: var(--aos-color-error-500);
+}
+
+/* ============================================================================
+ * DATA DISPLAY — ITEM LIST (§74.7 Data Presentation / Collaboration Feeds)
+ * A semantic list (<ul>/<ol>) of operational items — notifications, tasks,
+ * documents, activity — each with an optional tone marker, a content column
+ * (title, description), and a trailing meta column. Tone markers reinforce
+ * meaning but never carry it alone; the title and description always state it
+ * in text. Rows divide with hairline rules and compose flush inside padded
+ * panel bodies.
+ * ========================================================================== */
+
+.aos-item-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}
+
+.aos-item-list__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--aos-space-3);
+  padding: var(--aos-space-3) 0;
+  border-top: 1px solid var(--aos-surface-border);
+}
+
+.aos-item-list__item:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.aos-item-list__item:last-child {
+  padding-bottom: 0;
+}
+
+.aos-item-list__marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--aos-space-6);
+  height: var(--aos-space-6);
+  border-radius: var(--aos-radius-full);
+  background-color: var(--aos-surface-workspace);
+  color: var(--aos-text-tertiary);
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+}
+
+.aos-item-list__marker--info {
+  background-color: var(--aos-color-info-50);
+  color: var(--aos-color-info-600);
+}
+
+.aos-item-list__marker--success {
+  background-color: var(--aos-color-success-50);
+  color: var(--aos-color-success-700);
+}
+
+.aos-item-list__marker--warning {
+  background-color: var(--aos-color-warning-50);
+  color: var(--aos-color-warning-700);
+}
+
+.aos-item-list__marker--error {
+  background-color: var(--aos-color-error-50);
+  color: var(--aos-color-error-700);
+}
+
+.aos-item-list__content {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+}
+
+.aos-item-list__title {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-medium);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-primary);
+  overflow-wrap: break-word;
+}
+
+.aos-item-list__description {
+  font-size: var(--aos-text-xs);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-secondary);
+  overflow-wrap: break-word;
+}
+
+.aos-item-list__meta {
+  flex-shrink: 0;
+  font-size: var(--aos-text-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--aos-text-tertiary);
+  white-space: nowrap;
+}
+
+/* Critical rows visually dominate a prioritized list: a tinted block with an
+ * error accent rail and a heavier title. The tint mixes from the error token
+ * so it adapts to both color schemes; tone still never reads by color alone —
+ * the marker glyph and the row text carry the meaning. */
+.aos-item-list__item--critical {
+  padding: var(--aos-space-3);
+  margin-top: var(--aos-space-2);
+  border-top: none;
+  border-left: 2px solid var(--aos-color-error-500);
+  border-radius: var(--aos-radius-md);
+  background-color: color-mix(in srgb, var(--aos-color-error-500) 5%, transparent);
+}
+
+.aos-item-list__item--critical:first-child {
+  margin-top: 0;
+  padding-top: var(--aos-space-3);
+}
+
+.aos-item-list__item--critical:last-child {
+  padding-bottom: var(--aos-space-3);
+}
+
+.aos-item-list__item--critical .aos-item-list__title {
+  font-weight: var(--aos-font-semibold);
+}
+
+.aos-item-list--compact .aos-item-list__item {
+  padding: var(--aos-space-2) 0;
+}
+
+.aos-item-list--compact .aos-item-list__item:first-child {
+  padding-top: 0;
+}
+
+.aos-item-list--compact .aos-item-list__item:last-child {
+  padding-bottom: 0;
+}
+
+/* ============================================================================
+ * DATA DISPLAY — TIMELINE (§15.10 Timeline Panel / §74.7 Data Presentation)
+ * An ordered list (<ol>) of dated events: a tone marker on a connecting rail,
+ * with a meta line (date), title, and optional description per event. This is
+ * the reusable timeline primitive every workspace's contextual timeline
+ * composes from. Tone markers reinforce, never replace, the event text.
+ * ========================================================================== */
+
+.aos-timeline {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}
+
+.aos-timeline__event {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--aos-space-3);
+  padding-bottom: var(--aos-space-4);
+}
+
+.aos-timeline__event:last-child {
+  padding-bottom: 0;
+}
+
+/* Connecting rail — runs from below one marker to the next event. */
+.aos-timeline__event:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  top: var(--aos-space-4);
+  bottom: 0;
+  left: calc(var(--aos-space-2) / 2);
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+.aos-timeline__marker {
+  position: relative;
+  flex-shrink: 0;
+  width: var(--aos-space-2);
+  height: var(--aos-space-2);
+  margin-top: var(--aos-space-1);
+  border-radius: var(--aos-radius-full);
+  background-color: var(--aos-surface-border-strong);
+}
+
+.aos-timeline__marker--info {
+  background-color: var(--aos-color-info-500);
+}
+
+.aos-timeline__marker--success {
+  background-color: var(--aos-color-success-500);
+}
+
+.aos-timeline__marker--warning {
+  background-color: var(--aos-color-warning-500);
+}
+
+.aos-timeline__marker--error {
+  background-color: var(--aos-color-error-500);
+}
+
+.aos-timeline__content {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+}
+
+.aos-timeline__meta {
+  font-size: var(--aos-text-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-timeline__title {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-medium);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-primary);
+}
+
+.aos-timeline__description {
+  font-size: var(--aos-text-xs);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-secondary);
+}
+
+/* ============================================================================
+ * INPUT — BUTTON (§74.7 Input / §15.11 Workspace Actions)
+ * The standard action control, rendered as <button> or a button-styled link.
+ * A calm bordered default, a filled primary variant for the leading action,
+ * and a quiet subtle variant for secondary clusters. Keyboard focusable with
+ * the shared visible focus ring; hover and press read through surface and
+ * border shifts whose motion collapses under reduced motion (durations are
+ * zeroed at the token layer). Presentation only — consequences and workflow
+ * belong to their owning issues, never here.
+ * ========================================================================== */
+
+.aos-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-2) var(--aos-space-4);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  background-color: var(--aos-surface-card);
+  box-shadow: var(--aos-shadow-sm);
+  color: var(--aos-text-primary);
+  font-family: inherit;
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-medium);
+  line-height: var(--aos-leading-tight);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--aos-transition-fast),
+    border-color var(--aos-transition-fast),
+    color var(--aos-transition-fast),
+    box-shadow var(--aos-transition-fast);
+}
+
+.aos-button:hover {
+  background-color: var(--aos-surface-hover);
+  border-color: var(--aos-surface-border-strong);
+  color: var(--aos-text-primary);
+}
+
+.aos-button:active {
+  background-color: var(--aos-surface-active);
+}
+
+.aos-button:focus-visible {
+  outline: none;
+  box-shadow: var(--aos-focus-ring);
+}
+
+.aos-button--primary {
+  background-color: var(--aos-color-primary-600);
+  border-color: var(--aos-color-primary-600);
+  color: var(--aos-text-inverse);
+}
+
+.aos-button--primary:hover {
+  background-color: var(--aos-color-primary-700);
+  border-color: var(--aos-color-primary-700);
+  color: var(--aos-text-inverse);
+}
+
+.aos-button--primary:active {
+  background-color: var(--aos-color-primary-800);
+}
+
+.aos-button--subtle {
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  color: var(--aos-text-secondary);
+}
+
+.aos-button--subtle:hover {
+  background-color: var(--aos-surface-hover);
+  border-color: transparent;
+  color: var(--aos-text-primary);
+}
+
+.aos-button--small {
+  padding: var(--aos-space-1) var(--aos-space-3);
+  font-size: var(--aos-text-xs);
+}
+
+/* ============================================================================
  * LAYOUT — TOOLBAR GROUP (§76.14 Quick Actions / §75.15 Navigation)
  * A horizontal cluster of related toolbar controls with a consistent gap. It
  * wraps gracefully on narrow layouts and carries toolbar semantics
@@ -607,6 +1001,10 @@ button.aos-chip:focus-visible {
   flex-wrap: wrap;
   gap: var(--aos-space-3);
   min-width: 0;
+}
+
+.aos-action-group:empty {
+  display: none;
 }
 
 .aos-action-group--end {
