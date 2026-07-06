@@ -303,6 +303,8 @@ Evidence
 
 Breadcrumbs represent operational relationships rather than technical URLs.
 
+Release 1 implements breadcrumb navigation as the primary navigation of the Application Shell, integrated into the global header in place of a permanent left navigation rail. Release 1 realizes the top-level workspace crumb only (for example "AuditOS Home"); the deeper Organization / Client / Engagement / Business Control / Evidence hierarchy illustrated above remains future scope, added as later workspaces introduce navigable business-object context.
+
 ---
 
 ### 76.11 Workspace Switcher
@@ -328,6 +330,8 @@ Findings Workspace
 ```
 
 The active Business Object remains consistent while the operational perspective changes.
+
+Release 1 realizes the Workspace Switcher through the workspace crumb: selecting it opens a menu listing every workspace registered in the Workspace Registry, in registry order, with the active workspace checked. This implements top-level switching between operational workspaces (Home, Engagement, Walkthrough, Controls, Evidence, Testing, Findings, Reporting, Governance, AI Workspace, Executive Dashboard); Business-Object-scoped switching (remaining on one Business Control while moving between its Evidence, Testing, and Findings perspectives) remains future scope.
 
 ---
 

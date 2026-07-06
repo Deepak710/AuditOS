@@ -85,13 +85,16 @@ function attachConsoleCollector(page) {
   return { errors: errors, warnings: warnings, failedAssets: failedAssets };
 }
 
-/** Checks that the Application Shell landmarks and the skip link are present. */
+/** Checks that the Application Shell landmarks and the skip link are present.
+ * The Issue #16 shell is header + workspace: navigation is the breadcrumb
+ * <nav> inside the global header, and the empty context-panel <aside> was
+ * removed with the left rail. */
 async function checkShellLandmarks(page) {
   return {
     header: !!(await page.$('header')),
-    nav: !!(await page.$('nav')),
+    nav: !!(await page.$('nav.aos-global-header__breadcrumb')),
     main: !!(await page.$('main')),
-    aside: !!(await page.$('aside')),
+    breadcrumbSwitcher: !!(await page.$('.aos-breadcrumb__crumb')),
     skipLink: !!(await page.$('a[href="#workspace-canvas"]'))
   };
 }

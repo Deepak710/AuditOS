@@ -41,6 +41,13 @@
   display: flex;
   flex-direction: column;
   min-height: 100%;
+  /* Responsive readability bound (Issue #16): the workspace consumes the
+   * full canvas and is only capped — and centered — on very wide displays
+   * where unbounded line lengths would hurt readability. The max-width is a
+   * shell dimension owned by layout.css. */
+  width: 100%;
+  max-width: var(--aos-space-canvas-max-width);
+  margin-inline: auto;
 }
 
 .aos-workspace-host__body .aos-workspace-view {

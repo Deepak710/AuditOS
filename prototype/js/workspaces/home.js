@@ -1000,7 +1000,9 @@
     if (section.items && section.items.length === 0 && !section.empty) {
       return null;
     }
-    var element = el('section', 'aos-section aos-home__section');
+    // The per-section modifier is layout identity only: home.css places each
+    // section on the Home master grid by its descriptor id.
+    var element = el('section', 'aos-section aos-home__section aos-home__section--' + section.id);
     element.setAttribute('aria-label', section.title);
 
     var header = el('header', 'aos-section__header');

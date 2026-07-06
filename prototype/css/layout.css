@@ -1,7 +1,14 @@
 /**
  * AuditOS Layout System
- * Workspace Design System - Chapter 15
- * Core shell layout with 5 persistent regions
+ * Workspace Design System - Chapter 15 / Application Shell optimization
+ * (GitHub Issue #16)
+ *
+ * Core shell layout: a slim global header above a full-width workspace
+ * canvas. The permanent left navigation rail and the empty right context
+ * panel were removed by Issue #16 — navigation lives in the header as
+ * breadcrumb navigation (navigation.css), and contextual information is
+ * provided by the Shared Workspace Framework's supporting panels — so every
+ * horizontal pixel belongs to the workspace.
  */
 
 @import 'variables.css';
@@ -36,58 +43,40 @@ body {
 
 /* ========================================
  * APPLICATION SHELL TOKENS
- * Shell-scoped implementation tokens. These size the shell's own
- * grid regions and are not part of the Design Token Foundation
- * (variables.css), so they stay defined here with the shell that uses them.
+ * Shell-scoped implementation tokens. These size the shell's own regions and
+ * are not part of the Design Token Foundation (variables.css), so they stay
+ * defined here with the shell that uses them. The canvas max-width is the
+ * single responsive readability bound: content uses the full viewport and is
+ * only capped (and centered) on very wide displays where unbounded line
+ * lengths would hurt readability.
  * ======================================== */
 
 :root {
-  --aos-space-header-height: 4rem;
-  --aos-space-nav-width: 16rem;
-  --aos-space-nav-width-collapsed: 4.5rem;
-  --aos-space-panel-width: 20rem;
-  --aos-space-panel-width-collapsed: 0rem;
+  --aos-space-header-height: 3.5rem;
+  --aos-space-canvas-max-width: 100rem;
 }
 
 /* ========================================
  * APPLICATION SHELL - Root Layout
- * 4 Persistent Regions:
- * 1. Top Header
- * 2. Left Navigation
- * 3. Workspace Content Area
- * 4. Right Context Panel
+ * 2 Persistent Regions:
+ * 1. Global Header (brand, breadcrumb navigation, global actions, profile)
+ * 2. Workspace Content Area (full remaining width and height)
  * ======================================== */
 
 .aos-shell {
   display: grid;
   grid-template-rows: var(--aos-space-header-height) 1fr;
-  grid-template-columns: var(--aos-space-nav-width) 1fr var(--aos-space-panel-width);
+  grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
-    "header header header"
-    "nav workspace panel";
+    "header"
+    "workspace";
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  transition: grid-template-columns var(--aos-transition-normal);
-}
-
-/* Collapsed navigation state */
-.aos-shell--nav-collapsed {
-  grid-template-columns: var(--aos-space-nav-width-collapsed) 1fr var(--aos-space-panel-width);
-}
-
-/* Collapsed panel state */
-.aos-shell--panel-collapsed {
-  grid-template-columns: var(--aos-space-nav-width) 1fr var(--aos-space-panel-width-collapsed);
-}
-
-/* Both collapsed */
-.aos-shell--nav-collapsed.aos-shell--panel-collapsed {
-  grid-template-columns: var(--aos-space-nav-width-collapsed) 1fr var(--aos-space-panel-width-collapsed);
 }
 
 /* ========================================
- * REGION 1: TOP HEADER
+ * REGION 1: GLOBAL HEADER
  * Fixed height, spans full width
  * ======================================== */
 
@@ -105,31 +94,8 @@ body {
 }
 
 /* ========================================
- * REGION 2: LEFT NAVIGATION
- * Fixed width, full height below header
- * ======================================== */
-
-.aos-navigation {
-  grid-area: nav;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  background-color: var(--aos-surface-panel);
-  border-right: 1px solid var(--aos-surface-border);
-  overflow: hidden;
-  z-index: var(--aos-z-fixed);
-  transition: width var(--aos-transition-normal), transform var(--aos-transition-normal);
-}
-
-/* Navigation collapsed - icon rail width (shell region).
- * Region-internal collapse behavior lives in navigation.css. */
-.aos-shell--nav-collapsed .aos-navigation {
-  width: var(--aos-space-nav-width-collapsed);
-}
-
-/* ========================================
- * REGION 3: WORKSPACE CONTENT AREA
- * Flexible region that hosts the Workspace Host component
+ * REGION 2: WORKSPACE CONTENT AREA
+ * Full-width region that hosts the Workspace Host component
  * (.aos-workspace-host, styled in workspace.css). The region only
  * establishes the grid placement, surface, and clipping; the component owns
  * the internal header / body / footer structure and the canvas scrolling.
@@ -145,134 +111,15 @@ body {
 }
 
 /* ========================================
- * REGION 4: RIGHT CONTEXT PANEL
- * Fixed width, full height below header
- * ======================================== */
-
-.aos-panel {
-  grid-area: panel;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  background-color: var(--aos-surface-panel);
-  border-left: 1px solid var(--aos-surface-border);
-  overflow: hidden;
-  z-index: var(--aos-z-fixed);
-  transition: width var(--aos-transition-normal), transform var(--aos-transition-normal);
-}
-
-.aos-shell--panel-collapsed .aos-panel {
-  width: var(--aos-space-panel-width-collapsed);
-  border-left: none;
-}
-
-.aos-shell--panel-collapsed .aos-context-panel {
-  display: none;
-}
-
-/* ========================================
  * RESPONSIVE BREAKPOINTS
- * Desktop-first, progressive enhancement
+ * The shell is a single column at every size; only the header padding
+ * tightens on small screens. Workspace-level responsive behavior belongs to
+ * the workspace host, framework, and workspaces themselves.
  * ======================================== */
 
-/* Tablet - collapse panel by default.
- * Bounded to the tablet range (above the mobile breakpoint). The panel-state
- * override below uses :not(), which raises this rule's specificity; leaving
- * the query open-ended let it leak past the mobile breakpoint and win over
- * the lower-specificity mobile stacked-grid rule, corrupting the mobile
- * layout. Constraining the lower bound keeps tablet specificity inside the
- * tablet range. */
-@media (min-width: 1025px) and (max-width: 1440px) {
-  .aos-shell {
-    grid-template-columns: var(--aos-space-nav-width) 1fr 0;
-  }
-
-  .aos-shell:not(.aos-shell--panel-collapsed) {
-    grid-template-columns: var(--aos-space-nav-width) 1fr var(--aos-space-panel-width);
-  }
-}
-
-/* Mobile - stack layout, drawer navigation.
- * The collapsed-state modifiers are listed so the stacked grid reset matches
- * their specificity (.aos-shell--nav-collapsed.aos-shell--panel-collapsed is
- * 0,2,0). Without them, an active collapse state would override the single
- * column reset and reintroduce the desktop track structure on mobile. */
-@media (max-width: 1024px) {
-  .aos-shell,
-  .aos-shell--nav-collapsed,
-  .aos-shell--panel-collapsed,
-  .aos-shell--nav-collapsed.aos-shell--panel-collapsed {
-    grid-template-rows: var(--aos-space-header-height) auto 1fr;
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "header"
-      "nav"
-      "workspace";
-  }
-
-  .aos-navigation {
-    position: fixed;
-    top: var(--aos-space-header-height);
-    left: 0;
-    height: calc(100vh - var(--aos-space-header-height));
-    width: var(--aos-space-nav-width);
-    z-index: var(--aos-z-fixed);
-    transform: translateX(-100%);
-    box-shadow: var(--aos-shadow-xl);
-  }
-  
-  .aos-shell--nav-open .aos-navigation {
-    transform: translateX(0);
-  }
-  
-  .aos-panel {
-    position: fixed;
-    top: var(--aos-space-header-height);
-    right: 0;
-    height: calc(100vh - var(--aos-space-header-height));
-    width: var(--aos-space-panel-width);
-    z-index: var(--aos-z-fixed);
-    transform: translateX(100%);
-    box-shadow: var(--aos-shadow-xl);
-  }
-  
-  .aos-shell--panel-open .aos-panel {
-    transform: translateX(0);
-  }
-}
-
-/* Small mobile */
 @media (max-width: 640px) {
   .aos-header {
     padding: 0 var(--aos-space-3);
-  }
-
-  .aos-navigation,
-  .aos-panel {
-    width: 100%;
-    max-width: 20rem;
-  }
-}
-
-/* ========================================
- * OVERLAY BACKDROPS (Mobile)
- * ======================================== */
-
-.aos-shell__backdrop {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: var(--aos-z-modal-backdrop);
-  opacity: 0;
-  transition: opacity var(--aos-transition-fast);
-}
-
-@media (max-width: 1024px) {
-  .aos-shell--nav-open .aos-shell__backdrop--nav,
-  .aos-shell--panel-open .aos-shell__backdrop--panel {
-    display: block;
-    opacity: 1;
   }
 }
 

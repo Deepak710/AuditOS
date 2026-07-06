@@ -128,6 +128,8 @@ The sidebar should support:
 * badges
 * nested menus
 
+GitHub Issue #16 removed the persistent Navigation Sidebar region entirely; primary navigation is realized instead as breadcrumb navigation integrated into the Global Header (Section 114.13, Section 114.26, Section 114.28).
+
 ---
 
 ### 114.7 Workspace Container
@@ -293,6 +295,8 @@ Control C-105
 ```
 
 Breadcrumbs should always reflect the current navigation hierarchy.
+
+Release 1 implements breadcrumb navigation as the primary navigation of the shell, replacing the permanent left Navigation Sidebar described in Section 114.6 and integrated into the Global Header described in Section 114.5. The implemented trail realizes the top-level workspace crumb only (for example "AuditOS Home"); the deeper hierarchy illustrated above remains future scope.
 
 ---
 
@@ -534,34 +538,34 @@ The shell is the permanent foundation of every AuditOS screen.
 
 ### 114.26 Shell Layout Implementation
 
-The Application Shell is realized as a single CSS Grid layout spanning four persistent structural regions.
+GitHub Issue #16 removed the permanent Navigation Sidebar and the Context Panel region. The Application Shell is now realized as a single CSS Grid layout spanning two persistent structural regions.
 
 ```text
 ┌───────────────────────────────────────────────────────────────┐
 │ Header                                                         │
-├────────────────┬───────────────────────────────┬──────────────┤
-│ Navigation      │ Workspace                       │ Context      │
-│ Sidebar         │ Content Area                    │ Panel        │
-└────────────────┴───────────────────────────────┴──────────────┘
+├───────────────────────────────────────────────────────────────┤
+│ Workspace Content Area                                          │
+└───────────────────────────────────────────────────────────────┘
 ```
 
-The grid defines four named areas — header, nav, workspace, and panel. The Header spans the full width across the top row. The Navigation Sidebar, Workspace Content Area, and Context Panel occupy the row beneath it. The Footer and Status Bar described in Section 114.9 do not yet participate in the grid.
+The grid defines two named areas — header and workspace. The Header spans the full width across the top row; the Workspace Content Area fills the remaining height and width beneath it. The Footer and Status Bar described in Section 114.9 do not participate in the grid; per-workspace footers render inside the Workspace Content Area itself (see the Workspace Design System, §15.10).
 
-Each region currently renders as an empty structural placeholder. The Navigation Sidebar contains no menu content, the Workspace Content Area contains no page content, and the Context Panel contains no AI Copilot content. These regions exist to receive the navigation, workspace, and AI Copilot capabilities described elsewhere in this chapter as later work populates them.
+Primary navigation no longer occupies a persistent region of its own. It is realized as breadcrumb navigation integrated into the Global Header (Section 114.5, Section 114.13, Section 114.28) rather than a separate structural area, so the Workspace Content Area gains the full width the Navigation Sidebar and Context Panel previously reserved.
 
-The layout also defines collapsed and expanded structural states for the Navigation Sidebar and Context Panel, allowing either region to narrow to an icon-only or hidden width. These states are expressed purely as CSS structure; nothing in the shell currently switches between them.
+The Workspace Content Area is fluid at every width. On very wide displays its inner canvas is capped at a shell-scoped max-width and centered, so line lengths stay readable without reintroducing a fixed side gutter; below that width the canvas fills the available space edge to edge. Horizontal padding scales gently with viewport width instead of using a fixed gutter.
+
+The Navigation Sidebar and Context Panel's collapsed/expanded structural states described in earlier drafts of this section no longer apply — both regions were removed rather than made collapsible.
 
 ---
 
 ### 114.27 Shell Layout Tokens
 
-The shell's grid regions are sized using a small set of shell-scoped layout tokens:
+Following the removal of the Navigation Sidebar and Context Panel (Section 114.26), the shell's grid regions are sized using a small set of shell-scoped layout tokens:
 
 * Header height
-* Navigation width
-* Collapsed navigation width
-* Context panel width
-* Collapsed context panel width
+* Workspace canvas max-width (the ultrawide centering bound described in Section 114.26)
+
+The Navigation width, Collapsed navigation width, Context panel width, and Collapsed context panel width tokens described in earlier drafts of this section were removed along with the regions they sized.
 
 These tokens are distinct from the Design Token Foundation. The Design Token Foundation (`variables.css`) declares the platform's reusable visual values — color, typography, spacing, radius, shadow, motion, breakpoints, and accessibility tokens — consumed by every workspace and component across AuditOS. Shell layout tokens instead size the shell's own grid regions. They describe shell-specific structural measurements rather than platform-wide visual values, so they are declared alongside the shell's own layout stylesheet rather than within the Design Token Foundation.
 
@@ -576,17 +580,26 @@ The Global Header is realized as a single reusable component, `.aos-global-heade
 The component defines four structural regions, arranged as a leading group and a trailing group:
 
 * Brand
-* Workspace Title
+* Breadcrumb (replaces the earlier Workspace Title region — see below)
 * Global Actions
 * User Profile
 
-The Brand and Workspace Title regions form the leading group. The Global Actions and User Profile regions form the trailing group. Each region currently renders as an empty structural placeholder — no logo, title text, action controls, or profile content are present. These regions exist to receive the brand mark, contextual workspace title, global action controls, and user profile control as later work populates them.
+The Brand and Breadcrumb regions form the leading group. The Global Actions and User Profile regions form the trailing group.
 
-The header's structure is styled by a dedicated stylesheet, `header.css`, imported by `main.css` alongside the shell's layout and navigation stylesheets. Like the rest of the shell, the header stylesheet consumes only the Design Token Foundation and introduces no new visual values.
+GitHub Issue #16 replaced the Workspace Title region with the Breadcrumb region and populated every region with live content:
 
-In this release, the header markup is rendered directly within the page rather than through a component loader or template engine. No such loader or build process exists yet in the prototype, so the header's structure is written once inside the shell's header region rather than duplicated through a separate include.
+* **Brand** renders the AuditOS mark and wordmark as a link back to AuditOS Home.
+* **Breadcrumb** hosts the breadcrumb navigation of Section 114.13 and Navigation Components §76.10 — rendered at runtime by `components/navigation/navigation.js`, which also implements the workspace-switcher menu of §76.11.
+* **Global Actions** renders the theme toggle and the notification indicator, rendered at runtime by `components/header/header.js`. The notification indicator's badge count is a live read from the Shared Audit State (pending-review and rejected evidence, plus submitted evidence requests) and links to AuditOS Home, where the underlying Signals section lists the same events; it never fabricates a count.
+* **User Profile** renders the signed-in user chip (avatar, engagement-lead identifier, and auditor) derived from the current engagement in the Shared Audit State, also rendered by `header.js`.
 
-On narrow viewports, the Workspace Title region yields horizontal space first, preserving the Brand, Global Actions, and User Profile regions at the expense of contextual title text.
+The theme toggle stamps `data-aos-theme` on the root element to choose light or dark explicitly; the Design Token Foundation's dark-mode block (`variables.css`) resolves system preference by default and this explicit override when present. The preference is memory-only presentation state — it does not persist across a reload, consistent with Release 1 having no persistence layer.
+
+The header's structure is styled by a dedicated stylesheet, `header.css`, imported by `main.css` alongside the shell's layout and navigation stylesheets. Breadcrumb-specific chrome (the trail, the crumb button, and the workspace-switcher menu) is styled by `navigation.css`. Like the rest of the shell, both stylesheets consume only the Design Token Foundation and introduce no new visual values.
+
+In this release, the header and breadcrumb markup are rendered directly within the page rather than through a component loader or template engine. No such loader or build process exists yet in the prototype, so the canonical markup for each is written once (in `components/header/header.html` and `components/navigation/navigation.html` respectively) and kept in sync with what their scripts render into the shell's header region.
+
+On narrow viewports, the Brand wordmark and the User Profile identity text yield horizontal space first, preserving the Breadcrumb, Global Actions, and the User Profile avatar.
 
 ---
 

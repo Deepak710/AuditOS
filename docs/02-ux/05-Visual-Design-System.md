@@ -625,6 +625,6 @@ Tokens are organized into logical categories: colors, typography, spacing, borde
 
 `main.css` exists only as the stylesheet entry point. It imports the token foundation and nothing more.
 
-Application Shell dimensions — such as navigation width, panel width, and header height — are intentionally excluded from the Design Token Foundation. These values describe structural composition rather than reusable visual language, and belong to the Application Shell architecture described in the Workspace Design System.
+Application Shell dimensions — such as header height and the workspace canvas's centered max-width on ultrawide displays — are intentionally excluded from the Design Token Foundation. These values describe structural composition rather than reusable visual language, and belong to the Application Shell architecture described in the Workspace Design System.
 
 This separation keeps the token foundation implementation-agnostic: any future workspace, shell, or layout can consume the same visual language without inheriting assumptions about a specific structural implementation.

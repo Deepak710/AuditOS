@@ -22,17 +22,43 @@
 @import 'variables.css';
 
 /* ========================================
- * HOME COLUMN
- * One generous vertical rhythm for the landing bands: resume, urgent,
- * assigned, pulse, portfolio, signals. Whitespace separates
- * responsibilities (§17.8); each band is a Section component.
+ * HOME MASTER GRID (Issue #16)
+ * A 12-column command-center grid that turns the landing bands into a dense,
+ * low-scroll operational layout: Continue working spans the full width,
+ * Urgent work and Assigned to me share one row, the KPI pulse spans the full
+ * width, and the client portfolio sits beside the Signals rail. Each band is
+ * still a Section component; grid placement is layout identity only, keyed
+ * by the per-section modifier home.js assigns from the descriptor id.
  * ======================================== */
 
 .aos-home {
-  display: flex;
-  flex-direction: column;
-  gap: var(--aos-space-10);
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--aos-space-8) var(--aos-space-5);
+  align-items: start;
   min-width: 0;
+}
+
+.aos-home__section {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+/* Urgent work and Assigned to me read side by side: one row answers both
+ * "what is at risk" and "what is mine" without scrolling. */
+.aos-home__section--urgent-work,
+.aos-home__section--assigned-to-me {
+  grid-column: span 6;
+}
+
+/* The portfolio and the Signals rail share the final row: clients dominate,
+ * notifications and calendar stack beside them as a quiet rail. */
+.aos-home__section--clients {
+  grid-column: span 8;
+}
+
+.aos-home__section--signals {
+  grid-column: span 4;
 }
 
 /* ========================================
@@ -255,7 +281,16 @@
 
 @media (max-width: 1024px) {
   .aos-home {
-    gap: var(--aos-space-8);
+    gap: var(--aos-space-6) var(--aos-space-4);
+  }
+
+  /* The master grid settles into a single column: every band spans full
+   * width so tablets keep readable lists and cards. */
+  .aos-home__section--urgent-work,
+  .aos-home__section--assigned-to-me,
+  .aos-home__section--clients,
+  .aos-home__section--signals {
+    grid-column: 1 / -1;
   }
 
   .aos-home__resume,
@@ -272,7 +307,7 @@
 
 @media (max-width: 640px) {
   .aos-home {
-    gap: var(--aos-space-6);
+    gap: var(--aos-space-5) var(--aos-space-3);
   }
 
   .aos-home__resume {

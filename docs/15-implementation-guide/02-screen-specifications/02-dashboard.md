@@ -106,6 +106,21 @@ Footer
 
 The layout remains responsive across all supported devices.
 
+#### Release 1 Layout
+
+The sections above describe the full target vision for the Dashboard; Release 1 implements AuditOS Home (Workspaces and Navigation §12.6) as a reduced, fully JSON-driven subset of it, using the Workspace Design System's Universal Workspace Structure (§15.3) rather than the illustrative widget catalog in §115.7–§115.24.
+
+GitHub Issue #16 arranged AuditOS Home's implemented sections into a 12-column master grid instead of full-width stacked bands, so the dashboard reads with the density of a command center rather than a scrolling report:
+
+* Continue working (resume cards) spans the full width.
+* Urgent work and Assigned to me share one row, six columns each.
+* Engagement overview (the KPI band) spans the full width.
+* Clients spans eight columns beside a four-column Signals rail (Notifications and Calendar).
+
+The grid collapses to a single column at the tablet and mobile breakpoints (Workspace Shell §75.14 — Responsive Architecture), where every section returns to full width.
+
+Every value rendered in these sections — resume-card counts, urgent items, assignments, KPI figures, client readiness scores, notifications, and calendar entries — is read through the Shared Audit State (`AuditOS.state`) from the demo-data JSON, never hardcoded, and re-renders when the state loads or changes. The reserved AI Recommendations panel (Workspace Design System §15.8) remains an explicit "reserved for AI advisory" placeholder, since no AI foundation exists yet in Release 1.
+
 ---
 
 ### 115.6 Workspace Header

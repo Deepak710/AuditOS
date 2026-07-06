@@ -50,7 +50,9 @@
   min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: var(--aos-space-6);
+  /* Full-width canvas (Issue #16): fluid horizontal breathing room that
+   * grows gently with the viewport instead of reserving fixed gutters. */
+  padding: var(--aos-space-6) clamp(var(--aos-space-4), 3vw, var(--aos-space-10));
 }
 
 /* ========================================

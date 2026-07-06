@@ -208,11 +208,16 @@
 }
 
 /* ========================================
- * DARK MODE SUPPORT (Future-ready)
+ * DARK MODE SUPPORT
+ * The dark scheme follows the operating system by default and can be chosen
+ * explicitly through the header theme toggle, which stamps `data-aos-theme`
+ * on the root element (memory-only presentation state). The system scheme
+ * applies unless the user explicitly chose light; the explicit dark selector
+ * mirrors the same overrides.
  * ======================================== */
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-aos-theme='light']) {
     --aos-surface-app: var(--aos-color-neutral-950);
     --aos-surface-workspace: var(--aos-color-neutral-900);
     --aos-surface-panel: var(--aos-color-neutral-900);
@@ -229,6 +234,24 @@
     --aos-text-link: var(--aos-color-primary-400);
     --aos-text-link-hover: var(--aos-color-primary-300);
   }
+}
+
+:root[data-aos-theme='dark'] {
+  --aos-surface-app: var(--aos-color-neutral-950);
+  --aos-surface-workspace: var(--aos-color-neutral-900);
+  --aos-surface-panel: var(--aos-color-neutral-900);
+  --aos-surface-card: var(--aos-color-neutral-800);
+  --aos-surface-hover: var(--aos-color-neutral-800);
+  --aos-surface-active: var(--aos-color-neutral-700);
+  --aos-surface-border: var(--aos-color-neutral-700);
+  --aos-surface-border-strong: var(--aos-color-neutral-600);
+
+  --aos-text-primary: var(--aos-color-neutral-50);
+  --aos-text-secondary: var(--aos-color-neutral-400);
+  --aos-text-tertiary: var(--aos-color-neutral-500);
+  --aos-text-inverse: var(--aos-color-neutral-950);
+  --aos-text-link: var(--aos-color-primary-400);
+  --aos-text-link-hover: var(--aos-color-primary-300);
 }
 
 /* ========================================

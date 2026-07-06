@@ -1,0 +1,36 @@
+<!--
+  AuditOS Global Header Content Component
+  Application Shell — Chapter 114 / Application Shell optimization (Issue #16)
+
+  The content of the global header's trailing regions, rendered at runtime by
+  header.js: the theme toggle and notification indicator (global actions
+  region) and the signed-in user control (profile region). The notification
+  count and the user identity derive from the Shared Audit State; the theme
+  toggle stamps `data-aos-theme` on the root element, which the Design Token
+  Foundation resolves to the light or dark token set (memory-only
+  presentation state).
+
+  No component loader or build step exists in the prototype, so this file is
+  the canonical source for the markup header.js renders; keep the two in
+  sync.
+-->
+
+<!-- Global actions region: <div class="aos-global-header__actions" data-region="global-actions"> -->
+<button type="button" class="aos-global-header__icon-button"
+  aria-label="Switch to dark theme" title="Switch to dark theme">
+  <i class="bi bi-moon-stars" aria-hidden="true"></i>
+</button>
+<a class="aos-global-header__icon-button" href="#/dashboard"
+  aria-label="6 notifications — review in AuditOS Home" title="Notifications">
+  <i class="bi bi-bell" aria-hidden="true"></i>
+  <span class="aos-global-header__badge aos-numeric" aria-hidden="true">6</span>
+</a>
+
+<!-- User profile region: <div class="aos-global-header__profile" data-region="user-profile"> -->
+<div class="aos-global-header__user" aria-label="Signed in as USR-002 — Engagement Lead, EY Tech Risk">
+  <span class="aos-global-header__avatar"><i class="bi bi-person" aria-hidden="true"></i></span>
+  <span class="aos-global-header__user-text">
+    <span class="aos-global-header__user-name">USR-002</span>
+    <span class="aos-global-header__user-role">Engagement Lead · EY Tech Risk</span>
+  </span>
+</div>

@@ -15,51 +15,34 @@
     <header class="aos-header" aria-label="Global header">
       <!-- ========================================================= -->
       <!-- Global Header Component                                   -->
+      <!-- The single navigation and identity surface of the shell   -->
+      <!-- (Issue #16). The brand is static product identity; the    -->
+      <!-- breadcrumb region is populated by                         -->
+      <!-- components/navigation/navigation.js from the Workspace    -->
+      <!-- Registry, and the global actions / profile regions by     -->
+      <!-- components/header/header.js from the Shared Audit State.  -->
       <!-- ========================================================= -->
       <div class="aos-global-header">
         <div class="aos-global-header__start">
-          <!-- Brand region — reserved for the AuditOS logo / wordmark -->
-          <div class="aos-global-header__brand" data-region="brand"></div>
+          <!-- Brand — the AuditOS mark / wordmark, linking to Home -->
+          <a class="aos-global-header__brand" data-region="brand" href="#/dashboard">
+            <span class="aos-global-header__brand-mark" aria-hidden="true">A</span>
+            <span class="aos-global-header__brand-name">AuditOS</span>
+          </a>
 
-          <!-- Workspace title region — reserved for the current workspace / engagement context -->
-          <div class="aos-global-header__title" data-region="workspace-title"></div>
+          <!-- Breadcrumb navigation — the workspace crumb opens the workspace switcher menu -->
+          <nav class="aos-global-header__breadcrumb" data-region="breadcrumb" aria-label="Breadcrumb"></nav>
         </div>
 
         <div class="aos-global-header__end">
-          <!-- Global actions region — reserved for search, command palette, notifications, AI status -->
+          <!-- Global actions region — theme toggle and notifications (header.js); search / command palette / AI status arrive with later issues -->
           <div class="aos-global-header__actions" data-region="global-actions"></div>
 
-          <!-- User profile region — reserved for the user profile / account control -->
+          <!-- User profile region — the signed-in user control (header.js) -->
           <div class="aos-global-header__profile" data-region="user-profile"></div>
         </div>
       </div>
     </header>
-
-    <nav class="aos-navigation" aria-label="Primary navigation">
-      <!-- ========================================================= -->
-      <!-- Left Navigation Component                                 -->
-      <!-- Canonical source: components/navigation/navigation.html   -->
-      <!-- Structural regions. The primary-navigation region is       -->
-      <!-- populated at runtime by components/navigation/navigation.js -->
-      <!-- from the Workspace Registry; the others await later issues. -->
-      <!-- ========================================================= -->
-      <div class="aos-nav">
-        <!-- Brand region — reserved for the AuditOS brand mark / wordmark -->
-        <div class="aos-nav__brand" data-region="brand"></div>
-
-        <!-- Primary navigation region — workspace destinations rendered by navigation.js -->
-        <div class="aos-nav__primary" data-region="primary-navigation"></div>
-
-        <!-- Secondary navigation region — reserved for secondary destinations -->
-        <div class="aos-nav__secondary" data-region="secondary-navigation"></div>
-
-        <!-- Bottom utility region — reserved for the persistent utility / account area -->
-        <div class="aos-nav__utility" data-region="utility"></div>
-
-        <!-- Collapse placeholder region — reserved for the future collapse / expand control -->
-        <div class="aos-nav__collapse" data-region="collapse"></div>
-      </div>
-    </nav>
 
     <main class="aos-workspace" aria-label="Workspace">
       <!-- ========================================================= -->
@@ -85,30 +68,6 @@
         <div class="aos-workspace-host__footer" data-region="workspace-footer"></div>
       </div>
     </main>
-
-    <aside class="aos-panel" aria-label="Context panel">
-      <!-- ========================================================= -->
-      <!-- Right Context Panel Component                             -->
-      <!-- Canonical source: components/context-panel/context-panel.html -->
-      <!-- Structure only — five empty regions for later issues.     -->
-      <!-- ========================================================= -->
-      <div class="aos-context-panel">
-        <!-- Panel header region — reserved for the panel title / close and collapse controls -->
-        <div class="aos-context-panel__header" data-region="panel-header"></div>
-
-        <!-- Primary content region — reserved for the primary contextual information -->
-        <div class="aos-context-panel__primary" data-region="primary-content"></div>
-
-        <!-- Secondary content region — reserved for supporting contextual information -->
-        <div class="aos-context-panel__secondary" data-region="secondary-content"></div>
-
-        <!-- Footer region — reserved for the persistent panel footer / status area -->
-        <div class="aos-context-panel__footer" data-region="footer"></div>
-
-        <!-- Collapse placeholder region — reserved for the future collapse / expand control -->
-        <div class="aos-context-panel__collapse" data-region="collapse"></div>
-      </div>
-    </aside>
   </div>
 
   <!-- ========================================================= -->
@@ -151,12 +110,23 @@
   <script src="js/main.js"></script>
 
   <!-- ========================================================= -->
-  <!-- Navigation Content                                        -->
-  <!-- Renders workspace destinations from the registry and      -->
-  <!-- follows the current route. Loads after the bootstrap so    -->
-  <!-- the router has resolved the initial route first.          -->
+  <!-- Breadcrumb Navigation Content                             -->
+  <!-- Renders the header breadcrumb and its workspace switcher  -->
+  <!-- menu from the registry and follows the current route.     -->
+  <!-- Loads after the bootstrap so the router has resolved the  -->
+  <!-- initial route first.                                      -->
   <!-- ========================================================= -->
   <script src="components/navigation/navigation.js"></script>
+
+  <!-- ========================================================= -->
+  <!-- Global Header Content                                     -->
+  <!-- Renders the theme toggle, the notification indicator, and -->
+  <!-- the signed-in user control into the header's global       -->
+  <!-- actions and profile regions. Business values derive from  -->
+  <!-- the Shared Audit State; the theme preference is memory-   -->
+  <!-- only presentation state.                                  -->
+  <!-- ========================================================= -->
+  <script src="components/header/header.js"></script>
 
   <!-- ========================================================= -->
   <!-- Shared Workspace Framework                                -->

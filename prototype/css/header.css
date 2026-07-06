@@ -1,16 +1,22 @@
 /**
  * AuditOS Global Header Component
- * Application Shell - Chapter 114 / Layout Components - Chapter 75
- * Reusable structural header mounted inside the shell's header region.
- * Structure only — no business content, icons, or interactions.
+ * Application Shell - Chapter 114 / Layout Components - Chapter 75 /
+ * Application Shell optimization (GitHub Issue #16)
+ *
+ * The single navigation and identity surface of the shell: brand, breadcrumb
+ * navigation (styled in navigation.css), global actions (theme toggle,
+ * notifications), and the signed-in user control. Structure and chrome only —
+ * content is rendered by components/navigation/navigation.js and
+ * components/header/header.js. Consumes only the Design Token Foundation;
+ * introduces no new visual values.
  */
 
 @import 'variables.css';
 
 /* ========================================
  * GLOBAL HEADER CONTAINER
- * Fills the shell header region and lays out the four
- * permanent header regions across two aligned groups.
+ * Fills the shell header region and lays out the permanent header regions
+ * across two aligned groups.
  * ======================================== */
 
 .aos-global-header {
@@ -22,12 +28,12 @@
   height: 100%;
 }
 
-/* Leading (brand + title) and trailing (actions + profile) groups */
+/* Leading (brand + breadcrumb) and trailing (actions + profile) groups */
 .aos-global-header__start,
 .aos-global-header__end {
   display: flex;
   align-items: center;
-  gap: var(--aos-space-4);
+  gap: var(--aos-space-3);
 }
 
 .aos-global-header__start {
@@ -41,7 +47,7 @@
 
 /* ========================================
  * REGION: BRAND
- * Reserved for the AuditOS logo / wordmark.
+ * The AuditOS mark and wordmark, linking back to Home.
  * ======================================== */
 
 .aos-global-header__brand {
@@ -49,66 +55,174 @@
   align-items: center;
   gap: var(--aos-space-2);
   flex-shrink: 0;
-  min-width: var(--aos-space-8);
-  min-height: var(--aos-space-8);
+  padding: var(--aos-space-1);
+  border-radius: var(--aos-radius-md);
+  text-decoration: none;
+  color: var(--aos-text-primary);
+}
+
+.aos-global-header__brand:focus-visible {
+  outline: none;
+  box-shadow: var(--aos-focus-ring);
+}
+
+.aos-global-header__brand-mark {
+  display: grid;
+  place-items: center;
+  width: var(--aos-space-6);
+  height: var(--aos-space-6);
+  border-radius: var(--aos-radius-md);
+  background: var(--aos-color-primary-600);
+  color: var(--aos-text-inverse);
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-bold);
+  line-height: var(--aos-leading-tight);
+}
+
+.aos-global-header__brand-name {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: -0.01em;
 }
 
 /* ========================================
- * REGION: WORKSPACE TITLE
- * Reserved for the current workspace / engagement context.
- * Yields horizontal space before the fixed side regions.
+ * REGION: BREADCRUMB NAVIGATION
+ * Hosts the breadcrumb trail (navigation.css). Yields horizontal space
+ * before the fixed trailing regions and truncates gracefully.
  * ======================================== */
 
-.aos-global-header__title {
+.aos-global-header__breadcrumb {
   display: flex;
   align-items: center;
   flex: 1 1 auto;
   min-width: 0;
-  min-height: var(--aos-space-8);
-  overflow: hidden;
 }
 
 /* ========================================
  * REGION: GLOBAL ACTIONS
- * Reserved for search, command palette, notifications, AI status.
+ * Theme toggle and notifications; search, command palette, and AI status
+ * arrive with later issues.
  * ======================================== */
 
 .aos-global-header__actions {
   display: flex;
   align-items: center;
-  gap: var(--aos-space-2);
+  gap: var(--aos-space-1);
   flex-shrink: 0;
-  min-height: var(--aos-space-8);
+}
+
+/* Quiet square icon control shared by the header's global actions. */
+.aos-global-header__icon-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--aos-space-8);
+  height: var(--aos-space-8);
+  border: none;
+  border-radius: var(--aos-radius-md);
+  background: transparent;
+  color: var(--aos-text-secondary);
+  font-size: var(--aos-text-base);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--aos-transition-fast),
+    color var(--aos-transition-fast);
+}
+
+.aos-global-header__icon-button:hover {
+  background: var(--aos-surface-hover);
+  color: var(--aos-text-primary);
+}
+
+.aos-global-header__icon-button:focus-visible {
+  outline: none;
+  box-shadow: var(--aos-focus-ring);
+}
+
+/* Attention count on the notification control. Meaning, not decoration:
+ * the count is real Shared Audit State workload (§17.10). */
+.aos-global-header__badge {
+  position: absolute;
+  top: var(--aos-space-1);
+  right: var(--aos-space-1);
+  display: grid;
+  place-items: center;
+  min-width: var(--aos-space-4);
+  height: var(--aos-space-4);
+  padding: 0 var(--aos-space-1);
+  border-radius: var(--aos-radius-full);
+  background: var(--aos-color-error-600);
+  color: var(--aos-text-inverse);
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-tight);
 }
 
 /* ========================================
  * REGION: USER PROFILE
- * Reserved for the user profile / account control.
+ * The signed-in user control: avatar, identity, and role.
  * ======================================== */
 
 .aos-global-header__profile {
   display: flex;
   align-items: center;
-  gap: var(--aos-space-2);
   flex-shrink: 0;
-  min-width: var(--aos-space-8);
-  min-height: var(--aos-space-8);
+}
+
+.aos-global-header__user {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-1) var(--aos-space-2);
+  border-radius: var(--aos-radius-md);
+}
+
+.aos-global-header__avatar {
+  display: grid;
+  place-items: center;
+  width: var(--aos-space-8);
+  height: var(--aos-space-8);
+  border-radius: var(--aos-radius-full);
+  background: var(--aos-color-primary-100);
+  color: var(--aos-color-primary-700);
+  font-size: var(--aos-text-sm);
+}
+
+.aos-global-header__user-text {
+  display: flex;
+  flex-direction: column;
+  line-height: var(--aos-leading-tight);
+}
+
+.aos-global-header__user-name {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+  white-space: nowrap;
+}
+
+.aos-global-header__user-role {
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+  white-space: nowrap;
 }
 
 /* ========================================
  * RESPONSIVE BEHAVIOR
- * On narrow viewports the workspace title region yields first,
- * preserving the brand, actions, and profile regions.
+ * On narrow viewports the brand wordmark and the user identity text yield
+ * first, preserving the breadcrumb, actions, and avatar.
  * ======================================== */
 
 @media (max-width: 640px) {
   .aos-global-header,
   .aos-global-header__start,
   .aos-global-header__end {
-    gap: var(--aos-space-3);
+    gap: var(--aos-space-2);
   }
 
-  .aos-global-header__title {
+  .aos-global-header__brand-name,
+  .aos-global-header__user-text {
     display: none;
   }
 }

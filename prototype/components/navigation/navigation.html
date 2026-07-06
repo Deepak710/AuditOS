@@ -1,31 +1,48 @@
 <!--
-  AuditOS Left Navigation Component
-  Navigation Components — Chapter 76 / Application Shell — Chapter 114
+  AuditOS Breadcrumb Navigation Component
+  Navigation Components — Chapter 76 (§76.10 Breadcrumbs) / Application Shell
+  optimization (GitHub Issue #16)
 
-  Reusable structural navigation mounted inside the shell's navigation
-  region: <nav class="aos-navigation" aria-label="Primary navigation">.
-  Five structural regions. The primary-navigation region is populated at
-  runtime by navigation.js with one destination per registered workspace,
-  driven by the Workspace Registry; the brand, secondary, utility, and
-  collapse regions stay empty for later issues.
+  Breadcrumb navigation mounted inside the global header's breadcrumb region:
+  <nav class="aos-global-header__breadcrumb" aria-label="Breadcrumb">.
+  The trail is rendered at runtime by navigation.js: the workspace crumb
+  names the active workspace and doubles as the workspace switcher — a menu
+  of every registered workspace, driven by the Workspace Registry and the
+  Static Router. Future issues append deeper crumbs (client / engagement /
+  business object) as additional trail items.
 
-  No component loader or build step exists in the prototype yet, so this
-  markup is also embedded directly inside index.html. This file is the
-  canonical source for that markup; keep the two in sync.
+  No component loader or build step exists in the prototype, so this file is
+  the canonical source for the markup navigation.js renders; keep the two in
+  sync.
 -->
-<div class="aos-nav">
-  <!-- Brand region — reserved for the AuditOS brand mark / wordmark -->
-  <div class="aos-nav__brand" data-region="brand"></div>
+<ol class="aos-breadcrumb" role="list">
+  <li class="aos-breadcrumb__item">
+    <!-- Separator between the brand and the trail -->
+    <span class="aos-breadcrumb__separator" aria-hidden="true">/</span>
 
-  <!-- Primary navigation region — workspace destinations rendered by navigation.js -->
-  <div class="aos-nav__primary" data-region="primary-navigation"></div>
+    <!-- Workspace crumb — the workspace switcher (menu button pattern) -->
+    <button type="button" class="aos-breadcrumb__crumb" aria-haspopup="menu"
+      aria-expanded="false" aria-label="Current workspace: AuditOS Home — switch workspace">
+      <span class="aos-breadcrumb__crumb-label">AuditOS Home</span>
+      <span class="aos-breadcrumb__chevron" aria-hidden="true"><i class="bi bi-chevron-down"></i></span>
+    </button>
 
-  <!-- Secondary navigation region — reserved for secondary destinations -->
-  <div class="aos-nav__secondary" data-region="secondary-navigation"></div>
-
-  <!-- Bottom utility region — reserved for the persistent utility / account area -->
-  <div class="aos-nav__utility" data-region="utility"></div>
-
-  <!-- Collapse placeholder region — reserved for the future collapse / expand control -->
-  <div class="aos-nav__collapse" data-region="collapse"></div>
-</div>
+    <!-- Workspace menu — one destination per registered workspace, in registry order -->
+    <ul class="aos-breadcrumb__menu" role="menu" aria-label="Workspaces" hidden>
+      <li role="none">
+        <a class="aos-breadcrumb__option is-active" role="menuitem" href="#/dashboard"
+          data-workspace-id="dashboard" aria-current="page">
+          <span class="aos-breadcrumb__option-label">AuditOS Home</span>
+          <span class="aos-breadcrumb__option-check" aria-hidden="true">✓</span>
+        </a>
+      </li>
+      <li role="none">
+        <a class="aos-breadcrumb__option" role="menuitem" href="#/engagements" data-workspace-id="engagement">
+          <span class="aos-breadcrumb__option-label">Engagement</span>
+          <span class="aos-breadcrumb__option-check" aria-hidden="true"></span>
+        </a>
+      </li>
+      <!-- …one option per remaining registered workspace… -->
+    </ul>
+  </li>
+</ol>

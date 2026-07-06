@@ -1,170 +1,181 @@
 /**
- * AuditOS Left Navigation Foundation
- * Navigation Components — Chapter 76 / Application Shell — Chapter 114
+ * AuditOS Breadcrumb Navigation
+ * Navigation Components — Chapter 76 (§76.10 Breadcrumbs) / Application Shell
+ * optimization (GitHub Issue #16)
  *
- * Reusable structural navigation mounted inside the shell's navigation
- * region (<nav class="aos-navigation">). Structure only — five empty
- * regions with no menu items, icons, labels, routing, or interactions.
+ * The primary navigation of AuditOS: breadcrumb navigation integrated into
+ * the global header. The trail's workspace crumb doubles as the workspace
+ * switcher — a menu of every registered workspace, rendered by
+ * components/navigation/navigation.js from the Workspace Registry and driven
+ * by the Static Router. Visually quiet (§17.15): orientation, not attention.
  * Consumes only the Design Token Foundation; introduces no new visual values.
  */
 
 @import 'variables.css';
 
 /* ========================================
- * NAVIGATION COMPONENT CONTAINER
- * Fills the shell navigation region and stacks the five permanent
- * navigation regions as a single vertical column.
+ * BREADCRUMB TRAIL
+ * A single horizontal trail inside the header's breadcrumb region. Future
+ * issues append deeper crumbs (client / engagement / business object) as
+ * additional items without changing this structure.
  * ======================================== */
 
-.aos-nav {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-/* ========================================
- * REGION: BRAND
- * Reserved for the AuditOS brand mark / product wordmark.
- * Matches the header height so the sidebar brand aligns with the
- * global header across the top of the shell.
- * ======================================== */
-
-.aos-nav__brand {
+.aos-breadcrumb {
   display: flex;
   align-items: center;
-  gap: var(--aos-space-3);
-  flex-shrink: 0;
-  min-height: var(--aos-space-header-height);
-  padding: 0 var(--aos-space-4);
-  border-bottom: 1px solid var(--aos-surface-border);
-}
-
-/* ========================================
- * REGION: PRIMARY NAVIGATION
- * Reserved for the primary workspace destinations. Grows to consume
- * free vertical space and scrolls independently of the fixed regions.
- * ======================================== */
-
-.aos-nav__primary {
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: var(--aos-space-3) 0;
-}
-
-/* ========================================
- * PRIMARY NAVIGATION DESTINATIONS
- * The destination list rendered into the primary region by
- * components/navigation/navigation.js — one destination per registered
- * workspace, driven by the Workspace Registry. Consumes only design tokens;
- * introduces no new visual values.
- * ======================================== */
-
-.aos-nav__list {
+  gap: var(--aos-space-1);
   list-style: none;
   margin: 0;
-  padding: 0 var(--aos-space-3);
-  display: flex;
-  flex-direction: column;
-  gap: var(--aos-space-nav-item-gap);
+  padding: 0;
+  min-width: 0;
 }
 
-.aos-nav__item {
-  display: block;
-}
-
-.aos-nav__link {
+.aos-breadcrumb__item {
+  position: relative;
   display: flex;
   align-items: center;
+  gap: var(--aos-space-1);
+  min-width: 0;
+}
+
+/* Separator between trail segments (and between the brand and the trail). */
+.aos-breadcrumb__separator {
+  color: var(--aos-text-tertiary);
+  font-size: var(--aos-text-sm);
+  user-select: none;
+}
+
+/* ========================================
+ * WORKSPACE CRUMB — THE SWITCHER
+ * The current workspace, presented as a crumb that opens the workspace menu
+ * (Visual Studio style). Hierarchy comes from typography; the chevron is the
+ * only affordance.
+ * ======================================== */
+
+.aos-breadcrumb__crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+  max-width: 100%;
+  padding: var(--aos-space-1) var(--aos-space-2);
+  border: none;
+  border-radius: var(--aos-radius-md);
+  background: transparent;
+  color: var(--aos-text-primary);
+  font-family: inherit;
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-medium);
+  line-height: var(--aos-leading-normal);
+  cursor: pointer;
+  transition: background-color var(--aos-transition-fast),
+    color var(--aos-transition-fast);
+}
+
+.aos-breadcrumb__crumb:hover {
+  background: var(--aos-surface-hover);
+}
+
+.aos-breadcrumb__crumb:focus-visible {
+  outline: none;
+  box-shadow: var(--aos-focus-ring);
+}
+
+.aos-breadcrumb__crumb[aria-expanded='true'] {
+  background: var(--aos-surface-active);
+}
+
+.aos-breadcrumb__crumb-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.aos-breadcrumb__chevron {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+  transition: transform var(--aos-transition-fast);
+}
+
+.aos-breadcrumb__crumb[aria-expanded='true'] .aos-breadcrumb__chevron {
+  transform: rotate(180deg);
+}
+
+/* ========================================
+ * WORKSPACE MENU
+ * The switcher's dropdown: one destination per registered workspace, in
+ * registry order. Anchored to the crumb; enters with the shared fade motion
+ * (design-language.css keyframes), which collapses under reduced motion at
+ * the token layer.
+ * ======================================== */
+
+.aos-breadcrumb__menu {
+  position: absolute;
+  top: calc(100% + var(--aos-space-1));
+  left: 0;
+  min-width: 15rem;
+  max-height: 70vh;
+  overflow-y: auto;
+  margin: 0;
+  padding: var(--aos-space-1);
+  list-style: none;
+  background: var(--aos-surface-panel);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-lg);
+  box-shadow: var(--aos-shadow-lg);
+  z-index: var(--aos-z-dropdown);
+  animation: aos-fade-in var(--aos-duration-fast) var(--aos-ease-out);
+}
+
+.aos-breadcrumb__menu[hidden] {
+  display: none;
+}
+
+.aos-breadcrumb__option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: var(--aos-space-3);
   padding: var(--aos-space-2) var(--aos-space-3);
   border-radius: var(--aos-radius-md);
   color: var(--aos-text-secondary);
   font-size: var(--aos-text-sm);
   font-weight: var(--aos-font-medium);
-  line-height: var(--aos-leading-normal);
   text-decoration: none;
+  white-space: nowrap;
   transition: background-color var(--aos-transition-fast),
     color var(--aos-transition-fast);
 }
 
-.aos-nav__link:hover {
+.aos-breadcrumb__option:hover {
   background: var(--aos-surface-hover);
   color: var(--aos-text-primary);
 }
 
-.aos-nav__link:focus-visible {
+.aos-breadcrumb__option:focus-visible {
   outline: none;
   box-shadow: var(--aos-focus-ring);
 }
 
 /* Active destination follows the current route (set via aria-current by
  * navigation.js), giving keyboard and screen-reader users the same signal. */
-.aos-nav__link.is-active {
+.aos-breadcrumb__option.is-active {
   background: var(--aos-color-primary-50);
   color: var(--aos-text-link);
   font-weight: var(--aos-font-semibold);
 }
 
-/* ========================================
- * REGION: SECONDARY NAVIGATION
- * Reserved for secondary destinations (for example administration or
- * settings). Sits beneath the primary region, above the utility region.
- * ======================================== */
-
-.aos-nav__secondary {
-  flex-shrink: 0;
-  padding: var(--aos-space-3) 0;
-}
-
-/* ========================================
- * REGION: BOTTOM UTILITY
- * Reserved for the persistent utility area (for example the user /
- * account control). Anchored to the base of the navigation column.
- * ======================================== */
-
-.aos-nav__utility {
-  flex-shrink: 0;
-  padding: var(--aos-space-3) var(--aos-space-4);
-  border-top: 1px solid var(--aos-surface-border);
-}
-
-/* ========================================
- * REGION: COLLAPSE PLACEHOLDER
- * Reserved for the future navigation collapse / expand control.
- * Structure only — this foundation defines no toggle behavior.
- * ======================================== */
-
-.aos-nav__collapse {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-  min-height: var(--aos-space-10);
-  padding: var(--aos-space-2) var(--aos-space-4);
-}
-
-/* ========================================
- * COLLAPSED STRUCTURAL STATE
- * Pairs with the shell-level `.aos-shell--nav-collapsed` state defined
- * in layout.css. Centers region content to the icon rail as the
- * sidebar narrows. Structure only — nothing toggles this state yet.
- * ======================================== */
-
-.aos-shell--nav-collapsed .aos-nav__brand,
-.aos-shell--nav-collapsed .aos-nav__utility,
-.aos-shell--nav-collapsed .aos-nav__collapse {
-  justify-content: center;
-  padding-left: var(--aos-space-3);
-  padding-right: var(--aos-space-3);
+/* The check glyph confirming the active destination inside the menu. */
+.aos-breadcrumb__option-check {
+  color: var(--aos-text-link);
+  font-size: var(--aos-text-xs);
 }
 
 /* ========================================
  * SKIP LINK
  * Accessibility affordance letting keyboard and screen-reader users
- * bypass the navigation and jump to the workspace canvas. Visually
+ * bypass the header and jump to the workspace canvas. Visually
  * hidden until it receives focus.
  * ======================================== */
 
