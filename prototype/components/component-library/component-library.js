@@ -146,6 +146,34 @@
       description: 'An ordered list of dated events with tone markers on a connecting rail; the reusable timeline primitive (§15.10).'
     },
     {
+      id: 'data-grid',
+      name: 'Data Grid',
+      category: COMPONENT_CATEGORIES.DATA_DISPLAY,
+      className: 'aos-data-grid',
+      description: 'The enterprise collection table: configurable columns, sortable headers (UI only), selectable rows, status rails, badges, row actions, compact/comfortable density, and a sticky header (§77.10).'
+    },
+    {
+      id: 'entity-card',
+      name: 'Entity Card',
+      category: COMPONENT_CATEGORIES.DATA_DISPLAY,
+      className: 'aos-entity-card',
+      description: 'The one shared object-card language for clients, engagements, controls, evidence, and findings; a type avatar, identity, status badge, facts, meter, and tags (§77.8).'
+    },
+    {
+      id: 'activity-feed',
+      name: 'Activity Feed',
+      category: COMPONENT_CATEGORIES.DATA_DISPLAY,
+      className: 'aos-activity-feed',
+      description: 'A grouped stream of operational events with a tone icon, title, actor, metadata, and trailing timestamp; the grouped sibling of Item List (§77.13).'
+    },
+    {
+      id: 'inspector',
+      name: 'Inspector Panel',
+      category: COMPONENT_CATEGORIES.DATA_DISPLAY,
+      className: 'aos-inspector',
+      description: 'The reusable object detail panel: identity header, status badges, titled property/metadata/relationship sections with reserved placeholders, and a footer action cluster (§77.9).'
+    },
+    {
       id: 'button',
       name: 'Button',
       category: COMPONENT_CATEGORIES.INPUT,
@@ -179,6 +207,13 @@
       category: COMPONENT_CATEGORIES.LAYOUT,
       className: 'aos-action-group',
       description: 'A cluster of workspace actions with predictable spacing and alignment variants; presentation only.'
+    },
+    {
+      id: 'master-detail',
+      name: 'Master–Detail',
+      category: COMPONENT_CATEGORIES.LAYOUT,
+      className: 'aos-master-detail',
+      description: 'The reusable split layout: a list/table region beside an inspector region, with configurable proportions, an optional resizable divider, and responsive collapse (§81.8).'
     },
     {
       id: 'empty-state',

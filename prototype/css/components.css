@@ -1255,3 +1255,627 @@ button.aos-chip:focus-visible {
     animation: none;
   }
 }
+
+/* ============================================================================
+ * DATA DISPLAY — DATA GRID (§77.10 Data Table / Issue #18 §1)
+ * The enterprise collection table: a horizontally scrollable bordered surface
+ * hosting a semantic <table>. Column headers are real <button>s carrying
+ * aria-sort (sorting is UI presentation only — no rows are reordered here); a
+ * leading status rail and trailing action cell are reserved; rows are
+ * optionally selectable. Density is a token swap (comfortable vs compact) and
+ * the header is sticky so it survives vertical scroll. Empty and loading states
+ * compose the Empty State and Loading State primitives inside the same surface.
+ * Presentation only — it renders whatever rows a consumer maps from state.
+ * ========================================================================== */
+
+.aos-data-grid {
+  /* Density tokens — the comfortable default; --compact tightens the rhythm. */
+  --aos-data-grid-cell-x: var(--aos-space-4);
+  --aos-data-grid-cell-y: var(--aos-space-3);
+  min-width: 0;
+  overflow-x: auto;
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-lg);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-data-grid--compact {
+  --aos-data-grid-cell-x: var(--aos-space-3);
+  --aos-data-grid-cell-y: var(--aos-space-2);
+}
+
+.aos-data-grid__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--aos-text-sm);
+}
+
+.aos-data-grid__header-cell {
+  position: sticky;
+  top: 0;
+  z-index: var(--aos-z-base);
+  padding: var(--aos-data-grid-cell-y) var(--aos-data-grid-cell-x);
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+  /* Recessed header surface masks rows scrolling beneath the sticky row. */
+  background-color: var(--aos-surface-workspace);
+  border-bottom: 1px solid var(--aos-surface-border);
+}
+
+.aos-data-grid__header-cell--numeric {
+  text-align: right;
+}
+
+.aos-data-grid__header-cell--actions {
+  text-align: right;
+}
+
+/* Sortable header — a real focusable button; the caret conveys direction in
+ * addition to aria-sort, so ordering never reads by color alone. */
+.aos-data-grid__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-1);
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+}
+
+.aos-data-grid__header-cell--numeric .aos-data-grid__sort,
+.aos-data-grid__header-cell--actions .aos-data-grid__sort {
+  flex-direction: row-reverse;
+}
+
+.aos-data-grid__sort:focus-visible {
+  outline: none;
+  border-radius: var(--aos-radius-sm);
+  box-shadow: var(--aos-focus-ring);
+}
+
+.aos-data-grid__sort-indicator {
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-data-grid__header-cell[aria-sort='ascending'] .aos-data-grid__sort-indicator,
+.aos-data-grid__header-cell[aria-sort='descending'] .aos-data-grid__sort-indicator {
+  color: var(--aos-text-secondary);
+}
+
+.aos-data-grid__row {
+  border-top: 1px solid var(--aos-surface-border);
+}
+
+.aos-data-grid__body .aos-data-grid__row:first-child {
+  border-top: none;
+}
+
+.aos-data-grid--selectable .aos-data-grid__body .aos-data-grid__row {
+  cursor: pointer;
+  transition: background-color var(--aos-transition-fast);
+}
+
+.aos-data-grid--selectable .aos-data-grid__body .aos-data-grid__row:hover {
+  background-color: var(--aos-surface-hover);
+}
+
+.aos-data-grid__row--selected {
+  /* A whisper of brand marks selection; the row also carries aria-selected so
+   * the state is never conveyed by tint alone. Falls back to a plain surface
+   * where color-mix is unsupported. */
+  background-color: var(--aos-surface-active);
+  background-color: color-mix(in srgb, var(--aos-color-primary-500) 8%, var(--aos-surface-card));
+}
+
+.aos-data-grid--selectable .aos-data-grid__body .aos-data-grid__row--selected:hover {
+  background-color: color-mix(in srgb, var(--aos-color-primary-500) 12%, var(--aos-surface-card));
+}
+
+.aos-data-grid__cell {
+  padding: var(--aos-data-grid-cell-y) var(--aos-data-grid-cell-x);
+  vertical-align: middle;
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-primary);
+}
+
+.aos-data-grid__cell--secondary {
+  color: var(--aos-text-secondary);
+}
+
+.aos-data-grid__cell--numeric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Leading status cell — a tone rail plus a dot, both reinforcing a status that
+ * the row's text also states. Narrow so the data columns keep the width. */
+.aos-data-grid__cell--status {
+  width: var(--aos-space-1);
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.aos-data-grid__status-rail {
+  display: block;
+  width: var(--aos-space-1);
+  min-height: var(--aos-space-6);
+  border-radius: var(--aos-radius-full);
+  background-color: var(--aos-surface-border-strong);
+}
+
+.aos-data-grid__status-rail--info {
+  background-color: var(--aos-color-info-500);
+}
+
+.aos-data-grid__status-rail--success {
+  background-color: var(--aos-color-success-500);
+}
+
+.aos-data-grid__status-rail--warning {
+  background-color: var(--aos-color-warning-500);
+}
+
+.aos-data-grid__status-rail--error {
+  background-color: var(--aos-color-error-500);
+}
+
+/* Trailing actions cell — a right-aligned cluster of small/subtle Buttons. */
+.aos-data-grid__cell--actions {
+  width: 1%;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.aos-data-grid__row-actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--aos-space-2);
+}
+
+/* Empty and loading states sit inside the grid surface, centered, so the table
+ * chrome never renders as a blank ruled box. */
+.aos-data-grid__state {
+  padding: var(--aos-space-6);
+}
+
+/* ============================================================================
+ * LAYOUT — MASTER–DETAIL (§81.8 Master–Detail / Issue #18 §2)
+ * The reusable split layout: a list / table region beside an inspector region,
+ * with configurable proportions (a CSS variable the consumer sets from config)
+ * and an optional resizable divider (a keyboard-operable separator; the drag
+ * and arrow-key handlers are memory-only presentation state). It collapses to a
+ * single stacked column at the tablet breakpoint so the detail never gets
+ * squeezed. Layout only — both regions host whatever content a consumer
+ * composes.
+ * ========================================================================== */
+
+.aos-master-detail {
+  --aos-master-detail-list: 38%;
+  display: flex;
+  align-items: stretch;
+  gap: var(--aos-space-5);
+  min-width: 0;
+}
+
+.aos-master-detail__list {
+  flex: 0 0 var(--aos-master-detail-list);
+  min-width: 0;
+}
+
+.aos-master-detail__detail {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Resizable divider — a thin, keyboard-focusable separator. It carries
+ * role="separator" + aria-orientation and the value semantics in markup. */
+.aos-master-detail__divider {
+  flex: 0 0 auto;
+  align-self: stretch;
+  width: var(--aos-space-1);
+  padding: 0;
+  border: none;
+  border-radius: var(--aos-radius-full);
+  background-color: var(--aos-surface-border);
+  cursor: col-resize;
+  transition: background-color var(--aos-transition-fast);
+}
+
+.aos-master-detail__divider:hover {
+  background-color: var(--aos-surface-border-strong);
+}
+
+.aos-master-detail__divider:focus-visible {
+  outline: none;
+  box-shadow: var(--aos-focus-ring);
+}
+
+@media (max-width: 1024px) {
+  .aos-master-detail {
+    flex-direction: column;
+    gap: var(--aos-space-4);
+  }
+
+  .aos-master-detail__list {
+    flex-basis: auto;
+  }
+
+  /* The vertical resize affordance is meaningless once stacked. */
+  .aos-master-detail__divider {
+    display: none;
+  }
+}
+
+/* ============================================================================
+ * DATA DISPLAY — INSPECTOR PANEL (§77.9 Detail View / Issue #18 §3)
+ * The reusable object detail panel: an identity header (eyebrow, title,
+ * subtitle, status badges), a body of titled sections — properties, metadata,
+ * relationships, and reserved comments / attachments / activity placeholders —
+ * and a footer action cluster. It composes the Property Grid, Metadata List,
+ * Item List, Status Badge, Empty State, Button, and Action Group primitives;
+ * this block owns only the panel's own frame and section rhythm.
+ * ========================================================================== */
+
+.aos-inspector {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-lg);
+  box-shadow: var(--aos-shadow-sm);
+  overflow: hidden;
+}
+
+.aos-inspector__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--aos-space-3);
+  padding: var(--aos-space-5);
+  border-bottom: 1px solid var(--aos-surface-border);
+}
+
+.aos-inspector__identity {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  min-width: 0;
+}
+
+.aos-inspector__eyebrow {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-inspector__title {
+  font-size: var(--aos-text-xl);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-tight);
+  letter-spacing: -0.01em;
+  color: var(--aos-text-primary);
+}
+
+.aos-inspector__subtitle {
+  font-size: var(--aos-text-sm);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-secondary);
+}
+
+.aos-inspector__badges {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--aos-space-2);
+  flex-shrink: 0;
+}
+
+.aos-inspector__badges:empty {
+  display: none;
+}
+
+.aos-inspector__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-5);
+  padding: var(--aos-space-5);
+  min-width: 0;
+}
+
+.aos-inspector__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-3);
+  min-width: 0;
+}
+
+.aos-inspector__section-title {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-inspector__actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--aos-space-3);
+  padding: var(--aos-space-4) var(--aos-space-5);
+  border-top: 1px solid var(--aos-surface-border);
+  background-color: var(--aos-surface-workspace);
+}
+
+.aos-inspector__actions:empty {
+  display: none;
+}
+
+/* ============================================================================
+ * DATA DISPLAY — ACTIVITY FEED (§77.13 Activity Feed / Issue #18 §7)
+ * A grouped stream of operational events: date-grouped sections, each an
+ * ordered list of events carrying a tone icon, a title (with an optional
+ * actor), supporting metadata, and a trailing timestamp. It is the grouped
+ * sibling of Item List — same color-independent tone discipline (icon + text,
+ * never color alone), with an added grouping layer for chronological feeds.
+ * ========================================================================== */
+
+.aos-activity-feed {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-5);
+  min-width: 0;
+}
+
+.aos-activity-feed__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-3);
+  min-width: 0;
+}
+
+.aos-activity-feed__group-label {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-activity-feed__events {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}
+
+.aos-activity-feed__event {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--aos-space-3);
+  padding: var(--aos-space-3) 0;
+  border-top: 1px solid var(--aos-surface-border);
+}
+
+.aos-activity-feed__event:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.aos-activity-feed__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--aos-space-6);
+  height: var(--aos-space-6);
+  border-radius: var(--aos-radius-full);
+  background-color: var(--aos-surface-workspace);
+  color: var(--aos-text-tertiary);
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+}
+
+.aos-activity-feed__icon--info {
+  background-color: var(--aos-color-info-50);
+  color: var(--aos-color-info-600);
+}
+
+.aos-activity-feed__icon--success {
+  background-color: var(--aos-color-success-50);
+  color: var(--aos-color-success-700);
+}
+
+.aos-activity-feed__icon--warning {
+  background-color: var(--aos-color-warning-50);
+  color: var(--aos-color-warning-700);
+}
+
+.aos-activity-feed__icon--error {
+  background-color: var(--aos-color-error-50);
+  color: var(--aos-color-error-700);
+}
+
+.aos-activity-feed__content {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+}
+
+.aos-activity-feed__title {
+  font-size: var(--aos-text-sm);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-primary);
+  overflow-wrap: break-word;
+}
+
+.aos-activity-feed__actor {
+  font-weight: var(--aos-font-semibold);
+}
+
+.aos-activity-feed__meta {
+  font-size: var(--aos-text-xs);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-secondary);
+  overflow-wrap: break-word;
+}
+
+.aos-activity-feed__timestamp {
+  flex-shrink: 0;
+  font-size: var(--aos-text-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--aos-text-tertiary);
+  white-space: nowrap;
+}
+
+/* ============================================================================
+ * DATA DISPLAY — ENTITY CARD (§77.8 Object Card / Issue #18 §8)
+ * The one shared card language for every business object — client, engagement,
+ * control, evidence, finding. A bordered surface with an identity header (a
+ * type avatar, title, subtitle, and a status badge slot) over a body that hosts
+ * facts, a progress meter, and tag chips. A single visual language for all
+ * object types keeps portfolios and lists visually coherent; the object type is
+ * carried by the avatar glyph and text, never by color alone.
+ * ========================================================================== */
+
+.aos-entity-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-lg);
+  box-shadow: var(--aos-shadow-sm);
+  overflow: hidden;
+}
+
+/* Interactive entity cards (rendered as a link or button) lift on hover and
+ * expose the shared focus ring, matching the interactive Card. */
+.aos-entity-card--interactive {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow var(--aos-transition-fast),
+    border-color var(--aos-transition-fast);
+}
+
+.aos-entity-card--interactive:hover {
+  border-color: var(--aos-surface-border-strong);
+  box-shadow: var(--aos-shadow-md);
+}
+
+.aos-entity-card--interactive:focus-visible {
+  outline: none;
+  box-shadow: var(--aos-focus-ring);
+}
+
+.aos-entity-card__header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--aos-space-3);
+  padding: var(--aos-space-4) var(--aos-space-5);
+  border-bottom: 1px solid var(--aos-surface-border);
+}
+
+.aos-entity-card__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--aos-space-10);
+  height: var(--aos-space-10);
+  border-radius: var(--aos-radius-md);
+  background-color: var(--aos-surface-workspace);
+  color: var(--aos-text-secondary);
+  font-size: var(--aos-text-base);
+  font-weight: var(--aos-font-semibold);
+}
+
+.aos-entity-card__identity {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+}
+
+.aos-entity-card__title {
+  font-size: var(--aos-text-base);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-primary);
+  overflow-wrap: break-word;
+}
+
+.aos-entity-card__subtitle {
+  font-size: var(--aos-text-xs);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-secondary);
+  overflow-wrap: break-word;
+}
+
+.aos-entity-card__badge {
+  flex-shrink: 0;
+}
+
+.aos-entity-card__body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
+  padding: var(--aos-space-5);
+}
+
+.aos-entity-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-2);
+}
+
+.aos-entity-card__tags:empty {
+  display: none;
+}
+
+/* ============================================================================
+ * DATA DISPLAY — ITEM LIST: ROW ACTIONS + GROUPING (Issue #18 §9 List Views)
+ * The List Views deliverable extends the existing Item List with a trailing
+ * action slot (per-row controls) and a grouped presentation (a labeled divider
+ * heads each group). No new primitive — grouped list views reuse the Divider's
+ * labeled variant, so "compact / grouped / status / actions" all compose from
+ * components that already exist.
+ * ========================================================================== */
+
+.aos-item-list__actions {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+}
+
+.aos-list-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-3);
+  min-width: 0;
+}

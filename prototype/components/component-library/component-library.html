@@ -265,3 +265,166 @@
 <!-- Skeleton — decorative placeholder; aria-hidden. Shimmer collapses to a
      static block under prefers-reduced-motion. -->
 <span class="aos-skeleton aos-skeleton--circle" aria-hidden="true"></span>
+
+<!-- ======================================================================= -->
+<!-- ENTERPRISE DATA PRESENTATION (Issue #18)                                -->
+<!-- Composite presentation components. Each composes the primitives above;   -->
+<!-- the JS renderer (components/presentation/presentation.js) builds them    -->
+<!-- from a configuration object over JSON data. Presentation only.           -->
+<!-- ======================================================================= -->
+
+<!-- Data Grid — the enterprise collection table. Sortable headers are real
+     buttons carrying aria-sort (UI only); a leading status rail, badges, and a
+     trailing action cell are reserved; rows are optionally selectable; density
+     is comfortable or compact; the header is sticky. -->
+<div class="aos-data-grid aos-data-grid--comfortable">
+  <table class="aos-data-grid__table">
+    <thead>
+      <tr>
+        <th class="aos-data-grid__header-cell" scope="col"><span class="aos-loading-state__label">Status</span></th>
+        <th class="aos-data-grid__header-cell" scope="col" aria-sort="ascending">
+          <button type="button" class="aos-data-grid__sort">Control <span class="aos-data-grid__sort-indicator" aria-hidden="true">▲</span></button>
+        </th>
+        <th class="aos-data-grid__header-cell" scope="col">
+          <button type="button" class="aos-data-grid__sort">Owner <span class="aos-data-grid__sort-indicator" aria-hidden="true">↕</span></button>
+        </th>
+        <th class="aos-data-grid__header-cell aos-data-grid__header-cell--actions" scope="col"><span class="aos-loading-state__label">Actions</span></th>
+      </tr>
+    </thead>
+    <tbody class="aos-data-grid__body">
+      <tr class="aos-data-grid__row aos-data-grid__row--selected" aria-selected="true">
+        <td class="aos-data-grid__cell aos-data-grid__cell--status"><span class="aos-data-grid__status-rail aos-data-grid__status-rail--success" aria-hidden="true"></span></td>
+        <td class="aos-data-grid__cell">Access provisioning <span class="aos-status-badge aos-status-badge--success">Passed</span></td>
+        <td class="aos-data-grid__cell aos-data-grid__cell--secondary">Placeholder owner</td>
+        <td class="aos-data-grid__cell aos-data-grid__cell--actions">
+          <span class="aos-data-grid__row-actions">
+            <button type="button" class="aos-button aos-button--subtle aos-button--small">Open</button>
+          </span>
+        </td>
+      </tr>
+      <tr class="aos-data-grid__row">
+        <td class="aos-data-grid__cell aos-data-grid__cell--status"><span class="aos-data-grid__status-rail aos-data-grid__status-rail--warning" aria-hidden="true"></span></td>
+        <td class="aos-data-grid__cell">Change management <span class="aos-status-badge aos-status-badge--warning">In review</span></td>
+        <td class="aos-data-grid__cell aos-data-grid__cell--secondary">Placeholder owner</td>
+        <td class="aos-data-grid__cell aos-data-grid__cell--actions">
+          <span class="aos-data-grid__row-actions">
+            <button type="button" class="aos-button aos-button--subtle aos-button--small">Open</button>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Master–Detail — the reusable split layout. Proportions come from the
+     --aos-master-detail-list variable; the divider is a keyboard-operable
+     separator; the layout collapses to a single column at the tablet
+     breakpoint. -->
+<div class="aos-master-detail aos-master-detail--resizable" style="--aos-master-detail-list: 38%;">
+  <div class="aos-master-detail__list" aria-label="Collection">List or Data Grid</div>
+  <div class="aos-master-detail__divider" role="separator" aria-orientation="vertical" aria-label="Resize panels" tabindex="0" aria-valuemin="20" aria-valuemax="80" aria-valuenow="38"></div>
+  <div class="aos-master-detail__detail" aria-label="Detail">Inspector Panel</div>
+</div>
+
+<!-- Inspector Panel — the reusable object detail panel. Identity header, status
+     badges, titled sections (properties, metadata, relationships, and reserved
+     comments / attachments / activity placeholders), and a footer action
+     cluster. -->
+<aside class="aos-inspector" aria-label="Details">
+  <header class="aos-inspector__header">
+    <div class="aos-inspector__identity">
+      <p class="aos-inspector__eyebrow">Control</p>
+      <h2 class="aos-inspector__title">Access provisioning</h2>
+      <p class="aos-inspector__subtitle">AC-2 · Logical access</p>
+    </div>
+    <div class="aos-inspector__badges">
+      <span class="aos-status-badge aos-status-badge--success">Passed</span>
+    </div>
+  </header>
+  <div class="aos-inspector__body">
+    <section class="aos-inspector__section">
+      <h3 class="aos-inspector__section-title">Properties</h3>
+      <div class="aos-property-grid">
+        <div class="aos-property-row">
+          <span class="aos-property-row__label">Owner</span>
+          <span class="aos-property-row__value">Placeholder</span>
+        </div>
+      </div>
+    </section>
+    <section class="aos-inspector__section">
+      <h3 class="aos-inspector__section-title">Comments</h3>
+      <div class="aos-empty-state">
+        <span class="aos-empty-state__icon" aria-hidden="true">◇</span>
+        <p class="aos-empty-state__title">No comments yet</p>
+        <p class="aos-empty-state__description">Comments appear here once the collaboration workflow is implemented.</p>
+      </div>
+    </section>
+  </div>
+  <footer class="aos-inspector__actions">
+    <button type="button" class="aos-button aos-button--primary">Primary action</button>
+    <button type="button" class="aos-button">Secondary</button>
+  </footer>
+</aside>
+
+<!-- Activity Feed — a grouped stream of events. Each event carries a tone icon,
+     a title (with an optional actor), metadata, and a trailing timestamp; tone
+     never reads by color alone. -->
+<div class="aos-activity-feed">
+  <section class="aos-activity-feed__group">
+    <h4 class="aos-activity-feed__group-label">Today</h4>
+    <ol class="aos-activity-feed__events">
+      <li class="aos-activity-feed__event">
+        <span class="aos-activity-feed__icon aos-activity-feed__icon--success" aria-hidden="true">✓</span>
+        <div class="aos-activity-feed__content">
+          <span class="aos-activity-feed__title"><span class="aos-activity-feed__actor">Reviewer</span> approved evidence EV-014</span>
+          <span class="aos-activity-feed__meta">Supporting metadata</span>
+        </div>
+        <span class="aos-activity-feed__timestamp">10:24</span>
+      </li>
+    </ol>
+  </section>
+</div>
+
+<!-- Entity Card — the one shared object-card language for clients, engagements,
+     controls, evidence, and findings. A type avatar, identity, status badge,
+     facts, an optional meter, and tag chips. -->
+<article class="aos-entity-card">
+  <header class="aos-entity-card__header">
+    <span class="aos-entity-card__avatar" aria-hidden="true">C</span>
+    <div class="aos-entity-card__identity">
+      <h3 class="aos-entity-card__title">Contoso Ltd</h3>
+      <p class="aos-entity-card__subtitle">Financial services · London, UK</p>
+    </div>
+    <span class="aos-entity-card__badge aos-status-badge aos-status-badge--warning">Medium risk</span>
+  </header>
+  <div class="aos-entity-card__body">
+    <dl class="aos-metadata-list aos-metadata-list--inline">
+      <div class="aos-metadata-list__item">
+        <dt class="aos-metadata-list__term">Engagements</dt>
+        <dd class="aos-metadata-list__detail">2 active</dd>
+      </div>
+    </dl>
+    <div class="aos-entity-card__tags">
+      <span class="aos-chip">SOC 2</span>
+      <span class="aos-chip">ISO 27001</span>
+    </div>
+  </div>
+</article>
+
+<!-- List Views (Issue #18 §9) — Item List with a trailing row-action slot, and
+     grouped lists headed by a labeled Divider. No new primitive: grouping
+     reuses the Divider's labeled variant. -->
+<div class="aos-list-group">
+  <div class="aos-divider--labeled" role="separator" aria-label="In progress"><span>In progress</span></div>
+  <ul class="aos-item-list aos-item-list--compact">
+    <li class="aos-item-list__item">
+      <span class="aos-item-list__marker aos-item-list__marker--info" aria-hidden="true">•</span>
+      <div class="aos-item-list__content">
+        <span class="aos-item-list__title">List row with a trailing action</span>
+      </div>
+      <span class="aos-item-list__actions">
+        <button type="button" class="aos-button aos-button--subtle aos-button--small">Open</button>
+      </span>
+    </li>
+  </ul>
+</div>

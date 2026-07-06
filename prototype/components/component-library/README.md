@@ -58,14 +58,31 @@ registry entry, and a markup reference.
 | Property Grid | `.aos-property-grid` | Data display | Divided Property Rows; `--two-column` collapses responsively. |
 | Metadata List | `.aos-metadata-list` | Data display | `<dl>` of `__item` (`__term`/`__detail`); `--inline`. |
 | Progress | `.aos-progress` | Data display | Labeled meter (`__label`, `__value`, `__track`, `__indicator`); `--success`/`--warning`/`--error`; value always reads as text. |
-| Item List | `.aos-item-list` | Data display | Semantic list of `__item` rows (`__marker` tones, `__content`, `__title`, `__description`, `__meta`); `--compact`, `__item--critical` (dominant prioritized row). |
+| Item List | `.aos-item-list` | Data display | Semantic list of `__item` rows (`__marker` tones, `__content`, `__title`, `__description`, `__meta`, `__actions`); `--compact`, `__item--critical` (dominant prioritized row); extended by List Views (Issue #18 §9). |
 | Timeline | `.aos-timeline` | Data display | Ordered `__event` list with `__marker` tones on a connecting rail (`__meta`, `__title`, `__description`). |
+| Data Grid | `.aos-data-grid` | Data display | Enterprise collection table: configurable columns, sortable headers (UI-only), row selection, status rails, badges, row actions, compact/comfortable density, sticky header, empty/loading states (Issue #18 §1). |
+| Entity Card | `.aos-entity-card` | Data display | The one shared object-card language for clients, engagements, controls, evidence, findings; type avatar, identity, status badge, facts, meter, tags (Issue #18 §8). |
+| Activity Feed | `.aos-activity-feed` | Data display | Grouped event stream with tone icon, actor, metadata, timestamp; the grouped sibling of Item List (Issue #18 §7). |
+| Inspector | `.aos-inspector` | Data display | Reusable object detail panel: identity header, status badges, typed property/metadata/relationship/timeline/activity sections, footer actions (Issue #18 §3). |
 | Button | `.aos-button` | Input | Standard action control for buttons and button-styled links; `--primary`/`--subtle`/`--small`. |
 | Toolbar Group | `.aos-toolbar-group` | Layout | Horizontal control cluster; `--divided`; wraps responsively. |
 | Action Group | `.aos-action-group` | Layout | Action cluster; `--end`/`--between`/`--stack`; collapses when empty. |
+| Master–Detail | `.aos-master-detail` | Layout | Reusable split layout: list/table beside inspector; configurable proportions, optional resizable divider, responsive collapse (Issue #18 §2). |
 | Empty State | `.aos-empty-state` | State | `__icon`, `__title`, `__description`, `__actions` (§15.12 Empty). |
 | Loading State | `.aos-loading-state` | State | Layout-stable region with `__label` live text (§15.12 Loading). |
 | Skeleton | `.aos-skeleton` | State | Placeholder; `--text`/`--title`/`--block`/`--circle`; reduced-motion safe. |
+
+## Enterprise Data Presentation System (Issue #18)
+
+The shared, configuration-driven presentation renderer
+(`components/presentation/presentation.js` → `window.AuditOS.presentation`) turns JSON configuration
+into DOM by composing the component primitives above. Every workspace uses the same builders instead of
+reimplementing a data grid, master–detail, inspector, activity feed, entity card, or status badge.
+
+The system includes the reusable **status vocabulary** (`resolveTone`) that maps business status kinds
+(severity, risk, review, lifecycle, test, priority) to semantic tones — centralizing the presentation
+decision so every workspace uses the same tone mapping. Presentation only: the renderer reads no
+`AuditOS.state`, no demo-data, and holds no business logic.
 
 ## Design language
 

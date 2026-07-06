@@ -25,6 +25,7 @@ const PROTOTYPE_DIR = path.resolve(__dirname, '..', '..');
  */
 const SCRIPTS = {
   componentLibrary: ['components', 'component-library', 'component-library.js'],
+  presentation: ['components', 'presentation', 'presentation.js'],
   workspaceRegistry: ['js', 'router', 'workspace-registry.js'],
   demoDataBundle: ['demo-data', 'demo-data.js'],
   demoDataRegistry: ['js', 'state', 'demo-data-registry.js'],
@@ -79,6 +80,17 @@ function loadComponentLibrary() {
   return loadClassicScript(SCRIPTS.componentLibrary).AuditOS.componentLibrary;
 }
 
+/**
+ * Loads the Enterprise Data Presentation System
+ * (window.AuditOS.presentation). The module only touches the DOM inside a
+ * builder call, so it registers cleanly in the sandbox where no document
+ * exists; a suite that exercises a DOM builder attaches a document to the
+ * returned window first.
+ */
+function loadPresentation() {
+  return loadClassicScript(SCRIPTS.presentation).AuditOS.presentation;
+}
+
 /** Loads the Home workspace module (window.AuditOS.homeWorkspace). */
 function loadHomeWorkspace() {
   return loadClassicScript(SCRIPTS.homeWorkspace).AuditOS.homeWorkspace;
@@ -111,6 +123,7 @@ module.exports = {
   loadClassicScript: loadClassicScript,
   loadClassicScripts: loadClassicScripts,
   loadComponentLibrary: loadComponentLibrary,
+  loadPresentation: loadPresentation,
   loadHomeWorkspace: loadHomeWorkspace,
   loadWorkspaceFramework: loadWorkspaceFramework,
   toHostArray: toHostArray

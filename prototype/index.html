@@ -103,6 +103,19 @@
   <script src="components/component-library/component-library.js"></script>
 
   <!-- ========================================================= -->
+  <!-- Enterprise Data Presentation System (Issue #18)          -->
+  <!-- The shared, configuration-driven renderer                 -->
+  <!-- (window.AuditOS.presentation) that turns JSON             -->
+  <!-- configuration into DOM by composing the component         -->
+  <!-- primitives above: data grid, master-detail, inspector,    -->
+  <!-- timeline, activity feed, entity cards, status system,     -->
+  <!-- metadata, and list views. Presentation only — it reads    -->
+  <!-- no state and holds no business logic; workspaces map the  -->
+  <!-- Shared Audit State into its configuration.                -->
+  <!-- ========================================================= -->
+  <script src="components/presentation/presentation.js"></script>
+
+  <!-- ========================================================= -->
   <!-- Application Bootstrap                                     -->
   <!-- Starts the Shared Audit State and the router once the     -->
   <!-- shell markup is ready.                                    -->

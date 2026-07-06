@@ -16,7 +16,7 @@ demo-data and hold no business or workflow logic. Every component consumes
 Design Tokens only and supports keyboard navigation, responsive layouts, and
 reduced motion.
 
-## Registered components (20)
+## Registered components (25)
 
 | Component | Class | Category |
 |-----------|-------|----------|
@@ -34,12 +34,23 @@ reduced motion.
 | Progress | `.aos-progress` | Data display |
 | Item List | `.aos-item-list` | Data display |
 | Timeline | `.aos-timeline` | Data display |
+| Data Grid | `.aos-data-grid` | Data display |
+| Entity Card | `.aos-entity-card` | Data display |
+| Activity Feed | `.aos-activity-feed` | Data display |
+| Inspector | `.aos-inspector` | Data display |
 | Button | `.aos-button` | Input |
 | Toolbar Group | `.aos-toolbar-group` | Layout |
 | Action Group | `.aos-action-group` | Layout |
+| Master–Detail | `.aos-master-detail` | Layout |
 | Empty State | `.aos-empty-state` | State |
 | Loading State | `.aos-loading-state` | State |
 | Skeleton | `.aos-skeleton` | State |
+
+The Enterprise Data Presentation System (Issue #18) adds 5 new composite
+components — Data Grid, Master–Detail, Inspector, Activity Feed, Entity Card —
+that compose the 20 primitives to render JSON configuration into reusable
+layouts. Every workspace uses the same builders instead of reimplementing
+presentation logic.
 
 Notable sub-parts added alongside the Home workspace (Issue #15): Section's
 `__eyebrow` kicker line; Item List's `--critical` row variant (dominant

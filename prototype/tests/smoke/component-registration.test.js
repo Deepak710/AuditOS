@@ -17,8 +17,10 @@ const EXPECTED_COMPONENT_IDS = [
   'surface', 'card', 'section', 'panel-section', 'divider',
   'kpi-tile', 'status-badge', 'chip', 'property-row', 'property-grid', 'metadata-list',
   'progress', 'item-list', 'timeline',
+  // Enterprise Data Presentation System composites (Issue #18).
+  'data-grid', 'entity-card', 'activity-feed', 'inspector',
   'button', 'search-field', 'select',
-  'toolbar-group', 'action-group',
+  'toolbar-group', 'action-group', 'master-detail',
   'empty-state', 'loading-state', 'skeleton'
 ];
 
