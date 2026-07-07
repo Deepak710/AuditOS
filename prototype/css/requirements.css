@@ -1,0 +1,355 @@
+/**
+ * AuditOS Requirements Workspace
+ * Workspaces and Navigation — Chapter 12 / Workspace Design System — Chapter 15 /
+ * Layout Components — Chapter 75
+ *
+ * The workspace-layer stylesheet of the Requirements Workspace (GitHub Issue
+ * #22). It owns only the requirements-specific layout — the section stack, the
+ * Requirement Health strip, the queue's view switcher and grouped master rail,
+ * the audit lineage chain, and the footer — plus their responsive behavior.
+ * Every visible surface inside those regions is a Shared Enterprise Component
+ * Library component (css/components.css) produced by the Enterprise Data
+ * Presentation System, so this stylesheet never redefines component chrome.
+ * Consumes only the Design Token Foundation (variables.css); introduces no new
+ * visual values. Entrance motion comes from the shared design language
+ * (design-language.css).
+ *
+ * Every selector in this file is scoped under the `.aos-requirements` prefix so
+ * the workspace layer can never leak into the shell, components, or other
+ * workspaces.
+ */
+
+@import 'variables.css';
+
+/* ========================================
+ * SECTION STACK
+ * The requirements workspace reads top-to-bottom as the operational sequence:
+ * health, the queue and its inspector, the audit lineage, then the collection
+ * metadata.
+ * ======================================== */
+
+.aos-requirements {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-8);
+  min-width: 0;
+}
+
+.aos-requirements__section {
+  min-width: 0;
+}
+
+/* ========================================
+ * REQUIREMENT HEALTH STRIP
+ * A slim, segmented status bar (editor status-bar style, not cards) — one
+ * indicator per operational status plus the derived evidence-outstanding count.
+ * The status text carries the meaning; the dot only reinforces the tone.
+ * ======================================== */
+
+.aos-requirements__health {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  padding: var(--aos-space-1) var(--aos-space-2);
+  background-color: var(--aos-surface-workspace);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  font-size: var(--aos-text-xs);
+}
+
+.aos-requirements__health-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-1) var(--aos-space-3);
+}
+
+.aos-requirements__health-item + .aos-requirements__health-item {
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+.aos-requirements__health-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex-shrink: 0;
+  border-radius: var(--aos-radius-full);
+  background-color: var(--aos-text-tertiary);
+}
+
+.aos-requirements__health-dot--info { background-color: var(--aos-color-info-600); }
+.aos-requirements__health-dot--success { background-color: var(--aos-color-success-700); }
+.aos-requirements__health-dot--warning { background-color: var(--aos-color-warning-700); }
+.aos-requirements__health-dot--error { background-color: var(--aos-color-error-700); }
+
+.aos-requirements__health-label {
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-requirements__health-status {
+  color: var(--aos-text-secondary);
+  white-space: nowrap;
+}
+
+/* ========================================
+ * REQUIREMENTS QUEUE — VIEW SWITCHER
+ * A chip group above the queue master rail. Choosing a view regroups the same
+ * rows; presentation-only, memory-only — the underlying dataset never changes.
+ * ======================================== */
+
+.aos-requirements__queue {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-3);
+  min-width: 0;
+}
+
+.aos-requirements__views {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-2);
+}
+
+.aos-requirements__view-chip {
+  padding: var(--aos-space-1) var(--aos-space-3);
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-secondary);
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-full);
+  cursor: pointer;
+  transition: background-color var(--aos-transition-fast), border-color var(--aos-transition-fast),
+    color var(--aos-transition-fast);
+}
+
+.aos-requirements__view-chip:hover {
+  border-color: var(--aos-surface-border-strong);
+}
+
+.aos-requirements__view-chip--active {
+  color: var(--aos-text-inverse);
+  background-color: var(--aos-color-primary-600);
+  border-color: var(--aos-color-primary-600);
+}
+
+/* ========================================
+ * MASTER RAIL + ROWS
+ * The Master–Detail component owns the two-column layout; this stylesheet owns
+ * only the master rail's rows and the group dividers the Pending-by-POC and
+ * Evidence views introduce. Selecting a row swaps the Inspector Panel beside it.
+ * ======================================== */
+
+.aos-requirements__row-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-requirements__group {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-2) var(--aos-space-1) var(--aos-space-1);
+  margin-top: var(--aos-space-2);
+  border-bottom: 1px solid var(--aos-surface-border);
+}
+
+.aos-requirements__group:first-child {
+  margin-top: 0;
+}
+
+.aos-requirements__group-label {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-requirements__group-count {
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-requirements__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  width: 100%;
+  padding: var(--aos-space-3);
+  text-align: start;
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  cursor: pointer;
+  transition: background-color var(--aos-transition-fast), border-color var(--aos-transition-fast),
+    opacity var(--aos-transition-fast);
+}
+
+.aos-requirements__row:hover {
+  background-color: var(--aos-surface-hover);
+  border-color: var(--aos-surface-border-strong);
+}
+
+.aos-requirements__row--selected {
+  background-color: var(--aos-surface-active);
+  border-color: var(--aos-surface-border-strong);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-requirements__row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+}
+
+.aos-requirements__row-title {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-primary);
+}
+
+.aos-requirements__row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-1) var(--aos-space-3);
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-requirements__row-evidence {
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-secondary);
+}
+
+.aos-requirements__detail-mount {
+  min-width: 0;
+}
+
+/* ========================================
+ * AUDIT LINEAGE
+ * The methodology chain rendered as connected nodes, Requirement highlighted.
+ * The chain reads left-to-right on wide canvases and stacks on narrow ones.
+ * ======================================== */
+
+.aos-requirements__lineage {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: var(--aos-space-2);
+}
+
+.aos-requirements__lineage-node {
+  display: flex;
+  flex: 1 1 8rem;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  min-width: 7rem;
+  padding: var(--aos-space-3);
+  text-decoration: none;
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  transition: border-color var(--aos-transition-fast), box-shadow var(--aos-transition-fast);
+}
+
+a.aos-requirements__lineage-node:hover {
+  border-color: var(--aos-surface-border-strong);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-requirements__lineage-node--highlighted {
+  background-color: var(--aos-surface-active);
+  border-color: var(--aos-color-primary-600);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-requirements__lineage-node--empty {
+  opacity: 0.6;
+}
+
+.aos-requirements__lineage-label {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-requirements__lineage-count {
+  font-size: var(--aos-text-lg);
+  font-weight: var(--aos-font-bold);
+  color: var(--aos-text-primary);
+}
+
+.aos-requirements__lineage-hint {
+  font-size: var(--aos-text-xs);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-requirements__lineage-connector {
+  align-self: center;
+  color: var(--aos-text-tertiary);
+}
+
+/* ========================================
+ * WORKSPACE FOOTER ITEMS
+ * Environment and demo status, divided by hairline rules.
+ * ======================================== */
+
+.aos-requirements-footer__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  white-space: nowrap;
+}
+
+.aos-requirements-footer__item:not(:first-child) {
+  padding-left: var(--aos-space-4);
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+.aos-requirements-footer__label {
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-requirements-footer__value {
+  color: var(--aos-text-secondary);
+}
+
+/* ========================================
+ * RESPONSIVE ARCHITECTURE
+ * The rows and lineage are fluid by construction. The shell breakpoints tighten
+ * the rhythm on tablets and settle the lineage into a single column on mobile.
+ * ======================================== */
+
+@media (max-width: 1024px) {
+  .aos-requirements {
+    gap: var(--aos-space-6);
+  }
+}
+
+@media (max-width: 640px) {
+  .aos-requirements {
+    gap: var(--aos-space-5);
+  }
+
+  .aos-requirements__lineage {
+    flex-direction: column;
+  }
+
+  .aos-requirements__lineage-connector {
+    transform: rotate(90deg);
+  }
+
+  .aos-requirements-footer__item {
+    white-space: normal;
+  }
+}
