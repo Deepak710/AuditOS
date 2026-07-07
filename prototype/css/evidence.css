@@ -1,0 +1,332 @@
+/**
+ * AuditOS Evidence Workspace
+ * Workspaces and Navigation — Chapter 12 / Workspace Design System — Chapter 15 /
+ * Layout Components — Chapter 75
+ *
+ * The workspace-layer stylesheet of the Evidence Workspace (GitHub Issue #21).
+ * It owns only the evidence-specific layout — the section stack, the Evidence
+ * Health strip, the shared master rail and its rows, the library status filter,
+ * the audit lineage chain, and the footer — plus their responsive behavior.
+ * Every visible surface inside those regions is a Shared Enterprise Component
+ * Library component (css/components.css) produced by the Enterprise Data
+ * Presentation System, so this stylesheet never redefines component chrome.
+ * Consumes only the Design Token Foundation (variables.css); introduces no new
+ * visual values. Entrance motion comes from the shared design language
+ * (design-language.css).
+ *
+ * Every selector in this file is scoped under the `.aos-evidence` prefix so the
+ * workspace layer can never leak into the shell, components, or other
+ * workspaces.
+ */
+
+@import 'variables.css';
+
+/* ========================================
+ * SECTION STACK
+ * The evidence workspace reads top-to-bottom as the operational sequence:
+ * health, the outstanding queue, the library and its inspector, reuse, the
+ * audit lineage, then the collection metadata.
+ * ======================================== */
+
+.aos-evidence {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-8);
+  min-width: 0;
+}
+
+.aos-evidence__section {
+  min-width: 0;
+}
+
+/* ========================================
+ * EVIDENCE HEALTH STRIP
+ * A slim, segmented status bar (editor status-bar style, not cards) — six
+ * evidence-scoped indicators, each a tone dot + label + short status. The
+ * status text carries the meaning; the dot only reinforces the tone.
+ * ======================================== */
+
+.aos-evidence__health {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  padding: var(--aos-space-1) var(--aos-space-2);
+  background-color: var(--aos-surface-workspace);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  font-size: var(--aos-text-xs);
+}
+
+.aos-evidence__health-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-1) var(--aos-space-3);
+}
+
+.aos-evidence__health-item + .aos-evidence__health-item {
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+.aos-evidence__health-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex-shrink: 0;
+  border-radius: var(--aos-radius-full);
+  background-color: var(--aos-text-tertiary);
+}
+
+.aos-evidence__health-dot--info { background-color: var(--aos-color-info-600); }
+.aos-evidence__health-dot--success { background-color: var(--aos-color-success-700); }
+.aos-evidence__health-dot--warning { background-color: var(--aos-color-warning-700); }
+.aos-evidence__health-dot--error { background-color: var(--aos-color-error-700); }
+
+.aos-evidence__health-label {
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-evidence__health-status {
+  color: var(--aos-text-secondary);
+  white-space: nowrap;
+}
+
+/* ========================================
+ * MASTER RAIL + ROWS
+ * The Master–Detail component owns the two-column layout; this stylesheet owns
+ * only the master rail's rows, shared by the Outstanding queue and the Evidence
+ * Library. Selecting a row swaps the Inspector Panel detail beside it.
+ * ======================================== */
+
+.aos-evidence__row-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-evidence__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  width: 100%;
+  padding: var(--aos-space-3);
+  text-align: start;
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  cursor: pointer;
+  transition: background-color var(--aos-transition-fast), border-color var(--aos-transition-fast),
+    opacity var(--aos-transition-fast);
+}
+
+.aos-evidence__row:hover {
+  background-color: var(--aos-surface-hover);
+  border-color: var(--aos-surface-border-strong);
+}
+
+.aos-evidence__row--selected {
+  background-color: var(--aos-surface-active);
+  border-color: var(--aos-surface-border-strong);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-evidence__row--dimmed {
+  opacity: 0.4;
+}
+
+.aos-evidence__row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+}
+
+.aos-evidence__row-title {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-primary);
+}
+
+.aos-evidence__row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-1) var(--aos-space-3);
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-evidence__row-flag {
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-color-info-600);
+}
+
+.aos-evidence__detail-mount {
+  min-width: 0;
+}
+
+/* ========================================
+ * LIBRARY STATUS FILTER
+ * A chip group above the library master rail. Choosing a status dims the rows
+ * that do not match; presentation-only, memory-only.
+ * ======================================== */
+
+.aos-evidence__library {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-3);
+  min-width: 0;
+}
+
+.aos-evidence__filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-2);
+}
+
+.aos-evidence__filter-chip {
+  padding: var(--aos-space-1) var(--aos-space-3);
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-secondary);
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-full);
+  cursor: pointer;
+  transition: background-color var(--aos-transition-fast), border-color var(--aos-transition-fast),
+    color var(--aos-transition-fast);
+}
+
+.aos-evidence__filter-chip:hover {
+  border-color: var(--aos-surface-border-strong);
+}
+
+.aos-evidence__filter-chip--active {
+  color: var(--aos-text-inverse);
+  background-color: var(--aos-color-primary-600);
+  border-color: var(--aos-color-primary-600);
+}
+
+/* ========================================
+ * AUDIT LINEAGE
+ * The methodology chain rendered as connected nodes, Evidence highlighted. The
+ * chain reads left-to-right on wide canvases and stacks on narrow ones.
+ * ======================================== */
+
+.aos-evidence__lineage {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: var(--aos-space-2);
+}
+
+.aos-evidence__lineage-node {
+  display: flex;
+  flex: 1 1 8rem;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  min-width: 7rem;
+  padding: var(--aos-space-3);
+  text-decoration: none;
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  transition: border-color var(--aos-transition-fast), box-shadow var(--aos-transition-fast);
+}
+
+a.aos-evidence__lineage-node:hover {
+  border-color: var(--aos-surface-border-strong);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-evidence__lineage-node--highlighted {
+  background-color: var(--aos-surface-active);
+  border-color: var(--aos-color-primary-600);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-evidence__lineage-node--empty {
+  opacity: 0.6;
+}
+
+.aos-evidence__lineage-label {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-evidence__lineage-count {
+  font-size: var(--aos-text-lg);
+  font-weight: var(--aos-font-bold);
+  color: var(--aos-text-primary);
+}
+
+.aos-evidence__lineage-hint {
+  font-size: var(--aos-text-xs);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-evidence__lineage-connector {
+  align-self: center;
+  color: var(--aos-text-tertiary);
+}
+
+/* ========================================
+ * WORKSPACE FOOTER ITEMS
+ * Environment and demo status, divided by hairline rules.
+ * ======================================== */
+
+.aos-evidence-footer__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  white-space: nowrap;
+}
+
+.aos-evidence-footer__item:not(:first-child) {
+  padding-left: var(--aos-space-4);
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+.aos-evidence-footer__label {
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-evidence-footer__value {
+  color: var(--aos-text-secondary);
+}
+
+/* ========================================
+ * RESPONSIVE ARCHITECTURE
+ * The rows and lineage are fluid by construction. The shell breakpoints tighten
+ * the rhythm on tablets and settle the lineage into a single column on mobile.
+ * ======================================== */
+
+@media (max-width: 1024px) {
+  .aos-evidence {
+    gap: var(--aos-space-6);
+  }
+}
+
+@media (max-width: 640px) {
+  .aos-evidence {
+    gap: var(--aos-space-5);
+  }
+
+  .aos-evidence__lineage {
+    flex-direction: column;
+  }
+
+  .aos-evidence__lineage-connector {
+    transform: rotate(90deg);
+  }
+
+  .aos-evidence-footer__item {
+    white-space: normal;
+  }
+}

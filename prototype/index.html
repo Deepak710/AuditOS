@@ -185,5 +185,20 @@
   <!-- slots.                                                     -->
   <!-- ========================================================= -->
   <script src="js/workspaces/walkthrough.js"></script>
+
+  <!-- ========================================================= -->
+  <!-- Evidence Workspace (Issue #21)                           -->
+  <!-- The operational system of record for an engagement — what -->
+  <!-- evidence exists, what is outstanding, where it            -->
+  <!-- originated, what it satisfies, what depends on it, what   -->
+  <!-- approvals are pending, and what may be reused. Reads the  -->
+  <!-- evidence JSON through the Shared Audit State and maps it   -->
+  <!-- onto the shared Workspace Framework and Enterprise         -->
+  <!-- Presentation System: health strip, outstanding queue,     -->
+  <!-- library with a host-agnostic inspector, reuse, the audit  -->
+  <!-- lineage, and metadata. Loads after the framework so the   -->
+  <!-- skeleton exists before it fills the slots.                -->
+  <!-- ========================================================= -->
+  <script src="js/workspaces/evidence.js"></script>
 </body>
 </html>
