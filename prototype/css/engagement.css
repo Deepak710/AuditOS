@@ -1,0 +1,408 @@
+/**
+ * AuditOS Engagement Workspace
+ * Workspaces and Navigation — Chapter 12 / Workspace Design System — Chapter 15 /
+ * Engagement Workspace — Chapter 63 / Layout Components — Chapter 75
+ *
+ * The workspace-layer stylesheet of the Engagement Workspace (GitHub Issue #19).
+ * It owns only the engagement-specific layout — the section stack, the
+ * operational status band (current focus, next actions, blocking items), the
+ * lifecycle navigation cards, the compact summary, the team and inspector, and
+ * the footer — plus their responsive behavior. Every visible surface inside
+ * those regions is a Shared Enterprise Component Library component
+ * (css/components.css) produced by the Enterprise Data Presentation System, so
+ * this stylesheet never redefines component chrome. Consumes only the Design
+ * Token Foundation (variables.css); introduces no new visual values. Entrance
+ * motion comes from the shared design language (design-language.css).
+ *
+ * Every selector in this file is scoped under the `.aos-engagement` prefix so
+ * the workspace layer can never leak into the shell, components, or other
+ * workspaces.
+ */
+
+@import 'variables.css';
+
+/* ========================================
+ * SECTION STACK
+ * The engagement reads top-to-bottom as an operational sequence: the status
+ * band and lifecycle navigation answer "what should I work on next?", then the
+ * operational context (summary, team, inspector, metadata) follows.
+ * ======================================== */
+
+.aos-engagement {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-8);
+  min-width: 0;
+}
+
+.aos-engagement__section {
+  min-width: 0;
+}
+
+/* ========================================
+ * OPERATIONAL STATUS BAND (TOP)
+ * The current operational focus and status, then the prioritized next actions
+ * beside the blocking items. The focus is the headline; the status is a quiet
+ * secondary badge — two distinct concepts.
+ * ======================================== */
+
+.aos-engagement__status {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-5);
+}
+
+.aos-engagement__focus {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--aos-space-3) var(--aos-space-5);
+  padding-bottom: var(--aos-space-4);
+  border-bottom: 1px solid var(--aos-surface-border);
+}
+
+.aos-engagement__focus-main,
+.aos-engagement__focus-status {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  min-width: 0;
+}
+
+.aos-engagement__focus-status {
+  align-items: flex-end;
+}
+
+.aos-engagement__focus-label {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-engagement__focus-value {
+  font-size: var(--aos-text-2xl);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-tight);
+  letter-spacing: -0.01em;
+  color: var(--aos-text-primary);
+}
+
+/* AUDIT HEALTH STRIP
+ * A slim, segmented, clickable status bar (editor status-bar style, not cards)
+ * immediately below the current focus: six operational indicators, each a tone
+ * dot + label + short status, so "evidence is behind" or "testing is complete"
+ * reads at a glance. The status text carries the meaning; the dot only
+ * reinforces the tone. */
+.aos-engagement__health {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  padding: var(--aos-space-1) var(--aos-space-2);
+  background-color: var(--aos-surface-workspace);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  font-size: var(--aos-text-xs);
+}
+
+.aos-engagement__health-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-1) var(--aos-space-3);
+  text-decoration: none;
+  color: var(--aos-text-secondary);
+  border-radius: var(--aos-radius-sm);
+  transition: background-color var(--aos-transition-fast), color var(--aos-transition-fast);
+}
+
+/* Segment dividers give the strip its status-bar rhythm. */
+.aos-engagement__health-item + .aos-engagement__health-item {
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+a.aos-engagement__health-item:hover {
+  background-color: var(--aos-surface-hover);
+  color: var(--aos-text-primary);
+}
+
+.aos-engagement__health-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex-shrink: 0;
+  border-radius: var(--aos-radius-full);
+  background-color: var(--aos-text-tertiary);
+}
+
+.aos-engagement__health-dot--info { background-color: var(--aos-color-info-600); }
+.aos-engagement__health-dot--success { background-color: var(--aos-color-success-700); }
+.aos-engagement__health-dot--warning { background-color: var(--aos-color-warning-700); }
+.aos-engagement__health-dot--error { background-color: var(--aos-color-error-700); }
+
+.aos-engagement__health-label {
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-engagement__health-status {
+  color: var(--aos-text-secondary);
+  white-space: nowrap;
+}
+
+.aos-engagement__status-lists {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: var(--aos-space-5);
+  align-items: start;
+}
+
+.aos-engagement__status-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-3);
+  min-width: 0;
+}
+
+.aos-engagement__status-title {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--aos-text-secondary);
+}
+
+/* ========================================
+ * LIFECYCLE NAVIGATION (MIDDLE)
+ * The audit lifecycle as navigation cards — Walkthrough → Evidence → Controls →
+ * Testing → Findings → Reporting. Each card is a link into its workspace and
+ * shows the stage's operational status, pending work, and progress. A quiet
+ * arrow affordance slides on hover. Navigation, not a process diagram.
+ * ======================================== */
+
+.aos-engagement__lifecycle {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: var(--aos-space-4);
+  align-items: stretch;
+}
+
+.aos-engagement__stage {
+  position: relative;
+  flex-direction: column;
+  gap: var(--aos-space-3);
+  text-decoration: none;
+  color: inherit;
+}
+
+.aos-engagement__stage-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+}
+
+.aos-engagement__stage-name {
+  font-size: var(--aos-text-base);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-primary);
+}
+
+.aos-engagement__stage-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  padding-right: var(--aos-space-5);
+}
+
+.aos-engagement__stage-detail {
+  font-size: var(--aos-text-sm);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-secondary);
+}
+
+.aos-engagement__stage-pending {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-link);
+}
+
+/* A slim, decorative progress track inside a stage card — the figures already
+ * read as text, so the bar carries no independent meaning. */
+.aos-engagement__stage-progress {
+  margin-top: var(--aos-space-1);
+}
+
+.aos-engagement__stage-arrow {
+  position: absolute;
+  bottom: var(--aos-space-4);
+  right: var(--aos-space-4);
+  font-size: var(--aos-text-xs);
+  line-height: var(--aos-leading-tight);
+  color: var(--aos-text-tertiary);
+  transition: transform var(--aos-transition-fast), color var(--aos-transition-fast);
+}
+
+.aos-engagement__stage:hover .aos-engagement__stage-arrow {
+  transform: translateX(var(--aos-space-1));
+  color: var(--aos-text-link);
+}
+
+/* ========================================
+ * OPERATIONAL CONTEXT (BOTTOM)
+ * Compact engagement summary (framework badges + property grid), the team, an
+ * inspector, and metadata — supporting context beneath the operational focus.
+ * ======================================== */
+
+.aos-engagement__summary {
+  min-width: 0;
+}
+
+.aos-engagement__framework-badges {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--aos-space-2);
+}
+
+.aos-engagement__team {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: var(--aos-space-4);
+  align-items: stretch;
+}
+
+/* ========================================
+ * ENGAGEMENT INSPECTOR
+ * The Explorer–Inspector pattern (§81.9): a selection rail of the engagement
+ * and each framework beside the shared Inspector Panel. The Master–Detail
+ * component owns the two-column layout; this stylesheet owns only the rail.
+ * ======================================== */
+
+.aos-engagement__inspect-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-engagement__inspect-option {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  width: 100%;
+  padding: var(--aos-space-3);
+  text-align: start;
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  cursor: pointer;
+  transition: background-color var(--aos-transition-fast), border-color var(--aos-transition-fast);
+}
+
+.aos-engagement__inspect-option:hover {
+  background-color: var(--aos-surface-hover);
+  border-color: var(--aos-surface-border-strong);
+}
+
+.aos-engagement__inspect-option--selected {
+  background-color: var(--aos-surface-active);
+  border-color: var(--aos-surface-border-strong);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-engagement__inspect-label {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-primary);
+}
+
+.aos-engagement__inspect-option--selected .aos-engagement__inspect-label {
+  color: var(--aos-text-link);
+}
+
+.aos-engagement__inspect-caption {
+  font-size: var(--aos-text-xs);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-engagement__inspector-mount {
+  min-width: 0;
+}
+
+/* ========================================
+ * WORKSPACE FOOTER ITEMS
+ * Environment, client, focus, and demo status, divided by hairline rules.
+ * ======================================== */
+
+.aos-engagement-footer__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  white-space: nowrap;
+}
+
+.aos-engagement-footer__item:not(:first-child) {
+  padding-left: var(--aos-space-4);
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+.aos-engagement-footer__label {
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-engagement-footer__value {
+  color: var(--aos-text-secondary);
+}
+
+/* ========================================
+ * RESPONSIVE ARCHITECTURE
+ * The grids are fluid by construction — auto-fit tracks with readable minimum
+ * widths absorb the canvas width at every shell state. The shell breakpoints
+ * then tighten the rhythm on tablets and settle everything into a single
+ * relaxed column on mobile.
+ * ======================================== */
+
+@media (max-width: 1024px) {
+  .aos-engagement {
+    gap: var(--aos-space-6);
+  }
+
+  .aos-engagement__status-lists,
+  .aos-engagement__lifecycle,
+  .aos-engagement__team {
+    gap: var(--aos-space-3);
+  }
+}
+
+@media (max-width: 640px) {
+  .aos-engagement {
+    gap: var(--aos-space-5);
+  }
+
+  .aos-engagement__focus {
+    align-items: stretch;
+  }
+
+  .aos-engagement__focus-status {
+    align-items: flex-start;
+  }
+
+  .aos-engagement__status-lists,
+  .aos-engagement__lifecycle,
+  .aos-engagement__team {
+    grid-template-columns: 1fr;
+  }
+
+  .aos-engagement-footer__item {
+    white-space: normal;
+  }
+}

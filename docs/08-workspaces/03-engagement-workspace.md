@@ -206,6 +206,21 @@ Workspace Navigation
 
 Each region consumes the Shared Audit State independently.
 
+#### Release 1 Implementation (GitHub Issue #19)
+
+The Engagement Workspace is realized in `prototype/js/workspaces/engagement.js` (with `prototype/css/engagement.css`) as the first production workspace on the Shared Workspace Framework (Issue #17) and the Enterprise Data Presentation System (Issue #18). It reads exclusively through the Shared Audit State and composes those two systems — it introduces no new UI primitives.
+
+Release 1 realizes this composition as an **operational, workflow-first** experience rather than a KPI dashboard. It answers "what is the current operational state of this audit, and what should I work on next?" through four operational regions, each owning one question and never restating another region's information:
+
+* **Current Focus** — "where am I?" — the derived operational focus (the earliest incomplete lifecycle stage) beside the engagement status read straight from JSON. Status and focus are distinct concepts.
+* **Audit Health** — "what is the state?" — a slim, clickable status strip (editor status-bar style, not cards) of six operational indicators — Walkthrough, Evidence, Testing, Approvals, Findings, Report — each with a health tone and a short operational status, so the state reads at a glance.
+* **Next Actions** — "what should I do?" — the prioritized pending work, each navigating into its workspace.
+* **Blocking Items** — "what is preventing progress?" — rejected evidence, failed tests, and high-severity findings.
+
+Beneath the operational band, the **audit lifecycle** (Walkthrough → Evidence → Controls → Testing → Findings → Reporting) is presented as **navigation cards** — the lifecycle is navigation, not a process diagram — followed by the operational context: a compact engagement summary, the participating team, a host-agnostic Inspector renderer (mounted in a bottom section for Release 1, mountable in any host later), and metadata. The universal supporting panels carry related information, a reserved AI advisory surface, and the activity feed.
+
+Release 1 renders only the existing demo JSON: no AI behaviour, no workflow engine, no business logic, and no writes. Two forward-compatibility seams keep Release 2 pluggable without a UI redesign — frameworks are array-driven (`normalizeFrameworks`: a single framework today, every entry of a future engagement `frameworks` array with no code change), and the Walkthrough stage always appears first even though no walkthrough data exists yet, shown "not started" and never fabricated. Reporting is presented as continuous, beginning on day one rather than as an end-of-project activity.
+
 ---
 
 ### 63.9 Engagement Header

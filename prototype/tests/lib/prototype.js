@@ -31,6 +31,7 @@ const SCRIPTS = {
   demoDataRegistry: ['js', 'state', 'demo-data-registry.js'],
   stateStore: ['js', 'state', 'state-store.js'],
   homeWorkspace: ['js', 'workspaces', 'home.js'],
+  engagementWorkspace: ['js', 'workspaces', 'engagement.js'],
   workspaceFramework: ['components', 'workspace-framework', 'workspace-framework.js']
 };
 
@@ -97,6 +98,16 @@ function loadHomeWorkspace() {
 }
 
 /**
+ * Loads the Engagement workspace module (window.AuditOS.engagementWorkspace).
+ * The module guards its DOM self-init on `document` and reads the presentation
+ * system only inside DOM builders, so it registers cleanly in the sandbox where
+ * no document exists; suites exercise its pure derivations directly.
+ */
+function loadEngagementWorkspace() {
+  return loadClassicScript(SCRIPTS.engagementWorkspace).AuditOS.engagementWorkspace;
+}
+
+/**
  * Loads the Shared Workspace Framework module
  * (window.AuditOS.workspaceFramework). The module guards its DOM self-init on
  * `document`, so it registers cleanly in the sandbox where no document exists.
@@ -125,6 +136,7 @@ module.exports = {
   loadComponentLibrary: loadComponentLibrary,
   loadPresentation: loadPresentation,
   loadHomeWorkspace: loadHomeWorkspace,
+  loadEngagementWorkspace: loadEngagementWorkspace,
   loadWorkspaceFramework: loadWorkspaceFramework,
   toHostArray: toHostArray
 };
