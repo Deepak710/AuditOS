@@ -1,0 +1,250 @@
+/**
+ * AuditOS Walkthrough Workspace
+ * Workspaces and Navigation — Chapter 12 / Workspace Design System — Chapter 15 /
+ * Layout Components — Chapter 75
+ *
+ * The workspace-layer stylesheet of the Walkthrough Workspace (GitHub Issue
+ * #20). It owns only the walkthrough-specific layout — the section stack, the
+ * Audit Health strip, the session master rail and its rows, the process
+ * coverage cards, and the footer — plus their responsive behavior. Every
+ * visible surface inside those regions is a Shared Enterprise Component
+ * Library component (css/components.css) produced by the Enterprise Data
+ * Presentation System, so this stylesheet never redefines component chrome.
+ * Consumes only the Design Token Foundation (variables.css); introduces no
+ * new visual values. Entrance motion comes from the shared design language
+ * (design-language.css).
+ *
+ * Every selector in this file is scoped under the `.aos-walkthrough` prefix
+ * so the workspace layer can never leak into the shell, components, or other
+ * workspaces.
+ */
+
+@import 'variables.css';
+
+/* ========================================
+ * SECTION STACK
+ * The walkthrough reads top-to-bottom as the knowledge-acquisition sequence:
+ * health, sessions, pending questions, process coverage, the relationship
+ * panel, then the timeline.
+ * ======================================== */
+
+.aos-walkthrough {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-8);
+  min-width: 0;
+}
+
+.aos-walkthrough__section {
+  min-width: 0;
+}
+
+/* ========================================
+ * AUDIT HEALTH STRIP
+ * A slim, segmented status bar (editor status-bar style, not cards) — five
+ * walkthrough-scoped indicators, each a tone dot + label + short status. The
+ * status text carries the meaning; the dot only reinforces the tone.
+ * ======================================== */
+
+.aos-walkthrough__health {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  padding: var(--aos-space-1) var(--aos-space-2);
+  background-color: var(--aos-surface-workspace);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  font-size: var(--aos-text-xs);
+}
+
+.aos-walkthrough__health-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-1) var(--aos-space-3);
+}
+
+.aos-walkthrough__health-item + .aos-walkthrough__health-item {
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+.aos-walkthrough__health-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex-shrink: 0;
+  border-radius: var(--aos-radius-full);
+  background-color: var(--aos-text-tertiary);
+}
+
+.aos-walkthrough__health-dot--info { background-color: var(--aos-color-info-600); }
+.aos-walkthrough__health-dot--success { background-color: var(--aos-color-success-700); }
+.aos-walkthrough__health-dot--warning { background-color: var(--aos-color-warning-700); }
+.aos-walkthrough__health-dot--error { background-color: var(--aos-color-error-700); }
+
+.aos-walkthrough__health-label {
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-walkthrough__health-status {
+  color: var(--aos-text-secondary);
+  white-space: nowrap;
+}
+
+/* ========================================
+ * SESSIONS MASTER RAIL
+ * The Master–Detail component owns the two-column layout; this stylesheet
+ * owns only the master rail's rows. Each row summarizes a session; selecting
+ * one swaps the Inspector Panel detail beside it.
+ * ======================================== */
+
+.aos-walkthrough__session-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-walkthrough__session-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  width: 100%;
+  padding: var(--aos-space-3);
+  text-align: start;
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  cursor: pointer;
+  transition: background-color var(--aos-transition-fast), border-color var(--aos-transition-fast),
+    opacity var(--aos-transition-fast);
+}
+
+.aos-walkthrough__session-row:hover {
+  background-color: var(--aos-surface-hover);
+  border-color: var(--aos-surface-border-strong);
+}
+
+.aos-walkthrough__session-row--selected {
+  background-color: var(--aos-surface-active);
+  border-color: var(--aos-surface-border-strong);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-walkthrough__session-row--dimmed {
+  opacity: 0.45;
+}
+
+.aos-walkthrough__session-row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+}
+
+.aos-walkthrough__session-row-title {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-primary);
+}
+
+.aos-walkthrough__session-row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-1) var(--aos-space-3);
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-walkthrough__session-row-summary {
+  font-size: var(--aos-text-xs);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-secondary);
+}
+
+.aos-walkthrough__session-detail-mount {
+  min-width: 0;
+}
+
+/* ========================================
+ * PROCESS COVERAGE
+ * A fluid grid of Entity Cards, one per discovered business process.
+ * ======================================== */
+
+.aos-walkthrough__processes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: var(--aos-space-4);
+  align-items: stretch;
+}
+
+.aos-walkthrough__process-card {
+  cursor: pointer;
+  transition: border-color var(--aos-transition-fast), box-shadow var(--aos-transition-fast);
+}
+
+.aos-walkthrough__process-card--active {
+  border-color: var(--aos-surface-border-strong);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+/* ========================================
+ * WORKSPACE FOOTER ITEMS
+ * Environment and demo status, divided by hairline rules.
+ * ======================================== */
+
+.aos-walkthrough-footer__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  white-space: nowrap;
+}
+
+.aos-walkthrough-footer__item:not(:first-child) {
+  padding-left: var(--aos-space-4);
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+.aos-walkthrough-footer__label {
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-walkthrough-footer__value {
+  color: var(--aos-text-secondary);
+}
+
+/* ========================================
+ * RESPONSIVE ARCHITECTURE
+ * The grids are fluid by construction — auto-fit tracks with readable minimum
+ * widths absorb the canvas width at every shell state. The shell breakpoints
+ * then tighten the rhythm on tablets and settle everything into a single
+ * relaxed column on mobile.
+ * ======================================== */
+
+@media (max-width: 1024px) {
+  .aos-walkthrough {
+    gap: var(--aos-space-6);
+  }
+
+  .aos-walkthrough__processes {
+    gap: var(--aos-space-3);
+  }
+}
+
+@media (max-width: 640px) {
+  .aos-walkthrough {
+    gap: var(--aos-space-5);
+  }
+
+  .aos-walkthrough__processes {
+    grid-template-columns: 1fr;
+  }
+
+  .aos-walkthrough-footer__item {
+    white-space: normal;
+  }
+}

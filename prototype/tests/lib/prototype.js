@@ -32,6 +32,7 @@ const SCRIPTS = {
   stateStore: ['js', 'state', 'state-store.js'],
   homeWorkspace: ['js', 'workspaces', 'home.js'],
   engagementWorkspace: ['js', 'workspaces', 'engagement.js'],
+  walkthroughWorkspace: ['js', 'workspaces', 'walkthrough.js'],
   workspaceFramework: ['components', 'workspace-framework', 'workspace-framework.js']
 };
 
@@ -117,6 +118,17 @@ function loadWorkspaceFramework() {
 }
 
 /**
+ * Loads the Walkthrough workspace module (window.AuditOS.walkthroughWorkspace).
+ * The module guards its DOM self-init on `document` and reads the
+ * presentation system only inside DOM builders, so it registers cleanly in
+ * the sandbox where no document exists; suites exercise its pure derivations
+ * directly.
+ */
+function loadWalkthroughWorkspace() {
+  return loadClassicScript(SCRIPTS.walkthroughWorkspace).AuditOS.walkthroughWorkspace;
+}
+
+/**
  * Normalizes a value produced inside the vm sandbox into this realm. Arrays
  * created in the sandbox have a different Array.prototype, which trips strict
  * deep-equality; suites pass registry-derived collections through this before
@@ -137,6 +149,7 @@ module.exports = {
   loadPresentation: loadPresentation,
   loadHomeWorkspace: loadHomeWorkspace,
   loadEngagementWorkspace: loadEngagementWorkspace,
+  loadWalkthroughWorkspace: loadWalkthroughWorkspace,
   loadWorkspaceFramework: loadWorkspaceFramework,
   toHostArray: toHostArray
 };

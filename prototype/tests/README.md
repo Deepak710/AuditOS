@@ -26,8 +26,11 @@ contracts directly.
 | Suite | File | Verifies |
 |-------|------|----------|
 | Smoke | `smoke/component-registration.test.js` | The Shared Enterprise Component Library registers: `window.AuditOS.componentLibrary` loads, exposes its catalog, registers every expected component exactly once, resolves lookups, and is wired into `index.html`. |
+| Smoke | `smoke/walkthrough-workspace.test.js` | The Walkthrough Workspace foundation comes up: module loads and registers its API, the workspace is registered in the router, and stylesheet and script wiring is present in entry points (Issue #20). |
 | Unit | `unit/component-library.test.js` | Every registered component has a complete descriptor, a base class defined in `css/components.css`, and a presence in the canonical gallery; plus library-wide contracts — Design-Token-only styling, reduced-motion guard, focus ring, accessible state affordances. |
+| Unit | `unit/walkthrough-derivations.test.js` | Pure derivation functions (formatDate, deriveWalkthroughStatus, deriveProcessCoverage, deriveSessionDetail, etc.) bind business data to presentation state correctly and offline; Release 1 faithfulness contract verified (no fabrication, empty collections remain empty). |
 | Integration | `integration/framework-compatibility.test.js` | The Shared Workspace Framework composes the library correctly: supporting panels reuse **Panel Section**, primary content and context ribbon reuse **Surface**, across the renderer, template, and stylesheet, with the component CSS layer ordered before the framework layer. |
+| Integration | `integration/walkthrough-state-binding.test.js` | The Walkthrough Workspace consumes business data exclusively through the Shared Audit State, composes the Framework and Presentation System, renders faithfully from current demo JSON, and follows the state/router event contracts. |
 
 ## Adding a suite
 
