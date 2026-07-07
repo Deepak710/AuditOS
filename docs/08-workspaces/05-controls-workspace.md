@@ -8,6 +8,8 @@
 
 The Controls Workspace is the operational environment for discovering, designing, governing, assessing, and maintaining Business Controls throughout the assurance lifecycle.
 
+**Release 1 Status (GitHub Issue #23):** Faithful JSON rendering with Master→Detail inspection, three presentation modes (Control view / By family / By coverage), audit lineage, and framework mapping. Pure derivations, offline-compatible, zero AI writes. Extensible for Release 2 AI refinement, test-procedure drafting, and duplicate detection.
+
 Within AuditOS, controls are not merely checklist items tied to a specific framework.
 
 They are canonical Business Objects that represent how an organization manages risk through repeatable business processes.

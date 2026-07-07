@@ -9,7 +9,7 @@ Repository map maintained as implementation evolves.
 - **Walkthrough** (GitHub Issue #20) — knowledge acquisition workspace
 - **Requirements** (GitHub Issue #22) — living audit requirements management
 - **Evidence** (GitHub Issue #21) — evidence system of record
-- **Controls** (GitHub Issue #23, planned)
+- **Controls** (GitHub Issue #23) — control library lifecycle & relationships (Release 1: faithful rendering)
 - **Testing** (planned)
 - **Findings** (planned)
 - **Reporting** (planned)
