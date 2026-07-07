@@ -1,0 +1,423 @@
+/**
+ * AuditOS Testing Workspace
+ * Workspaces and Navigation — Chapter 12 / Workspace Design System — Chapter 15 /
+ * Layout Components — Chapter 75
+ *
+ * The workspace-layer stylesheet of the Testing Workspace (GitHub Issue #24). It
+ * owns only the testing-specific layout — the section stack, the Testing Health
+ * strip, the testing-progress breakdown, the queue's view switcher and grouped
+ * master rail, the audit lineage chain, and the footer — plus their responsive
+ * behavior. Every visible surface inside those regions is a Shared Enterprise
+ * Component Library component (css/components.css) produced by the Enterprise Data
+ * Presentation System, so this stylesheet never redefines component chrome.
+ * Consumes only the Design Token Foundation (variables.css); introduces no new
+ * visual values. Entrance motion comes from the shared design language
+ * (design-language.css).
+ *
+ * Every selector in this file is scoped under the `.aos-testing` prefix so the
+ * workspace layer can never leak into the shell, components, or other workspaces.
+ */
+
+@import 'variables.css';
+
+/* ========================================
+ * SECTION STACK
+ * The testing workspace reads top-to-bottom as the operational sequence: health,
+ * progress, the queue and its inspector, exceptions, the audit lineage, then the
+ * testing metadata.
+ * ======================================== */
+
+.aos-testing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-8);
+  min-width: 0;
+}
+
+.aos-testing__section {
+  min-width: 0;
+}
+
+/* ========================================
+ * TESTING HEALTH STRIP
+ * A slim, segmented status bar (editor status-bar style, not cards) — one
+ * indicator per operational status plus the derived passed, exceptions, and
+ * awaiting-result counts. The status text carries the meaning; the dot only
+ * reinforces the tone.
+ * ======================================== */
+
+.aos-testing__health {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  padding: var(--aos-space-1) var(--aos-space-2);
+  background-color: var(--aos-surface-workspace);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  font-size: var(--aos-text-xs);
+}
+
+.aos-testing__health-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-1) var(--aos-space-3);
+}
+
+.aos-testing__health-item + .aos-testing__health-item {
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+.aos-testing__health-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex-shrink: 0;
+  border-radius: var(--aos-radius-full);
+  background-color: var(--aos-text-tertiary);
+}
+
+.aos-testing__health-dot--info { background-color: var(--aos-color-info-600); }
+.aos-testing__health-dot--success { background-color: var(--aos-color-success-700); }
+.aos-testing__health-dot--warning { background-color: var(--aos-color-warning-700); }
+.aos-testing__health-dot--error { background-color: var(--aos-color-error-700); }
+
+.aos-testing__health-label {
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-testing__health-status {
+  color: var(--aos-text-secondary);
+  white-space: nowrap;
+}
+
+/* ========================================
+ * TESTING PROGRESS
+ * The shared Progress meter over real completed / total counts, followed by a
+ * passed / exceptions / pending breakdown line. Real measurements only.
+ * ======================================== */
+
+.aos-testing__progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-3);
+  min-width: 0;
+}
+
+.aos-testing__progress-breakdown {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-2) var(--aos-space-5);
+}
+
+.aos-testing__progress-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+}
+
+.aos-testing__progress-item-label {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-testing__progress-item-value {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+/* ========================================
+ * TEST PROCEDURE QUEUE — VIEW SWITCHER
+ * A chip group above the queue master rail. Choosing a view regroups the same
+ * rows; presentation-only, memory-only — the underlying dataset never changes.
+ * ======================================== */
+
+.aos-testing__queue {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-3);
+  min-width: 0;
+}
+
+.aos-testing__views {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-2);
+}
+
+.aos-testing__view-chip {
+  padding: var(--aos-space-1) var(--aos-space-3);
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-secondary);
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-full);
+  cursor: pointer;
+  transition: background-color var(--aos-transition-fast), border-color var(--aos-transition-fast),
+    color var(--aos-transition-fast);
+}
+
+.aos-testing__view-chip:hover {
+  border-color: var(--aos-surface-border-strong);
+}
+
+.aos-testing__view-chip--active {
+  color: var(--aos-text-inverse);
+  background-color: var(--aos-color-primary-600);
+  border-color: var(--aos-color-primary-600);
+}
+
+/* ========================================
+ * MASTER RAIL + ROWS
+ * The Master–Detail component owns the two-column layout; this stylesheet owns
+ * only the master rail's rows and the group dividers the By-control and By-result
+ * views introduce. Selecting a row swaps the Inspector Panel beside it. Each row
+ * leads with the test identifier so the queue scans by test.
+ * ======================================== */
+
+.aos-testing__row-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-testing__group {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-2) var(--aos-space-1) var(--aos-space-1);
+  margin-top: var(--aos-space-2);
+  border-bottom: 1px solid var(--aos-surface-border);
+}
+
+.aos-testing__group:first-child {
+  margin-top: 0;
+}
+
+.aos-testing__group-label {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-testing__group-count {
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-testing__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  width: 100%;
+  padding: var(--aos-space-3);
+  text-align: start;
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  cursor: pointer;
+  transition: background-color var(--aos-transition-fast), border-color var(--aos-transition-fast),
+    opacity var(--aos-transition-fast);
+}
+
+.aos-testing__row:hover {
+  background-color: var(--aos-surface-hover);
+  border-color: var(--aos-surface-border-strong);
+}
+
+.aos-testing__row--selected {
+  background-color: var(--aos-surface-active);
+  border-color: var(--aos-surface-border-strong);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-testing__row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+}
+
+.aos-testing__row-identity {
+  display: flex;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-testing__row-code {
+  flex-shrink: 0;
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.02em;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-testing__row-title {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-primary);
+}
+
+.aos-testing__row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-1) var(--aos-space-3);
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-testing__row-control {
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-secondary);
+}
+
+.aos-testing__row-coverage {
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-secondary);
+}
+
+.aos-testing__row-result {
+  font-weight: var(--aos-font-semibold);
+}
+
+.aos-testing__row-result--success { color: var(--aos-color-success-700); }
+.aos-testing__row-result--error { color: var(--aos-color-error-700); }
+.aos-testing__row-result--neutral { color: var(--aos-text-tertiary); }
+
+.aos-testing__detail-mount {
+  min-width: 0;
+}
+
+/* ========================================
+ * AUDIT LINEAGE
+ * The methodology chain rendered as connected nodes, Testing highlighted.
+ * The chain reads left-to-right on wide canvases and stacks on narrow ones.
+ * ======================================== */
+
+.aos-testing__lineage {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: var(--aos-space-2);
+}
+
+.aos-testing__lineage-node {
+  display: flex;
+  flex: 1 1 8rem;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  min-width: 7rem;
+  padding: var(--aos-space-3);
+  text-decoration: none;
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  transition: border-color var(--aos-transition-fast), box-shadow var(--aos-transition-fast);
+}
+
+a.aos-testing__lineage-node:hover {
+  border-color: var(--aos-surface-border-strong);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-testing__lineage-node--highlighted {
+  background-color: var(--aos-surface-active);
+  border-color: var(--aos-color-primary-600);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-testing__lineage-node--empty {
+  opacity: 0.6;
+}
+
+.aos-testing__lineage-label {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-testing__lineage-count {
+  font-size: var(--aos-text-lg);
+  font-weight: var(--aos-font-bold);
+  color: var(--aos-text-primary);
+}
+
+.aos-testing__lineage-hint {
+  font-size: var(--aos-text-xs);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-testing__lineage-connector {
+  align-self: center;
+  color: var(--aos-text-tertiary);
+}
+
+/* ========================================
+ * WORKSPACE FOOTER ITEMS
+ * Environment and demo status, divided by hairline rules.
+ * ======================================== */
+
+.aos-testing-footer__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  white-space: nowrap;
+}
+
+.aos-testing-footer__item:not(:first-child) {
+  padding-left: var(--aos-space-4);
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+.aos-testing-footer__label {
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-testing-footer__value {
+  color: var(--aos-text-secondary);
+}
+
+/* ========================================
+ * RESPONSIVE ARCHITECTURE
+ * The rows and lineage are fluid by construction. The shell breakpoints tighten
+ * the rhythm on tablets and settle the lineage into a single column on mobile.
+ * ======================================== */
+
+@media (max-width: 1024px) {
+  .aos-testing {
+    gap: var(--aos-space-6);
+  }
+}
+
+@media (max-width: 640px) {
+  .aos-testing {
+    gap: var(--aos-space-5);
+  }
+
+  .aos-testing__lineage {
+    flex-direction: column;
+  }
+
+  .aos-testing__lineage-connector {
+    transform: rotate(90deg);
+  }
+
+  .aos-testing-footer__item {
+    white-space: normal;
+  }
+}
