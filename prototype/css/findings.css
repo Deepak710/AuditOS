@@ -1,0 +1,424 @@
+/**
+ * AuditOS Findings Workspace
+ * Workspaces and Navigation — Chapter 12 / Workspace Design System — Chapter 15 /
+ * Layout Components — Chapter 75
+ *
+ * The workspace-layer stylesheet of the Findings Workspace (GitHub Issue #25). It
+ * owns only the findings-specific layout — the section stack, the Findings Health
+ * strip, the remediation-status breakdown, the queue's view switcher and grouped
+ * master rail, the audit lineage chain, and the footer — plus their responsive
+ * behavior. Every visible surface inside those regions is a Shared Enterprise
+ * Component Library component (css/components.css) produced by the Enterprise Data
+ * Presentation System, so this stylesheet never redefines component chrome.
+ * Consumes only the Design Token Foundation (variables.css); introduces no new
+ * visual values. Entrance motion comes from the shared design language
+ * (design-language.css).
+ *
+ * Every selector in this file is scoped under the `.aos-findings` prefix so the
+ * workspace layer can never leak into the shell, components, or other workspaces.
+ */
+
+@import 'variables.css';
+
+/* ========================================
+ * SECTION STACK
+ * The findings workspace reads top-to-bottom as the operational sequence: health,
+ * the queue and its inspector, remediation status, the audit lineage, then the
+ * findings metadata.
+ * ======================================== */
+
+.aos-findings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-8);
+  min-width: 0;
+}
+
+.aos-findings__section {
+  min-width: 0;
+}
+
+/* ========================================
+ * FINDINGS HEALTH STRIP
+ * A slim, segmented status bar (editor status-bar style, not cards) — one
+ * indicator per operational status and per severity present, plus the derived
+ * reportable count. The status text carries the meaning; the dot only reinforces
+ * the tone.
+ * ======================================== */
+
+.aos-findings__health {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  padding: var(--aos-space-1) var(--aos-space-2);
+  background-color: var(--aos-surface-workspace);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  font-size: var(--aos-text-xs);
+}
+
+.aos-findings__health-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-1) var(--aos-space-3);
+}
+
+.aos-findings__health-item + .aos-findings__health-item {
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+.aos-findings__health-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex-shrink: 0;
+  border-radius: var(--aos-radius-full);
+  background-color: var(--aos-text-tertiary);
+}
+
+.aos-findings__health-dot--info { background-color: var(--aos-color-info-600); }
+.aos-findings__health-dot--success { background-color: var(--aos-color-success-700); }
+.aos-findings__health-dot--warning { background-color: var(--aos-color-warning-700); }
+.aos-findings__health-dot--error { background-color: var(--aos-color-error-700); }
+
+.aos-findings__health-label {
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-findings__health-status {
+  color: var(--aos-text-secondary);
+  white-space: nowrap;
+}
+
+/* ========================================
+ * REMEDIATION STATUS
+ * The shared Progress meter over real closed / total counts, followed by an
+ * open / accepted-risk / closed breakdown line. Real measurements only.
+ * ======================================== */
+
+.aos-findings__remediation {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-3);
+  min-width: 0;
+}
+
+.aos-findings__remediation-breakdown {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-2) var(--aos-space-5);
+}
+
+.aos-findings__remediation-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+}
+
+.aos-findings__remediation-item-label {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-findings__remediation-item-value {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+/* ========================================
+ * FINDINGS QUEUE — VIEW SWITCHER
+ * A chip group above the queue master rail. Choosing a view regroups the same
+ * rows; presentation-only, memory-only — the underlying dataset never changes.
+ * ======================================== */
+
+.aos-findings__queue {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-3);
+  min-width: 0;
+}
+
+.aos-findings__views {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-2);
+}
+
+.aos-findings__view-chip {
+  padding: var(--aos-space-1) var(--aos-space-3);
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-secondary);
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-full);
+  cursor: pointer;
+  transition: background-color var(--aos-transition-fast), border-color var(--aos-transition-fast),
+    color var(--aos-transition-fast);
+}
+
+.aos-findings__view-chip:hover {
+  border-color: var(--aos-surface-border-strong);
+}
+
+.aos-findings__view-chip--active {
+  color: var(--aos-text-inverse);
+  background-color: var(--aos-color-primary-600);
+  border-color: var(--aos-color-primary-600);
+}
+
+/* ========================================
+ * MASTER RAIL + ROWS
+ * The Master–Detail component owns the two-column layout; this stylesheet owns
+ * only the master rail's rows and the group dividers the By-severity, By-domain,
+ * and By-owner views introduce. Selecting a row swaps the Inspector Panel beside
+ * it. Each row leads with the finding identifier so the queue scans by finding.
+ * ======================================== */
+
+.aos-findings__row-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-findings__group {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-2) var(--aos-space-1) var(--aos-space-1);
+  margin-top: var(--aos-space-2);
+  border-bottom: 1px solid var(--aos-surface-border);
+}
+
+.aos-findings__group:first-child {
+  margin-top: 0;
+}
+
+.aos-findings__group-label {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-findings__group-count {
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-findings__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  width: 100%;
+  padding: var(--aos-space-3);
+  text-align: start;
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  cursor: pointer;
+  transition: background-color var(--aos-transition-fast), border-color var(--aos-transition-fast),
+    opacity var(--aos-transition-fast);
+}
+
+.aos-findings__row:hover {
+  background-color: var(--aos-surface-hover);
+  border-color: var(--aos-surface-border-strong);
+}
+
+.aos-findings__row--selected {
+  background-color: var(--aos-surface-active);
+  border-color: var(--aos-surface-border-strong);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-findings__row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+}
+
+.aos-findings__row-identity {
+  display: flex;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-findings__row-code {
+  flex-shrink: 0;
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.02em;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-findings__row-title {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-primary);
+}
+
+.aos-findings__row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-1) var(--aos-space-3);
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-findings__row-control {
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-secondary);
+}
+
+.aos-findings__row-test {
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-secondary);
+}
+
+.aos-findings__row-severity {
+  font-weight: var(--aos-font-semibold);
+}
+
+.aos-findings__row-severity--error { color: var(--aos-color-error-700); }
+.aos-findings__row-severity--warning { color: var(--aos-color-warning-700); }
+.aos-findings__row-severity--info { color: var(--aos-color-info-600); }
+.aos-findings__row-severity--neutral { color: var(--aos-text-tertiary); }
+
+.aos-findings__detail-mount {
+  min-width: 0;
+}
+
+/* ========================================
+ * AUDIT LINEAGE
+ * The methodology chain rendered as connected nodes, Finding highlighted.
+ * The chain reads left-to-right on wide canvases and stacks on narrow ones.
+ * ======================================== */
+
+.aos-findings__lineage {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: var(--aos-space-2);
+}
+
+.aos-findings__lineage-node {
+  display: flex;
+  flex: 1 1 8rem;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  min-width: 7rem;
+  padding: var(--aos-space-3);
+  text-decoration: none;
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  transition: border-color var(--aos-transition-fast), box-shadow var(--aos-transition-fast);
+}
+
+a.aos-findings__lineage-node:hover {
+  border-color: var(--aos-surface-border-strong);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-findings__lineage-node--highlighted {
+  background-color: var(--aos-surface-active);
+  border-color: var(--aos-color-primary-600);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-findings__lineage-node--empty {
+  opacity: 0.6;
+}
+
+.aos-findings__lineage-label {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-findings__lineage-count {
+  font-size: var(--aos-text-lg);
+  font-weight: var(--aos-font-bold);
+  color: var(--aos-text-primary);
+}
+
+.aos-findings__lineage-hint {
+  font-size: var(--aos-text-xs);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-findings__lineage-connector {
+  align-self: center;
+  color: var(--aos-text-tertiary);
+}
+
+/* ========================================
+ * WORKSPACE FOOTER ITEMS
+ * Environment and demo status, divided by hairline rules.
+ * ======================================== */
+
+.aos-findings-footer__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  white-space: nowrap;
+}
+
+.aos-findings-footer__item:not(:first-child) {
+  padding-left: var(--aos-space-4);
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+.aos-findings-footer__label {
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-findings-footer__value {
+  color: var(--aos-text-secondary);
+}
+
+/* ========================================
+ * RESPONSIVE ARCHITECTURE
+ * The rows and lineage are fluid by construction. The shell breakpoints tighten
+ * the rhythm on tablets and settle the lineage into a single column on mobile.
+ * ======================================== */
+
+@media (max-width: 1024px) {
+  .aos-findings {
+    gap: var(--aos-space-6);
+  }
+}
+
+@media (max-width: 640px) {
+  .aos-findings {
+    gap: var(--aos-space-5);
+  }
+
+  .aos-findings__lineage {
+    flex-direction: column;
+  }
+
+  .aos-findings__lineage-connector {
+    transform: rotate(90deg);
+  }
+
+  .aos-findings-footer__item {
+    white-space: normal;
+  }
+}

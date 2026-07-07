@@ -245,5 +245,19 @@
   <!-- skeleton exists before it fills the slots.                -->
   <!-- ========================================================= -->
   <script src="js/workspaces/testing.js"></script>
+
+  <!-- ========================================================= -->
+  <!-- Findings Workspace (Issue #25)                           -->
+  <!-- The operational workspace where testing results become    -->
+  <!-- audit observations. Reads the findings JSON through the    -->
+  <!-- Shared Audit State and maps it onto the shared Workspace   -->
+  <!-- Framework and Enterprise Presentation System: the findings -->
+  <!-- health strip, the findings queue with four presentation    -->
+  <!-- modes over one dataset and a host-agnostic Finding          -->
+  <!-- Inspector, the remediation status, the audit lineage, and   -->
+  <!-- metadata. Loads after the framework so the skeleton exists  -->
+  <!-- before it fills the slots.                                 -->
+  <!-- ========================================================= -->
+  <script src="js/workspaces/findings.js"></script>
 </body>
 </html>

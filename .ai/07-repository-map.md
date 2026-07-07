@@ -10,8 +10,8 @@ Repository map maintained as implementation evolves.
 - **Requirements** (GitHub Issue #22) — living audit requirements management
 - **Evidence** (GitHub Issue #21) — evidence system of record
 - **Controls** (GitHub Issue #23) — control library lifecycle & relationships (Release 1: faithful rendering)
-- **Testing** (planned)
-- **Findings** (planned)
+- **Testing** (GitHub Issue #24) — test procedure queue with three presentation modes
+- **Findings** (GitHub Issue #25) — findings queue with four presentation modes (Release 1: faithful rendering)
 - **Reporting** (planned)
 
 ## Workspace Structure
