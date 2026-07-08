@@ -12,6 +12,7 @@ Repository map maintained as implementation evolves.
 - **Controls** (GitHub Issue #23) — control library lifecycle & relationships (Release 1: faithful rendering)
 - **Testing** (GitHub Issue #24) — test procedure queue with three presentation modes
 - **Findings** (GitHub Issue #25) — findings queue with four presentation modes (Release 1: faithful rendering)
+- **Documentation** (GitHub Issue #26) — continuously evolving engagement documentation; renders report sections in authored order (Release 1: structure only; Release 2: AI-drafted sections)
 - **Reporting** (planned)
 
 ## Workspace Structure

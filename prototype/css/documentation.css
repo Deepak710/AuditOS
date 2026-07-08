@@ -1,0 +1,308 @@
+/**
+ * AuditOS Documentation Workspace
+ * Workspaces and Navigation — Chapter 12 / Workspace Design System — Chapter 15 /
+ * Layout Components — Chapter 75
+ *
+ * The workspace-layer stylesheet of the Documentation Workspace (GitHub Issue
+ * #26). It owns only the documentation-specific layout — the section stack,
+ * the Documentation Health strip, the Document Navigator's rows, the audit
+ * lineage chain, and the footer — plus their responsive behavior. Every
+ * visible surface inside those regions is a Shared Enterprise Component
+ * Library component (css/components.css) produced by the Enterprise Data
+ * Presentation System, so this stylesheet never redefines component chrome.
+ * Consumes only the Design Token Foundation (variables.css); introduces no new
+ * visual values. Entrance motion comes from the shared design language
+ * (design-language.css).
+ *
+ * Every selector in this file is scoped under the `.aos-documentation` prefix
+ * so the workspace layer can never leak into the shell, components, or other
+ * workspaces.
+ */
+
+@import 'variables.css';
+
+/* ========================================
+ * SECTION STACK
+ * The documentation workspace reads top-to-bottom as the operational sequence:
+ * health, the document navigator and its inspector, the change summary, the
+ * audit lineage, then the documentation metadata.
+ * ======================================== */
+
+.aos-documentation {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-8);
+  min-width: 0;
+}
+
+.aos-documentation__section {
+  min-width: 0;
+}
+
+/* ========================================
+ * DOCUMENTATION HEALTH STRIP
+ * A slim, segmented status bar (editor status-bar style, not cards) — the
+ * document's own status, one indicator per section source present, plus the
+ * derived sections-included count. The status text carries the meaning; the
+ * dot only reinforces the tone.
+ * ======================================== */
+
+.aos-documentation__health {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  padding: var(--aos-space-1) var(--aos-space-2);
+  background-color: var(--aos-surface-workspace);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  font-size: var(--aos-text-xs);
+}
+
+.aos-documentation__health-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-1) var(--aos-space-3);
+}
+
+.aos-documentation__health-item + .aos-documentation__health-item {
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+.aos-documentation__health-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex-shrink: 0;
+  border-radius: var(--aos-radius-full);
+  background-color: var(--aos-text-tertiary);
+}
+
+.aos-documentation__health-dot--info { background-color: var(--aos-color-info-600); }
+.aos-documentation__health-dot--success { background-color: var(--aos-color-success-700); }
+.aos-documentation__health-dot--warning { background-color: var(--aos-color-warning-700); }
+.aos-documentation__health-dot--error { background-color: var(--aos-color-error-700); }
+
+.aos-documentation__health-label {
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-documentation__health-status {
+  color: var(--aos-text-secondary);
+  white-space: nowrap;
+}
+
+/* ========================================
+ * MASTER RAIL + ROWS
+ * The Master–Detail component owns the two-column layout; this stylesheet owns
+ * only the master rail's rows. Selecting a row swaps the Documentation
+ * Inspector beside it. Rows render in the document's authored order — never
+ * re-sorted — so the rail reads as a table of contents.
+ * ======================================== */
+
+.aos-documentation__row-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-documentation__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  width: 100%;
+  padding: var(--aos-space-3);
+  text-align: start;
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  cursor: pointer;
+  transition: background-color var(--aos-transition-fast), border-color var(--aos-transition-fast),
+    opacity var(--aos-transition-fast);
+}
+
+.aos-documentation__row:hover {
+  background-color: var(--aos-surface-hover);
+  border-color: var(--aos-surface-border-strong);
+}
+
+.aos-documentation__row--selected {
+  background-color: var(--aos-surface-active);
+  border-color: var(--aos-surface-border-strong);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-documentation__row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+}
+
+.aos-documentation__row-identity {
+  display: flex;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-documentation__row-code {
+  flex-shrink: 0;
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.02em;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-documentation__row-title {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-primary);
+}
+
+.aos-documentation__row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-1) var(--aos-space-3);
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-documentation__row-refs {
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-secondary);
+}
+
+.aos-documentation__row-flag {
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-color-warning-700);
+}
+
+.aos-documentation__detail-mount {
+  min-width: 0;
+}
+
+/* ========================================
+ * AUDIT LINEAGE
+ * The methodology chain rendered as connected nodes, Documentation highlighted.
+ * The chain reads left-to-right on wide canvases and stacks on narrow ones.
+ * ======================================== */
+
+.aos-documentation__lineage {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: var(--aos-space-2);
+}
+
+.aos-documentation__lineage-node {
+  display: flex;
+  flex: 1 1 8rem;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  min-width: 7rem;
+  padding: var(--aos-space-3);
+  text-decoration: none;
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  transition: border-color var(--aos-transition-fast), box-shadow var(--aos-transition-fast);
+}
+
+a.aos-documentation__lineage-node:hover {
+  border-color: var(--aos-surface-border-strong);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-documentation__lineage-node--highlighted {
+  background-color: var(--aos-surface-active);
+  border-color: var(--aos-color-primary-600);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-documentation__lineage-node--empty {
+  opacity: 0.6;
+}
+
+.aos-documentation__lineage-label {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-documentation__lineage-count {
+  font-size: var(--aos-text-lg);
+  font-weight: var(--aos-font-bold);
+  color: var(--aos-text-primary);
+}
+
+.aos-documentation__lineage-hint {
+  font-size: var(--aos-text-xs);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-documentation__lineage-connector {
+  align-self: center;
+  color: var(--aos-text-tertiary);
+}
+
+/* ========================================
+ * WORKSPACE FOOTER ITEMS
+ * Environment and demo status, divided by hairline rules.
+ * ======================================== */
+
+.aos-documentation-footer__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  white-space: nowrap;
+}
+
+.aos-documentation-footer__item:not(:first-child) {
+  padding-left: var(--aos-space-4);
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+.aos-documentation-footer__label {
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-documentation-footer__value {
+  color: var(--aos-text-secondary);
+}
+
+/* ========================================
+ * RESPONSIVE ARCHITECTURE
+ * The rows and lineage are fluid by construction. The shell breakpoints tighten
+ * the rhythm on tablets and settle the lineage into a single column on mobile.
+ * ======================================== */
+
+@media (max-width: 1024px) {
+  .aos-documentation {
+    gap: var(--aos-space-6);
+  }
+}
+
+@media (max-width: 640px) {
+  .aos-documentation {
+    gap: var(--aos-space-5);
+  }
+
+  .aos-documentation__lineage {
+    flex-direction: column;
+  }
+
+  .aos-documentation__lineage-connector {
+    transform: rotate(90deg);
+  }
+
+  .aos-documentation-footer__item {
+    white-space: normal;
+  }
+}
