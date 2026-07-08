@@ -1,0 +1,278 @@
+/**
+ * AuditOS Operational Work Queue Workspace
+ * Workspaces and Navigation — Chapter 12 / Workspace Design System — Chapter 15 /
+ * Layout Components — Chapter 75
+ *
+ * The workspace-layer stylesheet of the Operational Work Queue Workspace
+ * (GitHub Issue #28). It owns only the Work Queue's own layout — the section
+ * stack, the Operational Health strip, the two filter chip groups, the queue's
+ * master rail rows, and the footer — plus their responsive behavior. Every
+ * visible surface inside those regions is a Shared Enterprise Component
+ * Library component (css/components.css) produced by the Enterprise Data
+ * Presentation System, so this stylesheet never redefines component chrome.
+ * Consumes only the Design Token Foundation (variables.css); introduces no new
+ * visual values. Entrance motion comes from the shared design language
+ * (design-language.css).
+ *
+ * Every selector in this file is scoped under the `.aos-work-queue` prefix so
+ * the workspace layer can never leak into the shell, components, or other
+ * workspaces.
+ */
+
+@import 'variables.css';
+
+/* ========================================
+ * SECTION STACK
+ * The Work Queue reads top-to-bottom as the operational sequence: health, the
+ * unified queue with its filters and inspector, then the workspace metadata.
+ * ======================================== */
+
+.aos-work-queue {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-8);
+  min-width: 0;
+}
+
+.aos-work-queue__section {
+  min-width: 0;
+}
+
+/* ========================================
+ * OPERATIONAL HEALTH STRIP
+ * A slim, segmented status bar (editor status-bar style, not cards) — one
+ * indicator per aggregated workspace category present, plus the derived
+ * Blocking count. The status text carries the meaning; the dot only
+ * reinforces the tone.
+ * ======================================== */
+
+.aos-work-queue__health {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  padding: var(--aos-space-1) var(--aos-space-2);
+  background-color: var(--aos-surface-workspace);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  font-size: var(--aos-text-xs);
+}
+
+.aos-work-queue__health-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-1) var(--aos-space-3);
+}
+
+.aos-work-queue__health-item + .aos-work-queue__health-item {
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+.aos-work-queue__health-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex-shrink: 0;
+  border-radius: var(--aos-radius-full);
+  background-color: var(--aos-text-tertiary);
+}
+
+.aos-work-queue__health-dot--info { background-color: var(--aos-color-info-600); }
+.aos-work-queue__health-dot--success { background-color: var(--aos-color-success-700); }
+.aos-work-queue__health-dot--warning { background-color: var(--aos-color-warning-700); }
+.aos-work-queue__health-dot--error { background-color: var(--aos-color-error-700); }
+
+.aos-work-queue__health-label {
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-work-queue__health-status {
+  color: var(--aos-text-secondary);
+  white-space: nowrap;
+}
+
+/* ========================================
+ * UNIFIED WORK QUEUE — FILTER CHIP GROUPS
+ * Two independent, single-select chip rows (by workspace, by priority) above
+ * the queue master rail. Choosing a chip refilters the same rows;
+ * presentation-only, memory-only — the underlying dataset never changes.
+ * ======================================== */
+
+.aos-work-queue__queue {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-3);
+  min-width: 0;
+}
+
+.aos-work-queue__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-2);
+}
+
+.aos-work-queue__filter-chip {
+  padding: var(--aos-space-1) var(--aos-space-3);
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-secondary);
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-full);
+  cursor: pointer;
+  transition: background-color var(--aos-transition-fast), border-color var(--aos-transition-fast),
+    color var(--aos-transition-fast);
+}
+
+.aos-work-queue__filter-chip:hover {
+  border-color: var(--aos-surface-border-strong);
+}
+
+.aos-work-queue__filter-chip--active {
+  color: var(--aos-text-inverse);
+  background-color: var(--aos-color-primary-600);
+  border-color: var(--aos-color-primary-600);
+}
+
+/* ========================================
+ * MASTER RAIL + ROWS
+ * The Master–Detail component owns the two-column layout; this stylesheet
+ * owns only the master rail's rows. Selecting a row swaps the Work Item
+ * Inspector beside it. Each row leads with the item type so the queue scans
+ * by aggregated workspace.
+ * ======================================== */
+
+.aos-work-queue__row-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-work-queue__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  width: 100%;
+  padding: var(--aos-space-3);
+  text-align: start;
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  cursor: pointer;
+  transition: background-color var(--aos-transition-fast), border-color var(--aos-transition-fast),
+    opacity var(--aos-transition-fast);
+}
+
+.aos-work-queue__row:hover {
+  background-color: var(--aos-surface-hover);
+  border-color: var(--aos-surface-border-strong);
+}
+
+.aos-work-queue__row--selected {
+  background-color: var(--aos-surface-active);
+  border-color: var(--aos-surface-border-strong);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-work-queue__row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+}
+
+.aos-work-queue__row-identity {
+  display: flex;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-work-queue__row-type {
+  flex-shrink: 0;
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-work-queue__row-title {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-primary);
+}
+
+.aos-work-queue__row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-1) var(--aos-space-3);
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-work-queue__row-workspace {
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-secondary);
+}
+
+.aos-work-queue__row-due {
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-secondary);
+}
+
+.aos-work-queue__detail-mount {
+  min-width: 0;
+}
+
+/* ========================================
+ * WORKSPACE FOOTER ITEMS
+ * Environment and demo status, divided by hairline rules.
+ * ======================================== */
+
+.aos-work-queue-footer__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  white-space: nowrap;
+}
+
+.aos-work-queue-footer__item:not(:first-child) {
+  padding-left: var(--aos-space-4);
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+.aos-work-queue-footer__label {
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-work-queue-footer__value {
+  color: var(--aos-text-secondary);
+}
+
+/* ========================================
+ * RESPONSIVE ARCHITECTURE
+ * The rows and filters are fluid by construction. The shell breakpoints
+ * tighten the rhythm on tablets and mobile.
+ * ======================================== */
+
+@media (max-width: 1024px) {
+  .aos-work-queue {
+    gap: var(--aos-space-6);
+  }
+}
+
+@media (max-width: 640px) {
+  .aos-work-queue {
+    gap: var(--aos-space-5);
+  }
+
+  .aos-work-queue-footer__item {
+    white-space: normal;
+  }
+}

@@ -27,6 +27,7 @@
   var WORKSPACE_IDS = {
     DASHBOARD: 'dashboard',
     ENGAGEMENT: 'engagement',
+    WORKQUEUE: 'work-queue',
     WALKTHROUGH: 'walkthrough',
     REQUIREMENTS: 'requirements',
     CONTROLS: 'controls',
@@ -55,6 +56,10 @@
     // stay stable so routing, deep links, and history remain unchanged.
     { id: WORKSPACE_IDS.DASHBOARD,   path: 'dashboard',    label: 'AuditOS Home',        title: 'AuditOS Home' },
     { id: WORKSPACE_IDS.ENGAGEMENT,  path: 'engagements',  label: 'Engagement',          title: 'Engagement' },
+    // Cross-workspace operational queue (GitHub Issue #28): aggregates work
+    // items from every operational workspace below, so it is registered right
+    // after the Engagement overview, ahead of the lifecycle chain it surfaces.
+    { id: WORKSPACE_IDS.WORKQUEUE,   path: 'work-queue',   label: 'Work Queue',          title: 'Work Queue' },
     { id: WORKSPACE_IDS.WALKTHROUGH, path: 'walkthroughs', label: 'Walkthrough',         title: 'Walkthrough' },
     { id: WORKSPACE_IDS.REQUIREMENTS, path: 'requirements', label: 'Requirements',       title: 'Requirements' },
     { id: WORKSPACE_IDS.CONTROLS,    path: 'controls',     label: 'Controls',            title: 'Controls' },
