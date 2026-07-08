@@ -24,6 +24,7 @@ function bootEngagementSandbox() {
     SCRIPTS.demoDataRegistry,
     SCRIPTS.stateStore,
     SCRIPTS.workspaceRegistry,
+    SCRIPTS.workspaceShared,
     SCRIPTS.engagementWorkspace
   ]).AuditOS;
 }
@@ -159,6 +160,7 @@ module.exports = function registerIntegrationTests(harness) {
       SCRIPTS.demoDataRegistry,
       SCRIPTS.stateStore,
       SCRIPTS.workspaceRegistry,
+      SCRIPTS.workspaceShared,
       SCRIPTS.engagementWorkspace
     ]).AuditOS;
     return AuditOS.state.init().then(function () {

@@ -23,6 +23,7 @@ function bootWalkthroughSandbox() {
     SCRIPTS.demoDataRegistry,
     SCRIPTS.stateStore,
     SCRIPTS.workspaceRegistry,
+    SCRIPTS.workspaceShared,
     SCRIPTS.walkthroughWorkspace
   ]).AuditOS;
 }
@@ -92,6 +93,7 @@ module.exports = function registerIntegrationTests(harness) {
       SCRIPTS.demoDataRegistry,
       SCRIPTS.stateStore,
       SCRIPTS.workspaceRegistry,
+      SCRIPTS.workspaceShared,
       SCRIPTS.walkthroughWorkspace
     ]).AuditOS;
     return AuditOS.state.init().then(function () {

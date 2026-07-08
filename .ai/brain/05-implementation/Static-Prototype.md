@@ -678,7 +678,33 @@ Future readiness before temporary shortcuts.
 
 ---
 
-# 26. Static Prototype Vision
+# 26. Workspace Shared Platform (Issue #27)
+
+The prototype extracts repeated implementation patterns across all operational workspaces into `components/workspace-shared/workspace-shared.js`.
+
+Shared module provides:
+
+Constants (TONES, MONTH_LABELS, LIST_LIMIT, STAGGER_LIMIT).
+
+Pure helpers (asArray, formatDate, formatPeriod, normalizeFrameworks, deriveCurrentEngagement).
+
+State-read helpers (readEngagementDocument, findById, indexById).
+
+DOM builders (el, presentation, buildSection, buildHealthStrip, buildLineageBody, buildFooterItems, buildRelatedBody, buildActivityBody).
+
+Relationship/lineage resolution (resolveLineageNodes, resolveRelationships).
+
+Master–Detail rail selection controller (createRailSelection, mountRailGroups).
+
+Each workspace (Engagement, Walkthrough, Evidence, Requirements, Controls, Testing, Findings, Documentation) delegates duplicate patterns to this shared module while retaining its own business logic, status vocabularies, and Inspector implementations.
+
+Reduces duplication without over-centralizing.
+
+Validates at runtime with 554-test suite (347 unit, 151 integration, 22 smoke).
+
+---
+
+## 27. Static Prototype Vision
 
 The AuditOS Static Prototype should not resemble a wireframe or a demonstration website.
 

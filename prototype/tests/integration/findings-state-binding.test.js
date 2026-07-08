@@ -28,6 +28,7 @@ function bootFindingsSandbox() {
     SCRIPTS.demoDataRegistry,
     SCRIPTS.stateStore,
     SCRIPTS.workspaceRegistry,
+    SCRIPTS.workspaceShared,
     SCRIPTS.findingsWorkspace
   ]).AuditOS;
 }
@@ -217,6 +218,7 @@ module.exports = function registerIntegrationTests(harness) {
       SCRIPTS.demoDataRegistry,
       SCRIPTS.stateStore,
       SCRIPTS.workspaceRegistry,
+      SCRIPTS.workspaceShared,
       SCRIPTS.findingsWorkspace
     ]).AuditOS;
     return AuditOS.state.init().then(function () {
@@ -234,6 +236,7 @@ module.exports = function registerIntegrationTests(harness) {
       SCRIPTS.stateStore,
       SCRIPTS.workspaceRegistry,
       SCRIPTS.presentation,
+      SCRIPTS.workspaceShared,
       SCRIPTS.findingsWorkspace
     ]);
     const AuditOS = win.AuditOS;

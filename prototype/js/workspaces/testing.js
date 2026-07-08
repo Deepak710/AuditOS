@@ -68,6 +68,9 @@
 
   var AuditOS = global.AuditOS = global.AuditOS || {};
 
+  /** Shared Workspace Platform (Issue #27) — harmonized helpers reused across every operational workspace. */
+  var WS = AuditOS.workspaceShared || {};
+
   // ------------------------------------------------------------------
   // Constants
   // ------------------------------------------------------------------
@@ -82,9 +85,7 @@
   };
 
   /** Presentation tones shared by badges, markers, and rails. */
-  var TONES = { INFO: 'info', SUCCESS: 'success', WARNING: 'warning', ERROR: 'error' };
-
-  var ENGAGEMENT_STATUS = { IN_PROGRESS: 'In Progress' };
+  var TONES = WS.TONES;
 
   /**
    * Test operational-status vocabulary → tone (read, never invented). The demo
@@ -129,14 +130,11 @@
     PENDING: { key: 'Pending', label: 'Awaiting result' }
   };
 
-  /** Deterministic month labels so dates never depend on runtime locale. */
-  var MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
   /** Maximum entries per supporting list so panels stay scannable. */
-  var LIST_LIMIT = 8;
+  var LIST_LIMIT = WS.LIST_LIMIT;
 
   /** Entrance stagger ceiling — sections beyond this share the last delay. */
-  var STAGGER_LIMIT = 3;
+  var STAGGER_LIMIT = WS.STAGGER_LIMIT;
 
   // ------------------------------------------------------------------
   // Pure derivation helpers — no DOM, no AuditOS.state access. Each takes plain
@@ -145,30 +143,13 @@
   // ------------------------------------------------------------------
 
   /** Returns the value when it is an array, otherwise an empty array. */
-  function asArray(value) {
-    return Array.isArray(value) ? value : [];
-  }
+  var asArray = WS.asArray;
 
   /** Formats an ISO `YYYY-MM-DD` date as a compact, deterministic label. */
-  function formatDate(isoDate) {
-    if (typeof isoDate !== 'string' || !isoDate) {
-      return '';
-    }
-    var parts = isoDate.split('-');
-    var month = MONTH_LABELS[Number(parts[1]) - 1];
-    if (parts.length < 3 || !month) {
-      return isoDate;
-    }
-    return month + ' ' + Number(parts[2]) + ', ' + parts[0];
-  }
+  var formatDate = WS.formatDate;
 
   /** Formats a `{ startDate, endDate }` period as `start – end`. */
-  function formatPeriod(period) {
-    if (!period || !period.startDate || !period.endDate) {
-      return '';
-    }
-    return formatDate(period.startDate) + ' – ' + formatDate(period.endDate);
-  }
+  var formatPeriod = WS.formatPeriod;
 
   /**
    * The frameworks attached to an engagement, always as an array. Identical
@@ -176,31 +157,10 @@
    * a `frameworks` array renders every entry; today's single `framework` string
    * becomes a one-element array; neither yields an empty array.
    */
-  function normalizeFrameworks(engagement) {
-    if (!engagement) {
-      return [];
-    }
-    if (Array.isArray(engagement.frameworks) && engagement.frameworks.length > 0) {
-      return engagement.frameworks.slice();
-    }
-    if (typeof engagement.framework === 'string' && engagement.framework) {
-      return [engagement.framework];
-    }
-    return [];
-  }
+  var normalizeFrameworks = WS.normalizeFrameworks;
 
   /** The current engagement: identical rule to Home, Engagement, Walkthrough, Evidence, Requirements, and Controls. */
-  function deriveCurrentEngagement(engagements) {
-    if (!Array.isArray(engagements) || engagements.length === 0) {
-      return null;
-    }
-    for (var index = 0; index < engagements.length; index += 1) {
-      if (engagements[index].status === ENGAGEMENT_STATUS.IN_PROGRESS) {
-        return engagements[index];
-      }
-    }
-    return engagements[0];
-  }
+  var deriveCurrentEngagement = WS.deriveCurrentEngagement;
 
   /** Resolves a test status to a presentation tone. */
   function resolveStatusTone(status) {
@@ -528,17 +488,7 @@
       { id: ids.REPORTING, label: 'Report', count: report ? null : 0, present: Boolean(report), hint: report ? report.status : 'Not started' }
     ];
 
-    return nodes.map(function (node) {
-      var workspace = workspaceRegistry.findById(node.id);
-      return {
-        label: node.label,
-        path: workspace ? workspace.path : null,
-        count: node.count,
-        present: node.present,
-        highlighted: Boolean(node.highlighted),
-        hint: node.hint
-      };
-    });
+    return WS.resolveLineageNodes(workspaceRegistry, nodes);
   }
 
   /**
@@ -566,10 +516,7 @@
       { id: ids.FINDINGS, title: 'Findings', meta: String(findings.findings || 0), present: (findings.findings || 0) > 0 },
       { id: ids.REPORTING, title: 'Report', meta: report ? String(report.status) : '—', present: Boolean(report) }
     ];
-    return related.filter(function (item) { return item.present; }).map(function (item) {
-      var workspace = workspaceRegistry.findById(item.id);
-      return { title: item.title, meta: item.meta, path: workspace ? workspace.path : null };
-    });
+    return WS.resolveRelationships(workspaceRegistry, related);
   }
 
   /**
@@ -646,13 +593,12 @@
 
   /** One text-valued Inspector section rendered as a single placeholder-capable list row. */
   function textSection(title, text, placeholder) {
-    return { title: title, kind: 'list', items: [{ title: text || placeholder }] };
+    return WS.textSection(title, text, placeholder);
   }
 
   /** One list-valued Inspector section; an empty list renders one placeholder row. */
   function listSection(title, items, placeholder) {
-    var list = asArray(items);
-    return { title: title, kind: 'list', items: list.length > 0 ? list : [{ title: placeholder }] };
+    return WS.listSection(title, items, placeholder);
   }
 
   /**
@@ -787,31 +733,13 @@
   // ------------------------------------------------------------------
 
   /** Reads the first dataset document an engagement owns in a collection, or null. */
-  function readEngagementDocument(state, collectionId, engagementId) {
-    var datasetIds = state.findDatasetsForEngagement(collectionId, engagementId);
-    return datasetIds.length > 0 ? state.getDocument(collectionId, datasetIds[0]) : null;
-  }
+  var readEngagementDocument = WS.readEngagementDocument;
 
   /** Finds a record by id within a list. */
-  function findById(records, id) {
-    for (var index = 0; index < asArray(records).length; index += 1) {
-      if (records[index].id === id) {
-        return records[index];
-      }
-    }
-    return null;
-  }
+  var findById = WS.findById;
 
   /** Indexes a list of records by their id field. */
-  function indexById(records) {
-    var map = {};
-    asArray(records).forEach(function (record) {
-      if (record && record.id) {
-        map[record.id] = record;
-      }
-    });
-    return map;
-  }
+  var indexById = WS.indexById;
 
   /**
    * Collects everything the Testing Workspace presents from the Shared Audit
@@ -926,41 +854,14 @@
   // ------------------------------------------------------------------
 
   /** Creates an element with a class and optional text content. */
-  function el(tagName, className, textContent) {
-    var node = global.document.createElement(tagName);
-    if (className) {
-      node.className = className;
-    }
-    if (textContent !== undefined && textContent !== null && textContent !== '') {
-      node.textContent = textContent;
-    }
-    return node;
-  }
+  var el = WS.el;
 
   /** The shared presentation system, resolved at render time. */
-  function presentation() {
-    return AuditOS.presentation;
-  }
+  var presentation = WS.presentation;
 
   /** Builds one Section component: an eyebrow, a title, an optional description, then a body node. */
   function buildSection(id, meta, bodyNode) {
-    var section = el('section', 'aos-section aos-testing__section aos-testing__section--' + id);
-    section.setAttribute('aria-label', meta.title);
-
-    var header = el('header', 'aos-section__header');
-    if (meta.kicker) {
-      header.appendChild(el('p', 'aos-section__eyebrow', meta.kicker));
-    }
-    header.appendChild(el('h2', 'aos-section__title', meta.title));
-    if (meta.description) {
-      header.appendChild(el('p', 'aos-section__description', meta.description));
-    }
-    section.appendChild(header);
-
-    var body = el('div', 'aos-section__body');
-    body.appendChild(bodyNode);
-    section.appendChild(body);
-    return section;
+    return WS.buildSection('aos-testing', id, meta, bodyNode);
   }
 
   /**
@@ -970,20 +871,7 @@
    * health reads without relying on color.
    */
   function buildHealthStrip(items) {
-    var strip = el('div', 'aos-testing__health');
-    strip.setAttribute('role', 'group');
-    strip.setAttribute('aria-label', 'Testing health');
-    asArray(items).forEach(function (item) {
-      var node = el('span', 'aos-testing__health-item');
-      node.setAttribute('aria-label', item.label + ': ' + item.status);
-      var dot = el('span', 'aos-testing__health-dot' + (item.tone ? ' aos-testing__health-dot--' + item.tone : ''));
-      dot.setAttribute('aria-hidden', 'true');
-      node.appendChild(dot);
-      node.appendChild(el('span', 'aos-testing__health-label', item.label));
-      node.appendChild(el('span', 'aos-testing__health-status', item.status));
-      strip.appendChild(node);
-    });
-    return strip;
+    return WS.buildHealthStrip('aos-testing', 'Testing health', items);
   }
 
   /**
@@ -1048,60 +936,13 @@
   }
 
   /**
-   * A selection controller shared by every rail rendering: registering a row wires
-   * its click to swap the Test Inspector into the detail mount; selecting the
-   * first row establishes the default detail. Memory-only presentation state — no
-   * business data is touched, no route changed.
-   */
-  function createSelection(detailMount, context) {
-    var entries = [];
-    function select(index) {
-      entries.forEach(function (entry, entryIndex) {
-        var selected = entryIndex === index;
-        entry.node.classList.toggle('aos-testing__row--selected', selected);
-        entry.node.setAttribute('aria-pressed', selected ? 'true' : 'false');
-      });
-      if (entries[index]) {
-        detailMount.replaceChildren(presentation().inspectorPanel(buildTestInspector(entries[index].row.test, context)));
-      }
-    }
-    return {
-      register: function (row, node) {
-        var index = entries.length;
-        entries.push({ row: row, node: node });
-        node.addEventListener('click', function () { select(index); });
-      },
-      selectFirst: function () { if (entries.length > 0) { select(0); } }
-    };
-  }
-
-  /**
    * Renders a set of grouped rows into a master list node and wires selection to
    * the detail mount. Clears the list first, so the same node re-renders when the
    * presentation view changes — the mechanism behind the three views over one
    * dataset. Group labels render as a labeled divider carrying the group's count.
    */
   function mountRailGroups(listNode, detailMount, groups, context) {
-    listNode.replaceChildren();
-    var selection = createSelection(detailMount, context);
-    asArray(groups).forEach(function (group) {
-      if (group.label) {
-        var divider = el('div', 'aos-testing__group');
-        divider.setAttribute('role', 'separator');
-        divider.setAttribute('aria-label', group.label);
-        divider.appendChild(el('span', 'aos-testing__group-label', group.label));
-        divider.appendChild(el('span', 'aos-testing__group-count aos-numeric', String(asArray(group.rows).length)));
-        listNode.appendChild(divider);
-      }
-      asArray(group.rows).forEach(function (row) {
-        var node = buildRow(row);
-        node.classList.add('aos-testing__row');
-        node.setAttribute('aria-pressed', 'false');
-        selection.register(row, node);
-        listNode.appendChild(node);
-      });
-    });
-    selection.selectFirst();
+    WS.mountRailGroups('aos-testing', listNode, detailMount, groups, context, buildRow, buildTestInspector, 'test');
   }
 
   /**
@@ -1186,36 +1027,11 @@
    * canvases and stacks on narrow ones (stylesheet).
    */
   function buildLineageBody(lineage) {
-    var chain = el('div', 'aos-testing__lineage');
-    chain.setAttribute('role', 'list');
-    asArray(lineage).forEach(function (node, index) {
-      if (index > 0) {
-        var connector = el('span', 'aos-testing__lineage-connector', '→');
-        connector.setAttribute('aria-hidden', 'true');
-        chain.appendChild(connector);
-      }
-      var tag = node.path ? 'a' : 'div';
-      var card = el(tag, 'aos-testing__lineage-node' + (node.highlighted ? ' aos-testing__lineage-node--highlighted' : '') + (node.present ? '' : ' aos-testing__lineage-node--empty'));
-      card.setAttribute('role', 'listitem');
-      if (node.path) {
-        card.setAttribute('href', '#/' + node.path);
-      }
-      card.appendChild(el('span', 'aos-testing__lineage-label', node.label));
-      var value = node.count === null ? (node.present ? '' : '—') : String(node.count);
-      if (value) {
-        card.appendChild(el('span', 'aos-testing__lineage-count aos-numeric', value));
-      }
-      if (node.hint) {
-        card.appendChild(el('span', 'aos-testing__lineage-hint', node.hint));
-      }
-      chain.appendChild(card);
-    });
-    return chain;
+    return WS.buildLineageBody('aos-testing', lineage);
   }
 
   /** Builds the Metadata body: the shared Metadata List of presentation fields. */
   function buildMetadataBody(metadata) {
-    var P = presentation();
     var pairs = [
       { term: 'Created', detail: metadata.created },
       { term: 'Modified', detail: metadata.modified },
@@ -1223,49 +1039,29 @@
       { term: 'Version', detail: metadata.version },
       { term: 'Tags', detail: asArray(metadata.tags).join(' · ') },
       { term: 'Source', detail: metadata.source }
-    ].filter(function (pair) { return pair.detail; });
-    return P.metadataList(pairs);
+    ];
+    return WS.metadataBody(pairs);
   }
 
   /** Builds the Related information supporting panel body: related audit objects with navigation. */
   function buildRelatedBody(relationships) {
-    var P = presentation();
-    if (asArray(relationships).length === 0) {
-      return P.emptyState({
-        icon: '◇', title: 'No related objects',
-        description: 'The audit domains testing connects to appear here once they hold data.'
-      });
-    }
-    return P.itemList(relationships.map(function (item) {
-      return {
-        title: item.title, meta: item.meta, tone: TONES.INFO,
-        actions: item.path ? [{ label: 'Open', href: '#/' + item.path }] : []
-      };
-    }), { compact: true });
+    return WS.buildRelatedBody(relationships, {
+      icon: '◇', title: 'No related objects',
+      description: 'The audit domains testing connects to appear here once they hold data.'
+    });
   }
 
   /** Builds the Activity Feed for the activity supporting panel. */
   function buildActivityBody(activity) {
-    var P = presentation();
-    if (asArray(activity).length === 0) {
-      return P.emptyState({
-        icon: '◇', title: 'No recent activity',
-        description: 'Test executions, reviews, and conclusions appear here as the engagement progresses.'
-      });
-    }
-    return P.activityFeed({ events: activity });
+    return WS.buildActivityBody(activity, {
+      icon: '◇', title: 'No recent activity',
+      description: 'Test executions, reviews, and conclusions appear here as the engagement progresses.'
+    });
   }
 
   /** Builds a run of labeled value items for the workspace footer. */
   function buildFooterItems(entries) {
-    var fragment = global.document.createDocumentFragment();
-    asArray(entries).forEach(function (entry) {
-      var item = el('span', 'aos-testing-footer__item');
-      item.appendChild(el('span', 'aos-testing-footer__label', entry.label));
-      item.appendChild(el('span', 'aos-testing-footer__value aos-numeric', entry.value));
-      fragment.appendChild(item);
-    });
-    return fragment;
+    return WS.buildFooterItems('aos-testing', entries);
   }
 
   /**
@@ -1292,18 +1088,10 @@
   // ------------------------------------------------------------------
 
   /** Returns a framework slot inside the active workspace view. */
-  function slotElement(view, slotName) {
-    return view.querySelector('[data-slot="' + slotName + '"]');
-  }
+  var slotElement = WS.slotElement;
 
   /** Replaces a slot's content with the given nodes (or clears it). */
-  function fillSlot(view, slotName, nodes) {
-    var slot = slotElement(view, slotName);
-    if (!slot) {
-      return;
-    }
-    slot.replaceChildren.apply(slot, nodes || []);
-  }
+  var fillSlot = WS.fillSlot;
 
   /**
    * The ordered testing sections (§ Workspace Structure): operational health,

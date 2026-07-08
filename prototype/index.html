@@ -116,6 +116,19 @@
   <script src="components/presentation/presentation.js"></script>
 
   <!-- ========================================================= -->
+  <!-- Workspace Shared Platform (Issue #27)                    -->
+  <!-- Harmonized helpers reused by every operational workspace: -->
+  <!-- shared constants, DOM builders (section, health strip,    -->
+  <!-- audit lineage, footer), relationship/lineage resolution,  -->
+  <!-- and the rail Master–Detail selection controller. Holds no -->
+  <!-- business logic or status vocabulary of its own — each     -->
+  <!-- workspace still owns what it renders, only not how. Loads -->
+  <!-- after the presentation system and before every workspace  -->
+  <!-- module.                                                    -->
+  <!-- ========================================================= -->
+  <script src="components/workspace-shared/workspace-shared.js"></script>
+
+  <!-- ========================================================= -->
   <!-- Application Bootstrap                                     -->
   <!-- Starts the Shared Audit State and the router once the     -->
   <!-- shell markup is ready.                                    -->

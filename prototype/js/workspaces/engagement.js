@@ -57,6 +57,9 @@
 
   var AuditOS = global.AuditOS = global.AuditOS || {};
 
+  /** Shared Workspace Platform (Issue #27) — harmonized helpers reused across every operational workspace. */
+  var WS = AuditOS.workspaceShared || {};
+
   // ------------------------------------------------------------------
   // Constants
   // ------------------------------------------------------------------
@@ -76,7 +79,7 @@
   };
 
   /** Presentation tones shared by badges, markers, and progress. */
-  var TONES = { INFO: 'info', SUCCESS: 'success', WARNING: 'warning', ERROR: 'error' };
+  var TONES = WS.TONES;
 
   /** Engagement lifecycle status vocabulary of the demo-data (read, never invented). */
   var ENGAGEMENT_STATUS = { IN_PROGRESS: 'In Progress', COMPLETED: 'Completed', PLANNING: 'Planning' };
@@ -97,14 +100,11 @@
   var FINDING_STATUS = { OPEN: 'Open' };
   var TEST_RESULT = { FAIL: 'Fail' };
 
-  /** Deterministic month labels so dates never depend on runtime locale. */
-  var MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
   /** Maximum entries per list so sections stay scannable. */
-  var LIST_LIMIT = 8;
+  var LIST_LIMIT = WS.LIST_LIMIT;
 
   /** Entrance stagger ceiling — sections beyond this share the last delay. */
-  var STAGGER_LIMIT = 3;
+  var STAGGER_LIMIT = WS.STAGGER_LIMIT;
 
   // ------------------------------------------------------------------
   // Pure derivation helpers — no DOM, no AuditOS.state access. Each takes plain
@@ -113,30 +113,13 @@
   // ------------------------------------------------------------------
 
   /** Returns the value when it is an array, otherwise an empty array. */
-  function asArray(value) {
-    return Array.isArray(value) ? value : [];
-  }
+  var asArray = WS.asArray;
 
   /** Formats an ISO `YYYY-MM-DD` date as a compact, deterministic label. */
-  function formatDate(isoDate) {
-    if (typeof isoDate !== 'string') {
-      return '';
-    }
-    var parts = isoDate.split('-');
-    var month = MONTH_LABELS[Number(parts[1]) - 1];
-    if (parts.length < 3 || !month) {
-      return isoDate;
-    }
-    return month + ' ' + Number(parts[2]) + ', ' + parts[0];
-  }
+  var formatDate = WS.formatDate;
 
   /** Formats a `{ startDate, endDate }` period as `start – end`. */
-  function formatPeriod(period) {
-    if (!period || !period.startDate || !period.endDate) {
-      return '';
-    }
-    return formatDate(period.startDate) + ' – ' + formatDate(period.endDate);
-  }
+  var formatPeriod = WS.formatPeriod;
 
   /** Whole-number percentage; an empty total reads as zero, never NaN. */
   function formatPercent(part, total) {
@@ -157,17 +140,7 @@
    * the Home workspace's rule so both surfaces stay on the same engagement
    * (persistent context, §12.12).
    */
-  function deriveCurrentEngagement(engagements) {
-    if (!Array.isArray(engagements) || engagements.length === 0) {
-      return null;
-    }
-    for (var index = 0; index < engagements.length; index += 1) {
-      if (engagements[index].status === ENGAGEMENT_STATUS.IN_PROGRESS) {
-        return engagements[index];
-      }
-    }
-    return engagements[0];
-  }
+  var deriveCurrentEngagement = WS.deriveCurrentEngagement;
 
   /**
    * The frameworks attached to an engagement, always as an array. This is the
@@ -176,18 +149,7 @@
    * declares a single `framework` string, which becomes a one-element array.
    * Nothing is fabricated — an engagement with neither yields an empty array.
    */
-  function normalizeFrameworks(engagement) {
-    if (!engagement) {
-      return [];
-    }
-    if (Array.isArray(engagement.frameworks) && engagement.frameworks.length > 0) {
-      return engagement.frameworks.slice();
-    }
-    if (typeof engagement.framework === 'string' && engagement.framework) {
-      return [engagement.framework];
-    }
-    return [];
-  }
+  var normalizeFrameworks = WS.normalizeFrameworks;
 
   /**
    * The current operational focus and engagement status — two distinct concepts
@@ -526,9 +488,7 @@
   }
 
   /** Naive English pluralization for whole-count action labels. */
-  function plural(count, noun) {
-    return count === 1 ? noun : noun + 's';
-  }
+  var plural = WS.plural;
 
   /**
    * Engagement members (§63.16): the client-side participants of the engagement,
@@ -584,12 +544,7 @@
       { id: ids.FINDINGS, title: 'Findings', meta: String(findings.findings || 0), present: (findings.findings || 0) > 0 },
       { id: ids.REPORTING, title: 'Report', meta: report ? String(report.status) : '—', present: Boolean(report) }
     ];
-    return related.filter(function (item) {
-      return item.present;
-    }).map(function (item) {
-      var workspace = workspaceRegistry.findById(item.id);
-      return { title: item.title, meta: item.meta, path: workspace ? workspace.path : null };
-    });
+    return WS.resolveRelationships(workspaceRegistry, related);
   }
 
   /**
@@ -695,20 +650,10 @@
   // ------------------------------------------------------------------
 
   /** Reads the first dataset document an engagement owns in a collection. */
-  function readEngagementDocument(state, collectionId, engagementId) {
-    var datasetIds = state.findDatasetsForEngagement(collectionId, engagementId);
-    return datasetIds.length > 0 ? state.getDocument(collectionId, datasetIds[0]) : null;
-  }
+  var readEngagementDocument = WS.readEngagementDocument;
 
   /** Finds a record by id within a list. */
-  function findById(records, id) {
-    for (var index = 0; index < asArray(records).length; index += 1) {
-      if (records[index].id === id) {
-        return records[index];
-      }
-    }
-    return null;
-  }
+  var findById = WS.findById;
 
   /**
    * Collects everything the Engagement Workspace presents from the Shared Audit
@@ -944,44 +889,17 @@
   // ------------------------------------------------------------------
 
   /** Creates an element with a class and optional text content. */
-  function el(tagName, className, textContent) {
-    var node = global.document.createElement(tagName);
-    if (className) {
-      node.className = className;
-    }
-    if (textContent !== undefined && textContent !== null && textContent !== '') {
-      node.textContent = textContent;
-    }
-    return node;
-  }
+  var el = WS.el;
 
   /** The shared presentation system, resolved at render time. */
-  function presentation() {
-    return AuditOS.presentation;
-  }
+  var presentation = WS.presentation;
 
   /**
    * Builds one Section component: an eyebrow, a title, an optional description,
    * then a body node. The per-section modifier is layout identity only.
    */
   function buildSection(id, meta, bodyNode) {
-    var section = el('section', 'aos-section aos-engagement__section aos-engagement__section--' + id);
-    section.setAttribute('aria-label', meta.title);
-
-    var header = el('header', 'aos-section__header');
-    if (meta.kicker) {
-      header.appendChild(el('p', 'aos-section__eyebrow', meta.kicker));
-    }
-    header.appendChild(el('h2', 'aos-section__title', meta.title));
-    if (meta.description) {
-      header.appendChild(el('p', 'aos-section__description', meta.description));
-    }
-    section.appendChild(header);
-
-    var body = el('div', 'aos-section__body');
-    body.appendChild(bodyNode);
-    section.appendChild(body);
-    return section;
+    return WS.buildSection('aos-engagement', id, meta, bodyNode);
   }
 
   /** Builds inline framework Status Badges from the frameworks array. */
@@ -1061,23 +979,7 @@
    * on color. Indicators with a path are links into their workspace.
    */
   function buildAuditHealth(items) {
-    var strip = el('div', 'aos-engagement__health');
-    strip.setAttribute('role', 'group');
-    strip.setAttribute('aria-label', 'Audit health');
-    asArray(items).forEach(function (item) {
-      var node = el(item.path ? 'a' : 'span', 'aos-engagement__health-item');
-      if (item.path) {
-        node.setAttribute('href', '#/' + item.path);
-      }
-      node.setAttribute('aria-label', item.label + ': ' + item.status);
-      var dot = el('span', 'aos-engagement__health-dot' + (item.tone ? ' aos-engagement__health-dot--' + item.tone : ''));
-      dot.setAttribute('aria-hidden', 'true');
-      node.appendChild(dot);
-      node.appendChild(el('span', 'aos-engagement__health-label', item.label));
-      node.appendChild(el('span', 'aos-engagement__health-status', item.status));
-      strip.appendChild(node);
-    });
-    return strip;
+    return WS.buildHealthStrip('aos-engagement', 'Audit health', items);
   }
 
   /** Builds one titled column of the operational status band. */
@@ -1175,15 +1077,14 @@
 
   /** Builds the Metadata body: the shared Metadata List of presentation fields. */
   function buildMetadataBody(metadata) {
-    var P = presentation();
     var pairs = [
       { term: 'Created', detail: metadata.created },
       { term: 'Last updated', detail: metadata.updated },
       { term: 'Version', detail: metadata.version },
       { term: 'Owner', detail: metadata.owner },
       { term: 'Tags', detail: asArray(metadata.tags).join(' · ') }
-    ].filter(function (pair) { return pair.detail; });
-    return P.metadataList(pairs);
+    ];
+    return WS.metadataBody(pairs);
   }
 
   /**
@@ -1243,40 +1144,22 @@
 
   /** Builds the Activity Feed for the activity supporting panel (§7). */
   function buildActivityBody(activity) {
-    var P = presentation();
-    if (asArray(activity).length === 0) {
-      return P.emptyState({
-        icon: '◇', title: 'No recent activity',
-        description: 'Evidence receipts, submissions, and report updates appear here as the engagement progresses.'
-      });
-    }
-    return P.activityFeed({ events: activity });
+    return WS.buildActivityBody(activity, {
+      icon: '◇', title: 'No recent activity',
+      description: 'Evidence receipts, submissions, and report updates appear here as the engagement progresses.'
+    });
   }
 
   /** Builds the Related information panel body: related objects with navigation. */
   function buildRelatedBody(relationships) {
-    var P = presentation();
-    if (asArray(relationships).length === 0) {
-      return P.emptyState({ icon: '◇', title: 'No related objects', description: 'Related audit objects appear here once the engagement has data.' });
-    }
-    return P.itemList(relationships.map(function (item) {
-      return {
-        title: item.title, meta: item.meta, tone: TONES.INFO,
-        actions: item.path ? [{ label: 'Open', href: '#/' + item.path }] : []
-      };
-    }), { compact: true });
+    return WS.buildRelatedBody(relationships, {
+      icon: '◇', title: 'No related objects', description: 'Related audit objects appear here once the engagement has data.'
+    });
   }
 
   /** Builds a run of labeled value items for the workspace footer. */
   function buildFooterItems(entries) {
-    var fragment = global.document.createDocumentFragment();
-    asArray(entries).forEach(function (entry) {
-      var item = el('span', 'aos-engagement-footer__item');
-      item.appendChild(el('span', 'aos-engagement-footer__label', entry.label));
-      item.appendChild(el('span', 'aos-engagement-footer__value aos-numeric', entry.value));
-      fragment.appendChild(item);
-    });
-    return fragment;
+    return WS.buildFooterItems('aos-engagement', entries);
   }
 
   // ------------------------------------------------------------------
@@ -1284,18 +1167,10 @@
   // ------------------------------------------------------------------
 
   /** Returns a framework slot inside the active workspace view. */
-  function slotElement(view, slotName) {
-    return view.querySelector('[data-slot="' + slotName + '"]');
-  }
+  var slotElement = WS.slotElement;
 
   /** Replaces a slot's content with the given nodes (or clears it). */
-  function fillSlot(view, slotName, nodes) {
-    var slot = slotElement(view, slotName);
-    if (!slot) {
-      return;
-    }
-    slot.replaceChildren.apply(slot, nodes || []);
-  }
+  var fillSlot = WS.fillSlot;
 
   /**
    * The ordered engagement sections: the operational status band and the
