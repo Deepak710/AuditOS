@@ -60,6 +60,9 @@
   /** Shared Workspace Platform (Issue #27) — harmonized helpers reused across every operational workspace. */
   var WS = AuditOS.workspaceShared || {};
 
+  /** Cross-Workspace Relationship Engine (Issue #30) — shared relationship/derivation layer. */
+  var RE = AuditOS.relationships || {};
+
   // ------------------------------------------------------------------
   // Constants
   // ------------------------------------------------------------------
@@ -553,18 +556,7 @@
    * derives from a real record; undated remarks never appear.
    */
   function deriveActivity(activityEvents, reportDocument, actorNames) {
-    var names = actorNames || {};
-    var events = asArray(activityEvents)
-      .filter(function (event) { return event && event.at; })
-      .map(function (event) {
-        return {
-          actor: names[event.byId] || (event.authorSide === 'ha' ? 'Halcyon' : 'Client'),
-          title: 'recorded a remark on ' + (event.entityId || event.entityType || ''),
-          meta: event.note || '',
-          timestamp: formatDate(event.at),
-          date: event.at
-        };
-      });
+    var events = RE.deriveRemarkActivity(activityEvents, actorNames, formatDate);
     events.sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); });
     if (reportDocument && reportDocument.status) {
       events.unshift({

@@ -77,6 +77,9 @@
   /** Shared Workspace Platform (Issue #27) — harmonized helpers reused across every operational workspace. */
   var WS = AuditOS.workspaceShared || {};
 
+  /** Cross-Workspace Relationship Engine (Issue #30) — shared relationship/derivation layer. */
+  var RE = AuditOS.relationships || {};
+
   // ------------------------------------------------------------------
   // Constants
   // ------------------------------------------------------------------
@@ -686,36 +689,16 @@
    * and the shared Empty State — never a fabricated event.
    */
   function deriveActivity(queue) {
-    var events = [];
-    asArray(queue).forEach(function (item) {
-      var source = item.record || {};
-      asArray(source.activityHistory || source.activity || source.history).forEach(function (entry) {
-        var date = entry && (entry.date || entry.timestamp || entry.on);
-        if (!date) {
-          return;
-        }
-        events.push({
-          title: (entry.title || entry.action || entry.status || (item.itemType + ' updated')) + ': ' + (item.title || ''),
-          meta: entry.status || '',
-          timestamp: formatDate(date),
-          date: date,
-          tone: entry.tone || resolveStatusTone(entry.status)
-        });
-      });
-      var updated = source.updatedAt || source.updatedOn;
-      if (updated) {
-        events.push({
-          title: item.itemType + ' updated: ' + (item.title || ''),
-          meta: item.status || '',
-          timestamp: formatDate(updated),
-          date: updated,
-          tone: item.statusTone
-        });
-      }
+    return RE.deriveActivityFromHistory(queue, {
+      getRecord: function (item) { return item.record || {}; },
+      entityNoun: function (item) { return item.itemType; },
+      getSubject: function (record, item) { return item.title || ''; },
+      resolveTone: resolveStatusTone,
+      getUpdatedMeta: function (record, item) { return item.status || ''; },
+      getUpdatedTone: function (record, item) { return item.statusTone; },
+      formatDate: formatDate,
+      limit: LIST_LIMIT
     });
-    return events
-      .sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); })
-      .slice(0, LIST_LIMIT);
   }
 
   /** Work Queue metadata (§ Metadata): Created / Owner, derived from the company and the engagement lead. */

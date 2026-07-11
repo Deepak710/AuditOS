@@ -28,6 +28,7 @@ function bootControlsSandbox() {
     SCRIPTS.demoDataRegistry,
     SCRIPTS.stateStore,
     SCRIPTS.workspaceRegistry,
+    SCRIPTS.relationships,
     SCRIPTS.workspaceShared,
     SCRIPTS.controlsWorkspace
   ]).AuditOS;
@@ -198,6 +199,7 @@ module.exports = function registerIntegrationTests(harness) {
       SCRIPTS.demoDataRegistry,
       SCRIPTS.stateStore,
       SCRIPTS.workspaceRegistry,
+      SCRIPTS.relationships,
       SCRIPTS.workspaceShared,
       SCRIPTS.controlsWorkspace
     ]).AuditOS;
@@ -216,6 +218,7 @@ module.exports = function registerIntegrationTests(harness) {
       SCRIPTS.stateStore,
       SCRIPTS.workspaceRegistry,
       SCRIPTS.presentation,
+      SCRIPTS.relationships,
       SCRIPTS.workspaceShared,
       SCRIPTS.controlsWorkspace
     ]);
@@ -240,6 +243,7 @@ module.exports = function registerIntegrationTests(harness) {
       SCRIPTS.stateStore,
       SCRIPTS.workspaceRegistry,
       SCRIPTS.presentation,
+      SCRIPTS.relationships,
       SCRIPTS.workspaceShared,
       SCRIPTS.controlsWorkspace
     ]);

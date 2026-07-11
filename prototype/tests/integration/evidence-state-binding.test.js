@@ -27,6 +27,7 @@ function bootEvidenceSandbox() {
     SCRIPTS.demoDataRegistry,
     SCRIPTS.stateStore,
     SCRIPTS.workspaceRegistry,
+    SCRIPTS.relationships,
     SCRIPTS.workspaceShared,
     SCRIPTS.evidenceWorkspace
   ]).AuditOS;
@@ -173,6 +174,7 @@ module.exports = function registerIntegrationTests(harness) {
       SCRIPTS.demoDataRegistry,
       SCRIPTS.stateStore,
       SCRIPTS.workspaceRegistry,
+      SCRIPTS.relationships,
       SCRIPTS.workspaceShared,
       SCRIPTS.evidenceWorkspace
     ]).AuditOS;
@@ -191,6 +193,7 @@ module.exports = function registerIntegrationTests(harness) {
       SCRIPTS.stateStore,
       SCRIPTS.workspaceRegistry,
       SCRIPTS.presentation,
+      SCRIPTS.relationships,
       SCRIPTS.workspaceShared,
       SCRIPTS.evidenceWorkspace
     ]);

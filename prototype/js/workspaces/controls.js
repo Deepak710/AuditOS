@@ -72,6 +72,9 @@
   /** Shared Workspace Platform (Issue #27) — harmonized helpers reused across every operational workspace. */
   var WS = AuditOS.workspaceShared || {};
 
+  /** Cross-Workspace Relationship Engine (Issue #30) — shared relationship/derivation layer. */
+  var RE = AuditOS.relationships || {};
+
   // ------------------------------------------------------------------
   // Constants
   // ------------------------------------------------------------------
@@ -610,36 +613,12 @@
    * fabricated.
    */
   function deriveActivity(controls) {
-    var events = [];
-    asArray(controls).forEach(function (control) {
-      var ctrl = control || {};
-      asArray(ctrl.activityHistory || ctrl.activity || ctrl.history).forEach(function (entry) {
-        var date = entry && (entry.date || entry.timestamp || entry.on);
-        if (!date) {
-          return;
-        }
-        events.push({
-          title: (entry.title || entry.action || entry.status || 'Control updated') + ': ' + (ctrl.title || ctrl.id),
-          meta: entry.status || '',
-          timestamp: formatDate(date),
-          date: date,
-          tone: entry.tone || resolveStatusTone(entry.status)
-        });
-      });
-      var updated = ctrl.updatedAt || ctrl.updatedOn;
-      if (updated) {
-        events.push({
-          title: 'Control updated: ' + (ctrl.title || ctrl.id),
-          meta: ctrl.status || '',
-          timestamp: formatDate(updated),
-          date: updated,
-          tone: resolveStatusTone(ctrl.status)
-        });
-      }
+    return RE.deriveActivityFromHistory(controls, {
+      entityNoun: 'Control',
+      resolveTone: resolveStatusTone,
+      formatDate: formatDate,
+      limit: LIST_LIMIT
     });
-    return events
-      .sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); })
-      .slice(0, LIST_LIMIT);
   }
 
   /**
@@ -648,25 +627,7 @@
    * company. Only fields with real values are surfaced by the builder.
    */
   function deriveMetadata(controlsMetadata, engagement, company, controls) {
-    var meta = controlsMetadata || {};
-    var tagSet = {};
-    var tagOrder = [];
-    asArray(controls).forEach(function (control) {
-      asArray(control.tags).forEach(function (tag) {
-        if (!tagSet[tag]) {
-          tagSet[tag] = true;
-          tagOrder.push(tag);
-        }
-      });
-    });
-    return {
-      created: company && company.createdAt ? formatDate(company.createdAt) : '',
-      modified: meta.generatedAt ? formatDate(String(meta.generatedAt).slice(0, 10)) : '',
-      owner: engagement ? (engagement.engagementLead || engagement.auditor || '') : '',
-      version: meta.version || '',
-      tags: tagOrder,
-      source: meta.dataset || ''
-    };
+    return RE.deriveCollectionMetadata(controlsMetadata, engagement, company, controls, formatDate);
   }
 
   // ---- Inspector configuration — pure, host-agnostic (§9). Returns plain

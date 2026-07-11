@@ -30,6 +30,7 @@ const SCRIPTS = {
   demoDataBundle: ['demo-data', 'demo-data.js'],
   demoDataRegistry: ['js', 'state', 'demo-data-registry.js'],
   stateStore: ['js', 'state', 'state-store.js'],
+  relationships: ['js', 'platform', 'relationships.js'],
   workspaceShared: ['components', 'workspace-shared', 'workspace-shared.js'],
   homeWorkspace: ['js', 'workspaces', 'home.js'],
   engagementWorkspace: ['js', 'workspaces', 'engagement.js'],
@@ -113,7 +114,7 @@ function loadHomeWorkspace() {
  * no document exists; suites exercise its pure derivations directly.
  */
 function loadEngagementWorkspace() {
-  return loadClassicScripts([SCRIPTS.workspaceShared, SCRIPTS.engagementWorkspace]).AuditOS.engagementWorkspace;
+  return loadClassicScripts([SCRIPTS.relationships, SCRIPTS.workspaceShared, SCRIPTS.engagementWorkspace]).AuditOS.engagementWorkspace;
 }
 
 /**
@@ -133,7 +134,7 @@ function loadWorkspaceFramework() {
  * directly.
  */
 function loadWalkthroughWorkspace() {
-  return loadClassicScripts([SCRIPTS.workspaceShared, SCRIPTS.walkthroughWorkspace]).AuditOS.walkthroughWorkspace;
+  return loadClassicScripts([SCRIPTS.relationships, SCRIPTS.workspaceShared, SCRIPTS.walkthroughWorkspace]).AuditOS.walkthroughWorkspace;
 }
 
 /**
@@ -143,7 +144,7 @@ function loadWalkthroughWorkspace() {
  * no document exists; suites exercise its pure derivations directly.
  */
 function loadEvidenceWorkspace() {
-  return loadClassicScripts([SCRIPTS.workspaceShared, SCRIPTS.evidenceWorkspace]).AuditOS.evidenceWorkspace;
+  return loadClassicScripts([SCRIPTS.relationships, SCRIPTS.workspaceShared, SCRIPTS.evidenceWorkspace]).AuditOS.evidenceWorkspace;
 }
 
 /**
@@ -154,7 +155,7 @@ function loadEvidenceWorkspace() {
  * pure derivations directly.
  */
 function loadRequirementsWorkspace() {
-  return loadClassicScripts([SCRIPTS.workspaceShared, SCRIPTS.requirementsWorkspace]).AuditOS.requirementsWorkspace;
+  return loadClassicScripts([SCRIPTS.relationships, SCRIPTS.workspaceShared, SCRIPTS.requirementsWorkspace]).AuditOS.requirementsWorkspace;
 }
 
 /**
@@ -164,7 +165,7 @@ function loadRequirementsWorkspace() {
  * no document exists; suites exercise its pure derivations directly.
  */
 function loadControlsWorkspace() {
-  return loadClassicScripts([SCRIPTS.workspaceShared, SCRIPTS.controlsWorkspace]).AuditOS.controlsWorkspace;
+  return loadClassicScripts([SCRIPTS.relationships, SCRIPTS.workspaceShared, SCRIPTS.controlsWorkspace]).AuditOS.controlsWorkspace;
 }
 
 /**
@@ -174,7 +175,7 @@ function loadControlsWorkspace() {
  * no document exists; suites exercise its pure derivations directly.
  */
 function loadTestingWorkspace() {
-  return loadClassicScripts([SCRIPTS.workspaceShared, SCRIPTS.testingWorkspace]).AuditOS.testingWorkspace;
+  return loadClassicScripts([SCRIPTS.relationships, SCRIPTS.workspaceShared, SCRIPTS.testingWorkspace]).AuditOS.testingWorkspace;
 }
 
 /**
@@ -184,7 +185,7 @@ function loadTestingWorkspace() {
  * no document exists; suites exercise its pure derivations directly.
  */
 function loadFindingsWorkspace() {
-  return loadClassicScripts([SCRIPTS.workspaceShared, SCRIPTS.findingsWorkspace]).AuditOS.findingsWorkspace;
+  return loadClassicScripts([SCRIPTS.relationships, SCRIPTS.workspaceShared, SCRIPTS.findingsWorkspace]).AuditOS.findingsWorkspace;
 }
 
 /**
@@ -195,7 +196,7 @@ function loadFindingsWorkspace() {
  * suites exercise its pure derivations directly.
  */
 function loadDocumentationWorkspace() {
-  return loadClassicScripts([SCRIPTS.workspaceShared, SCRIPTS.documentationWorkspace]).AuditOS.documentationWorkspace;
+  return loadClassicScripts([SCRIPTS.relationships, SCRIPTS.workspaceShared, SCRIPTS.documentationWorkspace]).AuditOS.documentationWorkspace;
 }
 
 /**
@@ -206,7 +207,7 @@ function loadDocumentationWorkspace() {
  * directly.
  */
 function loadWorkQueueWorkspace() {
-  return loadClassicScripts([SCRIPTS.workspaceShared, SCRIPTS.workQueueWorkspace]).AuditOS.workQueueWorkspace;
+  return loadClassicScripts([SCRIPTS.relationships, SCRIPTS.workspaceShared, SCRIPTS.workQueueWorkspace]).AuditOS.workQueueWorkspace;
 }
 
 /**

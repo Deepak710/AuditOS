@@ -66,6 +66,9 @@
   /** Shared Workspace Platform (Issue #27) — harmonized helpers reused across every operational workspace. */
   var WS = AuditOS.workspaceShared || {};
 
+  /** Cross-Workspace Relationship Engine (Issue #30) — shared relationship/derivation layer. */
+  var RE = AuditOS.relationships || {};
+
   // ------------------------------------------------------------------
   // Constants
   // ------------------------------------------------------------------
@@ -510,36 +513,13 @@
    * State. Never fabricated.
    */
   function deriveActivity(requirements) {
-    var events = [];
-    asArray(requirements).forEach(function (requirement) {
-      var req = requirement || {};
-      asArray(req.activityHistory || req.activity || req.history).forEach(function (entry) {
-        var date = entry && (entry.date || entry.timestamp || entry.on);
-        if (!date) {
-          return;
-        }
-        events.push({
-          title: (entry.title || entry.action || entry.status || 'Requirement updated') + ': ' + (req.title || req.id),
-          meta: entry.status || entry.description || '',
-          timestamp: formatDate(date),
-          date: date,
-          tone: entry.tone || resolveStatusTone(entry.status)
-        });
-      });
-      var updated = req.updatedAt || req.updatedOn;
-      if (updated) {
-        events.push({
-          title: 'Requirement updated: ' + (req.title || req.id),
-          meta: req.status || '',
-          timestamp: formatDate(updated),
-          date: updated,
-          tone: resolveStatusTone(req.status)
-        });
-      }
+    return RE.deriveActivityFromHistory(requirements, {
+      entityNoun: 'Requirement',
+      getMeta: function (entry) { return entry.status || entry.description || ''; },
+      resolveTone: resolveStatusTone,
+      formatDate: formatDate,
+      limit: LIST_LIMIT
     });
-    return events
-      .sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); })
-      .slice(0, LIST_LIMIT);
   }
 
   /**
@@ -548,25 +528,7 @@
    * the company. Only fields with real values are surfaced by the builder.
    */
   function deriveMetadata(requirementsMetadata, engagement, company, requirements) {
-    var meta = requirementsMetadata || {};
-    var tagSet = {};
-    var tagOrder = [];
-    asArray(requirements).forEach(function (requirement) {
-      asArray(requirement.tags).forEach(function (tag) {
-        if (!tagSet[tag]) {
-          tagSet[tag] = true;
-          tagOrder.push(tag);
-        }
-      });
-    });
-    return {
-      created: company && company.createdAt ? formatDate(company.createdAt) : '',
-      modified: meta.generatedAt ? formatDate(String(meta.generatedAt).slice(0, 10)) : '',
-      owner: engagement ? (engagement.engagementLead || engagement.auditor || '') : '',
-      version: meta.version || '',
-      tags: tagOrder,
-      source: meta.dataset || ''
-    };
+    return RE.deriveCollectionMetadata(requirementsMetadata, engagement, company, requirements, formatDate);
   }
 
   // ---- Inspector configuration — pure, host-agnostic (§9). Returns plain

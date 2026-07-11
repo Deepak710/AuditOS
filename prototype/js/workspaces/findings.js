@@ -73,6 +73,9 @@
   /** Shared Workspace Platform (Issue #27) — harmonized helpers reused across every operational workspace. */
   var WS = AuditOS.workspaceShared || {};
 
+  /** Cross-Workspace Relationship Engine (Issue #30) — shared relationship/derivation layer. */
+  var RE = AuditOS.relationships || {};
+
   // ------------------------------------------------------------------
   // Constants
   // ------------------------------------------------------------------
@@ -186,36 +189,12 @@
    * `{ id, code, title, familyId, category }`.
    */
   function resolveRelatedControl(finding, context) {
-    var source = finding || {};
-    var ctx = context || {};
-    var libraryControl = source.libraryControlId && ctx.libraryControlsById ? ctx.libraryControlsById[source.libraryControlId] : null;
-    if (libraryControl) {
-      return {
-        id: source.controlId || source.libraryControlId || '',
-        code: libraryControl.controlCode || '',
-        title: libraryControl.title || '',
-        familyId: libraryControl.controlFamilyId || '',
-        category: ''
-      };
-    }
-    var engagementControl = source.controlId && ctx.controlsById ? ctx.controlsById[source.controlId] : null;
-    if (engagementControl) {
-      return {
-        id: source.controlId,
-        code: engagementControl.controlId || '',
-        title: engagementControl.title || '',
-        familyId: '',
-        category: engagementControl.category || ''
-      };
-    }
-    return { id: source.controlId || '', code: '', title: '', familyId: '', category: '' };
+    return RE.resolveControlRef(finding, context);
   }
 
   /** A compact related-control label — code + title where they resolve, else the raw identifier. */
   function relatedControlLabel(related) {
-    var source = related || {};
-    var label = [source.code, source.title].filter(Boolean).join(' · ');
-    return label || source.id || '';
+    return RE.controlRefLabel(related);
   }
 
   /**
@@ -553,36 +532,13 @@
    * AI-assisted finding generation populates this seam.
    */
   function deriveActivity(findings) {
-    var events = [];
-    asArray(findings).forEach(function (finding) {
-      var source = finding || {};
-      asArray(source.activityHistory || source.activity || source.history).forEach(function (entry) {
-        var date = entry && (entry.date || entry.timestamp || entry.on);
-        if (!date) {
-          return;
-        }
-        events.push({
-          title: (entry.title || entry.action || entry.status || 'Finding updated') + ': ' + (source.id || ''),
-          meta: entry.status || '',
-          timestamp: formatDate(date),
-          date: date,
-          tone: entry.tone || resolveStatusTone(entry.status)
-        });
-      });
-      var updated = source.updatedAt || source.updatedOn;
-      if (updated) {
-        events.push({
-          title: 'Finding updated: ' + (source.id || ''),
-          meta: source.status || '',
-          timestamp: formatDate(updated),
-          date: updated,
-          tone: resolveStatusTone(source.status)
-        });
-      }
+    return RE.deriveActivityFromHistory(findings, {
+      entityNoun: 'Finding',
+      getSubject: function (record) { return record.id || ''; },
+      resolveTone: resolveStatusTone,
+      formatDate: formatDate,
+      limit: LIST_LIMIT
     });
-    return events
-      .sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); })
-      .slice(0, LIST_LIMIT);
   }
 
   /**
@@ -591,25 +547,7 @@
    * company. Only fields with real values are surfaced by the builder.
    */
   function deriveMetadata(findingsMetadata, engagement, company, findings) {
-    var meta = findingsMetadata || {};
-    var tagSet = {};
-    var tagOrder = [];
-    asArray(findings).forEach(function (finding) {
-      asArray(finding.tags).forEach(function (tag) {
-        if (!tagSet[tag]) {
-          tagSet[tag] = true;
-          tagOrder.push(tag);
-        }
-      });
-    });
-    return {
-      created: company && company.createdAt ? formatDate(company.createdAt) : '',
-      modified: meta.generatedAt ? formatDate(String(meta.generatedAt).slice(0, 10)) : '',
-      owner: engagement ? (engagement.engagementLead || engagement.auditor || '') : '',
-      version: meta.version || '',
-      tags: tagOrder,
-      source: meta.dataset || ''
-    };
+    return RE.deriveCollectionMetadata(findingsMetadata, engagement, company, findings, formatDate);
   }
 
   // ---- Inspector configuration — pure, host-agnostic (§9). Returns plain

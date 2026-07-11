@@ -54,6 +54,9 @@
   /** Shared Workspace Platform (Issue #27) — harmonized helpers reused across every operational workspace. */
   var WS = AuditOS.workspaceShared || {};
 
+  /** Cross-Workspace Relationship Engine (Issue #30) — shared relationship/derivation layer. */
+  var RE = AuditOS.relationships || {};
+
   // ------------------------------------------------------------------
   // Constants
   // ------------------------------------------------------------------
@@ -462,18 +465,7 @@
    * event derives from a real dated record; undated records never appear.
    */
   function deriveActivity(evidenceRecords, requestRecords, activityEvents, actorNames) {
-    var names = actorNames || {};
-    var events = asArray(activityEvents)
-      .filter(function (event) { return event && event.at; })
-      .map(function (event) {
-        return {
-          actor: names[event.byId] || (event.authorSide === 'ha' ? 'Halcyon' : 'Client'),
-          title: 'recorded a remark on ' + (event.entityId || event.entityType || ''),
-          meta: event.note || '',
-          timestamp: formatDate(event.at),
-          date: event.at
-        };
-      });
+    var events = RE.deriveRemarkActivity(activityEvents, actorNames, formatDate);
     asArray(evidenceRecords).forEach(function (item) {
       if (!item.uploadedOn) {
         return;
@@ -509,19 +501,7 @@
    * the company. Only fields with real values are surfaced by the builder.
    */
   function deriveMetadata(evidenceMetadata, engagement, company, evidenceRecords) {
-    var meta = evidenceMetadata || {};
-    var tagSet = {};
-    asArray(evidenceRecords).forEach(function (item) {
-      asArray(item.tags).forEach(function (tag) { tagSet[tag] = true; });
-    });
-    return {
-      created: company && company.createdAt ? formatDate(company.createdAt) : '',
-      modified: meta.generatedAt ? formatDate(String(meta.generatedAt).slice(0, 10)) : '',
-      owner: engagement ? (engagement.engagementLead || engagement.auditor || '') : '',
-      version: meta.version || '',
-      tags: Object.keys(tagSet),
-      source: meta.dataset || ''
-    };
+    return RE.deriveCollectionMetadata(evidenceMetadata, engagement, company, evidenceRecords, formatDate);
   }
 
   /** One text-valued Inspector section rendered as a single placeholder-capable list row. */

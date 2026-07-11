@@ -116,6 +116,18 @@
   <script src="components/presentation/presentation.js"></script>
 
   <!-- ========================================================= -->
+  <!-- Cross-Workspace Relationship Engine (Issue #30)          -->
+  <!-- The shared, read-only relationship/derivation layer       -->
+  <!-- (window.AuditOS.relationships): control reference          -->
+  <!-- resolution, activity-history normalization, collection    -->
+  <!-- metadata, and graph traversal helpers extracted from the  -->
+  <!-- operational workspaces. Depends on nothing in components/ -->
+  <!-- so the existing js → components boundary stays one-way.  -->
+  <!-- Loads before every workspace module.                      -->
+  <!-- ========================================================= -->
+  <script src="js/platform/relationships.js"></script>
+
+  <!-- ========================================================= -->
   <!-- Workspace Shared Platform (Issue #27)                    -->
   <!-- Harmonized helpers reused by every operational workspace: -->
   <!-- shared constants, DOM builders (section, health strip,    -->

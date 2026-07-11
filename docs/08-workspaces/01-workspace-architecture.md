@@ -199,9 +199,11 @@ Activity Components
 
 This composition model ensures consistency across the platform.
 
-#### Release 1 Implementation (GitHub Issue #17)
+#### Release 1 Implementation (GitHub Issues #17, #27, #30)
 
 The Shared Workspace Framework (`prototype/components/workspace-framework/`) is the concrete realization of this composition model for Release 1. It renders one Universal Workspace Structure — workspace header, context summary, toolbar, filter bar, workspace actions, primary content, and supporting panels — into every workspace host, so no workspace assembles its own layout. A workspace configures the inherited structure through a single declarative descriptor (`AuditOS.workspaceFramework.configure`) rather than composing bespoke regions, realizing the Composable and Consistent principles (§61.4) in code.
+
+The Shared Workspace Platform (`prototype/components/workspace-shared/`) and Cross-Workspace Relationship Engine (`prototype/js/platform/relationships.js`, GitHub Issue #30) consolidate the harmonized helpers and pure relationship/derivation logic every operational workspace independently re-implements. The relationship engine exposes read-only resolvers (control reference resolution, owner/team/business-unit joins) and graph traversals (Requirement→Controls→Evidence→Testing→Findings→Report) so every workspace consumes the same canonical business-object joins rather than deriving them independently. Activity-history normalization (dated-activity aggregation, remark-log mapping) and collection metadata (tag deduplication, created/modified/owner/version tracking) are likewise centralized. Every workspace still owns its own status vocabulary, date formatting, and display-text shapes; the engine only stops re-typing the join and normalization logic.
 
 ---
 
