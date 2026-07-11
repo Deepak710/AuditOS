@@ -645,8 +645,8 @@
   }
 
   /** Normalizes a linked-id reference, resolving its name where it joins. */
-  function toRefItem(id, map, field) {
-    return WS.resolveRefItem(id, map, field);
+  function toRefItem(id, map, field, workspaceRegistry, workspaceId) {
+    return WS.resolveRefItem(id, map, field, workspaceRegistry, workspaceId);
   }
 
   /**
@@ -727,6 +727,7 @@
   function buildControlInspector(control, context) {
     var item = control || {};
     var ctx = context || {};
+    var ids = ctx.workspaceRegistry ? ctx.workspaceRegistry.IDS : {};
     var status = item.status || '';
     var evidence = deriveEvidenceCoverage(item);
     var testing = deriveTestingCoverage(item);
@@ -783,10 +784,10 @@
           frameworkMappings.map(function (mapping) { return { title: mapping, tone: TONES.INFO }; }),
           'No framework mapping declared for this control.'),
         listSection('Related requirements',
-          requirementIds.map(function (id) { return toRefItem(id, ctx.requirementsById, 'title'); }),
+          requirementIds.map(function (id) { return toRefItem(id, ctx.requirementsById, 'title', ctx.workspaceRegistry, ids.REQUIREMENTS); }),
           'No linked requirements recorded.'),
         listSection('Related evidence',
-          evidenceIds.map(function (id) { return toRefItem(id, ctx.evidenceById, 'title'); }),
+          evidenceIds.map(function (id) { return toRefItem(id, ctx.evidenceById, 'title', ctx.workspaceRegistry, ids.EVIDENCE); }),
           'No evidence linked yet — this control is still outstanding.'),
         listSection('Related walkthroughs', [],
           'No linked walkthroughs yet — walkthrough linkage arrives with the walkthrough collection.'),
@@ -872,6 +873,7 @@
       businessUnitsById: businessUnitsById,
       requirementsById: requirementsById,
       evidenceById: evidenceById,
+      workspaceRegistry: workspaceRegistry,
       frameworks: frameworks,
       auditPeriodLabel: auditPeriodLabel,
       engagement: engagement,
@@ -1010,8 +1012,8 @@
    * presentation view changes — the mechanism behind the three views over one
    * dataset. Group labels render as a labeled divider carrying the group's count.
    */
-  function mountRailGroups(listNode, detailMount, groups, context) {
-    WS.mountRailGroups('aos-controls', listNode, detailMount, groups, context, buildRow, buildControlInspector, 'control');
+  function mountRailGroups(listNode, detailMount, groups, context, targetId) {
+    WS.mountRailGroups('aos-controls', listNode, detailMount, groups, context, buildRow, buildControlInspector, 'control', targetId);
   }
 
   /**
@@ -1020,9 +1022,10 @@
    * selected control's Inspector Panel. The switcher swaps between the three
    * presentation modes — Control view, By family, By coverage — by re-rendering
    * the same rail from the same dataset (presentation-only, memory-only); it never
-   * changes the data.
+   * changes the data. `targetId` (Issue #31) selects that control on first render
+   * and again on every view switch.
    */
-  function buildLibraryBody(views, context) {
+  function buildLibraryBody(views, context, targetId) {
     var wrap = el('div', 'aos-controls__library');
     var detailMount = el('div', 'aos-controls__detail-mount');
     var listNode = el('div', 'aos-controls__row-list');
@@ -1039,7 +1042,7 @@
         chip.classList.toggle('aos-controls__view-chip--active', selected);
         chip.setAttribute('aria-pressed', selected ? 'true' : 'false');
       });
-      mountRailGroups(listNode, detailMount, views[index].view.groups, context);
+      mountRailGroups(listNode, detailMount, views[index].view.groups, context, targetId);
     }
 
     asArray(views).forEach(function (view, index) {
@@ -1145,7 +1148,7 @@
    * whether it has data, its body builder, and an empty descriptor used when the
    * data is absent (§ Empty States).
    */
-  function primarySections(viewModel) {
+  function primarySections(viewModel, targetId) {
     var context = viewModel.context;
     return [
       {
@@ -1156,7 +1159,7 @@
         id: 'library', kicker: 'Operational queue', title: 'Control library',
         description: 'Every control for the engagement. Switch between Control view, By family, and By coverage — the same dataset, regrouped — and select a control to open its Inspector, with framework mappings, the test-procedure preview, related audit objects, and history.',
         present: viewModel.library.length > 0,
-        body: function () { return buildLibraryBody(viewModel.views, context); },
+        body: function () { return buildLibraryBody(viewModel.views, context, targetId); },
         empty: {
           icon: '◇', title: 'No controls yet',
           description: 'Controls appear here as they are drafted for the engagement. Release 2 adds AI-drafted, AI-refined, and AI-reconciled controls; Release 1 renders only the current control state.'
@@ -1182,6 +1185,8 @@
   /** Renders the ready controls experience into the framework slots. */
   function renderReady(view, viewModel) {
     var P = presentation();
+    var router = AuditOS.router;
+    var targetId = router && router.getCurrentRecordId ? router.getCurrentRecordId() : '';
 
     AuditOS.workspaceFramework.configure(view, {
       header: viewModel.header,
@@ -1193,7 +1198,7 @@
     var canvas = el('div', 'aos-controls');
     canvas.setAttribute('data-canvas', 'flush');
     var rendered = 0;
-    primarySections(viewModel).forEach(function (section) {
+    primarySections(viewModel, targetId).forEach(function (section) {
       var body = section.present ? section.body() : P.emptyState(section.empty);
       var built = buildSection(section.id, section, body);
       built.classList.add('aos-rise-in');

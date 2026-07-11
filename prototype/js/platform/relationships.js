@@ -241,14 +241,22 @@
 
   // ------------------------------------------------------------------
   // Graph traversal helpers (Issue #30 — "expose graph traversal helpers").
-  // Read-only joins over identifier links the current dataset schema
-  // actually declares. Not yet called by any workspace renderer — Release 1
-  // visualizes only domain-level counts (each workspace's own
-  // deriveLineage), never a specific record-to-record chain, so wiring these
-  // into a screen is a Release 2 concern, not a Release 1 rendering change.
-  // A hop is included only where a real foreign-key field exists; Evidence
-  // ↔ Testing and Evidence ↔ Report have no such field in the current
-  // dataset shapes and are not fabricated here.
+  // Read-only joins over identifier links the current dataset schema actually
+  // declares. Wired into the Testing Inspector (`getTestingGraph`, a direct,
+  // behavior-preserving replacement of its own hand-rolled control/finding
+  // joins) and the Findings Inspector (`getFindingGraph`, for the finding →
+  // control → requirements hop) by Issue #31 — Cross-Workspace Record
+  // Navigation. `getControlGraph` and `getRequirementGraph` join-and-drop an
+  // id that does not resolve (`joinIds`), which is the right contract for a
+  // multi-hop traversal but not for a single Inspector's "Related X" list,
+  // where every other workspace's existing, tested contract is to render an
+  // unresolved id raw rather than hide it (never fabricate, never hide real
+  // data either) — so the Requirements, Controls, and Evidence Inspectors
+  // keep their own local id-normalization + `resolveRefItem` (now
+  // href-capable) instead of routing through these two. A hop is included
+  // only where a real foreign-key field exists; Evidence ↔ Testing and
+  // Evidence ↔ Report have no such field in the current dataset shapes and
+  // are not fabricated here.
   // ------------------------------------------------------------------
 
   /** Reads the first non-empty array field present on a record, else []. */
@@ -325,6 +333,31 @@
     };
   }
 
+  /**
+   * The audit chain a finding resolves to: its related control (via
+   * `resolveControlRef`), the test it was raised from (`testId`, joined
+   * against `context.testsById`), and the requirements that control declares
+   * (`context.controlsById[controlId].requirementIds`) — a finding has no
+   * requirement id of its own; the requirement relationship only exists
+   * through the control it relates to, exactly as extracted from the
+   * hand-rolled joins this replaces in the Findings workspace.
+   */
+  function getFindingGraph(finding, context) {
+    var ctx = context || {};
+    var source = finding || {};
+    var testId = source.testId || '';
+    var test = testId && ctx.testsById ? ctx.testsById[testId] : null;
+    var engagementControl = source.controlId && ctx.controlsById ? ctx.controlsById[source.controlId] : null;
+    var requirementIds = engagementControl && Array.isArray(engagementControl.requirementIds)
+      ? engagementControl.requirementIds : [];
+    return {
+      finding: finding || null,
+      control: resolveControlRef(source, ctx),
+      test: test || null,
+      requirements: joinIds(requirementIds, ctx.requirementsById)
+    };
+  }
+
   AuditOS.relationships = {
     resolveControlRef: resolveControlRef,
     controlRefLabel: controlRefLabel,
@@ -333,6 +366,7 @@
     deriveCollectionMetadata: deriveCollectionMetadata,
     getControlGraph: getControlGraph,
     getRequirementGraph: getRequirementGraph,
-    getTestingGraph: getTestingGraph
+    getTestingGraph: getTestingGraph,
+    getFindingGraph: getFindingGraph
   };
 })(window);

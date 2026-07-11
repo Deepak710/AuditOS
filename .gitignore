@@ -1,3 +1,5 @@
 validation/
 graphify-out/
 prototype/tests
+/.mcp.json
+/CLAUDE.md

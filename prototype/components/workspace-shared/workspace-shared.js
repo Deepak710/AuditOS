@@ -125,9 +125,37 @@
     return id || '';
   }
 
-  /** Normalizes a linked-id reference into an Inspector list item, resolving its name where it joins. */
-  function resolveRefItem(id, map, field) {
-    return { title: resolveName(map, id, field), tone: TONES.INFO };
+  /**
+   * Builds the stable deep link for one record: `#/{workspace path}?id={record
+   * id}` (Issue #31 — Cross-Workspace Record Navigation). The one place a
+   * record-level href is derived, reused by every workspace's "Related X"
+   * Inspector sections instead of each re-deriving the query-string format.
+   * Returns null when the target workspace or the id is unknown, so a caller
+   * never links to a route the Workspace Registry cannot resolve.
+   */
+  function buildRecordHref(workspaceRegistry, workspaceId, recordId) {
+    if (!workspaceRegistry || !workspaceId || !recordId) {
+      return null;
+    }
+    var workspace = workspaceRegistry.findById(workspaceId);
+    return workspace ? '#/' + workspace.path + '?id=' + encodeURIComponent(recordId) : null;
+  }
+
+  /**
+   * Normalizes a linked-id reference into an Inspector list item, resolving
+   * its name where it joins. When `workspaceRegistry` and `workspaceId` are
+   * supplied and the id genuinely joins `map`, the item also carries an
+   * "Open" action linking to that record's stable route — never added for an
+   * id that does not resolve to a real record (never a fabricated link).
+   */
+  function resolveRefItem(id, map, field, workspaceRegistry, workspaceId) {
+    var item = { title: resolveName(map, id, field), tone: TONES.INFO };
+    var joins = Boolean(id && map && map[id]);
+    var href = joins ? buildRecordHref(workspaceRegistry, workspaceId, id) : null;
+    if (href) {
+      item.actions = [{ label: 'Open', href: href }];
+    }
+    return item;
   }
 
   /** One text-valued Inspector section rendered as a single placeholder-capable list row. */
@@ -458,7 +486,33 @@
         entries.push({ row: row, node: node });
         node.addEventListener('click', function () { select(index); });
       },
-      selectFirst: function () { if (entries.length > 0) { select(0); } }
+      selectFirst: function () { if (entries.length > 0) { select(0); } },
+      /**
+       * Selects the entry whose row (or, absent that, its underlying record —
+       * covering aggregating rails like the Work Queue, whose rows carry the
+       * source record under `row.record`) carries the given id, and scrolls it
+       * into view (Issue #31 — arriving at a workspace via a record-level deep
+       * link or a "Related X" link selects that record and highlights it, the
+       * same shared selection controller every rail already uses). Falls back
+       * to `selectFirst` when the id is absent or matches no row, so a stale
+       * or unknown deep link never leaves the detail pane empty.
+       */
+      selectById: function (id) {
+        if (!id) {
+          this.selectFirst();
+          return;
+        }
+        for (var index = 0; index < entries.length; index += 1) {
+          var row = entries[index].row;
+          var candidateId = row && (row.id || (row.record && row.record.id));
+          if (candidateId === id) {
+            select(index);
+            entries[index].node.scrollIntoView({ block: 'nearest' });
+            return;
+          }
+        }
+        this.selectFirst();
+      }
     };
   }
 
@@ -470,7 +524,7 @@
    * ungrouped set) renders no divider. `buildRow(row)` stays owned by the
    * calling workspace.
    */
-  function mountRailGroups(prefix, listNode, detailMount, groups, context, buildRow, buildInspector, recordKey) {
+  function mountRailGroups(prefix, listNode, detailMount, groups, context, buildRow, buildInspector, recordKey, targetId) {
     listNode.replaceChildren();
     var selection = createRailSelection(prefix, detailMount, buildInspector, context, recordKey);
     asArray(groups).forEach(function (group) {
@@ -490,7 +544,11 @@
         listNode.appendChild(node);
       });
     });
-    selection.selectFirst();
+    // Selects the record named by the current route, when this rail carries
+    // it (Issue #31); every caller that omits `targetId` keeps today's
+    // selectFirst behavior unchanged.
+    selection.selectById(targetId);
+    return selection;
   }
 
   AuditOS.workspaceShared = {
@@ -506,6 +564,7 @@
     normalizeFrameworks: normalizeFrameworks,
     deriveCurrentEngagement: deriveCurrentEngagement,
     resolveName: resolveName,
+    buildRecordHref: buildRecordHref,
     resolveRefItem: resolveRefItem,
     textSection: textSection,
     listSection: listSection,

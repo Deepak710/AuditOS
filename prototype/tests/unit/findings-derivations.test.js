@@ -378,6 +378,6 @@ module.exports = function registerUnitTests(harness) {
     assert.equal(sections['Prior-year knowledge'].kind, 'placeholder', 'no reuse block renders the reserved placeholder');
     assert.equal(sections['Activity'].kind, 'placeholder', 'the activity trail is a reserved placeholder in Release 1');
     assert.equal(sections['Approval history'].kind, 'placeholder', 'the approval history is a reserved placeholder in Release 1');
-    assert.equal(sections['Related requirements'].items[0].title, 'No related requirement recorded for this finding. Release 2 traces requirements through the related control.');
+    assert.equal(sections['Related requirements'].items[0].title, 'No related requirement recorded for this finding — findings trace requirements through the related control, which declares none.');
   });
 };

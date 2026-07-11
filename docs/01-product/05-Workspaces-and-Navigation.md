@@ -138,6 +138,35 @@ Users should begin every session with immediate situational awareness.
 
 ---
 
+## 12.6.5 Deep Linking and Record Navigation (Issue #31)
+
+Users can navigate directly to specific records within a workspace using stable deep links.
+
+**URL Format:** `#/workspace?id=recordId`
+
+Example: `#/evidence?id=EVD-MER-0001` navigates to the Evidence workspace and selects record EVD-MER-0001.
+
+**Browser Integration:**
+- Deep links are bookmarkable and shareable
+- Browser Back/Forward buttons preserve navigation history
+- Scroll position is restored when returning to a workspace without selecting a specific record
+
+**Inspector Navigation:**
+All "Related X" sections in workspace inspectors now include navigable links.
+
+When an auditor opens a Requirement's related evidence, clicking "Open" (or using the link in the Inspector) navigates to the Evidence workspace with that evidence record pre-selected — no manual searching required.
+
+This pattern extends across all workspaces: Requirements → Evidence, Controls → Requirements, Testing → Control, Findings → Control/Test/Requirements, etc.
+
+**Constraints (Release 1):**
+- Links render only where the schema joins support them
+- No fabricated links for unresolved records
+- Filter/search state does not survive navigation (Release 2)
+
+See [[08-Issue-31-Cross-Workspace-Navigation.md]] for technical implementation details.
+
+---
+
 ## 12.7 Dashboard Workspace
 
 The Dashboard summarizes engagement health.

@@ -27,6 +27,7 @@ const SCRIPTS = {
   componentLibrary: ['components', 'component-library', 'component-library.js'],
   presentation: ['components', 'presentation', 'presentation.js'],
   workspaceRegistry: ['js', 'router', 'workspace-registry.js'],
+  router: ['js', 'router', 'router.js'],
   demoDataBundle: ['demo-data', 'demo-data.js'],
   demoDataRegistry: ['js', 'state', 'demo-data-registry.js'],
   stateStore: ['js', 'state', 'state-store.js'],

@@ -611,10 +611,19 @@
   function buildTestInspector(test, context) {
     var item = test || {};
     var ctx = context || {};
-    var related = resolveRelatedControl(item, ctx);
+    var ids = ctx.workspaceRegistry ? ctx.workspaceRegistry.IDS : {};
+    // Issue #31 — Cross-Workspace Record Navigation: the related control and
+    // raised finding are read through the shared relationship engine
+    // (Issue #30's `getTestingGraph`) rather than re-deriving the same joins
+    // locally, so this Inspector's cross-workspace links come from the one
+    // place they are computed.
+    var graph = RE.getTestingGraph(item, ctx);
+    var related = graph.control;
     var evidence = deriveEvidenceStatus(item);
-    var finding = item.findingId && ctx.findingsById ? ctx.findingsById[item.findingId] : null;
+    var finding = graph.finding;
     var reuseItems = deriveMethodologyReuseItems(item);
+    var controlHref = related && related.id ? WS.buildRecordHref(ctx.workspaceRegistry, ids.CONTROLS, related.id) : null;
+    var findingHref = finding ? WS.buildRecordHref(ctx.workspaceRegistry, ids.FINDINGS, finding.id) : null;
 
     return {
       eyebrow: relatedControlLabel(related) || 'Test procedure',
@@ -646,6 +655,9 @@
             { label: 'Actual result', value: item.actualResult || '' }
           ].filter(function (row) { return row.value; })
         },
+        listSection('Related control',
+          related && related.id ? [{ title: relatedControlLabel(related), tone: TONES.INFO, actions: controlHref ? [{ label: 'Open', href: controlHref }] : [] }] : [],
+          'No related control recorded for this test.'),
         textSection('Test procedure', item.procedure, 'No test procedure recorded. Release 2 adds AI-drafted test procedures.'),
         textSection('Objective', item.objective, 'No objective recorded for this test. Release 2 adds AI-refined test objectives.'),
         listSection('Sample selection',
@@ -659,7 +671,15 @@
           'No evidence recorded yet — this test is still outstanding.'),
         textSection('Testing notes', item.notes, 'No testing notes recorded for this test.'),
         finding
-          ? { title: 'Exception', kind: 'list', items: [{ title: finding.title || 'Exception identified', description: [finding.severity, finding.status].filter(Boolean).join(' · '), tone: TONES.ERROR }] }
+          ? {
+            title: 'Exception', kind: 'list',
+            items: [{
+              title: finding.title || 'Exception identified',
+              description: [finding.severity, finding.status].filter(Boolean).join(' · '),
+              tone: TONES.ERROR,
+              actions: findingHref ? [{ label: 'Open', href: findingHref }] : []
+            }]
+          }
           : listSection('Exception', [], 'No exception raised for this test.'),
         reuseItems.length > 0
           ? { title: 'Methodology reuse', kind: 'list', items: reuseItems }
@@ -734,6 +754,7 @@
       controlsById: controlsById,
       libraryControlsById: libraryControlsById,
       findingsById: findingsById,
+      workspaceRegistry: workspaceRegistry,
       frameworks: frameworks,
       auditPeriodLabel: auditPeriodLabel,
       engagement: engagement,
@@ -895,8 +916,8 @@
    * presentation view changes — the mechanism behind the three views over one
    * dataset. Group labels render as a labeled divider carrying the group's count.
    */
-  function mountRailGroups(listNode, detailMount, groups, context) {
-    WS.mountRailGroups('aos-testing', listNode, detailMount, groups, context, buildRow, buildTestInspector, 'test');
+  function mountRailGroups(listNode, detailMount, groups, context, targetId) {
+    WS.mountRailGroups('aos-testing', listNode, detailMount, groups, context, buildRow, buildTestInspector, 'test', targetId);
   }
 
   /**
@@ -907,7 +928,7 @@
    * same rail from the same dataset (presentation-only, memory-only); it never
    * changes the data.
    */
-  function buildQueueBody(views, context) {
+  function buildQueueBody(views, context, targetId) {
     var wrap = el('div', 'aos-testing__queue');
     var detailMount = el('div', 'aos-testing__detail-mount');
     var listNode = el('div', 'aos-testing__row-list');
@@ -924,7 +945,7 @@
         chip.classList.toggle('aos-testing__view-chip--active', selected);
         chip.setAttribute('aria-pressed', selected ? 'true' : 'false');
       });
-      mountRailGroups(listNode, detailMount, views[index].view.groups, context);
+      mountRailGroups(listNode, detailMount, views[index].view.groups, context, targetId);
     }
 
     asArray(views).forEach(function (view, index) {
@@ -1054,7 +1075,7 @@
    * entry names the section id, its header, whether it has data, its body builder,
    * and an empty descriptor used when the data is absent (§ Empty States).
    */
-  function primarySections(viewModel) {
+  function primarySections(viewModel, targetId) {
     var context = viewModel.context;
     return [
       {
@@ -1075,7 +1096,7 @@
         id: 'queue', kicker: 'Operational queue', title: 'Test procedure queue',
         description: 'Every test procedure for the engagement. Switch between Test view, By control, and By result — the same dataset, regrouped — and select a test to open its Inspector, with the related control, sample selection, evidence used, and methodology reuse.',
         present: viewModel.queue.length > 0,
-        body: function () { return buildQueueBody(viewModel.views, context); },
+        body: function () { return buildQueueBody(viewModel.views, context, targetId); },
         empty: {
           icon: '◇', title: 'No tests yet',
           description: 'Test procedures appear here as they are performed for the engagement. Release 2 adds AI-drafted procedures, recommended samples, and proposed conclusions; Release 1 renders only the current testing state.'
@@ -1106,6 +1127,8 @@
   /** Renders the ready testing experience into the framework slots. */
   function renderReady(view, viewModel) {
     var P = presentation();
+    var router = AuditOS.router;
+    var targetId = router && router.getCurrentRecordId ? router.getCurrentRecordId() : '';
 
     AuditOS.workspaceFramework.configure(view, {
       header: viewModel.header,
@@ -1117,7 +1140,7 @@
     var canvas = el('div', 'aos-testing');
     canvas.setAttribute('data-canvas', 'flush');
     var rendered = 0;
-    primarySections(viewModel).forEach(function (section) {
+    primarySections(viewModel, targetId).forEach(function (section) {
       var body = section.present ? section.body() : P.emptyState(section.empty);
       var built = buildSection(section.id, section, body);
       built.classList.add('aos-rise-in');

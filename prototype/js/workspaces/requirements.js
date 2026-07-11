@@ -578,6 +578,7 @@
   function buildRequirementInspector(requirement, context) {
     var item = requirement || {};
     var ctx = context || {};
+    var ids = ctx.workspaceRegistry ? ctx.workspaceRegistry.IDS : {};
     var status = item.status || '';
     var evidence = deriveEvidenceStatus(item);
     var owner = resolveName(ctx.pocsById, item.primaryPocId, 'name');
@@ -586,6 +587,7 @@
     var frameworkMapping = deriveFrameworkMapping(item, ctx.controlsById, ctx.frameworks);
     var controlIds = normalizeControlIds(item);
     var evidenceIds = normalizeEvidenceIds(item);
+    var evidenceRequestIds = normalizeEvidenceRequestIds(item);
     var versionHistory = deriveVersionHistory(item);
 
     return {
@@ -619,11 +621,14 @@
         },
         textSection('Description', item.description, 'No description recorded for this requirement.'),
         listSection('Related evidence',
-          evidenceIds.map(function (id) { return toRefItem(id, ctx.evidenceById, 'title'); }),
+          evidenceIds.map(function (id) { return toRefItem(id, ctx.evidenceById, 'title', ctx.workspaceRegistry, ids.EVIDENCE); }),
           'No evidence linked yet — this requirement is still outstanding.'),
         listSection('Related controls',
-          controlIds.map(function (id) { return toRefItem(id, ctx.controlsById, 'title'); }),
+          controlIds.map(function (id) { return toRefItem(id, ctx.controlsById, 'title', ctx.workspaceRegistry, ids.CONTROLS); }),
           'No linked controls recorded.'),
+        listSection('Related evidence requests',
+          evidenceRequestIds.map(function (id) { return toRefItem(id, ctx.evidenceRequestsById, 'id', ctx.workspaceRegistry, ids.EVIDENCE); }),
+          'No evidence requests raised for this requirement yet.'),
         listSection('Related walkthroughs', [],
           'No linked walkthroughs yet — walkthrough linkage arrives with the walkthrough collection.'),
         listSection('Related testing', [],
@@ -684,6 +689,7 @@
     var requirementsDocument = readEngagementDocument(state, 'evidence-requirements', engagement.id) || {};
     var controlsDocument = readEngagementDocument(state, 'controls', engagement.id) || {};
     var evidenceDocument = readEngagementDocument(state, 'evidence', engagement.id) || {};
+    var requestsDocument = readEngagementDocument(state, 'evidence-requests', engagement.id) || {};
     var testingDocument = readEngagementDocument(state, 'testing', engagement.id) || {};
     var findingsDocument = readEngagementDocument(state, 'findings', engagement.id) || {};
     var reportsDocument = readEngagementDocument(state, 'reports', engagement.id) || {};
@@ -692,6 +698,7 @@
     var requirementRecords = asArray(requirementsDocument.requirements);
     var controlsById = indexById(controlsDocument.controls);
     var evidenceById = indexById(evidenceDocument.evidence);
+    var evidenceRequestsById = indexById(requestsDocument.requests);
 
     // Actor id → display name, spanning both client POCs and the Halcyon
     // engagement team, so requirement activity resolves to a real name.
@@ -731,6 +738,8 @@
       businessUnitsById: businessUnitsById,
       controlsById: controlsById,
       evidenceById: evidenceById,
+      evidenceRequestsById: evidenceRequestsById,
+      workspaceRegistry: workspaceRegistry,
       frameworks: frameworks,
       auditPeriodLabel: auditPeriodLabel,
       engagement: engagement,
@@ -858,8 +867,8 @@
    * presentation view changes — the mechanism behind the three views over one
    * dataset. Group labels render as a labeled divider carrying the group's count.
    */
-  function mountRailGroups(listNode, detailMount, groups, context) {
-    WS.mountRailGroups('aos-requirements', listNode, detailMount, groups, context, buildRow, buildRequirementInspector, 'requirement');
+  function mountRailGroups(listNode, detailMount, groups, context, targetId) {
+    WS.mountRailGroups('aos-requirements', listNode, detailMount, groups, context, buildRow, buildRequirementInspector, 'requirement', targetId);
   }
 
   /**
@@ -868,9 +877,12 @@
    * the selected requirement's Inspector Panel. The switcher swaps between the
    * three presentation modes — Requirement view, Pending by POC, Evidence view —
    * by re-rendering the same rail from the same dataset (presentation-only,
-   * memory-only); it never changes the data.
+   * memory-only); it never changes the data. `targetId` (Issue #31 — the record
+   * id carried by the current route) selects that requirement on first render
+   * and again on every view switch, so following a cross-workspace link into a
+   * requirement keeps it selected regardless of which view is active.
    */
-  function buildQueueBody(views, context) {
+  function buildQueueBody(views, context, targetId) {
     var wrap = el('div', 'aos-requirements__queue');
     var detailMount = el('div', 'aos-requirements__detail-mount');
     var listNode = el('div', 'aos-requirements__row-list');
@@ -887,7 +899,7 @@
         chip.classList.toggle('aos-requirements__view-chip--active', selected);
         chip.setAttribute('aria-pressed', selected ? 'true' : 'false');
       });
-      mountRailGroups(listNode, detailMount, views[index].view.groups, context);
+      mountRailGroups(listNode, detailMount, views[index].view.groups, context, targetId);
     }
 
     asArray(views).forEach(function (view, index) {
@@ -993,7 +1005,7 @@
    * its header, whether it has data, its body builder, and an empty descriptor
    * used when the data is absent (§ Empty States).
    */
-  function primarySections(viewModel) {
+  function primarySections(viewModel, targetId) {
     var context = viewModel.context;
     return [
       {
@@ -1004,7 +1016,7 @@
         id: 'queue', kicker: 'Operational queue', title: 'Requirements queue',
         description: 'Every requirement for the engagement. Switch between Requirement view, Pending by POC, and Evidence view — the same dataset, regrouped — and select a requirement to open its Inspector.',
         present: viewModel.queue.length > 0,
-        body: function () { return buildQueueBody(viewModel.views, context); },
+        body: function () { return buildQueueBody(viewModel.views, context, targetId); },
         empty: {
           icon: '◇', title: 'No requirements yet',
           description: 'Requirements appear here as they are drafted for the engagement. Release 2 adds AI-drafted and AI-refined requirements; Release 1 renders only the current requirement state.'
@@ -1030,6 +1042,8 @@
   /** Renders the ready requirements experience into the framework slots. */
   function renderReady(view, viewModel) {
     var P = presentation();
+    var router = AuditOS.router;
+    var targetId = router && router.getCurrentRecordId ? router.getCurrentRecordId() : '';
 
     AuditOS.workspaceFramework.configure(view, {
       header: viewModel.header,
@@ -1041,7 +1055,7 @@
     var canvas = el('div', 'aos-requirements');
     canvas.setAttribute('data-canvas', 'flush');
     var rendered = 0;
-    primarySections(viewModel).forEach(function (section) {
+    primarySections(viewModel, targetId).forEach(function (section) {
       var body = section.present ? section.body() : P.emptyState(section.empty);
       var built = buildSection(section.id, section, body);
       built.classList.add('aos-rise-in');

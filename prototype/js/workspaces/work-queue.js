@@ -939,8 +939,8 @@
   }
 
   /** Renders a set of grouped rows into a master list node and wires selection to the detail mount. */
-  function mountRailGroups(listNode, detailMount, groups, context) {
-    WS.mountRailGroups('aos-work-queue', listNode, detailMount, groups, context, buildRow, buildItemInspector, null);
+  function mountRailGroups(listNode, detailMount, groups, context, targetId) {
+    WS.mountRailGroups('aos-work-queue', listNode, detailMount, groups, context, buildRow, buildItemInspector, null, targetId);
   }
 
   /**
@@ -990,7 +990,7 @@
    * Filter / § Priority Filter); it never adds, removes, or mutates a work
    * item — the same dataset is only regrouped.
    */
-  function buildQueueBody(queue, context) {
+  function buildQueueBody(queue, context, targetId) {
     var wrap = el('div', 'aos-work-queue__queue');
     var detailMount = el('div', 'aos-work-queue__detail-mount');
     var listNode = el('div', 'aos-work-queue__row-list');
@@ -1008,7 +1008,10 @@
         }));
         return;
       }
-      mountRailGroups(listNode, detailMount, [{ label: '', rows: filtered }], context);
+      // `targetId` (Issue #31 — the record id carried by the current route)
+      // selects that work item on first render, provided the default "All
+      // workspaces / All priorities" filters still include it.
+      mountRailGroups(listNode, detailMount, [{ label: '', rows: filtered }], context, targetId);
     }
 
     var workspaceFilter = buildFilterChipGroup('Workspace filter', WORKSPACE_FILTER_OPTIONS, function (value) {
@@ -1099,7 +1102,7 @@
    * whether it has data, its body builder, and an empty descriptor used when
    * the data is absent (§ Empty States).
    */
-  function primarySections(viewModel) {
+  function primarySections(viewModel, targetId) {
     var context = viewModel.context;
     return [
       {
@@ -1110,7 +1113,7 @@
         id: 'queue', kicker: 'Operational queue', title: 'Unified work queue',
         description: 'Every work item aggregated from Walkthrough, Evidence, Requirements, Controls, Testing, Findings, and Documentation. Filter by workspace and by priority — the same dataset, regrouped — and select an item to open its Inspector.',
         present: viewModel.queue.length > 0,
-        body: function () { return buildQueueBody(viewModel.queue, context); },
+        body: function () { return buildQueueBody(viewModel.queue, context, targetId); },
         empty: {
           icon: '◇', title: 'No work items yet',
           description: 'Work items appear here as the operational workspaces record walkthroughs, evidence, requirements, controls, testing, findings, and documentation. Release 1 aggregates only what already exists; nothing is fabricated.'
@@ -1126,6 +1129,8 @@
   /** Renders the ready Work Queue experience into the framework slots. */
   function renderReady(view, viewModel) {
     var P = presentation();
+    var router = AuditOS.router;
+    var targetId = router && router.getCurrentRecordId ? router.getCurrentRecordId() : '';
 
     AuditOS.workspaceFramework.configure(view, {
       header: viewModel.header,
@@ -1137,7 +1142,7 @@
     var canvas = el('div', 'aos-work-queue');
     canvas.setAttribute('data-canvas', 'flush');
     var rendered = 0;
-    primarySections(viewModel).forEach(function (section) {
+    primarySections(viewModel, targetId).forEach(function (section) {
       var body = section.present ? section.body() : P.emptyState(section.empty);
       var built = buildSection(section.id, section, body);
       built.classList.add('aos-rise-in');

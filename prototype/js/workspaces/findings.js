@@ -634,12 +634,21 @@
   function buildFindingInspector(finding, context) {
     var item = finding || {};
     var ctx = context || {};
+    var ids = ctx.workspaceRegistry ? ctx.workspaceRegistry.IDS : {};
+    // Issue #31 — Cross-Workspace Record Navigation: the related requirements
+    // are read through the shared relationship engine (Issue #30's
+    // `getFindingGraph`), resolving each to its real title through the
+    // finding's control rather than rendering the raw requirement id, which
+    // this Inspector did before the graph helper existed.
+    var graph = RE.getFindingGraph(item, ctx);
     var related = resolveRelatedControl(item, ctx);
     var owner = resolveOwner(item, ctx);
     var domain = resolveDomain(item, ctx);
     var test = resolveRelatedTest(item, ctx);
-    var requirements = resolveRelatedRequirements(item, ctx);
+    var requirements = graph.requirements;
     var priorYear = derivePriorYearItems(item);
+    var controlHref = related.id ? WS.buildRecordHref(ctx.workspaceRegistry, ids.CONTROLS, related.id) : null;
+    var testHref = test.id ? WS.buildRecordHref(ctx.workspaceRegistry, ids.TESTING, test.id) : null;
 
     return {
       eyebrow: relatedControlLabel(related) || 'Audit finding',
@@ -675,17 +684,20 @@
         textSection('Impact', item.risk, 'No impact recorded for this finding. Release 2 adds AI-assessed impact for human approval.'),
         textSection('Recommendation', item.recommendation, 'No recommendation recorded. Release 2 adds AI-suggested remediation for human approval.'),
         listSection('Related controls',
-          related.id ? [{ title: relatedControlLabel(related), tone: TONES.INFO }] : [],
+          related.id ? [{ title: relatedControlLabel(related), tone: TONES.INFO, actions: controlHref ? [{ label: 'Open', href: controlHref }] : [] }] : [],
           'No related control recorded for this finding.'),
         listSection('Related evidence',
           item.workingPaperId ? [{ title: 'Working paper: ' + item.workingPaperId, tone: TONES.INFO }] : [],
           'No related evidence recorded for this finding.'),
         listSection('Related testing',
-          test.id ? [{ title: (test.title ? test.title + ' · ' : '') + test.id, tone: TONES.INFO }] : [],
+          test.id ? [{ title: (test.title ? test.title + ' · ' : '') + test.id, tone: TONES.INFO, actions: testHref ? [{ label: 'Open', href: testHref }] : [] }] : [],
           'No related test recorded for this finding.'),
         listSection('Related requirements',
-          requirements.map(function (id) { return { title: id, tone: TONES.INFO }; }),
-          'No related requirement recorded for this finding. Release 2 traces requirements through the related control.'),
+          requirements.map(function (requirement) {
+            var href = WS.buildRecordHref(ctx.workspaceRegistry, ids.REQUIREMENTS, requirement.id);
+            return { title: requirement.title || requirement.id, tone: TONES.INFO, actions: href ? [{ label: 'Open', href: href }] : [] };
+          }),
+          'No related requirement recorded for this finding — findings trace requirements through the related control, which declares none.'),
         listSection('Remediation', deriveRemediationItems(item),
           'No remediation recorded for this finding. Release 2 adds AI-suggested remediation for human approval.'),
         priorYear.length > 0
@@ -760,6 +772,7 @@
 
     var findingRecords = asArray(findingsDocument.findings);
     var controlsById = indexById(controlsDocument.controls);
+    var requirementsById = indexById(requirementsDocument.requirements);
     var testsById = indexById(testingDocument.tests);
     var pocsById = indexById(state.listRecords('pocs'));
 
@@ -770,8 +783,10 @@
       controlsById: controlsById,
       libraryControlsById: libraryControlsById,
       controlFamiliesById: controlFamiliesById,
+      requirementsById: requirementsById,
       testsById: testsById,
       pocsById: pocsById,
+      workspaceRegistry: workspaceRegistry,
       frameworks: frameworks,
       auditPeriodLabel: auditPeriodLabel,
       engagement: engagement,
@@ -938,8 +953,8 @@
    * presentation view changes — the mechanism behind the four views over one
    * dataset. Group labels render as a labeled divider carrying the group's count.
    */
-  function mountRailGroups(listNode, detailMount, groups, context) {
-    WS.mountRailGroups('aos-findings', listNode, detailMount, groups, context, buildRow, buildFindingInspector, 'finding');
+  function mountRailGroups(listNode, detailMount, groups, context, targetId) {
+    WS.mountRailGroups('aos-findings', listNode, detailMount, groups, context, buildRow, buildFindingInspector, 'finding', targetId);
   }
 
   /**
@@ -950,7 +965,7 @@
    * rail from the same dataset (presentation-only, memory-only); it never changes
    * the data.
    */
-  function buildQueueBody(views, context) {
+  function buildQueueBody(views, context, targetId) {
     var wrap = el('div', 'aos-findings__queue');
     var detailMount = el('div', 'aos-findings__detail-mount');
     var listNode = el('div', 'aos-findings__row-list');
@@ -967,7 +982,7 @@
         chip.classList.toggle('aos-findings__view-chip--active', selected);
         chip.setAttribute('aria-pressed', selected ? 'true' : 'false');
       });
-      mountRailGroups(listNode, detailMount, views[index].view.groups, context);
+      mountRailGroups(listNode, detailMount, views[index].view.groups, context, targetId);
     }
 
     asArray(views).forEach(function (view, index) {
@@ -1073,7 +1088,7 @@
    * its header, whether it has data, its body builder, and an empty descriptor used
    * when the data is absent (§ Empty States).
    */
-  function primarySections(viewModel) {
+  function primarySections(viewModel, targetId) {
     var context = viewModel.context;
     return [
       {
@@ -1084,7 +1099,7 @@
         id: 'queue', kicker: 'Operational queue', title: 'Findings queue',
         description: 'Every finding for the engagement. Switch between Findings, By severity, By domain, and By owner — the same dataset, regrouped — and select a finding to open its Inspector, with the description, impact, recommendation, related objects, and remediation.',
         present: viewModel.queue.length > 0,
-        body: function () { return buildQueueBody(viewModel.views, context); },
+        body: function () { return buildQueueBody(viewModel.views, context, targetId); },
         empty: {
           icon: '◇', title: 'No findings yet',
           description: 'Findings appear here as testing surfaces them for the engagement. Release 2 adds AI-drafted findings, recommended severities, root causes, and proposed remediation; Release 1 renders only the current findings state.'
@@ -1120,6 +1135,8 @@
   /** Renders the ready findings experience into the framework slots. */
   function renderReady(view, viewModel) {
     var P = presentation();
+    var router = AuditOS.router;
+    var targetId = router && router.getCurrentRecordId ? router.getCurrentRecordId() : '';
 
     AuditOS.workspaceFramework.configure(view, {
       header: viewModel.header,
@@ -1131,7 +1148,7 @@
     var canvas = el('div', 'aos-findings');
     canvas.setAttribute('data-canvas', 'flush');
     var rendered = 0;
-    primarySections(viewModel).forEach(function (section) {
+    primarySections(viewModel, targetId).forEach(function (section) {
       var body = section.present ? section.body() : P.emptyState(section.empty);
       var built = buildSection(section.id, section, body);
       built.classList.add('aos-rise-in');

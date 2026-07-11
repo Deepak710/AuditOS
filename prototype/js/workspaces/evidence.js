@@ -524,6 +524,7 @@
   function buildEvidenceInspector(evidence, context) {
     var item = evidence || {};
     var ctx = context || {};
+    var ids = ctx.workspaceRegistry ? ctx.workspaceRegistry.IDS : {};
     var reuse = normalizeReuse(item);
     var status = item.reviewStatus || '';
     var owner = resolveName(ctx.pocsById, item.uploadedByPocId, 'name');
@@ -561,10 +562,10 @@
           item.description || (item.fileName ? item.fileName + (item.fileType ? ' · ' + item.fileType : '') : ''),
           'No description recorded for this evidence.'),
         listSection('Related requirements',
-          asArray(item.linkedRequirementIds).map(function (id) { return toRefItem(id, ctx.requirementsById, 'title'); }),
+          asArray(item.linkedRequirementIds).map(function (id) { return toRefItem(id, ctx.requirementsById, 'title', ctx.workspaceRegistry, ids.REQUIREMENTS); }),
           'No linked requirements recorded.'),
         listSection('Related controls',
-          asArray(item.linkedControlIds).map(function (id) { return toRefItem(id, ctx.controlsById, 'title'); }),
+          asArray(item.linkedControlIds).map(function (id) { return toRefItem(id, ctx.controlsById, 'title', ctx.workspaceRegistry, ids.CONTROLS); }),
           'No linked controls recorded.'),
         listSection('Related walkthroughs', [],
           'No linked walkthroughs yet — walkthrough linkage arrives with the walkthrough collection.'),
@@ -588,6 +589,7 @@
   function buildRequestInspector(request, context) {
     var req = request || {};
     var ctx = context || {};
+    var ids = ctx.workspaceRegistry ? ctx.workspaceRegistry.IDS : {};
     var reuse = normalizeReuse(req);
     var status = req.status || '';
 
@@ -618,7 +620,7 @@
           ].filter(function (row) { return row.value; })
         },
         listSection('Related controls',
-          asArray(req.linkedControlIds).map(function (id) { return toRefItem(id, ctx.controlsById, 'title'); }),
+          asArray(req.linkedControlIds).map(function (id) { return toRefItem(id, ctx.controlsById, 'title', ctx.workspaceRegistry, ids.CONTROLS); }),
           'No linked controls recorded.'),
         textSection('Comments', req.comments, 'No comments recorded on this request.'),
         reuse
@@ -701,6 +703,7 @@
       pocsById: pocsById,
       teamsById: teamsById,
       businessUnitsById: businessUnitsById,
+      workspaceRegistry: workspaceRegistry,
       auditPeriodLabel: auditPeriodLabel,
       engagement: engagement,
       company: company
@@ -845,7 +848,26 @@
       list.appendChild(node);
     });
 
-    if (rows.length > 0) {
+    // Selects the row named by the current route (Issue #31), scrolling it
+    // into view; falls back to the first row when no id is targeted or none
+    // matches, matching the shared rail selection controller's contract
+    // (`WS.createRailSelection.selectById`) that every other workspace's
+    // master-detail rail already uses — this workspace keeps its own
+    // implementation (status-filter dimming has no shared equivalent) but
+    // follows the same selection contract.
+    var targetIndex = -1;
+    if (opts.targetId) {
+      for (var index = 0; index < rows.length; index += 1) {
+        if (rows[index] && rows[index].id === opts.targetId) {
+          targetIndex = index;
+          break;
+        }
+      }
+    }
+    if (targetIndex !== -1) {
+      select(targetIndex);
+      rowNodes[targetIndex].scrollIntoView({ block: 'nearest' });
+    } else if (rows.length > 0) {
       select(0);
     }
 
@@ -919,13 +941,14 @@
    * — no state written, no route changed), the same composition pattern the
    * Walkthrough workspace uses for process coverage.
    */
-  function buildLibraryBody(library, statuses, context) {
+  function buildLibraryBody(library, statuses, context, targetId) {
     var wrap = el('div', 'aos-evidence__library');
 
     var masterDetail = buildMasterDetail(library, {
       listClass: 'aos-evidence__row-list',
       listLabel: 'Evidence library', detailLabel: 'Evidence inspector',
       ratio: 40,
+      targetId: targetId,
       filterValue: function (row) { return row.status; },
       buildRow: buildLibraryRow,
       buildDetail: function (row) { return buildEvidenceInspector(row.evidence, context); }
@@ -1075,7 +1098,7 @@
    * the section id, its header, whether it has data, its body builder, and an
    * empty descriptor used when the data is absent (§10).
    */
-  function primarySections(viewModel) {
+  function primarySections(viewModel, targetId) {
     var context = viewModel.context;
     return [
       {
@@ -1089,6 +1112,7 @@
         body: function () {
           return buildMasterDetail(viewModel.outstanding, {
             listLabel: 'Outstanding evidence requests', detailLabel: 'Request detail', ratio: 40,
+            targetId: targetId,
             buildRow: buildOutstandingRow,
             buildDetail: function (row) { return buildRequestInspector(row.request, context); }
           }).node;
@@ -1102,7 +1126,7 @@
         id: 'library', kicker: 'System of record', title: 'Evidence library',
         description: 'Evidence already available. Filter by status and select an item to open the Evidence Inspector.',
         present: viewModel.library.length > 0,
-        body: function () { return buildLibraryBody(viewModel.library, viewModel.libraryStatuses, context); },
+        body: function () { return buildLibraryBody(viewModel.library, viewModel.libraryStatuses, context, targetId); },
         empty: {
           icon: '◇', title: 'No evidence collected yet',
           description: 'Evidence records appear here once they are submitted for the engagement.'
@@ -1134,6 +1158,8 @@
   /** Renders the ready evidence experience into the framework slots. */
   function renderReady(view, viewModel) {
     var P = presentation();
+    var router = AuditOS.router;
+    var targetId = router && router.getCurrentRecordId ? router.getCurrentRecordId() : '';
 
     AuditOS.workspaceFramework.configure(view, {
       header: viewModel.header,
@@ -1145,7 +1171,7 @@
     var canvas = el('div', 'aos-evidence');
     canvas.setAttribute('data-canvas', 'flush');
     var rendered = 0;
-    primarySections(viewModel).forEach(function (section) {
+    primarySections(viewModel, targetId).forEach(function (section) {
       var body = section.present ? section.body() : P.emptyState(section.empty);
       var built = buildSection(section.id, section, body);
       built.classList.add('aos-rise-in');

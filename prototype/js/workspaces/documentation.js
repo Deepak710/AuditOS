@@ -490,12 +490,22 @@
     var ctx = context || {};
     var doc = ctx.document || {};
     var counts = ctx.counts || {};
+    var ids = ctx.workspaceRegistry ? ctx.workspaceRegistry.IDS : {};
 
     var evidenceCount = resolveRelatedCount(section, 'evidence', counts);
     var controlsCount = resolveRelatedCount(section, 'controls', counts);
     var testingCount = resolveRelatedCount(section, 'testing', counts);
     var findingsCount = resolveRelatedCount(section, 'findings', counts);
     var automationItems = deriveAutomationItems(ctx.reportsDocument);
+
+    // A section names only the domains it draws from and their real, current
+    // totals (`references` / `counts`) — never a specific joined record — so
+    // "Open" here links to the workspace itself rather than fabricating a
+    // record-level id (Issue #31 — never fabricate a link).
+    function workspaceLink(workspaceId) {
+      var workspace = ctx.workspaceRegistry ? ctx.workspaceRegistry.findById(workspaceId) : null;
+      return workspace ? '#/' + workspace.path : null;
+    }
 
     return {
       eyebrow: doc.title || 'Documentation section',
@@ -523,16 +533,16 @@
         textSection('Current content', '', 'No content recorded. Release 1 renders documentation structure only; Release 2 adds AI-drafted section content for human approval.'),
         listSection('Related walkthroughs', [], 'No related walkthrough recorded. Release 2 traces walkthrough knowledge into documentation sections.'),
         listSection('Related evidence',
-          evidenceCount !== null ? [{ title: evidenceCount + ' evidence item(s) for the engagement', tone: TONES.INFO }] : [],
+          evidenceCount !== null ? [{ title: evidenceCount + ' evidence item(s) for the engagement', tone: TONES.INFO, actions: workspaceLink(ids.EVIDENCE) ? [{ label: 'Open', href: workspaceLink(ids.EVIDENCE) }] : [] }] : [],
           'No related evidence recorded for this section.'),
         listSection('Related controls',
-          controlsCount !== null ? [{ title: controlsCount + ' control(s) for the engagement', tone: TONES.INFO }] : [],
+          controlsCount !== null ? [{ title: controlsCount + ' control(s) for the engagement', tone: TONES.INFO, actions: workspaceLink(ids.CONTROLS) ? [{ label: 'Open', href: workspaceLink(ids.CONTROLS) }] : [] }] : [],
           'No related control recorded for this section.'),
         listSection('Related testing',
-          testingCount !== null ? [{ title: testingCount + ' test(s) for the engagement', tone: TONES.INFO }] : [],
+          testingCount !== null ? [{ title: testingCount + ' test(s) for the engagement', tone: TONES.INFO, actions: workspaceLink(ids.TESTING) ? [{ label: 'Open', href: workspaceLink(ids.TESTING) }] : [] }] : [],
           'No related testing recorded for this section.'),
         listSection('Related findings',
-          findingsCount !== null ? [{ title: findingsCount + ' finding(s) for the engagement', tone: TONES.INFO }] : [],
+          findingsCount !== null ? [{ title: findingsCount + ' finding(s) for the engagement', tone: TONES.INFO, actions: workspaceLink(ids.FINDINGS) ? [{ label: 'Open', href: workspaceLink(ids.FINDINGS) }] : [] }] : [],
           'No related finding recorded for this section.'),
         automationItems.length > 0
           ? { title: 'Automation & governance', kind: 'list', items: automationItems }
@@ -617,6 +627,7 @@
       reportsDocument: reportsDocument,
       metadata: reportsDocument.metadata || {},
       counts: counts,
+      workspaceRegistry: workspaceRegistry,
       frameworks: frameworks,
       auditPeriodLabel: auditPeriodLabel,
       engagement: engagement,
@@ -736,8 +747,27 @@
   }
 
   /** Renders the navigator rows into a master list node and wires selection to the detail mount. */
-  function mountRail(listNode, detailMount, rows, context) {
-    WS.mountRailGroups('aos-documentation', listNode, detailMount, [{ label: '', rows: rows }], context, buildRow, buildSectionInspector, null);
+  function mountRail(listNode, detailMount, rows, context, targetId) {
+    WS.mountRailGroups('aos-documentation', listNode, detailMount, [{ label: '', rows: rows }], context, buildRow, buildSectionInspector, null, targetId);
+  }
+
+  /**
+   * Builds the navigator Master–Detail, selecting `targetId` (Issue #31 — the
+   * record id carried by the current route) when this rail carries it. The
+   * primary content section calls this directly so a deep link into a
+   * specific section opens pre-selected; the public `renderInspector` below
+   * keeps its original two-argument, host-agnostic signature for reuse by
+   * any other host.
+   */
+  function buildNavigatorBody(rows, context, targetId) {
+    var detailMount = el('div', 'aos-documentation__detail-mount');
+    var listNode = el('div', 'aos-documentation__row-list');
+    listNode.setAttribute('role', 'list');
+    mountRail(listNode, detailMount, rows, context, targetId);
+    return presentation().masterDetail({
+      list: listNode, detail: detailMount, ratio: 38,
+      listLabel: 'Document navigator', detailLabel: 'Documentation inspector'
+    });
   }
 
   /**
@@ -749,14 +779,7 @@
    * no change here.
    */
   function renderInspector(rows, context) {
-    var detailMount = el('div', 'aos-documentation__detail-mount');
-    var listNode = el('div', 'aos-documentation__row-list');
-    listNode.setAttribute('role', 'list');
-    mountRail(listNode, detailMount, rows, context);
-    return presentation().masterDetail({
-      list: listNode, detail: detailMount, ratio: 38,
-      listLabel: 'Document navigator', detailLabel: 'Documentation inspector'
-    });
+    return buildNavigatorBody(rows, context);
   }
 
   /**
@@ -830,7 +853,7 @@
    * names the section id, its header, whether it has data, its body builder,
    * and an empty descriptor used when the data is absent (§ Empty States).
    */
-  function primarySections(viewModel) {
+  function primarySections(viewModel, targetId) {
     var context = viewModel.context;
     return [
       {
@@ -841,7 +864,7 @@
         id: 'navigator', kicker: 'Primary navigation', title: 'Document navigator',
         description: 'Every documentation section for the engagement, in document order. Select a section to open its Inspector, with the related walkthroughs, evidence, controls, testing, and findings.',
         present: viewModel.navigator.length > 0,
-        body: function () { return renderInspector(viewModel.navigator, context); },
+        body: function () { return buildNavigatorBody(viewModel.navigator, context, targetId); },
         empty: {
           icon: '◇', title: 'No documentation sections yet',
           description: 'Documentation sections appear here as the engagement produces operational knowledge. Release 2 adds AI-drafted sections and continuous updates; Release 1 renders only the current documentation state.'
@@ -877,6 +900,8 @@
   /** Renders the ready documentation experience into the framework slots. */
   function renderReady(view, viewModel) {
     var P = presentation();
+    var router = AuditOS.router;
+    var targetId = router && router.getCurrentRecordId ? router.getCurrentRecordId() : '';
 
     AuditOS.workspaceFramework.configure(view, {
       header: viewModel.header,
@@ -888,7 +913,7 @@
     var canvas = el('div', 'aos-documentation');
     canvas.setAttribute('data-canvas', 'flush');
     var rendered = 0;
-    primarySections(viewModel).forEach(function (section) {
+    primarySections(viewModel, targetId).forEach(function (section) {
       var body = section.present ? section.body() : P.emptyState(section.empty);
       var built = buildSection(section.id, section, body);
       built.classList.add('aos-rise-in');
