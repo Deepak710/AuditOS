@@ -38,7 +38,8 @@
     REPORTING: 'reporting',
     GOVERNANCE: 'governance',
     AI: 'ai',
-    EXECUTIVE: 'executive'
+    EXECUTIVE: 'executive',
+    PROGRAM: 'program'
   };
 
   /**
@@ -70,7 +71,10 @@
     { id: WORKSPACE_IDS.REPORTING,   path: 'reporting',    label: 'Reporting',           title: 'Reporting' },
     { id: WORKSPACE_IDS.GOVERNANCE,  path: 'governance',   label: 'Governance',          title: 'Governance' },
     { id: WORKSPACE_IDS.AI,          path: 'ai',           label: 'AI Workspace',        title: 'AI Workspace' },
-    { id: WORKSPACE_IDS.EXECUTIVE,   path: 'executive',    label: 'Executive Dashboard', title: 'Executive Dashboard' }
+    { id: WORKSPACE_IDS.EXECUTIVE,   path: 'executive',    label: 'Executive Dashboard', title: 'Executive Dashboard' },
+    // Cross-engagement Audit Program overview (GitHub Issue #32): appended
+    // last so every existing workspace keeps its registered position.
+    { id: WORKSPACE_IDS.PROGRAM,     path: 'program',      label: 'Audit Program',       title: 'Audit Program' }
   ];
 
   /**

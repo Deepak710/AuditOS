@@ -43,6 +43,7 @@ const SCRIPTS = {
   findingsWorkspace: ['js', 'workspaces', 'findings.js'],
   documentationWorkspace: ['js', 'workspaces', 'documentation.js'],
   workQueueWorkspace: ['js', 'workspaces', 'work-queue.js'],
+  programWorkspace: ['js', 'workspaces', 'program.js'],
   workspaceFramework: ['components', 'workspace-framework', 'workspace-framework.js']
 };
 
@@ -212,6 +213,17 @@ function loadWorkQueueWorkspace() {
 }
 
 /**
+ * Loads the Audit Program workspace module (window.AuditOS.programWorkspace).
+ * The module guards its DOM self-init on `document` and reads the
+ * presentation system only inside DOM builders, so it registers cleanly in
+ * the sandbox where no document exists; suites exercise its pure derivations
+ * directly.
+ */
+function loadProgramWorkspace() {
+  return loadClassicScripts([SCRIPTS.relationships, SCRIPTS.workspaceShared, SCRIPTS.programWorkspace]).AuditOS.programWorkspace;
+}
+
+/**
  * Normalizes a value produced inside the vm sandbox into this realm. Arrays
  * created in the sandbox have a different Array.prototype, which trips strict
  * deep-equality; suites pass registry-derived collections through this before
@@ -240,6 +252,7 @@ module.exports = {
   loadFindingsWorkspace: loadFindingsWorkspace,
   loadDocumentationWorkspace: loadDocumentationWorkspace,
   loadWorkQueueWorkspace: loadWorkQueueWorkspace,
+  loadProgramWorkspace: loadProgramWorkspace,
   loadWorkspaceFramework: loadWorkspaceFramework,
   toHostArray: toHostArray
 };

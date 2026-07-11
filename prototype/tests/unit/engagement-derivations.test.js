@@ -73,6 +73,30 @@ module.exports = function registerUnitTests(harness) {
     assert.equal(derive.deriveCurrentEngagement(undefined), null);
   });
 
+  // ---- Deep-link record id (Issue #31 contract, restored by the Issue #32 follow-up fix).
+
+  test('deriveCurrentEngagement renders the routed record id when it resolves to a real engagement', function () {
+    const engagements = [
+      { id: 'E-0', status: 'In Progress' },
+      { id: 'E-1', status: 'In Progress' },
+      { id: 'E-2', status: 'Completed' }
+    ];
+    assert.equal(derive.deriveCurrentEngagement(engagements, 'E-2').id, 'E-2',
+      'a valid target id opens that exact engagement, even when another is the default in-progress pick');
+    assert.equal(derive.deriveCurrentEngagement(engagements, 'E-1').id, 'E-1');
+  });
+
+  test('deriveCurrentEngagement falls back to the default rule when the target id is absent or unknown', function () {
+    const engagements = [
+      { id: 'E-0', status: 'Completed' },
+      { id: 'E-1', status: 'In Progress' }
+    ];
+    assert.equal(derive.deriveCurrentEngagement(engagements, 'E-404').id, 'E-1',
+      'a stale or unknown route id falls back to today\'s default, never throws, never renders nothing');
+    assert.equal(derive.deriveCurrentEngagement(engagements, '').id, 'E-1', 'an empty target id preserves the default rule');
+    assert.equal(derive.deriveCurrentEngagement(engagements).id, 'E-1', 'an omitted target id preserves the default rule');
+  });
+
   // ---- Frameworks — the Release 1 → Release 2 extensibility seam.
 
   test('normalizeFrameworks wraps the current single-framework shape into an array', function () {

@@ -53,6 +53,31 @@ module.exports = function registerIntegrationTests(harness) {
       'the company is resolved from the engagement');
   });
 
+  // ---- Deep-link record id (Issue #31 contract, restored by the Issue #32 follow-up fix).
+
+  test('a targetId that resolves to a real engagement opens that exact engagement, not the default fallback', async function () {
+    const AuditOS = bootEngagementSandbox();
+    await AuditOS.state.init();
+    const engagements = AuditOS.state.listRecords('engagements');
+    const defaultViewModel = AuditOS.engagementWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const other = engagements.find(function (e) { return e.id !== defaultViewModel.engagement.id; });
+    assert.ok(other, 'the demo dataset carries more than one engagement to deep-link into');
+
+    const viewModel = AuditOS.engagementWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, other.id);
+    assert.equal(viewModel.degraded, false);
+    assert.equal(viewModel.engagement.id, other.id,
+      'the routed record id selects that engagement, even though it is not the default in-progress pick');
+  });
+
+  test('an unresolved or omitted targetId preserves today\'s fallback behavior', async function () {
+    const AuditOS = bootEngagementSandbox();
+    await AuditOS.state.init();
+    const defaultViewModel = AuditOS.engagementWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const staleIdViewModel = AuditOS.engagementWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, 'ENG-DOES-NOT-EXIST');
+    assert.equal(staleIdViewModel.engagement.id, defaultViewModel.engagement.id,
+      'a stale route id degrades to the default engagement rather than a degraded/empty model');
+  });
+
   test('the frameworks are array-driven straight from the engagement record', async function () {
     const AuditOS = bootEngagementSandbox();
     await AuditOS.state.init();

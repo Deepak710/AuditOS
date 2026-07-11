@@ -1,0 +1,297 @@
+/**
+ * AuditOS Audit Program Workspace
+ * Workspaces and Navigation — Chapter 12 / Workspace Design System — Chapter 15 /
+ * Layout Components — Chapter 75
+ *
+ * The workspace-layer stylesheet of the Audit Program Workspace (GitHub Issue
+ * #32). It owns only the program-specific layout — the section stack, the
+ * program health strip, the participating-engagement grid, the shared
+ * controls/requirements lists, the evidence-reuse rail, and the footer — plus
+ * their responsive behavior. Every visible surface inside those regions is a
+ * Shared Enterprise Component Library component (css/components.css) produced
+ * by the Enterprise Data Presentation System, so this stylesheet never
+ * redefines component chrome. Consumes only the Design Token Foundation
+ * (variables.css); introduces no new visual values. Entrance motion comes
+ * from the shared design language (design-language.css).
+ *
+ * Every selector in this file is scoped under the `.aos-program` prefix so
+ * the workspace layer can never leak into the shell, components, or other
+ * workspaces.
+ */
+
+@import 'variables.css';
+
+/* ========================================
+ * SECTION STACK
+ * The program reads top-to-bottom: overview and health first, then the
+ * participating engagements, the shared inventories (controls, requirements,
+ * evidence reuse), the schedule, coverage, and record metadata.
+ * ======================================== */
+
+.aos-program {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-8);
+  min-width: 0;
+}
+
+.aos-program__section {
+  min-width: 0;
+}
+
+.aos-program__overview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-5);
+}
+
+/* ========================================
+ * PROGRAM HEALTH
+ * A slim, clickable operational status strip (editor status-bar style),
+ * identical composition to every other workspace's health strip.
+ * ======================================== */
+
+.aos-program__health {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  padding: var(--aos-space-1) var(--aos-space-2);
+  background-color: var(--aos-surface-workspace);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  font-size: var(--aos-text-xs);
+}
+
+.aos-program__health-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-1) var(--aos-space-3);
+  text-decoration: none;
+  color: var(--aos-text-secondary);
+  border-radius: var(--aos-radius-sm);
+  transition: background-color var(--aos-transition-fast), color var(--aos-transition-fast);
+}
+
+.aos-program__health-item + .aos-program__health-item {
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+a.aos-program__health-item:hover {
+  background-color: var(--aos-surface-hover);
+  color: var(--aos-text-primary);
+}
+
+.aos-program__health-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex-shrink: 0;
+  border-radius: var(--aos-radius-full);
+  background-color: var(--aos-text-tertiary);
+}
+
+.aos-program__health-dot--info { background-color: var(--aos-color-info-600); }
+.aos-program__health-dot--success { background-color: var(--aos-color-success-700); }
+.aos-program__health-dot--warning { background-color: var(--aos-color-warning-700); }
+.aos-program__health-dot--error { background-color: var(--aos-color-error-700); }
+
+.aos-program__health-label {
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-program__health-status {
+  color: var(--aos-text-secondary);
+  white-space: nowrap;
+}
+
+/* ========================================
+ * PARTICIPATING ENGAGEMENTS
+ * One Entity Card per program member, fluid by construction; the reuse-source
+ * engagement (not a member) reads as a distinctly labeled list beneath it.
+ * ======================================== */
+
+.aos-program__engagements {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-5);
+}
+
+.aos-program__engagement-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: var(--aos-space-4);
+  align-items: stretch;
+}
+
+.aos-program__reuse-source {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  padding-top: var(--aos-space-4);
+  border-top: 1px solid var(--aos-surface-border);
+}
+
+.aos-program__reuse-source-title {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+/* ========================================
+ * SHARED CONTROLS / REQUIREMENTS
+ * A live property summary over a compact sample list.
+ * ======================================== */
+
+.aos-program__controls,
+.aos-program__requirements,
+.aos-program__coverage {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
+}
+
+/* ========================================
+ * EVIDENCE REUSE
+ * A live summary strip over a Master–Detail rail — the same rail composition
+ * every rail-based workspace already shares (controls, evidence, testing).
+ * ======================================== */
+
+.aos-program__reuse {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
+}
+
+.aos-program__row-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-program__group {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-2) var(--aos-space-1) var(--aos-space-1);
+  margin-top: var(--aos-space-2);
+  border-bottom: 1px solid var(--aos-surface-border);
+}
+
+.aos-program__group:first-child {
+  margin-top: 0;
+}
+
+.aos-program__group-label {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-program__group-count {
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-program__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  width: 100%;
+  padding: var(--aos-space-3);
+  text-align: start;
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  cursor: pointer;
+  transition: background-color var(--aos-transition-fast), border-color var(--aos-transition-fast);
+}
+
+.aos-program__row:hover {
+  background-color: var(--aos-surface-hover);
+  border-color: var(--aos-surface-border-strong);
+}
+
+.aos-program__row--selected {
+  background-color: var(--aos-surface-active);
+  border-color: var(--aos-surface-border-strong);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-program__row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+}
+
+.aos-program__row-title {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-primary);
+}
+
+.aos-program__row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-1) var(--aos-space-3);
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-program__detail-mount {
+  min-width: 0;
+}
+
+/* ========================================
+ * WORKSPACE FOOTER ITEMS
+ * Environment and demo status, divided by hairline rules.
+ * ======================================== */
+
+.aos-program-footer__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  white-space: nowrap;
+}
+
+.aos-program-footer__item:not(:first-child) {
+  padding-left: var(--aos-space-4);
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+.aos-program-footer__label {
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-program-footer__value {
+  color: var(--aos-text-secondary);
+}
+
+/* ========================================
+ * RESPONSIVE ARCHITECTURE
+ * The grids are fluid by construction — auto-fit tracks with readable minimum
+ * widths absorb the canvas width at every shell state. The shell breakpoints
+ * then tighten the rhythm on tablets and settle everything into a single
+ * relaxed column on mobile.
+ * ======================================== */
+
+@media (max-width: 1024px) {
+  .aos-program {
+    gap: var(--aos-space-6);
+  }
+
+  .aos-program__engagement-grid {
+    gap: var(--aos-space-3);
+  }
+}

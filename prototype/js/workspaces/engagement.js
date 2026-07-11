@@ -138,12 +138,20 @@
   }
 
   /**
-   * The current engagement: the first in-progress engagement in record order,
-   * falling back to the first engagement, or null when none exist. Identical to
-   * the Home workspace's rule so both surfaces stay on the same engagement
-   * (persistent context, §12.12).
+   * The current engagement: the record named by the active route
+   * (Issue #31 — `router.getCurrentRecordId()`) when that id resolves to a
+   * real engagement, restoring the deep-link contract every rail-based
+   * workspace already honors — arriving via an engagement-level link opens
+   * that exact engagement instead of silently substituting another one.
+   * Otherwise, the first in-progress engagement in record order, falling
+   * back to the first engagement, or null when none exist — unchanged from
+   * `WS.deriveCurrentEngagement`, which every other workspace still calls
+   * directly, so their persistent-context behavior (§12.12) is untouched.
    */
-  var deriveCurrentEngagement = WS.deriveCurrentEngagement;
+  function deriveCurrentEngagement(engagements, targetId) {
+    var requested = targetId ? WS.findById(engagements, targetId) : null;
+    return requested || WS.deriveCurrentEngagement(engagements);
+  }
 
   /**
    * The frameworks attached to an engagement, always as an array. This is the
@@ -636,10 +644,13 @@
 
   /**
    * Collects everything the Engagement Workspace presents from the Shared Audit
-   * State. Returns null while the state is not ready, and a degraded model when
-   * no engagement exists (§15.12).
+   * State. `targetId`, when it resolves to a real engagement (a deep link from
+   * the Audit Program workspace or elsewhere, Issue #31), selects that
+   * engagement in place of the default first-in-progress fallback. Returns
+   * null while the state is not ready, and a degraded model when no engagement
+   * exists (§15.12).
    */
-  function collectViewModel(state, workspaceRegistry) {
+  function collectViewModel(state, workspaceRegistry, targetId) {
     if (!state || !state.isReady()) {
       return null;
     }
@@ -647,7 +658,7 @@
     var status = state.getStatus();
     var engagementsDocument = state.getDocument('engagements') || {};
     var engagements = state.listRecords('engagements');
-    var engagement = deriveCurrentEngagement(engagements);
+    var engagement = deriveCurrentEngagement(engagements, targetId);
     if (!engagement) {
       return { degraded: true, status: status };
     }
@@ -1299,7 +1310,8 @@
       return;
     }
 
-    var viewModel = state ? collectViewModel(state, registry) : null;
+    var targetId = router.getCurrentRecordId ? router.getCurrentRecordId() : '';
+    var viewModel = state ? collectViewModel(state, registry, targetId) : null;
     if (!viewModel) {
       renderLoading(view);
       return;
