@@ -1,141 +1,94 @@
 {
   "metadata": {
     "version": "1.0.0",
-    "generatedAt": "2026-01-01T00:00:00Z",
-    "description": "AuditOS Release 1 Static Business Unit Dataset"
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Business units (added grouping layer)",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)"
   },
   "businessUnits": [
     {
-      "id": "BU-001",
-      "companyId": "CMP-001",
-      "code": "INFOSEC",
+      "id": "BU-MER-SEC",
+      "companyId": "CMP-MER",
       "name": "Information Security",
-      "description": "Responsible for governance, policies, risk management, compliance, vulnerability management, incident response and security operations.",
-      "executiveOwner": "POC-001",
-      "color": "#DC2626",
-      "icon": "shield-lock",
       "teams": [
-        "TEAM-001"
-      ],
-      "frameworks": [
-        "SOC 2 Type II",
-        "ISO 27001",
-        "ISO 27701"
+        "TEAM-MER-011",
+        "TEAM-MER-014"
       ]
     },
     {
-      "id": "BU-002",
-      "companyId": "CMP-001",
-      "code": "CORPIT",
+      "id": "BU-MER-IT",
+      "companyId": "CMP-MER",
       "name": "Corporate IT",
-      "description": "Responsible for identity management, endpoint management, asset inventory, cloud administration and IT operations.",
-      "executiveOwner": "POC-004",
-      "color": "#2563EB",
-      "icon": "laptop",
       "teams": [
-        "TEAM-002",
-        "TEAM-003"
-      ],
-      "frameworks": [
-        "SOC 2 Type II"
+        "TEAM-MER-003"
       ]
     },
     {
-      "id": "BU-003",
-      "companyId": "CMP-001",
-      "code": "PEOPLE",
-      "name": "People Operations",
-      "description": "Responsible for employee lifecycle, onboarding, offboarding, HR records, awareness training and background verification.",
-      "executiveOwner": "POC-011",
-      "color": "#16A34A",
-      "icon": "people",
+      "id": "BU-MER-CLOUD",
+      "companyId": "CMP-MER",
+      "name": "Cloud Operations",
       "teams": [
-        "TEAM-004",
-        "TEAM-005"
-      ],
-      "frameworks": [
-        "SOC 2 Type II"
+        "TEAM-MER-002"
       ]
     },
     {
-      "id": "BU-004",
-      "companyId": "CMP-001",
-      "code": "LEGAL",
-      "name": "Legal & Compliance",
-      "description": "Responsible for contracts, privacy, regulatory obligations and vendor compliance.",
-      "executiveOwner": "POC-016",
-      "color": "#9333EA",
-      "icon": "briefcase",
+      "id": "BU-MER-WE",
+      "companyId": "CMP-MER",
+      "name": "Workspace Experience",
       "teams": [
-        "TEAM-006"
-      ],
-      "frameworks": [
-        "SOC 2 Type II",
-        "ISO 27701"
+        "TEAM-MER-022",
+        "TEAM-MER-023",
+        "TEAM-MER-024",
+        "TEAM-MER-025",
+        "TEAM-MER-026",
+        "TEAM-MER-027"
       ]
     },
     {
-      "id": "BU-005",
-      "companyId": "CMP-001",
-      "code": "FINANCE",
-      "name": "Finance",
-      "description": "Responsible for procurement, budgeting, vendor payments and financial governance.",
-      "executiveOwner": "POC-018",
-      "color": "#F59E0B",
-      "icon": "currency-dollar",
+      "id": "BU-MER-HR",
+      "companyId": "CMP-MER",
+      "name": "Human Resources",
       "teams": [
-        "TEAM-007"
-      ],
-      "frameworks": [
-        "SOC 2 Type II"
+        "TEAM-MER-007",
+        "TEAM-MER-008",
+        "TEAM-MER-009",
+        "TEAM-MER-010",
+        "TEAM-MER-015"
       ]
     },
     {
-      "id": "BU-101",
-      "companyId": "CMP-002",
-      "code": "INFOSEC",
-      "name": "Information Security",
-      "description": "Responsible for enterprise security, compliance and security operations.",
-      "executiveOwner": "POC-101",
-      "color": "#DC2626",
-      "icon": "shield-lock",
+      "id": "BU-MER-LEGAL",
+      "companyId": "CMP-MER",
+      "name": "Legal & Privacy",
       "teams": [
-        "TEAM-101"
-      ],
-      "frameworks": [
-        "SOC 2 Type II"
+        "TEAM-MER-012",
+        "TEAM-MER-013"
       ]
     },
     {
-      "id": "BU-102",
-      "companyId": "CMP-002",
-      "code": "CORPIT",
-      "name": "Corporate IT",
-      "description": "Responsible for IT infrastructure, identity management and endpoint administration.",
-      "executiveOwner": "POC-104",
-      "color": "#2563EB",
-      "icon": "laptop",
+      "id": "BU-MER-DELIV",
+      "companyId": "CMP-MER",
+      "name": "Delivery & Support",
       "teams": [
-        "TEAM-102"
-      ],
-      "frameworks": [
-        "SOC 2 Type II"
+        "TEAM-MER-004",
+        "TEAM-MER-005",
+        "TEAM-MER-006"
       ]
     },
     {
-      "id": "BU-103",
-      "companyId": "CMP-002",
-      "code": "PEOPLE",
-      "name": "People Operations",
-      "description": "Responsible for employee onboarding, offboarding and personnel records.",
-      "executiveOwner": "POC-107",
-      "color": "#16A34A",
-      "icon": "people",
+      "id": "BU-MER-PROD",
+      "companyId": "CMP-MER",
+      "name": "Product Engineering",
       "teams": [
-        "TEAM-103"
-      ],
-      "frameworks": [
-        "SOC 2 Type II"
+        "TEAM-MER-001",
+        "TEAM-MER-016",
+        "TEAM-MER-017",
+        "TEAM-MER-018",
+        "TEAM-MER-019",
+        "TEAM-MER-020",
+        "TEAM-MER-021",
+        "TEAM-MER-028",
+        "TEAM-MER-029"
       ]
     }
   ]

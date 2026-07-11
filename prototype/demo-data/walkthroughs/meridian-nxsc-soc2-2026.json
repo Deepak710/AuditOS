@@ -1,0 +1,106 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Walkthroughs (R-12): remark-evidenced sessions; per-control WT status lives on controls",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
+    "engagementId": "ENG-MER-NXSC-2026",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025"
+  },
+  "summary": {
+    "sessions": 7,
+    "controlsByWalkthroughStatus": {
+      "Data not received": 115,
+      "Completed": 6
+    }
+  },
+  "sessions": [
+    {
+      "id": "WTS-MER-004",
+      "date": "2026-06-02",
+      "title": "Based on the call with Corbin on the same day, we are closing this requirement. If Sotos asks us to include it later, we",
+      "source": "HA/client remark",
+      "requirementIds": [
+        "REQ-MER-0770"
+      ],
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ]
+    },
+    {
+      "id": "WTS-MER-005",
+      "date": "2026-06-02",
+      "title": "Based on the call with Corbin on the same day, we are closing this requirement. If Sotos asks us to include it later, we",
+      "source": "HA/client remark",
+      "requirementIds": [
+        "REQ-MER-0771"
+      ],
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ]
+    },
+    {
+      "id": "WTS-MER-006",
+      "date": "2026-06-02",
+      "title": "Based on the call with Corbin on the same day, we are closing this requirement. If Sotos asks us to include it later, we",
+      "source": "HA/client remark",
+      "requirementIds": [
+        "REQ-MER-0772"
+      ],
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ]
+    },
+    {
+      "id": "WTS-MER-007",
+      "date": "2026-06-02",
+      "title": "Based on the call with Corbin on the same day, we are closing this requirement. If Sotos asks us to include it later, we",
+      "source": "HA/client remark",
+      "requirementIds": [
+        "REQ-MER-0773"
+      ],
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ]
+    },
+    {
+      "id": "WTS-MER-008",
+      "date": "2026-06-02",
+      "title": "Based on the call with Corbin on the same day, we are closing this requirement. If Sotos asks us to include it later, we",
+      "source": "HA/client remark",
+      "requirementIds": [
+        "REQ-MER-0774"
+      ],
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ]
+    },
+    {
+      "id": "WTS-MER-009",
+      "date": "2026-06-02",
+      "title": "Based on the call with Corbin on the same day, we are closing this requirement. If Sotos asks us to include it later, we",
+      "source": "HA/client remark",
+      "requirementIds": [
+        "REQ-MER-0775"
+      ],
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ]
+    },
+    {
+      "id": "WTS-MER-010",
+      "date": "2026-06-02",
+      "title": "Based on the call with Corbin on the same day, we are closing this requirement. If Sotos asks us to include it later, we",
+      "source": "HA/client remark",
+      "requirementIds": [
+        "REQ-MER-0776"
+      ],
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ]
+    }
+  ],
+  "processes": [],
+  "questions": []
+}

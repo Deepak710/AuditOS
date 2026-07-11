@@ -1,8 +1,9 @@
 {
   "datasets": [
-    "controls/nimbus-soc2-2025.json",
-    "controls/nimbus-soc2-2026.json",
-    "controls/helix-soc2-2026.json",
-    "controls/helix-iso27001-2026.json"
+    "controls/meridian-csp-soc2-2025.json",
+    "controls/meridian-zpqp-soc2-2025.json",
+    "controls/meridian-qc-soc2-2025.json",
+    "controls/meridian-qa-soc2-2026.json",
+    "controls/meridian-nxsc-soc2-2026.json"
   ]
 }

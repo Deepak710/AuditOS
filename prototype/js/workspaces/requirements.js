@@ -96,7 +96,17 @@
     'In Review': TONES.WARNING,
     'Updated': TONES.INFO,
     'Approved': TONES.SUCCESS,
-    'Rejected': TONES.ERROR
+    'Rejected': TONES.ERROR,
+    'No Action': null,
+    'No Action - POC Details Requested by HA': TONES.WARNING,
+    'Requested by Consulting Team': TONES.INFO,
+    'Requested by SOC Team': TONES.INFO,
+    'Evidence Received - Under HA Review': TONES.INFO,
+    'Evidence Reviewed - Clarification Needed': TONES.WARNING,
+    'Evidence Partially Received': TONES.WARNING,
+    'Population Pending - HA unable to share samples': TONES.WARNING,
+    'All Evidence Received': TONES.SUCCESS,
+    'Not Applicable': null
   };
 
   /**
@@ -104,7 +114,13 @@
    * stable operational sequence regardless of which statuses the data contains.
    * Statuses outside this list sort after it, alphabetically.
    */
-  var HEALTH_ORDER = ['Draft', 'Pending', 'Pending Review', 'In Review', 'Updated', 'Approved', 'Rejected'];
+  var HEALTH_ORDER = [
+    'Draft', 'Pending', 'Pending Review', 'In Review', 'Updated', 'Approved', 'Rejected',
+    'No Action', 'Requested by Consulting Team', 'Requested by SOC Team',
+    'Evidence Received - Under HA Review', 'Evidence Reviewed - Clarification Needed',
+    'Evidence Partially Received', 'Population Pending - HA unable to share samples',
+    'All Evidence Received', 'Not Applicable'
+  ];
 
   /** Evidence-status keys derived per requirement, with their labels and tones. */
   var EVIDENCE_STATUS = {
@@ -504,7 +520,7 @@
         }
         events.push({
           title: (entry.title || entry.action || entry.status || 'Requirement updated') + ': ' + (req.title || req.id),
-          meta: entry.status || '',
+          meta: entry.status || entry.description || '',
           timestamp: formatDate(date),
           date: date,
           tone: entry.tone || resolveStatusTone(entry.status)
@@ -697,7 +713,9 @@
 
     var companies = state.listRecords('companies');
     var company = findById(companies, engagement.companyId);
-    var pocsById = indexById(state.listRecords('pocs'));
+    var pocs = state.listRecords('pocs');
+    var users = state.listRecords('users');
+    var pocsById = indexById(pocs);
     var teamsById = indexById(state.listRecords('teams'));
     var businessUnitsById = indexById(state.listRecords('business-units'));
 
@@ -707,10 +725,40 @@
     var testingDocument = readEngagementDocument(state, 'testing', engagement.id) || {};
     var findingsDocument = readEngagementDocument(state, 'findings', engagement.id) || {};
     var reportsDocument = readEngagementDocument(state, 'reports', engagement.id) || {};
+    var activityDocument = readEngagementDocument(state, 'activity', engagement.id) || {};
 
     var requirementRecords = asArray(requirementsDocument.requirements);
     var controlsById = indexById(controlsDocument.controls);
     var evidenceById = indexById(evidenceDocument.evidence);
+
+    // Actor id → display name, spanning both client POCs and the Halcyon
+    // engagement team, so requirement activity resolves to a real name.
+    var actorNames = {};
+    asArray(pocs).forEach(function (poc) { if (poc.id && poc.name) { actorNames[poc.id] = poc.name; } });
+    asArray(users).forEach(function (user) { if (user.id && user.name) { actorNames[user.id] = user.name; } });
+
+    // The immutable activity log tags its remarks by requirement id
+    // (entityType 'requirement'); attach each requirement's own remarks as
+    // its activityHistory so both the per-requirement Inspector history and
+    // the workspace-level Activity Feed read real, dated events.
+    var activityByRequirement = {};
+    asArray(activityDocument.events).forEach(function (event) {
+      if (!event || event.entityType !== 'requirement' || !event.entityId || !event.at) {
+        return;
+      }
+      if (!activityByRequirement[event.entityId]) {
+        activityByRequirement[event.entityId] = [];
+      }
+      activityByRequirement[event.entityId].push({
+        date: event.at,
+        title: event.authorSide === 'ha' ? 'Halcyon remark' : 'Client remark',
+        actor: actorNames[event.byId] || '',
+        description: event.note || ''
+      });
+    });
+    requirementRecords.forEach(function (requirement) {
+      requirement.activityHistory = activityByRequirement[requirement.id] || [];
+    });
 
     var frameworks = normalizeFrameworks(engagement);
     var auditPeriodLabel = formatPeriod(engagement.auditPeriod);

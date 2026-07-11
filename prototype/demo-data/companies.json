@@ -1,112 +1,31 @@
 {
   "metadata": {
     "version": "1.0.0",
-    "generatedAt": "2026-01-01T00:00:00Z",
-    "description": "Static prototype data for AuditOS Release 1"
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Client register",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)"
   },
   "companies": [
     {
-      "id": "CMP-001",
-      "code": "NIMBUS",
-      "name": "NimbusCloud Technologies",
-      "legalName": "NimbusCloud Technologies Private Limited",
+      "id": "CMP-MER",
+      "code": "MERIDIAN",
+      "name": "Meridian",
+      "legalName": "Meridian Software Systems Private Limited",
       "status": "Active",
-      "industry": "Cloud Software",
-      "businessDescription": "Provider of cloud-native AI workflow and enterprise collaboration platforms.",
+      "industry": "Enterprise AI Software",
+      "businessDescription": "Enterprise AI services provider; AI-powered platforms for customer engagement and marketing operations (Customer Service AI, Marketing AI, Sales AI on the Nexus Cloud).",
       "headquarters": {
-        "city": "Bengaluru",
-        "state": "Karnataka",
-        "country": "India"
+        "city": "Palo Alto",
+        "state": "California",
+        "country": "USA"
       },
-      "website": "https://www.nimbuscloud.example",
-      "employeeCount": 1850,
-      "auditReadinessScore": 91,
-      "riskRating": "Medium",
-      "customerTier": "Enterprise",
-      "engagements": [
-        "ENG-001",
-        "ENG-002"
-      ],
-      "products": [
-        "Nimbus Platform",
-        "Nimbus Identity",
-        "Nimbus Analytics",
-        "Nimbus AI"
-      ],
-      "frameworks": [
-        "SOC 2 Type II",
-        "ISO 27001",
-        "ISO 27701"
-      ],
-      "departments": [
-        "DEP-001",
-        "DEP-002",
-        "DEP-003",
-        "DEP-004",
-        "DEP-005",
-        "DEP-006",
-        "DEP-007"
-      ],
-      "primaryContacts": [
-        "POC-001",
-        "POC-002",
-        "POC-003"
-      ],
-      "logo": "assets/logos/nimbus.svg",
-      "themeColor": "#2563EB",
-      "createdAt": "2025-02-10",
-      "lastAuditCompleted": "2025-12-31",
-      "nextAuditStart": "2026-01-01",
-      "notes": "Reference company used throughout the AuditOS prototype."
-    },
-    {
-      "id": "CMP-002",
-      "code": "HELIX",
-      "name": "Helix Financial Systems",
-      "legalName": "Helix Financial Systems Limited",
-      "status": "Active",
-      "industry": "Financial Technology",
-      "businessDescription": "Provider of cloud banking infrastructure, payment processing and digital identity services.",
-      "headquarters": {
-        "city": "Hyderabad",
-        "state": "Telangana",
-        "country": "India"
-      },
-      "website": "https://www.helixfinancial.example",
-      "employeeCount": 930,
-      "auditReadinessScore": 84,
-      "riskRating": "High",
-      "customerTier": "Enterprise",
-      "engagements": [
-        "ENG-003",
-        "ENG-004"
-      ],
-      "products": [
-        "Helix Core",
-        "Helix Payments",
-        "Helix Identity"
-      ],
-      "frameworks": [
-        "SOC 2 Type II",
-        "ISO 27001"
-      ],
-      "departments": [
-        "DEP-101",
-        "DEP-102",
-        "DEP-103",
-        "DEP-104",
-        "DEP-105"
-      ],
-      "primaryContacts": [
-        "POC-101",
-        "POC-102"
-      ],
-      "logo": "assets/logos/helix.svg",
-      "themeColor": "#0F766E",
-      "createdAt": "2025-04-18",
-      "lastAuditCompleted": "2025-09-30",
-      "nextAuditStart": "2026-04-01",
-      "notes": "Second demo company used to demonstrate cross-engagement knowledge reuse."
+      "deliveryCenters": [
+        "United States",
+        "United Kingdom",
+        "India",
+        "Spain",
+        "Israel"
+      ]
     }
   ]
 }

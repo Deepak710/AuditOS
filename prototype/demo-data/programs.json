@@ -1,0 +1,25 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Audit programs (R-08)",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)"
+  },
+  "programs": [
+    {
+      "id": "PRG-MER-SOC-2025",
+      "companyId": "CMP-MER",
+      "name": "Meridian SOC 2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuseSourceEngagementIds": [
+        "ENG-MER-CSP-2025"
+      ],
+      "sharedRequirementList": true
+    }
+  ]
+}

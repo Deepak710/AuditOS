@@ -1,0 +1,828 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "CSP report — structure & registers from the issued docx (R-13/R-20)",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
+    "engagementId": "ENG-MER-CSP-2025",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025",
+    "reportId": "RPT-MER-CSP",
+    "templateId": "SOC2-T2-HA"
+  },
+  "document": {
+    "title": "SOC 2 Type II Report — Customer Signal Platform",
+    "status": "Final (pending Sections I–II at issuance)",
+    "version": "1.0",
+    "reportingPeriod": {
+      "from": "2024-08-01",
+      "to": "2025-07-31"
+    }
+  },
+  "sections": [
+    {
+      "id": "SEC-1",
+      "name": "Management Assertion",
+      "source": "manual",
+      "editable": true,
+      "included": true,
+      "status": "Placeholder — filled as part of report issuance process"
+    },
+    {
+      "id": "SEC-2",
+      "name": "Independent Service Auditor's Assurance Report",
+      "source": "manual",
+      "editable": true,
+      "included": true,
+      "status": "Placeholder — filled as part of report issuance process"
+    },
+    {
+      "id": "SEC-3",
+      "name": "Description of the System",
+      "source": "structured",
+      "editable": true,
+      "included": true,
+      "contentRef": {
+        "collections": [
+          "companies",
+          "engagements"
+        ],
+        "narrativeBlocks": 28
+      }
+    },
+    {
+      "id": "SEC-4",
+      "name": "Trust Services Categories, Criteria, Controls, Tests, and Results",
+      "source": "generated",
+      "editable": false,
+      "included": true,
+      "references": {
+        "controls": true,
+        "evidence": true,
+        "findings": true
+      },
+      "contentRef": {
+        "collections": [
+          "controls",
+          "testing"
+        ],
+        "join": "controls×workpapers by controlId"
+      }
+    }
+  ],
+  "cuecs": [
+    {
+      "text": "User entities are responsible for understanding and complying with their contractual obligations to Meridian. (ISMS-14)",
+      "criteria": [
+        "CC1.3",
+        "CC2.1",
+        "CC2.3",
+        "CC9.2",
+        "C1.1",
+        "PI1.1"
+      ],
+      "controlCodes": [
+        "ISMS-14"
+      ]
+    },
+    {
+      "text": "User Entities are responsible to share the IP(s) that need to be whitelisted to gain access to their CSP production workspace instance on a timely basis. (CSC-01)",
+      "criteria": [
+        "CC6.6",
+        "CC6.7"
+      ],
+      "controlCodes": [
+        "CSC-01"
+      ]
+    },
+    {
+      "text": "User Entities are responsible to nominate appropriate personnel to receive the administrator credentials to their CSP workspace. / User Entities are responsible for access creation, modification, revocation, reconciliation, and review of users and their privileges within their CSP workspace. / User Entities are responsible for enabling SSO or OTP for MFA during login to their CSP workspace.",
+      "criteria": [
+        "CC6.1",
+        "CC6.2",
+        "CC6.3",
+        "CC6.8",
+        "PI1.5"
+      ],
+      "controlCodes": []
+    },
+    {
+      "text": "User Entities are responsible for the security, encryption, and access policies of the source data lakes (e.g. Snowflake) that they connect to the CSP workspace. / User Entities are responsible for managing network security controls within their environment.",
+      "criteria": [
+        "CC6.1",
+        "CC6.6",
+        "CC6.7"
+      ],
+      "controlCodes": []
+    },
+    {
+      "text": "User Entities are responsible to opt-in to be notified about the real-time response and availability metrics of CSP on the status webpage. (CSC-21)",
+      "criteria": [
+        "A1.2"
+      ],
+      "controlCodes": [
+        "CSC-21"
+      ]
+    },
+    {
+      "text": "User Entities are responsible to periodically review the support website containing resources such as product documentation, best practices, training materials, guides, troubleshooting tips, and community forums to effectively utilize CSP. (CSC-22)",
+      "criteria": [
+        "PI1.1",
+        "PI1.2"
+      ],
+      "controlCodes": [
+        "CSC-22"
+      ]
+    },
+    {
+      "text": "User Entities are responsible for timely communication of their repatriation.",
+      "criteria": [
+        "CC6.5",
+        "C1.1",
+        "C1.2"
+      ],
+      "controlCodes": []
+    },
+    {
+      "text": "User Entities are responsible for timely communication of incidents, breaches, requests, and / or issues within their CSP workspace. / User Entities are responsible for timely communication of confirmation of closure upon resolution of their issue(s) and / or request(s) (CUS-02)",
+      "criteria": [
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5"
+      ],
+      "controlCodes": [
+        "CUS-02"
+      ]
+    }
+  ],
+  "csocs": [
+    {
+      "text": "Customer data communicated through AWS service interfaces is encrypted during transmission over external networks. / Internal communication between key AWS components where customer data is transmitted / involved is secured using SSL or equivalent mechanism(s). / Access privileges are reviewed periodically to determine if access rights are commensurate to the user’s job duties. Access is modified based on the results of the reviews. / Administrative access to the service environment is controlled through defined interfaces that require authentication using appropriate credentials. Privileges (i.e., read, write) are restricted to authorized personnel through designated channels based on job responsibilities. / Procedures have been established for granting temporary access for AWS personnel to customer data and applications upon appropriate approval for customer support or incident handling purposes. / User groups and Access Control Lists have been stablished to restrict access to network devices in the scope boundary. / Customer credentials used to access AWS services meet the applicable password policy requirements. / Customer data that is designated as “confidential” is protected while in storage within AWS services. / Logical segregation is implemented to restrict unauthorized access to other customer tenants. / Customer data that is designated as confidential is protected while in storage within AWS services. / Data at rest is encrypted using AES 256-bit encryption, which is provided by KMS of AWS. / Access to network devices in the scope boundary is restricted through a limited number of entry points that require authentication over an encrypted connection. / The network is segregated to separate customer traffic from management traffic. A monitoring system has been implemented to monitor the AWS platforms for potential malicious activity and intrusion past service trust boundaries.",
+      "criteria": [
+        "CC6.1",
+        "CC6.2",
+        "CC6.3"
+      ]
+    },
+    {
+      "text": "Procedures have been established to restrict physical access to the server room to authorized users, vendors, contractors, and visitors. / Physical access to the server room is reviewed quarterly and verified by the server room Management team. / Physical access mechanisms (e.g., access card readers, biometric devices, man traps/portals, cages, locked cabinets) have been implemented and are administered to restrict access to authorized individuals. / Amazon Web Services, Inc. is responsible for managing physical security of the AWS platform.",
+      "criteria": [
+        "CC6.4"
+      ]
+    },
+    {
+      "text": "Environmental controls such as fire extinguishers, smoke detectors, UPS, etc. exists within the premises and Data Center. / Vendor conducts the preventive maintenance of this equipment on a periodic basis. / A Business Continuity and Disaster Recovery (BC / DR) Standard Operating Procedure is developed, and documentation includes the defined information security and availability requirements. / The BCP team conducts testing of the business continuity and disaster recovery plans established for AWS services, per the defined testing schedule for different loss scenario. Each loss scenario is tested at least annually. Issues identified during testing are resolved and plans are updated accordingly. / AWS management reviews portal performance monthly to evaluate compliance with customer SLA requirements. / Backups of key AWS service components and secrets are performed regularly and stored in fault tolerant (isolated) facilities. / Critical AWS components have been designed with redundancy to sustain isolated faults and minimize disruptions to customer services. / Customer data is automatically replicated within AWS to minimize isolated faults. / Backup restoration procedures are defined, and backup data integrity checks are performed through standard restoration activities. / Data centre Management team maintains data center-managed environmental equipment within the facility according to documented policy and maintenance procedures.",
+      "criteria": [
+        "A1.1",
+        "A1.2",
+        "A1.3"
+      ]
+    }
+  ],
+  "ipeProcedures": [
+    "Inspect the source of IPE",
+    "Inspect the query, script or parameters used to generate the IPE",
+    "Observe the reconciliation of the data between IPE and Source",
+    "Inspect the IPE for anomalous gaps in sequence or timing",
+    "Inspect management's procedures to assess the validity, completeness, accuracy and integrity of the IPE"
+  ],
+  "criteriaTables": [
+    {
+      "criteriaId": "CC1.1",
+      "group": "CC1.0 – Common Criteria related to Control Environment",
+      "description": "COSO Principle 1: The entity demonstrates a commitment to integrity and ethical values.",
+      "controlCodes": [
+        "HR-01",
+        "HR-02",
+        "HR-03",
+        "HR-04",
+        "HR-05",
+        "ISMS-27",
+        "ISMS-30"
+      ]
+    },
+    {
+      "criteriaId": "CC1.2",
+      "group": "CC1.0 – Common Criteria related to Control Environment",
+      "description": "COSO Principle 2: The board of directors demonstrates independence from management and exercises oversight of the development and performance of internal control.",
+      "controlCodes": [
+        "ISMS-07",
+        "ISMS-08"
+      ]
+    },
+    {
+      "criteriaId": "CC1.3",
+      "group": "CC1.0 – Common Criteria related to Control Environment",
+      "description": "COSO Principle 3: Management establishes, with board oversight, structures, reporting lines, and appropriate authorities and responsibilities in the pursuit of objectives.",
+      "controlCodes": [
+        "ISMS-01",
+        "ISMS-02",
+        "ISMS-14",
+        "ISMS-15",
+        "ISMS-17",
+        "ISMS-18"
+      ]
+    },
+    {
+      "criteriaId": "CC1.4",
+      "group": "CC1.0 – Common Criteria related to Control Environment",
+      "description": "COSO Principle 4: The entity demonstrates a commitment to attract, develop, and retain competent individuals in alignment with objectives.",
+      "controlCodes": [
+        "HR-03",
+        "HR-04",
+        "HR-05",
+        "HR-06",
+        "HR-07",
+        "ISMS-30"
+      ]
+    },
+    {
+      "criteriaId": "CC1.5",
+      "group": "CC1.0 – Common Criteria related to Control Environment",
+      "description": "COSO Principle 5: The entity holds individuals accountable for their internal control responsibilities in the pursuit of objectives.",
+      "controlCodes": [
+        "HR-01",
+        "HR-04",
+        "HR-05",
+        "HR-06",
+        "HR-07",
+        "ISMS-01",
+        "ISMS-02",
+        "ISMS-17",
+        "ISMS-30"
+      ]
+    },
+    {
+      "criteriaId": "CC2.1",
+      "group": "CC2.0 – Common Criteria related to Communication and Information",
+      "description": "COSO Principle 13: The entity obtains or generates and uses relevant, quality information to support the functioning of internal control.",
+      "controlCodes": [
+        "CSC-11",
+        "ISMS-14",
+        "ISMS-15"
+      ]
+    },
+    {
+      "criteriaId": "CC2.2",
+      "group": "CC2.0 – Common Criteria related to Communication and Information",
+      "description": "COSO Principle 14: The entity internally communicates information, including objectives and responsibilities for internal control, necessary to support the functioning of internal control.",
+      "controlCodes": [
+        "CUS-01",
+        "CUS-02",
+        "HR-02",
+        "HR-04",
+        "HR-05",
+        "ISMS-13",
+        "ISMS-17",
+        "ISMS-25",
+        "ISMS-27",
+        "ISMS-30"
+      ]
+    },
+    {
+      "criteriaId": "CC2.3",
+      "group": "CC2.0 – Common Criteria related to Communication and Information",
+      "description": "COSO Principle 15: The entity communicates with external parties regarding matters affecting the functioning of internal control.",
+      "controlCodes": [
+        "CUS-01",
+        "CUS-02",
+        "ISMS-14",
+        "ISMS-15",
+        "ISMS-25"
+      ]
+    },
+    {
+      "criteriaId": "CC3.1",
+      "group": "CC3.0 – Common Criteria related to Risk Assessment",
+      "description": "COSO Principle 6: The entity specifies objectives with sufficient clarity to enable the identification and assessment of risks relating to objectives.",
+      "controlCodes": [
+        "HR-07",
+        "ISMS-03",
+        "ISMS-04",
+        "ISMS-05",
+        "ISMS-10",
+        "ISMS-11"
+      ]
+    },
+    {
+      "criteriaId": "CC3.2",
+      "group": "CC3.0 – Common Criteria related to Risk Assessment",
+      "description": "COSO Principle 7: The entity identifies risks to the achievement of its objectives across the entity and analyzes risks as a basis for determining how the risks should be managed.",
+      "controlCodes": [
+        "HR-07",
+        "ISMS-03",
+        "ISMS-04",
+        "ISMS-05",
+        "ISMS-10",
+        "ISMS-11",
+        "ISMS-20",
+        "ISMS-28",
+        "SO-01"
+      ]
+    },
+    {
+      "criteriaId": "CC3.3",
+      "group": "CC3.0 – Common Criteria related to Risk Assessment",
+      "description": "COSO Principle 8: The entity considers the potential for fraud in assessing risks to the achievement of objectives.",
+      "controlCodes": [
+        "ISMS-03",
+        "ISMS-04",
+        "ISMS-05",
+        "ISMS-06",
+        "ISMS-10",
+        "ISMS-11"
+      ]
+    },
+    {
+      "criteriaId": "CC3.4",
+      "group": "CC3.0 – Common Criteria related to Risk Assessment",
+      "description": "COSO Principle 9: The entity identifies and assesses changes that could significantly impact the system of internal control.",
+      "controlCodes": [
+        "ISMS-03",
+        "ISMS-04",
+        "ISMS-05",
+        "ISMS-06",
+        "ISMS-10",
+        "ISMS-11"
+      ]
+    },
+    {
+      "criteriaId": "CC4.1",
+      "group": "CC4.0 – Common Criteria related to Monitoring Activities",
+      "description": "COSO Principle 16: The entity selects, develops, and performs ongoing and/or separate evaluations to ascertain whether the components of internal control are present and functioning.",
+      "controlCodes": [
+        "CSC-02",
+        "CSC-15",
+        "HR-07",
+        "ISMS-06",
+        "ISMS-09",
+        "ISMS-12",
+        "ISMS-28",
+        "SO-01"
+      ]
+    },
+    {
+      "criteriaId": "CC4.2",
+      "group": "CC4.0 – Common Criteria related to Monitoring Activities",
+      "description": "COSO Principle 17: The entity evaluates and communicates internal control deficiencies in a timely manner to those parties responsible for taking corrective action, including senior management and the board of directors, as appropriate.",
+      "controlCodes": [
+        "CSC-02",
+        "ISMS-06",
+        "ISMS-08",
+        "ISMS-09",
+        "ISMS-12"
+      ]
+    },
+    {
+      "criteriaId": "CC5.1",
+      "group": "CC5.0 – Common Criteria related to Control Activities",
+      "description": "COSO Principle 10: The entity selects and develops control activities that contribute to the mitigation of risks to the achievement of objectives to acceptable levels.",
+      "controlCodes": [
+        "ISMS-03",
+        "ISMS-04",
+        "ISMS-05",
+        "ISMS-10",
+        "ISMS-11"
+      ]
+    },
+    {
+      "criteriaId": "CC5.2",
+      "group": "CC5.0 – Common Criteria related to Control Activities",
+      "description": "COSO Principle 11: The entity also selects and develops general control activities over technology to support the achievement of objectives.",
+      "controlCodes": [
+        "ISMS-03",
+        "ISMS-04",
+        "ISMS-05",
+        "ISMS-10",
+        "ISMS-11",
+        "ISMS-19"
+      ]
+    },
+    {
+      "criteriaId": "CC5.3",
+      "group": "CC5.0 – Common Criteria related to Control Activities",
+      "description": "COSO Principle 12: The entity deploys control activities through policies that establish what is expected and in procedures that put policies into action.",
+      "controlCodes": [
+        "CUS-01",
+        "HR-02",
+        "ISMS-03",
+        "ISMS-16",
+        "ISMS-17",
+        "ISMS-19",
+        "ISMS-20",
+        "ISMS-21",
+        "ISMS-22",
+        "ISMS-23",
+        "ISMS-25",
+        "ISMS-26",
+        "ISMS-27",
+        "ISMS-28",
+        "ISMS-29"
+      ]
+    },
+    {
+      "criteriaId": "CC6.1",
+      "group": "CC6.0 – Common Criteria related to Logical and Physical Access Controls",
+      "description": "The entity implements logical access security software, infrastructure, and architectures over protected information assets to protect them from security events to meet the entity's objectives.",
+      "controlCodes": [
+        "CSC-01",
+        "CSC-03",
+        "CSC-04",
+        "CSC-12",
+        "CSC-14",
+        "CSC-16",
+        "CSC-17",
+        "ISMS-19",
+        "ISMS-21",
+        "ISMS-26",
+        "IT-01",
+        "IT-02",
+        "IT-05",
+        "IT-06",
+        "IT-07",
+        "SO-02"
+      ]
+    },
+    {
+      "criteriaId": "CC6.2",
+      "group": "CC6.0 – Common Criteria related to Logical and Physical Access Controls",
+      "description": "Prior to issuing system credentials and granting system access, the entity registers and authorizes new internal and external users whose access is administered by the entity. For those users whose access is administered by the entity, user system credentials are removed when user access is no longer authorized.",
+      "controlCodes": [
+        "CSC-02",
+        "CSC-03",
+        "CSC-04",
+        "IT-02",
+        "IT-03",
+        "IT-04"
+      ]
+    },
+    {
+      "criteriaId": "CC6.3",
+      "group": "CC6.0 – Common Criteria related to Logical and Physical Access Controls",
+      "description": "The entity authorizes, modifies, or removes access to data, software, functions, and other protected information assets based on roles, responsibilities, or the system design and changes, giving consideration to the concepts of least privilege and segregation of duties, to meet the entity’s objectives.",
+      "controlCodes": [
+        "CSC-02",
+        "IT-02",
+        "IT-03",
+        "IT-04"
+      ]
+    },
+    {
+      "criteriaId": "CC6.4",
+      "group": "CC6.0 – Common Criteria related to Logical and Physical Access Controls",
+      "description": "The entity restricts physical access to facilities and protected information assets (for example, data center facilities, backup media storage, and other sensitive locations) to authorized personnel to meet the entity’s objectives.",
+      "controlCodes": [
+        "ISMS-17",
+        "WE-01",
+        "WE-02",
+        "WE-03",
+        "WE-04",
+        "WE-05",
+        "WE-06"
+      ]
+    },
+    {
+      "criteriaId": "CC6.5",
+      "group": "CC6.0 – Common Criteria related to Logical and Physical Access Controls",
+      "description": "The entity discontinues logical and physical protections over physical assets only after the ability to read or recover data and software from those assets has been diminished and is no longer required to meet the entity’s objectives.",
+      "controlCodes": [
+        "CSC-10",
+        "ISMS-21",
+        "IT-03",
+        "IT-06"
+      ]
+    },
+    {
+      "criteriaId": "CC6.6",
+      "group": "CC6.0 – Common Criteria related to Logical and Physical Access Controls",
+      "description": "The entity implements logical access security measures to protect against threats from sources outside its system boundaries.",
+      "controlCodes": [
+        "CSC-01",
+        "CSC-12",
+        "CSC-13",
+        "CSC-14",
+        "CSC-15",
+        "CSC-16",
+        "CSC-17",
+        "CSC-20",
+        "ISMS-28",
+        "IT-07",
+        "SO-01"
+      ]
+    },
+    {
+      "criteriaId": "CC6.7",
+      "group": "CC6.0 – Common Criteria related to Logical and Physical Access Controls",
+      "description": "The entity restricts the transmission, movement, and removal of information to authorized internal and external users and processes, and protects it during transmission, movement, or removal to meet the entity’s objectives.",
+      "controlCodes": [
+        "CSC-01",
+        "CSC-12",
+        "CSC-13",
+        "CSC-14",
+        "CSC-16",
+        "CSC-17",
+        "CSC-18",
+        "CSC-19",
+        "ISMS-21",
+        "IT-06",
+        "IT-07",
+        "SO-02",
+        "SO-05",
+        "SO-06"
+      ]
+    },
+    {
+      "criteriaId": "CC6.8",
+      "group": "CC6.0 – Common Criteria related to Logical and Physical Access Controls",
+      "description": "The entity implements controls to prevent or detect and act upon the introduction of unauthorized or malicious software to meet the entity’s objectives.",
+      "controlCodes": [
+        "CSC-03",
+        "CSC-04",
+        "ISMS-29",
+        "SO-01",
+        "SO-03",
+        "SO-04"
+      ]
+    },
+    {
+      "criteriaId": "CC7.1",
+      "group": "CC7.0 – Common Criteria related to System Operations",
+      "description": "To meet its objectives, the entity uses detection and monitoring procedures to identify (1) changes to configurations that result in the introduction of new vulnerabilities, and (2) susceptibilities to newly discovered vulnerabilities.",
+      "controlCodes": [
+        "CSC-18",
+        "CSC-19",
+        "CUS-02",
+        "ISMS-25",
+        "ISMS-28",
+        "IT-06",
+        "SO-01",
+        "SO-05",
+        "SO-06",
+        "SO-07"
+      ]
+    },
+    {
+      "criteriaId": "CC7.2",
+      "group": "CC7.0 – Common Criteria related to System Operations",
+      "description": "The entity monitors system components and the operation of those components for anomalies that are indicative of malicious acts, natural disasters, and errors affecting the entity's ability to meet its objectives; anomalies are analyzed to determine whether they represent security events.",
+      "controlCodes": [
+        "CSC-02",
+        "CSC-12",
+        "CSC-18",
+        "CSC-19",
+        "CUS-02",
+        "ISMS-25",
+        "ISMS-28",
+        "IT-04",
+        "SO-01",
+        "SO-05",
+        "SO-06",
+        "SO-07"
+      ]
+    },
+    {
+      "criteriaId": "CC7.3",
+      "group": "CC7.0 – Common Criteria related to System Operations",
+      "description": "The entity evaluates security events to determine whether they could or have resulted in a failure of the entity to meet its objectives (security incidents) and, if so, takes actions to prevent or address such failures.",
+      "controlCodes": [
+        "CSC-18",
+        "CSC-19",
+        "CUS-02",
+        "ISMS-25",
+        "ISMS-28",
+        "SO-01",
+        "SO-05",
+        "SO-06",
+        "SO-07"
+      ]
+    },
+    {
+      "criteriaId": "CC7.4",
+      "group": "CC7.0 – Common Criteria related to System Operations",
+      "description": "The entity responds to identified security incidents by executing a defined incident-response program to understand, contain, remediate, and communicate security incidents, as appropriate.",
+      "controlCodes": [
+        "CSC-18",
+        "CSC-19",
+        "CUS-02",
+        "ISMS-25",
+        "ISMS-28",
+        "SO-01",
+        "SO-05",
+        "SO-06",
+        "SO-07"
+      ]
+    },
+    {
+      "criteriaId": "CC7.5",
+      "group": "CC7.0 – Common Criteria related to System Operations",
+      "description": "The entity identifies, develops, and implements activities to recover from identified security incidents.",
+      "controlCodes": [
+        "CSC-18",
+        "CSC-19",
+        "CUS-02",
+        "ISMS-25",
+        "ISMS-28",
+        "SO-01",
+        "SO-05",
+        "SO-06",
+        "SO-07"
+      ]
+    },
+    {
+      "criteriaId": "CC8.1",
+      "group": "CC8.0 – Common Criteria related to Change Management",
+      "description": "The entity authorizes, designs, develops or acquires, configures, documents, tests, approves, and implements changes to infrastructure, data, software, and procedures to meet its objectives.",
+      "controlCodes": [
+        "ISMS-16",
+        "ISMS-28",
+        "IT-08",
+        "IT-09",
+        "SDLC-01",
+        "SDLC-02",
+        "SDLC-03",
+        "SDLC-04",
+        "SDLC-05",
+        "SDLC-06"
+      ]
+    },
+    {
+      "criteriaId": "CC9.1",
+      "group": "CC9.0 – Common Criteria related to Risk Mitigation",
+      "description": "The entity identifies, selects, and develops risk mitigation activities for risks arising from potential business disruptions.",
+      "controlCodes": [
+        "ISMS-03",
+        "ISMS-04",
+        "ISMS-05",
+        "ISMS-10",
+        "ISMS-11",
+        "ISMS-17",
+        "ISMS-23",
+        "ISMS-24",
+        "ISMS-29"
+      ]
+    },
+    {
+      "criteriaId": "CC9.2",
+      "group": "CC9.0 – Common Criteria related to Risk Mitigation",
+      "description": "The entity assesses and manages risks associated with vendors and business partners.",
+      "controlCodes": [
+        "HR-01",
+        "ISMS-04",
+        "ISMS-05",
+        "ISMS-10",
+        "ISMS-11",
+        "ISMS-14",
+        "ISMS-15",
+        "ISMS-24",
+        "ISMS-29"
+      ]
+    },
+    {
+      "criteriaId": "A1.1",
+      "group": "Additional Criteria for Availability",
+      "description": "The entity maintains, monitors, and evaluates current processing capacity and use of system components (infrastructure, data, and software) to manage capacity demand and to enable the implementation of additional capacity to help meet its objectives.",
+      "controlCodes": [
+        "CSC-18",
+        "CSC-19",
+        "CSC-20",
+        "SO-05",
+        "SO-06",
+        "WE-08",
+        "WE-09"
+      ]
+    },
+    {
+      "criteriaId": "A1.2",
+      "group": "Additional Criteria for Availability",
+      "description": "The entity authorizes, designs, develops or acquires, implements, operates, approves, maintains, and monitors environmental protections, software, data backup processes, and recovery infrastructure to meet its objectives.",
+      "controlCodes": [
+        "CSC-05",
+        "CSC-06",
+        "CSC-07",
+        "CSC-08",
+        "CSC-21",
+        "ISMS-17",
+        "ISMS-22",
+        "ISMS-23",
+        "WE-07",
+        "WE-08",
+        "WE-09"
+      ]
+    },
+    {
+      "criteriaId": "A1.3",
+      "group": "Additional Criteria for Availability",
+      "description": "The entity tests recovery plan procedures supporting system recovery to meet its objectives.",
+      "controlCodes": [
+        "CSC-08",
+        "CSC-09",
+        "ISMS-22"
+      ]
+    },
+    {
+      "criteriaId": "C1.1",
+      "group": "Additional Criteria for Confidentiality",
+      "description": "The entity identifies and maintains confidential information to meet the entity’s objectives related to confidentiality.",
+      "controlCodes": [
+        "CSC-10",
+        "CSC-16",
+        "CSC-17",
+        "HR-01",
+        "ISMS-14",
+        "ISMS-15",
+        "ISMS-20",
+        "SO-02"
+      ]
+    },
+    {
+      "criteriaId": "C1.2",
+      "group": "Additional Criteria for Confidentiality",
+      "description": "The entity disposes of confidential information to meet the entity’s objectives related to confidentiality.",
+      "controlCodes": [
+        "CSC-10",
+        "CSC-16",
+        "CSC-17",
+        "ISMS-17",
+        "ISMS-20",
+        "ISMS-21",
+        "IT-06"
+      ]
+    },
+    {
+      "criteriaId": "PI1.1",
+      "group": "Additional Criteria for Processing Integrity",
+      "description": "The entity obtains or generates, uses, and communicates relevant, quality information regarding the objectives related to processing, including definitions of data processed and product and service specifications, to support the use of products and services.",
+      "controlCodes": [
+        "CSC-11",
+        "CSC-22",
+        "CUS-03",
+        "ISMS-14",
+        "ISMS-15",
+        "ISMS-17",
+        "SDLC-01",
+        "SDLC-02"
+      ]
+    },
+    {
+      "criteriaId": "PI1.2",
+      "group": "Additional Criteria for Processing Integrity",
+      "description": "The entity implements policies and procedures over system inputs, including controls over completeness and accuracy, to result in products, services, and reporting to meet the entity’s objectives.",
+      "controlCodes": [
+        "CSC-22",
+        "CUS-03",
+        "CUS-04",
+        "SDLC-02"
+      ]
+    },
+    {
+      "criteriaId": "PI1.3",
+      "group": "Additional Criteria for Processing Integrity",
+      "description": "The entity implements policies and procedures over system processing to result in products, services, and reporting to meet the entity’s objectives.",
+      "controlCodes": [
+        "CUS-03",
+        "ISMS-16",
+        "SDLC-02",
+        "SDLC-03",
+        "SDLC-04"
+      ]
+    },
+    {
+      "criteriaId": "PI1.4",
+      "group": "Additional Criteria for Processing Integrity",
+      "description": "The entity implements policies and procedures to make available or deliver output completely, accurately, and timely in accordance with specifications to meet the entity’s objectives.",
+      "controlCodes": [
+        "CSC-17",
+        "CUS-03",
+        "CUS-04",
+        "SDLC-05",
+        "SDLC-06"
+      ]
+    },
+    {
+      "criteriaId": "PI1.5",
+      "group": "Additional Criteria for Processing Integrity",
+      "description": "The entity implements policies and procedures to store inputs, items in processing, and outputs completely, accurately, and timely in accordance with system specifications to meet the entity’s objectives.",
+      "controlCodes": [
+        "CSC-05",
+        "CSC-06",
+        "CSC-07",
+        "CSC-10",
+        "CSC-16",
+        "ISMS-16",
+        "ISMS-21",
+        "ISMS-22",
+        "IT-06",
+        "SDLC-02"
+      ]
+    }
+  ],
+  "generation": {
+    "renderEngine": "Document Studio",
+    "futureAutomation": {
+      "aiRegeneration": true,
+      "humanApprovalRequired": true
+    }
+  }
+}

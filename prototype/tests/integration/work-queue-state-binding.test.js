@@ -238,11 +238,15 @@ module.exports = function registerIntegrationTests(harness) {
 
     const viewModel = AuditOS.workQueueWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
     const derive = AuditOS.workQueueWorkspace.derivations;
-    const findingsOnly = Array.from(derive.filterQueue(viewModel.queue, 'Findings', 'All priorities'));
-    assert.ok(findingsOnly.length > 0, 'the current engagement holds at least one Findings work item to filter to');
-    assert.ok(findingsOnly.length < Array.from(viewModel.queue).length,
+    // Production carries zero findings for every engagement today, so
+    // "Findings" is never a populated work-item type; "Requirements" is
+    // reliably populated (hundreds of open requirements per engagement) and
+    // exercises the same filter-narrowing behavior.
+    const requirementsOnly = Array.from(derive.filterQueue(viewModel.queue, 'Requirements', 'All priorities'));
+    assert.ok(requirementsOnly.length > 0, 'the current engagement holds at least one Requirements work item to filter to');
+    assert.ok(requirementsOnly.length < Array.from(viewModel.queue).length,
       'filtering to one workspace narrows the rendered set without touching the underlying queue');
-    findingsOnly.forEach(function (item) { assert.equal(item.itemType, 'Findings'); });
+    requirementsOnly.forEach(function (item) { assert.equal(item.itemType, 'Requirements'); });
   });
 
   // ---- Source contracts.

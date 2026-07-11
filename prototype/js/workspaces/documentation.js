@@ -102,7 +102,8 @@
     'In Review': TONES.WARNING,
     'Needs Review': TONES.WARNING,
     'Approved': TONES.SUCCESS,
-    'Final': TONES.SUCCESS
+    'Final': TONES.SUCCESS,
+    'Placeholder — filled as part of report issuance process': null
   };
 
   /** Section source vocabulary → tone (read, never invented). */

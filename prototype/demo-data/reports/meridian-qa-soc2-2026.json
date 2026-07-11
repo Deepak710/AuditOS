@@ -1,0 +1,67 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Draft report skeleton (structure mirrors the CSP template)",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
+    "engagementId": "ENG-MER-QA-2026",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025",
+    "reportId": "RPT-MER-QA",
+    "templateId": "SOC2-T2-HA"
+  },
+  "document": {
+    "title": "SOC 2 I Report — Quanta Assist hosted on GCP",
+    "status": "Draft",
+    "version": "0.1"
+  },
+  "sections": [
+    {
+      "id": "SEC-1",
+      "name": "Management Assertion",
+      "source": "manual",
+      "editable": true,
+      "included": true
+    },
+    {
+      "id": "SEC-2",
+      "name": "Independent Service Auditor's Assurance Report",
+      "source": "manual",
+      "editable": true,
+      "included": true
+    },
+    {
+      "id": "SEC-3",
+      "name": "Description of the System",
+      "source": "structured",
+      "editable": true,
+      "included": true
+    },
+    {
+      "id": "SEC-4",
+      "name": "Trust Services Categories, Criteria, Controls, Tests, and Results",
+      "source": "generated",
+      "editable": false,
+      "included": true,
+      "references": {
+        "controls": true,
+        "evidence": true,
+        "findings": true
+      },
+      "contentRef": {
+        "collections": [
+          "controls",
+          "testing"
+        ],
+        "join": "controls×workpapers by controlId"
+      }
+    }
+  ],
+  "generation": {
+    "renderEngine": "Document Studio",
+    "futureAutomation": {
+      "aiRegeneration": true,
+      "humanApprovalRequired": true
+    }
+  }
+}

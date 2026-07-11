@@ -1,0 +1,4992 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Evidence requests — program projection (R-07/R-14)",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
+    "engagementId": "ENG-MER-NXSC-2026",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025"
+  },
+  "summary": {
+    "requests": 283,
+    "byStatus": {
+      "All Evidence Received": 75,
+      "Population Pending - HA unable to share samples": 15,
+      "Evidence Partially Received": 7,
+      "Requested by SOC Team": 184,
+      "Evidence Received - Under HA Review": 1,
+      "Not Applicable": 1
+    },
+    "completionPct": 26.5
+  },
+  "requests": [
+    {
+      "id": "RQS-MER-0646",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0646",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-005",
+      "assignedPocId": "POC-MER-024",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0523"
+      ]
+    },
+    {
+      "id": "RQS-MER-0647",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0647",
+      "status": "Population Pending - HA unable to share samples",
+      "teamId": "TEAM-MER-006",
+      "assignedPocId": null,
+      "secondaryPocIds": [],
+      "ownershipStatus": "Unassigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0648",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0648",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-005",
+      "assignedPocId": "POC-MER-024",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0524"
+      ]
+    },
+    {
+      "id": "RQS-MER-0649",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0649",
+      "status": "Population Pending - HA unable to share samples",
+      "teamId": "TEAM-MER-006",
+      "assignedPocId": null,
+      "secondaryPocIds": [],
+      "ownershipStatus": "Unassigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0650",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0650",
+      "status": "Population Pending - HA unable to share samples",
+      "teamId": "TEAM-MER-006",
+      "assignedPocId": null,
+      "secondaryPocIds": [],
+      "ownershipStatus": "Unassigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0651",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0651",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-004",
+      "assignedPocId": "POC-MER-018",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0525"
+      ]
+    },
+    {
+      "id": "RQS-MER-0652",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0652",
+      "status": "Evidence Partially Received",
+      "teamId": "TEAM-MER-004",
+      "assignedPocId": "POC-MER-018",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0526"
+      ]
+    },
+    {
+      "id": "RQS-MER-0653",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0653",
+      "status": "Evidence Partially Received",
+      "teamId": "TEAM-MER-004",
+      "assignedPocId": "POC-MER-018",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0527"
+      ]
+    },
+    {
+      "id": "RQS-MER-0654",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0654",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-010",
+      "assignedPocId": "POC-MER-010",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0528"
+      ]
+    },
+    {
+      "id": "RQS-MER-0655",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0655",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-010",
+      "assignedPocId": "POC-MER-010",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0656",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0656",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-010",
+      "assignedPocId": "POC-MER-010",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0657",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0657",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-010",
+      "assignedPocId": "POC-MER-056",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0658",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0658",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-010",
+      "assignedPocId": "POC-MER-056",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0659",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0659",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-010",
+      "assignedPocId": "POC-MER-010",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0660",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0660",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-010",
+      "assignedPocId": "POC-MER-010",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0661",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0661",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-010",
+      "assignedPocId": "POC-MER-010",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0662",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0662",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-010",
+      "assignedPocId": "POC-MER-056",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0663",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0663",
+      "status": "Evidence Received - Under HA Review",
+      "teamId": "TEAM-MER-015",
+      "assignedPocId": "POC-MER-030",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0529"
+      ]
+    },
+    {
+      "id": "RQS-MER-0664",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0664",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-008",
+      "assignedPocId": "POC-MER-007",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0530"
+      ]
+    },
+    {
+      "id": "RQS-MER-0665",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0665",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-015",
+      "assignedPocId": "POC-MER-020",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0531"
+      ]
+    },
+    {
+      "id": "RQS-MER-0666",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0666",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-015",
+      "assignedPocId": "POC-MER-020",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0667",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0667",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-015",
+      "assignedPocId": "POC-MER-020",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0532"
+      ]
+    },
+    {
+      "id": "RQS-MER-0668",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0668",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-015",
+      "assignedPocId": "POC-MER-020",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0669",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0669",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-010",
+      "assignedPocId": "POC-MER-010",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0533"
+      ]
+    },
+    {
+      "id": "RQS-MER-0670",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0670",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-015",
+      "assignedPocId": "POC-MER-020",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0534"
+      ]
+    },
+    {
+      "id": "RQS-MER-0671",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0671",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-015",
+      "assignedPocId": "POC-MER-020",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0672",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0672",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-015",
+      "assignedPocId": "POC-MER-046",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0673",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0673",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-015",
+      "assignedPocId": "POC-MER-046",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0674",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0674",
+      "status": "Evidence Partially Received",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-003",
+          "text": "- Take confirmation from Corbin"
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0535"
+      ]
+    },
+    {
+      "id": "RQS-MER-0675",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0675",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0676",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0676",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0677",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0677",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0678",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0678",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0679",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0679",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0680",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0680",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-012",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0536"
+      ]
+    },
+    {
+      "id": "RQS-MER-0681",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0681",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0682",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0682",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0683",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0683",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0684",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0684",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0685",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0685",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0686",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0686",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0687",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0687",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0688",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0688",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0689",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0689",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-012",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0690",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0690",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-012",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0691",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0691",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0692",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0692",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0693",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0693",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0694",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0694",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0695",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0695",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0696",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0696",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0697",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0697",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0698",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0698",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-001",
+      "assignedPocId": "POC-MER-025",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-002",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0699",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0699",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0700",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0700",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0701",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0701",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0702",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0702",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0703",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0703",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0704",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0704",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0537"
+      ]
+    },
+    {
+      "id": "RQS-MER-0705",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0705",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0538"
+      ]
+    },
+    {
+      "id": "RQS-MER-0706",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0706",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0539"
+      ]
+    },
+    {
+      "id": "RQS-MER-0707",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0707",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0540"
+      ]
+    },
+    {
+      "id": "RQS-MER-0708",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0708",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0541"
+      ]
+    },
+    {
+      "id": "RQS-MER-0709",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0709",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0542"
+      ]
+    },
+    {
+      "id": "RQS-MER-0710",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0710",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0543"
+      ]
+    },
+    {
+      "id": "RQS-MER-0711",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0711",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0544"
+      ]
+    },
+    {
+      "id": "RQS-MER-0712",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0712",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0545"
+      ]
+    },
+    {
+      "id": "RQS-MER-0713",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0713",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0546"
+      ]
+    },
+    {
+      "id": "RQS-MER-0714",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0714",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0715",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0715",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0716",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0716",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0717",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0717",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0718",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0718",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0719",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0719",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0547"
+      ]
+    },
+    {
+      "id": "RQS-MER-0720",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0720",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0721",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0721",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0548"
+      ]
+    },
+    {
+      "id": "RQS-MER-0722",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0722",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0549"
+      ]
+    },
+    {
+      "id": "RQS-MER-0723",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0723",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0550"
+      ]
+    },
+    {
+      "id": "RQS-MER-0724",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0724",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0551"
+      ]
+    },
+    {
+      "id": "RQS-MER-0725",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0725",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0552"
+      ]
+    },
+    {
+      "id": "RQS-MER-0726",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0726",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0553"
+      ]
+    },
+    {
+      "id": "RQS-MER-0727",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0727",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0554"
+      ]
+    },
+    {
+      "id": "RQS-MER-0728",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0728",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0555"
+      ]
+    },
+    {
+      "id": "RQS-MER-0729",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0729",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0730",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0730",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0731",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0731",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0732",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0732",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-055",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0556"
+      ]
+    },
+    {
+      "id": "RQS-MER-0733",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0733",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0557"
+      ]
+    },
+    {
+      "id": "RQS-MER-0734",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0734",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-007",
+      "assignedPocId": "POC-MER-010",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0735",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0735",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-007",
+      "assignedPocId": "POC-MER-010",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0736",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0736",
+      "status": "Population Pending - HA unable to share samples",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0737",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0737",
+      "status": "Population Pending - HA unable to share samples",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0738",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0738",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0558"
+      ]
+    },
+    {
+      "id": "RQS-MER-0739",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0739",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-007",
+      "assignedPocId": "POC-MER-010",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0740",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0740",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-007",
+      "assignedPocId": "POC-MER-010",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0741",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0741",
+      "status": "Population Pending - HA unable to share samples",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0742",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0742",
+      "status": "Population Pending - HA unable to share samples",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0743",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0743",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0744",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0744",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0745",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0745",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0559"
+      ]
+    },
+    {
+      "id": "RQS-MER-0746",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0746",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0560"
+      ]
+    },
+    {
+      "id": "RQS-MER-0747",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0747",
+      "status": "Evidence Partially Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-055",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0561"
+      ]
+    },
+    {
+      "id": "RQS-MER-0748",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0748",
+      "status": "Evidence Partially Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-055",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0562"
+      ]
+    },
+    {
+      "id": "RQS-MER-0749",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0749",
+      "status": "Population Pending - HA unable to share samples",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-055",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0750",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0750",
+      "status": "Population Pending - HA unable to share samples",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-055",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0751",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0751",
+      "status": "Population Pending - HA unable to share samples",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-055",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0752",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0752",
+      "status": "Population Pending - HA unable to share samples",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-055",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0753",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0753",
+      "status": "Population Pending - HA unable to share samples",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-055",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0754",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0754",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-055",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0563"
+      ]
+    },
+    {
+      "id": "RQS-MER-0755",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0755",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-055",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0564"
+      ]
+    },
+    {
+      "id": "RQS-MER-0756",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0756",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0757",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0757",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0565"
+      ]
+    },
+    {
+      "id": "RQS-MER-0758",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0758",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0566"
+      ]
+    },
+    {
+      "id": "RQS-MER-0759",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0759",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0567"
+      ]
+    },
+    {
+      "id": "RQS-MER-0760",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0760",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0568"
+      ]
+    },
+    {
+      "id": "RQS-MER-0761",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0761",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0569"
+      ]
+    },
+    {
+      "id": "RQS-MER-0762",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0762",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0570"
+      ]
+    },
+    {
+      "id": "RQS-MER-0763",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0763",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0571"
+      ]
+    },
+    {
+      "id": "RQS-MER-0764",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0764",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0572"
+      ]
+    },
+    {
+      "id": "RQS-MER-0765",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0765",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0573"
+      ]
+    },
+    {
+      "id": "RQS-MER-0766",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0766",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0574"
+      ]
+    },
+    {
+      "id": "RQS-MER-0767",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0767",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0575"
+      ]
+    },
+    {
+      "id": "RQS-MER-0768",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0768",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0576"
+      ]
+    },
+    {
+      "id": "RQS-MER-0769",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0769",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0577"
+      ]
+    },
+    {
+      "id": "RQS-MER-0770",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0770",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-02",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "Based on the call with Corbin on the same day, we are closing this requirement. If Sotos asks us to include it later, we will have to work around it."
+        },
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with my Senior, Marcus Iyengar, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0578"
+      ]
+    },
+    {
+      "id": "RQS-MER-0771",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0771",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-02",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "Based on the call with Corbin on the same day, we are closing this requirement. If Sotos asks us to include it later, we will have to work around it."
+        },
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with my Senior, Marcus Iyengar, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0579"
+      ]
+    },
+    {
+      "id": "RQS-MER-0772",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0772",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-02",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "Based on the call with Corbin on the same day, we are closing this requirement. If Sotos asks us to include it later, we will have to work around it."
+        },
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with my Senior, Marcus Iyengar, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0580"
+      ]
+    },
+    {
+      "id": "RQS-MER-0773",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0773",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-02",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "Based on the call with Corbin on the same day, we are closing this requirement. If Sotos asks us to include it later, we will have to work around it."
+        },
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with my Senior, Marcus Iyengar, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0581"
+      ]
+    },
+    {
+      "id": "RQS-MER-0774",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0774",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-02",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "Based on the call with Corbin on the same day, we are closing this requirement. If Sotos asks us to include it later, we will have to work around it."
+        },
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with my Senior, Marcus Iyengar, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0582"
+      ]
+    },
+    {
+      "id": "RQS-MER-0775",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0775",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-02",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "Based on the call with Corbin on the same day, we are closing this requirement. If Sotos asks us to include it later, we will have to work around it."
+        },
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with my Senior, Marcus Iyengar, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0583"
+      ]
+    },
+    {
+      "id": "RQS-MER-0776",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0776",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-02",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "Based on the call with Corbin on the same day, we are closing this requirement. If Sotos asks us to include it later, we will have to work around it."
+        },
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with my Senior, Marcus Iyengar, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0584"
+      ]
+    },
+    {
+      "id": "RQS-MER-0777",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0777",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0585"
+      ]
+    },
+    {
+      "id": "RQS-MER-0778",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0778",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0586"
+      ]
+    },
+    {
+      "id": "RQS-MER-0779",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0779",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0587"
+      ]
+    },
+    {
+      "id": "RQS-MER-0780",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0780",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-044",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-15",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0588"
+      ]
+    },
+    {
+      "id": "RQS-MER-0781",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0781",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-055",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0782",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0782",
+      "status": "Population Pending - HA unable to share samples",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-055",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0783",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0783",
+      "status": "Evidence Partially Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-055",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0589"
+      ]
+    },
+    {
+      "id": "RQS-MER-0784",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0784",
+      "status": "Evidence Partially Received",
+      "teamId": "TEAM-MER-003",
+      "assignedPocId": "POC-MER-055",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0590"
+      ]
+    },
+    {
+      "id": "RQS-MER-0785",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0785",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-014",
+      "assignedPocId": "POC-MER-006",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0786",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0786",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-014",
+      "assignedPocId": "POC-MER-006",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0787",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0787",
+      "status": "Not Applicable",
+      "teamId": "TEAM-MER-014",
+      "assignedPocId": "POC-MER-006",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0788",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0788",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-014",
+      "assignedPocId": "POC-MER-008",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": "2026-06-09",
+          "authorSide": "ha",
+          "authorId": "USR-HA-001",
+          "text": "Extracted list from Crowdstrike is needed."
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0591"
+      ]
+    },
+    {
+      "id": "RQS-MER-0789",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0789",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-014",
+      "assignedPocId": "POC-MER-008",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0592"
+      ]
+    },
+    {
+      "id": "RQS-MER-0790",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0790",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-014",
+      "assignedPocId": "POC-MER-008",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0593"
+      ]
+    },
+    {
+      "id": "RQS-MER-0791",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0791",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-014",
+      "assignedPocId": "POC-MER-008",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0594"
+      ]
+    },
+    {
+      "id": "RQS-MER-0792",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0792",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-014",
+      "assignedPocId": "POC-MER-008",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0793",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0793",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-014",
+      "assignedPocId": "POC-MER-008",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0794",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0794",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-014",
+      "assignedPocId": "POC-MER-008",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0595"
+      ]
+    },
+    {
+      "id": "RQS-MER-0795",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0795",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-014",
+      "assignedPocId": "POC-MER-008",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0596"
+      ]
+    },
+    {
+      "id": "RQS-MER-0796",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0796",
+      "status": "Population Pending - HA unable to share samples",
+      "teamId": "TEAM-MER-014",
+      "assignedPocId": "POC-MER-008",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0797",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0797",
+      "status": "Population Pending - HA unable to share samples",
+      "teamId": "TEAM-MER-014",
+      "assignedPocId": "POC-MER-008",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-001",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0798",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0798",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-022",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0597"
+      ]
+    },
+    {
+      "id": "RQS-MER-0799",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0799",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-023",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0800",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0800",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-026",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0801",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0801",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-025",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0802",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0802",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-024",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0803",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0803",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-027",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0804",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0804",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-022",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0598"
+      ]
+    },
+    {
+      "id": "RQS-MER-0805",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0805",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-023",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0806",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0806",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-026",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0599"
+      ]
+    },
+    {
+      "id": "RQS-MER-0807",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0807",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-025",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0600"
+      ]
+    },
+    {
+      "id": "RQS-MER-0808",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0808",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-024",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0809",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0809",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-027",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0810",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0810",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-022",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0601"
+      ]
+    },
+    {
+      "id": "RQS-MER-0811",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0811",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-022",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0812",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0812",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-023",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0813",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0813",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-023",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0814",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0814",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-026",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": [
+        "EVD-MER-0602"
+      ]
+    },
+    {
+      "id": "RQS-MER-0815",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0815",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-026",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0816",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0816",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-025",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0817",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0817",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-025",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0818",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0818",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-024",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0819",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0819",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-024",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0820",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0820",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-027",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0821",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0821",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-027",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0822",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0822",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-022",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0823",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0823",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-023",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0824",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0824",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-026",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0825",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0825",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-025",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0826",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0826",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-024",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0827",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0827",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-027",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0828",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0828",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-022",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0829",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0829",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-023",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0830",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0830",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-026",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0831",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0831",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-025",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0832",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0832",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-024",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0833",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0833",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-027",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0834",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0834",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-022",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0835",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0835",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-023",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0836",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0836",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-026",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0837",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0837",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-025",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0838",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0838",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-024",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0839",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0839",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-027",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0840",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0840",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-022",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0841",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0841",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-022",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0842",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0842",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-023",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0843",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0843",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-023",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0844",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0844",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-026",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0845",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0845",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-026",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0846",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0846",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-025",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0847",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0847",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-025",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0848",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0848",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-024",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0849",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0849",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-024",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0850",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0850",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-027",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0851",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0851",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-027",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0852",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0852",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-022",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0853",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0853",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-022",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0854",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0854",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-023",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0855",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0855",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-023",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0856",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0856",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-026",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0857",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0857",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-026",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0858",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0858",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-025",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0859",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0859",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-025",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0860",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0860",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-024",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0861",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0861",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-024",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0862",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0862",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-027",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0863",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0863",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-027",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0864",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0864",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-022",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0865",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0865",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-023",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0866",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0866",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-026",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0867",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0867",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-025",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0868",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0868",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-024",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0869",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0869",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-027",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0870",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0870",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-022",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0871",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0871",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-023",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0872",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0872",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-026",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0873",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0873",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-025",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0874",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0874",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-024",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0875",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0875",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-027",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0876",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0876",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-022",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0877",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0877",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-023",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0878",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0878",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-026",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0879",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0879",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-025",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0880",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0880",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-024",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0881",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0881",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-027",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0882",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0882",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-022",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0883",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0883",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-023",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0884",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0884",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-026",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0885",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0885",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-025",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0886",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0886",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-024",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0887",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0887",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-027",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0888",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0888",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-022",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0889",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0889",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-023",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0890",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0890",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-026",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0891",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0891",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-025",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0892",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0892",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-024",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0893",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0893",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-027",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0894",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0894",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-022",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0895",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0895",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-023",
+      "assignedPocId": "POC-MER-043",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0896",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0896",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-026",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0897",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0897",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-025",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0898",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0898",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-024",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0899",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0899",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-027",
+      "assignedPocId": "POC-MER-013",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0900",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0900",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0901",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0901",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-011",
+      "assignedPocId": "POC-MER-023",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0902",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0902",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0903",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0903",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-003",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0904",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0904",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0905",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0905",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0906",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0906",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0907",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0907",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0908",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0908",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0909",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0909",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0910",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0910",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0911",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0911",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0912",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0912",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0913",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0913",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0914",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0914",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0915",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0915",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0916",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0916",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0917",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0917",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0918",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0918",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0919",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0919",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0920",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0920",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0921",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0921",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": null,
+          "authorSide": "client",
+          "authorId": "POC-MER-002",
+          "text": "No Breaches have occurred in the past 2 years"
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0603"
+      ]
+    },
+    {
+      "id": "RQS-MER-0922",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0922",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": null,
+          "authorSide": "client",
+          "authorId": "POC-MER-002",
+          "text": "No Breaches have occurred in the past 2 years"
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0604"
+      ]
+    },
+    {
+      "id": "RQS-MER-0923",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0923",
+      "status": "All Evidence Received",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [
+        {
+          "date": null,
+          "authorSide": "client",
+          "authorId": "POC-MER-002",
+          "text": "No Breaches have occurred in the past 2 years"
+        }
+      ],
+      "evidenceIds": [
+        "EVD-MER-0605"
+      ]
+    },
+    {
+      "id": "RQS-MER-0924",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0924",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0925",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0925",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0926",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0926",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0927",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0927",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    },
+    {
+      "id": "RQS-MER-0928",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0928",
+      "status": "Requested by SOC Team",
+      "teamId": "TEAM-MER-013",
+      "assignedPocId": "POC-MER-002",
+      "secondaryPocIds": [],
+      "ownershipStatus": "Assigned",
+      "eyOwnerId": "USR-HA-004",
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "remarks": [],
+      "evidenceIds": []
+    }
+  ]
+}

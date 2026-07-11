@@ -1,0 +1,4050 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Controls (R-10)",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
+    "engagementId": "ENG-MER-NXSC-2026",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025"
+  },
+  "summary": {
+    "controls": 121,
+    "byWalkthroughStatus": {
+      "Data not received": 115,
+      "Completed": 6
+    },
+    "byTestingStatus": {
+      "Data not received": 111,
+      "Not Applicable": 10
+    }
+  },
+  "controls": [
+    {
+      "id": "CTL-NXSC-CSC-01",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CSC-01",
+      "idStatus": "Tentative",
+      "family": "CSC",
+      "title": "User Entity Workspace - IP Whitelisting",
+      "descriptionText": "As part of user entity onboarding, the Engineering team restricts access to the production workspace of each user entity by whitelisting their IP(s).",
+      "criteriaIds": [
+        "CC6.1",
+        "CC6.6",
+        "CC6.7"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-CSC-02",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CSC-02",
+      "idStatus": "Tentative",
+      "family": "CSC",
+      "title": "Access Review - Cloud Infrastructure",
+      "descriptionText": "The CloudOps team performs a review of the administrative access to cloud and supporting tools on a quarterly basis. Users along with their privileges are reviewed with the help of CISO within a Jira ticket. In case of any discrepancies, the CloudOps team takes necessary corrective actions. The CISO reviews the result of the review within the Jira ticket and provides sign off.",
+      "criteriaIds": [
+        "CC4.1",
+        "CC4.2",
+        "CC6.2",
+        "CC6.3",
+        "CC7.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-CSC-03",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CSC-03",
+      "idStatus": "Tentative",
+      "family": "CSC",
+      "title": "Single sign on - Cloud and supporting tools",
+      "descriptionText": "Access to the cloud platform(s) and the tools supporting NXSC's functionality is restricted using single sign on (SSO) enforced by Okta.",
+      "criteriaIds": [
+        "CC6.1",
+        "CC6.2",
+        "CC6.8"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-CSC-04",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CSC-04",
+      "idStatus": "Tentative",
+      "family": "CSC",
+      "title": "Privilege Access Management - Cloud and supporting tools",
+      "descriptionText": "Privileged access to cloud platform(s) and the tools supporting NXSC's functionality is restricted and governed through IAM Policies.",
+      "criteriaIds": [
+        "CC6.1",
+        "CC6.2",
+        "CC6.8",
+        "CC6.8"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-CSC-05",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CSC-05",
+      "idStatus": "Tentative",
+      "family": "CSC",
+      "title": "Backup Configuration - Cloud and Database",
+      "descriptionText": "Full backup of applicable Cloud and Databases are scheduled every day and is retained for XYZ days. Alerts, as applicable, are defined in case of failure of backup.",
+      "criteriaIds": [
+        "A1.2",
+        "PI1.5"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-CSC-06",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CSC-06",
+      "idStatus": "Tentative",
+      "family": "CSC",
+      "title": "Backup Replication - Cloud and Database",
+      "descriptionText": "Meridian has configured the backup copies of applicable Cloud and Databases to be automatically replicated across other regions.",
+      "criteriaIds": [
+        "A1.2",
+        "PI1.5"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-CSC-07",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CSC-07",
+      "idStatus": "Tentative",
+      "family": "CSC",
+      "title": "Availability Zones (AZ) - Cloud",
+      "descriptionText": "Meridian has configured the Cloud resources of NXSC to utilize multiple geographically separate availability zones.",
+      "criteriaIds": [
+        "A1.2",
+        "PI1.5"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-CSC-08",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CSC-08",
+      "idStatus": "Tentative",
+      "family": "CSC",
+      "title": "Backup Restoration Tests",
+      "descriptionText": "CloudOps team performs backup restoration and recovery tests of NXSC databases on a quarterly basis. Results of test are recorded within a Jira ticket. Failures in restoration, if any, are fixed by taking appropriate corrective actions and recording / documenting the same within the Jira ticket. The Senior Director of Information Security and Compliance team provides approval within the Jira ticket once the activity has concluded.",
+      "criteriaIds": [
+        "A1.2",
+        "A1.3"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-CSC-09",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CSC-09",
+      "idStatus": "Tentative",
+      "family": "CSC",
+      "title": "Disaster Recovery (DR) Drill",
+      "descriptionText": "On an annual basis, Meridian conducts disaster recovery simulation / tabletop exercise for the NXSC product and its supporting infrastructure to test its business continuity and disaster recovery measures and determine the effectiveness of mitigating controls for business disruption risks. Post the activity, DR drill report is prepared by the CloudOps team, highlighting the tests conducted, test results, and improvement areas. The Senior Director of Information Security and Compliance team provides approval within a Jira ticket once the activity has concluded.",
+      "criteriaIds": [
+        "A1.3"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-CSC-10",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CSC-10",
+      "idStatus": "Tentative",
+      "family": "CSC",
+      "title": "Data Purging",
+      "descriptionText": "Meridian has enabled configurations to automatically purge (permanently delete) data within Cloud and Databases based on expiry of lifecycle rules.",
+      "criteriaIds": [
+        "CC6.5",
+        "C1.1",
+        "C1.2",
+        "PI1.5"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-CSC-11",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CSC-11",
+      "idStatus": "Tentative",
+      "family": "CSC",
+      "title": "Data Flow Diagram",
+      "descriptionText": "Meridian has defined and documented a data flow diagram for NXSC to identify and track the flow of data between internal components and external entities, including data sources, transmission paths, and system boundaries.",
+      "criteriaIds": [
+        "CC2.1",
+        "PI1.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-CSC-12",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CSC-12",
+      "idStatus": "Tentative",
+      "family": "CSC",
+      "title": "Web Application Firewall",
+      "descriptionText": "Meridian has enabled WAF between NXSC and the internet to monitor, filter, and block HTTPS traffic as well as any potential attacks such as distributed denial of service (DDoS) on its web application.",
+      "criteriaIds": [
+        "CC6.1",
+        "CC6.6",
+        "CC6.7",
+        "CC7.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-CSC-13",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CSC-13",
+      "idStatus": "Tentative",
+      "family": "CSC",
+      "title": "Network Address Translation",
+      "descriptionText": "Meridian has implemented NAT within its Cloud to manage and mask internal IPs, and to securely route outbound traffic from internal systems to external networks.",
+      "criteriaIds": [
+        "CC6.6",
+        "CC6.7"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-CSC-14",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CSC-14",
+      "idStatus": "Tentative",
+      "family": "CSC",
+      "title": "External Traffic Restrictions",
+      "descriptionText": "Access to the Cloud environment hosting NXSC and supporting infrastructure is restricted to authorized personnel using Security Groups or equivalent technologies.",
+      "criteriaIds": [
+        "CC6.1",
+        "CC6.6",
+        "CC6.7"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-CSC-15",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CSC-15",
+      "idStatus": "Tentative",
+      "family": "CSC",
+      "title": "Security Groups - ruleset review",
+      "descriptionText": "CloudOps team performs Security Groups ruleset review on an annual basis by extracting the Security Groups ruleset from the Cloud platform and reviewing them with the help of Senior Director of Information Security and Compliance team to identify stale / inaccurate / missing rules. In case of any discrepancies, the CloudOps team takes necessary corrective actions. The Senior Director of Information Security and Compliance team reviews the result of the review within the Jira ticket and provides sign off.",
+      "criteriaIds": [
+        "CC4.1",
+        "CC6.6"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-CSC-16",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CSC-16",
+      "idStatus": "Tentative",
+      "family": "CSC",
+      "title": "Encryption - Cloud and Databases",
+      "descriptionText": "Meridian has enabled customer managed keys (CMK) / Cloud provided default encryption to encrypt data-at-rest within applicable Cloud resourses and Databases.",
+      "criteriaIds": [
+        "CC6.1",
+        "CC6.6",
+        "CC6.7",
+        "C1.1",
+        "C1.2",
+        "PI1.5"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-CSC-17",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CSC-17",
+      "idStatus": "Tentative",
+      "family": "CSC",
+      "title": "Encryption - NXSC",
+      "descriptionText": "Meridian has configured NXSC to transmit application data over the internet using Hypertext Transfer Protocol Secure (HTTPS) over TLS v1.2 / TLS v1.3.",
+      "criteriaIds": [
+        "CC6.1",
+        "CC6.6",
+        "CC6.7",
+        "C1.1",
+        "C1.2",
+        "PI1.4"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-CSC-18",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CSC-18",
+      "idStatus": "Tentative",
+      "family": "CSC",
+      "title": "Logging and Monitoring - Cloud and Database",
+      "descriptionText": "CloudTrail or equivalent technology is utilized to identify administrative events, authentication events, and system events to identify inappropriate access, security threats, and incidents within Cloud Services using alerts. Alerts are configured by the CloudOps team to be re-directed to Datadog. Alerts that cross pre-defined thresholds have been configured to be sent as messages to Slack. The CloudOps team generates a JIRA ticket for confirmed true positive cases and tracks it to closure.",
+      "criteriaIds": [
+        "CC6.7",
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5",
+        "A1.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-CSC-19",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CSC-19",
+      "idStatus": "Tentative",
+      "family": "CSC",
+      "title": "Logging and Monitoring - NXSC",
+      "descriptionText": "Luigi is utilized to identify administrative events, authentication events, and system events to identify inappropriate access, security threats, and incidents within NXSC platform using alerts. Alerts are configured by the NXSC Engineering team to be re-directed to Datadog, which is configured to send a Slack message and raise a PagerDuty incident when thresholds are exceeded. The NXSC Engineering team analyses these PagerDuty incidents and documents the details of analysis, security violation, root cause, user / group responsible, severity of the incident / breach, and prevention and mitigation steps within PagerDuty until closure.",
+      "criteriaIds": [
+        "CC6.7",
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5",
+        "A1.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-CSC-20",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CSC-20",
+      "idStatus": "Tentative",
+      "family": "CSC",
+      "title": "Capacity management - Cloud and Database",
+      "descriptionText": "Karpenter is utilized to maintain NXSC application availability and optimize cluster efficiency by dynamically autoscaling Cloud Kubernetes pods and instances based on workload demands.",
+      "criteriaIds": [
+        "CC6.6",
+        "A1.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-CSC-21",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CSC-21",
+      "idStatus": "Tentative",
+      "family": "CSC",
+      "title": "Reporting to User Entities",
+      "descriptionText": "Meridian has developed a status webpage (https://status.XYZ.com) that offers visibility into the NXSC’s response and availability metrics across all cloud service providers and geographical instances. User entities can opt to subscribe to be notified of system incidents within this webpage.",
+      "criteriaIds": [
+        "A1.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-CSC-22",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CSC-22",
+      "idStatus": "Tentative",
+      "family": "CSC",
+      "title": "Support procedures for User Entities",
+      "descriptionText": "Meridian has prepared and maintained a support website (https://help.XYZ.com/) containing resources such as product documentation, best practices, training materials, guides, troubleshooting tips, and community forums to help user entities effectively utilize NXSC.",
+      "criteriaIds": [
+        "PI1.1",
+        "PI1.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-018"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-CUS-01",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CUS-01",
+      "idStatus": "Tentative",
+      "family": "CUS",
+      "title": "User Entity Onboarding",
+      "descriptionText": "During user entity onboarding, the Professional Services team informs the Engineering and CloudOps teams to provide access to the user entity through a Jira Ticket. Administrator privileges for the user entity account are provided only to personnel explicitly identified and authorized by the user entity. Once access is provisioned, ownership and management of the account are formally handed over to the user entity prior to closing the Jira ticket.",
+      "criteriaIds": [
+        "CC6.2",
+        "CC6.3"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-024"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-001",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0646",
+        "REQ-MER-0647"
+      ],
+      "evidenceRequirementTexts": [
+        "List of customers using NXSC that were onboarded between 01-Mar-26 and 30-Jun-26.",
+        "For sample of NXSC customers onboarded during audit period, ticket/emails showing that env was set up and handed over to customer."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-CUS-02",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CUS-02",
+      "idStatus": "Tentative",
+      "family": "CUS",
+      "title": "User Entity Offboarding",
+      "descriptionText": "Upon repatriation of a user entity, the Professional Services team informs the Customer Support team, based on which a Jira ticket tagging the Engineering and CloudOps team is raised. The Cloud Resources and Databases of the repatriating user entity are deleted, and relevant details are documented within the Jira ticket. Data stored within the backup files are deleted in accordance with their respective backup retention configuration.",
+      "criteriaIds": [
+        "CC6.3",
+        "CC6.5",
+        "C1.1",
+        "C1.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-024"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-001",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0648",
+        "REQ-MER-0649",
+        "REQ-MER-0650"
+      ],
+      "evidenceRequirementTexts": [
+        "List of customers using NXSC that were offboarded between 01-Mar-26 and 30-Jun-26.",
+        "For sample of NXSC customers offboarded during audit period, ticket/emails showing that their cloud tenancy was deleted on date of repatriation.",
+        "For sample of NXSC customers offboarded during audit period, ticket/emails showing that customer was informed about deletion of tenancy."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-CUS-03",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CUS-03",
+      "idStatus": "Tentative",
+      "family": "CUS",
+      "title": "Customer Support Workflow",
+      "descriptionText": "Meridian has defined and documented a customer support workflow to identify and track the reporting and resolution of problems or incidents related to NXSC.",
+      "criteriaIds": [
+        "CC2.2",
+        "CC2.3",
+        "CC5.3"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-018"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-001",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0651"
+      ],
+      "evidenceRequirementTexts": [
+        "Customer Support Workflow document showing how tickets are handled and resolved."
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-NXSC-CUS-04",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CUS-04",
+      "idStatus": "Tentative",
+      "family": "CUS",
+      "title": "Customer Support Tickets",
+      "descriptionText": "User entities can report issues by raising an issue from the front end of NXSC, sending an email to “XYZ@meridian.example”, or raise a ticket via “https://help.XYZ.com”. These are recorded as customer support tickets within the DevRev Ticketing Tool. Agents within the Customer Support team analyses the customer query and provides resolution by coordinating with other teams within Meridian, as required. Upon resolution, the DevRev ticket is closed.",
+      "criteriaIds": [
+        "CC2.2",
+        "CC2.3",
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-018"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-001",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0652",
+        "REQ-MER-0653"
+      ],
+      "evidenceRequirementTexts": [
+        "List of NXSC customer support tickets raised on DevRev between 01-Mar-26 and 30-Jun-26.",
+        "For a sample of NXSC customer support tickets raised during audit period, closed DevRev Tickets showcasing how the customer issue was resolved."
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-NXSC-CUS-05",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CUS-05",
+      "idStatus": "Tentative",
+      "family": "CUS",
+      "title": "Data Ingestion, Processing, and Export",
+      "descriptionText": "Meridian has configured Luigi to monitor NXSC platform for data ingestion, data duplication, data processing, and / or data export errors through alerts. Alerts are configured by the NXSC Engineering team to be re-directed to Datadog, which is monitored by the Customer Support team. The Customer Support team analyses these Datadog alerts and raises DevRev tickets for true positive cases and documents the details of analysis, root cause, and prevention and mitigation steps within the DevRev ticket until closure.",
+      "criteriaIds": [
+        "PI1.1",
+        "PI1.2",
+        "PI1.3",
+        "PI1.4"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-001",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-CUS-06",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "CUS-06",
+      "idStatus": "Tentative",
+      "family": "CUS",
+      "title": "Data Ingestion Reports",
+      "descriptionText": "Meridian has configured a row level reconciliation process to execute before and after data ingestion to ensure the completeness and accuracy of the ingested data. Results of reconciliation are documented within a DevRev ticket.",
+      "criteriaIds": [
+        "PI1.2",
+        "PI1.4"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-001",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-HR-01",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "HR-01",
+      "idStatus": "Tentative",
+      "family": "HR",
+      "title": "New Hire Induction",
+      "descriptionText": "New hires are required to sign the following documents at the time of joining to acknowledge the acceptance of terms to maintain the confidentiality and integrity of information within the organization:\n1. Appointment Letter consisting of Code of Ethics and Business Conduct (COBC), and\n2. Non-Disclosure Agreement (NDA).",
+      "criteriaIds": [
+        "CC1.1",
+        "CC1.5",
+        "CC9.2",
+        "C1.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-010",
+        "POC-MER-056"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0654",
+        "REQ-MER-0655",
+        "REQ-MER-0656",
+        "REQ-MER-0657",
+        "REQ-MER-0658"
+      ],
+      "evidenceRequirementTexts": [
+        "List of new hires (FTE and contractors) onboarded between 01-Mar-26 and 30-Jun-26.",
+        "For sample of new joiners onboarded in India during audit period, signed appointment letter.",
+        "For sample of new joiners onboarded in India during audit period, signed NDA.",
+        "For sample of new joiners onboarded in International locations during audit period, signed appointment letter.",
+        "For sample of new joiners onboarded in International locations during audit period, signed NDA."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-HR-02",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "HR-02",
+      "idStatus": "Tentative",
+      "family": "HR",
+      "title": "Employee Handbook",
+      "descriptionText": "Formalized employee handbook is documented to communicate expected workforce conduct, organizational policies, and associated enforcement procedures. This document is published on U-Central and accessible by all users.",
+      "criteriaIds": [
+        "CC1.1",
+        "CC2.2",
+        "CC5.3"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-010"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0659",
+        "REQ-MER-0660"
+      ],
+      "evidenceRequirementTexts": [
+        "Latest version of Employee Handbook.",
+        "Screenshot from U-Central showing that the Employee Handbook is published there."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-HR-03",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "HR-03",
+      "idStatus": "Tentative",
+      "family": "HR",
+      "title": "Background and Reference Checks",
+      "descriptionText": "The Human Resource team is responsible for carrying out background checks for new hires before the date of hire with the help of a third-party vendor, who conducts these checks and provides a background check report to Meridian. The following background checks are performed:\n► International Criminal Searches,\n► International Global Watchlist,\n► International Education Verification, and\n► International Employment Verification.",
+      "criteriaIds": [
+        "CC1.1",
+        "CC1.4"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-010",
+        "POC-MER-056"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0661",
+        "REQ-MER-0662"
+      ],
+      "evidenceRequirementTexts": [
+        "For sample of new joiners onboarded in India during audit period, clean beckground check report.",
+        "For sample of new joiners onboarded in International locations during audit period, clean beckground check report."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-HR-04",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "HR-04",
+      "idStatus": "Tentative",
+      "family": "HR",
+      "title": "Technical Interviews",
+      "descriptionText": "New hires are required to undergo technical interviews prior to appointment to help ensure that skill sets match with job requirements.",
+      "criteriaIds": [
+        "CC1.4"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-030"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0663",
+        "REQ-MER-0664"
+      ],
+      "evidenceRequirementTexts": [
+        "For sample of new joiners onboarded during audit period, screenshot of technical interview results from Workday."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-HR-05",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "HR-05",
+      "idStatus": "Tentative",
+      "family": "HR",
+      "title": "User Trainings - New Hires",
+      "descriptionText": "New hires are required to attend the following virtual trainings on Mindtickle platform during induction containing elements of information security policies, security threats overview, email security, password security, and incident management reporting mechanisms during breaches:\n1. Global Code of Ethics and Business Conduct, and\n2. Information Security and Compliance.",
+      "criteriaIds": [
+        "CC1.1",
+        "CC1.4",
+        "CC1.5",
+        "CC2.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-020"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0665",
+        "REQ-MER-0666",
+        "REQ-MER-0667",
+        "REQ-MER-0668"
+      ],
+      "evidenceRequirementTexts": [
+        "Screenshots from latest new joiners Global Code of Ethics and Business Conduct training showing the contents covered.",
+        "Extraction of latest results of new joiners Global Code of Ethics and Business Conduct from Mindtickle.",
+        "Screenshots from latest new joiners Information Security and Compliance training showing the contents covered.",
+        "Extraction of latest results of new joiners Information Security and Compliance from Mindtickle."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-HR-06",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "HR-06",
+      "idStatus": "Tentative",
+      "family": "HR",
+      "title": "User Trainings - Active Users",
+      "descriptionText": "On an annual basis, all active users are required to attend virtual Information Security and Compliance refresher trainings on Mindtickle platform, which includes information security policies, security threats overview, email security, password security, and incident management reporting mechanisms during breaches.",
+      "criteriaIds": [
+        "CC1.1",
+        "CC1.4",
+        "CC1.5",
+        "CC2.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-010",
+        "POC-MER-020"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0669",
+        "REQ-MER-0670",
+        "REQ-MER-0671"
+      ],
+      "evidenceRequirementTexts": [
+        "List of active employees (FTE and contractors) as of date.",
+        "Screenshots from latest refresher Information Security and Compliance training showing the contents covered.",
+        "Extraction of latest results of refresher Information Security and Compliance from Mindtickle."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-HR-07",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "HR-07",
+      "idStatus": "Tentative",
+      "family": "HR",
+      "title": "Performance Evaluation",
+      "descriptionText": "Performance evaluations are carried out on a bi-annual basis for employees who have been in the organization for more than six months. The Human Resource team informs the employees and reporting managers to fill out evaluation forms within Workday HRMS tool.",
+      "criteriaIds": [
+        "CC1.4",
+        "CC1.5"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-046"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0672"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of active users, performance evaluation results within Workday"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-HR-08",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "HR-08",
+      "idStatus": "Tentative",
+      "family": "HR",
+      "title": "VCSOM evaluation",
+      "descriptionText": "Vision, Culture, Strategy, Operating Model (VCSOM) evaluations are carried out on an annual basis for employees who have been in the organization for more than six months. The Human Resource team informs the employees and reporting managers to fill out VCSOM evaluation forms within Workday HRMS tool.",
+      "criteriaIds": [
+        "CC1.4",
+        "CC1.5",
+        "CC3.1",
+        "CC3.2",
+        "CC4.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-046"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0673"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of active users, VCSOM evaluation results within Workday"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-01",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-01",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Organization Chart",
+      "descriptionText": "Meridian has established an organizational structure to define reporting lines, authorities, and responsibilities for NXSC to meet its objectives for providing Software as a Service (SaaS) services to its user entities.",
+      "criteriaIds": [
+        "CC1.3",
+        "CC1.5"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0674"
+      ],
+      "evidenceRequirementTexts": [
+        "Meridian's organizational chart"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-02",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-02",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "User job roles and responsibilities",
+      "descriptionText": "Roles and responsibilities are defined in written job descriptions to assign responsibility for security, confidentiality, availability, processing integrity, and privacy.",
+      "criteriaIds": [
+        "CC1.3",
+        "CC1.5"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0675"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of designations within the active users list, job description document showing that roles and responsibilities were defined."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-03",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-03",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Risk Management Procedure",
+      "descriptionText": "Meridian has defined and documented a Risk Management Procedure that contains guidelines for the identification, preparation, and categorization of risks to satisfy business information, legal and regulatory requirements. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC3.1",
+        "CC3.2",
+        "CC3.3",
+        "CC3.4",
+        "CC5.1",
+        "CC5.2",
+        "CC5.3",
+        "CC9.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0676",
+        "REQ-MER-0677"
+      ],
+      "evidenceRequirementTexts": [
+        "Risk Management Procedure document",
+        "Screenshot from U-Central showing that Risk Management Procedure was published on U-Central"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-04",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-04",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Annual Risk Assessment",
+      "descriptionText": "The Information Security & Compliance team performs risk assessment of the various functions within Meridian with the support of internal Meridian stakeholders and prepares a risk register. Risks are identified based on inherent risk value, internal and external threats, vulnerabilities, likelihood, and potential impact to Meridian’s objectives, assets, and operations. Risks are evaluated based on impact magnitude and expectancy criteria in context of CIS Critical Security Controls, information security, data integrity, confidentiality, and availability. Mitigating controls are identified to bring the inherent risk to acceptable levels and is documented within a Jira ticket.",
+      "criteriaIds": [
+        "CC3.1",
+        "CC3.2",
+        "CC3.3",
+        "CC3.4",
+        "CC5.1",
+        "CC5.2",
+        "CC9.1",
+        "CC9.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0678",
+        "REQ-MER-0679"
+      ],
+      "evidenceRequirementTexts": [
+        "Latest Risk Register",
+        "Jira ticket(s) showing the Information Security & Compliance team identified, reviewed, and documented the risks associated with its various functions in context of CIS Critical Security Controls, information security, data integrity, confidentiality, and availability."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-05",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-05",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Vendor Risk Management - Onboarding Assessments",
+      "descriptionText": "The Information Security & Compliance Team performs vendor onboarding assessments for new vendors and third-party service providers as part of its vendor risk management process. The Information Security & Compliance team requests independent compliance and security related certifications to assess whether the vendor meets the third-party information security requirements defined by Meridian.",
+      "criteriaIds": [
+        "CC3.1",
+        "CC3.2",
+        "CC3.3",
+        "CC3.4",
+        "CC5.1",
+        "CC5.2",
+        "CC9.1",
+        "CC9.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-011",
+        "POC-MER-039",
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0680",
+        "REQ-MER-0681"
+      ],
+      "evidenceRequirementTexts": [
+        "System generated list of vendors and third party service providers onboarded during the audit period from Streamline",
+        "For a sample of vendors and third party service providers, vendor onboarding assessment reports"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-06",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-06",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Management Review Meetings (MRM)",
+      "descriptionText": "On an annual basis, Management Review Meetings (MRM) are conducted amongst the Executive Management, Steering Committee (SSC), CISO, Legal team, Privacy team, and the  Information Security & Compliance teams to ensure security initiatives are in line with company objectives and to discuss non-conformities and findings identified during information security internal audits / risk assessments / any other assessments, incidents, and their respective corrective actions were performed.",
+      "criteriaIds": [
+        "CC3.3",
+        "CC3.4",
+        "CC4.1",
+        "CC4.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0682"
+      ],
+      "evidenceRequirementTexts": [
+        "Annual Management Review Meeting invites, agenda, and minutes of the meeting"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-07",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-07",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Board of Directors Independence",
+      "descriptionText": "Meridian operates under the direction of its Board of Directors. The Board of Directors comprises of members independent from Meridian’s daily operations.",
+      "criteriaIds": [
+        "CC1.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0683"
+      ],
+      "evidenceRequirementTexts": [
+        "List of Board of Directors"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-08",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-08",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Board of Directors Meeting",
+      "descriptionText": "On a quarterly basis, matters related to Meridian’s results of operations, cybersecurity updates, projections for the coming quarter, and any major changes, are discussed between the Board of Directors and key members of management.",
+      "criteriaIds": [
+        "CC1.2",
+        "CC4.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0684"
+      ],
+      "evidenceRequirementTexts": [
+        "For quarter between Mar-26 and Jun-26, Board of Directors Meeting invites, agenda, and minutes of the meeting"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-09",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-09",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Information Security Internal Audit",
+      "descriptionText": "On an annual basis, an information security management system related internal audit is conducted to assess the operating effectiveness of controls related to information security and information technology. This audit is conducted for NXSC, User Access Management, Information Security, Network Security, Endpoint Security, Physical Security, and Human Resource Security. Observations or issues identified during the audit are documented in the internal audit report along with recommendations for resolutions of the observations or issues and a management response is sought for action plans.",
+      "criteriaIds": [
+        "CC4.1",
+        "CC4.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0685",
+        "REQ-MER-0686"
+      ],
+      "evidenceRequirementTexts": [
+        "Internal Audit Report for the audit period",
+        "Email communication showing that internal audit report is shared with the respective stakeholders."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-10",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-10",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Subservice Organization Assessments",
+      "descriptionText": "On an annual basis, the Information Security & Compliance team assesses the subservice organization’s compliance with the applicable security, confidentiality, availability, and processing integrity commitments; and evaluates the impact of any noted exceptions of relevant controls and Complementary User Entity Controls by obtaining and evaluating their annual System and Organization Control attestation report.",
+      "criteriaIds": [
+        "CC3.1",
+        "CC3.2",
+        "CC3.3",
+        "CC3.4",
+        "CC5.1",
+        "CC5.2",
+        "CC9.1",
+        "CC9.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0687",
+        "REQ-MER-0688"
+      ],
+      "evidenceRequirementTexts": [
+        "Subservice Organization Assessment report for AWS",
+        "Latest AWS SOC Report covering the audit period."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-11",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-11",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Vendor Risk Management - Annual Re-assessments",
+      "descriptionText": "On an annual basis, the Information Security & Compliance Team performs a re-assessment for all vendors and third-party service providers as part of its vendor risk management process. This review includes obtaining and evaluating information related to their management, privacy requirements, quality system, safety and health environment, information security, business continuity management and human resources. Observations identified during the assessment are communicated to the third-party service providers and are tracked to closure by the Information Security & Compliance team.",
+      "criteriaIds": [
+        "CC3.1",
+        "CC3.2",
+        "CC3.3",
+        "CC3.4",
+        "CC5.1",
+        "CC5.2",
+        "CC9.1",
+        "CC9.2",
+        "P6.4",
+        "P6.5"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-011",
+        "POC-MER-039",
+        "POC-MER-002"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0689",
+        "REQ-MER-0690"
+      ],
+      "evidenceRequirementTexts": [
+        "System generated list of all active vendors and third party service providers as on date from Streamline",
+        "For a sample of active vendors and third party service providers not onboarded during the audit period, vendor annual re-assessment reports"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-12",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-12",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "ISO 27001",
+      "descriptionText": "2022 and PCI DSS v4.0:\nOn an annual basis, assessment under standard ISO/IEC 27001:2022 and PCI DSS v4.0 are performed by an external certification body.",
+      "criteriaIds": [
+        "CC4.1",
+        "CC4.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0691",
+        "REQ-MER-0692"
+      ],
+      "evidenceRequirementTexts": [
+        "Latest ISO 27001:2022 certificate for all locations",
+        "Latest PCI DSS v4.0 certificate"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-13",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-13",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Information Security Awareness",
+      "descriptionText": "On a monthly basis, the Information Security and Compliance team sends mass emails to all users on information security awareness updates and leading practices in order to spread awareness.",
+      "criteriaIds": [
+        "CC2.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0693"
+      ],
+      "evidenceRequirementTexts": [
+        "For all months between Mar-26 and Jun-26, email communication showing all users were made aware about information security awareness updates and leading practices."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-14",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-14",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "MSA - User Entities",
+      "descriptionText": "Meridian defines its terms of service; security obligations; intellectual property; availability, confidentiality, and processing integrity commitments; and compliance with laws within its Master Software and Services Agreements (MSAs) that are signed with user entities during onboarding.",
+      "criteriaIds": [
+        "CC1.3",
+        "CC2.1",
+        "CC2.3",
+        "CC9.2",
+        "C1.1",
+        "PI1.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-002"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0694"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of User Entities using NXSC, Master Software and Services Agreement"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-15",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-15",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "MSA / SOW - Vendors",
+      "descriptionText": "Service levels, security, confidentiality, availability, and processing integrity commitments with all third-party service providers and vendors are agreed as a part of MSA / SOW signed with them.",
+      "criteriaIds": [
+        "CC1.3",
+        "CC2.1",
+        "CC2.3",
+        "CC9.2",
+        "C1.1",
+        "PI1.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-002"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0695"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of active vendors and third party service providers, Master Software and Services Agreement"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-16",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-16",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Software Development Lifecycle (SDLC) Procedure",
+      "descriptionText": "Meridian has defined and documented a SDLC Procedure that contains guidelines on best practices for training and implementation of software security during application development to maximise their inherent security. It is published on Quanta Capture and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC5.3",
+        "CC8.1",
+        "PI1.3",
+        "PI1.5"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023",
+        "POC-MER-025"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0696",
+        "REQ-MER-0697",
+        "REQ-MER-0698",
+        "REQ-MER-0699"
+      ],
+      "evidenceRequirementTexts": [
+        "Software Development Lifecycle Procedure maintained for NXSC",
+        "Screenshot from U-Central showing Software Development Lifecycle Procedure was published on U-Central",
+        "AI Development Lifecycle (AI-DLC) Procedure maintained for NXSC",
+        "Screenshot from U-Central showing AI-DLC Procedure was published on U-Central"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-17",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-17",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Global Information Security Policy",
+      "descriptionText": "Meridian has defined and developed the Global Information Security Policy addressing matters related to system security, availability, confidentiality, processing integrity, and privacy principles.\n\nAdditionally, the following are also defined:\n► Meridian's objectives pertaining to integrity and ethical values\n i. Code of Business Conduct\n ii. Role Competencies\n iii. Disciplinary Policies\n► Human Resources security policy for hiring, termination, and periodic performance appraisals of users,\n► Clear desk and clear screen policy,\n► Media Handling Guidelines for electronic and paper based media disposal,\n► Access Control Policies for user access management, privilege management, and password management, and\n► Physical Security Policy for physical security and environmental safeguards.\n\nIt is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC1.3",
+        "CC1.5",
+        "CC2.2",
+        "CC5.3",
+        "CC9.1",
+        "C1.2",
+        "A1.2",
+        "PI1.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0700",
+        "REQ-MER-0701"
+      ],
+      "evidenceRequirementTexts": [
+        "Global Information Security Policy",
+        "Screenshot from U-Central showing Global Information Security Policy was published on U-Central"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-18",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-18",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Dedicated CISO",
+      "descriptionText": "Meridian has a designated CISO with documented information security roles and responsibilities to oversee the development, implementation, monitoring, and communication of security policies and procedures.",
+      "criteriaIds": [
+        "CC1.3"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0702",
+        "REQ-MER-0703"
+      ],
+      "evidenceRequirementTexts": [
+        "Meridian's organizational chart showing CISO",
+        "Job description document showing the roles and responsibilities of CISO were defined."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-19",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-19",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Asset Management Procedure",
+      "descriptionText": "Meridian has defined and documented an Asset Management Procedure which contains baseline requirements for Meridian's information systems and assets. The procedure also contains guidance regarding the ownership, acceptable use, classification, monitoring, disposal, and destruction of assets. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC5.2",
+        "CC5.3",
+        "CC6.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0704",
+        "REQ-MER-0705"
+      ],
+      "evidenceRequirementTexts": [
+        "Asset Management Procedure document",
+        "Screenshot from U-Central showing Asset Management Procedure  was published on U-Central"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-20",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-20",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Data Classification and Handling Procedure",
+      "descriptionText": "Meridian has defined and documented a Data Classification and Handling Procedure that contains guidelines to restrict and protect Meridian and its customers' information during storage, processing, and transmission. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC3.2",
+        "CC5.3",
+        "C1.1",
+        "C1.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0706",
+        "REQ-MER-0707"
+      ],
+      "evidenceRequirementTexts": [
+        "Data Classification and Handling Procedure document",
+        "Screenshot from U-Central showing Data Classification and Handling Procedure  was published on U-Central"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-21",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-21",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Data Retention Policy",
+      "descriptionText": "Meridian has defined and documented a Data Retention Policy that contains guidelines for storage, retention, and disposal of data. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC5.3",
+        "CC6.1",
+        "CC6.5",
+        "CC6.7",
+        "C1.2",
+        "PI1.5"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0708",
+        "REQ-MER-0709"
+      ],
+      "evidenceRequirementTexts": [
+        "Data Retention Policy",
+        "Screenshot from U-Central showing  Data Retention Policy  was published on U-Central"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-22",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-22",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Data Backup and Restore Policy",
+      "descriptionText": "Meridian has defined a Data Backup and Restore Policy describing the guidelines for performing and restoring backups. This procedure is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "A1.2",
+        "A1.3",
+        "PI1.5"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0710",
+        "REQ-MER-0711"
+      ],
+      "evidenceRequirementTexts": [
+        "Data Backup and Restore Policy",
+        "Screenshot from U-Central showing  Data Backup and Restore Policy  was published on U-Central"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-23",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-23",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Business Continuity and Disaster Recovery Procedure",
+      "descriptionText": "Meridian has defined a Business Continuity and Disaster Recovery Procedure describing the guidelines for plan activation, recovery strategy, impact analysis, simulation handling, rollback, and restoration procedures. This procedure is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC5.3",
+        "CC9.1",
+        "A1.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0712",
+        "REQ-MER-0713"
+      ],
+      "evidenceRequirementTexts": [
+        "Business Continuity and Disaster Recovery Procedure",
+        "Screenshot from U-Central showing Business Continuity and Disaster Recovery Procedure was published on U-Central"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-24",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-24",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Cyber Insurance",
+      "descriptionText": "Meridian has procured a cyber insurance to offset the financial losses that could occur due to critical security incidents.",
+      "criteriaIds": [
+        "CC9.1",
+        "CC9.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0714"
+      ],
+      "evidenceRequirementTexts": [
+        "Latest Cyber Security Insurance policy"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-25",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-25",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Incident Response Procedure",
+      "descriptionText": "Meridian has defined and documented an Incident Response Procedure for reporting, classification, containment, and resolution of security incidents. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC2.2",
+        "CC2.3",
+        "CC5.3",
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0715",
+        "REQ-MER-0716"
+      ],
+      "evidenceRequirementTexts": [
+        "Incident Response Procedure",
+        "Screenshot from U-Central showing Incident Response Procedure was published on U-Central"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-26",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-26",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Endpoint Security and Device Hardening Standard",
+      "descriptionText": "Meridian has defined and documented an Endpoint Security and Device Hardening Standard that contains hardening requirements to secure Meridian's endpoints, network, underlying infrastructure, and other information systems. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC5.3",
+        "CC6.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0717",
+        "REQ-MER-0718"
+      ],
+      "evidenceRequirementTexts": [
+        "Endpoint Security and Device Hardening Standard",
+        "Screenshot from U-Central showing Endpoint Security and Device Hardening Standard was published on U-Central"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-27",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-27",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Whistleblower Policy",
+      "descriptionText": "Meridian has defined and documented a Whistleblower Policy that contains guidelines for employees to report concerns of unethical behaviour, allegations of fraud, or violation of the company's code of business conduct policy, regulatory rules, and laws. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC1.1",
+        "CC2.2",
+        "CC5.3"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0719",
+        "REQ-MER-0720"
+      ],
+      "evidenceRequirementTexts": [
+        "Whistleblower Policy",
+        "Screenshot from U-Central showing Whistleblower Policy was published on U-Central"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-28",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-28",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Capacity and System Monitoring Policy",
+      "descriptionText": "Meridian has defined a Capacity and System Monitoring Policy to manage availability and application issues within their cloud environments. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC6.6",
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5",
+        "A1.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0721",
+        "REQ-MER-0722"
+      ],
+      "evidenceRequirementTexts": [
+        "Capacity and System Monitoring Policy",
+        "Screenshot from U-Central showing Capacity and System Monitoring Policy was published on U-Central"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-29",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-29",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Tenant Deletion Policy",
+      "descriptionText": "Meridian has established guidelines to govern data deletion within the cloud infrastructure and backups of off boarding user entities within the Tenant Deletion Policy. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "C1.1",
+        "C1.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0723",
+        "REQ-MER-0724"
+      ],
+      "evidenceRequirementTexts": [
+        "Tenant Deletion Policy",
+        "Screenshot from U-Central showing Tenant Deletion Policy was published on U-Central"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-30",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-30",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Logging and Monitoring Policy",
+      "descriptionText": "Meridian maintains an Audit Logging and Monitoring Process document to manage the audit log sources, activities performed by the SecOps team, and the corrective and preventive actions taken by the respective teams. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC6.6",
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5",
+        "A1.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0725",
+        "REQ-MER-0726"
+      ],
+      "evidenceRequirementTexts": [
+        "Logging and Monitoring Policy",
+        "Screenshot from U-Central showing Logging and Monitoring Policy was published on U-Central"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-31",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-31",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Vulnerability and Patch Management Procedure",
+      "descriptionText": "Meridian has defined and documented a Vulnerability and Patch Management Procedure that contains guidelines to prevent, detect, and remediate vulnerabilities within Meridian's applications and underlying infrastructure. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC3.2",
+        "CC4.1",
+        "CC5.3",
+        "CC6.6",
+        "CC6.8",
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5",
+        "CC8.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0727",
+        "REQ-MER-0728"
+      ],
+      "evidenceRequirementTexts": [
+        "Vulnerability and Patch Management Procedure",
+        "Screenshot from U-Central showing Vulnerability and Patch Management Procedure was published on U-Central"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-32",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-32",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Third Party Risk Management Procedure",
+      "descriptionText": "Meridian has defined and documented a Third Party Risk Management Procedure that contains guidelines to describe the due diligence and oversight processes for third-party services and software application procurement. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC5.3",
+        "CC9.1",
+        "CC9.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0729",
+        "REQ-MER-0730"
+      ],
+      "evidenceRequirementTexts": [
+        "Third Party Risk Management Procedure",
+        "Screenshot from U-Central showing Third Party Risk Management Procedure was published on U-Central"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-ISMS-33",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "ISMS-33",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Phishing Simulation",
+      "descriptionText": "On an annual basis, Meridian conducts phishing simulation exercises.",
+      "criteriaIds": [
+        "CC1.1",
+        "CC1.4",
+        "CC1.5",
+        "CC2.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0731"
+      ],
+      "evidenceRequirementTexts": [
+        "Email communication and report showing that Meridian conducts phishing simulation exercises on an annual basis"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-IT-01",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "IT-01",
+      "idStatus": "Tentative",
+      "family": "IT",
+      "title": "Asset Inventory",
+      "descriptionText": "Corporate IT team maintains a list of workstations, servers, and network devices identifying the asset ID, asset owner, asset location, asset type and model of the asset within Freshdesk.",
+      "criteriaIds": [
+        "CC6.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-055"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-001",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0732"
+      ],
+      "evidenceRequirementTexts": [
+        "Asset Inventory containing a list of workstations, servers and network devices identifying the asset ID, asset owner, asset location, asset type and model of the asset from Freshdesk"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-NXSC-IT-02",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "IT-02",
+      "idStatus": "Tentative",
+      "family": "IT",
+      "title": "Access Creation - IT accounts",
+      "descriptionText": "When a user joins the organization, HR team creates a user ID within Workday HRMS tool, which automatically sends an email communication to the IT team and Workspace Experience team and creates an account within Microsoft Entra.",
+      "criteriaIds": [
+        "CC6.1",
+        "CC6.2",
+        "CC6.3"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-044",
+        "POC-MER-010"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-001",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0733",
+        "REQ-MER-0734",
+        "REQ-MER-0735",
+        "REQ-MER-0736",
+        "REQ-MER-0737"
+      ],
+      "evidenceRequirementTexts": [
+        "Screenshot showing configuration within Workday HRMS and Azure Active Directory that an account within the local Azure Active Directory is automatically created when a user ID is created within Workday HRMS tool.",
+        "Screenshot showing configuration within Workday that the global onboarded email is sent automatically to the IT and Workplace team on the date of joining of the employee.",
+        "For a sample of new joiners onboarded during the audit period, automated Workday emails containing employee's date of joining was shared with the IT team requesting to create the AD accounts.",
+        "For a sample of new joiners,email communication showing that IT team confirmed that the access to Azure AD account is created.",
+        "For a sample of new joiners, screenshot from Azure Active Directory showing the access creation date."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-IT-03",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "IT-03",
+      "idStatus": "Tentative",
+      "family": "IT",
+      "title": "Access Revocation - IT accounts",
+      "descriptionText": "On the last working day of a user, whether resignation, termination, or absconding, HR team deactivates the user ID within Workday HRMS tool, which automatically deactivates the user's account within Microsoft Entra. The IT team validates the access revocation of the user on the last working day and confirms the same via email.",
+      "criteriaIds": [
+        "CC6.2",
+        "CC6.3",
+        "CC6.5"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-044",
+        "POC-MER-010"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-001",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0738",
+        "REQ-MER-0739",
+        "REQ-MER-0740",
+        "REQ-MER-0741",
+        "REQ-MER-0742"
+      ],
+      "evidenceRequirementTexts": [
+        "Screenshot showing configuration within Workday HRMS and Azure Active Directory that an account within the local Azure Active Directory is automatically deactivated when a user ID is deactivated within Workday HRMS tool.",
+        "Screenshot showing configuration within Workday that the global offboarding email is sent automatically to the IT team on the last working date of the employee.",
+        "For a sample of leavers, automated Workday emails containing employee's date of joining was shared with the IT team requesting to deactivate the AD accounts.",
+        "For a sample of leavers, email communication showing that IT team confirmed that the access to Azure AD account is deactivated.",
+        "For a sample of new joiners, screenshot from Azure Active Directory showing the access deactivation date."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-IT-04",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "IT-04",
+      "idStatus": "Tentative",
+      "family": "IT",
+      "title": "Access Review - IT Infrastructure",
+      "descriptionText": "The Information Security & Compliance team performs a review of the administrative access to firewalls and Okta on a quarterly basis. Users along with their privileges are reviewed with the help of CISO within a Jira ticket. In case of any discrepancies, the respective team takes necessary corrective actions. The CISO reviews the result of the review within the Jira ticket and provides sign off.",
+      "criteriaIds": [
+        "CC6.2",
+        "CC6.3",
+        "CC7.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-044"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-001",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0743",
+        "REQ-MER-0744"
+      ],
+      "evidenceRequirementTexts": [
+        "For the quarter between Mar-26 and Jun-26, JIRA ticket showing firewall privileged access review for all in-scope firewalls.",
+        "For the quarter between Mar-26 and Jun-26, JIRA ticket showing Okta privileged access review."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-IT-05",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "IT-05",
+      "idStatus": "Tentative",
+      "family": "IT",
+      "title": "Password and Account Lockout Policy – Microsoft Entra",
+      "descriptionText": "Meridian has implemented Microsoft Entra to enforce password and account lockout policy settings on end user workstations. These policy settings include password length as 12 characters, password complexity, password history as 24 passwords remembered, and password expiry as 90 days. Multi-factor authentication is enforced for all users added to the Azure Active Directory. User accounts are locked after 5 invalid logon attempts and account lockout is reset after 30 minutes through group policy settings.",
+      "criteriaIds": [
+        "CC6.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-044"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-001",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0745"
+      ],
+      "evidenceRequirementTexts": [
+        "Screenshot of Password policy settings configured on Meridian Azure Active Directory"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-IT-06",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "IT-06",
+      "idStatus": "Tentative",
+      "family": "IT",
+      "title": "Idle Session Timeout - Microsoft Entra",
+      "descriptionText": "Idle session timeout settings are controlled through group policy settings on Microsoft Entra and is configured to terminate unattended end user workstations within 10 [India] / 30 [US] minutes of inactivity with password protected screensaver.",
+      "criteriaIds": [
+        "CC6.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-044"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-001",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0746"
+      ],
+      "evidenceRequirementTexts": [
+        "Screenshot of group policy settings configured on Meridian Azure Active Directory showing that unattended end user workstations are terminated after minutes of inactivity with password protected screensaver."
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-NXSC-IT-07",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "IT-07",
+      "idStatus": "Tentative",
+      "family": "IT",
+      "title": "Hardening of network devices, servers and workstations",
+      "descriptionText": "MacBook and Windows laptops in all locations are provided by Meridian with Automox (Windows) / Kandji (MacBooks) for patch management, BitLocker (Windows) / FileVault (MacBooks) for encryption, Admin By Request for EPM, FortiClient for ZTNA, CrowdSrike for EDR, and Microsoft Entra for security related group policies. Laptops are configured with software and applications depending on Meridian business requirements.",
+      "criteriaIds": [
+        "CC6.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-055"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-001",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0747",
+        "REQ-MER-0748",
+        "REQ-MER-0749",
+        "REQ-MER-0750",
+        "REQ-MER-0751",
+        "REQ-MER-0752",
+        "REQ-MER-0753"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of endpoints, screenshot showing Automox was installed and that the computer was up-to-date.",
+        "For a sample of endpoints, screenshot showing Kandji was installed and that the computer was up-to-date.",
+        "For a sample of endpoints, screenshot showing CrowdStrike EDR was installed.",
+        "For a sample of endpoints, screenshot showing BitLocker / FileVault HDD encryption was enabled.",
+        "For a sample of endpoints, screenshot showing Admin By Request was installed and joined to Microsoft Entra ID.",
+        "For a sample of endpoints, screenshot showing FortiClient ZTNA was installed and connected to FortiClient Cloud.",
+        "For a sample of endpoints, screenshot showing that it was joined to the Meridian Microsoft Entra Domain."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-IT-08",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "IT-08",
+      "idStatus": "Tentative",
+      "family": "IT",
+      "title": "Email Security",
+      "descriptionText": "Meridian uses M365 default email security configurations such as anti-spam filter to restrict malicious incoming emails and compensating Data Loss Prevention (DLP) to prevent sharing of information over email.",
+      "criteriaIds": [
+        "CC6.1",
+        "CC6.6",
+        "CC6.7",
+        "CC6.8"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-055"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-001",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0754",
+        "REQ-MER-0755"
+      ],
+      "evidenceRequirementTexts": [
+        "Screenshot of configuration settings within M365 showing anti-spam filter is configured to restrict malicious incoming emails.",
+        "Screenshot of configuration settings within M365 showing compensating Data Loss Prevention (DLP) is configured to prevent sharing of information over email."
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-NXSC-IT-09",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "IT-09",
+      "idStatus": "Tentative",
+      "family": "IT",
+      "title": "Data Destruction",
+      "descriptionText": "Documentation, workstations, and media devices are sanitized prior to disposal or decommissioning in accordance with the Asset Management Procedure.",
+      "criteriaIds": [
+        "CC6.1",
+        "CC6.5",
+        "CC6.7",
+        "CC7.1",
+        "C1.2",
+        "PI1.5"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-044"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-001",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0756"
+      ],
+      "evidenceRequirementTexts": [
+        "Certificate of Data Destruction"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-IT-10",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "IT-10",
+      "idStatus": "Tentative",
+      "family": "IT",
+      "title": "Firewall Rules",
+      "descriptionText": "Meridian has implemented perimeter firewalls on the Bengaluru, Chennai, London, Palo Alto, New York, and Valencia delivery center internet gateways to proactively identify and protect Meridian network against security, availability, confidentiality, and processing integrity threats from sources outside the system boundaries. Rules are enforced on the firewalls to:\n► ‘deny all’ traffic by default with access enabled for specific services as per business requirements,\n► protect against Distributed Denial of Service (DDoS) and IP spoofing attacks, and\n► configure Intrusion Prevention System (IPS) and web filters to monitor and prevent intrusion attempts.",
+      "criteriaIds": [
+        "CC6.1",
+        "CC6.6",
+        "CC6.7"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-044"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-001",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0757",
+        "REQ-MER-0758",
+        "REQ-MER-0759",
+        "REQ-MER-0760",
+        "REQ-MER-0761",
+        "REQ-MER-0762",
+        "REQ-MER-0763",
+        "REQ-MER-0764",
+        "REQ-MER-0765",
+        "REQ-MER-0766",
+        "REQ-MER-0767",
+        "REQ-MER-0768",
+        "REQ-MER-0769",
+        "REQ-MER-0770",
+        "REQ-MER-0771",
+        "REQ-MER-0772",
+        "REQ-MER-0773",
+        "REQ-MER-0774",
+        "REQ-MER-0775",
+        "REQ-MER-0776",
+        "REQ-MER-0777",
+        "REQ-MER-0778",
+        "REQ-MER-0779",
+        "REQ-MER-0780"
+      ],
+      "evidenceRequirementTexts": [
+        "Management approved network diagrams for Bangalore location.",
+        "Screenshot showing 'deny all' rule is configured within firewall for Bangalore location.",
+        "Screenshot showing protect against Distributed Denial of Service (DDoS) and IP spoofing attacks are configured within firewall for Bangalore location.",
+        "Screenshot showing  Intrusion Prevention System (IPS) and web filters is configured within firewall for Bangalore location.",
+        "Management approved network diagrams for Chennai location.",
+        "Screenshot showing 'deny all' rule is configured within firewall for Chennai location.",
+        "Screenshot showing protect against Distributed Denial of Service (DDoS) and IP spoofing attacks are configured within firewall for Chennai location.",
+        "Screenshot showing  Intrusion Prevention System (IPS) and web filters is configured within firewall for Chennai location.",
+        "Management approved network diagrams for Palo Alto location.",
+        "Screenshot showing 'deny all' rule is configured within firewall for Palo Alto location.",
+        "Screenshot showing protect against Distributed Denial of Service (DDoS) and IP spoofing attacks are configured within firewall for Palo Alto location.",
+        "Screenshot showing  Intrusion Prevention System (IPS) and web filters is configured within firewall for Palo Alto location.",
+        "Management approved network diagrams for New York location.",
+        "Screenshot showing 'deny all' rule is configured within firewall for New York location.",
+        "Screenshot showing protect against Distributed Denial of Service (DDoS) and IP spoofing attacks are configured within firewall for New York location.",
+        "Screenshot showing  Intrusion Prevention System (IPS) and web filters is configured within firewall for New York location.",
+        "Management approved network diagrams for London location.",
+        "Screenshot showing 'deny all' rule is configured within firewall for London location.",
+        "Screenshot showing protect against Distributed Denial of Service (DDoS) and IP spoofing attacks are configured within firewall for London location.",
+        "Screenshot showing  Intrusion Prevention System (IPS) and web filters is configured within firewall for London location.",
+        "Management approved network diagrams for Valencia location.",
+        "Screenshot showing 'deny all' rule is configured within firewall for Valencia location.",
+        "Screenshot showing protect against Distributed Denial of Service (DDoS) and IP spoofing attacks are configured within firewall for Valencia location.",
+        "Screenshot showing  Intrusion Prevention System (IPS) and web filters is configured within firewall for Valencia location."
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-NXSC-IT-11",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "IT-11",
+      "idStatus": "Tentative",
+      "family": "IT",
+      "title": "Change Management - Meridian Infrastructure",
+      "descriptionText": "Changes to the Meridian on-premises infrastructure are logged within Freshdesk tickets and tracked to closure by the Corp IT team.",
+      "criteriaIds": [
+        "CC8.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-055"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-001",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0781",
+        "REQ-MER-0782"
+      ],
+      "evidenceRequirementTexts": [
+        "System generated list of changes to the Meridian on-premises infrastructure from Freshdesk between Mar-26 and Jun-26",
+        "For a sample change tickets within the audit period, ticket to showing description of change and actions taken to implement the change were documented within the ticket."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-IT-12",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "IT-12",
+      "idStatus": "Tentative",
+      "family": "IT",
+      "title": "Patch Management - Meridian Infrastructure",
+      "descriptionText": "Meridian has implemented the following patch management tools to ensure up-to-date patches are deployed on the endpoints in accordance with the Vulnerability and Patch Management Procedure:\n► Automox for Windows and Linux\n► Kandji for MacBooks",
+      "criteriaIds": [
+        "CC8.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-055"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-001",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0783",
+        "REQ-MER-0784"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of endpoints, screenshot showing Automox was installed and that the computer was up-to-date. (Same as IT-07)",
+        "For a sample of endpoints, screenshot showing Kandji was installed and that the computer was up-to-date. (Same as IT-07)"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-SDLC-01",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "SDLC-01",
+      "idStatus": "Tentative",
+      "family": "SDLC",
+      "title": "Segregation of Environments",
+      "descriptionText": "The development, staging, and production environments are hosted on logically segregated Virtual Private Clouds (VPC) within Cloud.",
+      "criteriaIds": [
+        "CC8.1",
+        "PI1.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-SDLC-02",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "SDLC-02",
+      "idStatus": "Tentative",
+      "family": "SDLC",
+      "title": "Technical Specification and Design",
+      "descriptionText": "Authorized feature development / patch release / hotfix requirements are communicated to the NXSC developers by the Project Manager using work items within a Jira ticket.",
+      "criteriaIds": [
+        "CC8.1",
+        "PI1.1",
+        "PI1.2",
+        "PI1.3",
+        "PI1.5"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-SDLC-03",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "SDLC-03",
+      "idStatus": "Tentative",
+      "family": "SDLC",
+      "title": "Coding - Peer Review",
+      "descriptionText": "A developer performs coding in the development environment. A peer or Technical Lead carries out a code review to ensure completeness and accuracy of the code and results of the review are documented within GitHub. Upon successful completion of the code review, the peer reviewer provides sign off within GitHub, and the developer initiates security testing.",
+      "criteriaIds": [
+        "CC8.1",
+        "PI1.3"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-SDLC-04",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "SDLC-04",
+      "idStatus": "Tentative",
+      "family": "SDLC",
+      "title": "Security Testing",
+      "descriptionText": "Upon successful completion of the peer code review, a scheduled job is automatically run to perform Snyk static code analysis. Deployment of code onto production is restricted until all security checks have passed.",
+      "criteriaIds": [
+        "CC8.1",
+        "PI1.3"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-SDLC-05",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "SDLC-05",
+      "idStatus": "Tentative",
+      "family": "SDLC",
+      "title": "Require Pull Request",
+      "descriptionText": "Meridian has enabled configurations to require all commits to be made to a non-target branch and submitted via a pull request before they can be merged with the master branch.",
+      "criteriaIds": [
+        "CC8.1",
+        "PI1.4"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-SDLC-06",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "SDLC-06",
+      "idStatus": "Tentative",
+      "family": "SDLC",
+      "title": "Deployment of code to production",
+      "descriptionText": "Upon successful completion of testing, the commit is merged with the master branch and closed using a pull request. As part of the CI-CD pipeline, a GitHub action automatically performs integration checks and deploys the code onto the production environment.",
+      "criteriaIds": [
+        "CC8.1",
+        "PI1.4"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-SO-01",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "SO-01",
+      "idStatus": "Tentative",
+      "family": "SO",
+      "title": "Vulnerability Assessment and Penetration Testing",
+      "descriptionText": "On an annual basis, third-party vendors conduct application level, network level, and API vulnerability assessments and penetration tests for NXSC. Based on the findings of these tests, Information Security & Compliance / Security Operations team follows up with the relevant stakeholders on appropriate corrective and preventive actions for identified gaps until closure of the gaps. Based on the confirmation received from the relevant stakeholders, Information Security & Compliance / Security Operations team notifies the third-party vendor to perform rescan to confirm the closure of gaps through email. On completion of rescan, third-party vendor shares the summary report (Compliant Report) with the Information Security & Compliance / Security Operations team.",
+      "criteriaIds": [
+        "CC3.2",
+        "CC4.1",
+        "CC6.6",
+        "CC6.8",
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-006"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-001",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0785",
+        "REQ-MER-0786"
+      ],
+      "evidenceRequirementTexts": [
+        "Annual Vulnerability assessment and penetration test (VAPT) reports for NXSC.",
+        "For open vulnerabilities, Jira ticket showing that corrective and preventive actions are being tracked to closure."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-SO-02",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "SO-02",
+      "idStatus": "Tentative",
+      "family": "SO",
+      "title": "ASV Scans",
+      "descriptionText": "On a quarterly basis, security vulnerability scans are performed by third-party approved scanning vendors (ASVs). Based on the findings of the vulnerability assessment, Information Security & Compliance / Security Operations team follows up with the relevant stakeholders on appropriate corrective and preventive actions for identified gaps until closure of the gaps.",
+      "criteriaIds": [
+        "CC3.2",
+        "CC4.1",
+        "CC6.6",
+        "CC6.8",
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-006"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-001",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0787"
+      ],
+      "evidenceRequirementTexts": [
+        "For quarter between Mar-26 and Jun-26, security vulnerability scan reports issued by third-party approved scanning vendor (ASV) for NXSC"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-SO-03",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "SO-03",
+      "idStatus": "Tentative",
+      "family": "SO",
+      "title": "Anti-Virus",
+      "descriptionText": "Meridian has deployed CrowdStrike Falcon EDR software on its endpoints for protection against malware and intrusion attempts. The EDR software is configured to perform real-time scans. The EDR software has built in controls for tamper protection.",
+      "criteriaIds": [
+        "CC6.8"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-008"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-001",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0788",
+        "REQ-MER-0789",
+        "REQ-MER-0790"
+      ],
+      "evidenceRequirementTexts": [
+        "Screenshot from Crwodstrike EDR software showing that all endpoints are added as hosts.",
+        "Screenshot from Crwodstrike EDR software showing that agent tamper protection was enabled.",
+        "Screenshot from Crwodstrike showing that EDR software is configured to perform real-time scans to protect against malware and intrusion attempts"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-SO-04",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "SO-04",
+      "idStatus": "Tentative",
+      "family": "SO",
+      "title": "Logging and Monitoring - IT Infrastructure",
+      "descriptionText": "Administrative events, authentication events, and system events generated by CrowdStrike, Microsoft Entra, and firewalls to identify inappropriate access, security threats, and incidents are configured by the Security Operations team to be re-directed to ProACT tool. The SISA ProACTMXDR team analyses the alerts and generate a Freshdesk ticket for confirmed true positive cases. The Security Operations team analyses these Freshdesk tickets and documents the details of analysis, security violation, root cause, user / group responsible, severity of the incident / breach, and prevention and mitigation steps within the Freshdesk ticket until closure.",
+      "criteriaIds": [
+        "CC6.7",
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5",
+        "A1.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-008"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-001",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0791",
+        "REQ-MER-0792",
+        "REQ-MER-0793",
+        "REQ-MER-0794",
+        "REQ-MER-0795",
+        "REQ-MER-0796"
+      ],
+      "evidenceRequirementTexts": [
+        "Screenshot from ProACT showing alerts generated by CrowdStrike EDR is configured to be re-directed to ProACT",
+        "Screenshot from ProACT showing alerts generated by Admin By Request EPM is configured to be re-directed to ProACT",
+        "Screenshot from ProACT showing alerts generated by FortiClient ZTNA is configured to be re-directed to ProACT",
+        "Screenshot from ProACT showing alerts generated by Microsoft Entra is configured to be re-directed to ProACT",
+        "System generated list of SecOps Freshdesk tickets from Freshdesk between Mar-26 and Jun-26",
+        "For a sample of Logging and Monitoring Freshdesk tickets, ticket showing that Security Operations team analyzed and took necessary corrective actions prior to closing the ticket."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-SO-05",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "SO-05",
+      "idStatus": "Tentative",
+      "family": "SO",
+      "title": "Information Security Incident Management",
+      "descriptionText": "Users report the actual / suspected information security incident / breaches to the Security Operations team by raising a ticket in Freshdesk tool. The Security Operations team, Meridian Computer Security Incident Response Team (CSIRT), and Legal team performs analysis of the incident / breach and documents the details of analysis, security violation, root cause, user / group responsible, severity of the incident / breach, and prevention and mitigation steps within the Freshdesk ticket until closure.",
+      "criteriaIds": [
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-008"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-001",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0797"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of Information Security Freshdesk tickets, ticket showing that Security Operations team analyzed and took necessary corrective actions prior to closing the ticket."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-WE-01",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "WE-01",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Security Guards",
+      "descriptionText": "Entry / exit points of the Meridian delivery centers are manned at all times by third-party physical security guards.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0798",
+        "REQ-MER-0799",
+        "REQ-MER-0800",
+        "REQ-MER-0801",
+        "REQ-MER-0802",
+        "REQ-MER-0803"
+      ],
+      "evidenceRequirementTexts": [
+        "Please provide photo with geolocation and timestamp showing the security guards present at Bangalore office",
+        "Please provide photo with geolocation and timestamp showing the security guards present at Chennai office",
+        "Please provide photo with geolocation and timestamp showing the security guards present at Palo Alto office",
+        "Please provide photo with geolocation and timestamp showing the security guards present at New York office",
+        "Please provide photo with geolocation and timestamp showing the security guards present at London office",
+        "Please provide photo with geolocation and timestamp showing the security guards present at Valencia office"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-WE-02",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "WE-02",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "CCTV",
+      "descriptionText": "Closed Circuit Television (CCTV) surveillance equipment is used to monitor the entry and exit points, work areas, and server rooms of Meridian Delivery Centers.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0804",
+        "REQ-MER-0805",
+        "REQ-MER-0806",
+        "REQ-MER-0807",
+        "REQ-MER-0808",
+        "REQ-MER-0809"
+      ],
+      "evidenceRequirementTexts": [
+        "Please provide photo with geolocation and timestamp showing the CCTV cameras present at the following  locations for Bangalore office:\nA.) Entry Point and Exit points \nB.) Work Areas\nC.) UPS Room\nD.) Server Room",
+        "Please provide photo with geolocation and timestamp showing the CCTV cameras present at the following  locations for Chennai office:\nA.) Entry Point and Exit points \nB.) Work Areas\nC.) UPS Room\nD.) Server Room",
+        "Please provide photo with geolocation and timestamp showing the CCTV cameras present at the following  locations for Palo Alto office:\nA.) Entry Point and Exit points \nB.) Work Areas\nC.) UPS Room\nD.) Server Room",
+        "Please provide photo with geolocation and timestamp showing the CCTV cameras present at the following  locations for New York office:\nA.) Entry Point and Exit points \nB.) Work Areas\nC.) UPS Room\nD.) Server Room",
+        "Please provide photo with geolocation and timestamp showing the CCTV cameras present at the following  locations for London office:\nA.) Entry Point and Exit points \nB.) Work Areas\nC.) UPS Room\nD.) Server Room",
+        "Please provide photo with geolocation and timestamp showing the CCTV cameras present at the following  locations for Valencia office:\nA.) Entry Point and Exit points \nB.) Work Areas\nC.) UPS Room\nD.) Server Room"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-WE-03",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "WE-03",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Access Control System - entry/exit points",
+      "descriptionText": "Access to entry and exit points to Meridian delivery centres are controlled by a card-based access control system.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0810",
+        "REQ-MER-0811",
+        "REQ-MER-0812",
+        "REQ-MER-0813",
+        "REQ-MER-0814",
+        "REQ-MER-0815",
+        "REQ-MER-0816",
+        "REQ-MER-0817",
+        "REQ-MER-0818",
+        "REQ-MER-0819",
+        "REQ-MER-0820",
+        "REQ-MER-0821"
+      ],
+      "evidenceRequirementTexts": [
+        "Please provide photo with geolocation and timestamp showing the card-based access control system is installed at Bangalore office",
+        "For a sample of days, access control system logs showing the card based access control system was operational at Meridian's Bangalore office",
+        "Please provide photo with geolocation and timestamp showing the card-based access control system is installed at Meridian's Chennai office",
+        "For a sample of days, access control system logs showing the card based access control system was operational at Meridian's Chennai office",
+        "Please provide photo with geolocation and timestamp showing the card-based access control system is installed at Meridian's Palo Alto office",
+        "For a sample of days, access control system logs showing the card based access control system was operational at Meridian's Palo Alto office",
+        "Please provide photo with geolocation and timestamp showing the card-based access control system is installed at all Meridian's New York office",
+        "For a sample of days, access control system logs showing the card based access control system was operational at Meridian's New York office",
+        "Please provide photo with geolocation and timestamp showing the card-based access control system is installed at Meridian's London office",
+        "For a sample of days, access control system logs showing the card based access control system was operational at Meridian's London office",
+        "Please provide photo with geolocation and timestamp showing the card-based access control system is installed at Meridian's Valencia office",
+        "For a sample of days, access control system logs showing the card based access control system was operational at Meridian's Valencia office"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-WE-04",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "WE-04",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Access Control System - Server/Hub Room",
+      "descriptionText": "Physical access to the server/hub room in Meridian delivery centers is restricted to authorized employees using card based access control system.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0822",
+        "REQ-MER-0823",
+        "REQ-MER-0824",
+        "REQ-MER-0825",
+        "REQ-MER-0826",
+        "REQ-MER-0827"
+      ],
+      "evidenceRequirementTexts": [
+        "Please provide photo with geolocation and timestamp showing the card-based access control system is installed to restrict access to server/hub room at Bangalore office",
+        "Please provide photo with geolocation and timestamp showing the card-based access control system is installed to restrict access to server/hub room at Chennai office",
+        "Please provide photo with geolocation and timestamp showing the card-based access control system is installed to restrict access to server/hub room at all Palo Alto office",
+        "Please provide photo with geolocation and timestamp showing the card-based access control system is installed to restrict access to server/hub room at New York office",
+        "Please provide photo with geolocation and timestamp showing the card-based access control system is installed to restrict access to server/hub room at London office",
+        "Please provide photo with geolocation and timestamp showing the card-based access control system is installed to restrict access to server/hub room at Valencia office"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-WE-05",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "WE-05",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Access Review - Server/Hub Room",
+      "descriptionText": "On a quarterly basis, Workspace Experience Team performs a review of the personnel with access to the Server/Hub Room. Review comments by the Manager – Workspace Experience team are addressed and tracked to closure.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0828",
+        "REQ-MER-0829",
+        "REQ-MER-0830",
+        "REQ-MER-0831",
+        "REQ-MER-0832",
+        "REQ-MER-0833"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of quarters between Mar-26 and Jun-26, complete access review JIRA tickets for Server/Hub room at Meridian's Bangalore office",
+        "For a sample of quarters between Mar-26 and Jun-26, complete access review JIRA tickets for Server/Hub room at Meridian's Chennai office",
+        "For a sample of quarters between Mar-26 and Jun-26, complete access review JIRA tickets for Server/Hub room at Meridian's Palo Alto office",
+        "For a sample of quarters between Mar-26 and Jun-26, complete access review JIRA tickets for Server/Hub room at Meridian's New York office",
+        "For a sample of quarters between Mar-26 and Jun-26, complete access review JIRA tickets for Server/Hub room at Meridian's London office",
+        "For a sample of quarters between Mar-26 and Jun-26, complete access review JIRA tickets for Server/Hub room at Meridian's Valencia office"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-WE-06",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "WE-06",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Visitor Management",
+      "descriptionText": "Security guards are responsible for ensuring that details of the visitors or vendors, such as name of the visitor or vendor, contact details, contact person in Meridian, entry time and exit time are recorded within the Visitor Register maintained at the reception area prior to permitting entry to the delivery center. Visitors and vendors are issued a visitor identification card, which they are required to display while inside the delivery center. An authorized employee escorts visitors or vendors during their visit to the delivery center.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0834",
+        "REQ-MER-0835",
+        "REQ-MER-0836",
+        "REQ-MER-0837",
+        "REQ-MER-0838",
+        "REQ-MER-0839"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of days between Mar-26 and Jun-26, visitor register showing the name of the visitor or vendor, purpose of visit, contact person, and entry / exit time are recorded at Meridian's Bangalore office",
+        "For a sample of days between Mar-26 and Jun-26, visitor register showing the name of the visitor or vendor, purpose of visit, contact person, and entry / exit time are recorded at Meridian's Chennai office",
+        "For a sample of days between Mar-26 and Jun-26, visitor register showing the name of the visitor or vendor, purpose of visit, contact person, and entry / exit time are recorded at Meridian's Palo Alto office",
+        "For a sample of days between Mar-26 and Jun-26, visitor register showing the name of the visitor or vendor, purpose of visit, contact person, and entry / exit time are recorded at Meridian's New York office",
+        "For a sample of days between Mar-26 and Jun-26, visitor register showing the name of the visitor or vendor, purpose of visit, contact person, and entry / exit time are recorded at Meridian's London office",
+        "For a sample of days between Mar-26 and Jun-26, visitor register showing the name of the visitor or vendor, purpose of visit, contact person, and entry / exit time are recorded at Meridian's Valencia office"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-WE-07",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "WE-07",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Physical Access Creation",
+      "descriptionText": "Based on the automated email from Workday HRMS tool, the Workspace Experience team grants access to the user by issuing an access card and activating it within the Access Control Software of that Delivery Center to provide physical access to that delivery center.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0840",
+        "REQ-MER-0841",
+        "REQ-MER-0842",
+        "REQ-MER-0843",
+        "REQ-MER-0844",
+        "REQ-MER-0845",
+        "REQ-MER-0846",
+        "REQ-MER-0847",
+        "REQ-MER-0848",
+        "REQ-MER-0849",
+        "REQ-MER-0850",
+        "REQ-MER-0851"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of new joiners for Bangalore location between Mar-26 and Jun-26, response email from WPE team showing physical access was provided to the user after receiving the automated email from Workday HRMS tool.",
+        "For a sample of new joiners for Bangalore location between Mar-26 and Jun-26, access creation date from access control system.",
+        "For a sample of new joiners for Chennai location between Mar-26 and Jun-26, response email from WPE team showing physical access was provided to the user after receiving the automated email from Workday HRMS tool.",
+        "For a sample of new joiners for Chennai location between Mar-26 and Jun-26, access creation date from access control system.",
+        "For a sample of new joiners for Palo Alto location between Mar-26 and Jun-26, response email from WPE team showing physical access was provided to the user after receiving the automated email from Workday HRMS tool.",
+        "For a sample of new joiners for Palo Alto location between Mar-26 and Jun-26, access creation date from access control system.",
+        "For a sample of new joiners for New York location between Mar-26 and Jun-26, response email from WPE team showing physical access was provided to the user after receiving the automated email from Workday HRMS tool.",
+        "For a sample of new joiners for New York location between Mar-26 and Jun-26, access creation date from access control system.",
+        "For a sample of new joiners for London location between Mar-26 and Jun-26, response email from WPE team showing physical access was provided to the user after receiving the automated email from Workday HRMS tool.",
+        "For a sample of new joiners for London location between Mar-26 and Jun-26, access creation date from access control system.",
+        "For a sample of new joiners for Valencia location between Mar-26 and Jun-26, response email from WPE team showing physical access was provided to the user after receiving the automated email from Workday HRMS tool.",
+        "For a sample of new joiners for Valencia location between Mar-26 and Jun-26, access creation date from access control system."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-WE-08",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "WE-08",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Physical Access Deactivation",
+      "descriptionText": "Based on the email from HR team, the Workspace Experience team deactivates the physical access of the user to the delivery center on the Access Control Software of that delivery center within one day of intimation.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0852",
+        "REQ-MER-0853",
+        "REQ-MER-0854",
+        "REQ-MER-0855",
+        "REQ-MER-0856",
+        "REQ-MER-0857",
+        "REQ-MER-0858",
+        "REQ-MER-0859",
+        "REQ-MER-0860",
+        "REQ-MER-0861",
+        "REQ-MER-0862",
+        "REQ-MER-0863"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of leavers for Bengaluru location between Mar-26 and Jun-26, response email from WPE team showing physical access was revoked from the user after receiving the automated email from Workday HRMS tool.",
+        "For a sample of leavers for Bengaluru location between Mar-26 and Jun-26, access revocation date from access control system.",
+        "For a sample of leavers for Chennai location between Mar-26 and Jun-26, response email from WPE team showing physical access was revoked from the user after receiving the automated email from Workday HRMS tool.",
+        "For a sample of leavers for Chennai location between Mar-26 and Jun-26, access revocation date from access control system.",
+        "For a sample of leavers for Palo Alto location between Mar-26 and Jun-26, response email from WPE team showing physical access was revoked from the user after receiving the automated email from Workday HRMS tool.",
+        "For a sample of leavers for Palo Alto location between Mar-26 and Jun-26, access revocation date from access control system.",
+        "For a sample of leavers for New York location between Mar-26 and Jun-26, response email from WPE team showing physical access was revoked from the user after receiving the automated email from Workday HRMS tool.",
+        "For a sample of leavers for New York location between Mar-26 and Jun-26, access revocation date from access control system.",
+        "For a sample of leavers for London location between Mar-26 and Jun-26, response email from WPE team showing physical access was revoked from the user after receiving the automated email from Workday HRMS tool.",
+        "For a sample of leavers for London location between Mar-26 and Jun-26, access revocation date from access control system.",
+        "For a sample of leavers for Valencia location between Mar-26 and Jun-26, response email from WPE team showing physical access was revoked from the user after receiving the automated email from Workday HRMS tool.",
+        "For a sample of leavers for Valencia location between Mar-26 and Jun-26, access revocation date from access control system."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-WE-09",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "WE-09",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Physical Access Reconciliation",
+      "descriptionText": "Physical access to Meridian Delivery Centers is reconciled on a quarterly basis by the Workspace Experience team. The Workspace Experience team extracts the list of active users that have access to Meridian delivery centers from the access control software of that delivery center and compares this list with the list of active users shared by HR team. In case of any discrepancies, the Workspace Experience team takes necessary corrective actions and shares the results of the review with the Information Security & Compliance team.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0864",
+        "REQ-MER-0865",
+        "REQ-MER-0866",
+        "REQ-MER-0867",
+        "REQ-MER-0868",
+        "REQ-MER-0869"
+      ],
+      "evidenceRequirementTexts": [
+        "For quarter between Mar-26 and Jun-26, email communication showing reconciliation of the personnel with access to the Meridian Delivery Centers (Bangalore location) and the list of active users is performed.",
+        "For quarter between Mar-26 and Jun-26, email communication showing reconciliation of the personnel with access to the Meridian Delivery Centers (Chennai location) and the list of active users is performed.",
+        "For quarter between Mar-26 and Jun-26, email communication showing reconciliation of the personnel with access to the Meridian Delivery Centers (Palo Alto location) and the list of active users is performed.",
+        "For quarter between Mar-26 and Jun-26, email communication showing reconciliation of the personnel with access to the Meridian Delivery Centers (New York location) and the list of active users is performed.",
+        "For quarter between Mar-26 and Jun-26, email communication showing reconciliation of the personnel with access to the Meridian Delivery Centers (London location) and the list of active users is performed.",
+        "For quarter between Mar-26 and Jun-26, email communication showing reconciliation of the personnel with access to the Meridian Delivery Centers (Valencia location) and the list of active users is performed."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-WE-10",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "WE-10",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Access Review - Physical Security Tools",
+      "descriptionText": "Administrative access to Access Control Software is reviewed by the Workspace Experience team on a six-monthly basis. Personnel from the Workspace Experience team extracts the list of administrators on Access Control Software and shares it with Manager – Workspace Experience. The Manager – Workspace Experience reviews the list of administrators to determine the appropriateness of access based on the job responsibilities and communicates discrepancies, if any, to the Workspace Experience team. In case of any discrepancies, the Workspace Experience team takes necessary corrective actions and shares confirmation to the Manager – Workspace Experience. The Manager – Workspace Experience provides sign off over email once the activity has concluded.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0870",
+        "REQ-MER-0871",
+        "REQ-MER-0872",
+        "REQ-MER-0873",
+        "REQ-MER-0874",
+        "REQ-MER-0875"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of six months between Mar-26 and Jun-26, complete access review tickets/emails of the access control system for Bangalore location",
+        "For a sample of six months between Mar-26 and Jun-26, complete access review tickets/emails of the access control system for Chennai location",
+        "For a sample of six months between Mar-26 and Jun-26, complete access review tickets/emails of the access control system for Palo Alto location",
+        "For a sample of six months between Mar-26 and Jun-26, complete access review tickets/emails of the access control system for New York location",
+        "For a sample of six months between Mar-26 and Jun-26, complete access review tickets/emails of the access control system for London location",
+        "For a sample of six months between Mar-26 and Jun-26, complete access review tickets/emails of the access control system for Valencia location"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-WE-11",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "WE-11",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Fire Detection and Prevention",
+      "descriptionText": "Fire extinguishers and smoke detectors are installed at various locations within the delivery centers.",
+      "criteriaIds": [
+        "A1.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0876",
+        "REQ-MER-0877",
+        "REQ-MER-0878",
+        "REQ-MER-0879",
+        "REQ-MER-0880",
+        "REQ-MER-0881"
+      ],
+      "evidenceRequirementTexts": [
+        "Please provide photo with geolocation and timestamp showing Fire extinguishers and smoke detectors are installed at all the locations of Meridian's Bangalore office",
+        "Please provide photo with geolocation and timestamp showing Fire extinguishers and smoke detectors are installed at all the locations of Meridian's Chennai office",
+        "Please provide photo with geolocation and timestamp showing Fire extinguishers and smoke detectors are installed at all the locations of Meridian's Palo Alto office",
+        "Please provide photo with geolocation and timestamp showing Fire extinguishers and smoke detectors are installed at all the locations of Meridian's New York office",
+        "Please provide photo with geolocation and timestamp showing Fire extinguishers and smoke detectors are installed at all the locations of Meridian's London office",
+        "Please provide photo with geolocation and timestamp showing Fire extinguishers and smoke detectors are installed at all the locations of Meridian's Valencia office"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-WE-12",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "WE-12",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Fire Evacuation Drill",
+      "descriptionText": "The Workspace Experience team carries out fire evacuation drills on an annual basis for their respective delivery center to assess the readiness to emergency situations. The Workspace Experience team documents the results of the fire drill within the fire drill report.",
+      "criteriaIds": [
+        "A1.3"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0882",
+        "REQ-MER-0883",
+        "REQ-MER-0884",
+        "REQ-MER-0885",
+        "REQ-MER-0886",
+        "REQ-MER-0887"
+      ],
+      "evidenceRequirementTexts": [
+        "Fire drill report for Bangalore location",
+        "Fire drill report for Chennai location",
+        "Fire drill report for Palo Alto location",
+        "Fire drill report for New York location",
+        "Fire drill report for London location",
+        "Fire drill report for Valencia location"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-WE-13",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "WE-13",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Power",
+      "descriptionText": "Meridian delivery centers are supported by uninterruptible power supply (UPS) systems and diesel generators (DG) for continuous operation of hardware equipment in the event of power failure.",
+      "criteriaIds": [
+        "A1.1",
+        "A1.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0888",
+        "REQ-MER-0889",
+        "REQ-MER-0890",
+        "REQ-MER-0891",
+        "REQ-MER-0892",
+        "REQ-MER-0893"
+      ],
+      "evidenceRequirementTexts": [
+        "Please provide photo with geolocation and timestamp showing uninterruptible power supply (UPS) systems and / or diesel generators (DG) are installed at all the locations of Meridian's Bangalore office",
+        "Please provide photo with geolocation and timestamp showing uninterruptible power supply (UPS) systems and / or diesel generators (DG) are installed at all the locations of Meridian's Chennai office",
+        "Please provide photo with geolocation and timestamp showing uninterruptible power supply (UPS) systems and / or diesel generators (DG) are installed at all the locations of Meridian's Palo Alto office",
+        "Please provide photo with geolocation and timestamp showing uninterruptible power supply (UPS) systems and / or diesel generators (DG) are installed at all the locations of Meridian's New York office",
+        "Please provide photo with geolocation and timestamp showing uninterruptible power supply (UPS) systems and / or diesel generators (DG) are installed at all the locations of Meridian's London office",
+        "Please provide photo with geolocation and timestamp showing uninterruptible power supply (UPS) systems and / or diesel generators (DG) are installed at all the locations of Meridian's Valencia office"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-WE-14",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "WE-14",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Equipment Maintenance",
+      "descriptionText": "Maintenance vendor conducts the preventive maintenance of critical equipment including fire detection, prevention, and suppression equipment, UPS, DG, CCTV, and access control system as per preventive maintenance contracts to maintain the continued operability of the equipment.",
+      "criteriaIds": [
+        "A1.1",
+        "A1.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0894",
+        "REQ-MER-0895",
+        "REQ-MER-0896",
+        "REQ-MER-0897",
+        "REQ-MER-0898",
+        "REQ-MER-0899"
+      ],
+      "evidenceRequirementTexts": [
+        "Preventive maintenance reports showing preventive maintenance of fire detection, prevention, and suppression equipment, UPS, DG, CCTV, and access control system are conducted as per preventive maintenance contracts at all the locations of Meridian's Bangalore office.",
+        "Preventive maintenance reports showing preventive maintenance of fire detection, prevention, and suppression equipment, UPS, DG, CCTV, and access control system are conducted as per preventive maintenance contracts at all the locations of Meridian's Chennai office.",
+        "Preventive maintenance reports showing preventive maintenance of fire detection, prevention, and suppression equipment, UPS, DG, CCTV, and access control system are conducted as per preventive maintenance contracts at all the locations of Meridian's Palo Alto office.",
+        "Preventive maintenance reports showing preventive maintenance of fire detection, prevention, and suppression equipment, UPS, DG, CCTV, and access control system are conducted as per preventive maintenance contracts at all the locations of Meridian's New York office.",
+        "Preventive maintenance reports showing preventive maintenance of fire detection, prevention, and suppression equipment, UPS, DG, CCTV, and access control system are conducted as per preventive maintenance contracts at all the locations of Meridian's London office.",
+        "Preventive maintenance reports showing preventive maintenance of fire detection, prevention, and suppression equipment, UPS, DG, CCTV, and access control system are conducted as per preventive maintenance contracts at all the locations of Meridian's Valencia office."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-PR-01",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "PR-01",
+      "idStatus": "Tentative",
+      "family": "PR",
+      "title": "Meridian Privacy Policy - NXSC",
+      "descriptionText": "Meridian's privacy policy and discloses the type of information Meridian may collect within NXSC, as well as how Meridian may use this information. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "P1.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0900",
+        "REQ-MER-0901"
+      ],
+      "evidenceRequirementTexts": [
+        "NXSC Privacy Policy",
+        "Screenshot from U-Central showing NXSC's Privacy Policy was published on U-Central"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-PR-02",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "PR-02",
+      "idStatus": "Tentative",
+      "family": "PR",
+      "title": "Meridian Privacy Policy - Data Controller",
+      "descriptionText": "Meridian's privacy policy is available on its website and fully discloses the type of information Meridian collects on its website and Workday, as well as how Meridian may use this information. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "P1.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-002"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0902",
+        "REQ-MER-0903"
+      ],
+      "evidenceRequirementTexts": [
+        "Meridian Privacy Policy",
+        "Screenshot from U-Central showing Meridian's Privacy Policy was published on U-Central"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-PR-03",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "PR-03",
+      "idStatus": "Tentative",
+      "family": "PR",
+      "title": "Records of Processing Activities (RoPA) and Data Inventory - NXSC",
+      "descriptionText": "Records of processing activities (RoPA) and Data inventories for NXSC are prepared and maintained by the Meridian Privacy team identifying the personal data collected, purpose and lawful basis of processing, categories of data subjects, third-party vendors, safeguards, location and rights available to data subjects. The RoPA and Data Inventories are reviewed annually by the Meridian Privacy team.",
+      "criteriaIds": [
+        "P3.1",
+        "P4.1",
+        "P4.2",
+        "P5.1",
+        "P5.2",
+        "P6.4",
+        "P6.7"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0904",
+        "REQ-MER-0905"
+      ],
+      "evidenceRequirementTexts": [
+        "RoPA for NXSC",
+        "Data Inventory for NXSC"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-PR-04",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "PR-04",
+      "idStatus": "Tentative",
+      "family": "PR",
+      "title": "Records of Processing Activities (RoPA) and Data Inventory - Data Controller",
+      "descriptionText": "Records of processing activities (RoPA) and Data inventories for Meridian website and Workday are prepared and maintained by the Meridian Privacy team identifying the personal data collected, purpose and lawful basis of processing, categories of data subjects, third-party vendors, safeguards, location and rights available to data subjects. The RoPA and Data Inventories are reviewed annually by the Meridian Privacy team.",
+      "criteriaIds": [
+        "P3.1",
+        "P4.1",
+        "P4.2",
+        "P5.1",
+        "P5.2",
+        "P6.4",
+        "P6.7"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-002"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0906",
+        "REQ-MER-0907",
+        "REQ-MER-0908",
+        "REQ-MER-0909"
+      ],
+      "evidenceRequirementTexts": [
+        "RoPA for Meridian website",
+        "Data Inventories for Meridian website",
+        "RoPA for Workday",
+        "Data Inventories for Workday"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-PR-05",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "PR-05",
+      "idStatus": "Tentative",
+      "family": "PR",
+      "title": "DPA - Vendors",
+      "descriptionText": "Vendors are required to sign Data Processing Agreements (DPA), committing to the acceptable use of private and / or confidential data when they have access to user entity data. Agreements are updated when there are system changes that require changes to the customers’ requirements.",
+      "criteriaIds": [
+        "P6.4"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-002"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0910"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of vendors having access to user entity data, Data Processing Agreements (DPA)"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-PR-06",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "PR-06",
+      "idStatus": "Tentative",
+      "family": "PR",
+      "title": "Consent Management - Data Controller",
+      "descriptionText": "Formalized policies and procedures exist for obtaining, documenting and retaining consent. These policies and procedures are approved by Senior Management of Meridian.",
+      "criteriaIds": [
+        "P2.1",
+        "P3.2"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-002"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0911"
+      ],
+      "evidenceRequirementTexts": [
+        "Consent Management Policy"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-PR-07",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "PR-07",
+      "idStatus": "Tentative",
+      "family": "PR",
+      "title": "Consent Tracking - Data Controller",
+      "descriptionText": "Explicit consent is obtained from data subjects on Meridian website, Workday, and data centers prior to collection, use or disclosure of their personal information, and details such as identity of data subject, date & time of consent and method of obtaining consent are recorded and maintained within Onetrust tool. Data subjects (candidates, employees, contractors, and visitors) provide their explicit consent by signing the ‘Privacy Notice’ prior to collection, use, and / or disclosure of their personal information. Prior notices and consent records are retained as per Meridian standard retention policies.",
+      "criteriaIds": [
+        "P2.1",
+        "P3.2",
+        "P6.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-002"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0912"
+      ],
+      "evidenceRequirementTexts": [
+        "List of consents obtained from data subjects."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-PR-08",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "PR-08",
+      "idStatus": "Tentative",
+      "family": "PR",
+      "title": "Data Subject Rights Management Policy and Procedure - NXSC",
+      "descriptionText": "Formalized policies and procedures exist for managing the user entity access rights request related to access, erasure, rectification, restrict processing, object and right to be informed. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "P5.1",
+        "P5.2",
+        "P8.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0913",
+        "REQ-MER-0914"
+      ],
+      "evidenceRequirementTexts": [
+        "Data Subject Rights Management Procedure for NXSC",
+        "Screenshot from U-Central showing Data Subject Rights Management Procedure for NXSC"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-PR-09",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "PR-09",
+      "idStatus": "Tentative",
+      "family": "PR",
+      "title": "Data Subject Rights Management - NXSC",
+      "descriptionText": "Meridian provides user entities with the ability to extract, correct, amend, append, and delete all recorded personal information stored within NXSC. User entities can utilize the features available within NXSC to resolve such data subject requests, or they can reach out to Meridian by sending an email to “privacy@meridian.example”. As a data processor, Meridian forwards all data subject requests to the user entity to verify their authenticity and obtain confirmation to proceed. Meridian has implemented the “product incident management” procedure for receiving, addressing, resolving, and communicating the resolution of these requests from user entities.",
+      "criteriaIds": [
+        "P5.1",
+        "P5.2",
+        "P4.3",
+        "P8.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-002"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0915",
+        "REQ-MER-0916"
+      ],
+      "evidenceRequirementTexts": [
+        "Data Subject Rights Requests raised for NXSC between Mar-26 and Jun-26",
+        "For a sample of NXSC data subject requests, email/ticket chain showing resolution"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-PR-10",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "PR-10",
+      "idStatus": "Tentative",
+      "family": "PR",
+      "title": "Data Subject Rights Management Policy and Procedure - Data Controller",
+      "descriptionText": "Formalized policies and procedures exist for managing the user / employee / applicant access rights request related to access, erasure, rectification, restrict processing, object and right to be informed. These policies and procedures have been approved by Senior Management of Meridian.",
+      "criteriaIds": [
+        "P5.1",
+        "P5.2",
+        "P8.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-002"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0917",
+        "REQ-MER-0918"
+      ],
+      "evidenceRequirementTexts": [
+        "Data Subject Rights Management Procedure for Meridian",
+        "Screenshot from U-Central showing Data Subject Rights Management Procedure for Meridian"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-PR-11",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "PR-11",
+      "idStatus": "Tentative",
+      "family": "PR",
+      "title": "Data Subject Rights Management - Data Controller",
+      "descriptionText": "User / employee / applicant can reach out to Meridian by sending an email to “privacy@meridian.example” to resolve data subject requests to extract, correct, amend, append, and / or delete their data. The Meridian Privacy team validates the request and address, resolve, and communicate the resolution of authorized requests.",
+      "criteriaIds": [
+        "P5.1",
+        "P5.2",
+        "P4.3",
+        "P8.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-002"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0919",
+        "REQ-MER-0920"
+      ],
+      "evidenceRequirementTexts": [
+        "Data Subject Rights Requests raised for data within Meridian between Mar-26 and Jun-26",
+        "For a sample of Meridian data subject requests, email/ticket chain showing resolution"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-PR-12",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "PR-12",
+      "idStatus": "Tentative",
+      "family": "PR",
+      "title": "Breach Management",
+      "descriptionText": "Meridian creates and retains a complete, accurate, and timely record of detected or reported unauthorized disclosures (including breaches) of Meridian data and user entity data to meet the entity’s objectives related to privacy. Breaches are acted on in accordance with established incident response procedures. Meridian provides notification of data breaches and incidents to the affected user entities, regulators, and others, as applicable.",
+      "criteriaIds": [
+        "P6.3",
+        "P6.6",
+        "P8.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-002"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0921",
+        "REQ-MER-0922",
+        "REQ-MER-0923"
+      ],
+      "evidenceRequirementTexts": [
+        "List of breaches that occurred between Mar-26 and Jun-26",
+        "For a sample of breaches, JIRA ticket/email communication showing resolution of the breach.",
+        "For a sample of breaches, email communication showing Meridian provides notification of that data breach to the affected user entities, regulators, and others, as applicable."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-PR-13",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "PR-13",
+      "idStatus": "Tentative",
+      "family": "PR",
+      "title": "Data Protection Impact Assessment (DPIA) - NXSC",
+      "descriptionText": "On an annual basis, the Meridian Privacy Team performs Data Protection Impact Assessment (DPIA) for NXSC to evaluate and mitigate privacy risks related to the nature, scope, context, purpose, necessity, and proportionality of personal information; data life cycle management; data subject rights; and sub-processors.",
+      "criteriaIds": [
+        "P3.1",
+        "P4.1",
+        "P4.2",
+        "P4.3",
+        "P5.1",
+        "P5.2",
+        "P6.4",
+        "P8.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Unassigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0924"
+      ],
+      "evidenceRequirementTexts": [
+        "Annual DPIA for NXSC"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-PR-14",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "PR-14",
+      "idStatus": "Tentative",
+      "family": "PR",
+      "title": "Data Protection Impact Assessment (DPIA) - Data Controller",
+      "descriptionText": "On an annual basis, the Meridian Privacy Team performs Data Protection Impact Assessment (DPIA) for the Meridian Website and Workday to evaluate and mitigate privacy risks related to the nature, scope, context, purpose, necessity, and proportionality of personal information; data life cycle management; data subject rights; and sub-processors.",
+      "criteriaIds": [
+        "P3.1",
+        "P4.1",
+        "P4.2",
+        "P4.3",
+        "P5.1",
+        "P5.2",
+        "P6.4",
+        "P8.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-002"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0925",
+        "REQ-MER-0926"
+      ],
+      "evidenceRequirementTexts": [
+        "Annual DPIA report for Meridian Website.",
+        "Annual DPIA report for Workday."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-NXSC-PR-15",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "controlCode": "PR-15",
+      "idStatus": "Tentative",
+      "family": "PR",
+      "title": "Cookie Notice - Data Controller",
+      "descriptionText": "Formalized Cookie Notice for managing information collected through cookies is developed and published on Meridian Website and Workday covering the type of cookies collected, purpose, lawful ground of processing, and changes to Cookie Notice. It is approved by the Senior Management of Meridian. These notices communicate the following to the Data Subjects:\n• Purpose for collecting personal information and types\n• Choice, consent, and security for privacy\n• Methods of collection, use, access, retention, and disposal\n• Disclosure to third parties\n• Quality, including data subjects’ responsibilities for quality\n• Monitoring and enforcement\n• Consequences of denying or withdrawing consent and / or data transfers",
+      "criteriaIds": [
+        "P1.1",
+        "P2.1"
+      ],
+      "testProcedure": null,
+      "pocIds": [
+        "POC-MER-002"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-005",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0927",
+        "REQ-MER-0928"
+      ],
+      "evidenceRequirementTexts": [
+        "Meridian Cookie Notice available for Meridian's website.",
+        "Cookie Notice available on Workday."
+      ],
+      "status": "Not Started"
+    }
+  ]
+}

@@ -1,0 +1,416 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Immutable activity log (R-16) — parsed dated remarks",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
+    "engagementId": "ENG-MER-NXSC-2026",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025"
+  },
+  "summary": {
+    "events": 40
+  },
+  "events": [
+    {
+      "id": "ACT-MER-00303",
+      "at": "2026-06-15",
+      "byId": "USR-HA-003",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0674",
+      "note": "- Take confirmation from Corbin"
+    },
+    {
+      "id": "ACT-MER-00304",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0745",
+      "note": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00305",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0746",
+      "note": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00306",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0754",
+      "note": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00307",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0755",
+      "note": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00308",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0757",
+      "note": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00309",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0758",
+      "note": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00310",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0759",
+      "note": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00311",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0760",
+      "note": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00312",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0761",
+      "note": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00313",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0762",
+      "note": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00314",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0763",
+      "note": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00315",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0764",
+      "note": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00316",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0765",
+      "note": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00317",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0766",
+      "note": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00318",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0767",
+      "note": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00319",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0768",
+      "note": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00320",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0769",
+      "note": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00321",
+      "at": "2026-06-02",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0770",
+      "note": "Based on the call with Corbin on the same day, we are closing this requirement. If Sotos asks us to include it later, we will have to work around it."
+    },
+    {
+      "id": "ACT-MER-00322",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0770",
+      "note": "As discussed with my Senior, Marcus Iyengar, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00323",
+      "at": "2026-06-02",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0771",
+      "note": "Based on the call with Corbin on the same day, we are closing this requirement. If Sotos asks us to include it later, we will have to work around it."
+    },
+    {
+      "id": "ACT-MER-00324",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0771",
+      "note": "As discussed with my Senior, Marcus Iyengar, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00325",
+      "at": "2026-06-02",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0772",
+      "note": "Based on the call with Corbin on the same day, we are closing this requirement. If Sotos asks us to include it later, we will have to work around it."
+    },
+    {
+      "id": "ACT-MER-00326",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0772",
+      "note": "As discussed with my Senior, Marcus Iyengar, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00327",
+      "at": "2026-06-02",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0773",
+      "note": "Based on the call with Corbin on the same day, we are closing this requirement. If Sotos asks us to include it later, we will have to work around it."
+    },
+    {
+      "id": "ACT-MER-00328",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0773",
+      "note": "As discussed with my Senior, Marcus Iyengar, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00329",
+      "at": "2026-06-02",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0774",
+      "note": "Based on the call with Corbin on the same day, we are closing this requirement. If Sotos asks us to include it later, we will have to work around it."
+    },
+    {
+      "id": "ACT-MER-00330",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0774",
+      "note": "As discussed with my Senior, Marcus Iyengar, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00331",
+      "at": "2026-06-02",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0775",
+      "note": "Based on the call with Corbin on the same day, we are closing this requirement. If Sotos asks us to include it later, we will have to work around it."
+    },
+    {
+      "id": "ACT-MER-00332",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0775",
+      "note": "As discussed with my Senior, Marcus Iyengar, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00333",
+      "at": "2026-06-02",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0776",
+      "note": "Based on the call with Corbin on the same day, we are closing this requirement. If Sotos asks us to include it later, we will have to work around it."
+    },
+    {
+      "id": "ACT-MER-00334",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0776",
+      "note": "As discussed with my Senior, Marcus Iyengar, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00335",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0777",
+      "note": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00336",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0778",
+      "note": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00337",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0779",
+      "note": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00338",
+      "at": "2026-06-15",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0780",
+      "note": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+    },
+    {
+      "id": "ACT-MER-00339",
+      "at": "2026-06-09",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0788",
+      "note": "Extracted list from Crowdstrike is needed."
+    },
+    {
+      "id": "ACT-MER-00340",
+      "at": null,
+      "byId": "POC-MER-002",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0921",
+      "note": "No Breaches have occurred in the past 2 years"
+    },
+    {
+      "id": "ACT-MER-00341",
+      "at": null,
+      "byId": "POC-MER-002",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0922",
+      "note": "No Breaches have occurred in the past 2 years"
+    },
+    {
+      "id": "ACT-MER-00342",
+      "at": null,
+      "byId": "POC-MER-002",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0923",
+      "note": "No Breaches have occurred in the past 2 years"
+    }
+  ]
+}

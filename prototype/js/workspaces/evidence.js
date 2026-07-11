@@ -70,14 +70,46 @@
   /** Presentation tones shared by badges, markers, and rails. */
   var TONES = WS.TONES;
 
-  /** Evidence review-status vocabulary (read, never invented) and its tones. */
+  /**
+   * Evidence review-status vocabulary (read, never invented) and its tones.
+   * The production dataset's `reviewStatus` mirrors the shared evidenceStatus
+   * vocabulary (enums.json); the demo-lifecycle vocabulary (Approved/Pending
+   * Review/Rejected) is kept as a fallback for a differently sourced dataset.
+   */
   var REVIEW_STATUS = { APPROVED: 'Approved', PENDING_REVIEW: 'Pending Review', REJECTED: 'Rejected' };
-  var REVIEW_TONES = { 'Approved': TONES.SUCCESS, 'Pending Review': TONES.WARNING, 'Rejected': TONES.ERROR };
+  var REVIEW_TONES = {
+    'Approved': TONES.SUCCESS, 'Pending Review': TONES.WARNING, 'Rejected': TONES.ERROR,
+    'No Action': null,
+    'No Action - POC Details Requested by HA': TONES.WARNING,
+    'Requested by Consulting Team': TONES.INFO,
+    'Requested by SOC Team': TONES.INFO,
+    'Evidence Received - Under HA Review': TONES.INFO,
+    'Evidence Reviewed - Clarification Needed': TONES.WARNING,
+    'Evidence Partially Received': TONES.WARNING,
+    'Population Pending - HA unable to share samples': TONES.WARNING,
+    'All Evidence Received': TONES.SUCCESS,
+    'Not Applicable': null
+  };
 
-  /** Evidence-request status vocabulary (read, never invented) and its tones. */
+  /**
+   * Evidence-request status vocabulary (read, never invented) and its tones.
+   * The production dataset's `status` mirrors the same evidenceStatus
+   * vocabulary as review status; the demo-lifecycle vocabulary (Submitted/
+   * Accepted) is kept as a fallback for a differently sourced dataset.
+   */
   var REQUEST_STATUS = { PENDING: 'Pending', SUBMITTED: 'Submitted', ACCEPTED: 'Accepted', REJECTED: 'Rejected' };
   var REQUEST_TONES = {
-    'Pending': TONES.WARNING, 'Submitted': TONES.INFO, 'Accepted': TONES.SUCCESS, 'Rejected': TONES.ERROR
+    'Pending': TONES.WARNING, 'Submitted': TONES.INFO, 'Accepted': TONES.SUCCESS, 'Rejected': TONES.ERROR,
+    'No Action': null,
+    'No Action - POC Details Requested by HA': TONES.WARNING,
+    'Requested by Consulting Team': TONES.INFO,
+    'Requested by SOC Team': TONES.INFO,
+    'Evidence Received - Under HA Review': TONES.INFO,
+    'Evidence Reviewed - Clarification Needed': TONES.WARNING,
+    'Evidence Partially Received': TONES.WARNING,
+    'Population Pending - HA unable to share samples': TONES.WARNING,
+    'All Evidence Received': TONES.SUCCESS,
+    'Not Applicable': null
   };
 
   /** Request-priority vocabulary → tone. High reads urgent, Medium informational, Low neutral. */
@@ -424,12 +456,24 @@
   }
 
   /**
-   * Recent evidence activity, newest first: evidence receipts toned by review
-   * status, and request submissions. Every event derives from a real dated
-   * record; undated records never appear.
+   * Recent evidence activity, newest first: remarks recorded in the
+   * immutable activity log, falling back to evidence receipts / request
+   * submissions when a dataset carries those dated fields instead. Every
+   * event derives from a real dated record; undated records never appear.
    */
-  function deriveActivity(evidenceRecords, requestRecords) {
-    var events = [];
+  function deriveActivity(evidenceRecords, requestRecords, activityEvents, actorNames) {
+    var names = actorNames || {};
+    var events = asArray(activityEvents)
+      .filter(function (event) { return event && event.at; })
+      .map(function (event) {
+        return {
+          actor: names[event.byId] || (event.authorSide === 'ha' ? 'Halcyon' : 'Client'),
+          title: 'recorded a remark on ' + (event.entityId || event.entityType || ''),
+          meta: event.note || '',
+          timestamp: formatDate(event.at),
+          date: event.at
+        };
+      });
     asArray(evidenceRecords).forEach(function (item) {
       if (!item.uploadedOn) {
         return;
@@ -636,9 +680,14 @@
 
     var companies = state.listRecords('companies');
     var company = findById(companies, engagement.companyId);
-    var pocsById = indexById(state.listRecords('pocs'));
+    var pocs = state.listRecords('pocs');
+    var users = state.listRecords('users');
+    var pocsById = indexById(pocs);
     var teamsById = indexById(state.listRecords('teams'));
     var businessUnitsById = indexById(state.listRecords('business-units'));
+    var actorNames = {};
+    asArray(pocs).forEach(function (poc) { if (poc.id && poc.name) { actorNames[poc.id] = poc.name; } });
+    asArray(users).forEach(function (user) { if (user.id && user.name) { actorNames[user.id] = user.name; } });
 
     var evidenceDocument = readEngagementDocument(state, 'evidence', engagement.id) || {};
     var requestsDocument = readEngagementDocument(state, 'evidence-requests', engagement.id) || {};
@@ -647,6 +696,7 @@
     var testingDocument = readEngagementDocument(state, 'testing', engagement.id) || {};
     var findingsDocument = readEngagementDocument(state, 'findings', engagement.id) || {};
     var reportsDocument = readEngagementDocument(state, 'reports', engagement.id) || {};
+    var activityDocument = readEngagementDocument(state, 'activity', engagement.id) || {};
 
     var evidenceRecords = asArray(evidenceDocument.evidence);
     var requestRecords = asArray(requestsDocument.requests);
@@ -720,7 +770,7 @@
       reuse: reuse,
       lineage: deriveLineage(workspaceRegistry, operational),
       relationships: relationships,
-      activity: deriveActivity(evidenceRecords, requestRecords),
+      activity: deriveActivity(evidenceRecords, requestRecords, asArray(activityDocument.events), actorNames),
       metadata: deriveMetadata(evidenceDocument.metadata, engagement, company, evidenceRecords),
 
       footer: [

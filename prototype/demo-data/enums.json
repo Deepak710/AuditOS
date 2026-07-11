@@ -1,0 +1,66 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Canonical lifecycle enums transcribed from the Legend sheets and CSC-01 Working sheet (R-07)",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)"
+  },
+  "evidenceStatus": [
+    "No Action",
+    "No Action - POC Details Requested by HA",
+    "Requested by Consulting Team",
+    "Requested by SOC Team",
+    "Evidence Received - Under HA Review",
+    "Evidence Reviewed - Clarification Needed",
+    "Evidence Partially Received",
+    "Population Pending - HA unable to share samples",
+    "All Evidence Received",
+    "Not Applicable"
+  ],
+  "documentationStatus": [
+    "Pending - Evidence not received",
+    "Pending - Evidence Under HA Review",
+    "Partially Completed - Evidence under clarification / follow-up",
+    "In Progress - Evidence received, pending with HA",
+    "CD / TP changed, Document to be updated",
+    "Completed - Review Pending",
+    "In Progress - Resolution of Review comments",
+    "Completed"
+  ],
+  "walkthroughStatus": [
+    "Data not received",
+    "Pending",
+    "In Progress",
+    "Completed",
+    "Not Applicable"
+  ],
+  "testingStatus": [
+    "Data not received",
+    "Pending",
+    "In Progress",
+    "Completed",
+    "Not Applicable"
+  ],
+  "controlFrequency": [
+    "Daily",
+    "Weekly",
+    "Monthly",
+    "Quarterly",
+    "Halfyearly",
+    "Annual",
+    "As it Occurs",
+    "Continuous"
+  ],
+  "samplingMethod": [
+    "Random",
+    "Judgemental"
+  ],
+  "effectivenessConclusion": [
+    "Effective",
+    "Not effective"
+  ],
+  "tickmarks": {
+    "P": "Pass",
+    "O": "Fail"
+  }
+}

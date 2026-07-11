@@ -1,0 +1,2537 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Controls (R-10)",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
+    "engagementId": "ENG-MER-CSP-2025",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025"
+  },
+  "summary": {
+    "controls": 94,
+    "byWalkthroughStatus": {
+      "Completed": 94
+    },
+    "byTestingStatus": {
+      "Completed": 94
+    }
+  },
+  "controls": [
+    {
+      "id": "CTL-CSP-CSC-01",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CSC-01",
+      "idStatus": "Final",
+      "family": "CSC",
+      "title": "User Entity Workspace - IP Whitelisting",
+      "descriptionText": "As part of user entity onboarding, the Engineering team restricts access to the production workspace of each user entity by whitelisting their IP(s).",
+      "criteriaIds": [
+        "CC6.1",
+        "CC6.6",
+        "CC6.7"
+      ],
+      "testProcedure": "Inspected the configurations within CSP backend infrastructure to determine whether the Engineering team had restricted access to the production workspace of each user entity by whitelisting their IP(s).",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "frequency": "Continuous",
+      "pointInTime": true
+    },
+    {
+      "id": "CTL-CSP-CSC-02",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CSC-02",
+      "idStatus": "Final",
+      "family": "CSC",
+      "title": "Access Review - Cloud Infrastructure",
+      "descriptionText": "The CloudOps team performs a review of the administrative access to AWS, Okta, MongoDB, Datadog, PagerDuty, DevRev, and GitHub on a quarterly basis. Users along with their privileges are reviewed with the help of CISO within a Jira ticket. In case of any discrepancies, the CloudOps team takes necessary corrective actions. The CISO reviews the result of the review within the Jira ticket and provides sign off.",
+      "criteriaIds": [
+        "CC4.1",
+        "CC4.2",
+        "CC6.2",
+        "CC6.3",
+        "CC7.2"
+      ],
+      "testProcedure": "For a sample of quarters, inspected the Jira ticket to determine whether the CloudOps team performed a review of the administrative access to AWS, Okta, MongoDB, Datadog, PagerDuty, DevRev, and GitHub and whether the CISO provided sign off.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-CSC-03",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CSC-03",
+      "idStatus": "Final",
+      "family": "CSC",
+      "title": "Single sign on - AWS",
+      "descriptionText": "Access to AWS is restricted using single sign on (SSO) enforced by Okta, which uses Microsoft Entra ID as the iDP.",
+      "criteriaIds": [
+        "CC6.1",
+        "CC6.2",
+        "CC6.8"
+      ],
+      "testProcedure": "Inspected the configuration within Okta to determine whether access to AWS was restricted through Okta SSO using Microsoft Entra ID as the iDP.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-CSC-04",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CSC-04",
+      "idStatus": "Final",
+      "family": "CSC",
+      "title": "Privilege Access Management - AWS",
+      "descriptionText": "Privileged access to AWS resources hosting CSP infrastructure is restricted and governed through AWS IAM Policies.",
+      "criteriaIds": [
+        "CC6.1",
+        "CC6.2",
+        "CC6.8"
+      ],
+      "testProcedure": "Inspected the configurations to determine whether privileged access to AWS resources hosting CSP infrastructure was restricted and governed through AWS IAM Policies.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-CSC-05",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CSC-05",
+      "idStatus": "Final",
+      "family": "CSC",
+      "title": "Backup Configuration - AWS",
+      "descriptionText": "AWS Backup managed service is used by Meridian for backup of AWS services. Full backup of AWS RDS is scheduled every day and is retained for 21 days. Full backup of AWS Aurora is scheduled every week and is retained for 21 days.",
+      "criteriaIds": [
+        "A1.2",
+        "PI1.5"
+      ],
+      "testProcedure": "Inspected the configurations within AWS administrative console to determine whether full backup of AWS RDS was scheduled everyday and was retained for 21 days. / Additionally, inspected the configurations within AWS administrative console to determine whether full backup of AWS Aurora was scheduled every week and was retained for 21 days.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-CSC-06",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CSC-06",
+      "idStatus": "Final",
+      "family": "CSC",
+      "title": "Backup Replication - AWS",
+      "descriptionText": "Meridian has configured the backup copies of AWS Aurora to be automatically replicated across other regions.",
+      "criteriaIds": [
+        "A1.2",
+        "PI1.5"
+      ],
+      "testProcedure": "Inspected the configurations within AWS administrative console to determine whether replication to other regions of backup copies of AWS Aurora was enabled.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-CSC-07",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CSC-07",
+      "idStatus": "Final",
+      "family": "CSC",
+      "title": "Availability Zones (AZ) - AWS",
+      "descriptionText": "Meridian has configured the AWS resources of CSP to utilize multiple geographically separate availability zones.",
+      "criteriaIds": [
+        "A1.2",
+        "PI1.5"
+      ],
+      "testProcedure": "Inspected the configurations within AWS administrative console to determine whether AWS resources were utilized across multiple availability zones.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-CSC-08",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CSC-08",
+      "idStatus": "Final",
+      "family": "CSC",
+      "title": "Backup Restoration Tests",
+      "descriptionText": "CloudOps team performs backup restoration and recovery tests of CSP databases on a quarterly basis. Results of test are recorded within a Jira ticket. Failures in restoration, if any, are fixed by taking appropriate corrective actions and recording / documenting the same within the Jira ticket. The Senior Director of Information Security and Compliance team provides approval within the Jira ticket once the activity has concluded.",
+      "criteriaIds": [
+        "A1.2",
+        "A1.3"
+      ],
+      "testProcedure": "For a sample of quarters, inspected the Jira ticket to determine whether the CloudOps Team performed backup restoration and recovery tests of backed up CSP databases and whether the CISO provided sign-off.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-CSC-09",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CSC-09",
+      "idStatus": "Final",
+      "family": "CSC",
+      "title": "Disaster Recovery (DR) Drill",
+      "descriptionText": "On an annual basis, Meridian conducts disaster recovery simulation / tabletop exercise for the CSP product and its supporting infrastructure to test its business continuity and disaster recovery measures and determine the effectiveness of mitigating controls for business disruption risks. Post the activity, DR drill report is prepared by the CloudOps team, highlighting the tests conducted, test results, and improvement areas. The Senior Director of Information Security and Compliance team provides approval within a Jira ticket once the activity has concluded.",
+      "criteriaIds": [
+        "A1.3"
+      ],
+      "testProcedure": "Inspected the DR drill report for CSP product to determine whether a disaster recovery simulation / tabletop exercise was conducted and whether the drill documented controls and test results for infrastructure availability, system and data availability, uninterrupted process flow and training of personnel to handle disaster. / Additionally, inspected the Jira ticket to determine whether the Senior Director of Information Security and Compliance team provided sign-off.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-CSC-10",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CSC-10",
+      "idStatus": "Final",
+      "family": "CSC",
+      "title": "Data Purging",
+      "descriptionText": "Meridian has enabled configurations to automatically purge (permanently delete) data within AWS based on expiry of lifecycle rules.",
+      "criteriaIds": [
+        "CC6.5",
+        "C1.1",
+        "C1.2",
+        "PI1.5"
+      ],
+      "testProcedure": "Inspected the configurations within AWS administrative console to determine whether data within AWS was automatically purged based on expiry of lifecycle rules.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-CSC-11",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CSC-11",
+      "idStatus": "Final",
+      "family": "CSC",
+      "title": "Data Flow Diagram",
+      "descriptionText": "Meridian has defined and documented a data flow diagram for CSP to identify and track the flow of data between internal components and external entities, including data sources, transmission paths, and system boundaries.",
+      "criteriaIds": [
+        "CC2.1",
+        "PI1.1"
+      ],
+      "testProcedure": "Inspected the data flow diagram to determine whether the flow of data between internal components and external entities, including data sources, transmission paths, and system boundaries were tracked.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-CSC-12",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CSC-12",
+      "idStatus": "Final",
+      "family": "CSC",
+      "title": "AWS Shield",
+      "descriptionText": "Meridian has enabled AWS Shield between CSP and the internet to monitor, filter, and block HTTPS traffic as well as any potential attacks such as distributed denial of service (DDoS) on its web application.",
+      "criteriaIds": [
+        "CC6.1",
+        "CC6.6",
+        "CC6.7",
+        "CC7.2"
+      ],
+      "testProcedure": "Inspected the configurations within AWS administrative console to determine whether AWS Shield was enabled between CSP and the internet to monitor, filter, and block HTTPS traffic as well as any potential attacks on its web application.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-CSC-13",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CSC-13",
+      "idStatus": "Final",
+      "family": "CSC",
+      "title": "AWS NAT Gateway",
+      "descriptionText": "Meridian has implemented network address translation (NAT) within its VPCs using AWS NAT Gateway to manage and mask internal IPs, and to securely route outbound traffic from internal systems to external networks.",
+      "criteriaIds": [
+        "CC6.6",
+        "CC6.7"
+      ],
+      "testProcedure": "Inspected the configurations within AWS administrative console to determine whether AWS NAT Gateway was configured to manage and mask internal IPs, and to securely route outbound traffic from internal systems to external networks.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-CSC-14",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CSC-14",
+      "idStatus": "Final",
+      "family": "CSC",
+      "title": "External Traffic Restrictions – AWS Console",
+      "descriptionText": "Access to the AWS cloud environment hosting CSP and supporting infrastructure is restricted to authorized personnel using AWS Security Groups.",
+      "criteriaIds": [
+        "CC6.1 CC6.6 CC6.7"
+      ],
+      "testProcedure": "Inspected the configurations within AWS administrative console to determine whether AWS Security Groups was configured to restrict access to AWS Console and the services within the AWS cloud environment by whitelisting authorized IPs.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-CSC-15",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CSC-15",
+      "idStatus": "Final",
+      "family": "CSC",
+      "title": "AWS Security Groups - ruleset review",
+      "descriptionText": "CloudOps team performs AWS Security Groups ruleset review on an annual basis by extracting the AWS Security Groups ruleset from the AWS platform and reviewing them with the help of Senior Director of Information Security and Compliance team to identify stale / inaccurate / missing rules. In case of any discrepancies, the CloudOps team takes necessary corrective actions. The Senior Director of Information Security and Compliance team reviews the result of the review within the Jira ticket and provides sign off.",
+      "criteriaIds": [
+        "CC4.1 CC6.6"
+      ],
+      "testProcedure": "Inspected the AWS Security ruleset review Jira ticket to determine whether the CloudOps team performed a review of AWS Security Groups ruleset and whether the Senior Director of Information Security and Compliance team provided sign off.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-CSC-16",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CSC-16",
+      "idStatus": "Final",
+      "family": "CSC",
+      "title": "Encryption - AWS",
+      "descriptionText": "Meridian has enabled customer managed keys (CMK) to encrypt data-at-rest within AWS EC2 instances. The keys are configured to be automatically rotated using AWS KMS every 365 days. Default encryption provided by AWS is enabled to encrypt data-at-rest within AWS Aurora and RDS.",
+      "criteriaIds": [
+        "CC6.1 CC6.6 CC6.7 C1.1 C1.2 PI1.5"
+      ],
+      "testProcedure": "Inspected the configurations within AWS administrative console to determine whether customer managed keys (CMK) were enabled to encrypt data-at-rest within AWS EC2 instances. / Additionally, inspected the configurations within AWS administrative console to determine whether the customer managed keys (CMK) were configured to be automatically rotated every 365 days. / Further, inspected the configurations within AWS administrative console to determine whether default encryption provided by AWS was enabled to encrypt data-at-rest within AWS Aurora and RDS.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-CSC-17",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CSC-17",
+      "idStatus": "Final",
+      "family": "CSC",
+      "title": "Encryption - CSP",
+      "descriptionText": "Meridian has configured CSP to transmit application data over the internet using Hypertext Transfer Protocol Secure (HTTPS) over TLS v1.2 / TLS v1.3.",
+      "criteriaIds": [
+        "CC6.1",
+        "CC6.6",
+        "CC6.7",
+        "C1.1",
+        "C1.2",
+        "PI1.4"
+      ],
+      "testProcedure": "Inspected CSP product certificate to determine whether CSP was configured to transmit application data over the internet using Hypertext Transfer Protocol Secure (HTTPS) over TLS v1.2 or v1.3.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-CSC-18",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CSC-18",
+      "idStatus": "Final",
+      "family": "CSC",
+      "title": "Logging and Monitoring - AWS Infrastructure - (01st August 2024 to 28th February 2025)",
+      "descriptionText": "AWS CloudTrail is utilized to identify administrative events, authentication events, and system events to identify inappropriate access, security threats, and incidents within AWS Services using alerts. Alerts are configured by the CloudOps team to be re-directed to Datadog. Alerts that cross pre-defined thresholds have been configured to be sent as messages to Slack. The CloudOps team generates a JIRA ticket for confirmed true positive cases and tracks it to closure.",
+      "criteriaIds": [
+        "CC6.7",
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5",
+        "A1.1"
+      ],
+      "testProcedure": "Inspected the configuration settings within Datadog to determine whether alerts generated by AWS CloudTrail was configured to be re-directed to Datadog. / Additionally, inspected the configuration settings within Datadog to determine whether alerts that cross pre-defined thresholds were configured to be sent as messages to Slack. / Further, for a sample of JIRA tickets related to logging and monitoring of AWS Infrastructure, inspected the ticket to determine whether the CloudOps team analyzed and took necessary corrective actions prior to closing the ticket.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-CSC-19",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CSC-19",
+      "idStatus": "Final",
+      "family": "CSC",
+      "title": "Logging and Monitoring - CSP",
+      "descriptionText": "Luigi is utilized to identify administrative events, authentication events, and system events to identify inappropriate access, security threats, and incidents within CSP platform using alerts. Alerts are configured by the CSP Engineering team to be re-directed to Datadog, which is configured to send a Slack message and raise a PagerDuty incident when thresholds are exceeded. The CSP Engineering team analyses these PagerDuty incidents and documents the details of analysis, security violation, root cause, user / group responsible, severity of the incident / breach, and prevention and mitigation steps within PagerDuty until closure.",
+      "criteriaIds": [
+        "CC6.7",
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5",
+        "A1.1"
+      ],
+      "testProcedure": "Inspected the configuration settings within Luigi to determine whether alerts generated by CSP platform was configured to be re-directed to Datadog. / Additionally, inspected the configuration settings within Datadog to determine whether it was configured to automatically send a Slack message and raise PagerDuty incidents when thresholds were exceeded. / Further, for a sample of PagerDuty incidents related to logging and monitoring of CSP product, inspected the ticket to determine whether the CSP Engineering team analyzed and took necessary corrective actions prior to closing the ticket.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-CSC-20",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CSC-20",
+      "idStatus": "Final",
+      "family": "CSC",
+      "title": "Capacity management - AWS",
+      "descriptionText": "Karpenter is utilized to maintain CSP application availability and optimize cluster efficiency by dynamically autoscaling AWS Kubernetes pods and EC2 instances based on workload demands.",
+      "criteriaIds": [
+        "CC6.6",
+        "A1.1"
+      ],
+      "testProcedure": "Inspected the Karpenter terraform configurations defined for CSP to determine whether Karpenter was utilized to maintain CSP application availability and optimize cluster efficiency by dynamically autoscaling AWS Kubernetes pods and EC2 instances based on workload demands.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-CSC-21",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CSC-21",
+      "idStatus": "Final",
+      "family": "CSC",
+      "title": "Reporting to User Entities",
+      "descriptionText": "Meridian has developed a status webpage (https://status.actioniq.com) that offers visibility into the CSP’s response and availability metrics across all cloud service providers and geographical instances. User entities can opt to subscribe to be notified of system incidents within this webpage.",
+      "criteriaIds": [
+        "A1.2"
+      ],
+      "testProcedure": "Inspected the status webpage for CSP to determine whether application response and availability metrics across all cloud service providers and geographical instances were reported to the user entities.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-CSC-22",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CSC-22",
+      "idStatus": "Final",
+      "family": "CSC",
+      "title": "Support procedures for User Entities",
+      "descriptionText": "Meridian has prepared and maintained a support website (https://help.actioniq.com/) containing resources such as product documentation, best practices, training materials, guides, troubleshooting tips, and community forums to help user entities effectively utilize CSP.",
+      "criteriaIds": [
+        "PI1.1",
+        "PI1.2"
+      ],
+      "testProcedure": "Inspected the support website for CSP to determine whether resources such as product documentation, best practices, training materials, guides, troubleshooting tips, and community forums were documented.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-CUS-01",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CUS-01",
+      "idStatus": "Final",
+      "family": "CUS",
+      "title": "Customer Support Workflow",
+      "descriptionText": "Meridian has defined and documented a customer support workflow to identify and track the reporting and resolution of problems or incidents related to the Customer Signal Platform (CSP).",
+      "criteriaIds": [
+        "CC2.2",
+        "CC2.3",
+        "CC5.3"
+      ],
+      "testProcedure": "Inspected the customer support workflow to determine whether the reporting and resolution of problems or incidents related to the Customer Signal Platform (CSP) were tracked.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-CUS-02",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CUS-02",
+      "idStatus": "Final",
+      "family": "CUS",
+      "title": "Customer Support Tickets",
+      "descriptionText": "User entities can report issues by raising an issue from the front end of CSP, sending an email to “support_aiq@meridian.example”, or raise a ticket via “https://help.actioniq.com”. These are recorded as customer support tickets within the DevRev Ticketing Tool. Agents within the Customer Support team analyses the customer query and provides resolution by coordinating with other teams within Meridian, as required. Upon resolution, the DevRev ticket is closed.",
+      "criteriaIds": [
+        "CC2.2",
+        "CC2.3",
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5"
+      ],
+      "testProcedure": "For a sample of CSP incidents raised by user entities, inspected the DevRev ticket to determine whether resolution was provided by the Customer Support team prior to closing the ticket.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-CUS-03",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CUS-03",
+      "idStatus": "Final",
+      "family": "CUS",
+      "title": "Data Ingestion, Processing, and Export",
+      "descriptionText": "Meridian has configured Luigi to monitor CSP platform for data ingestion, data duplication, data processing, and / or data export errors through alerts. Alerts are configured by the CSP Engineering team to be re-directed to Datadog, which is monitored by the Customer Support team. The Customer Support team analyses these Datadog alerts and raises DevRev tickets for true positive cases and documents the details of analysis, root cause, and prevention and mitigation steps within the DevRev ticket until closure.",
+      "criteriaIds": [
+        "PI1.1",
+        "PI1.2",
+        "PI1.3",
+        "PI1.4"
+      ],
+      "testProcedure": "Inspected the configuration settings within Luigi to determine whether alerts generated by CSP platform was configured to be re-directed to Datadog. / Additionally, for a sample of DevRev tickets related to data ingestion, data duplication, data processing, and / or data export errors, inspected the ticket to determine whether the Customer Support team analyzed and took necessary corrective actions prior to closing the ticket.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-CUS-04",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "CUS-04",
+      "idStatus": "Final",
+      "family": "CUS",
+      "title": "Data Ingestion Reports",
+      "descriptionText": "Meridian has configured a row level reconciliation process to execute before and after data ingestion to ensure the completeness and accuracy of the ingested data. Results of reconciliation are documented within a DevRev ticket.",
+      "criteriaIds": [
+        "PI1.2",
+        "PI1.4"
+      ],
+      "testProcedure": "For a sample of DevRev tickets related to data ingestion, inspected the ticket to determine whether a row level reconciliation process was executed before and after data ingestion to ensure the completeness and accuracy of the ingested data.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-HR-01",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "HR-01",
+      "idStatus": "Final",
+      "family": "HR",
+      "title": "New Hire Induction",
+      "descriptionText": "New hires are required to sign the following documents at the time of joining to acknowledge the acceptance of terms to maintain the confidentiality and integrity of information within the organization: / 1. Appointment Letter consisting of Code of Ethics and Business Conduct (COBC), and / 2. Non-Disclosure Agreement (NDA).",
+      "criteriaIds": [
+        "CC1.1",
+        "CC1.5",
+        "CC9.2",
+        "C1.1"
+      ],
+      "testProcedure": "For a sample of new hires, inspected the Appointment Letter and Non Disclosure Agreement (NDA) acknowledgement to determine whether the users had signed and agreed to preserve ethical values and the confidentiality and integrity of information within Meridian.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-HR-02",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "HR-02",
+      "idStatus": "Final",
+      "family": "HR",
+      "title": "Employee Handbook",
+      "descriptionText": "Formalized employee handbook is documented to communicate expected workforce conduct, organizational policies, and associated enforcement procedures. This document is published on U-Central and accessible by all users.",
+      "criteriaIds": [
+        "CC1.1",
+        "CC2.2",
+        "CC5.3"
+      ],
+      "testProcedure": "Performed inquiry with Senior HR Operations Specialist to determine whether formalized employee handbook was published on U-Central and accessible by all users. / Additionally, inspected the employee handbook to determine whether it communicated expected workforce conduct, organizational policies, and associated enforcement procedures.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-HR-03",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "HR-03",
+      "idStatus": "Final",
+      "family": "HR",
+      "title": "Background and Reference Checks",
+      "descriptionText": "The Human Resource team is responsible for carrying out background checks for new hires before the date of hire with the help of a third-party vendor, who conducts these checks and provides a background check report to Meridian. The following background checks are performed: / ► International Criminal Searches, / ► International Global Watchlist, / ► International Education Verification, and / ► International Employment Verification.",
+      "criteriaIds": [
+        "CC1.1",
+        "CC1.4"
+      ],
+      "testProcedure": "For a sample of new hires, inspected the background verification reports to determine whether background check was performed before the date of hire for parameters such as International Criminal Searches, International Global Watchlist, International Education Verification, and International Employment Verification.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-HR-04",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "HR-04",
+      "idStatus": "Final",
+      "family": "HR",
+      "title": "User Trainings - New Hires",
+      "descriptionText": "New hires are required to attend the following virtual trainings on Mindtickle platform during induction containing elements of information security policies, security threats overview, email security, password security, and incident management reporting mechanisms during breaches: / 1. Global Code of Ethics and Business Conduct, and / 2. Information Security and Compliance.",
+      "criteriaIds": [
+        "CC1.1",
+        "CC1.4",
+        "CC1.5",
+        "CC2.2"
+      ],
+      "testProcedure": "Inspected the Global Code of Ethics and Business Conduct and Information Security and Compliance training material to determine whether it contained elements of information security policies, security threats overview, email security, password security, and incident management reporting mechanisms during breaches. / Additionally, for a sample of new hires, inspected the training completion records within Mindtickle to determine whether the new hires were made aware of code of conduct and information security and compliance during induction.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-HR-05",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "HR-05",
+      "idStatus": "Final",
+      "family": "HR",
+      "title": "User Trainings - Active Users",
+      "descriptionText": "On an annual basis, all active users are required to attend the following virtual Information Security and Compliance refresher trainings on Mindtickle platform, which includes information security policies, security threats overview, email security, password security, and incident management reporting mechanisms during breaches.",
+      "criteriaIds": [
+        "CC1.1",
+        "CC1.4",
+        "CC1.5",
+        "CC2.2"
+      ],
+      "testProcedure": "Inspected the refresher Information Security and Compliance training material to determine whether it contained elements of information security policies, security threats overview, email security, password security, and incident management reporting mechanisms during breaches. / Additionally, for a sample of active users, inspected the training completion records within Mindtickle to determine whether the active users completed the refresher trainings.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-HR-06",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "HR-06",
+      "idStatus": "Final",
+      "family": "HR",
+      "title": "Performance Evaluation",
+      "descriptionText": "Performance evaluations are carried out on a bi-annual basis for employees who have been in the organization for more than six months. The Human Resource team informs the employees and reporting managers to fill out evaluation forms within Workday HRMS tool.",
+      "criteriaIds": [
+        "CC1.4",
+        "CC1.5"
+      ],
+      "testProcedure": "For a sample of active employees who have been in Meridian for more than six months, inspected the performance evaluation results within Workday to determine whether performance evaluations were carried out by employees and their reporting managers.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-HR-07",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "HR-07",
+      "idStatus": "Final",
+      "family": "HR",
+      "title": "VCSOM evaluation",
+      "descriptionText": "Vision, Culture, Strategy, Operating Model (VCSOM) evaluations are carried out on an annual basis for employees who have been in the organization for more than six months. The Human Resource team informs the employees and reporting managers to fill out VCSOM evaluation forms within Workday HRMS tool.",
+      "criteriaIds": [
+        "CC1.4",
+        "CC1.5",
+        "CC3.1 CC3.2 CC4.1"
+      ],
+      "testProcedure": "For a sample of active employees who have been in Meridian for more than six months, inspected the VCSOM evaluation results within Workday to determine whether VCSOM evaluations were carried out by employees and their reporting managers.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-01",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-01",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Organization Chart",
+      "descriptionText": "Meridian has established an organizational structure to define reporting lines, authorities, and responsibilities for CSP to meet its objectives for providing Software as a Service (SaaS) services to its user entities.",
+      "criteriaIds": [
+        "CC1.3",
+        "CC1.5"
+      ],
+      "testProcedure": "Inspected the Meridian organizational chart to determine whether Meridian has defined an organizational structure which describes the line of authority and the individual roles and responsibilities.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-02",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-02",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "User job roles and responsibilities",
+      "descriptionText": "Roles and responsibilities are defined in written job descriptions to assign responsibility for security, confidentiality, availability, and processing integrity.",
+      "criteriaIds": [
+        "CC1.3",
+        "CC1.5"
+      ],
+      "testProcedure": "Inquired the Information Security Senior Manager to determine whether the Job Descriptions were updated within Workday and reflect the current job responsibilities. / Additionally, for a sample of Job Descriptions, inspected the job description to determine whether roles and responsibilities were defined.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-03",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-03",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Risk Management Procedure",
+      "descriptionText": "Meridian has defined and documented a Risk Management Procedure that contains guidelines for the identification, preparation, and categorization of risks to satisfy business information, legal and regulatory requirements. It is published on Meridian SharePoint and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC3.1",
+        "CC3.2",
+        "CC3.3",
+        "CC3.4",
+        "CC5.1",
+        "CC5.2",
+        "CC5.3",
+        "CC9.1"
+      ],
+      "testProcedure": "Inspected the Risk Management Procedure to determine whether guidelines for the identification, preparation, and categorization of risks to satisfy business information, legal and regulatory requirements were defined and documented. / Additionally, inspected Meridian SharePoint to determine whether the Risk Management Procedure was published on Meridian SharePoint and was reviewed and approved by CISO on annual basis.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-04",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-04",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Annual Risk Assessment",
+      "descriptionText": "The Information Security & Compliance team performs risk assessment of the various functions within Meridian with the support of internal Meridian stakeholders and prepares a risk register. Risks are identified based on inherent risk value, internal and external threats, vulnerabilities, likelihood, and potential impact to Meridian’s objectives, assets, and operations. Risks are evaluated based on impact magnitude and expectancy criteria in context of CIS Critical Security Controls, information security, data integrity, confidentiality, and availability. Mitigating controls are identified to bring the inherent risk to acceptable levels and is documented within a Jira ticket.",
+      "criteriaIds": [
+        "CC3.1",
+        "CC3.2",
+        "CC3.3",
+        "CC3.4",
+        "CC5.1",
+        "CC5.2",
+        "CC9.1",
+        "CC9.2"
+      ],
+      "testProcedure": "Inspected the Risk Register and corresponding Jira ticket to determine whether the Information Security & Compliance team identified, reviewed, and documented the risks associated with its various functions in context of CIS Critical Security Controls, information security, data integrity, confidentiality, and availability.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-05",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-05",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Vendor Risk Management - Onboarding Assessments",
+      "descriptionText": "The Information Security & Compliance Team performs vendor onboarding assessments for new vendors and third-party service providers as part of its vendor risk management process. The Information Security & Compliance team requests independent compliance and security related certifications to assess whether the vendor meets the third-party information security requirements defined by Meridian.",
+      "criteriaIds": [
+        "CC3.1",
+        "CC3.2",
+        "CC3.3",
+        "CC3.4",
+        "CC5.1",
+        "CC5.2",
+        "CC9.1",
+        "CC9.2"
+      ],
+      "testProcedure": "For a sample of vendors and third party service providers onboarded during the audit period, inspected the onboarding assessment report to determine whether Information Security & Compliance team assessed whether the vendor meets the third-party information security requirements defined by Meridian.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-06",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-06",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Management Review Meetings (MRM)",
+      "descriptionText": "On an annual basis, Management Review Meetings (MRM) are conducted amongst the Executive Management, Steering Committee (SSC), CISO, Legal team, Privacy team, and the Information Security & Compliance teams to ensure security initiatives are in line with company objectives and to discuss non-conformities and findings identified during information security internal audits / risk assessments / any other assessments, incidents, and their respective corrective actions were performed.",
+      "criteriaIds": [
+        "CC3.3",
+        "CC3.4",
+        "CC4.1",
+        "CC4.2"
+      ],
+      "testProcedure": "Inspected the Management Review Meeting invites, agenda, and minutes to determine whether the Executive Management, Steering Committee (SSC), CISO, Legal team, Privacy team, and the Information Security & Compliance teams met annually to ensure security initiatives were in line with company objectives and discussed nonconformities and findings identified during information security internal audits / risk assessments / other assessments, incidents, and their respective corrective actions.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-07",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-07",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Board of Directors Independence",
+      "descriptionText": "Meridian operates under the direction of its Board of Directors. The Board of Directors comprises of members independent from Meridian’s daily operations.",
+      "criteriaIds": [
+        "CC1.2"
+      ],
+      "testProcedure": "Performed inquiry with Meridian CISO to determine whether Board of Directors constituted of members independent of Meridian daily operations. / Additionally, inspected the ‘List of Directors’ and Board of Directors structure of Meridian to determine whether the Board of Directors demonstrated independence from Meridian's daily operations.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-08",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-08",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Board of Directors Meeting",
+      "descriptionText": "On an annual basis, matters related to Meridian’s results of operations, cybersecurity updates, projections for the coming quarter, and any major changes, are discussed between the Board of Directors and key members of management.",
+      "criteriaIds": [
+        "CC1.2",
+        "CC4.2"
+      ],
+      "testProcedure": "Inspected the annual Board of Directors Meeting invites, agenda, and minutes to determine whether matters related to Meridian’s results of operations, projections for the coming quarter, and any major changes were discussed between Board of Directors and key members of management.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-09",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-09",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Information Security Internal Audit",
+      "descriptionText": "On an annual basis, an information security management system related internal audit is conducted to assess the operating effectiveness of controls related to information security and information technology. This audit is conducted for CSP, User Access Management, Information Security, Network Security, Endpoint Security, Physical Security, and Human Resource Security. Observations or issues identified during the audit are documented in the internal audit report along with recommendations for resolutions of the observations or issues and a management response is sought for action plans.",
+      "criteriaIds": [
+        "CC4.1",
+        "CC4.2"
+      ],
+      "testProcedure": "Inspected the Internal Audit Report to determine whether information security and information technology related internal audit was conducted to assess the operating effectiveness of controls related to information security and information technology for CSP, User Access Management, Information Security, Data Privacy, Network Security, Endpoint Security, Physical Security, and Human Resource Security.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-10",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-10",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Subservice Organization Assessments",
+      "descriptionText": "On an annual basis, the Information Security & Compliance team assesses the subservice organization’s compliance with the applicable security, confidentiality, availability, and processing integrity commitments; and evaluates the impact of any noted exceptions of relevant controls and Complementary User Entity Controls by obtaining and evaluating their annual System and Organization Control attestation report.",
+      "criteriaIds": [
+        "CC3.1",
+        "CC3.2",
+        "CC3.3",
+        "CC3.4",
+        "CC5.1",
+        "CC5.2",
+        "CC9.1",
+        "CC9.2"
+      ],
+      "testProcedure": "Inspected the Subservice Organization Assessment report to determine whether the GRC team had assessed the subservice organizations’ compliance with security, confidentiality, availability, processing integrity, and privacy commitments by evaluating their System and Organization Control attestation report.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-11",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-11",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Vendor Risk Management - Annual Re-assessments",
+      "descriptionText": "On an annual basis, the Information Security & Compliance Team performs a re-assessment for all vendors and third-party service providers as part of its vendor risk management process. Observations identified during the assessment are communicated to the third-party service providers and are tracked to closure by the Information Security & Compliance team.",
+      "criteriaIds": [
+        "CC3.1",
+        "CC3.2",
+        "CC3.3",
+        "CC3.4",
+        "CC5.1",
+        "CC5.2",
+        "CC9.1",
+        "CC9.2"
+      ],
+      "testProcedure": "For a sample of vendors and third party service providers, inspected the re-assessment report to determine whether Information Security & Compliance team assessed whether the vendor meets the third-party information security requirements defined by Meridian. / Additionally, inspected the relevant Jira tickets to determine whether observations were tracked to closure.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-12",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-12",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "ISO 27001",
+      "descriptionText": "2022 and PCI DSS v4.0:\nOn an annual basis, assessment under standard ISO/IEC 27001:2022 and PCI DSS v4.0 are performed by an external certification body.",
+      "criteriaIds": [
+        "CC4.1 CC4.2"
+      ],
+      "testProcedure": "Inspected the ISO 27001:2022 and PCI DSS v4.0 certificates to determine whether Meridian was certified by external certification bodies.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-13",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-13",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Information Security Awareness",
+      "descriptionText": "On a monthly basis, the Information Security and Compliance team sends mass emails to all users on information security awareness updates and leading practices in order to spread awareness.",
+      "criteriaIds": [
+        "CC2.2"
+      ],
+      "testProcedure": "For a sample of months, inspected the mails sent by the Information Security and Compliance team to determine whether all users were made aware about information security awareness updates and leading practices.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-14",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-14",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "MSA - User Entities",
+      "descriptionText": "Meridian defines its terms of service; security obligations; intellectual property; availability, confidentiality, and processing integrity commitments; and compliance with laws within its Master Software and Services Agreements (MSAs) that are signed with user entities during onboarding.",
+      "criteriaIds": [
+        "CC1.3",
+        "CC2.1",
+        "CC2.3",
+        "CC9.2",
+        "C1.1",
+        "PI1.1"
+      ],
+      "testProcedure": "For a sample of user entities, inspected the Master Software and Services Agreements to determine whether terms of service; security obligations; intellectual property; availability, confidentiality, and processing integrity commitments; and compliance with laws were defined and signed.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-15",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-15",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "MSA",
+      "descriptionText": "MSA\nSOW - Vendors: / Service levels, security, confidentiality, availability, and processing integrity commitments with all third-party service providers and vendors are agreed as a part of MSA / SOW signed with them.",
+      "criteriaIds": [
+        "CC1.3",
+        "CC2.1",
+        "CC2.3",
+        "CC9.2",
+        "C1.1",
+        "PI1.1"
+      ],
+      "testProcedure": "For a sample of third party service providers and vendors, inspected the MSA / SOW to determine whether service levels, security, confidentiality, availability, and processing integrity commitments were mutually agreed and signed off by both parties.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-16",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-16",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Software Development Lifecycle (SDLC) Procedure",
+      "descriptionText": "Meridian has defined and documented a SDLC Procedure that contains guidelines on best practices for training and implementation of software security during application development to maximize their inherent security. It is published on Meridian SharePoint and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC5.3",
+        "CC8.1",
+        "PI1.3",
+        "PI1.5"
+      ],
+      "testProcedure": "Inspected the Software Development Lifecycle Procedure to determine whether guidelines on best practices for training and implementation of software security during application development to maximise their inherent security were defined and documented. / Additionally, inspected Meridian SharePoint to determine whether the Software Development Lifecycle Procedure was published on Meridian SharePoint and was reviewed and approved by CISO.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-17",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-17",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Global Information Security Policy",
+      "descriptionText": "Meridian has defined and developed the Global Information Security Policy addressing matters related to system security, availability, confidentiality, and processing integrity principles. / Additionally, the following are also defined: / ► Meridian's objectives pertaining to integrity and ethical values / i. Code of Business Conduct / ii. Role Competencies / iii. Disciplinary Policies / ► Human Resources security policy for hiring, termination, and periodic performance appraisals of users, / ► Clear desk and clear screen policy, / ► Media Handling Guidelines for electronic and paper based media disposal, / ► Access Control Policies for user access management, privilege management, and password management, and / ► Physical Security Policy for physical security and environmental safeguards. / It is published on Meridian SharePoint and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC1.3",
+        "CC1.5",
+        "CC2.2",
+        "CC5.3",
+        "CC6.4",
+        "CC9.1",
+        "C1.2",
+        "A1.2",
+        "PI1.1"
+      ],
+      "testProcedure": "Inspected the Global Information Security Policy to determine whether system security, availability, confidentiality, and processing integrity principles; code of business conduct, role competencies, disciplinary policies, human resources security policy, clear desk and clear screen policy, media handling guidelines, access control policies, and physical security policies were defined and documented. / Additionally, inspected Meridian SharePoint to determine whether the Global Information Security Policy was published on Meridian SharePoint and was reviewed and approved annually by CISO.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-18",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-18",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Dedicated CISO",
+      "descriptionText": "Meridian has a designated CISO with documented information security roles and responsibilities to oversee the development, implementation, monitoring, and communication of security policies and procedures.",
+      "criteriaIds": [
+        "CC1.3"
+      ],
+      "testProcedure": "Inspected the Meridian organization structure to determine whether a designated CISO was heading an independent Information Security and Compliance team.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-19",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-19",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Asset Management Procedure",
+      "descriptionText": "Meridian has defined and documented an Asset Management Procedure which contains baseline requirements for Meridian's information systems and assets. The procedure also contains guidance regarding the ownership, acceptable use, classification, monitoring, disposal, and destruction of assets. It is published on Meridian SharePoint and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC5.2",
+        "CC5.3",
+        "CC6.1"
+      ],
+      "testProcedure": "Inspected the Asset Management Procedure to determine whether baseline requirements for Meridian's information systems and assets; and guidance regarding the ownership, acceptable use, classification, monitoring, disposal, and destruction of assets were defined and documented. / Additionally, inspected Meridian SharePoint to determine whether the Asset Management Procedure was published on Meridian SharePoint and was reviewed and approved by CISO.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-20",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-20",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Data Classification and Handling Procedure",
+      "descriptionText": "Meridian has defined and documented a Data Classification and Handling Procedure that contains guidelines to restrict and protect Meridian and its customers' information during storage, processing, and transmission. It is published on Meridian SharePoint and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC3.2",
+        "CC5.3",
+        "C1.1",
+        "C1.2"
+      ],
+      "testProcedure": "Inspected the Data Classification and Handling Procedure to determine whether guidelines to restrict and protect Meridian and its customers' information during storage, processing, and transmission were defined and documented. / Additionally, inspected Meridian SharePoint to determine whether the Data Classification and Handling Procedure was published on Meridian SharePoint and was reviewed and approved by CISO.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-21",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-21",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Data Retention Policy",
+      "descriptionText": "Meridian has defined and documented a Data Retention Policy that contains guidelines for storage, retention, and disposal of data. It is published on Meridian SharePoint and is reviewed and approved by the Assistant General Counsel on an annual basis.",
+      "criteriaIds": [
+        "CC5.3",
+        "CC6.1",
+        "CC6.5",
+        "CC6.7",
+        "C1.2",
+        "PI1.5"
+      ],
+      "testProcedure": "Inspected the Data Retention Policy to determine whether guidelines for storage, retention, and disposal of data were defined and documented. / Additionally, inspected Meridian SharePoint to determine whether the Data Retention Policy was published on Meridian SharePoint and was reviewed and approved by Assistant General Counsel.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-22",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-22",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Data Backup and Restore Policy",
+      "descriptionText": "Meridian has defined a Data Backup and Restore Policy describing the guidelines for performing and restoring backups. This procedure is published on Meridian SharePoint and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC5.3",
+        "A1.2",
+        "A1.3",
+        "PI1.5"
+      ],
+      "testProcedure": "Inspected the Data Backup and Restore Policy to determine whether guidelines for performing and restoring backups were defined and documented. / Additionally, inspected Meridian SharePoint to determine whether the Data Backup and Restore Policy was published on Meridian SharePoint and was reviewed and approved by CISO.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-23",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-23",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Business Continuity and Disaster Recovery Procedure",
+      "descriptionText": "Meridian has defined a Business Continuity and Disaster Recovery Procedure describing the guidelines for plan activation, recovery strategy, impact analysis, simulation handling, rollback, and restoration procedures. This procedure is published on Meridian SharePoint and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC5.3",
+        "CC9.1",
+        "A1.2"
+      ],
+      "testProcedure": "Inspected the Business Continuity and Disaster Recovery Procedure to determine whether guidelines for plan activation, recovery strategy, impact analysis, simulation handling, rollback, and restoration procedures were defined and documented. / Additionally, inspected Meridian SharePoint to determine whether the Business Continuity Planning and Disaster Recovery Policy was published on Meridian SharePoint and was reviewed and approved by CISO.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-24",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-24",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Cyber Insurance",
+      "descriptionText": "Meridian has procured a cyber insurance to offset the financial losses that could occur due to critical security incidents.",
+      "criteriaIds": [
+        "CC9.1",
+        "CC9.2"
+      ],
+      "testProcedure": "Inspected the cyber insurance procured by Meridian to determine whether it could offset the financial losses that could occur due to critical security incidents.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-25",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-25",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Incident Response Procedure",
+      "descriptionText": "Meridian has defined and documented an Incident Response Procedure for reporting, classification, containment, and resolution of security incidents. It is published on Meridian SharePoint and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC2.2",
+        "CC2.3",
+        "CC5.3",
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5"
+      ],
+      "testProcedure": "Inspected the Incident Response Procedure to determine whether procedures for reporting, classification, containment, and resolution of security incidents were defined and documented. / Additionally, inspected Meridian SharePoint to determine whether the Incident Response Procedure was published on Meridian SharePoint and was reviewed and approved by CISO.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-26",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-26",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Endpoint Security and Device Hardening Standard",
+      "descriptionText": "Meridian has defined and documented an Endpoint Security and Device Hardening Standard that contains hardening requirements to secure Meridian's endpoints, network, underlying infrastructure, and other information systems. It is published on Meridian SharePoint and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC5.3",
+        "CC6.1"
+      ],
+      "testProcedure": "Inspected the Endpoint Security and Device Hardening Standard to determine whether hardening requirements to secure Meridian's endpoints, network, underlying infrastructure, and other information systems were defined and documented. / Additionally, inspected Meridian SharePoint to determine whether the Endpoint Security and Device Hardening Standard was published on Meridian SharePoint and was reviewed and approved by CISO.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-27",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-27",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Whistleblower Policy",
+      "descriptionText": "Meridian has defined and documented a Whistleblower Policy within the Employee Handbook that contains guidelines for employees to report concerns of unethical behavior, allegations of fraud, or violation of the company's code of business conduct policy, regulatory rules, and laws. It is published on U-Central.",
+      "criteriaIds": [
+        "CC1.1",
+        "CC2.2",
+        "CC5.3"
+      ],
+      "testProcedure": "Inspected the Whistleblower Policy within the Employee Handbook to determine whether guidelines for employees to report concerns of unethical behaviour, allegations of fraud, or violation of the company's code of business conduct policy, regulatory rules, and laws were defined and documented. / Additionally, inspected U-Central to determine whether the Whistleblower Policy was published on U-Central.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-28",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-28",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Vulnerability and Patch Management Procedure",
+      "descriptionText": "Meridian has defined and documented a Vulnerability and Patch Management Procedure that contains guidelines to prevent, detect, and remediate vulnerabilities within Meridian's applications and underlying infrastructure. It is published on Meridian SharePoint and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC3.2",
+        "CC4.1",
+        "CC5.3",
+        "CC6.6",
+        "CC6.8",
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5",
+        "CC8.1"
+      ],
+      "testProcedure": "Inspected the Vulnerability and Patch Management Procedure to determine whether guidelines to prevent, detect and remediate vulnerabilities within Meridian's applications and underlying infrastructure were defined and documented. / Additionally, inspected Meridian SharePoint to determine whether the Vulnerability and Patch Management Procedure was published on Meridian SharePoint and was reviewed and approved by CISO.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-29",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-29",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Third Party Risk Management Procedure",
+      "descriptionText": "Meridian has defined and documented a Third Party Risk Management Procedure that contains guidelines to describe the due diligence and oversight processes for third-party services and software application procurement. It is published on Meridian SharePoint and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC5.3",
+        "CC9.1",
+        "CC9.2"
+      ],
+      "testProcedure": "Inspected the Third Party Risk Management Procedure to determine whether guidelines to describe the due diligence and oversight processes for third-party services and software application procurement were defined and documented. / Additionally, inspected Meridian SharePoint to determine whether the Third Party Risk Management Procedure was published on Meridian SharePoint and was reviewed and approved by CISO.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-ISMS-30",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "ISMS-30",
+      "idStatus": "Final",
+      "family": "ISMS",
+      "title": "Phishing Simulation",
+      "descriptionText": "On an annual basis, Meridian conducts phishing simulation exercises.",
+      "criteriaIds": [
+        "CC1.1",
+        "CC1.4",
+        "CC1.5",
+        "CC2.2"
+      ],
+      "testProcedure": "Inspected the phishing simulation exercise report to determine whether a phishing simulation exercise was conducted.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-IT-01",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "IT-01",
+      "idStatus": "Final",
+      "family": "IT",
+      "title": "Asset Inventory",
+      "descriptionText": "Corporate IT team maintains a list of workstations, servers, and network devices identifying the asset ID, asset owner, asset location, asset type and model of the asset within Freshdesk.",
+      "criteriaIds": [
+        "CC6.1"
+      ],
+      "testProcedure": "Inspected the asset inventory within Freshdesk to determine whether Corporate IT Team maintains a list of workstations, servers and network devices identifying the asset ID, asset owner, asset location, asset type and model of the asset.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-IT-02",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "IT-02",
+      "idStatus": "Final",
+      "family": "IT",
+      "title": "Access Creation - IT accounts",
+      "descriptionText": "When a user joins the organization, HR team creates a user ID within Workday HRMS tool, which automatically sends an email communication to the IT team and Workspace Experience team and creates an account within Microsoft Entra.",
+      "criteriaIds": [
+        "CC6.1",
+        "CC6.2",
+        "CC6.3"
+      ],
+      "testProcedure": "Inspected the configuration within Workday HRMS and Microsoft Entra to determine whether an account within Microsoft Entra was automatically created when a user ID was created within Workday HRMS tool. / Additionally, for a sample of new joiners, inspected the automated Workday emails and access creation logs within Microsoft Entra to determine whether the Microsoft Entra ID accounts were created.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-IT-03",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "IT-03",
+      "idStatus": "Final",
+      "family": "IT",
+      "title": "Access Revocation - IT accounts",
+      "descriptionText": "On the last working day of a user, whether resignation, termination, or absconding, HR team deactivates the user ID within Workday HRMS tool, which automatically deactivates the user's account within Microsoft Entra. The IT team validates the access revocation of the user on the last working day and confirms the same via email.",
+      "criteriaIds": [
+        "CC6.2",
+        "CC6.3",
+        "CC6.5"
+      ],
+      "testProcedure": "Inspected the configuration within Workday HRMS and Microsoft Entra to determine whether an account within Microsoft Entra was automatically deactivated when a user ID was deactivated within Workday HRMS tool. / Additionally, for a sample of leavers, inspected the email sent by IT team to determine whether the user's access was revoked on or before their last working date.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-IT-04",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "IT-04",
+      "idStatus": "Final",
+      "family": "IT",
+      "title": "Access Review - IT Infrastructure",
+      "descriptionText": "The Information Security & Compliance team performs a review of the administrative access to firewalls and Okta on a quarterly basis. Users along with their privileges are reviewed with the help of CISO within a Jira ticket. In case of any discrepancies, the respective team takes necessary corrective actions. The CISO reviews the result of the review within the Jira ticket and provides sign off.",
+      "criteriaIds": [
+        "CC6.2",
+        "CC6.3",
+        "CC7.2"
+      ],
+      "testProcedure": "For a sample of quarters, inspected the Jira ticket to determine whether the Information Security & Compliance team performed a review of the administrative access to firewall and Okta and whether the CISO provided sign off.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-IT-05",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "IT-05",
+      "idStatus": "Final",
+      "family": "IT",
+      "title": "Password and Account Lockout Policy – Microsoft Entra",
+      "descriptionText": "Meridian has implemented Microsoft Entra to enforce password and account lockout policy settings on end user workstations. These policy settings include password length as 12 characters, password complexity, password history as 24 passwords remembered, and password expiry as 90 days. Multi-factor authentication is enforced for all users added to Microsoft Entra. User accounts are locked after 5 invalid logon attempts and account lockout is reset after 30 minutes through group policy settings.",
+      "criteriaIds": [
+        "CC6.1"
+      ],
+      "testProcedure": "Inspected the group policy settings configured on Meridian Microsoft Entra to determine whether password settings included configurations to enforce password length as 12 characters, password complexity, password history as 24 passwords remembered, and password expiry as 90 days, account lockout after 5 invalid logon attempts, and account lockout was reset after 30 minutes through group policy settings.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-IT-06",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "IT-06",
+      "idStatus": "Final",
+      "family": "IT",
+      "title": "Data Destruction",
+      "descriptionText": "Documentation, workstations, and media devices are sanitized prior to disposal or decommissioning in accordance with the Asset Management Procedure.",
+      "criteriaIds": [
+        "CC6.1",
+        "CC6.5",
+        "CC6.7",
+        "CC7.1",
+        "C1.2",
+        "PI1.5"
+      ],
+      "testProcedure": "Inspected the Certificate of Destruction to determine whether documentation, workstations, and media devices were sanitized prior to disposal or decommissioning in accordance with the Asset Management Procedure.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-IT-07",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "IT-07",
+      "idStatus": "Final",
+      "family": "IT",
+      "title": "Firewall Rules",
+      "descriptionText": "Meridian has implemented perimeter firewalls on the Bengaluru, Palo Alto, and Nottingham delivery center internet gateways to proactively identify and protect Meridian network against security, availability, confidentiality, and processing integrity threats from sources outside the system boundaries. Rules are enforced on the firewalls to: / ► ‘deny all’ traffic by default with access enabled for specific services as per business requirements, / ► protect against Distributed Denial of Service (DDoS) and IP spoofing attacks, and / ► configure Intrusion Prevention System (IPS) and web filters to monitor and prevent intrusion attempts.",
+      "criteriaIds": [
+        "CC6.1",
+        "CC6.6",
+        "CC6.7"
+      ],
+      "testProcedure": "Inspected the management approved network diagrams of Bengaluru, Palo Alto, and Nottingham delivery centers to determine whether firewall was implemented on the delivery center's internet gateway. / Additionally, inspected the configurations within the firewalls to determine whether rules were configured and enforced to: / ► ‘deny all’ traffic by default with access enabled for specific services as per business requirements, / ► protect against Distributed Denial of Service (DDoS) and IP spoofing attacks, and / ► configure Intrusion Prevention System (IPS) and web filters to monitor and prevent intrusion attempts.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-IT-08",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "IT-08",
+      "idStatus": "Final",
+      "family": "IT",
+      "title": "Change Management - Meridian Infrastructure",
+      "descriptionText": "Changes to the Meridian on-premises infrastructure are logged within Freshdesk tickets and tracked to closure by the Corp IT team.",
+      "criteriaIds": [
+        "CC8.1"
+      ],
+      "testProcedure": "For a sample of on-premises infrastructure change tickets raised on Freshdesk tool, inspected the ticket to determine whether description of change and actions taken to implement the change were documented within the ticket.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-IT-09",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "IT-09",
+      "idStatus": "Final",
+      "family": "IT",
+      "title": "Patch Management - Meridian Infrastructure",
+      "descriptionText": "Meridian has implemented the following patch management tools to ensure up-to-date patches are deployed on the endpoints in accordance with the Vulnerability and Patch Management Procedure: / ► Automox for Windows and Linux / ► Kandji for MacBooks",
+      "criteriaIds": [
+        "CC8.1"
+      ],
+      "testProcedure": "For a sample of endpoint Windows and MacBooks laptops, inspected the Automox / Kandji patch management tool to determine whether the latest patches were applied on the MacBooks and Windows laptops in accordance with the Vulnerability and Patch Management Procedure.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-SDLC-01",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "SDLC-01",
+      "idStatus": "Final",
+      "family": "SDLC",
+      "title": "Segregation of Environments",
+      "descriptionText": "The development, staging, and production environments are hosted on logically segregated Virtual Private Clouds (VPC) within AWS.",
+      "criteriaIds": [
+        "CC8.1",
+        "PI1.1"
+      ],
+      "testProcedure": "Inspected the URLs of the development, staging, and production environments to determine whether these instances were logically segregated separate VPCs within the Meridian AWS environment.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-SDLC-02",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "SDLC-02",
+      "idStatus": "Final",
+      "family": "SDLC",
+      "title": "Technical Specification and Design",
+      "descriptionText": "Authorized feature development / patch release / hotfix requirements are communicated to the CSP developers by the Project Manager using work items within a Jira ticket.",
+      "criteriaIds": [
+        "CC8.1",
+        "PI1.1",
+        "PI1.2",
+        "PI1.3",
+        "PI1.5"
+      ],
+      "testProcedure": "For a sample of commits on the GitHub master branch, inspected the corresponding Jira tickets to determine whether authorized feature development / patch release / hotfix requirements were communicated to the CSP developers by the Project Manager using work items within a Jira ticket.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-SDLC-03",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "SDLC-03",
+      "idStatus": "Final",
+      "family": "SDLC",
+      "title": "Coding - Peer Review",
+      "descriptionText": "A developer performs coding in the development environment. A peer or Technical Lead carries out a code review to ensure completeness and accuracy of the code and results of the review are documented within GitHub. Upon successful completion of the code review, the peer reviewer provides sign off within GitHub, and the developer initiates security testing.",
+      "criteriaIds": [
+        "CC8.1",
+        "PI1.3"
+      ],
+      "testProcedure": "For a sample of commits on the GitHub master branch, inspected the signoff within GitHub to determine whether a peer (an employee other than the developer of the code) had conducted a code review to ensure completeness and accuracy of the code prior to initiating security testing.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-SDLC-04",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "SDLC-04",
+      "idStatus": "Final",
+      "family": "SDLC",
+      "title": "Security Testing",
+      "descriptionText": "Upon successful completion of the peer code review, a scheduled job is automatically run to perform unit test validation [or] Snyk static code analysis. Deployment of code onto production is restricted until all security checks have passed.",
+      "criteriaIds": [
+        "CC8.1",
+        "PI1.3"
+      ],
+      "testProcedure": "For a sample of commits, inspected the status of all-checks-pass.yml job [or] Snyk static code analysis job within GitHub to determine whether all security checks had passed prior to deployment of code onto production.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-SDLC-05",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "SDLC-05",
+      "idStatus": "Final",
+      "family": "SDLC",
+      "title": "Require Pull Request",
+      "descriptionText": "Meridian has enabled configurations to require all commits to be made to a non-target branch and submitted via a pull request before they can be merged with the master branch.",
+      "criteriaIds": [
+        "CC8.1",
+        "PI1.4"
+      ],
+      "testProcedure": "Inspected the configurations on GitHub to determine whether all commits were required to be submitted via a pull request before they could be merged with the master branch.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-SDLC-06",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "SDLC-06",
+      "idStatus": "Final",
+      "family": "SDLC",
+      "title": "Deployment of code to production",
+      "descriptionText": "Upon successful completion of testing, the commit is merged with the master branch and closed using a pull request. As part of the CI-CD pipeline, a GitHub action automatically performs integration checks and deploys the code onto the production environment.",
+      "criteriaIds": [
+        "CC8.1",
+        "PI1.4"
+      ],
+      "testProcedure": "For a sample of commits, inspected the GitHub actions page to determine whether the code was deployed onto production post completion of all testing.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-SO-01",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "SO-01",
+      "idStatus": "Final",
+      "family": "SO",
+      "title": "Vulnerability Assessment and Penetration Testing",
+      "descriptionText": "On an annual basis, third-party vendors conduct application level, network level, and API vulnerability assessments and penetration tests for CSP. Based on the findings of these tests, Information Security & Compliance / Security Operations team follows up with the relevant stakeholders on appropriate corrective and preventive actions for identified gaps until closure of the gaps. Based on the confirmation received from the relevant stakeholders, Information Security & Compliance / Security Operations team notifies the third-party vendor to perform rescan to confirm the closure of gaps through email. On completion of rescan, third-party vendor shares the summary report (Compliant Report) with the Information Security & Compliance / Security Operations team.",
+      "criteriaIds": [
+        "CC3.2",
+        "CC4.1",
+        "CC6.6",
+        "CC6.8",
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5"
+      ],
+      "testProcedure": "Inspected the annual vulnerability assessment and penetration test reports for CSP to determine whether application level, network level, and API vulnerability and penetration tests for CSP were conducted, and corrective and preventive actions were tracked to closure for identified vulnerabilities.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-SO-02",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "SO-02",
+      "idStatus": "Final",
+      "family": "SO",
+      "title": "Removable Media Restrictions",
+      "descriptionText": "Removable media devices such as Compact Disk (CD) readers-writers and Universal Serial Bus (USB) are disabled on end-user workstations through group policy configured on Microsoft MDM.",
+      "criteriaIds": [
+        "CC6.1",
+        "CC6.7",
+        "C1.1"
+      ],
+      "testProcedure": "Inspected the group policy configuration on Microsoft MDM to determine whether removable media devices such as Compact Disk (CD) readers-writers and Universal Serial Bus (USB) are disabled on end-user workstations.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-SO-03",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "SO-03",
+      "idStatus": "Final",
+      "family": "SO",
+      "title": "Anti-Virus",
+      "descriptionText": "Meridian has deployed CrowdStrike Falcon EDR software on its endpoints for protection against malware and intrusion attempts. The EDR software is configured to perform real-time scans. The EDR software has built in controls for tamper protection.",
+      "criteriaIds": [
+        "CC6.8"
+      ],
+      "testProcedure": "Inspected the CrowdStrike Falcon EDR software configurations to determine whether the EDR software was configured to perform real-time scans to protect against malware and intrusion attempts; and whether agent tamper protection was enabled.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-SO-04",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "SO-04",
+      "idStatus": "Final",
+      "family": "SO",
+      "title": "Email Security",
+      "descriptionText": "Meridian uses Microsoft Defender for cloud‑based protection of Meridian O365 email to detect and block phishing, malicious links, malware, and attachments.",
+      "criteriaIds": [
+        "CC6.8"
+      ],
+      "testProcedure": "Inspected the configurations within Microsoft O365 Defender to determine whether Defender was configured to perform cloud‑based protection of Meridian O365 email to detect and block phishing, malicious links, malware, and attachments.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-SO-05",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "SO-05",
+      "idStatus": "Final",
+      "family": "SO",
+      "title": "Logging and Monitoring - AWS Infrastructure - (01st March 2025 to 31st July 2025)",
+      "descriptionText": "AWS CloudTrail is utilized to identify administrative events, authentication events, and system events to identify inappropriate access, security threats, and incidents within AWS Services using alerts. Alerts are configured by the CloudOps team to be re-directed to ProACT tool. The SISA MXDR team analyses the alerts and generate a Freshdesk ticket for confirmed true positive cases. The Security Operations team analyses these Freshdesk tickets and documents the details of analysis, security violation, root cause, user / group responsible, severity of the incident / breach, and prevention and mitigation steps within the Freshdesk ticket until closure.",
+      "criteriaIds": [
+        "CC6.7",
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5",
+        "A1.1"
+      ],
+      "testProcedure": "Inspected the configuration settings within ProACT to determine whether alerts generated by AWS CloudTrail was configured to be re-directed to ProACT. / Additionally for a sample of Freshdesk tickets related to logging and monitoring of AWS Infrastructure, inspected the ticket to determine whether the Security Operations team analyzed and took necessary corrective actions prior to closing the ticket.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-SO-06",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "SO-06",
+      "idStatus": "Final",
+      "family": "SO",
+      "title": "Logging and Monitoring - IT Infrastructure",
+      "descriptionText": "Administrative events, authentication events, and system events generated by CrowdStrike, Microsoft MDM, and firewalls to identify inappropriate access, security threats, and incidents are configured by the Security Operations team to be re-directed to ProACT tool. The SISA MXDR team analyses the alerts and generate a Freshdesk ticket for confirmed true positive cases. The Security Operations team analyses these Freshdesk tickets and documents the details of analysis, security violation, root cause, user / group responsible, severity of the incident / breach, and prevention and mitigation steps within the Freshdesk ticket until closure.",
+      "criteriaIds": [
+        "CC6.7",
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5",
+        "A1.1"
+      ],
+      "testProcedure": "Inspected the configuration settings within ProACT to determine whether alerts generated by CrowdStrike, Microsoft MDM, and firewalls were configured to be re-directed to ProACT. / Additionally for a sample of Freshdesk tickets related to logging and monitoring of CrowdStrike, Microsoft MDM, and firewalls, inspected the ticket to determine whether the Security Operations team analyzed and took necessary corrective actions prior to closing the ticket.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-SO-07",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "SO-07",
+      "idStatus": "Final",
+      "family": "SO",
+      "title": "Information Security Incident Management",
+      "descriptionText": "Users report the actual / suspected information security incident / breaches to the Security Operations team by raising a ticket in Freshdesk tool. The Security Operations team, Meridian Computer Security Incident Response Team (CSIRT), and Legal team performs analysis of the incident / breach and documents the details of analysis, security violation, root cause, user / group responsible, severity of the incident / breach, and prevention and mitigation steps within the Freshdesk ticket until closure.",
+      "criteriaIds": [
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5"
+      ],
+      "testProcedure": "For a sample of security incidents / breaches, inspected the Freshdesk ticket to determine whether the Security Operations team performed analysis of the incident / breach and documented the details of analysis, security violation, root cause, user / group responsible, severity of the incident / breach, and prevention and mitigation steps within the Freshdesk ticket before closing the ticket.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-WE-01",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "WE-01",
+      "idStatus": "Final",
+      "family": "WE",
+      "title": "Security Guards",
+      "descriptionText": "Entry / exit points of the Meridian delivery centers are manned at all times by third-party physical security guards.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": "Through the use of video streaming technology assisted by Meridian Workspace Experience team, inspected the Meridian Delivery Centers to determine whether security guards were stationed at the main entry and exit points of Delivery Centers.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-WE-02",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "WE-02",
+      "idStatus": "Final",
+      "family": "WE",
+      "title": "CCTV",
+      "descriptionText": "Closed Circuit Television (CCTV) surveillance equipment is used to monitor the entry and exit points, work areas, and server rooms of Meridian Delivery Centers.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": "Through the use of video streaming technology assisted by Meridian Workspace Experience team, inspected the Meridian Delivery Centers to determine whether CCTV surveillance equipment was installed at the entry and exit points, work areas, and server rooms. / Additionally, through the use of video streaming technology assisted by Meridian Workspace Experience team, inspected the CCTV monitoring room to determine whether the CCTV recordings were monitored by the Meridian Workspace Experience team.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-WE-03",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "WE-03",
+      "idStatus": "Final",
+      "family": "WE",
+      "title": "Access Control System - entry/exit points",
+      "descriptionText": "Access to entry and exit points to Meridian delivery centers are controlled by a card-based access control system.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": "Through the use of video streaming technology assisted by Meridian Workspace Experience team, inspected the Meridian Delivery Centers to determine whether card-based access control system was installed to restrict access to entry and exit points to the delivery center.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-WE-04",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "WE-04",
+      "idStatus": "Final",
+      "family": "WE",
+      "title": "Physical Access Creation",
+      "descriptionText": "Based on the automated email from Workday HRMS tool, the Workspace Experience team grants access to the user by issuing an access card and activating it within the Access Control Software of that Delivery Center to provide physical access to that delivery center.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": "For a sample of new hires, inspected the email from Workspace Experience team to determine whether physical access was provided to the user after receiving the automated email from Workday HRMS tool.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-WE-05",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "WE-05",
+      "idStatus": "Final",
+      "family": "WE",
+      "title": "Physical Access Deactivation",
+      "descriptionText": "Based on the email from HR team, the Workspace Experience team deactivates the physical access of the user to the delivery center on the Access Control Software of that delivery center within one day of intimation.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": "For a sample of resigned / terminated / absconding users, inspected the email from HR Team to determine whether resignation / termination / absconding user was notified by HR Team to Workspace Experience team for deactivation of physical access to the Meridian Delivery Center. / Additionally, for a sample of resigned / terminated / absconding users, inspected the email from Workspace Experience team to determine whether the physical access for resigned / terminated / absconding user was deactivated within one day of the intimation.",
+      "testResults": [
+        "No deviations noted.",
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-WE-06",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "WE-06",
+      "idStatus": "Final",
+      "family": "WE",
+      "title": "Physical Access Reconciliation",
+      "descriptionText": "Physical access to Meridian Delivery Centers is reconciled on an annual basis by the Workspace Experience team. The Workspace Experience team extracts the list of active users that have access to Meridian delivery centers from the access control software of that delivery center and compares this list with the list of active users shared by HR team. In case of any discrepancies, the Workspace Experience team takes necessary corrective actions and shares the results of the review with the Information Security & Compliance team.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": "Inspected the annual physical access user reconciliation email communication between Workspace Experience team and the Information Security & Compliance team to determine whether a reconciliation of the personnel with access to the Meridian Delivery Centers and the list of active users was performed.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-WE-07",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "WE-07",
+      "idStatus": "Final",
+      "family": "WE",
+      "title": "Fire Detection and Prevention",
+      "descriptionText": "Fire extinguishers and smoke detectors are installed at various locations within the delivery centers.",
+      "criteriaIds": [
+        "A1.2"
+      ],
+      "testProcedure": "Through the use of video streaming technology assisted by Workspace Experience team, inspected the Meridian delivery centers to determine whether fire extinguishers and smoke detectors were installed.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-WE-08",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "WE-08",
+      "idStatus": "Final",
+      "family": "WE",
+      "title": "Power",
+      "descriptionText": "Meridian delivery centers are supported by uninterruptible power supply (UPS) systems and diesel generators (DG) for continuous operation of hardware equipment in the event of power failure.",
+      "criteriaIds": [
+        "A1.1",
+        "A1.2"
+      ],
+      "testProcedure": "Through the use of video streaming technology assisted by Workspace Experience team, inspected the Meridian delivery centers to determine whether uninterruptible power supply (UPS) systems and diesel generators (DG) were installed.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    },
+    {
+      "id": "CTL-CSP-WE-09",
+      "engagementId": "ENG-MER-CSP-2025",
+      "controlCode": "WE-09",
+      "idStatus": "Final",
+      "family": "WE",
+      "title": "Equipment Maintenance",
+      "descriptionText": "Maintenance vendors conduct the preventive maintenance of critical equipment including fire detection, prevention, and suppression equipment, UPS and DG sets as per preventive maintenance contracts to maintain the continued operability of the equipment.",
+      "criteriaIds": [
+        "A1.1",
+        "A1.2"
+      ],
+      "testProcedure": "Inspected the preventive maintenance reports to determine whether preventive maintenance of fire detection, prevention, and suppression equipment, UPS and DG sets were conducted as per preventive maintenance contracts.",
+      "testResults": [
+        "No deviations noted."
+      ],
+      "pocIds": [],
+      "ownershipStatus": "Historical",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "status": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": []
+    }
+  ]
+}

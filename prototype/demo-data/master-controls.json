@@ -1,0 +1,6039 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Client master-control cross-references (R-10)",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)"
+  },
+  "mappings": [
+    {
+      "id": "MC-ZPQP-CSC-01",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CSC-01",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-01"
+          ]
+        },
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CSC-02",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CSC-02",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "F11",
+            "F12",
+            "J06"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-02"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CSC-03",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CSC-03",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "F09"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-03"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CSC-04",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CSC-04",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "F16"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-04"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CSC-05",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CSC-05",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "J04"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-05"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-05"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CSC-06",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CSC-06",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "J05"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "New Control"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CSC-07",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CSC-07",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-06"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CSC-08",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CSC-08",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-07"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CSC-09",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CSC-09",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-08"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-08"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CSC-10",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CSC-10",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-09"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-09"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CSC-11",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CSC-11",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-10"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-10"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CSC-12",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CSC-12",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-11"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CSC-13",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CSC-13",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-12"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CSC-14",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CSC-14",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-13"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CSC-15",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CSC-15",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "F18"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-14"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CSC-16",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CSC-16",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-15"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-15"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CSC-17",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CSC-17",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-16"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-16"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-16"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CSC-18",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CSC-18",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-17"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-17"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-17"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-17"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-17"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-17"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-17"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CSC-19",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CSC-19",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "D05",
+            "D07",
+            "F17"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-18"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-18"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-18"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CSC-20",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CSC-20",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-19"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-19"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-19"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-19"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-19"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CSC-21",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CSC-21",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "D06",
+            "F20"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-20"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CSC-22",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CSC-22",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-21"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-21"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-21"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-21"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-21"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-21"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-21"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CSC-23",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CSC-23",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-22"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CUS-01",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CUS-01",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CUS-02",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CUS-02",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CUS-03",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CUS-03",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CUS-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CUS-04",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CUS-04",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CUS-02"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CUS-05",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CUS-05",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CUS-03"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-CUS-06",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-CUS-06",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CUS-04"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-HR-01",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-HR-01",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "A05"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-HR-02",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-HR-02",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-02"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-HR-03",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-HR-03",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "A06"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-03"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-HR-04",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-HR-04",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-HR-05",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-HR-05",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "A05",
+            "B01"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-04"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-HR-06",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-HR-06",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-HR-07",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-HR-07",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "A04"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-06"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-HR-08",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-HR-08",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-07"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-01",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-01",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "A01"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-02",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-02",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "A02",
+            "A03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-02"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-03",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-03",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "C01"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-03"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-04",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-04",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "C02"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-04"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-05",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-05",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "D02"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-06",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-06",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "A15",
+            "D04"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-06"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-07",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-07",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "A14"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-07"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-08",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-08",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "A14"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-08"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-09",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-09",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "C07"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-09"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-10",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-10",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "D01"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-10"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-12",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-12",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "D03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-11"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-13",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-13",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "C03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-12"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-14",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-14",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-13"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-15",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-15",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "B10"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-14"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-16",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-16",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "I01"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-15"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-17",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-17",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "B08"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-16"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-18",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-18",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "A10",
+            "B02",
+            "B05",
+            "F01",
+            "F02",
+            "K01"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-17"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-19",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-19",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-18"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-20",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-20",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "B04"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-19"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-21",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-21",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "B06"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-20"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-22",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-22",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-21"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-21"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-23",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-23",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "J03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-22"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-24",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-24",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "J01",
+            "J02"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-23"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-25",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-25",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-24"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-26",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-26",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "B03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-25"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-27",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-27",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "B07"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-26"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-28",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-28",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-27"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-29",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-29",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-30",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-30",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-31",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-31",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-32",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-32",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "C04"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-28"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-ISMS-33",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-ISMS-33",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "I02"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-29"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-IT-01",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-IT-01",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-IT-02",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-IT-02",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "F05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-IT-03",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-IT-03",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "F07"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-IT-04",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-IT-04",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "F06",
+            "F08",
+            "F23",
+            "F27",
+            "F31",
+            "F33",
+            "F35"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-04"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-IT-05",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-IT-05",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "F09",
+            "F10"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-IT-06",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-IT-06",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-IT-07",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-IT-07",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-IT-08",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-IT-08",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-IT-09",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-IT-09",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-06"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-IT-10",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-IT-10",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "F21",
+            "F24",
+            "F26",
+            "F29"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-07"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-IT-11",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-IT-11",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "F22"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-08"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-IT-12",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-IT-12",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "F30"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-09"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-SDLC-01",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-SDLC-01",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "H14"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-SDLC-02",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-SDLC-02",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "H03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-02"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-SDLC-03",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-SDLC-03",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "H04"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-03"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-SDLC-04",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-SDLC-04",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-04"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-SDLC-05",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-SDLC-05",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "H06"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-SDLC-06",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-SDLC-06",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "H07",
+            "H08",
+            "H09"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-SDLC-07",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-SDLC-07",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-SDLC-08",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-SDLC-08",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-06"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-SDLC-09",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-SDLC-09",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "H11"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-06"
+          ]
+        },
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "H18"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-SO-01",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-SO-01",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "C06"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SO-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-SO-02",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-SO-02",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "C05"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-SO-03",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-SO-03",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "F34"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SO-02"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-SO-04",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-SO-04",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "F32"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SO-03"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-SO-05",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-SO-05",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SO-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-SO-06",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-SO-06",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "B09",
+            "D05",
+            "D08"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SO-06"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-WE-01",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-WE-01",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "F37"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-WE-02",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-WE-02",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "F41"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-02"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-WE-03",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-WE-03",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "F36"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-03"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-WE-04",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-WE-04",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-WE-05",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-WE-05",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-WE-06",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-WE-06",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-WE-07",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-WE-07",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "F38"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-04"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-WE-08",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-WE-08",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "F39"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-WE-09",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-WE-09",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "F40"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-06"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-WE-10",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-WE-10",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-WE-11",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-WE-11",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "J08"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-07"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-WE-12",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-WE-12",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-WE-13",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-WE-13",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "J10"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-08"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-WE-14",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-WE-14",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "J09",
+            "J10"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-09"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-PR-01",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-PR-01",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "M01",
+            "M02"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-PR-02",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-PR-02",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-PR-03",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-PR-03",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "M08"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-PR-04",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-PR-04",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-PR-05",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-PR-05",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "M07"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-PR-06",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-PR-06",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-PR-07",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-PR-07",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-PR-08",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-PR-08",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "M03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-PR-10",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-PR-10",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-PR-13",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-PR-13",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": [
+            "M09"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-PR-14",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-PR-14",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-ZPQP-PR-15",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "controlId": "CTL-ZPQP-PR-15",
+      "refs": [
+        {
+          "target": "Zephyr Platform & Quanta Portfolio",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-HR-01",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-HR-01",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "A05"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-HR-02",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-HR-02",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-02"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-HR-03",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-HR-03",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "A06"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-03"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-HR-04",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-HR-04",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-HR-05",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-HR-05",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "A05",
+            "B01"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-04"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-HR-06",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-HR-06",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-HR-07",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-HR-07",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "A04"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-06"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-HR-08",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-HR-08",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-07"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-01",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-01",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "A01"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-02",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-02",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "A02",
+            "A03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-02"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-03",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-03",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "C01"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-03"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-04",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-04",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "C02"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-04"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-05",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-05",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "D02"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-06",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-06",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "A15"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-06"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-07",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-07",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "A14"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-07"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-08",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-08",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "A14"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-08"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-09",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-09",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "C07"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-09"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-10",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-10",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "D01"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-10"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-11",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-11",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "D03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-11"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-12",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-12",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "C03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-12"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-13",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-13",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-13"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-14",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-14",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "B10"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-14"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-15",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-15",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "I01"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-15"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-16",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-16",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "B08"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-16"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-17",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-17",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "A10",
+            "B02",
+            "B05",
+            "F01",
+            "F02",
+            "K01"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-17"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-18",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-18",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-18"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-19",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-19",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "B04"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-19"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-20",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-20",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "B06"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-20"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-21",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-21",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-21"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-21"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-22",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-22",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "J03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-22"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-23",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-23",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "J01",
+            "J02"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-23"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-24",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-24",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-24"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-25",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-25",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "B03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-25"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-26",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-26",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "B07"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-26"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-27",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-27",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-27"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-28",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-28",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-29",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-29",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-30",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-30",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-31",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-31",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "C04"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-28"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-ISMS-32",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-ISMS-32",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "I02"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-29"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-IT-01",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-IT-01",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-IT-03",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-IT-03",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F07"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-IT-04",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-IT-04",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F06",
+            "F08",
+            "F23",
+            "F27",
+            "F31",
+            "F33",
+            "F35"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-04"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-IT-05",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-IT-05",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F09",
+            "F10"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-IT-06",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-IT-06",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-IT-07",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-IT-07",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-IT-08",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-IT-08",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-IT-09",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-IT-09",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-06"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-IT-10",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-IT-10",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F21",
+            "F24",
+            "F26",
+            "F29"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-07"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-IT-11",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-IT-11",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F22"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-08"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-IT-12",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-IT-12",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F30"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-09"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-SDLC-01",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-SDLC-01",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "H14"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-SDLC-02",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-SDLC-02",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "H03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-02"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-SDLC-03",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-SDLC-03",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "H04"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-03"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-SDLC-04",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-SDLC-04",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-04"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-SDLC-06",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-SDLC-06",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "H07",
+            "H08",
+            "H09"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-SDLC-07",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-SDLC-07",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-SDLC-08",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-SDLC-08",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-06"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-SDLC-09",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-SDLC-09",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "H11"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-06"
+          ]
+        },
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "H18"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-SO-01",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-SO-01",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "C06"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SO-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-SO-02",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-SO-02",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "C05"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-SO-03",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-SO-03",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F34"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SO-02"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-SO-04",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-SO-04",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F32"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SO-03"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-SO-05",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-SO-05",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SO-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-SO-06",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-SO-06",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "B09",
+            "D05"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SO-06"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-WE-01",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-WE-01",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F37"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-WE-02",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-WE-02",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F41"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-02"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-WE-03",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-WE-03",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F36"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-03"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-WE-04",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-WE-04",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-WE-05",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-WE-05",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-WE-06",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-WE-06",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-WE-07",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-WE-07",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F38"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-04"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-WE-08",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-WE-08",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F39"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-WE-09",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-WE-09",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F40"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-06"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-WE-10",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-WE-10",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-WE-11",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-WE-11",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "J08"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-07"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-WE-12",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-WE-12",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-WE-13",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-WE-13",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "J10"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-08"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QC-WE-14",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlId": "CTL-QC-WE-14",
+      "refs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "J09",
+            "J10"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-09"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-CSC-01",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-CSC-01",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-CSC-02",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-CSC-02",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "F11",
+            "F12",
+            "J06"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-02"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-CSC-03",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-CSC-03",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "F09"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-03"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-CSC-04",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-CSC-04",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "F16"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-04"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-CSC-05",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-CSC-05",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "J04"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-05"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-05"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-CSC-08",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-CSC-08",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-08"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-08"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-CSC-09",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-CSC-09",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-09"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-09"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-CSC-10",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-CSC-10",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-10"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-10"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-CSC-11",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-CSC-11",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-11"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-CSC-12",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-CSC-12",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-12"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-CSC-14",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-CSC-14",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "F18"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-14"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-CSC-15",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-CSC-15",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-15"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-15"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-CSC-16",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-CSC-16",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-16"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-CSC-17",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-CSC-17",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-17"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-CSC-18",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-CSC-18",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "D05",
+            "D07",
+            "F17"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-18"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-18"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-18"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-CSC-19",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-CSC-19",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-19"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-19"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-19"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-19"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-19"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-CSC-20",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-CSC-20",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "D06",
+            "F20"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-20"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-CSC-21",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-CSC-21",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-21"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-21"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-21"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-21"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-21"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-21"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-21"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-CSC-22",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-CSC-22",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CSC-22"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-CUS-01",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-CUS-01",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-CUS-02",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-CUS-02",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-CUS-03",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-CUS-03",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CUS-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-CUS-04",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-CUS-04",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CUS-02"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-CUS-05",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-CUS-05",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CUS-03"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-CUS-06",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-CUS-06",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "CUS-04"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-HR-01",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-HR-01",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "A05"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-HR-02",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-HR-02",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-02"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-HR-03",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-HR-03",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "A06"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-03"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-HR-04",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-HR-04",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-HR-05",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-HR-05",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "A05",
+            "B01"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-04"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-HR-06",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-HR-06",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-HR-07",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-HR-07",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "A04"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-06"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-HR-08",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-HR-08",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-07"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-01",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-01",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "A01"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-02",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-02",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "A02",
+            "A03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-02"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-03",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-03",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "C01"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-03"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-04",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-04",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "C02"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-04"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-05",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-05",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "D02"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-06",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-06",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "A15"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-06"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-07",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-07",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "A14"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-07"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-08",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-08",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "A14"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-08"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-09",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-09",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "C07"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-09"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-10",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-10",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "D01"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-10"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-11",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-11",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "D03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-11"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-12",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-12",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "C03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-12"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-13",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-13",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-13"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-14",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-14",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "B10"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-14"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-15",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-15",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "I01"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-15"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-16",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-16",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "B08"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-16"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-17",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-17",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "A10",
+            "B02",
+            "B05",
+            "F01",
+            "F02",
+            "K01"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-17"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-18",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-18",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-18"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-19",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-19",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "B04"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-19"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-20",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-20",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "B06"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-20"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-21",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-21",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-21"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-21"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-22",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-22",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "J03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-22"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-23",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-23",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "J01",
+            "J02"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-23"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-24",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-24",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-24"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-25",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-25",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "B03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-25"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-26",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-26",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "B07"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-26"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-27",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-27",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-27"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-28",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-28",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-29",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-29",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-30",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-30",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-31",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-31",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "C04"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-28"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-ISMS-32",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-ISMS-32",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "I02"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-29"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-IT-01",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-IT-01",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-IT-03",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-IT-03",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "F07"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-IT-04",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-IT-04",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "F06",
+            "F08",
+            "F23",
+            "F27",
+            "F31",
+            "F33",
+            "F35"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-04"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-IT-05",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-IT-05",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "F09",
+            "F10"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-IT-06",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-IT-06",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-IT-07",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-IT-07",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-IT-08",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-IT-08",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-IT-09",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-IT-09",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-06"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-IT-10",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-IT-10",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "F21",
+            "F24",
+            "F26",
+            "F29"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-07"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-IT-11",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-IT-11",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "F22"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-08"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-IT-12",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-IT-12",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "F30"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-09"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-SDLC-01",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-SDLC-01",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "H14"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-SDLC-02",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-SDLC-02",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "H03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-02"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-SDLC-03",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-SDLC-03",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "H04"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-03"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-SDLC-04",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-SDLC-04",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-04"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-SDLC-06",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-SDLC-06",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "H07",
+            "H08",
+            "H09"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-SDLC-07",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-SDLC-07",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-SDLC-08",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-SDLC-08",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-06"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-SDLC-09",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-SDLC-09",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "H18"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-SO-01",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-SO-01",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "C06"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SO-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-SO-02",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-SO-02",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "C05"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-SO-03",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-SO-03",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "F34"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SO-02"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-SO-04",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-SO-04",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "F32"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SO-03"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-SO-05",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-SO-05",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SO-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-SO-06",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-SO-06",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "B09",
+            "D05"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SO-06"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-WE-01",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-WE-01",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "F37"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-01"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-WE-02",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-WE-02",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "F41"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-02"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-WE-03",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-WE-03",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "F36"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-03"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-WE-04",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-WE-04",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-WE-05",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-WE-05",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-WE-06",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-WE-06",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-WE-07",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-WE-07",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "F38"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-04"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-WE-08",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-WE-08",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "F39"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-05"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-WE-09",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-WE-09",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "F40"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-06"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-WE-10",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-WE-10",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-WE-11",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-WE-11",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "J08"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-07"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-WE-12",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-WE-12",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-WE-13",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-WE-13",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "J10"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-08"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-WE-14",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-WE-14",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "J09",
+            "J10"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-09"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-PR-01",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-PR-01",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "M01",
+            "M02"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-PR-02",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-PR-02",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-PR-03",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-PR-03",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "M08"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-PR-04",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-PR-04",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-PR-05",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-PR-05",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "M07"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-PR-06",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-PR-06",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-PR-07",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-PR-07",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-PR-08",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-PR-08",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "M03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-PR-10",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-PR-10",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-PR-13",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-PR-13",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": [
+            "M09"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-PR-14",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-PR-14",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    },
+    {
+      "id": "MC-QA-PR-15",
+      "engagementId": "ENG-MER-QA-2026",
+      "controlId": "CTL-QA-PR-15",
+      "refs": [
+        {
+          "target": "Quanta Assist (GCP)",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ]
+    }
+  ]
+}

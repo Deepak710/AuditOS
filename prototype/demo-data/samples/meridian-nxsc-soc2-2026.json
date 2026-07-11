@@ -1,0 +1,256 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Populations & sample sets (Q-09: no synthetic samples)",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
+    "engagementId": "ENG-MER-NXSC-2026",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025"
+  },
+  "summary": {
+    "sampleSets": 17,
+    "totalSamples": 0
+  },
+  "sampleSets": [
+    {
+      "id": "SSET-MER-031",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0646",
+      "populationName": "List of customers using NXSC that were onboarded between 01-Mar-26 and 30-Jun-26.",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0523"
+      ]
+    },
+    {
+      "id": "SSET-MER-032",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0648",
+      "populationName": "List of customers using NXSC that were offboarded between 01-Mar-26 and 30-Jun-26.",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0524"
+      ]
+    },
+    {
+      "id": "SSET-MER-033",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0652",
+      "populationName": "List of NXSC customer support tickets raised on DevRev between 01-Mar-26 and 30-Jun-26.",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0526"
+      ]
+    },
+    {
+      "id": "SSET-MER-034",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0654",
+      "populationName": "List of new hires (FTE and contractors) onboarded between 01-Mar-26 and 30-Jun-26.",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0528"
+      ]
+    },
+    {
+      "id": "SSET-MER-035",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0666",
+      "populationName": "Extraction of latest results of new joiners Global Code of Ethics and Business Conduct from Mindtickle.",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "linkedEvidenceIds": []
+    },
+    {
+      "id": "SSET-MER-036",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0668",
+      "populationName": "Extraction of latest results of new joiners Information Security and Compliance from Mindtickle.",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "linkedEvidenceIds": []
+    },
+    {
+      "id": "SSET-MER-037",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0669",
+      "populationName": "List of active employees (FTE and contractors) as of date.",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0533"
+      ]
+    },
+    {
+      "id": "SSET-MER-038",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0671",
+      "populationName": "Extraction of latest results of refresher Information Security and Compliance from Mindtickle.",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "linkedEvidenceIds": []
+    },
+    {
+      "id": "SSET-MER-039",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0680",
+      "populationName": "System generated list of vendors and third party service providers onboarded during the audit period from Streamline",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0536"
+      ]
+    },
+    {
+      "id": "SSET-MER-040",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0689",
+      "populationName": "System generated list of all active vendors and third party service providers as on date from Streamline",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "linkedEvidenceIds": []
+    },
+    {
+      "id": "SSET-MER-041",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0781",
+      "populationName": "System generated list of changes to the Meridian on-premises infrastructure from Freshdesk between Mar-26 and Jun-26",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "linkedEvidenceIds": []
+    },
+    {
+      "id": "SSET-MER-042",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0788",
+      "populationName": "Screenshot from Crwodstrike EDR software showing that all endpoints are added as hosts.",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0591"
+      ]
+    },
+    {
+      "id": "SSET-MER-043",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0795",
+      "populationName": "System generated list of SecOps Freshdesk tickets from Freshdesk between Mar-26 and Jun-26",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0596"
+      ]
+    },
+    {
+      "id": "SSET-MER-044",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0912",
+      "populationName": "List of consents obtained from data subjects.",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "linkedEvidenceIds": []
+    },
+    {
+      "id": "SSET-MER-045",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0915",
+      "populationName": "Data Subject Rights Requests raised for NXSC between Mar-26 and Jun-26",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "linkedEvidenceIds": []
+    },
+    {
+      "id": "SSET-MER-046",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0919",
+      "populationName": "Data Subject Rights Requests raised for data within Meridian between Mar-26 and Jun-26",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "linkedEvidenceIds": []
+    },
+    {
+      "id": "SSET-MER-047",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0921",
+      "populationName": "List of breaches that occurred between Mar-26 and Jun-26",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0603"
+      ]
+    }
+  ]
+}

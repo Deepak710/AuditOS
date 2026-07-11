@@ -1,0 +1,2043 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Evidence inventory — program projection",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
+    "engagementId": "ENG-MER-NXSC-2026",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025"
+  },
+  "summary": {
+    "evidenceItems": 83,
+    "byReviewStatus": {
+      "All Evidence Received": 75,
+      "Evidence Partially Received": 7,
+      "Evidence Received - Under HA Review": 1
+    },
+    "reused": 28,
+    "multiEngagement": 0
+  },
+  "evidence": [
+    {
+      "id": "EVD-MER-0523",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0646"
+      ],
+      "requestIds": [
+        "RQS-MER-0646"
+      ],
+      "title": "List of customers using NXSC that were onboarded between 01-Mar-26 and 30-Jun-26.",
+      "evidenceType": "Population",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-024",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0524",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0648"
+      ],
+      "requestIds": [
+        "RQS-MER-0648"
+      ],
+      "title": "List of customers using NXSC that were offboarded between 01-Mar-26 and 30-Jun-26.",
+      "evidenceType": "Population",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-024",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0525",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0651"
+      ],
+      "requestIds": [
+        "RQS-MER-0651"
+      ],
+      "title": "Customer Support Workflow document showing how tickets are handled and resolved.",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-018",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0526",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0652"
+      ],
+      "requestIds": [
+        "RQS-MER-0652"
+      ],
+      "title": "List of NXSC customer support tickets raised on DevRev between 01-Mar-26 and 30-Jun-26.",
+      "evidenceType": "Population",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-018",
+      "reviewStatus": "Evidence Partially Received",
+      "partiallyReceived": true,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0527",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0653"
+      ],
+      "requestIds": [
+        "RQS-MER-0653"
+      ],
+      "title": "For a sample of NXSC customer support tickets raised during audit period, closed DevRev Tickets showcasing how the customer issue was resolv",
+      "evidenceType": "Sample based",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-018",
+      "reviewStatus": "Evidence Partially Received",
+      "partiallyReceived": true,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0528",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0654"
+      ],
+      "requestIds": [
+        "RQS-MER-0654"
+      ],
+      "title": "List of new hires (FTE and contractors) onboarded between 01-Mar-26 and 30-Jun-26.",
+      "evidenceType": "Population",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-010",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0529",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0663"
+      ],
+      "requestIds": [
+        "RQS-MER-0663"
+      ],
+      "title": "For sample of new joiners onboarded during audit period, screenshot of technical interview results from Workday.",
+      "evidenceType": "Sample based",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-030",
+      "reviewStatus": "Evidence Received - Under HA Review",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0530",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0664"
+      ],
+      "requestIds": [
+        "RQS-MER-0664"
+      ],
+      "title": "For a sample of new joiners for Bangalore & Chennai locations, technical interview assessment forms showing that skill sets of the candidate",
+      "evidenceType": "Sample-based + Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-007",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0531",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0665"
+      ],
+      "requestIds": [
+        "RQS-MER-0665"
+      ],
+      "title": "Screenshots from latest new joiners Global Code of Ethics and Business Conduct training showing the contents covered.",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-020",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0532",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0667"
+      ],
+      "requestIds": [
+        "RQS-MER-0667"
+      ],
+      "title": "Screenshots from latest new joiners Information Security and Compliance training showing the contents covered.",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-020",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0533",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0669"
+      ],
+      "requestIds": [
+        "RQS-MER-0669"
+      ],
+      "title": "List of active employees (FTE and contractors) as of date.",
+      "evidenceType": "Population",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-010",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0534",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0670"
+      ],
+      "requestIds": [
+        "RQS-MER-0670"
+      ],
+      "title": "Screenshots from latest refresher Information Security and Compliance training showing the contents covered.",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-020",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0535",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0674"
+      ],
+      "requestIds": [
+        "RQS-MER-0674"
+      ],
+      "title": "Meridian's organizational chart",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-023",
+      "reviewStatus": "Evidence Partially Received",
+      "partiallyReceived": true,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0536",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0680"
+      ],
+      "requestIds": [
+        "RQS-MER-0680"
+      ],
+      "title": "System generated list of vendors and third party service providers onboarded during the audit period from Streamline",
+      "evidenceType": "Population",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-002",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0537",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0704"
+      ],
+      "requestIds": [
+        "RQS-MER-0704"
+      ],
+      "title": "Asset Management Procedure document",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-023",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0538",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0705"
+      ],
+      "requestIds": [
+        "RQS-MER-0705"
+      ],
+      "title": "Screenshot from U-Central showing Asset Management Procedure  was published on U-Central",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-023",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0539",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0706"
+      ],
+      "requestIds": [
+        "RQS-MER-0706"
+      ],
+      "title": "Data Classification and Handling Procedure document",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-023",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0540",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0707"
+      ],
+      "requestIds": [
+        "RQS-MER-0707"
+      ],
+      "title": "Screenshot from U-Central showing Data Classification and Handling Procedure  was published on U-Central",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-023",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0541",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0708"
+      ],
+      "requestIds": [
+        "RQS-MER-0708"
+      ],
+      "title": "Data Retention Policy",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-023",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0542",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0709"
+      ],
+      "requestIds": [
+        "RQS-MER-0709"
+      ],
+      "title": "Screenshot from U-Central showing  Data Retention Policy  was published on U-Central",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-023",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0543",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0710"
+      ],
+      "requestIds": [
+        "RQS-MER-0710"
+      ],
+      "title": "Data Backup and Restore Policy",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-023",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0544",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0711"
+      ],
+      "requestIds": [
+        "RQS-MER-0711"
+      ],
+      "title": "Screenshot from U-Central showing  Data Backup and Restore Policy  was published on U-Central",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-023",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0545",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0712"
+      ],
+      "requestIds": [
+        "RQS-MER-0712"
+      ],
+      "title": "Business Continuity and Disaster Recovery Procedure",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-023",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0546",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0713"
+      ],
+      "requestIds": [
+        "RQS-MER-0713"
+      ],
+      "title": "Screenshot from U-Central showing Business Continuity and Disaster Recovery Procedure was published on U-Central",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-023",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0547",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0719"
+      ],
+      "requestIds": [
+        "RQS-MER-0719"
+      ],
+      "title": "Whistleblower Policy",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-023",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0548",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0721"
+      ],
+      "requestIds": [
+        "RQS-MER-0721"
+      ],
+      "title": "Capacity and System Monitoring Policy",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-023",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0549",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0722"
+      ],
+      "requestIds": [
+        "RQS-MER-0722"
+      ],
+      "title": "Screenshot from U-Central showing Capacity and System Monitoring Policy was published on U-Central",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-023",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0550",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0723"
+      ],
+      "requestIds": [
+        "RQS-MER-0723"
+      ],
+      "title": "Tenant Deletion Policy",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-023",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0551",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0724"
+      ],
+      "requestIds": [
+        "RQS-MER-0724"
+      ],
+      "title": "Screenshot from U-Central showing Tenant Deletion Policy was published on U-Central",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-023",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0552",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0725"
+      ],
+      "requestIds": [
+        "RQS-MER-0725"
+      ],
+      "title": "Logging and Monitoring Policy",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-023",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0553",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0726"
+      ],
+      "requestIds": [
+        "RQS-MER-0726"
+      ],
+      "title": "Screenshot from U-Central showing Logging and Monitoring Policy was published on U-Central",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-023",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0554",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0727"
+      ],
+      "requestIds": [
+        "RQS-MER-0727"
+      ],
+      "title": "Vulnerability and Patch Management Procedure",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-023",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0555",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0728"
+      ],
+      "requestIds": [
+        "RQS-MER-0728"
+      ],
+      "title": "Screenshot from U-Central showing Vulnerability and Patch Management Procedure was published on U-Central",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-023",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0556",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0732"
+      ],
+      "requestIds": [
+        "RQS-MER-0732"
+      ],
+      "title": "Asset Inventory containing a list of workstations, servers and network devices identifying the asset ID, asset owner, asset location, asset ",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-055",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0557",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0733"
+      ],
+      "requestIds": [
+        "RQS-MER-0733"
+      ],
+      "title": "Screenshot showing configuration within Workday HRMS and Azure Active Directory that an account within the local Azure Active Directory is a",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0558",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0738"
+      ],
+      "requestIds": [
+        "RQS-MER-0738"
+      ],
+      "title": "Screenshot showing configuration within Workday HRMS and Azure Active Directory that an account within the local Azure Active Directory is a",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0559",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0745"
+      ],
+      "requestIds": [
+        "RQS-MER-0745"
+      ],
+      "title": "Screenshot of Password policy settings configured on Meridian Azure Active Directory",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0560",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0746"
+      ],
+      "requestIds": [
+        "RQS-MER-0746"
+      ],
+      "title": "Screenshot of group policy settings configured on Meridian Azure Active Directory showing that unattended end user workstations are terminat",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0561",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0747"
+      ],
+      "requestIds": [
+        "RQS-MER-0747"
+      ],
+      "title": "For a sample of endpoints, screenshot showing Automox was installed and that the computer was up-to-date.",
+      "evidenceType": "Sample based",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-055",
+      "reviewStatus": "Evidence Partially Received",
+      "partiallyReceived": true,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0562",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0748"
+      ],
+      "requestIds": [
+        "RQS-MER-0748"
+      ],
+      "title": "For a sample of endpoints, screenshot showing Kandji was installed and that the computer was up-to-date.",
+      "evidenceType": "Sample based",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-055",
+      "reviewStatus": "Evidence Partially Received",
+      "partiallyReceived": true,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0563",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0754"
+      ],
+      "requestIds": [
+        "RQS-MER-0754"
+      ],
+      "title": "Screenshot of configuration settings within M365 showing anti-spam filter is configured to restrict malicious incoming emails.",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-055",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0564",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0755"
+      ],
+      "requestIds": [
+        "RQS-MER-0755"
+      ],
+      "title": "Screenshot of configuration settings within M365 showing compensating Data Loss Prevention (DLP) is configured to prevent sharing of informa",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-055",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0565",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0757"
+      ],
+      "requestIds": [
+        "RQS-MER-0757"
+      ],
+      "title": "Management approved network diagrams for Bangalore location.",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0566",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0758"
+      ],
+      "requestIds": [
+        "RQS-MER-0758"
+      ],
+      "title": "Screenshot showing 'deny all' rule is configured within firewall for Bangalore location.",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0567",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0759"
+      ],
+      "requestIds": [
+        "RQS-MER-0759"
+      ],
+      "title": "Screenshot showing protect against Distributed Denial of Service (DDoS) and IP spoofing attacks are configured within firewall for Bangalore",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0568",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0760"
+      ],
+      "requestIds": [
+        "RQS-MER-0760"
+      ],
+      "title": "Screenshot showing  Intrusion Prevention System (IPS) and web filters is configured within firewall for Bangalore location.",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0569",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0761"
+      ],
+      "requestIds": [
+        "RQS-MER-0761"
+      ],
+      "title": "Management approved network diagrams for Chennai location.",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0570",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0762"
+      ],
+      "requestIds": [
+        "RQS-MER-0762"
+      ],
+      "title": "Screenshot showing 'deny all' rule is configured within firewall for Chennai location.",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0571",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0763"
+      ],
+      "requestIds": [
+        "RQS-MER-0763"
+      ],
+      "title": "Screenshot showing protect against Distributed Denial of Service (DDoS) and IP spoofing attacks are configured within firewall for Chennai l",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0572",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0764"
+      ],
+      "requestIds": [
+        "RQS-MER-0764"
+      ],
+      "title": "Screenshot showing  Intrusion Prevention System (IPS) and web filters is configured within firewall for Chennai location.",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0573",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0765"
+      ],
+      "requestIds": [
+        "RQS-MER-0765"
+      ],
+      "title": "Management approved network diagrams for Palo Alto location.",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0574",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0766"
+      ],
+      "requestIds": [
+        "RQS-MER-0766"
+      ],
+      "title": "Screenshot showing 'deny all' rule is configured within firewall for Palo Alto location.",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0575",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0767"
+      ],
+      "requestIds": [
+        "RQS-MER-0767"
+      ],
+      "title": "Screenshot showing protect against Distributed Denial of Service (DDoS) and IP spoofing attacks are configured within firewall for Palo Alto",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0576",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0768"
+      ],
+      "requestIds": [
+        "RQS-MER-0768"
+      ],
+      "title": "Screenshot showing  Intrusion Prevention System (IPS) and web filters is configured within firewall for Palo Alto location.",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0577",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0769"
+      ],
+      "requestIds": [
+        "RQS-MER-0769"
+      ],
+      "title": "Management approved network diagrams for New York location.",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0578",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0770"
+      ],
+      "requestIds": [
+        "RQS-MER-0770"
+      ],
+      "title": "Screenshot showing 'deny all' rule is configured within firewall for New York location.",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with my Senior, Marcus Iyengar, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0579",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0771"
+      ],
+      "requestIds": [
+        "RQS-MER-0771"
+      ],
+      "title": "Screenshot showing protect against Distributed Denial of Service (DDoS) and IP spoofing attacks are configured within firewall for New York ",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with my Senior, Marcus Iyengar, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0580",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0772"
+      ],
+      "requestIds": [
+        "RQS-MER-0772"
+      ],
+      "title": "Screenshot showing  Intrusion Prevention System (IPS) and web filters is configured within firewall for New York location.",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with my Senior, Marcus Iyengar, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0581",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0773"
+      ],
+      "requestIds": [
+        "RQS-MER-0773"
+      ],
+      "title": "Management approved network diagrams for London location.",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with my Senior, Marcus Iyengar, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0582",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0774"
+      ],
+      "requestIds": [
+        "RQS-MER-0774"
+      ],
+      "title": "Screenshot showing 'deny all' rule is configured within firewall for London location.",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with my Senior, Marcus Iyengar, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0583",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0775"
+      ],
+      "requestIds": [
+        "RQS-MER-0775"
+      ],
+      "title": "Screenshot showing protect against Distributed Denial of Service (DDoS) and IP spoofing attacks are configured within firewall for London lo",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with my Senior, Marcus Iyengar, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0584",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0776"
+      ],
+      "requestIds": [
+        "RQS-MER-0776"
+      ],
+      "title": "Screenshot showing  Intrusion Prevention System (IPS) and web filters is configured within firewall for London location.",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with my Senior, Marcus Iyengar, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0585",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0777"
+      ],
+      "requestIds": [
+        "RQS-MER-0777"
+      ],
+      "title": "Management approved network diagrams for Valencia location.",
+      "evidenceType": "Documentation",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0586",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0778"
+      ],
+      "requestIds": [
+        "RQS-MER-0778"
+      ],
+      "title": "Screenshot showing 'deny all' rule is configured within firewall for Valencia location.",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0587",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0779"
+      ],
+      "requestIds": [
+        "RQS-MER-0779"
+      ],
+      "title": "Screenshot showing protect against Distributed Denial of Service (DDoS) and IP spoofing attacks are configured within firewall for Valencia ",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0588",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0780"
+      ],
+      "requestIds": [
+        "RQS-MER-0780"
+      ],
+      "title": "Screenshot showing  Intrusion Prevention System (IPS) and web filters is configured within firewall for Valencia location.",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-044",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": true,
+        "sourceEngagementId": "ENG-MER-ZPQP-2025",
+        "reuseDecision": "Reused After Review",
+        "provenance": "As discussed with Marcus, we are using the Evidence shared for ZP & QP audit as the Evidence shared for it falls within the NXSC Audit Period."
+      }
+    },
+    {
+      "id": "EVD-MER-0589",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0783"
+      ],
+      "requestIds": [
+        "RQS-MER-0783"
+      ],
+      "title": "For a sample of endpoints, screenshot showing Automox was installed and that the computer was up-to-date. (Same as IT-07)",
+      "evidenceType": "Sample based",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-055",
+      "reviewStatus": "Evidence Partially Received",
+      "partiallyReceived": true,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0590",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0784"
+      ],
+      "requestIds": [
+        "RQS-MER-0784"
+      ],
+      "title": "For a sample of endpoints, screenshot showing Kandji was installed and that the computer was up-to-date. (Same as IT-07)",
+      "evidenceType": "Sample based",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-055",
+      "reviewStatus": "Evidence Partially Received",
+      "partiallyReceived": true,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0591",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0788"
+      ],
+      "requestIds": [
+        "RQS-MER-0788"
+      ],
+      "title": "Screenshot from Crwodstrike EDR software showing that all endpoints are added as hosts.",
+      "evidenceType": "Population",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-008",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0592",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0789"
+      ],
+      "requestIds": [
+        "RQS-MER-0789"
+      ],
+      "title": "Screenshot from Crwodstrike EDR software showing that agent tamper protection was enabled.",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-008",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0593",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0790"
+      ],
+      "requestIds": [
+        "RQS-MER-0790"
+      ],
+      "title": "Screenshot from Crwodstrike showing that EDR software is configured to perform real-time scans to protect against malware and intrusion atte",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-008",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0594",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0791"
+      ],
+      "requestIds": [
+        "RQS-MER-0791"
+      ],
+      "title": "Screenshot from ProACT showing alerts generated by CrowdStrike EDR is configured to be re-directed to ProACT",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-008",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0595",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0794"
+      ],
+      "requestIds": [
+        "RQS-MER-0794"
+      ],
+      "title": "Screenshot from ProACT showing alerts generated by Microsoft Entra is configured to be re-directed to ProACT",
+      "evidenceType": "Configuration",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-008",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0596",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0795"
+      ],
+      "requestIds": [
+        "RQS-MER-0795"
+      ],
+      "title": "System generated list of SecOps Freshdesk tickets from Freshdesk between Mar-26 and Jun-26",
+      "evidenceType": "Population",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-008",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0597",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0798"
+      ],
+      "requestIds": [
+        "RQS-MER-0798"
+      ],
+      "title": "Please provide photo with geolocation and timestamp showing the security guards present at Bangalore office",
+      "evidenceType": "Photograph",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-043",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0598",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0804"
+      ],
+      "requestIds": [
+        "RQS-MER-0804"
+      ],
+      "title": "Please provide photo with geolocation and timestamp showing the CCTV cameras present at the following  locations for Bangalore office:\nA.) E",
+      "evidenceType": "Photograph",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-043",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0599",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0806"
+      ],
+      "requestIds": [
+        "RQS-MER-0806"
+      ],
+      "title": "Please provide photo with geolocation and timestamp showing the CCTV cameras present at the following  locations for Palo Alto office:\nA.) E",
+      "evidenceType": "Photograph",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-013",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0600",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0807"
+      ],
+      "requestIds": [
+        "RQS-MER-0807"
+      ],
+      "title": "Please provide photo with geolocation and timestamp showing the CCTV cameras present at the following  locations for New York office:\nA.) En",
+      "evidenceType": "Photograph",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-013",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0601",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0810"
+      ],
+      "requestIds": [
+        "RQS-MER-0810"
+      ],
+      "title": "Please provide photo with geolocation and timestamp showing the card-based access control system is installed at Bangalore office",
+      "evidenceType": "Photograph",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-043",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0602",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0814"
+      ],
+      "requestIds": [
+        "RQS-MER-0814"
+      ],
+      "title": "Please provide photo with geolocation and timestamp showing the card-based access control system is installed at Meridian's Palo Alto office",
+      "evidenceType": "Photograph",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-013",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0603",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0921"
+      ],
+      "requestIds": [
+        "RQS-MER-0921"
+      ],
+      "title": "List of breaches that occurred between Mar-26 and Jun-26",
+      "evidenceType": "Population",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-002",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0604",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0922"
+      ],
+      "requestIds": [
+        "RQS-MER-0922"
+      ],
+      "title": "For a sample of breaches, JIRA ticket/email communication showing resolution of the breach.",
+      "evidenceType": "Sample based",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-002",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    },
+    {
+      "id": "EVD-MER-0605",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementIds": [
+        "REQ-MER-0923"
+      ],
+      "requestIds": [
+        "RQS-MER-0923"
+      ],
+      "title": "For a sample of breaches, email communication showing Meridian provides notification of that data breach to the affected user entities, regu",
+      "evidenceType": "Sample based",
+      "fileName": null,
+      "uploadedByPocId": "POC-MER-002",
+      "reviewStatus": "All Evidence Received",
+      "partiallyReceived": false,
+      "engagementIds": [
+        "ENG-MER-NXSC-2026"
+      ],
+      "reuse": {
+        "eligible": false,
+        "sourceEngagementId": null,
+        "reuseDecision": "Fresh Collection"
+      }
+    }
+  ]
+}

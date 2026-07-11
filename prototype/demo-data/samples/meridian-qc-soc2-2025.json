@@ -1,0 +1,208 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Populations & sample sets (Q-09: no synthetic samples)",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
+    "engagementId": "ENG-MER-QC-2025",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025"
+  },
+  "summary": {
+    "sampleSets": 12,
+    "totalSamples": 0
+  },
+  "sampleSets": [
+    {
+      "id": "SSET-MER-002",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0002",
+      "populationName": "System generated list of clients using Quanta Capture Legacy product.",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QC-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0002"
+      ]
+    },
+    {
+      "id": "SSET-MER-009",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0101",
+      "populationName": "System generated list of new joiners from Workday for the audit period",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QC-2025",
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0096"
+      ]
+    },
+    {
+      "id": "SSET-MER-010",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0114",
+      "populationName": "System generated list of active users from Workday as on date",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QA-2026",
+        "ENG-MER-QC-2025",
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0109"
+      ]
+    },
+    {
+      "id": "SSET-MER-011",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0125",
+      "populationName": "System generated list of vendors and third party service providers onboarded during the audit period from Streamline",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QC-2025",
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0120"
+      ]
+    },
+    {
+      "id": "SSET-MER-012",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0144",
+      "populationName": "System generated list of all active vendors and third party service providers as on date from Streamline",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QC-2025",
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0139"
+      ]
+    },
+    {
+      "id": "SSET-MER-013",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0184",
+      "populationName": "Asset Inventory containing a list of workstations, servers and network devices identifying the asset ID, asset owner, asset location, asset ",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QC-2025",
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0176"
+      ]
+    },
+    {
+      "id": "SSET-MER-014",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0227",
+      "populationName": "System generated list of changes to the Meridian on-premises infrastructure from Freshdesk during the audit period",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QC-2025",
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0217"
+      ]
+    },
+    {
+      "id": "SSET-MER-015",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0229",
+      "populationName": "System generated list of endpoint Windows laptops from Automox tool",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QC-2025",
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0219"
+      ]
+    },
+    {
+      "id": "SSET-MER-016",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0231",
+      "populationName": "System generated list of endpoint MAC laptops from Kandji tool",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QC-2025",
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0221"
+      ]
+    },
+    {
+      "id": "SSET-MER-024",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0242",
+      "populationName": "List of commits on the GitHub master branch for the audit period for Quanta Capture Legacy.",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QC-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0232"
+      ]
+    },
+    {
+      "id": "SSET-MER-025",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0346",
+      "populationName": "System generated list of tickets related to logging and monitoring of Meridian's IT Infrastructure from Freshdesk for the audit period",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QC-2025",
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0327"
+      ]
+    },
+    {
+      "id": "SSET-MER-026",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0348",
+      "populationName": "System generated list of security incidents/breaches from Freshdesk during the audit period",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QC-2025",
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0329"
+      ]
+    }
+  ]
+}

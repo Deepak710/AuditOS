@@ -1,177 +1,213 @@
 {
   "metadata": {
     "version": "1.0.0",
-    "generatedAt": "2026-01-01T00:00:00Z",
-    "description": "AuditOS Release 1 Static Team Dataset"
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Client teams (from MRL Team column)",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)"
   },
   "teams": [
     {
-      "id": "TEAM-001",
-      "companyId": "CMP-001",
-      "departmentId": "DEP-001",
-      "code": "SECENG",
-      "name": "Security Engineering",
-      "description": "Owns enterprise security controls, IAM, vulnerability management, endpoint security and cloud security.",
-      "manager": "POC-001",
-      "members": 18,
-      "primaryFrameworks": [
-        "SOC 2 Type II",
-        "ISO 27001"
-      ],
-      "responsibleControlFamilies": [
-        "CC6",
-        "CC7"
-      ]
+      "id": "TEAM-MER-001",
+      "companyId": "CMP-MER",
+      "name": "Nexus Cloud Product Team",
+      "businessUnitId": "BU-MER-PROD",
+      "requirementCount": 1
     },
     {
-      "id": "TEAM-002",
-      "companyId": "CMP-001",
-      "departmentId": "DEP-001",
-      "code": "CLOUDOPS",
-      "name": "Cloud Operations",
-      "description": "Responsible for production infrastructure, cloud platforms and privileged administration.",
-      "manager": "POC-004",
-      "members": 24,
-      "primaryFrameworks": [
-        "SOC 2 Type II"
-      ],
-      "responsibleControlFamilies": [
-        "CC6",
-        "CC8"
-      ]
+      "id": "TEAM-MER-002",
+      "companyId": "CMP-MER",
+      "name": "Cloud Ops Team",
+      "businessUnitId": "BU-MER-CLOUD",
+      "requirementCount": 64
     },
     {
-      "id": "TEAM-003",
-      "companyId": "CMP-001",
-      "departmentId": "DEP-002",
-      "code": "ITOPS",
-      "name": "IT Operations",
-      "description": "Manages endpoints, Active Directory, MDM, asset inventory and user lifecycle.",
-      "manager": "POC-007",
-      "members": 15,
-      "primaryFrameworks": [
-        "SOC 2 Type II"
-      ],
-      "responsibleControlFamilies": [
-        "CC6"
-      ]
+      "id": "TEAM-MER-003",
+      "companyId": "CMP-MER",
+      "name": "Corp IT",
+      "businessUnitId": "BU-MER-IT",
+      "requirementCount": 92
     },
     {
-      "id": "TEAM-004",
-      "companyId": "CMP-001",
-      "departmentId": "DEP-003",
-      "code": "HROPS",
-      "name": "HR Operations",
-      "description": "Maintains employee lifecycle records including onboarding, offboarding and HR documentation.",
-      "manager": "POC-011",
-      "members": 11,
-      "primaryFrameworks": [
-        "SOC 2 Type II"
-      ],
-      "responsibleControlFamilies": [
-        "CC1",
-        "CC2"
-      ]
+      "id": "TEAM-MER-004",
+      "companyId": "CMP-MER",
+      "name": "Customer Support Team",
+      "businessUnitId": "BU-MER-DELIV",
+      "requirementCount": 8
     },
     {
-      "id": "TEAM-005",
-      "companyId": "CMP-001",
-      "departmentId": "DEP-003",
-      "code": "LND",
-      "name": "Learning and Development",
-      "description": "Owns security awareness training and mandatory compliance training.",
-      "manager": "POC-013",
-      "members": 8,
-      "primaryFrameworks": [
-        "SOC 2 Type II"
-      ],
-      "responsibleControlFamilies": [
-        "CC2"
-      ]
+      "id": "TEAM-MER-005",
+      "companyId": "CMP-MER",
+      "name": "DeliveryOps",
+      "businessUnitId": "BU-MER-DELIV",
+      "requirementCount": 7
     },
     {
-      "id": "TEAM-006",
-      "companyId": "CMP-001",
-      "departmentId": "DEP-004",
-      "code": "LEGAL",
-      "name": "Legal and Compliance",
-      "description": "Owns contracts, privacy, compliance obligations and vendor legal reviews.",
-      "manager": "POC-016",
-      "members": 7,
-      "primaryFrameworks": [
-        "SOC 2 Type II",
-        "ISO 27701"
-      ],
-      "responsibleControlFamilies": [
-        "CC1",
-        "CC9"
-      ]
+      "id": "TEAM-MER-006",
+      "companyId": "CMP-MER",
+      "name": "FDE Team",
+      "businessUnitId": "BU-MER-DELIV",
+      "requirementCount": 3
     },
     {
-      "id": "TEAM-007",
-      "companyId": "CMP-001",
-      "departmentId": "DEP-005",
-      "code": "FINANCE",
-      "name": "Finance",
-      "description": "Responsible for financial approvals, procurement and vendor payments.",
-      "manager": "POC-018",
-      "members": 12,
-      "primaryFrameworks": [
-        "SOC 2 Type II"
-      ],
-      "responsibleControlFamilies": [
-        "CC1"
-      ]
+      "id": "TEAM-MER-007",
+      "companyId": "CMP-MER",
+      "name": "HR",
+      "businessUnitId": "BU-MER-HR",
+      "requirementCount": 13
     },
     {
-      "id": "TEAM-101",
-      "companyId": "CMP-002",
-      "departmentId": "DEP-101",
-      "code": "SECENG",
-      "name": "Security Engineering",
-      "description": "Responsible for security operations and cloud security.",
-      "manager": "POC-101",
-      "members": 14,
-      "primaryFrameworks": [
-        "SOC 2 Type II"
-      ],
-      "responsibleControlFamilies": [
-        "CC6",
-        "CC7"
-      ]
+      "id": "TEAM-MER-008",
+      "companyId": "CMP-MER",
+      "name": "HR - India",
+      "businessUnitId": "BU-MER-HR",
+      "requirementCount": 6
     },
     {
-      "id": "TEAM-102",
-      "companyId": "CMP-002",
-      "departmentId": "DEP-102",
-      "code": "ITOPS",
-      "name": "IT Operations",
-      "description": "Responsible for identity management, endpoint administration and user provisioning.",
-      "manager": "POC-104",
-      "members": 10,
-      "primaryFrameworks": [
-        "SOC 2 Type II"
-      ],
-      "responsibleControlFamilies": [
-        "CC6"
-      ]
+      "id": "TEAM-MER-009",
+      "companyId": "CMP-MER",
+      "name": "HR - US",
+      "businessUnitId": "BU-MER-HR",
+      "requirementCount": 4
     },
     {
-      "id": "TEAM-103",
-      "companyId": "CMP-002",
-      "departmentId": "DEP-103",
-      "code": "HROPS",
-      "name": "HR Operations",
-      "description": "Maintains employee lifecycle and personnel records.",
-      "manager": "POC-107",
-      "members": 9,
-      "primaryFrameworks": [
-        "SOC 2 Type II"
-      ],
-      "responsibleControlFamilies": [
-        "CC1",
-        "CC2"
-      ]
+      "id": "TEAM-MER-010",
+      "companyId": "CMP-MER",
+      "name": "HR Team",
+      "businessUnitId": "BU-MER-HR",
+      "requirementCount": 10
+    },
+    {
+      "id": "TEAM-MER-011",
+      "companyId": "CMP-MER",
+      "name": "InfoSec Team",
+      "businessUnitId": "BU-MER-SEC",
+      "requirementCount": 118
+    },
+    {
+      "id": "TEAM-MER-012",
+      "companyId": "CMP-MER",
+      "name": "Legal Team",
+      "businessUnitId": "BU-MER-LEGAL",
+      "requirementCount": 9
+    },
+    {
+      "id": "TEAM-MER-013",
+      "companyId": "CMP-MER",
+      "name": "Legal and Privacy Team",
+      "businessUnitId": "BU-MER-LEGAL",
+      "requirementCount": 69
+    },
+    {
+      "id": "TEAM-MER-014",
+      "companyId": "CMP-MER",
+      "name": "SecOps Team",
+      "businessUnitId": "BU-MER-SEC",
+      "requirementCount": 29
+    },
+    {
+      "id": "TEAM-MER-015",
+      "companyId": "CMP-MER",
+      "name": "Talent Acquisition Team",
+      "businessUnitId": "BU-MER-HR",
+      "requirementCount": 13
+    },
+    {
+      "id": "TEAM-MER-016",
+      "companyId": "CMP-MER",
+      "name": "Quanta Analyze Team",
+      "businessUnitId": "BU-MER-PROD",
+      "requirementCount": 42
+    },
+    {
+      "id": "TEAM-MER-017",
+      "companyId": "CMP-MER",
+      "name": "Quanta Assist Team",
+      "businessUnitId": "BU-MER-PROD",
+      "requirementCount": 47
+    },
+    {
+      "id": "TEAM-MER-018",
+      "companyId": "CMP-MER",
+      "name": "Quanta Capture Legacy Team",
+      "businessUnitId": "BU-MER-PROD",
+      "requirementCount": 10
+    },
+    {
+      "id": "TEAM-MER-019",
+      "companyId": "CMP-MER",
+      "name": "Quanta Capture NG Team",
+      "businessUnitId": "BU-MER-PROD",
+      "requirementCount": 30
+    },
+    {
+      "id": "TEAM-MER-020",
+      "companyId": "CMP-MER",
+      "name": "Quanta Discover Team",
+      "businessUnitId": "BU-MER-PROD",
+      "requirementCount": 42
+    },
+    {
+      "id": "TEAM-MER-021",
+      "companyId": "CMP-MER",
+      "name": "Quanta Self-Serve Team",
+      "businessUnitId": "BU-MER-PROD",
+      "requirementCount": 42
+    },
+    {
+      "id": "TEAM-MER-022",
+      "companyId": "CMP-MER",
+      "name": "Workspace Experience - Bangalore",
+      "businessUnitId": "BU-MER-WE",
+      "requirementCount": 33
+    },
+    {
+      "id": "TEAM-MER-023",
+      "companyId": "CMP-MER",
+      "name": "Workspace Experience - Chennai",
+      "businessUnitId": "BU-MER-WE",
+      "requirementCount": 33
+    },
+    {
+      "id": "TEAM-MER-024",
+      "companyId": "CMP-MER",
+      "name": "Workspace Experience - London",
+      "businessUnitId": "BU-MER-WE",
+      "requirementCount": 33
+    },
+    {
+      "id": "TEAM-MER-025",
+      "companyId": "CMP-MER",
+      "name": "Workspace Experience - New York",
+      "businessUnitId": "BU-MER-WE",
+      "requirementCount": 33
+    },
+    {
+      "id": "TEAM-MER-026",
+      "companyId": "CMP-MER",
+      "name": "Workspace Experience - Palo Alto",
+      "businessUnitId": "BU-MER-WE",
+      "requirementCount": 33
+    },
+    {
+      "id": "TEAM-MER-027",
+      "companyId": "CMP-MER",
+      "name": "Workspace Experience - Valencia",
+      "businessUnitId": "BU-MER-WE",
+      "requirementCount": 33
+    },
+    {
+      "id": "TEAM-MER-028",
+      "companyId": "CMP-MER",
+      "name": "Zephyr Console Team",
+      "businessUnitId": "BU-MER-PROD",
+      "requirementCount": 42
+    },
+    {
+      "id": "TEAM-MER-029",
+      "companyId": "CMP-MER",
+      "name": "Zephyr Platform Team",
+      "businessUnitId": "BU-MER-PROD",
+      "requirementCount": 28
     }
   ]
 }

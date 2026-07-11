@@ -88,20 +88,24 @@
   var TONES = WS.TONES;
 
   /**
-   * Test operational-status vocabulary → tone (read, never invented). The demo
-   * data uses "Completed" and "Pending"; the vocabulary also covers the
-   * operational states a test moves through — Not Started, In Progress, Pending
-   * Review, Retesting Required — so future data (including AI-assisted states)
-   * reads through the same token-backed tones. An unmapped status resolves to a
-   * neutral info tone.
+   * Test operational-status vocabulary → tone (read, never invented). The
+   * production dataset's `status`/`testingStatus` mirror the shared
+   * testingStatus vocabulary (enums.json) — "Data not received", "Pending",
+   * "In Progress", "Completed", "Not Applicable"; the vocabulary also covers
+   * the operational states a test moves through — Not Started, Pending
+   * Review, Retesting Required — so a future or differently sourced dataset
+   * (including AI-assisted states) reads through the same token-backed tones.
+   * An unmapped status resolves to a neutral info tone.
    */
   var STATUS_TONES = {
     'Not Started': null,
+    'Data not received': TONES.WARNING,
     'Pending': TONES.WARNING,
     'In Progress': TONES.INFO,
     'Pending Review': TONES.WARNING,
     'Retesting Required': TONES.WARNING,
-    'Completed': TONES.SUCCESS
+    'Completed': TONES.SUCCESS,
+    'Not Applicable': null
   };
 
   /** Test-result vocabulary → tone. Pass reads success, Fail reads exception; no result reads neutral. */
@@ -112,7 +116,7 @@
    * stable operational sequence regardless of which statuses the data contains.
    * Statuses outside this list sort after it, alphabetically.
    */
-  var HEALTH_ORDER = ['Not Started', 'Pending', 'In Progress', 'Pending Review', 'Retesting Required', 'Completed'];
+  var HEALTH_ORDER = ['Not Started', 'Data not received', 'Pending', 'In Progress', 'Pending Review', 'Retesting Required', 'Completed', 'Not Applicable'];
 
   /** Evidence-status keys derived per test, with their labels and tones. */
   var EVIDENCE_STATUS = {

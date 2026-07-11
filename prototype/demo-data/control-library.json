@@ -1,363 +1,1960 @@
 {
   "metadata": {
     "version": "1.0.0",
-    "name": "AuditOS Control Library",
-    "description": "Framework-agnostic master control catalog used by all engagements. Engagement datasets reference this library instead of duplicating control definitions."
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Client master control catalog — union of engagement control definitions (R-10/R-15)",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)"
   },
-  "controlFamilies": [
-    {
-      "id": "CF-001",
-      "name": "Governance"
-    },
-    {
-      "id": "CF-002",
-      "name": "Human Resources"
-    },
-    {
-      "id": "CF-003",
-      "name": "Identity & Access Management"
-    },
-    {
-      "id": "CF-004",
-      "name": "Infrastructure Security"
-    },
-    {
-      "id": "CF-005",
-      "name": "Operations"
-    },
-    {
-      "id": "CF-006",
-      "name": "Change Management"
-    },
-    {
-      "id": "CF-007",
-      "name": "Secure Development"
-    },
-    {
-      "id": "CF-008",
-      "name": "Business Continuity"
-    },
-    {
-      "id": "CF-009",
-      "name": "Vendor Management"
-    },
-    {
-      "id": "CF-010",
-      "name": "Monitoring & Incident Response"
-    }
-  ],
   "controls": [
     {
-      "id": "LIB-CTRL-0001",
+      "id": "LIB-MER-CSC-01",
       "controlCode": "CSC-01",
-      "title": "User Access Provisioning",
-      "description": "Master definition for User Access Provisioning.",
-      "controlFamilyId": "CF-003",
-      "frameworkMappings": {
-        "soc2": {
-          "trustServicesCriteria": [
-            "CC6.1",
-            "CC6.2"
-          ]
-        },
-        "iso27001": {
-          "annexA": [
-            "Mapped during engagement"
-          ]
-        },
-        "customFrameworks": []
-      },
-      "defaultRequirementIds": [],
-      "recommendedSamplingMethod": "Random",
-      "defaultTestingFrequency": "Annual",
-      "automationPotential": "High",
-      "knowledgeTags": [
-        "csc-01",
-        "cf-003",
-        "soc2",
-        "iso27001"
+      "title": "User Entity Workspace - IP Whitelisting",
+      "description": "As part of user entity onboarding, the Engineering team restricts access to the production workspace of each user entity by whitelisting their IP(s).",
+      "family": "CSC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
       ],
       "version": "1.0"
     },
     {
-      "id": "LIB-CTRL-0002",
+      "id": "LIB-MER-CSC-02",
       "controlCode": "CSC-02",
-      "title": "User Access Review",
-      "description": "Master definition for User Access Review.",
-      "controlFamilyId": "CF-003",
-      "frameworkMappings": {
-        "soc2": {
-          "trustServicesCriteria": [
-            "CC6.3",
-            "CC6.6"
-          ]
-        },
-        "iso27001": {
-          "annexA": [
-            "Mapped during engagement"
-          ]
-        },
-        "customFrameworks": []
-      },
-      "defaultRequirementIds": [],
-      "recommendedSamplingMethod": "Random",
-      "defaultTestingFrequency": "Annual",
-      "automationPotential": "High",
-      "knowledgeTags": [
-        "csc-02",
-        "cf-003",
-        "soc2",
-        "iso27001"
+      "title": "Access Review - Cloud Infrastructure",
+      "description": "The CloudOps team performs a review of the administrative access to AWS, Okta, MongoDB, Datadog, PagerDuty, DevRev, and GitHub on a quarterly basis. Users along with their privileges are reviewed with the help of CISO within a Jira ticket. In case of any discrepancies, the CloudOps team takes necessary corrective actions. The CISO reviews the result of the review within the Jira ticket and provides sign off.",
+      "family": "CSC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
       ],
       "version": "1.0"
     },
     {
-      "id": "LIB-CTRL-0003",
+      "id": "LIB-MER-CSC-03",
       "controlCode": "CSC-03",
-      "title": "Privileged Access Management",
-      "description": "Master definition for Privileged Access Management.",
-      "controlFamilyId": "CF-003",
-      "frameworkMappings": {
-        "soc2": {
-          "trustServicesCriteria": [
-            "CC6.2",
-            "CC6.7"
-          ]
-        },
-        "iso27001": {
-          "annexA": [
-            "Mapped during engagement"
-          ]
-        },
-        "customFrameworks": []
-      },
-      "defaultRequirementIds": [],
-      "recommendedSamplingMethod": "Random",
-      "defaultTestingFrequency": "Annual",
-      "automationPotential": "High",
-      "knowledgeTags": [
-        "csc-03",
-        "cf-003",
-        "soc2",
-        "iso27001"
+      "title": "Single sign on - AWS",
+      "description": "Access to AWS is restricted using single sign on (SSO) enforced by Okta, which uses Microsoft Entra ID as the iDP.",
+      "family": "CSC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
       ],
       "version": "1.0"
     },
     {
-      "id": "LIB-CTRL-0004",
+      "id": "LIB-MER-CSC-04",
       "controlCode": "CSC-04",
-      "title": "Background Verification",
-      "description": "Master definition for Background Verification.",
-      "controlFamilyId": "CF-002",
-      "frameworkMappings": {
-        "soc2": {
-          "trustServicesCriteria": [
-            "CC1.2"
-          ]
-        },
-        "iso27001": {
-          "annexA": [
-            "Mapped during engagement"
-          ]
-        },
-        "customFrameworks": []
-      },
-      "defaultRequirementIds": [],
-      "recommendedSamplingMethod": "Random",
-      "defaultTestingFrequency": "Annual",
-      "automationPotential": "Medium",
-      "knowledgeTags": [
-        "csc-04",
-        "cf-002",
-        "soc2",
-        "iso27001"
+      "title": "Privilege Access Management - AWS",
+      "description": "Privileged access to AWS resources hosting CSP infrastructure is restricted and governed through AWS IAM Policies.",
+      "family": "CSC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
       ],
       "version": "1.0"
     },
     {
-      "id": "LIB-CTRL-0005",
+      "id": "LIB-MER-CSC-05",
       "controlCode": "CSC-05",
-      "title": "Security Awareness Training",
-      "description": "Master definition for Security Awareness Training.",
-      "controlFamilyId": "CF-002",
-      "frameworkMappings": {
-        "soc2": {
-          "trustServicesCriteria": [
-            "CC2.2"
-          ]
-        },
-        "iso27001": {
-          "annexA": [
-            "Mapped during engagement"
-          ]
-        },
-        "customFrameworks": []
-      },
-      "defaultRequirementIds": [],
-      "recommendedSamplingMethod": "Random",
-      "defaultTestingFrequency": "Annual",
-      "automationPotential": "Medium",
-      "knowledgeTags": [
-        "csc-05",
-        "cf-002",
-        "soc2",
-        "iso27001"
+      "title": "Backup Configuration - AWS",
+      "description": "AWS Backup managed service is used by Meridian for backup of AWS services. Full backup of AWS RDS is scheduled every day and is retained for 21 days. Full backup of AWS Aurora is scheduled every week and is retained for 21 days.",
+      "family": "CSC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
       ],
       "version": "1.0"
     },
     {
-      "id": "LIB-CTRL-0006",
+      "id": "LIB-MER-CSC-06",
       "controlCode": "CSC-06",
-      "title": "Asset Inventory",
-      "description": "Master definition for Asset Inventory.",
-      "controlFamilyId": "CF-005",
-      "frameworkMappings": {
-        "soc2": {
-          "trustServicesCriteria": [
-            "CC6.6"
-          ]
-        },
-        "iso27001": {
-          "annexA": [
-            "Mapped during engagement"
-          ]
-        },
-        "customFrameworks": []
-      },
-      "defaultRequirementIds": [],
-      "recommendedSamplingMethod": "Random",
-      "defaultTestingFrequency": "Annual",
-      "automationPotential": "Medium",
-      "knowledgeTags": [
-        "csc-06",
-        "cf-005",
-        "soc2",
-        "iso27001"
+      "title": "Backup Replication - AWS",
+      "description": "Meridian has configured the backup copies of AWS Aurora to be automatically replicated across other regions.",
+      "family": "CSC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-NXSC-2026"
       ],
       "version": "1.0"
     },
     {
-      "id": "LIB-CTRL-0007",
+      "id": "LIB-MER-CSC-07",
       "controlCode": "CSC-07",
-      "title": "Patch Management",
-      "description": "Master definition for Patch Management.",
-      "controlFamilyId": "CF-004",
-      "frameworkMappings": {
-        "soc2": {
-          "trustServicesCriteria": [
-            "CC7.1"
-          ]
-        },
-        "iso27001": {
-          "annexA": [
-            "Mapped during engagement"
-          ]
-        },
-        "customFrameworks": []
-      },
-      "defaultRequirementIds": [],
-      "recommendedSamplingMethod": "Random",
-      "defaultTestingFrequency": "Annual",
-      "automationPotential": "Medium",
-      "knowledgeTags": [
-        "csc-07",
-        "cf-004",
-        "soc2",
-        "iso27001"
+      "title": "Availability Zones (AZ) - AWS",
+      "description": "Meridian has configured the AWS resources of CSP to utilize multiple geographically separate availability zones.",
+      "family": "CSC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-NXSC-2026"
       ],
       "version": "1.0"
     },
     {
-      "id": "LIB-CTRL-0008",
+      "id": "LIB-MER-CSC-08",
       "controlCode": "CSC-08",
-      "title": "Vulnerability Management",
-      "description": "Master definition for Vulnerability Management.",
-      "controlFamilyId": "CF-004",
-      "frameworkMappings": {
-        "soc2": {
-          "trustServicesCriteria": [
-            "CC7.1",
-            "CC7.2"
-          ]
-        },
-        "iso27001": {
-          "annexA": [
-            "Mapped during engagement"
-          ]
-        },
-        "customFrameworks": []
-      },
-      "defaultRequirementIds": [],
-      "recommendedSamplingMethod": "Random",
-      "defaultTestingFrequency": "Annual",
-      "automationPotential": "Medium",
-      "knowledgeTags": [
-        "csc-08",
-        "cf-004",
-        "soc2",
-        "iso27001"
+      "title": "Backup Restoration Tests",
+      "description": "CloudOps team performs backup restoration and recovery tests of CSP databases on a quarterly basis. Results of test are recorded within a Jira ticket. Failures in restoration, if any, are fixed by taking appropriate corrective actions and recording / documenting the same within the Jira ticket. The Senior Director of Information Security and Compliance team provides approval within the Jira ticket once the activity has concluded.",
+      "family": "CSC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
       ],
       "version": "1.0"
     },
     {
-      "id": "LIB-CTRL-0009",
+      "id": "LIB-MER-CSC-09",
       "controlCode": "CSC-09",
-      "title": "Change Management",
-      "description": "Master definition for Change Management.",
-      "controlFamilyId": "CF-006",
-      "frameworkMappings": {
-        "soc2": {
-          "trustServicesCriteria": [
-            "CC8.1"
-          ]
-        },
-        "iso27001": {
-          "annexA": [
-            "Mapped during engagement"
-          ]
-        },
-        "customFrameworks": []
-      },
-      "defaultRequirementIds": [],
-      "recommendedSamplingMethod": "Random",
-      "defaultTestingFrequency": "Annual",
-      "automationPotential": "High",
-      "knowledgeTags": [
-        "csc-09",
-        "cf-006",
-        "soc2",
-        "iso27001"
+      "title": "Disaster Recovery (DR) Drill",
+      "description": "On an annual basis, Meridian conducts disaster recovery simulation / tabletop exercise for the CSP product and its supporting infrastructure to test its business continuity and disaster recovery measures and determine the effectiveness of mitigating controls for business disruption risks. Post the activity, DR drill report is prepared by the CloudOps team, highlighting the tests conducted, test results, and improvement areas. The Senior Director of Information Security and Compliance team provides approval within a Jira ticket once the activity has concluded.",
+      "family": "CSC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
       ],
       "version": "1.0"
     },
     {
-      "id": "LIB-CTRL-0010",
+      "id": "LIB-MER-CSC-10",
       "controlCode": "CSC-10",
-      "title": "Business Continuity",
-      "description": "Master definition for Business Continuity.",
-      "controlFamilyId": "CF-008",
-      "frameworkMappings": {
-        "soc2": {
-          "trustServicesCriteria": [
-            "A1.2"
-          ]
-        },
-        "iso27001": {
-          "annexA": [
-            "Mapped during engagement"
-          ]
-        },
-        "customFrameworks": []
-      },
-      "defaultRequirementIds": [],
-      "recommendedSamplingMethod": "Random",
-      "defaultTestingFrequency": "Annual",
-      "automationPotential": "Medium",
-      "knowledgeTags": [
-        "csc-10",
-        "cf-008",
-        "soc2",
-        "iso27001"
+      "title": "Data Purging",
+      "description": "Meridian has enabled configurations to automatically purge (permanently delete) data within AWS based on expiry of lifecycle rules.",
+      "family": "CSC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-CSC-11",
+      "controlCode": "CSC-11",
+      "title": "Data Flow Diagram",
+      "description": "Meridian has defined and documented a data flow diagram for CSP to identify and track the flow of data between internal components and external entities, including data sources, transmission paths, and system boundaries.",
+      "family": "CSC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-CSC-12",
+      "controlCode": "CSC-12",
+      "title": "AWS Shield",
+      "description": "Meridian has enabled AWS Shield between CSP and the internet to monitor, filter, and block HTTPS traffic as well as any potential attacks such as distributed denial of service (DDoS) on its web application.",
+      "family": "CSC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-CSC-13",
+      "controlCode": "CSC-13",
+      "title": "AWS NAT Gateway",
+      "description": "Meridian has implemented network address translation (NAT) within its VPCs using AWS NAT Gateway to manage and mask internal IPs, and to securely route outbound traffic from internal systems to external networks.",
+      "family": "CSC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-CSC-14",
+      "controlCode": "CSC-14",
+      "title": "External Traffic Restrictions – AWS Console",
+      "description": "Access to the AWS cloud environment hosting CSP and supporting infrastructure is restricted to authorized personnel using AWS Security Groups.",
+      "family": "CSC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-CSC-15",
+      "controlCode": "CSC-15",
+      "title": "AWS Security Groups - ruleset review",
+      "description": "CloudOps team performs AWS Security Groups ruleset review on an annual basis by extracting the AWS Security Groups ruleset from the AWS platform and reviewing them with the help of Senior Director of Information Security and Compliance team to identify stale / inaccurate / missing rules. In case of any discrepancies, the CloudOps team takes necessary corrective actions. The Senior Director of Information Security and Compliance team reviews the result of the review within the Jira ticket and provides sign off.",
+      "family": "CSC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-CSC-16",
+      "controlCode": "CSC-16",
+      "title": "Encryption - AWS",
+      "description": "Meridian has enabled customer managed keys (CMK) to encrypt data-at-rest within AWS EC2 instances. The keys are configured to be automatically rotated using AWS KMS every 365 days. Default encryption provided by AWS is enabled to encrypt data-at-rest within AWS Aurora and RDS.",
+      "family": "CSC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-CSC-17",
+      "controlCode": "CSC-17",
+      "title": "Encryption - CSP",
+      "description": "Meridian has configured CSP to transmit application data over the internet using Hypertext Transfer Protocol Secure (HTTPS) over TLS v1.2 / TLS v1.3.",
+      "family": "CSC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-CSC-18",
+      "controlCode": "CSC-18",
+      "title": "Logging and Monitoring - AWS Infrastructure - (01st August 2024 to 28th February 2025)",
+      "description": "AWS CloudTrail is utilized to identify administrative events, authentication events, and system events to identify inappropriate access, security threats, and incidents within AWS Services using alerts. Alerts are configured by the CloudOps team to be re-directed to Datadog. Alerts that cross pre-defined thresholds have been configured to be sent as messages to Slack. The CloudOps team generates a JIRA ticket for confirmed true positive cases and tracks it to closure.",
+      "family": "CSC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-CSC-19",
+      "controlCode": "CSC-19",
+      "title": "Logging and Monitoring - CSP",
+      "description": "Luigi is utilized to identify administrative events, authentication events, and system events to identify inappropriate access, security threats, and incidents within CSP platform using alerts. Alerts are configured by the CSP Engineering team to be re-directed to Datadog, which is configured to send a Slack message and raise a PagerDuty incident when thresholds are exceeded. The CSP Engineering team analyses these PagerDuty incidents and documents the details of analysis, security violation, root cause, user / group responsible, severity of the incident / breach, and prevention and mitigation",
+      "family": "CSC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-CSC-20",
+      "controlCode": "CSC-20",
+      "title": "Capacity management - AWS",
+      "description": "Karpenter is utilized to maintain CSP application availability and optimize cluster efficiency by dynamically autoscaling AWS Kubernetes pods and EC2 instances based on workload demands.",
+      "family": "CSC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-CSC-21",
+      "controlCode": "CSC-21",
+      "title": "Reporting to User Entities",
+      "description": "Meridian has developed a status webpage (https://status.actioniq.com) that offers visibility into the CSP’s response and availability metrics across all cloud service providers and geographical instances. User entities can opt to subscribe to be notified of system incidents within this webpage.",
+      "family": "CSC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-CSC-22",
+      "controlCode": "CSC-22",
+      "title": "Support procedures for User Entities",
+      "description": "Meridian has prepared and maintained a support website (https://help.actioniq.com/) containing resources such as product documentation, best practices, training materials, guides, troubleshooting tips, and community forums to help user entities effectively utilize CSP.",
+      "family": "CSC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-CUS-01",
+      "controlCode": "CUS-01",
+      "title": "Customer Support Workflow",
+      "description": "Meridian has defined and documented a customer support workflow to identify and track the reporting and resolution of problems or incidents related to the Customer Signal Platform (CSP).",
+      "family": "CUS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-CUS-02",
+      "controlCode": "CUS-02",
+      "title": "Customer Support Tickets",
+      "description": "User entities can report issues by raising an issue from the front end of CSP, sending an email to “support_aiq@meridian.example”, or raise a ticket via “https://help.actioniq.com”. These are recorded as customer support tickets within the DevRev Ticketing Tool. Agents within the Customer Support team analyses the customer query and provides resolution by coordinating with other teams within Meridian, as required. Upon resolution, the DevRev ticket is closed.",
+      "family": "CUS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-CUS-03",
+      "controlCode": "CUS-03",
+      "title": "Data Ingestion, Processing, and Export",
+      "description": "Meridian has configured Luigi to monitor CSP platform for data ingestion, data duplication, data processing, and / or data export errors through alerts. Alerts are configured by the CSP Engineering team to be re-directed to Datadog, which is monitored by the Customer Support team. The Customer Support team analyses these Datadog alerts and raises DevRev tickets for true positive cases and documents the details of analysis, root cause, and prevention and mitigation steps within the DevRev ticket until closure.",
+      "family": "CUS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-CUS-04",
+      "controlCode": "CUS-04",
+      "title": "Data Ingestion Reports",
+      "description": "Meridian has configured a row level reconciliation process to execute before and after data ingestion to ensure the completeness and accuracy of the ingested data. Results of reconciliation are documented within a DevRev ticket.",
+      "family": "CUS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-HR-01",
+      "controlCode": "HR-01",
+      "title": "New Hire Induction",
+      "description": "New hires are required to sign the following documents at the time of joining to acknowledge the acceptance of terms to maintain the confidentiality and integrity of information within the organization: / 1. Appointment Letter consisting of Code of Ethics and Business Conduct (COBC), and / 2. Non-Disclosure Agreement (NDA).",
+      "family": "HR",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-HR-02",
+      "controlCode": "HR-02",
+      "title": "Employee Handbook",
+      "description": "Formalized employee handbook is documented to communicate expected workforce conduct, organizational policies, and associated enforcement procedures. This document is published on U-Central and accessible by all users.",
+      "family": "HR",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-HR-03",
+      "controlCode": "HR-03",
+      "title": "Background and Reference Checks",
+      "description": "The Human Resource team is responsible for carrying out background checks for new hires before the date of hire with the help of a third-party vendor, who conducts these checks and provides a background check report to Meridian. The following background checks are performed: / ► International Criminal Searches, / ► International Global Watchlist, / ► International Education Verification, and / ► International Employment Verification.",
+      "family": "HR",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-HR-04",
+      "controlCode": "HR-04",
+      "title": "User Trainings - New Hires",
+      "description": "New hires are required to attend the following virtual trainings on Mindtickle platform during induction containing elements of information security policies, security threats overview, email security, password security, and incident management reporting mechanisms during breaches: / 1. Global Code of Ethics and Business Conduct, and / 2. Information Security and Compliance.",
+      "family": "HR",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-HR-05",
+      "controlCode": "HR-05",
+      "title": "User Trainings - Active Users",
+      "description": "On an annual basis, all active users are required to attend the following virtual Information Security and Compliance refresher trainings on Mindtickle platform, which includes information security policies, security threats overview, email security, password security, and incident management reporting mechanisms during breaches.",
+      "family": "HR",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-HR-06",
+      "controlCode": "HR-06",
+      "title": "Performance Evaluation",
+      "description": "Performance evaluations are carried out on a bi-annual basis for employees who have been in the organization for more than six months. The Human Resource team informs the employees and reporting managers to fill out evaluation forms within Workday HRMS tool.",
+      "family": "HR",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-HR-07",
+      "controlCode": "HR-07",
+      "title": "VCSOM evaluation",
+      "description": "Vision, Culture, Strategy, Operating Model (VCSOM) evaluations are carried out on an annual basis for employees who have been in the organization for more than six months. The Human Resource team informs the employees and reporting managers to fill out VCSOM evaluation forms within Workday HRMS tool.",
+      "family": "HR",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-01",
+      "controlCode": "ISMS-01",
+      "title": "Organization Chart",
+      "description": "Meridian has established an organizational structure to define reporting lines, authorities, and responsibilities for CSP to meet its objectives for providing Software as a Service (SaaS) services to its user entities.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-02",
+      "controlCode": "ISMS-02",
+      "title": "User job roles and responsibilities",
+      "description": "Roles and responsibilities are defined in written job descriptions to assign responsibility for security, confidentiality, availability, and processing integrity.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-03",
+      "controlCode": "ISMS-03",
+      "title": "Risk Management Procedure",
+      "description": "Meridian has defined and documented a Risk Management Procedure that contains guidelines for the identification, preparation, and categorization of risks to satisfy business information, legal and regulatory requirements. It is published on Meridian SharePoint and is reviewed and approved by the CISO on an annual basis.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-04",
+      "controlCode": "ISMS-04",
+      "title": "Annual Risk Assessment",
+      "description": "The Information Security & Compliance team performs risk assessment of the various functions within Meridian with the support of internal Meridian stakeholders and prepares a risk register. Risks are identified based on inherent risk value, internal and external threats, vulnerabilities, likelihood, and potential impact to Meridian’s objectives, assets, and operations. Risks are evaluated based on impact magnitude and expectancy criteria in context of CIS Critical Security Controls, information security, data integrity, confidentiality, and availability. Mitigating controls are identified to b",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-05",
+      "controlCode": "ISMS-05",
+      "title": "Vendor Risk Management - Onboarding Assessments",
+      "description": "The Information Security & Compliance Team performs vendor onboarding assessments for new vendors and third-party service providers as part of its vendor risk management process. The Information Security & Compliance team requests independent compliance and security related certifications to assess whether the vendor meets the third-party information security requirements defined by Meridian.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-06",
+      "controlCode": "ISMS-06",
+      "title": "Management Review Meetings (MRM)",
+      "description": "On an annual basis, Management Review Meetings (MRM) are conducted amongst the Executive Management, Steering Committee (SSC), CISO, Legal team, Privacy team, and the Information Security & Compliance teams to ensure security initiatives are in line with company objectives and to discuss non-conformities and findings identified during information security internal audits / risk assessments / any other assessments, incidents, and their respective corrective actions were performed.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-07",
+      "controlCode": "ISMS-07",
+      "title": "Board of Directors Independence",
+      "description": "Meridian operates under the direction of its Board of Directors. The Board of Directors comprises of members independent from Meridian’s daily operations.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-08",
+      "controlCode": "ISMS-08",
+      "title": "Board of Directors Meeting",
+      "description": "On an annual basis, matters related to Meridian’s results of operations, cybersecurity updates, projections for the coming quarter, and any major changes, are discussed between the Board of Directors and key members of management.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-09",
+      "controlCode": "ISMS-09",
+      "title": "Information Security Internal Audit",
+      "description": "On an annual basis, an information security management system related internal audit is conducted to assess the operating effectiveness of controls related to information security and information technology. This audit is conducted for CSP, User Access Management, Information Security, Network Security, Endpoint Security, Physical Security, and Human Resource Security. Observations or issues identified during the audit are documented in the internal audit report along with recommendations for resolutions of the observations or issues and a management response is sought for action plans.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-10",
+      "controlCode": "ISMS-10",
+      "title": "Subservice Organization Assessments",
+      "description": "On an annual basis, the Information Security & Compliance team assesses the subservice organization’s compliance with the applicable security, confidentiality, availability, and processing integrity commitments; and evaluates the impact of any noted exceptions of relevant controls and Complementary User Entity Controls by obtaining and evaluating their annual System and Organization Control attestation report.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-11",
+      "controlCode": "ISMS-11",
+      "title": "Vendor Risk Management - Annual Re-assessments",
+      "description": "On an annual basis, the Information Security & Compliance Team performs a re-assessment for all vendors and third-party service providers as part of its vendor risk management process. Observations identified during the assessment are communicated to the third-party service providers and are tracked to closure by the Information Security & Compliance team.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-12",
+      "controlCode": "ISMS-12",
+      "title": "ISO 27001",
+      "description": "2022 and PCI DSS v4.0:\nOn an annual basis, assessment under standard ISO/IEC 27001:2022 and PCI DSS v4.0 are performed by an external certification body.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-13",
+      "controlCode": "ISMS-13",
+      "title": "Information Security Awareness",
+      "description": "On a monthly basis, the Information Security and Compliance team sends mass emails to all users on information security awareness updates and leading practices in order to spread awareness.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-14",
+      "controlCode": "ISMS-14",
+      "title": "MSA - User Entities",
+      "description": "Meridian defines its terms of service; security obligations; intellectual property; availability, confidentiality, and processing integrity commitments; and compliance with laws within its Master Software and Services Agreements (MSAs) that are signed with user entities during onboarding.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-15",
+      "controlCode": "ISMS-15",
+      "title": "MSA",
+      "description": "MSA\nSOW - Vendors: / Service levels, security, confidentiality, availability, and processing integrity commitments with all third-party service providers and vendors are agreed as a part of MSA / SOW signed with them.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-16",
+      "controlCode": "ISMS-16",
+      "title": "Software Development Lifecycle (SDLC) Procedure",
+      "description": "Meridian has defined and documented a SDLC Procedure that contains guidelines on best practices for training and implementation of software security during application development to maximize their inherent security. It is published on Meridian SharePoint and is reviewed and approved by the CISO on an annual basis.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-17",
+      "controlCode": "ISMS-17",
+      "title": "Global Information Security Policy",
+      "description": "Meridian has defined and developed the Global Information Security Policy addressing matters related to system security, availability, confidentiality, and processing integrity principles. / Additionally, the following are also defined: / ► Meridian's objectives pertaining to integrity and ethical values / i. Code of Business Conduct / ii. Role Competencies / iii. Disciplinary Policies / ► Human Resources security policy for hiring, termination, and periodic performance appraisals of users, / ► Clear desk and clear screen policy, / ► Media Handling Guidelines for electronic and paper based med",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-18",
+      "controlCode": "ISMS-18",
+      "title": "Dedicated CISO",
+      "description": "Meridian has a designated CISO with documented information security roles and responsibilities to oversee the development, implementation, monitoring, and communication of security policies and procedures.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-19",
+      "controlCode": "ISMS-19",
+      "title": "Asset Management Procedure",
+      "description": "Meridian has defined and documented an Asset Management Procedure which contains baseline requirements for Meridian's information systems and assets. The procedure also contains guidance regarding the ownership, acceptable use, classification, monitoring, disposal, and destruction of assets. It is published on Meridian SharePoint and is reviewed and approved by the CISO on an annual basis.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-20",
+      "controlCode": "ISMS-20",
+      "title": "Data Classification and Handling Procedure",
+      "description": "Meridian has defined and documented a Data Classification and Handling Procedure that contains guidelines to restrict and protect Meridian and its customers' information during storage, processing, and transmission. It is published on Meridian SharePoint and is reviewed and approved by the CISO on an annual basis.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-21",
+      "controlCode": "ISMS-21",
+      "title": "Data Retention Policy",
+      "description": "Meridian has defined and documented a Data Retention Policy that contains guidelines for storage, retention, and disposal of data. It is published on Meridian SharePoint and is reviewed and approved by the Assistant General Counsel on an annual basis.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-22",
+      "controlCode": "ISMS-22",
+      "title": "Data Backup and Restore Policy",
+      "description": "Meridian has defined a Data Backup and Restore Policy describing the guidelines for performing and restoring backups. This procedure is published on Meridian SharePoint and is reviewed and approved by the CISO on an annual basis.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-23",
+      "controlCode": "ISMS-23",
+      "title": "Business Continuity and Disaster Recovery Procedure",
+      "description": "Meridian has defined a Business Continuity and Disaster Recovery Procedure describing the guidelines for plan activation, recovery strategy, impact analysis, simulation handling, rollback, and restoration procedures. This procedure is published on Meridian SharePoint and is reviewed and approved by the CISO on an annual basis.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-24",
+      "controlCode": "ISMS-24",
+      "title": "Cyber Insurance",
+      "description": "Meridian has procured a cyber insurance to offset the financial losses that could occur due to critical security incidents.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-25",
+      "controlCode": "ISMS-25",
+      "title": "Incident Response Procedure",
+      "description": "Meridian has defined and documented an Incident Response Procedure for reporting, classification, containment, and resolution of security incidents. It is published on Meridian SharePoint and is reviewed and approved by the CISO on an annual basis.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-26",
+      "controlCode": "ISMS-26",
+      "title": "Endpoint Security and Device Hardening Standard",
+      "description": "Meridian has defined and documented an Endpoint Security and Device Hardening Standard that contains hardening requirements to secure Meridian's endpoints, network, underlying infrastructure, and other information systems. It is published on Meridian SharePoint and is reviewed and approved by the CISO on an annual basis.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-27",
+      "controlCode": "ISMS-27",
+      "title": "Whistleblower Policy",
+      "description": "Meridian has defined and documented a Whistleblower Policy within the Employee Handbook that contains guidelines for employees to report concerns of unethical behavior, allegations of fraud, or violation of the company's code of business conduct policy, regulatory rules, and laws. It is published on U-Central.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-28",
+      "controlCode": "ISMS-28",
+      "title": "Vulnerability and Patch Management Procedure",
+      "description": "Meridian has defined and documented a Vulnerability and Patch Management Procedure that contains guidelines to prevent, detect, and remediate vulnerabilities within Meridian's applications and underlying infrastructure. It is published on Meridian SharePoint and is reviewed and approved by the CISO on an annual basis.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-29",
+      "controlCode": "ISMS-29",
+      "title": "Third Party Risk Management Procedure",
+      "description": "Meridian has defined and documented a Third Party Risk Management Procedure that contains guidelines to describe the due diligence and oversight processes for third-party services and software application procurement. It is published on Meridian SharePoint and is reviewed and approved by the CISO on an annual basis.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-30",
+      "controlCode": "ISMS-30",
+      "title": "Phishing Simulation",
+      "description": "On an annual basis, Meridian conducts phishing simulation exercises.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-IT-01",
+      "controlCode": "IT-01",
+      "title": "Asset Inventory",
+      "description": "Corporate IT team maintains a list of workstations, servers, and network devices identifying the asset ID, asset owner, asset location, asset type and model of the asset within Freshdesk.",
+      "family": "IT",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-IT-02",
+      "controlCode": "IT-02",
+      "title": "Access Creation - IT accounts",
+      "description": "When a user joins the organization, HR team creates a user ID within Workday HRMS tool, which automatically sends an email communication to the IT team and Workspace Experience team and creates an account within Microsoft Entra.",
+      "family": "IT",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-IT-03",
+      "controlCode": "IT-03",
+      "title": "Access Revocation - IT accounts",
+      "description": "On the last working day of a user, whether resignation, termination, or absconding, HR team deactivates the user ID within Workday HRMS tool, which automatically deactivates the user's account within Microsoft Entra. The IT team validates the access revocation of the user on the last working day and confirms the same via email.",
+      "family": "IT",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-IT-04",
+      "controlCode": "IT-04",
+      "title": "Access Review - IT Infrastructure",
+      "description": "The Information Security & Compliance team performs a review of the administrative access to firewalls and Okta on a quarterly basis. Users along with their privileges are reviewed with the help of CISO within a Jira ticket. In case of any discrepancies, the respective team takes necessary corrective actions. The CISO reviews the result of the review within the Jira ticket and provides sign off.",
+      "family": "IT",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-IT-05",
+      "controlCode": "IT-05",
+      "title": "Password and Account Lockout Policy – Microsoft Entra",
+      "description": "Meridian has implemented Microsoft Entra to enforce password and account lockout policy settings on end user workstations. These policy settings include password length as 12 characters, password complexity, password history as 24 passwords remembered, and password expiry as 90 days. Multi-factor authentication is enforced for all users added to Microsoft Entra. User accounts are locked after 5 invalid logon attempts and account lockout is reset after 30 minutes through group policy settings.",
+      "family": "IT",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-IT-06",
+      "controlCode": "IT-06",
+      "title": "Data Destruction",
+      "description": "Documentation, workstations, and media devices are sanitized prior to disposal or decommissioning in accordance with the Asset Management Procedure.",
+      "family": "IT",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-IT-07",
+      "controlCode": "IT-07",
+      "title": "Firewall Rules",
+      "description": "Meridian has implemented perimeter firewalls on the Bengaluru, Palo Alto, and Nottingham delivery center internet gateways to proactively identify and protect Meridian network against security, availability, confidentiality, and processing integrity threats from sources outside the system boundaries. Rules are enforced on the firewalls to: / ► ‘deny all’ traffic by default with access enabled for specific services as per business requirements, / ► protect against Distributed Denial of Service (DDoS) and IP spoofing attacks, and / ► configure Intrusion Prevention System (IPS) and web filters to",
+      "family": "IT",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-IT-08",
+      "controlCode": "IT-08",
+      "title": "Change Management - Meridian Infrastructure",
+      "description": "Changes to the Meridian on-premises infrastructure are logged within Freshdesk tickets and tracked to closure by the Corp IT team.",
+      "family": "IT",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-IT-09",
+      "controlCode": "IT-09",
+      "title": "Patch Management - Meridian Infrastructure",
+      "description": "Meridian has implemented the following patch management tools to ensure up-to-date patches are deployed on the endpoints in accordance with the Vulnerability and Patch Management Procedure: / ► Automox for Windows and Linux / ► Kandji for MacBooks",
+      "family": "IT",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-SDLC-01",
+      "controlCode": "SDLC-01",
+      "title": "Segregation of Environments",
+      "description": "The development, staging, and production environments are hosted on logically segregated Virtual Private Clouds (VPC) within AWS.",
+      "family": "SDLC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-SDLC-02",
+      "controlCode": "SDLC-02",
+      "title": "Technical Specification and Design",
+      "description": "Authorized feature development / patch release / hotfix requirements are communicated to the CSP developers by the Project Manager using work items within a Jira ticket.",
+      "family": "SDLC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-SDLC-03",
+      "controlCode": "SDLC-03",
+      "title": "Coding - Peer Review",
+      "description": "A developer performs coding in the development environment. A peer or Technical Lead carries out a code review to ensure completeness and accuracy of the code and results of the review are documented within GitHub. Upon successful completion of the code review, the peer reviewer provides sign off within GitHub, and the developer initiates security testing.",
+      "family": "SDLC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-SDLC-04",
+      "controlCode": "SDLC-04",
+      "title": "Security Testing",
+      "description": "Upon successful completion of the peer code review, a scheduled job is automatically run to perform unit test validation [or] Snyk static code analysis. Deployment of code onto production is restricted until all security checks have passed.",
+      "family": "SDLC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-SDLC-05",
+      "controlCode": "SDLC-05",
+      "title": "Require Pull Request",
+      "description": "Meridian has enabled configurations to require all commits to be made to a non-target branch and submitted via a pull request before they can be merged with the master branch.",
+      "family": "SDLC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-SDLC-06",
+      "controlCode": "SDLC-06",
+      "title": "Deployment of code to production",
+      "description": "Upon successful completion of testing, the commit is merged with the master branch and closed using a pull request. As part of the CI-CD pipeline, a GitHub action automatically performs integration checks and deploys the code onto the production environment.",
+      "family": "SDLC",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-SO-01",
+      "controlCode": "SO-01",
+      "title": "Vulnerability Assessment and Penetration Testing",
+      "description": "On an annual basis, third-party vendors conduct application level, network level, and API vulnerability assessments and penetration tests for CSP. Based on the findings of these tests, Information Security & Compliance / Security Operations team follows up with the relevant stakeholders on appropriate corrective and preventive actions for identified gaps until closure of the gaps. Based on the confirmation received from the relevant stakeholders, Information Security & Compliance / Security Operations team notifies the third-party vendor to perform rescan to confirm the closure of gaps through",
+      "family": "SO",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-SO-02",
+      "controlCode": "SO-02",
+      "title": "Removable Media Restrictions",
+      "description": "Removable media devices such as Compact Disk (CD) readers-writers and Universal Serial Bus (USB) are disabled on end-user workstations through group policy configured on Microsoft MDM.",
+      "family": "SO",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-SO-03",
+      "controlCode": "SO-03",
+      "title": "Anti-Virus",
+      "description": "Meridian has deployed CrowdStrike Falcon EDR software on its endpoints for protection against malware and intrusion attempts. The EDR software is configured to perform real-time scans. The EDR software has built in controls for tamper protection.",
+      "family": "SO",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-SO-04",
+      "controlCode": "SO-04",
+      "title": "Email Security",
+      "description": "Meridian uses Microsoft Defender for cloud‑based protection of Meridian O365 email to detect and block phishing, malicious links, malware, and attachments.",
+      "family": "SO",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-SO-05",
+      "controlCode": "SO-05",
+      "title": "Logging and Monitoring - AWS Infrastructure - (01st March 2025 to 31st July 2025)",
+      "description": "AWS CloudTrail is utilized to identify administrative events, authentication events, and system events to identify inappropriate access, security threats, and incidents within AWS Services using alerts. Alerts are configured by the CloudOps team to be re-directed to ProACT tool. The SISA MXDR team analyses the alerts and generate a Freshdesk ticket for confirmed true positive cases. The Security Operations team analyses these Freshdesk tickets and documents the details of analysis, security violation, root cause, user / group responsible, severity of the incident / breach, and prevention and m",
+      "family": "SO",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-SO-06",
+      "controlCode": "SO-06",
+      "title": "Logging and Monitoring - IT Infrastructure",
+      "description": "Administrative events, authentication events, and system events generated by CrowdStrike, Microsoft MDM, and firewalls to identify inappropriate access, security threats, and incidents are configured by the Security Operations team to be re-directed to ProACT tool. The SISA MXDR team analyses the alerts and generate a Freshdesk ticket for confirmed true positive cases. The Security Operations team analyses these Freshdesk tickets and documents the details of analysis, security violation, root cause, user / group responsible, severity of the incident / breach, and prevention and mitigation step",
+      "family": "SO",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-SO-07",
+      "controlCode": "SO-07",
+      "title": "Information Security Incident Management",
+      "description": "Users report the actual / suspected information security incident / breaches to the Security Operations team by raising a ticket in Freshdesk tool. The Security Operations team, Meridian Computer Security Incident Response Team (CSIRT), and Legal team performs analysis of the incident / breach and documents the details of analysis, security violation, root cause, user / group responsible, severity of the incident / breach, and prevention and mitigation steps within the Freshdesk ticket until closure.",
+      "family": "SO",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-WE-01",
+      "controlCode": "WE-01",
+      "title": "Security Guards",
+      "description": "Entry / exit points of the Meridian delivery centers are manned at all times by third-party physical security guards.",
+      "family": "WE",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-WE-02",
+      "controlCode": "WE-02",
+      "title": "CCTV",
+      "description": "Closed Circuit Television (CCTV) surveillance equipment is used to monitor the entry and exit points, work areas, and server rooms of Meridian Delivery Centers.",
+      "family": "WE",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-WE-03",
+      "controlCode": "WE-03",
+      "title": "Access Control System - entry/exit points",
+      "description": "Access to entry and exit points to Meridian delivery centers are controlled by a card-based access control system.",
+      "family": "WE",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-WE-04",
+      "controlCode": "WE-04",
+      "title": "Physical Access Creation",
+      "description": "Based on the automated email from Workday HRMS tool, the Workspace Experience team grants access to the user by issuing an access card and activating it within the Access Control Software of that Delivery Center to provide physical access to that delivery center.",
+      "family": "WE",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-WE-05",
+      "controlCode": "WE-05",
+      "title": "Physical Access Deactivation",
+      "description": "Based on the email from HR team, the Workspace Experience team deactivates the physical access of the user to the delivery center on the Access Control Software of that delivery center within one day of intimation.",
+      "family": "WE",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-WE-06",
+      "controlCode": "WE-06",
+      "title": "Physical Access Reconciliation",
+      "description": "Physical access to Meridian Delivery Centers is reconciled on an annual basis by the Workspace Experience team. The Workspace Experience team extracts the list of active users that have access to Meridian delivery centers from the access control software of that delivery center and compares this list with the list of active users shared by HR team. In case of any discrepancies, the Workspace Experience team takes necessary corrective actions and shares the results of the review with the Information Security & Compliance team.",
+      "family": "WE",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-WE-07",
+      "controlCode": "WE-07",
+      "title": "Fire Detection and Prevention",
+      "description": "Fire extinguishers and smoke detectors are installed at various locations within the delivery centers.",
+      "family": "WE",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-WE-08",
+      "controlCode": "WE-08",
+      "title": "Power",
+      "description": "Meridian delivery centers are supported by uninterruptible power supply (UPS) systems and diesel generators (DG) for continuous operation of hardware equipment in the event of power failure.",
+      "family": "WE",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-WE-09",
+      "controlCode": "WE-09",
+      "title": "Equipment Maintenance",
+      "description": "Maintenance vendors conduct the preventive maintenance of critical equipment including fire detection, prevention, and suppression equipment, UPS and DG sets as per preventive maintenance contracts to maintain the continued operability of the equipment.",
+      "family": "WE",
+      "definitionSource": "ENG-MER-CSP-2025",
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-CSC-23",
+      "controlCode": "CSC-23",
+      "title": "Support procedures for User Entities",
+      "description": "Meridian has prepared and maintained a support website (https://help.meridian.com/) containing resources such as product documentation, best practices, training materials, guides, troubleshooting tips, and community forums to help user entities effectively utilize Zephyr Platform & Quanta Portfolio products.",
+      "family": "CSC",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-CUS-05",
+      "controlCode": "CUS-05",
+      "title": "Data Ingestion, Processing, and Export",
+      "description": "Meridian has configured Luigi to monitor Zephyr Platform & Quanta Portfolio platform for data ingestion, data duplication, data processing, and / or data export errors through alerts. Alerts are configured by the Zephyr Platform & Quanta Portfolio Engineering team to be re-directed to Datadog, which is monitored by the Customer Support team. The Customer Support team analyses these Datadog alerts and raises DevRev tickets for true positive cases and documents the details of analysis, root cause, and prevention and mitigation steps within the DevRev ticket until closure.",
+      "family": "CUS",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-CUS-06",
+      "controlCode": "CUS-06",
+      "title": "Data Ingestion Reports",
+      "description": "Meridian has configured a row level reconciliation process to execute before and after data ingestion to ensure the completeness and accuracy of the ingested data. Results of reconciliation are documented within a DevRev ticket.",
+      "family": "CUS",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-HR-08",
+      "controlCode": "HR-08",
+      "title": "VCSOM evaluation",
+      "description": "Vision, Culture, Strategy, Operating Model (VCSOM) evaluations are carried out on an annual basis for employees who have been in the organization for more than six months. The Human Resource team informs the employees and reporting managers to fill out VCSOM evaluation forms within Workday HRMS tool.",
+      "family": "HR",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-31",
+      "controlCode": "ISMS-31",
+      "title": "Logging and Monitoring Policy",
+      "description": "Meridian maintains an Audit Logging and Monitoring Process document to manage the audit log sources, activities performed by the SecOps team, and the corrective and preventive actions taken by the respective teams. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-32",
+      "controlCode": "ISMS-32",
+      "title": "Vulnerability and Patch Management Procedure",
+      "description": "Meridian has defined and documented a Vulnerability and Patch Management Procedure that contains guidelines to prevent, detect, and remediate vulnerabilities within Meridian's applications and underlying infrastructure. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-ISMS-33",
+      "controlCode": "ISMS-33",
+      "title": "Third Party Risk Management Procedure",
+      "description": "Meridian has defined and documented a Third Party Risk Management Procedure that contains guidelines to describe the due diligence and oversight processes for third-party services and software application procurement. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "family": "ISMS",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-IT-10",
+      "controlCode": "IT-10",
+      "title": "Firewall Rules",
+      "description": "Meridian has implemented perimeter firewalls on the Bengaluru, Chennai, London, Palo Alto, New York, and Valencia delivery center internet gateways to proactively identify and protect Meridian network against security, availability, confidentiality, and processing integrity threats from sources outside the system boundaries. Rules are enforced on the firewalls to:\n► ‘deny all’ traffic by default with access enabled for specific services as per business requirements,\n► protect against Distributed Denial of Service (DDoS) and IP spoofing attacks, and\n► configure Intrusion Prevention System (IPS)",
+      "family": "IT",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-IT-11",
+      "controlCode": "IT-11",
+      "title": "Change Management - Meridian Infrastructure",
+      "description": "Changes to the Meridian on-premises infrastructure are logged within Freshdesk tickets and tracked to closure by the Corp IT team.",
+      "family": "IT",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-IT-12",
+      "controlCode": "IT-12",
+      "title": "Patch Management - Meridian Infrastructure",
+      "description": "Meridian has implemented the following patch management tools to ensure up-to-date patches are deployed on the endpoints in accordance with the Vulnerability and Patch Management Procedure:\n► Automox for Windows and Linux\n► Kandji for MacBooks",
+      "family": "IT",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-SDLC-07",
+      "controlCode": "SDLC-07",
+      "title": "Require Pull Request",
+      "description": "Meridian has enabled configurations to require all commits to be made to a non-target branch and submitted via a pull request before they can be merged with the master branch.",
+      "family": "SDLC",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-SDLC-08",
+      "controlCode": "SDLC-08",
+      "title": "Deployment of code to production - Quanta Portfolio Products",
+      "description": "Upon successful completion of testing, the commit is merged with the master branch and closed using a pull request. As part of the CI-CD pipeline, a GitHub action automatically performs integration checks and deploys the code onto the production environment.",
+      "family": "SDLC",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-SDLC-09",
+      "controlCode": "SDLC-09",
+      "title": "Deployment of code to production - Zephyr Platform",
+      "description": "Upon successful completion of testing, the\nproduction-ready image generated is stored within Harbor. Meridian has defined workflows within GitHub to ensure that each time there’s a change to the production-ready image on Harbor, the corresponding helm chart for that product release is updated with the latest production-ready image. These images are deployed to Kubernetes clusters within the production environment for X Platform using the automated Flux Kubernetes service.",
+      "family": "SDLC",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-SDLC-10",
+      "controlCode": "SDLC-10",
+      "title": "Source-Code Reviews",
+      "description": "Meridian conducts annual source code reviews through a third-party vendor to identify security vulnerabilities for the repositories related to the X Platform and the Quanta Portfolio products. The Information Security team raises JIRA tickets for high and critical severity issues, and the Engineering and Infrastructure Operations teams implement corrective actions within the defined SLAs. A follow-up remediation review is performed by the vendor to ensure issues are resolved, reinforcing Meridian's commitment to secure coding practices and data protection.",
+      "family": "SDLC",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-WE-10",
+      "controlCode": "WE-10",
+      "title": "Access Review - Physical Security Tools",
+      "description": "Administrative access to Access Control Software is reviewed by the Workspace Experience team on a six-monthly basis. Personnel from the Workspace Experience team extracts the list of administrators on Access Control Software and shares it with Manager – Workspace Experience. The Manager – Workspace Experience reviews the list of administrators to determine the appropriateness of access based on the job responsibilities and communicates discrepancies, if any, to the Workspace Experience team. In case of any discrepancies, the Workspace Experience team takes necessary corrective actions and sha",
+      "family": "WE",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-WE-11",
+      "controlCode": "WE-11",
+      "title": "Fire Detection and Prevention",
+      "description": "Fire extinguishers and smoke detectors are installed at various locations within the delivery centers.",
+      "family": "WE",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-WE-12",
+      "controlCode": "WE-12",
+      "title": "Fire Evacuation Drill",
+      "description": "The Workspace Experience team carries out fire evacuation drills on an annual basis for their respective delivery center to assess the readiness to emergency situations. The Workspace Experience team documents the results of the fire drill within the fire drill report.",
+      "family": "WE",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-WE-13",
+      "controlCode": "WE-13",
+      "title": "Power",
+      "description": "Meridian delivery centers are supported by uninterruptible power supply (UPS) systems and diesel generators (DG) for continuous operation of hardware equipment in the event of power failure.",
+      "family": "WE",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-WE-14",
+      "controlCode": "WE-14",
+      "title": "Equipment Maintenance",
+      "description": "Maintenance vendor conducts the preventive maintenance of critical equipment including fire detection, prevention, and suppression equipment, UPS, DG, CCTV, and access control system as per preventive maintenance contracts to maintain the continued operability of the equipment.",
+      "family": "WE",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-PR-01",
+      "controlCode": "PR-01",
+      "title": "Meridian Privacy Policy - Zephyr Platform & Quanta Portfolio",
+      "description": "Meridian's privacy policy and discloses the type of information Meridian may collect within Zephyr Platform & Quanta Portfolio, as well as how Meridian may use this information. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "family": "PR",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-PR-02",
+      "controlCode": "PR-02",
+      "title": "Meridian Privacy Policy - Data Controller",
+      "description": "Meridian's privacy policy is available on its website and fully discloses the type of information Meridian collects on its website and Workday, as well as how Meridian may use this information.",
+      "family": "PR",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-PR-03",
+      "controlCode": "PR-03",
+      "title": "Records of Processing Activities (RoPA) and Data Inventory - Zephyr Platform & Quanta Portfolio",
+      "description": "Records of processing activities (RoPA) and Data inventories for Meridian are prepared and maintained by the Zephyr Platform & Quanta Portfolio Privacy team identifying the personal data collected, purpose and lawful basis of processing, categories of data subjects, third-party vendors, safeguards, location and rights available to data subjects. The RoPA and Data Inventories are reviewed annually by the Meridian Privacy team.",
+      "family": "PR",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-PR-04",
+      "controlCode": "PR-04",
+      "title": "Records of Processing Activities (RoPA) and Data Inventory - Data Controller",
+      "description": "Records of processing activities (RoPA) and Data inventories for Meridian website and Workday are prepared and maintained by the Meridian Privacy team identifying the personal data collected, purpose and lawful basis of processing, categories of data subjects, third-party vendors, safeguards, location and rights available to data subjects. The RoPA and Data Inventories are reviewed annually by the Meridian Privacy team.",
+      "family": "PR",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-PR-05",
+      "controlCode": "PR-05",
+      "title": "DPA - Vendors",
+      "description": "Vendors are required to sign Data Processing Agreements (DPA), committing to the acceptable use of private and / or confidential data when they have access to user entity data. Agreements are updated when there are system changes that require changes to the customers’ requirements.",
+      "family": "PR",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-PR-06",
+      "controlCode": "PR-06",
+      "title": "Consent Management Policy - Data Controller",
+      "description": "Formalized policies and procedures exist for obtaining, documenting and retaining consent. These policies and procedures are approved by Senior Management of Meridian.",
+      "family": "PR",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-PR-07",
+      "controlCode": "PR-07",
+      "title": "Consent Tracking - Data Controller",
+      "description": "Explicit consent is obtained from data subjects on Meridian website, Workday, and data centers prior to collection, use or disclosure of their personal information, and details such as identity of data subject, date & time of consent and method of obtaining consent are recorded and maintained within Onetrust tool. Data subjects (candidates, employees, contractors, and visitors) provide their explicit consent by signing the ‘Privacy Notice’ prior to collection, use, and / or disclosure of their personal information. Prior notices and consent records are retained as per Meridian standard retenti",
+      "family": "PR",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-PR-08",
+      "controlCode": "PR-08",
+      "title": "Data Subject Rights Management Policy and Procedure - Zephyr Platform & Quanta Portfolio",
+      "description": "Formalized policies and procedures exist for managing the user entity access rights request related to access, erasure, rectification, restrict processing, object and right to be informed. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "family": "PR",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-PR-09",
+      "controlCode": "PR-09",
+      "title": "Data Subject Rights Management - Zephyr Platform & Quanta Portfolio",
+      "description": "Meridian provides user entities with the ability to extract, correct, amend, append, and delete all recorded personal information stored within Zephyr Platform & Quanta Portfolio products. User entities can utilize the features available within Zephyr Platform & Quanta Portfolio products to resolve such data subject requests, or they can reach out to Meridian by sending an email to “privacy@meridian.example”. As a data processor, Meridian forwards all data subject requests to the user entity to verify their authenticity and obtain confirmation to proceed. Meridian has implemented the “product incident management” pro",
+      "family": "PR",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-PR-10",
+      "controlCode": "PR-10",
+      "title": "Data Subject Rights Management Policy and Procedure - Data Controller",
+      "description": "Formalized policies and procedures exist for managing the user / employee / applicant access rights request related to access, erasure, rectification, restrict processing, object and right to be informed. These policies and procedures have been approved by Senior Management of Meridian.",
+      "family": "PR",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-PR-11",
+      "controlCode": "PR-11",
+      "title": "Data Subject Rights Management - Data Controller",
+      "description": "User / employee / applicant can reach out to Meridian by sending an email to “privacy@meridian.example” to resolve data subject requests to extract, correct, amend, append, and / or delete their data. The Meridian Privacy team validates the request and address, resolve, and communicate the resolution of authorized requests.",
+      "family": "PR",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-PR-12",
+      "controlCode": "PR-12",
+      "title": "Breach Management",
+      "description": "Meridian creates and retains a complete, accurate, and timely record of detected or reported unauthorized disclosures (including breaches) of Meridian data and user entity data to meet the entity’s objectives related to privacy. Breaches are acted on in accordance with established incident response procedures. Meridian provides notification of data breaches and incidents to the affected user entities, regulators, and others, as applicable.",
+      "family": "PR",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-PR-13",
+      "controlCode": "PR-13",
+      "title": "Data Protection Impact Assessment (DPIA) - Zephyr Platform & Quanta Portfolio",
+      "description": "On an annual basis, the Meridian Privacy Team performs Data Protection Impact Assessment (DPIA) for Zephyr Platform & Quanta Portfolio products to evaluate and mitigate privacy risks related to the nature, scope, context, purpose, necessity, and proportionality of personal information; data life cycle management; data subject rights; and sub-processors.",
+      "family": "PR",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-PR-14",
+      "controlCode": "PR-14",
+      "title": "Data Protection Impact Assessment (DPIA) - Data Controller",
+      "description": "On an annual basis, the Meridian Privacy Team performs Data Protection Impact Assessment (DPIA) for the Meridian Website and Workday to evaluate and mitigate privacy risks related to the nature, scope, context, purpose, necessity, and proportionality of personal information; data life cycle management; data subject rights; and sub-processors.",
+      "family": "PR",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "LIB-MER-PR-15",
+      "controlCode": "PR-15",
+      "title": "Cookie Notice - Data Controller",
+      "description": "Formalized Cookie Notice for managing information collected through cookies is developed and published on Meridian Website and Workday covering the type of cookies collected, purpose, lawful ground of processing, and changes to Cookie Notice. It is approved by the Senior Management of Meridian. These notices communicate the following to the Data Subjects:\n•\tPurpose for collecting personal information and types\n•\tChoice, consent, and security for privacy\n•\tMethods of collection, use, access, retention, and disposal \n•\tDisclosure to third parties \n•\tQuality, including data subjects’ responsibili",
+      "family": "PR",
+      "definitionSource": "ENG-MER-ZPQP-2025",
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
       ],
       "version": "1.0"
     }

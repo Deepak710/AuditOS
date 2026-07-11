@@ -1,0 +1,134 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "HA engagement team (R-04)",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)"
+  },
+  "users": [
+    {
+      "id": "USR-HA-001",
+      "name": "Owen Castellan",
+      "organization": "HA",
+      "roles": [
+        "Evidence Responsibility",
+        "Documentation Responsibility"
+      ],
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ]
+    },
+    {
+      "id": "USR-HA-002",
+      "name": "Priya Ashford",
+      "organization": "HA",
+      "roles": [
+        "Evidence Responsibility",
+        "Documentation Responsibility"
+      ],
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ]
+    },
+    {
+      "id": "USR-HA-003",
+      "name": "Liana Torbet",
+      "organization": "HA",
+      "roles": [
+        "Evidence Responsibility",
+        "Documentation Responsibility"
+      ],
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ]
+    },
+    {
+      "id": "USR-HA-004",
+      "name": "Diego Marsh",
+      "organization": "HA",
+      "roles": [
+        "Evidence Responsibility",
+        "Documentation Responsibility"
+      ],
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ]
+    },
+    {
+      "id": "USR-HA-005",
+      "name": "Fenella Roque",
+      "organization": "HA",
+      "roles": [
+        "Documentation Responsibility"
+      ],
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ]
+    },
+    {
+      "id": "USR-HA-006",
+      "name": "Marcus Iyengar",
+      "organization": "HA",
+      "roles": [
+        "Preparer"
+      ],
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ]
+    },
+    {
+      "id": "USR-HA-007",
+      "name": "Renata Solheim",
+      "organization": "HA",
+      "roles": [
+        "Reviewer 1"
+      ],
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ]
+    },
+    {
+      "id": "USR-HA-008",
+      "name": "Talis Fenwick",
+      "organization": "HA",
+      "roles": [
+        "Reviewer 2"
+      ],
+      "engagementIds": [
+        "ENG-MER-CSP-2025",
+        "ENG-MER-ZPQP-2025",
+        "ENG-MER-QC-2025",
+        "ENG-MER-QA-2026",
+        "ENG-MER-NXSC-2026"
+      ]
+    }
+  ]
+}

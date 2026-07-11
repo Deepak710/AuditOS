@@ -89,17 +89,24 @@
   var TONES = WS.TONES;
 
   /**
-   * Control operational-status vocabulary → tone (read, never invented). The demo
-   * data uses "In Progress" (SOC 2) and "Planning" (ISO); the vocabulary also
-   * covers the operational states a control moves through — Draft, Pending
-   * Review, Active, Approved, Rejected, Retired — so future data (including
-   * AI-proposed states) reads through the same token-backed tones. An unmapped
-   * status resolves to a neutral info tone.
+   * Control operational-status vocabulary → tone (read, never invented). The
+   * production dataset's `status` mirrors the shared testingStatus vocabulary
+   * (enums.json) — "Not Started", "In Progress", "Completed", "Not
+   * Applicable", "Data not received"; the vocabulary also covers the
+   * document-lifecycle states a control moves through — Draft, Pending
+   * Review, Active, Approved, Rejected, Retired — so a future or differently
+   * sourced dataset (including AI-proposed states) reads through the same
+   * token-backed tones. An unmapped status resolves to a neutral info tone.
    */
   var STATUS_TONES = {
+    'Not Started': null,
+    'Data not received': TONES.WARNING,
+    'Pending': TONES.WARNING,
+    'In Progress': TONES.INFO,
+    'Completed': TONES.SUCCESS,
+    'Not Applicable': null,
     'Draft': null,
     'Planning': null,
-    'In Progress': TONES.INFO,
     'In Review': TONES.WARNING,
     'Pending Review': TONES.WARNING,
     'Active': TONES.SUCCESS,
@@ -114,7 +121,10 @@
    * stable operational sequence regardless of which statuses the data contains.
    * Statuses outside this list sort after it, alphabetically.
    */
-  var HEALTH_ORDER = ['Draft', 'Planning', 'In Progress', 'In Review', 'Pending Review', 'Active', 'Approved', 'Rejected', 'Retired', 'Obsolete'];
+  var HEALTH_ORDER = [
+    'Not Started', 'Data not received', 'Pending', 'In Progress', 'Completed', 'Not Applicable',
+    'Draft', 'Planning', 'In Review', 'Pending Review', 'Active', 'Approved', 'Rejected', 'Retired', 'Obsolete'
+  ];
 
   /** Evidence-coverage keys derived per control, with their labels and tones. */
   var EVIDENCE_COVERAGE = {

@@ -55,6 +55,14 @@
     { id: 'pocs',               scope: SCOPES.SHARED, path: 'demo-data/pocs.json',               recordsKey: 'pocs' },
     { id: 'control-library',    scope: SCOPES.SHARED, path: 'demo-data/control-library.json',    recordsKey: 'controls' },
     { id: 'framework-mappings', scope: SCOPES.SHARED, path: 'demo-data/framework-mappings.json', recordsKey: 'mappings', idKey: 'libraryControlId' },
+    { id: 'users',              scope: SCOPES.SHARED, path: 'demo-data/users.json',              recordsKey: 'users' },
+    { id: 'programs',           scope: SCOPES.SHARED, path: 'demo-data/programs.json',            recordsKey: 'programs' },
+    // enums.json is a lookup table of named vocabularies (evidenceStatus,
+    // documentationStatus, ...), not a records array; read whole via
+    // state.getDocument('enums'). recordsKey names its one non-array key so
+    // listRecords/getRecord degrade to [] / null instead of throwing.
+    { id: 'enums',              scope: SCOPES.SHARED, path: 'demo-data/enums.json',               recordsKey: 'tickmarks' },
+    { id: 'master-controls',    scope: SCOPES.SHARED, path: 'demo-data/master-controls.json',     recordsKey: 'mappings' },
 
     // Per-engagement domains (root manifest → one document per dataset).
     { id: 'controls',              scope: SCOPES.ENGAGEMENT, manifestPath: 'demo-data/controls.json',              recordsKey: 'controls' },
@@ -64,7 +72,9 @@
     { id: 'samples',               scope: SCOPES.ENGAGEMENT, manifestPath: 'demo-data/samples.json',               recordsKey: 'sampleSets' },
     { id: 'testing',               scope: SCOPES.ENGAGEMENT, manifestPath: 'demo-data/testing.json',               recordsKey: 'tests' },
     { id: 'findings',              scope: SCOPES.ENGAGEMENT, manifestPath: 'demo-data/findings.json',              recordsKey: 'findings' },
-    { id: 'reports',               scope: SCOPES.ENGAGEMENT, manifestPath: 'demo-data/reports.json',               recordsKey: 'sections' }
+    { id: 'reports',               scope: SCOPES.ENGAGEMENT, manifestPath: 'demo-data/reports.json',               recordsKey: 'sections' },
+    { id: 'walkthroughs',          scope: SCOPES.ENGAGEMENT, manifestPath: 'demo-data/walkthroughs.json',          recordsKey: 'sessions' },
+    { id: 'activity',              scope: SCOPES.ENGAGEMENT, manifestPath: 'demo-data/activity.json',              recordsKey: 'events' }
   ];
 
   AuditOS.demoDataRegistry = {

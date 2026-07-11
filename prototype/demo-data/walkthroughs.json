@@ -1,0 +1,9 @@
+{
+  "datasets": [
+    "walkthroughs/meridian-csp-soc2-2025.json",
+    "walkthroughs/meridian-zpqp-soc2-2025.json",
+    "walkthroughs/meridian-qc-soc2-2025.json",
+    "walkthroughs/meridian-qa-soc2-2026.json",
+    "walkthroughs/meridian-nxsc-soc2-2026.json"
+  ]
+}

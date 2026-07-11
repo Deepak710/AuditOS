@@ -1,0 +1,59 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Walkthroughs (R-12): remark-evidenced sessions; per-control WT status lives on controls",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
+    "engagementId": "ENG-MER-ZPQP-2025",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025"
+  },
+  "summary": {
+    "sessions": 3,
+    "controlsByWalkthroughStatus": {
+      "Data not received": 34,
+      "Completed": 88,
+      "In Progress": 5
+    }
+  },
+  "sessions": [
+    {
+      "id": "WTS-MER-001",
+      "date": null,
+      "title": "evidence provided during screen share May 6",
+      "source": "HA/client remark",
+      "requirementIds": [
+        "REQ-MER-0020"
+      ],
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025"
+      ]
+    },
+    {
+      "id": "WTS-MER-002",
+      "date": null,
+      "title": "Evdience provided during screenshare",
+      "source": "HA/client remark",
+      "requirementIds": [
+        "REQ-MER-0026"
+      ],
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025"
+      ]
+    },
+    {
+      "id": "WTS-MER-003",
+      "date": "2026-06-10",
+      "title": "To be discussed on call with Tobias Whitmore",
+      "source": "HA/client remark",
+      "requirementIds": [
+        "REQ-MER-0512"
+      ],
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025"
+      ]
+    }
+  ],
+  "processes": [],
+  "questions": []
+}

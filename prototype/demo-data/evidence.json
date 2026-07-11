@@ -1,8 +1,10 @@
 {
   "datasets": [
-    "evidence/nimbus-soc2-2025.json",
-    "evidence/nimbus-soc2-2026.json",
-    "evidence/helix-soc2-2026.json",
-    "evidence/helix-iso27001-2026.json"
+    "evidence/meridian-csp-soc2-2025.json",
+    "evidence/meridian-zpqp-soc2-2025.json",
+    "evidence/meridian-qc-soc2-2025.json",
+    "evidence/meridian-qa-soc2-2026.json",
+    "evidence/meridian-nxsc-soc2-2026.json",
+    "evidence/meridian-program-soc-2025.json"
   ]
 }

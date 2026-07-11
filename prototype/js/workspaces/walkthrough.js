@@ -98,16 +98,27 @@
     return Object.prototype.hasOwnProperty.call(SESSION_TONES, status) ? SESSION_TONES[status] : TONES.INFO;
   }
 
-  /** The session's scheduled or completed date, whichever is present, formatted. */
+  /**
+   * Whether a session counts as complete: its own `status` when the record
+   * declares one (richer future data), otherwise its mere presence in the
+   * sessions array — production walkthrough sessions are logged Halcyon/client
+   * remarks with no separate status field, so being recorded is completion.
+   */
+  function isSessionComplete(session) {
+    var source = session || {};
+    return source.status ? source.status === SESSION_STATUS.COMPLETED : true;
+  }
+
+  /** The session's completed, scheduled, or recorded date, whichever is present, formatted. */
   function formatSessionDate(session) {
     var source = session || {};
-    return formatDate(source.completedDate || source.scheduledDate);
+    return formatDate(source.date || source.completedDate || source.scheduledDate);
   }
 
   /** The session's most relevant date value for chronological sorting (unformatted). */
   function sessionSortDate(session) {
     var source = session || {};
-    return source.completedDate || source.scheduledDate || '';
+    return source.date || source.completedDate || source.scheduledDate || '';
   }
 
   /**
@@ -120,7 +131,7 @@
     if (list.length === 0) {
       return { status: 'Not started', tone: null };
     }
-    var completed = list.filter(function (session) { return session.status === SESSION_STATUS.COMPLETED; }).length;
+    var completed = list.filter(isSessionComplete).length;
     if (completed === list.length) {
       return { status: 'Complete', tone: TONES.SUCCESS };
     }
@@ -173,13 +184,18 @@
    */
   function deriveAuditHealth(sessions, questions, teamNames) {
     var sessionList = asArray(sessions);
-    var completed = sessionList.filter(function (session) { return session.status === SESSION_STATUS.COMPLETED; }).length;
+    var completed = sessionList.filter(isSessionComplete).length;
     var pending = sessionList.length - completed;
     var openQuestions = asArray(questions).filter(function (question) { return question.status !== 'Resolved'; }).length;
     var evidenceLinks = sessionList.reduce(function (total, session) {
       return total + asArray(session.linkedEvidence).length;
     }, 0);
     var team = asArray(teamNames);
+    // Only "not tracked" once sessions exist but none of them carry a
+    // participants field — with no sessions at all, every team member is
+    // genuinely still pending, which is a real (not fabricated) signal.
+    var participantsTracked = sessionList.length === 0 ||
+      sessionList.some(function (session) { return Boolean(session.participants); });
     var participated = countParticipatedTeamMembers(team, sessionList);
     var teamsPending = Math.max(0, team.length - participated);
 
@@ -206,8 +222,8 @@
       },
       {
         key: 'teams', label: 'Teams pending',
-        status: team.length === 0 ? 'None' : (teamsPending > 0 ? teamsPending + ' Pending' : 'Complete'),
-        tone: teamsPending > 0 ? TONES.WARNING : (team.length > 0 ? TONES.SUCCESS : null)
+        status: team.length === 0 ? 'None' : (!participantsTracked ? 'Not tracked' : (teamsPending > 0 ? teamsPending + ' Pending' : 'Complete')),
+        tone: !participantsTracked ? null : (teamsPending > 0 ? TONES.WARNING : (team.length > 0 ? TONES.SUCCESS : null))
       }
     ];
   }
@@ -275,7 +291,7 @@
       .sort(function (a, b) { return String(sessionSortDate(a)).localeCompare(String(sessionSortDate(b))); })
       .slice(0, LIST_LIMIT)
       .map(function (session) {
-        var completedLabel = session.status === SESSION_STATUS.COMPLETED ? 'Completed' : 'Scheduled';
+        var completedLabel = isSessionComplete(session) ? 'Completed' : 'Scheduled';
         return { timestamp: formatSessionDate(session), title: completedLabel + ': ' + (session.title || '') };
       });
   }
@@ -283,15 +299,15 @@
   /** Recent walkthrough activity for the Activity panel: completed sessions, newest first. */
   function deriveActivity(sessions) {
     return asArray(sessions)
-      .filter(function (session) { return session.status === SESSION_STATUS.COMPLETED && session.completedDate; })
+      .filter(function (session) { return isSessionComplete(session) && sessionSortDate(session); })
       .slice()
-      .sort(function (a, b) { return String(b.completedDate).localeCompare(String(a.completedDate)); })
+      .sort(function (a, b) { return String(sessionSortDate(b)).localeCompare(String(sessionSortDate(a))); })
       .slice(0, LIST_LIMIT)
       .map(function (session) {
         return {
           title: 'Session completed: ' + (session.title || ''),
-          meta: session.owner ? 'Led by ' + session.owner : '',
-          timestamp: formatDate(session.completedDate),
+          meta: session.owner ? 'Led by ' + session.owner : (session.source || ''),
+          timestamp: formatSessionDate(session),
           kind: 'review', value: 'Completed'
         };
       });
@@ -329,11 +345,14 @@
    */
   function deriveSessionDetail(session) {
     var source = session || {};
+    // Only infer "Completed" from presence for a genuine session record (one
+    // with an id); a session with no fields at all degrades to no badge.
+    var statusLabel = source.status || (source.id && isSessionComplete(source) ? 'Completed' : '');
     return {
-      eyebrow: source.owner || '',
+      eyebrow: source.owner || source.source || '',
       title: source.title || '',
-      subtitle: [formatSessionDate(source), source.status].filter(Boolean).join(' · '),
-      badges: source.status ? [{ label: source.status, tone: resolveSessionTone(source.status) }] : [],
+      subtitle: [formatSessionDate(source), statusLabel].filter(Boolean).join(' · '),
+      badges: statusLabel ? [{ label: statusLabel, tone: resolveSessionTone(source.status || statusLabel) }] : [],
       sections: [
         textSection('Objective', source.objective, 'No objective recorded for this session.'),
         listSection('Participants', asArray(source.participants).map(toNameItem), 'No participants recorded yet.'),
@@ -341,7 +360,7 @@
         textSection('Summary', source.summary, 'No summary recorded yet.'),
         textSection('Notes', source.notes, 'No notes captured for this session.'),
         listSection('Linked processes', asArray(source.linkedProcesses).map(toRefItem), 'No linked processes yet.'),
-        listSection('Linked requirements', asArray(source.linkedRequirements).map(toRefItem), 'No linked requirements yet.'),
+        listSection('Linked requirements', asArray(source.linkedRequirements || source.requirementIds).map(toRefItem), 'No linked requirements yet.'),
         listSection('Linked evidence', asArray(source.linkedEvidence).map(toRefItem), 'No linked evidence yet.'),
         listSection('Follow-up items', asArray(source.followUpItems).map(toTextItem), 'No follow-up items recorded.')
       ]

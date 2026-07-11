@@ -1,0 +1,81 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Populations & sample sets (Q-09: no synthetic samples)",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
+    "engagementId": "ENG-MER-QA-2026",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025"
+  },
+  "summary": {
+    "sampleSets": 4,
+    "totalSamples": 0
+  },
+  "sampleSets": [
+    {
+      "id": "SSET-MER-003",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0003",
+      "populationName": "System generated list of clients using Quanta Assist product hosted on GCP.",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QA-2026"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0003"
+      ]
+    },
+    {
+      "id": "SSET-MER-010",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0114",
+      "populationName": "System generated list of active users from Workday as on date",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QA-2026",
+        "ENG-MER-QC-2025",
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0109"
+      ]
+    },
+    {
+      "id": "SSET-MER-028",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0464",
+      "populationName": "Data Subject Rights request Management tracker 'or' email dump of all emails sent to “privacy@meridian.example” for data subject requests from U",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QA-2026",
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0422"
+      ]
+    },
+    {
+      "id": "SSET-MER-030",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0473",
+      "populationName": "List/Record of of detected or reported unauthorized disclosures (including breaches).",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QA-2026",
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0431"
+      ]
+    }
+  ]
+}

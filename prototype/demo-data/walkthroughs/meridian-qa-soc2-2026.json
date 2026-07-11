@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Walkthroughs (R-12): remark-evidenced sessions; per-control WT status lives on controls",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
+    "engagementId": "ENG-MER-QA-2026",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025"
+  },
+  "summary": {
+    "sessions": 0,
+    "controlsByWalkthroughStatus": {
+      "Not Applicable": 3,
+      "Data not received": 37,
+      "Completed": 73,
+      "In Progress": 7,
+      "Pending": 1
+    }
+  },
+  "sessions": [],
+  "processes": [],
+  "questions": []
+}

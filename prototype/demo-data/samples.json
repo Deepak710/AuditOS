@@ -1,8 +1,9 @@
 {
   "datasets": [
-    "samples/nimbus-soc2-2025.json",
-    "samples/nimbus-soc2-2026.json",
-    "samples/helix-soc2-2026.json",
-    "samples/helix-iso27001-2026.json"
+    "samples/meridian-csp-soc2-2025.json",
+    "samples/meridian-zpqp-soc2-2025.json",
+    "samples/meridian-qc-soc2-2025.json",
+    "samples/meridian-qa-soc2-2026.json",
+    "samples/meridian-nxsc-soc2-2026.json"
   ]
 }

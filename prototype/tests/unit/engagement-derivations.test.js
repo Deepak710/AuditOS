@@ -244,20 +244,22 @@ module.exports = function registerUnitTests(harness) {
     assert.equal(derive.deriveRelationships(fixtureRegistry(), {}).length, 0);
   });
 
-  test('deriveActivity merges evidence and submissions newest first, with the report leading', function () {
+  test('deriveActivity merges activity-log remarks newest first, with the report leading', function () {
     const activity = Array.from(derive.deriveActivity(
       [
-        { title: 'Item A', reviewStatus: 'Approved', uploadedOn: '2027-01-02' },
-        { title: 'Undated', reviewStatus: 'Approved' }
+        { at: '2027-01-02', byId: 'POC-1', authorSide: 'client', entityId: 'REQ-1', note: 'Item A note' },
+        { at: null, byId: 'POC-2', authorSide: 'client', entityId: 'REQ-2', note: 'Undated note' },
+        { at: '2027-01-05', byId: 'USR-1', authorSide: 'ey', entityId: 'REQ-3', note: 'Newest note' }
       ],
-      [{ id: 'R-1', reviewStatus: 'Pending Review', submittedOn: '2027-01-05' }],
-      { title: 'Fixture report', status: 'Draft', version: '0.1' }
+      { title: 'Fixture report', status: 'Draft', version: '0.1' },
+      { 'POC-1': 'Alice', 'USR-1': 'Bob' }
     ));
     assert.match(activity[0].title, /Report draft/, 'the report state leads the feed');
-    assert.match(activity[1].title, /request R-1/, 'the newest dated event follows');
-    assert.match(activity[2].title, /Item A/);
-    assert.ok(!activity.some(function (event) { return /Undated/.test(event.title); }),
-      'evidence without a date is never fabricated into the feed');
+    assert.match(activity[1].meta, /Newest note/, 'the newest dated event follows');
+    assert.equal(activity[1].actor, 'Bob', 'a known actor id resolves to its real name');
+    assert.match(activity[2].meta, /Item A note/);
+    assert.ok(!activity.some(function (event) { return /Undated/.test(event.meta || ''); }),
+      'a remark without a recorded date is never fabricated into the feed');
   });
 
   test('deriveMetadata derives created, updated, version, owner, and tags', function () {

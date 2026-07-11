@@ -1,179 +1,508 @@
 {
   "metadata": {
     "version": "1.0.0",
-    "generatedAt": "2026-01-01T00:00:00Z",
-    "description": "AuditOS Release 1 Static Point of Contact Dataset"
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Client POC roster (R-03)",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)"
   },
   "pocs": [
     {
-      "id": "POC-001",
-      "companyId": "CMP-001",
-      "employeeId": "NMB-0001",
-      "name": "Arjun Menon",
-      "designation": "Director, Information Security",
-      "email": "arjun.menon@nimbuscloud.example",
-      "phone": "+91-9000000001",
-      "businessUnitId": "BU-001",
-      "teamId": "TEAM-001",
-      "role": "Business Owner",
-      "isPrimary": true,
-      "reportsTo": null,
-      "backupPocId": "POC-002",
-      "status": "Active",
-      "preferredCommunication": "Email"
+      "id": "POC-MER-001",
+      "companyId": "CMP-MER",
+      "name": "Devika Marlowe",
+      "teamNames": [
+        "Cloud Ops Team"
+      ],
+      "status": "Active"
     },
     {
-      "id": "POC-002",
-      "companyId": "CMP-001",
-      "employeeId": "NMB-0002",
-      "name": "Sneha Rao",
-      "designation": "Security Operations Manager",
-      "email": "sneha.rao@nimbuscloud.example",
-      "phone": "+91-9000000002",
-      "businessUnitId": "BU-001",
-      "teamId": "TEAM-001",
-      "role": "Evidence Owner",
-      "isPrimary": false,
-      "reportsTo": "POC-001",
-      "backupPocId": "POC-003",
-      "status": "Active",
-      "preferredCommunication": "Teams"
+      "id": "POC-MER-002",
+      "companyId": "CMP-MER",
+      "name": "Baxter Illingworth",
+      "teamNames": [
+        "Legal Team",
+        "Legal and Privacy Team"
+      ],
+      "status": "Active"
     },
     {
-      "id": "POC-003",
-      "companyId": "CMP-001",
-      "employeeId": "NMB-0003",
-      "name": "Rohit Kapoor",
-      "designation": "Cloud Security Engineer",
-      "email": "rohit.kapoor@nimbuscloud.example",
-      "phone": "+91-9000000003",
-      "businessUnitId": "BU-001",
-      "teamId": "TEAM-001",
-      "role": "Control Owner",
-      "isPrimary": false,
-      "reportsTo": "POC-002",
-      "backupPocId": null,
-      "status": "Active",
-      "preferredCommunication": "Email"
+      "id": "POC-MER-003",
+      "companyId": "CMP-MER",
+      "name": "Rohan Castile",
+      "teamNames": [
+        "Quanta Capture NG Team"
+      ],
+      "status": "Active"
     },
     {
-      "id": "POC-004",
-      "companyId": "CMP-001",
-      "employeeId": "NMB-0010",
-      "name": "Priya Sharma",
-      "designation": "Head of Corporate IT",
-      "email": "priya.sharma@nimbuscloud.example",
-      "phone": "+91-9000000010",
-      "businessUnitId": "BU-002",
-      "teamId": "TEAM-002",
-      "role": "Business Owner",
-      "isPrimary": true,
-      "reportsTo": null,
-      "backupPocId": "POC-005",
-      "status": "Active",
-      "preferredCommunication": "Email"
+      "id": "POC-MER-004",
+      "companyId": "CMP-MER",
+      "name": "Rohan Castile, Meera Ostrander",
+      "teamNames": [],
+      "status": "Active"
     },
     {
-      "id": "POC-005",
-      "companyId": "CMP-001",
-      "employeeId": "NMB-0011",
-      "name": "Amit Verma",
-      "designation": "Cloud Operations Manager",
-      "email": "amit.verma@nimbuscloud.example",
-      "phone": "+91-9000000011",
-      "businessUnitId": "BU-002",
-      "teamId": "TEAM-002",
-      "role": "Evidence Owner",
-      "isPrimary": false,
-      "reportsTo": "POC-004",
-      "backupPocId": "POC-006",
-      "status": "Active",
-      "preferredCommunication": "Teams"
+      "id": "POC-MER-005",
+      "companyId": "CMP-MER",
+      "name": "Callan Devries",
+      "teamNames": [
+        "Quanta Capture NG Team"
+      ],
+      "status": "Active"
     },
     {
-      "id": "POC-006",
-      "companyId": "CMP-001",
-      "employeeId": "NMB-0012",
-      "name": "Karan Iyer",
-      "designation": "Systems Administrator",
-      "email": "karan.iyer@nimbuscloud.example",
-      "phone": "+91-9000000012",
-      "businessUnitId": "BU-002",
-      "teamId": "TEAM-003",
-      "role": "Evidence Contributor",
-      "isPrimary": false,
-      "reportsTo": "POC-005",
-      "backupPocId": null,
-      "status": "Active",
-      "preferredCommunication": "Teams"
+      "id": "POC-MER-006",
+      "companyId": "CMP-MER",
+      "name": "Nikhil Fairbanks",
+      "teamNames": [
+        "SecOps Team"
+      ],
+      "status": "Active"
     },
     {
-      "id": "POC-011",
-      "companyId": "CMP-001",
-      "employeeId": "NMB-0020",
-      "name": "Neha Singh",
-      "designation": "HR Operations Manager",
-      "email": "neha.singh@nimbuscloud.example",
-      "phone": "+91-9000000020",
-      "businessUnitId": "BU-003",
-      "teamId": "TEAM-004",
-      "role": "Business Owner",
-      "isPrimary": true,
-      "reportsTo": null,
-      "backupPocId": "POC-012",
-      "status": "Active",
-      "preferredCommunication": "Email"
+      "id": "POC-MER-007",
+      "companyId": "CMP-MER",
+      "name": "Sable Okonjo",
+      "teamNames": [
+        "HR - India"
+      ],
+      "status": "Active"
     },
     {
-      "id": "POC-012",
-      "companyId": "CMP-001",
-      "employeeId": "NMB-0021",
-      "name": "Rahul Nair",
-      "designation": "HR Business Partner",
-      "email": "rahul.nair@nimbuscloud.example",
-      "phone": "+91-9000000021",
-      "businessUnitId": "BU-003",
-      "teamId": "TEAM-004",
-      "role": "Evidence Owner",
-      "isPrimary": false,
-      "reportsTo": "POC-011",
-      "backupPocId": null,
-      "status": "Active",
-      "preferredCommunication": "Email"
+      "id": "POC-MER-008",
+      "companyId": "CMP-MER",
+      "name": "Farrin Achebe",
+      "teamNames": [
+        "SecOps Team"
+      ],
+      "status": "Active"
     },
     {
-      "id": "POC-101",
-      "companyId": "CMP-002",
-      "employeeId": "HLX-0001",
-      "name": "Vikram Desai",
-      "designation": "Director, Information Security",
-      "email": "vikram.desai@helixfinancial.example",
-      "phone": "+91-8000000001",
-      "businessUnitId": "BU-101",
-      "teamId": "TEAM-101",
-      "role": "Business Owner",
-      "isPrimary": true,
-      "reportsTo": null,
-      "backupPocId": "POC-102",
-      "status": "Active",
-      "preferredCommunication": "Email"
+      "id": "POC-MER-009",
+      "companyId": "CMP-MER",
+      "name": "Farrin Achebe Lior Danes Nikhil Fairbanks Priyanka Voss",
+      "teamNames": [],
+      "status": "Active"
     },
     {
-      "id": "POC-102",
-      "companyId": "CMP-002",
-      "employeeId": "HLX-0002",
-      "name": "Ananya Bose",
-      "designation": "Security Operations Manager",
-      "email": "ananya.bose@helixfinancial.example",
-      "phone": "+91-8000000002",
-      "businessUnitId": "BU-101",
-      "teamId": "TEAM-101",
-      "role": "Evidence Owner",
-      "isPrimary": false,
-      "reportsTo": "POC-101",
-      "backupPocId": null,
-      "status": "Active",
-      "preferredCommunication": "Teams"
+      "id": "POC-MER-010",
+      "companyId": "CMP-MER",
+      "name": "Rikesh Malhotra",
+      "teamNames": [
+        "HR",
+        "HR - India",
+        "HR Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-011",
+      "companyId": "CMP-MER",
+      "name": "Odalys Trent",
+      "teamNames": [],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-012",
+      "companyId": "CMP-MER",
+      "name": "India - Rikesh Malhotra",
+      "teamNames": [],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-013",
+      "companyId": "CMP-MER",
+      "name": "Jonas Whitfield",
+      "teamNames": [
+        "Workspace Experience - London",
+        "Workspace Experience - New York",
+        "Workspace Experience - Palo Alto",
+        "Workspace Experience - Valencia"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-014",
+      "companyId": "CMP-MER",
+      "name": "Kavya Reinholt",
+      "teamNames": [
+        "Quanta Capture NG Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-015",
+      "companyId": "CMP-MER",
+      "name": "Ines Callaway",
+      "teamNames": [
+        "Quanta Capture NG Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-016",
+      "companyId": "CMP-MER",
+      "name": "Manav Sethna",
+      "teamNames": [
+        "Quanta Analyze Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-017",
+      "companyId": "CMP-MER",
+      "name": "Corin Blackwood",
+      "teamNames": [
+        "Quanta Analyze Team",
+        "Quanta Discover Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-018",
+      "companyId": "CMP-MER",
+      "name": "Aditi Wren",
+      "teamNames": [
+        "Customer Support Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-019",
+      "companyId": "CMP-MER",
+      "name": "Farhan Delacroix",
+      "teamNames": [
+        "Quanta Self-Serve Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-020",
+      "companyId": "CMP-MER",
+      "name": "Yusuf Bramwell",
+      "teamNames": [
+        "Talent Acquisition Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-021",
+      "companyId": "CMP-MER",
+      "name": "Devan Ashcombe",
+      "teamNames": [
+        "Quanta Capture NG Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-022",
+      "companyId": "CMP-MER",
+      "name": "Neelima Prasad",
+      "teamNames": [],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-023",
+      "companyId": "CMP-MER",
+      "name": "Corbin Yates",
+      "teamNames": [
+        "InfoSec Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-024",
+      "companyId": "CMP-MER",
+      "name": "Rania Delgado",
+      "teamNames": [
+        "DeliveryOps"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-025",
+      "companyId": "CMP-MER",
+      "name": "Emil Sorensen",
+      "teamNames": [
+        "Nexus Cloud Product Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-026",
+      "companyId": "CMP-MER",
+      "name": "Anaya Whitlock",
+      "teamNames": [
+        "Zephyr Platform Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-027",
+      "companyId": "CMP-MER",
+      "name": "Anaya Whitlock - AD",
+      "teamNames": [
+        "Quanta Analyze Team",
+        "Quanta Discover Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-028",
+      "companyId": "CMP-MER",
+      "name": "Anaya Whitlock - VA",
+      "teamNames": [
+        "Zephyr Console Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-029",
+      "companyId": "CMP-MER",
+      "name": "Kieran Ostberg",
+      "teamNames": [
+        "Zephyr Console Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-030",
+      "companyId": "CMP-MER",
+      "name": "Divya Kestrel",
+      "teamNames": [
+        "HR - US",
+        "Talent Acquisition Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-031",
+      "companyId": "CMP-MER",
+      "name": "Marisol Enright",
+      "teamNames": [
+        "Corp IT"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-032",
+      "companyId": "CMP-MER",
+      "name": "Anjali Beaumont",
+      "teamNames": [
+        "Zephyr Console Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-033",
+      "companyId": "CMP-MER",
+      "name": "Anjali Beaumont - AD",
+      "teamNames": [
+        "Quanta Analyze Team",
+        "Quanta Discover Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-034",
+      "companyId": "CMP-MER",
+      "name": "Anjali Beaumont - SS",
+      "teamNames": [
+        "Quanta Assist Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-035",
+      "companyId": "CMP-MER",
+      "name": "Nadira Voight",
+      "teamNames": [
+        "Quanta Capture Legacy Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-036",
+      "companyId": "CMP-MER",
+      "name": "Girish Talwar",
+      "teamNames": [],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-037",
+      "companyId": "CMP-MER",
+      "name": "Priyam Doss",
+      "teamNames": [
+        "Cloud Ops Team",
+        "Quanta Capture NG Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-038",
+      "companyId": "CMP-MER",
+      "name": "Camille Ostrowski",
+      "teamNames": [
+        "Zephyr Console Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-039",
+      "companyId": "CMP-MER",
+      "name": "Selvan Iyer",
+      "teamNames": [],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-040",
+      "companyId": "CMP-MER",
+      "name": "Spain – Meenal Chaudary",
+      "teamNames": [],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-041",
+      "companyId": "CMP-MER",
+      "name": "Spain – Ilsa Brightwater",
+      "teamNames": [],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-042",
+      "companyId": "CMP-MER",
+      "name": "Rustam Belanger",
+      "teamNames": [
+        "Quanta Analyze Team",
+        "Quanta Discover Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-043",
+      "companyId": "CMP-MER",
+      "name": "Dario Emerald",
+      "teamNames": [
+        "Workspace Experience - Bangalore",
+        "Workspace Experience - Chennai"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-044",
+      "companyId": "CMP-MER",
+      "name": "Fiona Castellane",
+      "teamNames": [
+        "Corp IT"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-045",
+      "companyId": "CMP-MER",
+      "name": "Vidya Thornbury",
+      "teamNames": [
+        "Quanta Analyze Team",
+        "Quanta Discover Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-046",
+      "companyId": "CMP-MER",
+      "name": "Chetan Mallory",
+      "teamNames": [
+        "HR",
+        "HR - India",
+        "Talent Acquisition Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-047",
+      "companyId": "CMP-MER",
+      "name": "Winnifred Argent",
+      "teamNames": [
+        "DeliveryOps"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-048",
+      "companyId": "CMP-MER",
+      "name": "Griffin Malden",
+      "teamNames": [
+        "Quanta Analyze Team",
+        "Quanta Discover Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-049",
+      "companyId": "CMP-MER",
+      "name": "Tanvir Oakes",
+      "teamNames": [
+        "Cloud Ops Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-050",
+      "companyId": "CMP-MER",
+      "name": "UK",
+      "teamNames": [],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-051",
+      "companyId": "CMP-MER",
+      "name": "US – Bianca Redfern",
+      "teamNames": [],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-052",
+      "companyId": "CMP-MER",
+      "name": "Sameer Loxley",
+      "teamNames": [],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-053",
+      "companyId": "CMP-MER",
+      "name": "Perrin Achterberg",
+      "teamNames": [
+        "Quanta Assist Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-054",
+      "companyId": "CMP-MER",
+      "name": "Perrin Achterberg - AD",
+      "teamNames": [
+        "Quanta Capture NG Team"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-055",
+      "companyId": "CMP-MER",
+      "name": "Nalini Foscari",
+      "teamNames": [
+        "Corp IT"
+      ],
+      "status": "Active"
+    },
+    {
+      "id": "POC-MER-056",
+      "companyId": "CMP-MER",
+      "name": "Bianca Redfern",
+      "teamNames": [
+        "HR - US",
+        "HR Team"
+      ],
+      "status": "Active"
     }
   ]
 }

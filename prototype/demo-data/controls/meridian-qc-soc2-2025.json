@@ -1,0 +1,4011 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Controls (R-10)",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
+    "engagementId": "ENG-MER-QC-2025",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025"
+  },
+  "summary": {
+    "controls": 81,
+    "byWalkthroughStatus": {
+      "Completed": 53,
+      "Data not received": 28
+    },
+    "byTestingStatus": {
+      "In Progress": 6,
+      "Not Applicable": 45,
+      "Completed": 9,
+      "Data not received": 21
+    }
+  },
+  "controls": [
+    {
+      "id": "CTL-QC-HR-01",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "HR-01",
+      "idStatus": "Tentative",
+      "family": "HR",
+      "title": "New Hire Induction",
+      "descriptionText": "New hires are required to sign the following documents at the time of joining to acknowledge the acceptance of terms to maintain the confidentiality and integrity of information within the organization:\n1. Appointment Letter consisting of Code of Ethics and Business Conduct (COBC), and\n2. Non-Disclosure Agreement (NDA).",
+      "criteriaIds": [
+        "CC1.1",
+        "CC1.5",
+        "CC9.2",
+        "C1.1"
+      ],
+      "testProcedure": "For a sample of new hires, inspected the Appointment Letter and Non Disclosure Agreement (NDA) acknowledgement to determine whether the users had signed and agreed to preserve ethical values and the confidentiality and integrity of information within Meridian.",
+      "pocIds": [
+        "POC-MER-010"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "In Progress",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "A05"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-01"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0101",
+        "REQ-MER-0102",
+        "REQ-MER-0103",
+        "REQ-MER-0104",
+        "REQ-MER-0105"
+      ],
+      "evidenceRequirementTexts": [
+        "System generated list of new joiners from Workday for the audit period",
+        "For a sample of new joiners, Appointment Letter consisting of Code of Ethics and Business Conduct (COBC)",
+        "For a sample of new joiners, Non-Disclosure Agreement (NDA)"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-HR-02",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "HR-02",
+      "idStatus": "Tentative",
+      "family": "HR",
+      "title": "Employee Handbook",
+      "descriptionText": "Formalized employee handbook is documented to communicate expected workforce conduct, organizational policies, and associated enforcement procedures. This document is published on U-Central and accessible by all users.",
+      "criteriaIds": [
+        "CC1.1",
+        "CC2.2",
+        "CC5.3"
+      ],
+      "testProcedure": "Performed inquiry with Senior HR Operations Specialist to determine whether formalized employee handbook was published on U-Central and accessible by all users.\n\nAdditionally, inspected the employee handbook to determine whether it communicated expected workforce conduct, organizational policies, and associated enforcement procedures.",
+      "pocIds": [
+        "POC-MER-010"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-02"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0106",
+        "REQ-MER-0107"
+      ],
+      "evidenceRequirementTexts": [
+        "Screenshot from U-Central showing that employee handbook was published on U-Central and is accessible by all users.",
+        "Employee Handbook"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-HR-03",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "HR-03",
+      "idStatus": "Tentative",
+      "family": "HR",
+      "title": "Background and Reference Checks",
+      "descriptionText": "The Human Resource team is responsible for carrying out background checks for new hires before the date of hire with the help of a third-party vendor, who conducts these checks and provides a background check report to Meridian. The following background checks are performed:\n► International Criminal Searches,\n► International Global Watchlist,\n► International Education Verification, and\n► International Employment Verification.",
+      "criteriaIds": [
+        "CC1.1",
+        "CC1.4"
+      ],
+      "testProcedure": "For a sample of new hires, inspected the background verification reports to determine whether background check was performed before the date of hire for parameters such as International Criminal Searches, International Global Watchlist, International Education Verification, and International Employment Verification.",
+      "pocIds": [
+        "POC-MER-010"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "A06"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-03"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0108",
+        "REQ-MER-0109"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of new joiners, BGV reports."
+      ],
+      "status": "Completed"
+    },
+    {
+      "id": "CTL-QC-HR-04",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "HR-04",
+      "idStatus": "Tentative",
+      "family": "HR",
+      "title": "Technical Interviews",
+      "descriptionText": "New hires are required to undergo technical interviews prior to appointment to help ensure that skill sets match with job requirements.",
+      "criteriaIds": [
+        "CC1.4"
+      ],
+      "testProcedure": "For a sample of new hires, inspected the technical interview assessment forms to determine whether the skill sets of the candidates were evaluated against the job requirements prior to the hiring of the candidate.",
+      "pocIds": [
+        "POC-MER-012",
+        "POC-MER-050",
+        "POC-MER-041",
+        "POC-MER-051"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0110",
+        "REQ-MER-0111"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of new joiners for Bangalore & Chennai locations, technical interview assessment forms showing that skill sets of the candidates were evaluated against the job requirements prior to the hiring of the candidate.",
+        "For a sample of new joiners for London and Valencia locations, technical interview assessment forms showing that skill sets of the candidates were evaluated against the job requirements prior to the hiring of the candidate.",
+        "For a sample of new joiners for Palo Alto and New York locations, technical interview assessment forms showing that skill sets of the candidates were evaluated against the job requirements prior to the hiring of the candidate."
+      ],
+      "status": "Completed"
+    },
+    {
+      "id": "CTL-QC-HR-05",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "HR-05",
+      "idStatus": "Tentative",
+      "family": "HR",
+      "title": "User Trainings - New Hires",
+      "descriptionText": "New hires are required to attend the following virtual trainings on Mindtickle platform during induction containing elements of information security policies, security threats overview, email security, password security, and incident management reporting mechanisms during breaches:\n1. Global Code of Ethics and Business Conduct, and\n2. Information Security and Compliance.",
+      "criteriaIds": [
+        "CC1.1",
+        "CC1.4",
+        "CC1.5",
+        "CC2.2"
+      ],
+      "testProcedure": "Inspected the Global Code of Ethics and Business Conduct and Information Security and Compliance training material to determine whether it contained elements of information security policies, security threats overview, email security, password security, and incident management reporting mechanisms during breaches.\n\nAdditionally, for a sample of new hires, inspected the training completion records within Mindtickle to determine whether the new hires were made aware of code of conduct and information security and compliance during induction.",
+      "pocIds": [
+        "POC-MER-020"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "In Progress",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "A05",
+            "B01"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-04"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0112",
+        "REQ-MER-0113"
+      ],
+      "evidenceRequirementTexts": [
+        "Global Code of Ethics and Business Conduct and Information Security and Compliance training material",
+        "For a sample of new joiners, the training completion records within Mindtickle"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-HR-06",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "HR-06",
+      "idStatus": "Tentative",
+      "family": "HR",
+      "title": "User Trainings - Active Users",
+      "descriptionText": "On an annual basis, all active users are required to attend the following virtual Information Security and Compliance refresher trainings on Mindtickle platform, which includes information security policies, security threats overview, email security, password security, and incident management reporting mechanisms during breaches.",
+      "criteriaIds": [
+        "CC1.1",
+        "CC1.4",
+        "CC1.5",
+        "CC2.2"
+      ],
+      "testProcedure": "Inspected the refresher Information Security and Compliance training material to determine whether it contained elements of information security policies, security threats overview, email security, password security, and incident management reporting mechanisms during breaches.\n\nAdditionally, for a sample of active users, inspected the training completion records within Mindtickle to determine whether the active users completed the refresher trainings.",
+      "pocIds": [
+        "POC-MER-010",
+        "POC-MER-020"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "In Progress",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-05"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0114",
+        "REQ-MER-0115",
+        "REQ-MER-0116"
+      ],
+      "evidenceRequirementTexts": [
+        "System generated list of active users from Workday as on date",
+        "Refresher Information Security and Compliance training material for active users",
+        "For a sample of active users, the training completion records within Mindtickle"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-HR-07",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "HR-07",
+      "idStatus": "Tentative",
+      "family": "HR",
+      "title": "Performance Evaluation",
+      "descriptionText": "Performance evaluations are carried out on a bi-annual basis for employees who have been in the organization for more than six months. The Human Resource team informs the employees and reporting managers to fill out evaluation forms within Workday HRMS tool.",
+      "criteriaIds": [
+        "CC1.4",
+        "CC1.5"
+      ],
+      "testProcedure": "For a sample of active employees who have been in Meridian for more than six months, inspected the performance evaluation results within Workday to determine whether performance evaluations were carried out by employees and their reporting managers.",
+      "pocIds": [
+        "POC-MER-020"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "A04"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-06"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0117"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of active users, performance evaluation results within Workday"
+      ],
+      "status": "Completed"
+    },
+    {
+      "id": "CTL-QC-HR-08",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "HR-08",
+      "idStatus": "Tentative",
+      "family": "HR",
+      "title": "VCSOM evaluation",
+      "descriptionText": "Vision, Culture, Strategy, Operating Model (VCSOM) evaluations are carried out on an annual basis for employees who have been in the organization for more than six months. The Human Resource team informs the employees and reporting managers to fill out VCSOM evaluation forms within Workday HRMS tool.",
+      "criteriaIds": [
+        "CC1.4",
+        "CC1.5",
+        "CC3.1",
+        "CC3.2",
+        "CC4.1"
+      ],
+      "testProcedure": "For a sample of active employees who have been in Meridian for more than six months, inspected the VCSOM evaluation results within Workday to determine whether VCSOM evaluations were carried out by employees and their reporting managers.",
+      "pocIds": [
+        "POC-MER-020"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "HR-07"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0118"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of active users, VCSOM evaluation results within Workday"
+      ],
+      "status": "Completed"
+    },
+    {
+      "id": "CTL-QC-ISMS-01",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-01",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Organization Chart",
+      "descriptionText": "Meridian has established an organizational structure to define reporting lines, authorities, and responsibilities for NXSC to meet its objectives for providing Software as a Service (SaaS) services to its user entities.",
+      "criteriaIds": [
+        "CC1.3",
+        "CC1.5"
+      ],
+      "testProcedure": "Inspected the Meridian organizational chart to determine whether Meridian has defined an organizational structure which describes the line of authority and the individual roles and responsibilities.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "A01"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-01"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0119"
+      ],
+      "evidenceRequirementTexts": [
+        "Meridian's organizational chart"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-ISMS-02",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-02",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "User job roles and responsibilities",
+      "descriptionText": "Roles and responsibilities are defined in written job descriptions to assign responsibility for security, confidentiality, availability, and processing integrity.",
+      "criteriaIds": [
+        "CC1.3",
+        "CC1.5"
+      ],
+      "testProcedure": "Inquired the Information Security Senior Manager to determine whether the Job Descriptions were updated within Workday and reflect the current job responsibilities.\n\nAdditionally, for a sample of Job Descriptions, inspected the job description to determine whether roles and responsibilities were defined.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "A02",
+            "A03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-02"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0120"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of Job Descriptions, job description document showing that roles and responsibilities were defined."
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-ISMS-03",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-03",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Risk Management Procedure",
+      "descriptionText": "Meridian has defined and documented a Risk Management Procedure that contains guidelines for the identification, preparation, and categorization of risks to satisfy business information, legal and regulatory requirements. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC3.1",
+        "CC3.2",
+        "CC3.3",
+        "CC3.4",
+        "CC5.1",
+        "CC5.2",
+        "CC5.3",
+        "CC9.1"
+      ],
+      "testProcedure": "Inspected the Risk Management Procedure to determine whether guidelines for the identification, preparation, and categorization of risks to satisfy business information, legal and regulatory requirements were defined and documented.\n\nAdditionally, inspected U-Central to determine whether the Risk Management Procedure was published on U-Central and was reviewed and approved by CISO.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "C01"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-03"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0121",
+        "REQ-MER-0122"
+      ],
+      "evidenceRequirementTexts": [
+        "Risk Management Procedure document",
+        "Screenshot from U-Central showing that Risk Management Procedure was published on U-Central"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-ISMS-04",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-04",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Annual Risk Assessment",
+      "descriptionText": "The Information Security & Compliance team performs risk assessment of the various functions within Meridian with the support of internal Meridian stakeholders and prepares a risk register. Risks are identified based on inherent risk value, internal and external threats, vulnerabilities, likelihood, and potential impact to Meridian’s objectives, assets, and operations. Risks are evaluated based on impact magnitude and expectancy criteria in context of CIS Critical Security Controls, information security, data integrity, confidentiality, and availability. Mitigating controls are identified to bring the inherent risk to acceptable levels and is documented within a Jira ticket.",
+      "criteriaIds": [
+        "CC3.1",
+        "CC3.2",
+        "CC3.3",
+        "CC3.4",
+        "CC5.1",
+        "CC5.2",
+        "CC9.1",
+        "CC9.2"
+      ],
+      "testProcedure": "Inspected the Risk Register and corresponding Jira ticket(s) to determine whether the Information Security & Compliance team identified, reviewed, and documented the risks associated with its various functions in context of CIS Critical Security Controls, information security, data integrity, confidentiality, and availability.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "C02"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-04"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0123",
+        "REQ-MER-0124"
+      ],
+      "evidenceRequirementTexts": [
+        "Latest Risk Register",
+        "Jira ticket(s) showing the Information Security & Compliance team identified, reviewed, and documented the risks associated with its various functions in context of CIS Critical Security Controls, information security, data integrity, confidentiality, and availability."
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-ISMS-05",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-05",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Vendor Risk Management - Onboarding Assessments",
+      "descriptionText": "The Information Security & Compliance Team performs vendor onboarding assessments for new vendors and third-party service providers as part of its vendor risk management process. The Information Security & Compliance team requests independent compliance and security related certifications to assess whether the vendor meets the third-party information security requirements defined by Meridian.",
+      "criteriaIds": [
+        "CC3.1",
+        "CC3.2",
+        "CC3.3",
+        "CC3.4",
+        "CC5.1",
+        "CC5.2",
+        "CC9.1",
+        "CC9.2"
+      ],
+      "testProcedure": "For a sample of vendors and third party service providers onboarded during the audit period, inspected the onboarding assessment report to determine whether Information Security & Compliance team assessed whether the vendor meets the third-party information security requirements defined by Meridian.",
+      "pocIds": [
+        "POC-MER-002",
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "D02"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-05"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0125",
+        "REQ-MER-0126"
+      ],
+      "evidenceRequirementTexts": [
+        "System generated list of vendors and third party service providers onboarded during the audit period from Streamline",
+        "For a sample of vendors and third party service providers, vendor onboarding assessment reports"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-QC-ISMS-06",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-06",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Management Review Meetings (MRM)",
+      "descriptionText": "On an annual basis, Management Review Meetings (MRM) are conducted amongst the Executive Management, Steering Committee (SSC), CISO, Legal team, Privacy team, and the  Information Security & Compliance teams to ensure security initiatives are in line with company objectives and to discuss non-conformities and findings identified during information security internal audits / risk assessments / any other assessments, incidents, and their respective corrective actions were performed.",
+      "criteriaIds": [
+        "CC3.3",
+        "CC3.4",
+        "CC4.1",
+        "CC4.2"
+      ],
+      "testProcedure": "Inspected the Management Review Meeting invites, agenda, and minutes to determine whether the Executive Management, Steering Committee (SSC), CISO, Legal team, Privacy team, and the  Information Security & Compliance teams met annually to ensure security initiatives were in line with company objectives and discussed nonconformities and findings identified during information security internal audits / risk assessments / other assessments, incidents, and their respective corrective actions.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "A15"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-06"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0127"
+      ],
+      "evidenceRequirementTexts": [
+        "Annual Management Review Meeting invites, agenda, and minutes of the meeting"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-ISMS-07",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-07",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Board of Directors Independence",
+      "descriptionText": "Meridian operates under the direction of its Board of Directors. The Board of Directors comprises of members independent from Meridian’s daily operations.",
+      "criteriaIds": [
+        "CC1.2"
+      ],
+      "testProcedure": "Performed inquiry with Meridian CISO to determine whether Board of Directors constituted of members independent of Meridian daily operations.\n\nAdditionally, inspected the ‘List of Directors’ and Board of Directors structure of Meridian to determine whether the Board of Directors demonstrated independence from Meridian's daily operations.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "A14"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-07"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0128"
+      ],
+      "evidenceRequirementTexts": [
+        "List of Board of Directors"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-ISMS-08",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-08",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Board of Directors Meeting",
+      "descriptionText": "On a quarterly basis, matters related to Meridian’s results of operations, cybersecurity updates, projections for the coming quarter, and any major changes, are discussed between the Board of Directors and key members of management.",
+      "criteriaIds": [
+        "CC1.2",
+        "CC4.2"
+      ],
+      "testProcedure": "For sample of quarters inspected the Board of Directors Meeting invites, agenda, and minutes to determine whether matters related to Meridian’s results of operations, projections for the coming quarter, and any major changes were discussed between Board of Directors and key members of management.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "A14"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-08"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0129"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of quarters, Board of Directors Meeting invites, agenda, and minutes of the meeting"
+      ],
+      "status": "Completed"
+    },
+    {
+      "id": "CTL-QC-ISMS-09",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-09",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Information Security Internal Audit",
+      "descriptionText": "On an annual basis, an information security management system related internal audit is conducted to assess the operating effectiveness of controls related to information security and information technology. This audit is conducted for Quanta Capture Legacy, User Access Management, Information Security, Network Security, Endpoint Security, Physical Security, and Human Resource Security. Observations or issues identified during the audit are documented in the internal audit report along with recommendations for resolutions of the observations or issues and a management response is sought for action plans.",
+      "criteriaIds": [
+        "CC4.1",
+        "CC4.2"
+      ],
+      "testProcedure": "Inspected the Internal Audit Report to determine whether information security and information technology related internal audit was conducted to assess the operating effectiveness of controls related to information security and information technology for Quanta Capture Legacy, User Access Management, Information Security, Data Privacy, Network Security, Endpoint Security, Physical Security, and Human Resource Security.\n\nAdditionally, inspected the relevant Jira tickets to determine whether observations were tracked to closure.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "C07"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-09"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0130",
+        "REQ-MER-0131"
+      ],
+      "evidenceRequirementTexts": [
+        "Internal Audit Report for the audit period",
+        "Email communication showing that internal audit report is shared with the respective stakeholders."
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-ISMS-10",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-10",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Subservice Organization Assessments",
+      "descriptionText": "On an annual basis, the Information Security & Compliance team assesses the subservice organization’s compliance with the applicable security, confidentiality, availability, and processing integrity commitments; and evaluates the impact of any noted exceptions of relevant controls and Complementary User Entity Controls by obtaining and evaluating their annual System and Organization Control attestation report.",
+      "criteriaIds": [
+        "CC3.1",
+        "CC3.2",
+        "CC3.3",
+        "CC3.4",
+        "CC5.1",
+        "CC5.2",
+        "CC9.1",
+        "CC9.2"
+      ],
+      "testProcedure": "Inspected the Subservice Organization Assessment report to determine whether the GRC team had assessed the subservice organizations’ compliance with security, confidentiality, availability, processing integrity, and privacy commitments by evaluating their System and Organization Control attestation report.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "D01"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-10"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0132",
+        "REQ-MER-0133",
+        "REQ-MER-0134",
+        "REQ-MER-0135",
+        "REQ-MER-0136",
+        "REQ-MER-0137",
+        "REQ-MER-0138",
+        "REQ-MER-0139",
+        "REQ-MER-0140",
+        "REQ-MER-0141",
+        "REQ-MER-0142",
+        "REQ-MER-0143"
+      ],
+      "evidenceRequirementTexts": [
+        "Subservice Organization Assessment report for AWS",
+        "Subservice Organization Assessment report for Freshworks",
+        "Subservice Organization Assessment report for ReliaQuest",
+        "Subservice Organization Assessment report for Microsoft Speech Services",
+        "Subservice Organization Assessment report for Duplo Cloud"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-ISMS-11",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-11",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Vendor Risk Management - Annual Re-assessments",
+      "descriptionText": "On an annual basis, the Information Security & Compliance Team performs a re-assessment for all vendors and third-party service providers as part of its vendor risk management process. Observations identified during the assessment are communicated to the third-party service providers and are tracked to closure by the Information Security & Compliance team.",
+      "criteriaIds": [
+        "CC3.1",
+        "CC3.2",
+        "CC3.3",
+        "CC3.4",
+        "CC5.1",
+        "CC5.2",
+        "CC9.1",
+        "CC9.2"
+      ],
+      "testProcedure": "For a sample of vendors and third party service providers, inspected the re-assessment report to determine whether Information Security & Compliance team assessed whether the vendor meets the third-party information security requirements defined by Meridian.\n\nAdditionally, inspected the relevant Jira tickets to determine whether observations were tracked to closure.",
+      "pocIds": [
+        "POC-MER-002",
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "D03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-11"
+          ]
+        }
+      ],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [
+        "System generated list of all active vendors and third party service providers as on date from Streamline",
+        "For a sample of vendors and third party service providers, re-assessment report",
+        "Jira tickets showing observations were tracked to closure."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-QC-ISMS-12",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-12",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "ISO 27001",
+      "descriptionText": "2022 and PCI DSS v4.0:\nOn an annual basis, assessment under standard ISO/IEC 27001:2022 and PCI DSS v4.0 are performed by an external certification body.",
+      "criteriaIds": [
+        "CC4.1",
+        "CC4.2"
+      ],
+      "testProcedure": "Inspected the ISO 27001:2022 and PCI DSS v4.0 certificates to determine whether Meridian was certified by external certification bodies.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "C03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-12"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0144",
+        "REQ-MER-0145",
+        "REQ-MER-0146"
+      ],
+      "evidenceRequirementTexts": [
+        "Latest ISO 27001:2022 certificate",
+        "Latest PCI DSS v4.0 certificate"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-ISMS-13",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-13",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Information Security Awareness",
+      "descriptionText": "On a monthly basis, the Information Security and Compliance team sends mass emails to all users on information security awareness updates and leading practices in order to spread awareness.",
+      "criteriaIds": [
+        "CC2.2"
+      ],
+      "testProcedure": "For a sample of months, inspected the mails sent by the Information Security and Compliance team to determine whether all users were made aware about information security awareness updates and leading practices.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-13"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0147",
+        "REQ-MER-0148"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of months, email communication showing all users were made aware about information security awareness updates and leading practices."
+      ],
+      "status": "Completed"
+    },
+    {
+      "id": "CTL-QC-ISMS-14",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-14",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "MSA - User Entities",
+      "descriptionText": "Meridian defines its terms of service; security obligations; intellectual property; availability, confidentiality, and processing integrity commitments; and compliance with laws within its Master Software and Services Agreements (MSAs) that are signed with user entities during onboarding.",
+      "criteriaIds": [
+        "CC1.3",
+        "CC2.1",
+        "CC2.3",
+        "CC9.2",
+        "C1.1",
+        "PI1.1"
+      ],
+      "testProcedure": "For a sample of user entities, inspected the Master Software and Services Agreements to determine whether terms of service; security obligations; intellectual property; availability, confidentiality, and processing integrity commitments; and compliance with laws were defined and signed.",
+      "pocIds": [
+        "POC-MER-002"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "B10"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-14"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0149"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of user entities, Master Software and Services Agreement"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-QC-ISMS-15",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-15",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "MSA / SOW - Vendors",
+      "descriptionText": "Service levels, security, confidentiality, availability, and processing integrity commitments with all third-party service providers and vendors are agreed as a part of MSA / SOW signed with them.",
+      "criteriaIds": [
+        "CC1.3",
+        "CC2.1",
+        "CC2.3",
+        "CC9.2",
+        "C1.1",
+        "PI1.1"
+      ],
+      "testProcedure": "For a sample of third party service providers and vendors, inspected the MSA / SOW to determine whether service levels, security, confidentiality, availability, and processing integrity commitments were mutually agreed and signed off by both parties.",
+      "pocIds": [
+        "POC-MER-002"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "I01"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-15"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0002",
+        "REQ-MER-0150"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of third party service providers and vendors, Master Software and Services Agreement"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-QC-ISMS-16",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-16",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Software Development Lifecycle (SDLC) Procedure",
+      "descriptionText": "Meridian has defined and documented a SDLC Procedure that contains guidelines on best practices for training and implementation of software security during application development to maximise their inherent security. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC5.3",
+        "CC8.1",
+        "PI1.3",
+        "PI1.5"
+      ],
+      "testProcedure": "Inspected the Software Development Lifecycle Procedure to determine whether guidelines on best practices for training and implementation of software security during application development to maximise their inherent security were defined and documented.\n\nAdditionally, inspected U-Central to determine whether the Software Development Lifecycle Procedure was published on Quanta Capture and was reviewed and approved by CISO.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "B08"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-16"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0151"
+      ],
+      "evidenceRequirementTexts": [
+        "Software Development Lifecycle Procedure maintained for Quanta Capture Legacy product",
+        "Screenshot from U-Central showing Software Development Lifecycle Procedure was published on U-Central"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-ISMS-17",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-17",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Global Information Security Policy",
+      "descriptionText": "Meridian has defined and developed the Global Information Security Policy addressing matters related to system security, availability, confidentiality, and processing integrity principles.\n\nAdditionally, the following are also defined:\n► Meridian's objectives pertaining to integrity and ethical values\n i. Code of Business Conduct\n ii. Role Competencies\n iii. Disciplinary Policies\n► Human Resources security policy for hiring, termination, and periodic performance appraisals of users,\n► Clear desk and clear screen policy,\n► Media Handling Guidelines for electronic and paper based media disposal,\n► Access Control Policies for user access management, privilege management, and password management, and\n► Physical Security Policy for physical security and environmental safeguards.\n\nIt is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC1.3",
+        "CC1.5",
+        "CC2.2",
+        "CC5.3",
+        "CC9.1",
+        "C1.2",
+        "A1.2",
+        "PI1.1"
+      ],
+      "testProcedure": "Inspected the Global Information Security Policy to determine whether system security, availability, confidentiality, and processing integrity principles; code of business conduct, role competencies, disciplinary policies, human resources security policy, clear desk and clear screen policy, media handling guidelines, access control policies, and physical security policies were defined and documented.\n\nAdditionally, inspected U-Central to determine whether the Global Information Security Policy was published on U-Central and was reviewed and approved annually by CISO.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "A10",
+            "B02",
+            "B05",
+            "F01",
+            "F02",
+            "K01"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-17"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0152",
+        "REQ-MER-0153"
+      ],
+      "evidenceRequirementTexts": [
+        "Global Information Security Policy",
+        "Screenshot from U-Central showing Global Information Security Policy was published on U-Central"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-ISMS-18",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-18",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Dedicated CISO",
+      "descriptionText": "Meridian has a designated CISO with documented information security roles and responsibilities to oversee the development, implementation, monitoring, and communication of security policies and procedures.",
+      "criteriaIds": [
+        "CC1.3"
+      ],
+      "testProcedure": "Inspected the Meridian organization structure to determine whether a designated CISO was heading an independent Information Security and Compliance team.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-18"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0154",
+        "REQ-MER-0155"
+      ],
+      "evidenceRequirementTexts": [
+        "Meridian's organizational chart"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-ISMS-19",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-19",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Asset Management Procedure",
+      "descriptionText": "Meridian has defined and documented an Asset Management Procedure which contains baseline requirements for Meridian's information systems and assets. The procedure also contains guidance regarding the ownership, acceptable use, classification, monitoring, disposal, and destruction of assets. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC5.2",
+        "CC5.3",
+        "CC6.1"
+      ],
+      "testProcedure": "Inspected the Asset Management Procedure to determine whether baseline requirements for Meridian's information systems and assets; and guidance regarding the ownership, acceptable use, classification, monitoring, disposal, and destruction of assets were defined and documented.\n\nAdditionally, inspected U-Central to determine whether the Asset Management Procedure was published on U-Central and was reviewed and approved by CISO.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "B04"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-19"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0119"
+      ],
+      "evidenceRequirementTexts": [
+        "Asset Management Procedure document",
+        "Screenshot from U-Central showing Asset Management Procedure  was published on U-Central"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-ISMS-20",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-20",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Data Classification and Handling Procedure",
+      "descriptionText": "Meridian has defined and documented a Data Classification and Handling Procedure that contains guidelines to restrict and protect Meridian and its customers' information during storage, processing, and transmission. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC3.2",
+        "CC5.3",
+        "C1.1",
+        "C1.2"
+      ],
+      "testProcedure": "Inspected the Data Classification and Handling Procedure to determine whether guidelines to restrict and protect Meridian and its customers' information during storage, processing, and transmission were defined and documented.\n\nAdditionally, inspected U-Central to determine whether the Data Classification and Handling Procedure was published on U-Central and was reviewed and approved by CISO.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "B06"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-20"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0156",
+        "REQ-MER-0157"
+      ],
+      "evidenceRequirementTexts": [
+        "Data Classification and Handling Procedure document",
+        "Screenshot from U-Central showing Data Classification and Handling Procedure  was published on U-Central"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-ISMS-21",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-21",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Data Retention Policy",
+      "descriptionText": "Meridian has defined and documented a Data Retention Policy that contains guidelines for storage, retention, and disposal of data. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC5.3",
+        "CC6.1",
+        "CC6.5",
+        "CC6.7",
+        "C1.2",
+        "PI1.5"
+      ],
+      "testProcedure": "Inspected the Data Retention Policy to determine whether guidelines for storage, retention, and disposal of data were defined and documented.\n\nAdditionally, inspected U-Central to determine whether the Data Retention Policy was published on U-Central and was reviewed and approved by CISO.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-21"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-21"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0158",
+        "REQ-MER-0159"
+      ],
+      "evidenceRequirementTexts": [
+        "Data Retention Policy",
+        "Screenshot from U-Central showing  Data Retention Policy  was published on U-Central"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-ISMS-22",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-22",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Data Backup and Restore Policy",
+      "descriptionText": "Meridian has defined a Data Backup and Restore Policy describing the guidelines for performing and restoring backups. This procedure is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "A1.2",
+        "A1.3",
+        "PI1.5"
+      ],
+      "testProcedure": "Inspected the Data Backup and Restore Policy to determine whether guidelines for performing and restoring backups were defined and documented.\n\nAdditionally, inspected U-Central to determine whether the Data Backup and Restore Policy was published on U-Central and was reviewed and approved by CISO.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "J03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-22"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0160",
+        "REQ-MER-0161"
+      ],
+      "evidenceRequirementTexts": [
+        "Data Backup and Restore Policy",
+        "Screenshot from U-Central showing  Data Backup and Restore Policy  was published on U-Central"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-ISMS-23",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-23",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Business Continuity and Disaster Recovery Procedure",
+      "descriptionText": "Meridian has defined a Business Continuity and Disaster Recovery Procedure describing the guidelines for plan activation, recovery strategy, impact analysis, simulation handling, rollback, and restoration procedures. This procedure is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC5.3",
+        "CC9.1",
+        "A1.2"
+      ],
+      "testProcedure": "Inspected the Business Continuity and Disaster Recovery Procedure to determine whether guidelines for plan activation, recovery strategy, impact analysis, simulation handling, rollback, and restoration procedures were defined and documented.\n\nAdditionally, inspected U-Central to determine whether the Business Continuity Planning and Disaster Recovery Policy was published on U-Central and was reviewed and approved by CISO.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "J01",
+            "J02"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-23"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0162",
+        "REQ-MER-0163"
+      ],
+      "evidenceRequirementTexts": [
+        "Business Continuity and Disaster Recovery Procedure",
+        "Screenshot from U-Central showing Business Continuity and Disaster Recovery Procedure was published on U-Central"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-ISMS-24",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-24",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Cyber Insurance",
+      "descriptionText": "Meridian has procured a cyber insurance to offset the financial losses that could occur due to critical security incidents.",
+      "criteriaIds": [
+        "CC9.1",
+        "CC9.2"
+      ],
+      "testProcedure": "Inspected the cyber insurance procured by Meridian to determine whether it could offset the financial losses that could occur due to critical security incidents.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-24"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0164",
+        "REQ-MER-0165"
+      ],
+      "evidenceRequirementTexts": [
+        "Latest Cyber Security Insurance policy"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-ISMS-25",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-25",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Incident Response Procedure",
+      "descriptionText": "Meridian has defined and documented an Incident Response Procedure for reporting, classification, containment, and resolution of security incidents. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC2.2",
+        "CC2.3",
+        "CC5.3",
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5"
+      ],
+      "testProcedure": "Inspected the Incident Response Procedure to determine whether procedures for reporting, classification, containment, and resolution of security incidents were defined and documented.\n\nAdditionally, inspected U-Central to determine whether the Incident Response Procedure was published on U-Central and was reviewed and approved by CISO.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "B03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-25"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0166"
+      ],
+      "evidenceRequirementTexts": [
+        "Incident Response Procedure",
+        "Screenshot from U-Central showing Incident Response Procedure was published on U-Central"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-ISMS-26",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-26",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Endpoint Security and Device Hardening Standard",
+      "descriptionText": "Meridian has defined and documented an Endpoint Security and Device Hardening Standard that contains hardening requirements to secure Meridian's endpoints, network, underlying infrastructure, and other information systems. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC5.3",
+        "CC6.1"
+      ],
+      "testProcedure": "Inspected the Endpoint Security and Device Hardening Standard to determine whether hardening requirements to secure Meridian's endpoints, network, underlying infrastructure, and other information systems were defined and documented.\n\nAdditionally, inspected U-Central to determine whether the Endpoint Security and Device Hardening Standard was published on U-Central and was reviewed and approved by CISO.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "B07"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-26"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0167",
+        "REQ-MER-0168"
+      ],
+      "evidenceRequirementTexts": [
+        "Endpoint Security and Device Hardening Standard",
+        "Screenshot from U-Central showing Endpoint Security and Device Hardening Standard was published on U-Central"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-ISMS-27",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-27",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Whistleblower Policy",
+      "descriptionText": "Meridian has defined and documented a Whistleblower Policy that contains guidelines for employees to report concerns of unethical behaviour, allegations of fraud, or violation of the company's code of business conduct policy, regulatory rules, and laws. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC1.1",
+        "CC2.2",
+        "CC5.3"
+      ],
+      "testProcedure": "Inspected the Whistleblower Policy to determine whether guidelines for employees to report concerns of unethical behaviour, allegations of fraud, or violation of the company's code of business conduct policy, regulatory rules, and laws were defined and documented.\n\nAdditionally, inspected U-Central to determine whether the Whistleblower Policy was published on U-Central and was reviewed and approved by CISO.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-27"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0169",
+        "REQ-MER-0170"
+      ],
+      "evidenceRequirementTexts": [
+        "Whistleblower Policy",
+        "Screenshot from U-Central showing Whistleblower Policy was published on U-Central"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-ISMS-28",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-28",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Capacity and System Monitoring Policy",
+      "descriptionText": "Meridian has defined a Capacity and System Monitoring Policy to manage availability and application issues within their cloud environments. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC6.6",
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5",
+        "A1.1"
+      ],
+      "testProcedure": "Inspected the Capacity and System Monitoring Policy to determine whether policy to manage availability and application issues within their cloud environments were defined and documented.\n\nAdditionally, inspected U-Central to determine whether the Capacity and System Monitoring Policy was published on U-Central and was reviewed and approved by CISO.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0171",
+        "REQ-MER-0172"
+      ],
+      "evidenceRequirementTexts": [
+        "Capacity and System Monitoring Policy",
+        "Screenshot from U-Central showing Capacity and System Monitoring Policy was published on U-Central"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-ISMS-29",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-29",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Tenant Deletion Policy",
+      "descriptionText": "Meridian has established guidelines to govern data deletion within the cloud infrastructure and backups of off boarding user entities within the Tenant Deletion Policy. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "C1.1",
+        "C1.2"
+      ],
+      "testProcedure": "Inspected theTenant Deletion Policy to determine whether guidelines to govern data deletion within the cloud infrastructure and backups of off boarding user entities were defined and documented.\n\nAdditionally, inspected U-Central to determine whether the Tenant Deletion Policy was published on U-Central and was reviewed and approved by CISO.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0173",
+        "REQ-MER-0174"
+      ],
+      "evidenceRequirementTexts": [
+        "Tenant Deletion Policy",
+        "Screenshot from U-Central showing Tenant Deletion Policy was published on U-Central"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-ISMS-30",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-30",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Logging and Monitoring Policy",
+      "descriptionText": "Meridian maintains an Audit Logging and Monitoring Process document to manage the audit log sources, activities performed by the SecOps team, and the corrective and preventive actions taken by the respective teams. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC6.6",
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5",
+        "A1.1"
+      ],
+      "testProcedure": "Inspected the Logging and Monitoring Process document to determine whether guidelines to manage the audit log sources, activities performed by the SecOps team, and the corrective and preventive actions taken by the respective teams were defined and documented.\n\nAdditionally, inspected U-Central to determine whether the Logging and Monitoring Policy was published on U-Central and was reviewed and approved by CISO.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0175",
+        "REQ-MER-0176"
+      ],
+      "evidenceRequirementTexts": [
+        "Logging and Monitoring Policy",
+        "Screenshot from U-Central showing Logging and Monitoring Policy was published on U-Central"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-ISMS-31",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-31",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Vulnerability and Patch Management Procedure",
+      "descriptionText": "Meridian has defined and documented a Vulnerability and Patch Management Procedure that contains guidelines to prevent, detect, and remediate vulnerabilities within Meridian's applications and underlying infrastructure. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC3.2",
+        "CC4.1",
+        "CC5.3",
+        "CC6.6",
+        "CC6.8",
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5",
+        "CC8.1"
+      ],
+      "testProcedure": "Inspected the Vulnerability and Patch Management Procedure to determine whether guidelines to prevent, detect and remediate vulnerabilities within Meridian's applications and underlying infrastructure were defined and documented.\n\nAdditionally, inspected U-Central to determine whether the Vulnerability and Patch Management Procedure was published on U-Central and was reviewed and approved by CISO.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "C04"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-28"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0177",
+        "REQ-MER-0178"
+      ],
+      "evidenceRequirementTexts": [
+        "Vulnerability and Patch Management Procedure",
+        "Screenshot from U-Central showing Vulnerability and Patch Management Procedure was published on U-Central"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-ISMS-32",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "ISMS-32",
+      "idStatus": "Tentative",
+      "family": "ISMS",
+      "title": "Third Party Risk Management Procedure",
+      "descriptionText": "Meridian has defined and documented a Third Party Risk Management Procedure that contains guidelines to describe the due diligence and oversight processes for third-party services and software application procurement. It is published on U-Central and is reviewed and approved by the CISO on an annual basis.",
+      "criteriaIds": [
+        "CC5.3",
+        "CC9.1",
+        "CC9.2"
+      ],
+      "testProcedure": "Inspected the Third Party Risk Management Procedure to determine whether guidelines to describe the due diligence and oversight processes for third-party services and software application procurement were defined and documented.\n\nAdditionally, inspected U-Central to determine whether the Third Party Risk Management Procedure was published on U-Central and was reviewed and approved by CISO.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-003",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "I02"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "ISMS-29"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0179",
+        "REQ-MER-0180"
+      ],
+      "evidenceRequirementTexts": [
+        "Third Party Risk Management Procedure",
+        "Screenshot from U-Central showing Third Party Risk Management Procedure was published on U-Central"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-IT-01",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "IT-01",
+      "idStatus": "Tentative",
+      "family": "IT",
+      "title": "Asset Inventory",
+      "descriptionText": "Corporate IT team maintains a list of workstations, servers, and network devices identifying the asset ID, asset owner, asset location, asset type and model of the asset within Freshdesk.",
+      "criteriaIds": [
+        "CC6.1"
+      ],
+      "testProcedure": "Inspected the asset inventory within Freshdesk to determine whether Corporate IT Team maintains a list of workstations, servers and network devices identifying the asset ID, asset owner, asset location, asset type and model of the asset.",
+      "pocIds": [
+        "POC-MER-055"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-01"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0184"
+      ],
+      "evidenceRequirementTexts": [
+        "Asset Inventory containing a list of workstations, servers and network devices identifying the asset ID, asset owner, asset location, asset type and model of the asset from Freshdesk"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-IT-02",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "IT-02",
+      "idStatus": "Tentative",
+      "family": "IT",
+      "title": "Access Creation - IT accounts",
+      "descriptionText": "When a user joins the organization, HR team creates a user ID within Workday HRMS tool, which automatically sends an email communication to the IT team and Workspace Experience team and creates an account within the local Azure Active Directory.",
+      "criteriaIds": [
+        "CC6.1",
+        "CC6.2",
+        "CC6.3"
+      ],
+      "testProcedure": "Inspected the configuration within Workday HRMS and Azure Active Directory to determine whether an account within the local Azure Active Directory is automatically created when a user ID is created within Workday HRMS tool.\n\nAdditionally, for a sample of new joiners, inspected the automated Workday emails and access creation logs within Azure Active Directory to determine whether the local Azure Active Directory accounts were created.",
+      "pocIds": [
+        "POC-MER-044",
+        "POC-MER-010"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "masterControlRefs": [],
+      "requirementIds": [
+        "REQ-MER-0185",
+        "REQ-MER-0186",
+        "REQ-MER-0187",
+        "REQ-MER-0188",
+        "REQ-MER-0189"
+      ],
+      "evidenceRequirementTexts": [
+        "Screenshot showing configuration within Workday HRMS and Azure Active Directory that an account within the local Azure Active Directory is automatically created when a user ID is created within Workday HRMS tool.",
+        "Screenshot showing configuration within Workday that the global onboarded email is sent automatically to the IT and Workplace team on the date of joining of the employee.",
+        "For a sample of new joiners, automated Workday emails containing employee's date of joining was shared with the IT team requesting to create the AD accounts.",
+        "For a sample of new joiners,email communication showing that IT team confirmed that the access to Azure AD account is created.",
+        "For a sample of new joiners, screenshot from Azure Active Directory showing the access creation date."
+      ],
+      "status": "Completed"
+    },
+    {
+      "id": "CTL-QC-IT-03",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "IT-03",
+      "idStatus": "Tentative",
+      "family": "IT",
+      "title": "Access Revocation - IT accounts",
+      "descriptionText": "On the last working day of a user, whether resignation, termination, or absconding, HR team deactivates the user ID within Workday HRMS tool, which automatically deactivates the user's account within the local Azure Active Directory. The IT team validates the access revocation of the user on the last working day and confirms the same via email.",
+      "criteriaIds": [
+        "CC6.2",
+        "CC6.3",
+        "CC6.5"
+      ],
+      "testProcedure": "Inspected the configuration within Workday HRMS and Azure Active Directory to determine whether an account within the local Azure Active Directory is automatically deactivated when a user ID is deactivated within Workday HRMS tool.\n\nAdditionally, for a sample of leavers, inspected the access revocation logs within Azure Active Directory to determine whether the user's access was revoked on or before their last working date.",
+      "pocIds": [
+        "POC-MER-044",
+        "POC-MER-010"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F07"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0190",
+        "REQ-MER-0191",
+        "REQ-MER-0192",
+        "REQ-MER-0193",
+        "REQ-MER-0194"
+      ],
+      "evidenceRequirementTexts": [
+        "Screenshot showing configuration within Workday HRMS and Azure Active Directory that an account within the local Azure Active Directory is automatically deactivated when a user ID is deactivated within Workday HRMS tool.",
+        "Screenshot showing configuration within Workday that the global offboarding email is sent automatically to the IT team on the last working date of the employee.",
+        "For a sample of leavers, automated Workday emails containing employee's date of joining was shared with the IT team requesting to deactivate the AD accounts.",
+        "For a sample of leavers, email communication showing that IT team confirmed that the access to Azure AD account is deactivated.",
+        "For a sample of new joiners, screenshot from Azure Active Directory showing the access deactivation date."
+      ],
+      "status": "Completed"
+    },
+    {
+      "id": "CTL-QC-IT-04",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "IT-04",
+      "idStatus": "Tentative",
+      "family": "IT",
+      "title": "Access Review - IT Infrastructure",
+      "descriptionText": "The Information Security & Compliance team performs a review of the administrative access to firewalls and Okta on a quarterly basis. Users along with their privileges are reviewed with the help of CISO within a Jira ticket. In case of any discrepancies, the respective team takes necessary corrective actions. The CISO reviews the result of the review within the Jira ticket and provides sign off.",
+      "criteriaIds": [
+        "CC6.2",
+        "CC6.3",
+        "CC7.2"
+      ],
+      "testProcedure": "For a sample of quarters, inspected the Jira ticket to determine whether the Information Security & Compliance team performed a review of the administrative access to firewall and Okta and whether the CISO provided sign off.",
+      "pocIds": [
+        "POC-MER-044"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F06",
+            "F08",
+            "F23",
+            "F27",
+            "F31",
+            "F33",
+            "F35"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-04"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0195"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of quarters, complete access review JIRA tickets for firewall and Okta."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-QC-IT-05",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "IT-05",
+      "idStatus": "Tentative",
+      "family": "IT",
+      "title": "Password and Account Lockout Policy – Active Directory",
+      "descriptionText": "Meridian has implemented Azure Active Directory to enforce password and account lockout policy settings on end user workstations. These policy settings include password length as 12 characters, password complexity, password history as 24 passwords remembered, and password expiry as 90 days. Multi-factor authentication is enforced for all users added to the Azure Active Directory. User accounts are locked after 5 invalid logon attempts and account lockout is reset after 30 minutes through group policy settings.",
+      "criteriaIds": [
+        "CC6.1"
+      ],
+      "testProcedure": "Inspected the group policy settings configured on Meridian Azure Active Directory to determine whether password settings included configurations to enforce password length as 12 characters, password complexity, password history as 24 passwords remembered, and password expiry as 90 days, account lockout after 5 invalid logon attempts, and account lockout is reset after 30 minutes through group policy settings.",
+      "pocIds": [
+        "POC-MER-044"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F09",
+            "F10"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-05"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0196"
+      ],
+      "evidenceRequirementTexts": [
+        "Screenshot of Password policy settings configured on Meridian Azure Active Directory"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-IT-06",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "IT-06",
+      "idStatus": "Tentative",
+      "family": "IT",
+      "title": "Idle Session Timeout - Active Directory",
+      "descriptionText": "Idle session timeout settings are controlled through group policy settings on the Azure Active Directory and is configured to terminate unattended end user workstations within 10 [India] / 30 [US] minutes of inactivity with password protected screensaver.",
+      "criteriaIds": [
+        "CC6.1"
+      ],
+      "testProcedure": "Inspected the group policy settings configured on Meridian Azure Active Directory to determine whether unattended end user workstations were terminated within 10 [India] / 30 [US] minutes of inactivity with password protected screensaver.",
+      "pocIds": [
+        "POC-MER-044"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0197"
+      ],
+      "evidenceRequirementTexts": [
+        "Screenshot of group policy settings configured on Meridian Azure Active Directory showing that unattended end user workstations are terminated within 10 [India] / 30 [US] minutes of inactivity with password protected screensaver."
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-IT-07",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "IT-07",
+      "idStatus": "Tentative",
+      "family": "IT",
+      "title": "Hardening of network devices, servers and workstations",
+      "descriptionText": "Established entity standards exist for hardening of network devices, servers, and workstations as per Meridian hardening guidelines.",
+      "criteriaIds": [
+        "CC6.1"
+      ],
+      "testProcedure": "Inspected the hardening documents to determine whether policies and procedures for applying minimum baseline security standards were documented and approved by Meridian Management.\n\nAdditionally, inspected the hardening parameters for a sample of network devices, servers, and workstations to determine whether hardening parameters were as per defined hardening standards.",
+      "pocIds": [
+        "POC-MER-055"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0198"
+      ],
+      "evidenceRequirementTexts": [
+        "Hardening documents showing policies and procedures for applying minimum baseline security standards were documented and approved by Meridian Management.",
+        "For a sample of network devices, servers, and workstations showing hardening parameters were as per defined hardening standards."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-QC-IT-08",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "IT-08",
+      "idStatus": "Tentative",
+      "family": "IT",
+      "title": "Email Security",
+      "descriptionText": "Meridian uses M365 default email security configurations such as anti-spam filter to restrict malicious incoming emails and compensating Data Loss Prevention (DLP) to prevent sharing of information over email.",
+      "criteriaIds": [
+        "CC6.1",
+        "CC6.6",
+        "CC6.7",
+        "CC6.8"
+      ],
+      "testProcedure": "Inspected the configuration settings within M365 to determine whether anti-spam filter was configured to restrict malicious incoming emails and compensating Data Loss Prevention (DLP) to prevent sharing of information over email.",
+      "pocIds": [
+        "POC-MER-055"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0200",
+        "REQ-MER-0201"
+      ],
+      "evidenceRequirementTexts": [
+        "Screenshot of configuration settings within M365 showing anti-spam filter is configured to restrict malicious incoming emails.",
+        "Screenshot of configuration settings within M365 showing compensating Data Loss Prevention (DLP) is configured to prevent sharing of information over email."
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-IT-09",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "IT-09",
+      "idStatus": "Tentative",
+      "family": "IT",
+      "title": "Data Destruction",
+      "descriptionText": "Documentation, workstations, and media devices are sanitized prior to disposal or decommissioning in accordance with the Asset Management Procedure.",
+      "criteriaIds": [
+        "CC6.1",
+        "CC6.5",
+        "CC6.7",
+        "CC7.1",
+        "C1.2",
+        "PI1.5"
+      ],
+      "testProcedure": "Inspected the Certificate of Destruction to determine whether documentation, workstations, and media devices were sanitized prior to disposal or decommissioning in accordance with the Asset Management Procedure.",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-06"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0202"
+      ],
+      "evidenceRequirementTexts": [
+        "Certificate of Data Destruction"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-IT-10",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "IT-10",
+      "idStatus": "Tentative",
+      "family": "IT",
+      "title": "Firewall Rules",
+      "descriptionText": "Meridian has implemented perimeter firewalls on the Bengaluru, Chennai, London, Palo Alto, New York, and Valencia delivery center internet gateways to proactively identify and protect Meridian network against security, availability, confidentiality, and processing integrity threats from sources outside the system boundaries. Rules are enforced on the firewalls to:\n► ‘deny all’ traffic by default with access enabled for specific services as per business requirements,\n► protect against Distributed Denial of Service (DDoS) and IP spoofing attacks, and\n► configure Intrusion Prevention System (IPS) and web filters to monitor and prevent intrusion attempts.",
+      "criteriaIds": [
+        "CC6.1",
+        "CC6.6",
+        "CC6.7"
+      ],
+      "testProcedure": "Inspected the management approved network diagrams of Bengaluru, Chennai, London, Palo Alto, New York, and Valencia to determine whether firewall was implemented on the delivery center's internet gateway.\n\nAdditionally, inspected the configurations within the firewalls to determine whether rules were configured and enforced to:\n► ‘deny all’ traffic by default with access enabled for specific services as per business requirements,\n► protect against Distributed Denial of Service (DDoS) and IP spoofing attacks, and\n► configure Intrusion Prevention System (IPS) and web filters to monitor and prevent intrusion attempts.",
+      "pocIds": [
+        "POC-MER-044"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F21",
+            "F24",
+            "F26",
+            "F29"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-07"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0203",
+        "REQ-MER-0204",
+        "REQ-MER-0205",
+        "REQ-MER-0206",
+        "REQ-MER-0207",
+        "REQ-MER-0208",
+        "REQ-MER-0209",
+        "REQ-MER-0210",
+        "REQ-MER-0211",
+        "REQ-MER-0212",
+        "REQ-MER-0213",
+        "REQ-MER-0214",
+        "REQ-MER-0215",
+        "REQ-MER-0216",
+        "REQ-MER-0217",
+        "REQ-MER-0218",
+        "REQ-MER-0219",
+        "REQ-MER-0220",
+        "REQ-MER-0221",
+        "REQ-MER-0222",
+        "REQ-MER-0223",
+        "REQ-MER-0224",
+        "REQ-MER-0225",
+        "REQ-MER-0226"
+      ],
+      "evidenceRequirementTexts": [
+        "Management approved network diagrams for all in-scope locations",
+        "Screenshot showing 'deny all' rule is configured within firewall for all in-scope locations",
+        "Screenshot showing protect against Distributed Denial of Service (DDoS) and IP spoofing attacks are configured within firewall for all in-scope locations",
+        "Screenshot showing  Intrusion Prevention System (IPS) and web filters is configured within firewall for all in-scope locations"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-IT-11",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "IT-11",
+      "idStatus": "Tentative",
+      "family": "IT",
+      "title": "Change Management - Meridian Infrastructure",
+      "descriptionText": "Changes to the Meridian on-premises infrastructure are logged within Freshdesk tickets and tracked to closure by the Corp IT team.",
+      "criteriaIds": [
+        "CC8.1"
+      ],
+      "testProcedure": "For a sample of on-premises change tickets raised on Freshdesk tool, inspected the ticket to determine whether description of change and actions taken to implement the change were documented within the ticket.",
+      "pocIds": [
+        "POC-MER-055"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Completed",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F22"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-08"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0227",
+        "REQ-MER-0228"
+      ],
+      "evidenceRequirementTexts": [
+        "System generated list of changes to the Meridian on-premises infrastructure from Freshdesk during the audit period",
+        "For a sample change tickets, ticket to showing description of change and actions taken to implement the change were documented within the ticket."
+      ],
+      "status": "Completed"
+    },
+    {
+      "id": "CTL-QC-IT-12",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "IT-12",
+      "idStatus": "Tentative",
+      "family": "IT",
+      "title": "Patch Management - Meridian Infrastructure",
+      "descriptionText": "Meridian has implemented the following patch management tools to ensure up-to-date patches are deployed on the endpoints in accordance with the Vulnerability and Patch Management Procedure:\n► Automox for Windows and Linux\n► Kandji for MacBooks",
+      "criteriaIds": [
+        "CC8.1"
+      ],
+      "testProcedure": "For a sample of endpoint Windows and MacBooks laptops, inspected the Automox / Kandji patch management tool to determine whether the latest patches were applied on the MacBooks and Windows laptops in accordance with the Vulnerability and Patch Management Procedure.",
+      "pocIds": [
+        "POC-MER-055",
+        "POC-MER-031"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F30"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "IT-09"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0229",
+        "REQ-MER-0230",
+        "REQ-MER-0231",
+        "REQ-MER-0232"
+      ],
+      "evidenceRequirementTexts": [
+        "System generated list of endpoint Windows laptops from Automox tool",
+        "For a sample of endpoint Windows laptops, screenshot from  Automox showing the latest patches were applied on the  Windows laptops",
+        "System generated list of endpoint MAC laptops from Kandji tool",
+        "For a sample of endpoint MAC laptops, screenshot from  Kandji showing the latest patches were applied on the  Windows laptops"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-QC-SDLC-01",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "SDLC-01",
+      "idStatus": "Tentative",
+      "family": "SDLC",
+      "title": "Segregation of Environments",
+      "descriptionText": "The development, staging, and production environments are hosted on logically segregated Virtual Private Clouds (VPC) within Cloud.",
+      "criteriaIds": [
+        "CC8.1",
+        "PI1.1"
+      ],
+      "testProcedure": "Inspected the URLs of the development, staging, and production environments to determine whether these instances were logically segregated separate VPCs within the Meridian AWS environment.",
+      "pocIds": [
+        "POC-MER-049",
+        "POC-MER-036"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "H14"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-01"
+          ]
+        }
+      ],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [
+        "Screenshot from AWS showing URLs of the development for all Zephyr Platform and Quanta Portfolio accounts / subscriptions / instances."
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-SDLC-02",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "SDLC-02",
+      "idStatus": "Tentative",
+      "family": "SDLC",
+      "title": "Technical Specification and Design",
+      "descriptionText": "Authorized feature development / patch release / hotfix requirements are communicated to the Zephyr Platform & Quanta Portfolio developers by the Project Manager using work items within a Jira ticket.",
+      "criteriaIds": [
+        "CC8.1",
+        "PI1.1",
+        "PI1.2",
+        "PI1.3",
+        "PI1.5"
+      ],
+      "testProcedure": "For a sample of commits on the GitHub master branch, inspected the corresponding Jira tickets to determine whether authorized feature development / patch release / hotfix requirements were communicated to the Zephyr Platform & Quanta Portfolio developers by the Project Manager using work items within a Jira ticket.",
+      "pocIds": [
+        "POC-MER-036",
+        "POC-MER-029",
+        "POC-MER-042",
+        "POC-MER-016",
+        "POC-MER-052",
+        "POC-MER-038",
+        "POC-MER-004",
+        "POC-MER-021"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "H03"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-02"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0242",
+        "REQ-MER-0250"
+      ],
+      "evidenceRequirementTexts": [
+        "List of commits on the GitHub master branch for the audit period for Zephyr Platform.",
+        "List of commits on the GitHub master branch for the audit period for Quanta Self-Serve.",
+        "List of commits on the GitHub master branch for the audit period for Quanta Analyze.",
+        "List of commits on the GitHub master branch for the audit period for Quanta Discover.",
+        "List of commits on the GitHub master branch for the audit period for Zephyr Console.",
+        "List of commits on the GitHub master branch for the audit period for Quanta Assist (hosted on AWS).",
+        "List of commits on the GitHub master branch for the audit period for Quanta Capture NG.",
+        "For a sample of commits, JIRA tickets showing change requirements were communicated to the Zephyr Platform developers by the Project Manager using work items within a Jira ticket.",
+        "For a sample of commits, JIRA tickets showing change requirements were communicated to the Quanta Self-Serve developers by the Project Manager using work items within a Jira ticket.",
+        "For a sample of commits, JIRA tickets showing change requirements were communicated to the Quanta Analyze developers by the Project Manager using work items within a Jira ticket.",
+        "For a sample of commits, JIRA tickets showing change requirements were communicated to the Quanta Discover developers by the Project Manager using work items within a Jira ticket.",
+        "For a sample of commits, JIRA tickets showing change requirements were communicated to the Zephyr Console developers by the Project Manager using work items within a Jira ticket.",
+        "For a sample of commits, JIRA tickets showing change requirements were communicated to the Quanta Assist (hosted on AWS) developers by the Project Manager using work items within a Jira ticket.",
+        "For a sample of commits, JIRA tickets showing change requirements were communicated to the Quanta Capture NG developers by the Project Manager using work items within a Jira ticket."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-QC-SDLC-03",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "SDLC-03",
+      "idStatus": "Tentative",
+      "family": "SDLC",
+      "title": "Coding - Peer Review",
+      "descriptionText": "A developer performs coding in the development environment. A peer or Technical Lead carries out a code review to ensure completeness and accuracy of the code and results of the review are documented within GitHub. Upon successful completion of the code review, the peer reviewer provides sign off within GitHub, and the developer initiates security testing.",
+      "criteriaIds": [
+        "CC8.1",
+        "PI1.3"
+      ],
+      "testProcedure": "For a sample of commits on the GitHub master branch, inspected the signoff within GitHub to determine whether a peer (an employee other than the developer of the code) had conducted a code review to ensure completeness and accuracy of the code prior to initiating security testing.",
+      "pocIds": [
+        "POC-MER-036",
+        "POC-MER-029",
+        "POC-MER-042",
+        "POC-MER-016",
+        "POC-MER-052",
+        "POC-MER-038",
+        "POC-MER-004",
+        "POC-MER-021"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "H04"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-03"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0259",
+        "REQ-MER-0268"
+      ],
+      "evidenceRequirementTexts": [
+        "Configurations of the branch protection rule showing that peer review can not be bypassed for Zephyr Platform.",
+        "Configurations of the branch protection rule showing that peer review can not be bypassed for Quanta Self-Serve.",
+        "Configurations of the branch protection rule showing that peer review can not be bypassed for Quanta Analyze.",
+        "Configurations of the branch protection rule showing that peer review can not be bypassed for Quanta Discover.",
+        "Configurations of the branch protection rule showing that peer review can not be bypassed for Zephyr Console.",
+        "Configurations of the branch protection rule showing that peer review can not be bypassed for Quanta Assist (hosted on AWS).",
+        "Configurations of the branch protection rule showing that peer review can not be bypassed for Quanta Capture NG.",
+        "For a sample of commits, screenshot of signoff within GitHub showing an employee other than the developer of the code had conducted a code review.",
+        "For a sample of commits, screenshot of signoff within GitHub showing an employee other than the developer of the code had conducted a code review.",
+        "For a sample of commits, screenshot of signoff within GitHub showing an employee other than the developer of the code had conducted a code review.",
+        "For a sample of commits, screenshot of signoff within GitHub showing an employee other than the developer of the code had conducted a code review.",
+        "For a sample of commits, screenshot of signoff within GitHub showing an employee other than the developer of the code had conducted a code review.",
+        "For a sample of commits, screenshot of signoff within GitHub showing an employee other than the developer of the code had conducted a code review.",
+        "For a sample of commits, screenshot of signoff within GitHub showing an employee other than the developer of the code had conducted a code review."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-QC-SDLC-04",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "SDLC-04",
+      "idStatus": "Tentative",
+      "family": "SDLC",
+      "title": "Security Testing",
+      "descriptionText": "Upon successful completion of the peer code review, a scheduled job is automatically run to perform Snyk static code analysis. Deployment of code onto production is restricted until all security checks have passed.",
+      "criteriaIds": [
+        "CC8.1",
+        "PI1.3"
+      ],
+      "testProcedure": "For a sample of commits on the GitHub master branch,, inspected the status of all-checks-pass.yml job [or] Snyk static code analysis job within GitHub to determine whether all security checks had passed prior to deployment of code onto production.",
+      "pocIds": [
+        "POC-MER-036",
+        "POC-MER-029",
+        "POC-MER-042",
+        "POC-MER-016",
+        "POC-MER-052",
+        "POC-MER-038",
+        "POC-MER-004",
+        "POC-MER-021"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-04"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0277"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of commits, screenshotf of the status of 'all-checks-pass.yml' or 'Synk static code analysis' job within Github.",
+        "For a sample of commits, screenshotf of the status of 'all-checks-pass.yml' or 'Synk static code analysis' job within Github.",
+        "For a sample of commits, screenshotf of the status of 'all-checks-pass.yml' or 'Synk static code analysis' job within Github.",
+        "For a sample of commits, screenshotf of the status of 'all-checks-pass.yml' or 'Synk static code analysis' job within Github.",
+        "For a sample of commits, screenshotf of the status of 'all-checks-pass.yml' or 'Synk static code analysis' job within Github.",
+        "For a sample of commits, screenshotf of the status of 'all-checks-pass.yml' or 'Synk static code analysis' job within Github.",
+        "For a sample of commits, screenshotf of the status of 'all-checks-pass.yml' or 'Synk static code analysis' job within Github."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-QC-SDLC-06",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "SDLC-06",
+      "idStatus": "Tentative",
+      "family": "SDLC",
+      "title": "Unit and Functional Testing - Zephyr Platform",
+      "descriptionText": "QA Team and developers define the test cases applicable for Unit and Functional testing at the beginning of the development cycle. These test cases are either configured in the workflow files within the respective GitHub repositories and are configured to ensure that they are executed successfully before the source code is packaged into a build. Source code compilation runs in parallel with testing, and builds are generated only after successful test execution and SonarQube code‑coverage checks.",
+      "criteriaIds": [
+        "CC8.1",
+        "PI1.4"
+      ],
+      "testProcedure": "For a sample of commits on the GitHub master branch for Zephyr Platform, inspected the inspected the GitHub workflow to determine whether the pipelines contained work-steps configured for Unit and Integration Testing, and whether the work-steps were completed successfully.\n\nFor a sample of commits on the GitHub master branch for Zephyr Platform, inspected the GitHub pipelines to determine whether the SonarQube work step for code coverage checks was completed successfully.",
+      "pocIds": [
+        "POC-MER-036"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "H07",
+            "H08",
+            "H09"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0318"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of commits, screenshot of workflow YAML file with test steps.",
+        "Screenshot of conditions and branch protection rules in the code repository that tests must pass before proceeding to build/package steps.",
+        "For a sample of commits, screenshots from GitHub showing CI and CD automation sprints which show that various steps of the workflow (pipeline checks) were executed successfully for Unit Testing.",
+        "Screenshot from YAML or pipeline configurations showing the steps that trigger build jobs.",
+        "Screenshot from YAML or pipeline configurations showing the steps for unit and functional tests within the same workflow.",
+        "Screenshot of branch protection rules showing that the required checks include both “build” and “tests”.",
+        "For a sample of commits, screenhot from GitHub showing the build testing work step being successfully performed",
+        "Screenshot from YAML or pipeline configurations showing the steps that calls for SonarQube scanner",
+        "Screenshot from SonarQube project settings showing that quality gate (e.g., “Coverage on New Code >= 80%”) is defined and failing the coverage threshold blocks pipeline progression.",
+        "Screenshot from branch protection rules showing that SonarQube status check (or “quality gate”) is listed as a required check before merge.",
+        "For a sample of commits, screenshot from GitHub which shows the Code coverage work step performed as part of the CI-CD pipeline using SonarQube."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-QC-SDLC-07",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "SDLC-07",
+      "idStatus": "Tentative",
+      "family": "SDLC",
+      "title": "Require Pull Request",
+      "descriptionText": "Meridian has enabled configurations to require all commits to be made to a non-target branch and submitted via a pull request before they can be merged with the master branch.",
+      "criteriaIds": [
+        "CC8.1",
+        "PI1.4"
+      ],
+      "testProcedure": "Inspected the configurations on GitHub to determine whether all commits were required to be submitted via a pull request before they could be merged with the master branch.",
+      "pocIds": [
+        "POC-MER-036",
+        "POC-MER-029",
+        "POC-MER-042",
+        "POC-MER-016",
+        "POC-MER-052",
+        "POC-MER-038",
+        "POC-MER-004",
+        "POC-MER-021"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-05"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0325"
+      ],
+      "evidenceRequirementTexts": [
+        "Screenshot from GitHub showing all commits were required to be submitted via a pull request before they could be merged with the master branch.",
+        "Screenshot from GitHub showing all commits were required to be submitted via a pull request before they could be merged with the master branch.",
+        "Screenshot from GitHub showing all commits were required to be submitted via a pull request before they could be merged with the master branch.",
+        "Screenshot from GitHub showing all commits were required to be submitted via a pull request before they could be merged with the master branch.",
+        "Screenshot from GitHub showing all commits were required to be submitted via a pull request before they could be merged with the master branch.",
+        "Screenshot from GitHub showing all commits were required to be submitted via a pull request before they could be merged with the master branch.",
+        "Screenshot from GitHub showing all commits were required to be submitted via a pull request before they could be merged with the master branch."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-QC-SDLC-08",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "SDLC-08",
+      "idStatus": "Tentative",
+      "family": "SDLC",
+      "title": "Deployment of code to production - Quanta Portfolio Products",
+      "descriptionText": "Upon successful completion of testing, the commit is merged with the master branch and closed using a pull request. As part of the CI-CD pipeline, a GitHub action automatically performs integration checks and deploys the code onto the production environment.",
+      "criteriaIds": [
+        "CC8.1",
+        "PI1.4"
+      ],
+      "testProcedure": "For a sample of commits, inspected the GitHub actions page to determine whether the code was deployed onto production post completion of all testing.",
+      "pocIds": [
+        "POC-MER-029",
+        "POC-MER-042",
+        "POC-MER-016",
+        "POC-MER-052",
+        "POC-MER-038",
+        "POC-MER-004",
+        "POC-MER-021"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-06"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0334",
+        "REQ-MER-0335",
+        "REQ-MER-0336"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of commits, screenshot from GitHub actions page showing code was deployed onto production post completion of all testing.",
+        "For a sample of commits, screenshot from GitHub actions page showing code was deployed onto production post completion of all testing.",
+        "For a sample of commits, screenshot from GitHub actions page showing code was deployed onto production post completion of all testing.",
+        "For a sample of commits, screenshot from GitHub actions page showing code was deployed onto production post completion of all testing.",
+        "For a sample of commits, screenshot from GitHub actions page showing code was deployed onto production post completion of all testing.",
+        "For a sample of commits, screenshot from GitHub actions page showing code was deployed onto production post completion of all testing."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-QC-SDLC-09",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "SDLC-09",
+      "idStatus": "Tentative",
+      "family": "SDLC",
+      "title": "Deployment of code to production - Zephyr Platform",
+      "descriptionText": "Upon successful completion of testing, the\nproduction-ready image generated is stored within Harbor. Meridian has defined workflows within GitHub to ensure that each time there’s a change to the production-ready image on Harbor, the corresponding helm chart for that product release is updated with the latest production-ready image. These images are deployed to Kubernetes clusters within the production environment for X Platform using the automated Flux Kubernetes service.",
+      "criteriaIds": [
+        "CC8.1",
+        "PI1.4"
+      ],
+      "testProcedure": "Inspected the GitHub workflow files to determine whether the workflows are designed to ensure that the helm charts are updated with the latest production-ready image. Additionally, inspected the GitHub workflow files to determine whether the Flux service was configured for deployment to Kubernetes clusters within the production environment.",
+      "pocIds": [
+        "POC-MER-036",
+        "POC-MER-009"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "H11"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SDLC-06"
+          ]
+        },
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "H18"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [
+        "Screenshot showing automated build run which runs automatically once a merge is done.",
+        "Screenshot from Kubernetes lens which shows the Flux service being active in the pods.",
+        "Screenshot showing the GitHub workflow files forZephyr Platform to determine whether the workflows are designed to ensure that the helm charts are updated with the latest production-ready image.",
+        "Screenshot from the GitHub workflow YAML files showing the steps that push the production-ready image to Harbor.",
+        "Screenshot from the GitHub workflow YAML files showing the automation steps that update the Helm chart when a new Harbor image is created.",
+        "From Harbor dashboar, provide screenshot showing tags of production-ready images (e.g., versioned or commit-hash based). That images match sample commit in GitHub.",
+        "Screenshot from branch protection rules showing that updates Helm charts is a required status check.",
+        "Annual source-code review report for Zephyr Platform and Quanta Portfolio products."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-QC-SDLC-10",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "SDLC-10",
+      "idStatus": "Tentative",
+      "family": "SDLC",
+      "title": "Source-Code Reviews",
+      "descriptionText": "Meridian conducts annual source code reviews through a third-party vendor to identify security vulnerabilities for the repositories related to the X Platform and the Quanta Portfolio products. The Information Security team raises JIRA tickets for high and critical severity issues, and the Engineering and Infrastructure Operations teams implement corrective actions within the defined SLAs. A follow-up remediation review is performed by the vendor to ensure issues are resolved, reinforcing Meridian's commitment to secure coding practices and data protection.",
+      "criteriaIds": [
+        "CC6.1",
+        "CC8.1"
+      ],
+      "testProcedure": "Inspected the annual source-code review report for Zephyr Platform and Quanta Portfolio products to determine whether security vulnerabilities for the repositories were identified and documented.\n\nFurther, inspected the JIRA tickets for high and critical issues to determine whether the Engineering and Infrastructure Operations teams implement corrective actions within the defined SLAs. \n\nAdditionally, inspected the email communication to determine whether A follow-up remediation review is performed by the vendor to ensure issues are resolved, reinforcing Meridian's commitment to secure coding practices and data protection.",
+      "pocIds": [
+        "POC-MER-009"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": null,
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [
+        "JIRA tickets for high and critical issues identified in the source-code review reports.",
+        "Email communication/JIRA ticket/remediation report showing all issues are resolved."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-QC-SO-01",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "SO-01",
+      "idStatus": "Tentative",
+      "family": "SO",
+      "title": "Vulnerability Assessment and Penetration Testing",
+      "descriptionText": "On an annual basis, third-party vendors conduct application level, network level, and API vulnerability assessments and penetration tests for Quanta Capture Legacy product. Based on the findings of these tests, Information Security & Compliance / Security Operations team follows up with the relevant stakeholders on appropriate corrective and preventive actions for identified gaps until closure of the gaps. Based on the confirmation received from the relevant stakeholders, Information Security & Compliance / Security Operations team notifies the third-party vendor to perform rescan to confirm the closure of gaps through email. On completion of rescan, third-party vendor shares the summary report (Compliant Report) with the Information Security & Compliance / Security Operations team.",
+      "criteriaIds": [
+        "CC3.2",
+        "CC4.1",
+        "CC6.6",
+        "CC6.8",
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5"
+      ],
+      "testProcedure": "Inspected the annual vulnerability assessment and penetration test reports for Quanta Capture Legacy product to determine whether application level, network level, and API vulnerability and penetration tests for Quanta Capture were conducted, and corrective and preventive actions were tracked to closure for identified vulnerabilities.",
+      "pocIds": [
+        "POC-MER-006"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "C06"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SO-01"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0338",
+        "REQ-MER-0339"
+      ],
+      "evidenceRequirementTexts": [
+        "Annual Vulnerability assessment and penetration test (VAPT) reports for all Quanta Capture Legacy product",
+        "Evidence showing that corrective and preventive actions were tracked to closure for identified vulnerabilities."
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-SO-02",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "SO-02",
+      "idStatus": "Tentative",
+      "family": "SO",
+      "title": "Vulnerability Assessment",
+      "descriptionText": "On a quarterly basis, security vulnerability scans are performed by third-party approved scanning vendors (ASVs). Based on the findings of the vulnerability assessment, Information Security & Compliance / Security Operations team follows up with the relevant stakeholders on appropriate corrective and preventive actions for identified gaps until closure of the gaps.",
+      "criteriaIds": [
+        "CC3.2",
+        "CC4.1",
+        "CC6.6",
+        "CC6.8",
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5"
+      ],
+      "testProcedure": "For a sample of quarters, inspected the security vulnerability scan reports issued by third-party approved scanning vendor (ASV) to determine whether security vulnerability scans were performed and appropriate corrective and preventive actions for identified vulnerabilities were tracked to closure.",
+      "pocIds": [
+        "POC-MER-006"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "C05"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0340",
+        "REQ-MER-0341"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of quarters, security vulnerability scan reports issued by third-party approved scanning vendor (ASV)",
+        "Evidence showing that corrective and preventive actions were tracked to closure for identified vulnerabilities."
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-SO-03",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "SO-03",
+      "idStatus": "Tentative",
+      "family": "SO",
+      "title": "Removable Media Restrictions",
+      "descriptionText": "Removable media devices such as Compact Disk (CD) readers-writers and Universal Serial Bus (USB) are disabled on end-user workstations through group policy configured on Microsoft MDM.",
+      "criteriaIds": [
+        "CC6.1",
+        "CC6.7",
+        "C1.1"
+      ],
+      "testProcedure": "Inspected the group policy configuration on Microsoft MDM to determine whether removable media devices such as Compact Disk (CD) readers-writers and Universal Serial Bus (USB) are disabled on end-user workstations.",
+      "pocIds": [
+        "POC-MER-055"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F34"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SO-02"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0342"
+      ],
+      "evidenceRequirementTexts": [
+        "Screenshot of group policy settings on Microsoft MDM showing that removable media devices are disabled on end-user workstations."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-QC-SO-04",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "SO-04",
+      "idStatus": "Tentative",
+      "family": "SO",
+      "title": "Anti-Virus",
+      "descriptionText": "Meridian has deployed CrowdStrike Falcon EDR software on its endpoints for protection against malware and intrusion attempts. The EDR software is configured to perform real-time scans. The EDR software has built in controls for tamper protection.",
+      "criteriaIds": [
+        "CC6.8"
+      ],
+      "testProcedure": "Inspected the CrowdStrike Falcon EDR software configurations to determine whether the EDR software is configured to perform real-time scans to protect against malware and intrusion attempts; and whether agent tamper protection was enabled.",
+      "pocIds": [
+        "POC-MER-009"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F32"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SO-03"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0343",
+        "REQ-MER-0344"
+      ],
+      "evidenceRequirementTexts": [
+        "Screenshot from Crwodstrike EDR software showing that agent tamper protection was enabled.",
+        "Screenshot from Crwodstrike showing that EDR software is configured to perform real-time scans to protect against malware and intrusion attempts"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-SO-05",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "SO-05",
+      "idStatus": "Tentative",
+      "family": "SO",
+      "title": "Logging and Monitoring - IT Infrastructure",
+      "descriptionText": "Administrative events, authentication events, and system events generated by CrowdStrike, Microsoft MDM, and firewalls to identify inappropriate access, security threats, and incidents are configured by the Security Operations team to be re-directed to ProACT tool. The SISA MDR team analyses the alerts and generate a Freshdesk ticket for confirmed true positive cases. The Security Operations team analyses these Freshdesk tickets and documents the details of analysis, security violation, root cause, user / group responsible, severity of the incident / breach, and prevention and mitigation steps within the Freshdesk ticket until closure.",
+      "criteriaIds": [
+        "CC6.7",
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5",
+        "A1.1"
+      ],
+      "testProcedure": "Inspected the configuration settings within ProACT to determine whether alerts generated by CrowdStrike, Microsoft MDM, and firewalls were configured to be re-directed to ProACT.\n\nAdditionally for a sample of Freshdesk tickets related to logging and monitoring of CrowdStrike, Microsoft MDM, and firewalls, inspected the ticket to determine whether the Security Operations team analyzed and took necessary corrective actions prior to closing the ticket.",
+      "pocIds": [
+        "POC-MER-009"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SO-05"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0345",
+        "REQ-MER-0346",
+        "REQ-MER-0347"
+      ],
+      "evidenceRequirementTexts": [
+        "Screenshot from ProACT showing alerts generated by CrowdStrike, Microsoft MDM, and firewalls are configured to be re-directed to ProACT",
+        "System generated list of tickets related to logging and monitoring of Meridian's IT Infrastructure from Freshdesk for the audit period",
+        "For a sample of Freshdesk tickets, ticket showing that Security Operations team analyzed and took necessary corrective actions prior to closing the ticket."
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-SO-06",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "SO-06",
+      "idStatus": "Tentative",
+      "family": "SO",
+      "title": "Information Security Incident Management",
+      "descriptionText": "Users report the actual / suspected information security incident / breaches to the Security Operations team by raising a ticket in Freshdesk tool. The Security Operations team, Meridian Computer Security Incident Response Team (CSIRT), and Legal team performs analysis of the incident / breach and documents the details of analysis, security violation, root cause, user / group responsible, severity of the incident / breach, and prevention and mitigation steps within the Freshdesk ticket until closure.",
+      "criteriaIds": [
+        "CC7.1",
+        "CC7.2",
+        "CC7.3",
+        "CC7.4",
+        "CC7.5"
+      ],
+      "testProcedure": "For a sample of security incidents / breaches, inspected the Freshdesk ticket to determine whether the Security Operations team performed analysis of the incident / breach and documented the details of analysis, security violation, root cause, user / group responsible, severity of the incident / breach, and prevention and mitigation steps within the Freshdesk ticket before closing the ticket.",
+      "pocIds": [
+        "POC-MER-009"
+      ],
+      "pocSiteScopes": {},
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-002",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "B09",
+            "D05"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "SO-06"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0348",
+        "REQ-MER-0349"
+      ],
+      "evidenceRequirementTexts": [
+        "System generated list of security incidents/breaches from Freshdesk during the audit period",
+        "For a sample of incidents, Freshdesk ticket showing that Security Operations team analyzed and took necessary corrective actions prior to closing the ticket."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-QC-WE-01",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "WE-01",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Security Guards",
+      "descriptionText": "Entry / exit points of the Meridian delivery centers are manned at all times by third-party physical security guards.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": "Through the use of video streaming technology assisted by Meridian Workspace Experience team, inspected the Meridian Delivery Centers to determine whether security guards were stationed at the main entry and exit points of Delivery Centers.",
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {
+        "POC-MER-043": "Bangalore",
+        "POC-MER-013": "Palo Alto"
+      },
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F37"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-01"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0350",
+        "REQ-MER-0351",
+        "REQ-MER-0352",
+        "REQ-MER-0353",
+        "REQ-MER-0354",
+        "REQ-MER-0355"
+      ],
+      "evidenceRequirementTexts": [
+        "Please provide photo with geolocation and timestamp showing the security guards present at all the locations of Meridian's Bangalore office",
+        "Please provide photo with geolocation and timestamp showing the security guards present at all the locations of Meridian's Chennai office",
+        "Please provide photo with geolocation and timestamp showing the security guards present at all the locations of Meridian's Palo Alto office",
+        "Please provide photo with geolocation and timestamp showing the security guards present at all the locations of Meridian's New York office",
+        "Please provide photo with geolocation and timestamp showing the security guards present at all the locations of Meridian's London office",
+        "Please provide photo with geolocation and timestamp showing the security guards present at all the locations of Meridian's Valencia office"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-WE-02",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "WE-02",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "CCTV",
+      "descriptionText": "Closed Circuit Television (CCTV) surveillance equipment is used to monitor the entry and exit points, work areas, and server rooms of Meridian Delivery Centers.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": "Through the use of video streaming technology assisted by Meridian Workspace Experience team, inspected the Meridian Delivery Centers to determine whether CCTV surveillance equipment was installed at the entry and exit points, work areas, and server rooms.\n\nAdditionally, through the use of video streaming technology assisted by Meridian Workspace Experience team, inspected the CCTV monitoring room to determine whether the CCTV recordings were monitored by the Meridian Workspace Experience team.",
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {
+        "POC-MER-043": "Bangalore",
+        "POC-MER-013": "Palo Alto"
+      },
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F41"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-02"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0356",
+        "REQ-MER-0357",
+        "REQ-MER-0358",
+        "REQ-MER-0359",
+        "REQ-MER-0360",
+        "REQ-MER-0361"
+      ],
+      "evidenceRequirementTexts": [
+        "Please provide photo with geolocation and timestamp showing the CCTV cameras present at the following  locations for all Meridian's Bangalore office:\nA.) Entry Point and Exit points \nB.) Work Areas\nC.) UPS Room\nD.) Server Room \nE.) Access Card picture through CCTV Camera footage",
+        "Please provide photo with geolocation and timestamp showing the CCTV cameras present at the following  locations for all Meridian's Chennai office:\nA.) Entry Point and Exit points \nB.) Work Areas\nC.) UPS Room\nD.) Server Room \nE.) Access Card picture through CCTV Camera footage",
+        "Please provide photo with geolocation and timestamp showing the CCTV cameras present at the following  locations for all Meridian's Palo Alto office:\nA.) Entry Point and Exit points \nB.) Work Areas\nC.) UPS Room\nD.) Server Room \nE.) Access Card picture through CCTV Camera footage",
+        "Please provide photo with geolocation and timestamp showing the CCTV cameras present at the following  locations for all Meridian's New York office:\nA.) Entry Point and Exit points \nB.) Work Areas\nC.) UPS Room\nD.) Server Room \nE.) Access Card picture through CCTV Camera footage",
+        "Please provide photo with geolocation and timestamp showing the CCTV cameras present at the following  locations for all Meridian's London office:\nA.) Entry Point and Exit points \nB.) Work Areas\nC.) UPS Room\nD.) Server Room \nE.) Access Card picture through CCTV Camera footage",
+        "Please provide photo with geolocation and timestamp showing the CCTV cameras present at the following  locations for all Meridian's Valencia office:\nA.) Entry Point and Exit points \nB.) Work Areas\nC.) UPS Room\nD.) Server Room \nE.) Access Card picture through CCTV Camera footage"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-WE-03",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "WE-03",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Access Control System - entry/exit points",
+      "descriptionText": "Access to entry and exit points to Meridian delivery centres are controlled by a card-based access control system.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": "Through the use of video streaming technology assisted by Meridian Workspace Experience team, inspected the Meridian Delivery Centers to determine whether card-based access control system was installed to restrict access to entry and exit points to the delivery center.\n\nAdditionally, for a sample of days, inspected the card based access control system logs to determine whether the card based access control system was operational.",
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {
+        "POC-MER-043": "Bangalore",
+        "POC-MER-013": "Palo Alto"
+      },
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "In Progress",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F36"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-03"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0362",
+        "REQ-MER-0363",
+        "REQ-MER-0364",
+        "REQ-MER-0365",
+        "REQ-MER-0366",
+        "REQ-MER-0367",
+        "REQ-MER-0368",
+        "REQ-MER-0369",
+        "REQ-MER-0370",
+        "REQ-MER-0371",
+        "REQ-MER-0372",
+        "REQ-MER-0373"
+      ],
+      "evidenceRequirementTexts": [
+        "Please provide photo with geolocation and timestamp showing the card-based access control system is installed at all the locations of Meridian's Bangalore office",
+        "For a sample of days, access control system logs showing the card based access control system was operational at Meridian's Bangalore office",
+        "Please provide photo with geolocation and timestamp showing the card-based access control system is installed at all the locations of Meridian's Chennai office",
+        "For a sample of days, access control system logs showing the card based access control system was operational at Meridian's Chennai office",
+        "Please provide photo with geolocation and timestamp showing the card-based access control system is installed at all the locations of Meridian's Palo Alto office",
+        "For a sample of days, access control system logs showing the card based access control system was operational at Meridian's Palo Alto office",
+        "Please provide photo with geolocation and timestamp showing the card-based access control system is installed at all the locations of Meridian's New York office",
+        "For a sample of days, access control system logs showing the card based access control system was operational at Meridian's New York office",
+        "Please provide photo with geolocation and timestamp showing the card-based access control system is installed at all the locations of Meridian's London office",
+        "For a sample of days, access control system logs showing the card based access control system was operational at Meridian's London office",
+        "Please provide photo with geolocation and timestamp showing the card-based access control system is installed at all the locations of Meridian's Valencia office",
+        "For a sample of days, access control system logs showing the card based access control system was operational at Meridian's Valencia office"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-WE-04",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "WE-04",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Access Control System - Server/Hub Room",
+      "descriptionText": "Physical access to the server/hub room in Meridian delivery centers is restricted to authorized employees using card based access control system.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": "Through the use of video streaming technology assisted by Meridian Workspace Experience team, inspected the Meridian Delivery Centers to determine whether card-based access control system was installed to restrict access to Server/Hub Room in Meridian delivery centers.\n\nAdditionally, for a sample of days, inspected the card based access control system logs to determine whether the card based access control system was operational.",
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {
+        "POC-MER-043": "Bangalore",
+        "POC-MER-013": "Palo Alto"
+      },
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0374",
+        "REQ-MER-0375",
+        "REQ-MER-0376",
+        "REQ-MER-0377",
+        "REQ-MER-0378",
+        "REQ-MER-0379"
+      ],
+      "evidenceRequirementTexts": [
+        "Please provide photo with geolocation and timestamp showing the card-based access control system is installed to restrict access to server/hub room at all the locations of Meridian's Bangalore office",
+        "For a sample of days, access control system logs showing the card based access control system was operational at Meridian's Bangalore office",
+        "Please provide photo with geolocation and timestamp showing the card-based access control system is installed to restrict access to server/hub room at all the locations of Meridian's Chennai office",
+        "For a sample of days, access control system logs showing the card based access control system was operational at Meridian's Chennai office",
+        "Please provide photo with geolocation and timestamp showing the card-based access control system is installed to restrict access to server/hub room at all the locations of Meridian's Palo Alto office",
+        "For a sample of days, access control system logs showing the card based access control system was operational at Meridian's Palo Alto office",
+        "Please provide photo with geolocation and timestamp showing the card-based access control system is installed to restrict access to server/hub room at all the locations of Meridian's New York office",
+        "For a sample of days, access control system logs showing the card based access control system was operational at Meridian's New York office",
+        "Please provide photo with geolocation and timestamp showing the card-based access control system is installed to restrict access to server/hub room at all the locations of Meridian's London office",
+        "For a sample of days, access control system logs showing the card based access control system was operational at Meridian's London office",
+        "Please provide photo with geolocation and timestamp showing the card-based access control system is installed to restrict access to server/hub room at all the locations of Meridian's Valencia office",
+        "For a sample of days, access control system logs showing the card based access control system was operational at Meridian's Valencia office"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-QC-WE-05",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "WE-05",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Access Review - Server/Hub Room",
+      "descriptionText": "On a quarterly basis, Workspace Experience Team performs a review of the personnel with access to the Server/Hub Room. Review comments by the Manager – Workspace Experience team are addressed and tracked to closure.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": "For a sample of quarters, inspected the access review ticketsl to determine whether a review of the personnel with access to the Hub Room was performed.",
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {
+        "POC-MER-043": "Bangalore",
+        "POC-MER-013": "Palo Alto"
+      },
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ],
+      "requirementIds": [],
+      "evidenceRequirementTexts": [
+        "For a sample of quarters, complete access review JIRA tickets for Server/Hub room at Meridian's Bangalore office",
+        "For a sample of quarters, complete access review JIRA tickets for Server/Hub room at Meridian's Chennai office",
+        "For a sample of quarters, complete access review JIRA tickets for Server/Hub room at Meridian's Palo Alto office",
+        "For a sample of quarters, complete access review JIRA tickets for Server/Hub room at Meridian's New York office",
+        "For a sample of quarters, complete access review JIRA tickets for Server/Hub room at Meridian's London office",
+        "For a sample of quarters, complete access review JIRA tickets for Server/Hub room at Meridian's Valencia office"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-QC-WE-06",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "WE-06",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Visitor Management",
+      "descriptionText": "Security guards are responsible for ensuring that details of the visitors or vendors, such as name of the visitor or vendor, contact details, contact person in Meridian, entry time and exit time are recorded within the Visitor Register maintained at the reception area prior to permitting entry to the delivery center. Visitors and vendors are issued a visitor identification card, which they are required to display while inside the delivery center. An authorized employee escorts visitors or vendors during their visit to the delivery center.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": "Through the use of video streaming technology assisted by Meridian Facility team, inspected the Meridian Delivery Centers to determine whether security guards supervised the details entered by the visitors or vendors such as name of the visitor or vendor, purpose of visit, contact person, and entry / exit time, within the visitor register.\n\nAdditionally, for a sample of days, inspected the visitor register to determine whether the name of the visitor or vendor, purpose of visit, contact person, and entry / exit time were recorded.",
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {
+        "POC-MER-043": "Bangalore",
+        "POC-MER-013": "Palo Alto"
+      },
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0380",
+        "REQ-MER-0381",
+        "REQ-MER-0382",
+        "REQ-MER-0383",
+        "REQ-MER-0384",
+        "REQ-MER-0385"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of days, visitor registershowing the name of the visitor or vendor, purpose of visit, contact person, and entry / exit time are recorded at Meridian's Bangalore office",
+        "For a sample of days, visitor registershowing the name of the visitor or vendor, purpose of visit, contact person, and entry / exit time are recorded at Meridian's Chennai office",
+        "For a sample of days, visitor registershowing the name of the visitor or vendor, purpose of visit, contact person, and entry / exit time are recorded at Meridian's Palo Alto office",
+        "For a sample of days, visitor registershowing the name of the visitor or vendor, purpose of visit, contact person, and entry / exit time are recorded at Meridian's New York office",
+        "For a sample of days, visitor registershowing the name of the visitor or vendor, purpose of visit, contact person, and entry / exit time are recorded at Meridian's London office",
+        "For a sample of days, visitor registershowing the name of the visitor or vendor, purpose of visit, contact person, and entry / exit time are recorded at Meridian's Valencia office"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-QC-WE-07",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "WE-07",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Physical Access Creation",
+      "descriptionText": "Based on the automated email from Workday HRMS tool, the Workspace Experience team grants access to the user by issuing an access card and activating it within the Access Control Software of that Delivery Center to provide physical access to that delivery center.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": "For a sample of new hires, inspected the access control system and automated email from Workday HRMS tool to determine whether physical access was provided to the user after receiving the automated email from Workday HRMS tool.",
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {
+        "POC-MER-043": "Bangalore",
+        "POC-MER-013": "Palo Alto"
+      },
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "In Progress",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F38"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-04"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0386",
+        "REQ-MER-0387",
+        "REQ-MER-0388",
+        "REQ-MER-0389",
+        "REQ-MER-0390",
+        "REQ-MER-0391",
+        "REQ-MER-0392",
+        "REQ-MER-0393",
+        "REQ-MER-0394",
+        "REQ-MER-0395",
+        "REQ-MER-0396",
+        "REQ-MER-0397"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of new joiners for Bangalore location, email from Workday showing physical access was provided to the user after receiving the automated email from Workday HRMS tool.",
+        "For a sample of new joiners for Chennai location, email from Workday showing physical access was provided to the user after receiving the automated email from Workday HRMS tool.",
+        "For a sample of new joiners for Palo Alto location, email from Workday showing physical access was provided to the user after receiving the automated email from Workday HRMS tool.",
+        "For a sample of new joiners for New York location, email from Workday showing physical access was provided to the user after receiving the automated email from Workday HRMS tool.",
+        "For a sample of new joiners for London location, email from Workday showing physical access was provided to the user after receiving the automated email from Workday HRMS tool.",
+        "For a sample of new joiners for Valencia location, email from Workday showing physical access was provided to the user after receiving the automated email from Workday HRMS tool."
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-WE-08",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "WE-08",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Physical Access Deactivation",
+      "descriptionText": "Based on the email from HR team, the Workspace Experience team deactivates the physical access of the user to the delivery center on the Access Control Software of that delivery center within one day of intimation.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": "For a sample of resigned / terminated / absconding users, inspected the email from HR Team to determine whether resignation / termination / absconding user was notified by HR Team to Workspace Experience team for deactivation of physical access to the Meridian Delivery Center.\n\nAdditionally, for a sample of resigned / terminated / absconding users, inspected the access control system to determine whether the physical access for resigned / terminated / absconding user was deactivated within one day of the intimation.",
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {
+        "POC-MER-043": "Bangalore",
+        "POC-MER-013": "Palo Alto"
+      },
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "In Progress",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F39"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-05"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0398",
+        "REQ-MER-0399",
+        "REQ-MER-0400",
+        "REQ-MER-0401",
+        "REQ-MER-0402",
+        "REQ-MER-0403",
+        "REQ-MER-0404",
+        "REQ-MER-0405",
+        "REQ-MER-0406",
+        "REQ-MER-0407",
+        "REQ-MER-0408",
+        "REQ-MER-0409"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of exit employees, email from HR Team showing notification by HR Team to Workspace Experience team for deactivation of physical access to the Meridian Bangalore office.",
+        "For a sample of exit employees for Bangalore location, access deactivation date from access control system.",
+        "For a sample of exit employees, email from HR Team showing notification by HR Team to Workspace Experience team for deactivation of physical access to the Meridian Chennai office.",
+        "For a sample of exit employees for Chennai location, access deactivation date from access control system.",
+        "For a sample of exit employees, email from HR Team showing notification by HR Team to Workspace Experience team for deactivation of physical access to the Meridian Palo Alto office.",
+        "For a sample of exit employees for Palo Alto location, access deactivation date from access control system.",
+        "For a sample of exit employees, email from HR Team showing notification by HR Team to Workspace Experience team for deactivation of physical access to the Meridian New York office.",
+        "For a sample of exit employees for New York location, access deactivation date from access control system.",
+        "For a sample of exit employees, email from HR Team showing notification by HR Team to Workspace Experience team for deactivation of physical access to the Meridian London office.",
+        "For a sample of exit employees for London location, access deactivation date from access control system.",
+        "For a sample of exit employees, email from HR Team showing notification by HR Team to Workspace Experience team for deactivation of physical access to the Meridian Valencia office.",
+        "For a sample of exit employees for Valencia location, access deactivation date from access control system."
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-WE-09",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "WE-09",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Physical Access Reconciliation",
+      "descriptionText": "Physical access to Meridian Delivery Centers is reconciled on a quarterly basis by the Workspace Experience team. The Workspace Experience team extracts the list of active users that have access to Meridian delivery centers from the access control software of that delivery center and compares this list with the list of active users shared by HR team. In case of any discrepancies, the Workspace Experience team takes necessary corrective actions and shares the results of the review with the Information Security & Compliance team.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": "For a sample of quarters, inspected the access reconciliation email communication between Workspace Experience team and the Information Security & Compliance team to determine whether a reconciliation of the personnel with access to the Meridian Delivery Centers and the list of active users was performed.",
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {
+        "POC-MER-043": "Bangalore",
+        "POC-MER-013": "Palo Alto"
+      },
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "F40"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-06"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0410",
+        "REQ-MER-0411",
+        "REQ-MER-0412",
+        "REQ-MER-0413",
+        "REQ-MER-0414",
+        "REQ-MER-0415"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of quarters, email communication showing reconciliation of the personnel with access to the Meridian Delivery Centers (Bangalore location) and the list of active users is performed.",
+        "For a sample of quarters, email communication showing reconciliation of the personnel with access to the Meridian Delivery Centers (Chennai location) and the list of active users is performed.",
+        "For a sample of quarters, email communication showing reconciliation of the personnel with access to the Meridian Delivery Centers (Palo Alto location) and the list of active users is performed.",
+        "For a sample of quarters, email communication showing reconciliation of the personnel with access to the Meridian Delivery Centers (New York location) and the list of active users is performed.",
+        "For a sample of quarters, email communication showing reconciliation of the personnel with access to the Meridian Delivery Centers (London location) and the list of active users is performed.",
+        "For a sample of quarters, email communication showing reconciliation of the personnel with access to the Meridian Delivery Centers (Valencia location) and the list of active users is performed."
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-QC-WE-10",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "WE-10",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Access Review - Physical Security Tools",
+      "descriptionText": "Administrative access to Access Control Software is reviewed by the Workspace Experience team on a six-monthly basis. Personnel from the Workspace Experience team extracts the list of administrators on Access Control Software and shares it with Manager – Workspace Experience. The Manager – Workspace Experience reviews the list of administrators to determine the appropriateness of access based on the job responsibilities and communicates discrepancies, if any, to the Workspace Experience team. In case of any discrepancies, the Workspace Experience team takes necessary corrective actions and shares confirmation to the Manager – Workspace Experience. The Manager – Workspace Experience provides sign off over email once the activity has concluded.",
+      "criteriaIds": [
+        "CC6.4"
+      ],
+      "testProcedure": "For a sample of six-months, inspected the email communication between the Facility team and the Associate Manager – Facility to determine whether administrative access to  Access Control Software was reviewed and signed off by the Associate Manager – Facility.",
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {
+        "POC-MER-043": "Bangalore",
+        "POC-MER-013": "Palo Alto"
+      },
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Data not received",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0416",
+        "REQ-MER-0417",
+        "REQ-MER-0418",
+        "REQ-MER-0419",
+        "REQ-MER-0420",
+        "REQ-MER-0421"
+      ],
+      "evidenceRequirementTexts": [
+        "For a sample of six months, complete access review tickets/emails of the access control system for Bangalore location",
+        "For a sample of six months, complete access review tickets/emails of the access control system for Bangalore location",
+        "For a sample of six months, complete access review tickets/emails of the access control system for Bangalore location",
+        "For a sample of six months, complete access review tickets/emails of the access control system for Bangalore location",
+        "For a sample of six months, complete access review tickets/emails of the access control system for Bangalore location",
+        "For a sample of six months, complete access review tickets/emails of the access control system for Bangalore location"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-QC-WE-11",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "WE-11",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Fire Detection and Prevention",
+      "descriptionText": "Fire extinguishers and smoke detectors are installed at various locations within the delivery centers.",
+      "criteriaIds": [
+        "A1.2"
+      ],
+      "testProcedure": "Through the use of video streaming technology assisted by Workspace Experience team, inspected the Meridian delivery centers to determine whether fire extinguishers and smoke detectors were installed.",
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {
+        "POC-MER-043": "Bangalore",
+        "POC-MER-013": "Palo Alto"
+      },
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Completed",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "J08"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-07"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0422",
+        "REQ-MER-0423",
+        "REQ-MER-0424",
+        "REQ-MER-0425",
+        "REQ-MER-0426",
+        "REQ-MER-0427"
+      ],
+      "evidenceRequirementTexts": [
+        "Please provide photo with geolocation and timestamp showing Fire extinguishers and smoke detectors are installed at all the locations of Meridian's Bangalore office",
+        "Please provide photo with geolocation and timestamp showing Fire extinguishers and smoke detectors are installed at all the locations of Meridian's Chennai office",
+        "Please provide photo with geolocation and timestamp showing Fire extinguishers and smoke detectors are installed at all the locations of Meridian's Palo Alto office",
+        "Please provide photo with geolocation and timestamp showing Fire extinguishers and smoke detectors are installed at all the locations of Meridian's New York office",
+        "Please provide photo with geolocation and timestamp showing Fire extinguishers and smoke detectors are installed at all the locations of Meridian's London office",
+        "Please provide photo with geolocation and timestamp showing Fire extinguishers and smoke detectors are installed at all the locations of Meridian's Valencia office"
+      ],
+      "status": "In Progress"
+    },
+    {
+      "id": "CTL-QC-WE-12",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "WE-12",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Fire Evacuation Drill",
+      "descriptionText": "The Workspace Experience team carries out fire evacuation drills on an annual basis for their respective delivery center to assess the readiness to emergency situations. The Workspace Experience team documents the results of the fire drill within the fire drill report.",
+      "criteriaIds": [
+        "A1.3"
+      ],
+      "testProcedure": "Inspected the fire drill report to determine whether the Workspace Experience team carries out fire evacuation drills on an annual basis for their respective delivery center to assess the readiness to emergency situations and documents the results of the fire drill.",
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {
+        "POC-MER-043": "Bangalore",
+        "POC-MER-013": "Palo Alto"
+      },
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": "NA"
+        },
+        {
+          "target": "CSP",
+          "ref": "NA"
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0428",
+        "REQ-MER-0429",
+        "REQ-MER-0430",
+        "REQ-MER-0431",
+        "REQ-MER-0432",
+        "REQ-MER-0433"
+      ],
+      "evidenceRequirementTexts": [
+        "Fire drill report for Bangalore location",
+        "Fire drill report for Chennai location",
+        "Fire drill report for Palo Alto location",
+        "Fire drill report for New York location",
+        "Fire drill report for London location",
+        "Fire drill report for Valencia location"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-QC-WE-13",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "WE-13",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Power",
+      "descriptionText": "Meridian delivery centers are supported by uninterruptible power supply (UPS) systems and diesel generators (DG) for continuous operation of hardware equipment in the event of power failure.",
+      "criteriaIds": [
+        "A1.1",
+        "A1.2"
+      ],
+      "testProcedure": "Through the use of video streaming technology assisted by Workspace Experience team, inspected the Meridian delivery centers to determine whether uninterruptible power supply (UPS) systems and diesel generators (DG) were installed.",
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {
+        "POC-MER-043": "Bangalore",
+        "POC-MER-013": "Palo Alto"
+      },
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "J10"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-08"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0434",
+        "REQ-MER-0435",
+        "REQ-MER-0436",
+        "REQ-MER-0437",
+        "REQ-MER-0438",
+        "REQ-MER-0439"
+      ],
+      "evidenceRequirementTexts": [
+        "Please provide photo with geolocation and timestamp showing uninterruptible power supply (UPS) systems and diesel generators (DG) are installed at all the locations of Meridian's Bangalore office",
+        "Please provide photo with geolocation and timestamp showing uninterruptible power supply (UPS) systems and diesel generators (DG) are installed at all the locations of Meridian's Chennai office",
+        "Please provide photo with geolocation and timestamp showing uninterruptible power supply (UPS) systems and diesel generators (DG) are installed at all the locations of Meridian's Palo Alto office",
+        "Please provide photo with geolocation and timestamp showing uninterruptible power supply (UPS) systems and diesel generators (DG) are installed at all the locations of Meridian's New York office",
+        "Please provide photo with geolocation and timestamp showing uninterruptible power supply (UPS) systems and diesel generators (DG) are installed at all the locations of Meridian's London office",
+        "Please provide photo with geolocation and timestamp showing uninterruptible power supply (UPS) systems and diesel generators (DG) are installed at all the locations of Meridian's Valencia office"
+      ],
+      "status": "Not Started"
+    },
+    {
+      "id": "CTL-QC-WE-14",
+      "engagementId": "ENG-MER-QC-2025",
+      "controlCode": "WE-14",
+      "idStatus": "Tentative",
+      "family": "WE",
+      "title": "Equipment Maintenance",
+      "descriptionText": "Maintenance vendor conducts the preventive maintenance of critical equipment including fire detection, prevention, and suppression equipment, UPS, DG, CCTV, and access control system as per preventive maintenance contracts to maintain the continued operability of the equipment.",
+      "criteriaIds": [
+        "A1.1",
+        "A1.2"
+      ],
+      "testProcedure": "Inspected the preventive maintenance reports to determine whether preventive maintenance of fire detection, prevention, and suppression equipment, UPS, DG, CCTV, and access control system were conducted as per preventive maintenance contracts.",
+      "pocIds": [
+        "POC-MER-043",
+        "POC-MER-013"
+      ],
+      "pocSiteScopes": {
+        "POC-MER-043": "Bangalore",
+        "POC-MER-013": "Palo Alto"
+      },
+      "ownershipStatus": "Assigned",
+      "documentationOwnerId": "USR-HA-004",
+      "walkthroughStatus": "Data not received",
+      "testingStatus": "Not Applicable",
+      "masterControlRefs": [
+        {
+          "target": "Quanta Capture Legacy",
+          "ref": [
+            "J09",
+            "J10"
+          ]
+        },
+        {
+          "target": "CSP",
+          "ref": [
+            "WE-09"
+          ]
+        }
+      ],
+      "requirementIds": [
+        "REQ-MER-0440",
+        "REQ-MER-0441",
+        "REQ-MER-0442",
+        "REQ-MER-0443",
+        "REQ-MER-0444",
+        "REQ-MER-0445"
+      ],
+      "evidenceRequirementTexts": [
+        "Preventive maintenance reports showing preventive maintenance of fire detection, prevention, and suppression equipment, UPS, DG, CCTV, and access control system are conducted as per preventive maintenance contracts at all the locations of Meridian's Bangalore office.",
+        "Preventive maintenance reports showing preventive maintenance of fire detection, prevention, and suppression equipment, UPS, DG, CCTV, and access control system are conducted as per preventive maintenance contracts at all the locations of Meridian's Chennai office.",
+        "Preventive maintenance reports showing preventive maintenance of fire detection, prevention, and suppression equipment, UPS, DG, CCTV, and access control system are conducted as per preventive maintenance contracts at all the locations of Meridian's Palo Alto office.",
+        "Preventive maintenance reports showing preventive maintenance of fire detection, prevention, and suppression equipment, UPS, DG, CCTV, and access control system are conducted as per preventive maintenance contracts at all the locations of Meridian's New York office.",
+        "Preventive maintenance reports showing preventive maintenance of fire detection, prevention, and suppression equipment, UPS, DG, CCTV, and access control system are conducted as per preventive maintenance contracts at all the locations of Meridian's London office.",
+        "Preventive maintenance reports showing preventive maintenance of fire detection, prevention, and suppression equipment, UPS, DG, CCTV, and access control system are conducted as per preventive maintenance contracts at all the locations of Meridian's Valencia office."
+      ],
+      "status": "Not Started"
+    }
+  ]
+}

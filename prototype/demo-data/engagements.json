@@ -1,196 +1,194 @@
 {
   "metadata": {
     "version": "1.0.0",
-    "generatedAt": "2026-01-01T00:00:00Z",
-    "description": "AuditOS Release 1 Static Engagement Dataset"
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Engagement register (R-09)",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)"
   },
   "engagements": [
     {
-      "id": "ENG-001",
-      "companyId": "CMP-001",
-      "engagementCode": "NIM-SOC2-2026",
-      "name": "SOC 2 Type II FY2026",
-      "framework": "SOC 2 Type II",
-      "auditType": "External",
-      "status": "In Progress",
+      "id": "ENG-MER-CSP-2025",
+      "companyId": "CMP-MER",
+      "programId": null,
+      "engagementCode": "MER-CSP-SOC2-2025",
+      "name": "CSP 2025 SOC 2 Type II",
+      "framework": "SOC 2 (2017 Trust Services Criteria)",
+      "engagementType": "SOC 2 Type II",
+      "status": "Completed",
       "auditPeriod": {
-        "startDate": "2026-01-01",
-        "endDate": "2026-12-31"
+        "startDate": "2024-08-01",
+        "endDate": "2025-07-31"
       },
-      "fieldworkPeriod": {
-        "startDate": "2027-01-05",
-        "endDate": "2027-02-15"
-      },
-      "reportReleaseDate": "2027-03-15",
-      "auditor": "EY Tech Risk",
-      "engagementManager": "USR-001",
-      "engagementLead": "USR-002",
-      "engagementTeam": [
-        "USR-003",
-        "USR-004",
-        "USR-005"
+      "asOnDate": null,
+      "inScopeLocations": [
+        "Bengaluru, India",
+        "London, UK",
+        "Nottingham, UK",
+        "New York, US",
+        "Palo Alto, US"
       ],
-      "controlSet": "CTRLSET-SOC2-2026",
-      "controls": [],
-      "evidence": [],
-      "findings": [],
-      "reportId": "RPT-NIM-2026-SOC2",
-      "overallStatus": {
-        "controlsCompleted": 0,
-        "controlsTotal": 52,
-        "evidenceCollected": 0,
-        "evidenceRequired": 286,
-        "samplesCompleted": 0,
-        "samplesRequired": 432,
-        "testingCompleted": 0,
-        "testingTotal": 52
-      },
-      "evidenceReuse": {
-        "eligible": false,
-        "sourceEngagements": [],
-        "reusedEvidence": 0
-      },
-      "notes": "Primary demo engagement for NimbusCloud."
+      "inScopeSystems": [
+        "Customer Signal Platform (CSP)"
+      ],
+      "criteriaCategories": [
+        "Availability",
+        "Confidentiality",
+        "Processing Integrity",
+        "Security"
+      ],
+      "subserviceOrganizations": [
+        "Amazon Web Services, Inc. (AWS)",
+        "Auth0",
+        "Tray.ai",
+        "Databricks",
+        "Freshworks, Inc.",
+        "SISA Information Security Private Limited",
+        "MongoDB, Inc."
+      ],
+      "auditor": "Halcyon Assurance LLP",
+      "reportId": "RPT-MER-CSP",
+      "datasetKey": "meridian-csp-soc2-2025"
     },
     {
-      "id": "ENG-002",
-      "companyId": "CMP-001",
-      "engagementCode": "NIM-SOC2-2025",
-      "name": "SOC 2 Type II FY2025",
-      "framework": "SOC 2 Type II",
-      "auditType": "External",
-      "status": "Completed",
+      "id": "ENG-MER-ZPQP-2025",
+      "companyId": "CMP-MER",
+      "programId": "PRG-MER-SOC-2025",
+      "engagementCode": "MER-ZPQP-SOC2-2025",
+      "name": "Zephyr Platform & Quanta Portfolio SOC 2 Type II",
+      "framework": "SOC 2 (2017 Trust Services Criteria)",
+      "engagementType": "SOC 2 Type II",
+      "status": "In Progress",
       "auditPeriod": {
         "startDate": "2025-01-01",
         "endDate": "2025-12-31"
       },
-      "fieldworkPeriod": {
-        "startDate": "2026-01-05",
-        "endDate": "2026-02-10"
-      },
-      "reportReleaseDate": "2026-03-10",
-      "auditor": "EY Tech Risk",
-      "engagementManager": "USR-001",
-      "engagementLead": "USR-002",
-      "engagementTeam": [
-        "USR-003",
-        "USR-004"
+      "asOnDate": null,
+      "inScopeLocations": [
+        "Bangalore",
+        "Chennai",
+        "London",
+        "Palo Alto",
+        "New York",
+        "Valencia"
       ],
-      "controlSet": "CTRLSET-SOC2-2025",
-      "controls": [],
-      "evidence": [],
-      "findings": [],
-      "reportId": "RPT-NIM-2025-SOC2",
-      "overallStatus": {
-        "controlsCompleted": 52,
-        "controlsTotal": 52,
-        "evidenceCollected": 281,
-        "evidenceRequired": 281,
-        "samplesCompleted": 425,
-        "samplesRequired": 425,
-        "testingCompleted": 52,
-        "testingTotal": 52
-      },
-      "evidenceReuse": {
-        "eligible": true,
-        "sourceEngagements": [],
-        "reusedEvidence": 0
-      },
-      "notes": "Completed engagement used for evidence reuse demonstrations."
+      "inScopeSystems": [
+        "Zephyr Platform and Quanta Portfolio (Quanta Self-Serve, Quanta Capture NG, Quanta Assist, Quanta Discover, Quanta Analyze, Zephyr Console)"
+      ],
+      "criteriaCategories": [
+        "Availability",
+        "Confidentiality",
+        "Processing Integrity",
+        "Security"
+      ],
+      "subserviceOrganizations": [],
+      "auditor": "Halcyon Assurance LLP",
+      "reportId": "RPT-MER-ZPQP",
+      "datasetKey": "meridian-zpqp-soc2-2025"
     },
     {
-      "id": "ENG-003",
-      "companyId": "CMP-002",
-      "engagementCode": "HEL-SOC2-2026",
-      "name": "SOC 2 Type II FY2026",
-      "framework": "SOC 2 Type II",
-      "auditType": "External",
-      "status": "Planning",
-      "auditPeriod": {
-        "startDate": "2026-04-01",
-        "endDate": "2027-03-31"
-      },
-      "fieldworkPeriod": {
-        "startDate": "2027-04-10",
-        "endDate": "2027-05-20"
-      },
-      "reportReleaseDate": "2027-06-15",
-      "auditor": "EY Tech Risk",
-      "engagementManager": "USR-011",
-      "engagementLead": "USR-012",
-      "engagementTeam": [
-        "USR-013",
-        "USR-014"
-      ],
-      "controlSet": "CTRLSET-SOC2-2026",
-      "controls": [],
-      "evidence": [],
-      "findings": [],
-      "reportId": "RPT-HLX-2026-SOC2",
-      "overallStatus": {
-        "controlsCompleted": 0,
-        "controlsTotal": 47,
-        "evidenceCollected": 0,
-        "evidenceRequired": 254,
-        "samplesCompleted": 0,
-        "samplesRequired": 381,
-        "testingCompleted": 0,
-        "testingTotal": 47
-      },
-      "evidenceReuse": {
-        "eligible": true,
-        "sourceEngagements": [
-          "ENG-001"
-        ],
-        "reusedEvidence": 0
-      },
-      "notes": "Used to demonstrate AuditOS knowledge transfer and reusable testing methodologies between different clients while maintaining complete client isolation."
-    },
-    {
-      "id": "ENG-004",
-      "companyId": "CMP-002",
-      "engagementCode": "HEL-ISO27001-2026",
-      "name": "ISO/IEC 27001:2022 FY2026",
-      "framework": "ISO/IEC 27001:2022",
-      "auditType": "External",
+      "id": "ENG-MER-QC-2025",
+      "companyId": "CMP-MER",
+      "programId": "PRG-MER-SOC-2025",
+      "engagementCode": "MER-QC-SOC2-2025",
+      "name": "Quanta Capture Legacy SOC 2 Type II",
+      "framework": "SOC 2 (2017 Trust Services Criteria)",
+      "engagementType": "SOC 2 Type II",
       "status": "In Progress",
       "auditPeriod": {
-        "startDate": "2026-01-01",
-        "endDate": "2026-12-31"
+        "startDate": "2025-01-01",
+        "endDate": "2025-12-31"
       },
-      "fieldworkPeriod": {
-        "startDate": "2027-01-08",
-        "endDate": "2027-02-12"
-      },
-      "reportReleaseDate": "2027-03-05",
-      "auditor": "EY Tech Risk",
-      "engagementManager": "USR-011",
-      "engagementLead": "USR-012",
-      "engagementTeam": [
-        "USR-013",
-        "USR-014"
+      "asOnDate": null,
+      "inScopeLocations": [
+        "Bangalore",
+        "Chennai",
+        "London",
+        "Palo Alto",
+        "New York",
+        "Valencia"
       ],
-      "controlSet": "CTRLSET-ISO27001-2026",
-      "controls": [],
-      "evidence": [],
-      "findings": [],
-      "reportId": "RPT-HLX-2026-ISO27001",
-      "overallStatus": {
-        "controlsCompleted": 24,
-        "controlsTotal": 30,
-        "evidenceCollected": 9,
-        "evidenceRequired": 15,
-        "samplesCompleted": 60,
-        "samplesRequired": 75,
-        "testingCompleted": 60,
-        "testingTotal": 75
+      "inScopeSystems": [
+        "Quanta Capture Legacy"
+      ],
+      "criteriaCategories": [
+        "Availability",
+        "Confidentiality",
+        "Processing Integrity",
+        "Security"
+      ],
+      "subserviceOrganizations": [],
+      "auditor": "Halcyon Assurance LLP",
+      "reportId": "RPT-MER-QC",
+      "datasetKey": "meridian-qc-soc2-2025"
+    },
+    {
+      "id": "ENG-MER-QA-2026",
+      "companyId": "CMP-MER",
+      "programId": "PRG-MER-SOC-2025",
+      "engagementCode": "MER-QA-SOC1T-2026",
+      "name": "Quanta Assist (GCP) SOC 2 Type I",
+      "framework": "SOC 2 (2017 Trust Services Criteria)",
+      "engagementType": "SOC 2 Type I",
+      "status": "In Progress",
+      "auditPeriod": null,
+      "asOnDate": "2026-04-15",
+      "inScopeLocations": [
+        "Bangalore",
+        "Chennai",
+        "London",
+        "Palo Alto",
+        "New York",
+        "Valencia"
+      ],
+      "inScopeSystems": [
+        "Quanta Assist hosted on GCP"
+      ],
+      "criteriaCategories": [
+        "Availability",
+        "Confidentiality",
+        "Processing Integrity",
+        "Security"
+      ],
+      "subserviceOrganizations": [],
+      "auditor": "Halcyon Assurance LLP",
+      "reportId": "RPT-MER-QA",
+      "datasetKey": "meridian-qa-soc2-2026"
+    },
+    {
+      "id": "ENG-MER-NXSC-2026",
+      "companyId": "CMP-MER",
+      "programId": "PRG-MER-SOC-2025",
+      "engagementCode": "MER-NXSC-SOC2-2026",
+      "name": "NXSC SOC 2 Type II",
+      "framework": "SOC 2 (2017 Trust Services Criteria)",
+      "engagementType": "SOC 2 Type II",
+      "status": "In Progress",
+      "auditPeriod": {
+        "startDate": "2026-03-01",
+        "endDate": "2026-06-30"
       },
-      "evidenceReuse": {
-        "eligible": false,
-        "sourceEngagements": [],
-        "reusedEvidence": 0
-      },
-      "notes": "Helix ISO/IEC 27001:2022 engagement backing the helix-iso27001-2026 datasets; demonstrates cross-framework methodology reuse within the same client."
+      "asOnDate": null,
+      "inScopeLocations": [
+        "Bangalore",
+        "Chennai",
+        "London",
+        "Palo Alto",
+        "New York",
+        "Valencia"
+      ],
+      "inScopeSystems": [
+        "Nexus Cloud (NXSC)"
+      ],
+      "criteriaCategories": [
+        "Availability",
+        "Confidentiality",
+        "Processing Integrity",
+        "Security"
+      ],
+      "subserviceOrganizations": [],
+      "auditor": "Halcyon Assurance LLP",
+      "reportId": "RPT-MER-NXSC",
+      "datasetKey": "meridian-nxsc-soc2-2026"
     }
   ]
 }

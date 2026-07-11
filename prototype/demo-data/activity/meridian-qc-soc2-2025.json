@@ -1,0 +1,936 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Immutable activity log (R-16) — parsed dated remarks",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
+    "engagementId": "ENG-MER-QC-2025",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025"
+  },
+  "summary": {
+    "events": 92
+  },
+  "events": [
+    {
+      "id": "ACT-MER-00091",
+      "at": null,
+      "byId": "USR-HA-003",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0124",
+      "note": "Connect with Lavanya."
+    },
+    {
+      "id": "ACT-MER-00092",
+      "at": null,
+      "byId": "USR-HA-004",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0145",
+      "note": "Ask Bilal or hasan"
+    },
+    {
+      "id": "ACT-MER-00093",
+      "at": null,
+      "byId": "USR-HA-004",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0146",
+      "note": "Ask Bilal or hasan"
+    },
+    {
+      "id": "ACT-MER-00094",
+      "at": null,
+      "byId": "USR-HA-004",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0150",
+      "note": "Scott Stevenson Colleen Wolfe"
+    },
+    {
+      "id": "ACT-MER-00095",
+      "at": null,
+      "byId": "USR-HA-003",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0183",
+      "note": "Farrin Achebe"
+    },
+    {
+      "id": "ACT-MER-00096",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0184",
+      "note": "Firewalls shared only for Chennai, Bangalore and Valencia. NY, Palo Alto and London are pending. Have reached out to Fiona for clarifications."
+    },
+    {
+      "id": "ACT-MER-00097",
+      "at": "2026-04-30",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0185",
+      "note": "All Evidence Received"
+    },
+    {
+      "id": "ACT-MER-00098",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0188",
+      "note": "Evidence still pending for Sanjari Srivastava, Dhanish MC,  Sameer Pyaralikajani, Kostantinos Kalpakis and Bella Liu are yet to be shared with us."
+    },
+    {
+      "id": "ACT-MER-00099",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0189",
+      "note": "The Evidence Folder is empty. Evidence for all Samples are penidng."
+    },
+    {
+      "id": "ACT-MER-00100",
+      "at": "2026-04-30",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0190",
+      "note": "All Evidence Received"
+    },
+    {
+      "id": "ACT-MER-00101",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0193",
+      "note": "Evidence still pending for Ranjit Padmanabhan and Sai Anjan C. is still pending."
+    },
+    {
+      "id": "ACT-MER-00102",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0194",
+      "note": "The Evidence Folder is empty. Evidence for all Samples are penidng."
+    },
+    {
+      "id": "ACT-MER-00103",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0195",
+      "note": "JIRA Tickets are not under the purview of IT Team as mentioned by Fiona."
+    },
+    {
+      "id": "ACT-MER-00104",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0196",
+      "note": "Nothing pending as of now."
+    },
+    {
+      "id": "ACT-MER-00105",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0197",
+      "note": "Evidence is yet to be shared with us."
+    },
+    {
+      "id": "ACT-MER-00106",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0198",
+      "note": "Evidence is yet to be shared with us."
+    },
+    {
+      "id": "ACT-MER-00107",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0200",
+      "note": "Nothing pending as of now."
+    },
+    {
+      "id": "ACT-MER-00108",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0201",
+      "note": "Nothing pending as of now."
+    },
+    {
+      "id": "ACT-MER-00109",
+      "at": null,
+      "byId": "USR-HA-003",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0202",
+      "note": "Shared for CSP by Fiona."
+    },
+    {
+      "id": "ACT-MER-00110",
+      "at": "2026-04-30",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0203",
+      "note": "All Evidence Received"
+    },
+    {
+      "id": "ACT-MER-00111",
+      "at": "2026-04-30",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0204",
+      "note": "All Evidence Received"
+    },
+    {
+      "id": "ACT-MER-00112",
+      "at": "2026-04-30",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0205",
+      "note": "All Evidence Received"
+    },
+    {
+      "id": "ACT-MER-00113",
+      "at": "2026-04-30",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0206",
+      "note": "All Evidence Received"
+    },
+    {
+      "id": "ACT-MER-00114",
+      "at": "2026-04-30",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0207",
+      "note": "All Evidence Received"
+    },
+    {
+      "id": "ACT-MER-00115",
+      "at": "2026-04-30",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0208",
+      "note": "All Evidence Received"
+    },
+    {
+      "id": "ACT-MER-00116",
+      "at": "2026-04-30",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0209",
+      "note": "All Evidence Received"
+    },
+    {
+      "id": "ACT-MER-00117",
+      "at": "2026-04-30",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0210",
+      "note": "All Evidence Received"
+    },
+    {
+      "id": "ACT-MER-00118",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0211",
+      "note": "Reviewer name, designation, date of review and similar details are missing. Kindly share the Network Diagram once again with all those details."
+    },
+    {
+      "id": "ACT-MER-00119",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0212",
+      "note": "Evidence is yet to be shared with us."
+    },
+    {
+      "id": "ACT-MER-00120",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0213",
+      "note": "Evidence is yet to be shared with us."
+    },
+    {
+      "id": "ACT-MER-00121",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0214",
+      "note": "Evidence is yet to be shared with us."
+    },
+    {
+      "id": "ACT-MER-00122",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0215",
+      "note": "Evidence is yet to be shared with us."
+    },
+    {
+      "id": "ACT-MER-00123",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0216",
+      "note": "Evidence is yet to be shared with us."
+    },
+    {
+      "id": "ACT-MER-00124",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0217",
+      "note": "Evidence is yet to be shared with us."
+    },
+    {
+      "id": "ACT-MER-00125",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0218",
+      "note": "Evidence is yet to be shared with us."
+    },
+    {
+      "id": "ACT-MER-00126",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0219",
+      "note": "London office was operational during our Audit Period (01-Jan-25 to 31-Dec-25). Hence, this Evidence is in-scope for this SOC Assessment. Kindly share the Evidence as requested."
+    },
+    {
+      "id": "ACT-MER-00127",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0220",
+      "note": "London office was operational during our Audit Period (01-Jan-25 to 31-Dec-25). Hence, this Evidence is in-scope for this SOC Assessment. Kindly share the Evidence as requested."
+    },
+    {
+      "id": "ACT-MER-00128",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0221",
+      "note": "London office was operational during our Audit Period (01-Jan-25 to 31-Dec-25). Hence, this Evidence is in-scope for this SOC Assessment. Kindly share the Evidence as requested."
+    },
+    {
+      "id": "ACT-MER-00129",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0222",
+      "note": "London office was operational during our Audit Period (01-Jan-25 to 31-Dec-25). Hence, this Evidence is in-scope for this SOC Assessment. Kindly share the Evidence as requested."
+    },
+    {
+      "id": "ACT-MER-00130",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0223",
+      "note": "Fiona has mentioned that he has shared the Evidence. However, the Evidence Folder is empty."
+    },
+    {
+      "id": "ACT-MER-00131",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0224",
+      "note": "Evidence is yet to be shared with us."
+    },
+    {
+      "id": "ACT-MER-00132",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0225",
+      "note": "Evidence is yet to be shared with us."
+    },
+    {
+      "id": "ACT-MER-00133",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0226",
+      "note": "Evidence is yet to be shared with us."
+    },
+    {
+      "id": "ACT-MER-00134",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0227",
+      "note": "Nothing pending as of now."
+    },
+    {
+      "id": "ACT-MER-00135",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0228",
+      "note": "HA shared Samples."
+    },
+    {
+      "id": "ACT-MER-00136",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0229",
+      "note": "Nothing pending as of now."
+    },
+    {
+      "id": "ACT-MER-00137",
+      "at": null,
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0230",
+      "note": "05Jun-26: 11 out of 13 Samples endpoint issues are vulnerable."
+    },
+    {
+      "id": "ACT-MER-00138",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0230",
+      "note": "HA shared Samples."
+    },
+    {
+      "id": "ACT-MER-00139",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0231",
+      "note": "Nothing pending as of now."
+    },
+    {
+      "id": "ACT-MER-00140",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0232",
+      "note": "HA shared Samples."
+    },
+    {
+      "id": "ACT-MER-00144",
+      "at": "2026-06-08",
+      "byId": "USR-HA-002",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0268",
+      "note": "Not able to access Jira and Gihub link shared by Jim."
+    },
+    {
+      "id": "ACT-MER-00146",
+      "at": "2026-06-08",
+      "byId": "USR-HA-002",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0277",
+      "note": "Not able to access Jira and Gihub link shared by Jim."
+    },
+    {
+      "id": "ACT-MER-00147",
+      "at": "2026-06-08",
+      "byId": "USR-HA-002",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0285",
+      "note": "Not able to access Jira and Gihub link shared by Jim."
+    },
+    {
+      "id": "ACT-MER-00148",
+      "at": "2026-06-08",
+      "byId": "USR-HA-002",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0292",
+      "note": "Not able to access Jira and Gihub link shared by Jim."
+    },
+    {
+      "id": "ACT-MER-00149",
+      "at": "2026-06-08",
+      "byId": "USR-HA-002",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0299",
+      "note": "Not able to access Jira and Gihub link shared by Jim."
+    },
+    {
+      "id": "ACT-MER-00158",
+      "at": "2026-05-25",
+      "byId": "USR-HA-001",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0342",
+      "note": "Fiona mentioned that removable devices are not disabled as part of company culture."
+    },
+    {
+      "id": "ACT-MER-00159",
+      "at": null,
+      "byId": "USR-HA-004",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0352",
+      "note": "Office building has secuirty guard"
+    },
+    {
+      "id": "ACT-MER-00160",
+      "at": null,
+      "byId": "USR-HA-004",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0353",
+      "note": "Office building has secuirty guard"
+    },
+    {
+      "id": "ACT-MER-00161",
+      "at": null,
+      "byId": "USR-HA-004",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0354",
+      "note": "Office building has secuirty guard"
+    },
+    {
+      "id": "ACT-MER-00162",
+      "at": null,
+      "byId": "USR-HA-004",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0355",
+      "note": "Office building has secuirty guard"
+    },
+    {
+      "id": "ACT-MER-00163",
+      "at": null,
+      "byId": "POC-MER-013",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0367",
+      "note": "Again, we subleased our prior space. Access logs were requested multiple times from both the landlord and their security. Never provided. Additonally, we have advised the HA team of this same information multiple times in previous audits."
+    },
+    {
+      "id": "ACT-MER-00164",
+      "at": null,
+      "byId": "POC-MER-013",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0369",
+      "note": "Managed by WeWork. Logs are not provided to Meridian."
+    },
+    {
+      "id": "ACT-MER-00165",
+      "at": null,
+      "byId": "POC-MER-013",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0370",
+      "note": "Provided in previous audit. As you'll recall from previous conversations  regarding evidence requests for London, we lack onsite support to provide evidence and I've asked you refer to our previous audit evidence."
+    },
+    {
+      "id": "ACT-MER-00166",
+      "at": null,
+      "byId": "POC-MER-013",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0371",
+      "note": "Managed by WeWork. Logs are not provided to Meridian."
+    },
+    {
+      "id": "ACT-MER-00167",
+      "at": null,
+      "byId": "POC-MER-013",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0376",
+      "note": "IT Item. Again, provided in previous audits."
+    },
+    {
+      "id": "ACT-MER-00168",
+      "at": null,
+      "byId": "USR-HA-004",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0377",
+      "note": "NA"
+    },
+    {
+      "id": "ACT-MER-00169",
+      "at": null,
+      "byId": "USR-HA-004",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0378",
+      "note": "NA"
+    },
+    {
+      "id": "ACT-MER-00170",
+      "at": null,
+      "byId": "USR-HA-004",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0379",
+      "note": "NA"
+    },
+    {
+      "id": "ACT-MER-00171",
+      "at": null,
+      "byId": "POC-MER-013",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0382",
+      "note": "Provided in previous audit. As Envoy only retains 90 days of info, we would not be able to provide evidence for this request."
+    },
+    {
+      "id": "ACT-MER-00172",
+      "at": null,
+      "byId": "POC-MER-013",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0383",
+      "note": "Managed by WeWork. Logs are not provided to Meridian."
+    },
+    {
+      "id": "ACT-MER-00173",
+      "at": null,
+      "byId": "POC-MER-013",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0384",
+      "note": "Managed by WeWork. Logs are not provided to Meridian."
+    },
+    {
+      "id": "ACT-MER-00174",
+      "at": null,
+      "byId": "POC-MER-013",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0385",
+      "note": "Managed by WeWork. Logs are not provided to Meridian."
+    },
+    {
+      "id": "ACT-MER-00175",
+      "at": null,
+      "byId": "POC-MER-013",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0396",
+      "note": "Meridian Valencia POC (Mercedes) advises building management to provide building access to new employee on first day of employement."
+    },
+    {
+      "id": "ACT-MER-00176",
+      "at": null,
+      "byId": "POC-MER-013",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0403",
+      "note": "Evidence provided in prior audit. This eveidence would be for our former subleased office space. Deactivation from the access control system was managed by our landlord. Meridian requested deactivation on employee departing date, and the landlord security team would deativate and confirm. All access was removed upon the move to our new facility."
+    },
+    {
+      "id": "ACT-MER-00177",
+      "at": null,
+      "byId": "POC-MER-013",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0405",
+      "note": "Employee access is deacactivated within the WeWork portal on last day of employment. Request has been placed with WeWork to generate a deactivation report. I can share screenshots with proof of deactivation, but the portal does not provide confirmation; simply immediate deactivation of the user account."
+    },
+    {
+      "id": "ACT-MER-00178",
+      "at": null,
+      "byId": "POC-MER-013",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0409",
+      "note": "Meridian Valencia POC (Mercedes) advises building management to deactivate building access on last day of employement."
+    },
+    {
+      "id": "ACT-MER-00179",
+      "at": null,
+      "byId": "POC-MER-043",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0410",
+      "note": "Evidence for the requested period is unavailable due to a technical glitch in the Smart Office system. \nThe IT team was engaged in resolving the issue, and the restoration process took some time. \nWe can provide the relevant IT support ticket as supporting evidence, if required."
+    },
+    {
+      "id": "ACT-MER-00180",
+      "at": null,
+      "byId": "USR-HA-004",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0410",
+      "note": "IT Ticket is shared as evidence"
+    },
+    {
+      "id": "ACT-MER-00181",
+      "at": null,
+      "byId": "POC-MER-043",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0411",
+      "note": "Evidence for the requested period is unavailable due to a technical glitch in the Smart Office system. \nThe IT team was engaged in resolving the issue, and the restoration process took some time. \nWe can provide the relevant IT support ticket as supporting evidence, if required."
+    },
+    {
+      "id": "ACT-MER-00182",
+      "at": null,
+      "byId": "USR-HA-004",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0411",
+      "note": "IT Ticket is shared as evidence"
+    },
+    {
+      "id": "ACT-MER-00183",
+      "at": null,
+      "byId": "POC-MER-013",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0412",
+      "note": "Former office location. Last audit performed in October 2025. Email added to evidence folder."
+    },
+    {
+      "id": "ACT-MER-00184",
+      "at": null,
+      "byId": "POC-MER-013",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0413",
+      "note": "Manually completed quarterly by Jonas Whitfield/Reviewed with Max DeFrancesco."
+    },
+    {
+      "id": "ACT-MER-00185",
+      "at": null,
+      "byId": "POC-MER-013",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0414",
+      "note": "Manually completed quarterly by Jonas Whitfield/Reviewed with Max DeFrancesco."
+    },
+    {
+      "id": "ACT-MER-00186",
+      "at": null,
+      "byId": "POC-MER-013",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0415",
+      "note": "Team less than 10 employees. Ongoing."
+    },
+    {
+      "id": "ACT-MER-00187",
+      "at": null,
+      "byId": "POC-MER-043",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0416",
+      "note": "Evidence for the requested period is unavailable due to a technical glitch in the Smart Office system. \nThe IT team was engaged in resolving the issue, and the restoration process took some time. \nWe can provide the relevant IT support ticket as supporting evidence, if required."
+    },
+    {
+      "id": "ACT-MER-00188",
+      "at": null,
+      "byId": "USR-HA-004",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0416",
+      "note": "IT Ticket is shared as evidence"
+    },
+    {
+      "id": "ACT-MER-00189",
+      "at": null,
+      "byId": "POC-MER-043",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0417",
+      "note": "Evidence for the requested period is unavailable due to a technical glitch in the Smart Office system. \nThe IT team was engaged in resolving the issue, and the restoration process took some time. \nWe can provide the relevant IT support ticket as supporting evidence, if required."
+    },
+    {
+      "id": "ACT-MER-00190",
+      "at": null,
+      "byId": "USR-HA-004",
+      "authorSide": "ha",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0417",
+      "note": "IT Ticket is shared as evidence"
+    },
+    {
+      "id": "ACT-MER-00191",
+      "at": null,
+      "byId": "POC-MER-013",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0418",
+      "note": "Again, we subleased our prior space. Access logs were requested multiple times from both the landlord and their security. Never provided. Additonally, we have advised the HA team of this same information multiple times in previous audits."
+    },
+    {
+      "id": "ACT-MER-00192",
+      "at": null,
+      "byId": "POC-MER-013",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0419",
+      "note": "Managed by WeWork. Logs are not provided to Meridian."
+    },
+    {
+      "id": "ACT-MER-00193",
+      "at": null,
+      "byId": "POC-MER-013",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0420",
+      "note": "Managed by WeWork. Logs are not provided to Meridian."
+    },
+    {
+      "id": "ACT-MER-00194",
+      "at": null,
+      "byId": "POC-MER-013",
+      "authorSide": "client",
+      "event": "remark-recorded",
+      "entityType": "requirement",
+      "entityId": "REQ-MER-0421",
+      "note": "Managed by WeWork. Logs are not provided to Meridian."
+    }
+  ]
+}

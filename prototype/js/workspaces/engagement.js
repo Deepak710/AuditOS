@@ -506,7 +506,7 @@
       .slice(0, LIST_LIMIT)
       .map(function (poc) {
         var team = teamsById[poc.teamId];
-        var responsibilities = team ? team.name : (poc.teamId || '');
+        var responsibilities = team ? team.name : (poc.teamId || asArray(poc.teamNames).join(', '));
         if (team && asArray(team.responsibleControlFamilies).length > 0) {
           responsibilities += ' · ' + team.responsibleControlFamilies.join(', ');
         }
@@ -548,36 +548,23 @@
   }
 
   /**
-   * Recent engagement activity (§63.11): evidence receipts, evidence request
-   * submissions, and the report's current state, newest first. Every event
-   * derives from a real record.
+   * Recent engagement activity (§63.11): remarks recorded in the immutable
+   * activity log, and the report's current state, newest first. Every event
+   * derives from a real record; undated remarks never appear.
    */
-  function deriveActivity(evidence, requests, reportDocument) {
-    var events = [];
-    asArray(evidence).forEach(function (item) {
-      if (!item.uploadedOn) {
-        return;
-      }
-      events.push({
-        title: 'Evidence received: ' + item.title,
-        meta: 'Review status: ' + item.reviewStatus,
-        timestamp: formatDate(item.uploadedOn),
-        date: item.uploadedOn,
-        kind: 'review', value: item.reviewStatus
+  function deriveActivity(activityEvents, reportDocument, actorNames) {
+    var names = actorNames || {};
+    var events = asArray(activityEvents)
+      .filter(function (event) { return event && event.at; })
+      .map(function (event) {
+        return {
+          actor: names[event.byId] || (event.authorSide === 'ha' ? 'Halcyon' : 'Client'),
+          title: 'recorded a remark on ' + (event.entityId || event.entityType || ''),
+          meta: event.note || '',
+          timestamp: formatDate(event.at),
+          date: event.at
+        };
       });
-    });
-    asArray(requests).forEach(function (request) {
-      if (!request.submittedOn) {
-        return;
-      }
-      events.push({
-        title: 'Evidence submitted for request ' + request.id,
-        meta: 'Review status: ' + (request.reviewStatus || 'Submitted'),
-        timestamp: formatDate(request.submittedOn),
-        date: request.submittedOn,
-        kind: 'review', value: 'Submitted'
-      });
-    });
     events.sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); });
     if (reportDocument && reportDocument.status) {
       events.unshift({
@@ -608,7 +595,7 @@
       created: company && company.createdAt ? formatDate(company.createdAt) : '',
       updated: meta.generatedAt ? formatDate(String(meta.generatedAt).slice(0, 10)) : '',
       version: meta.version || '',
-      owner: engagement ? (engagement.engagementLead || '') + (engagement.auditor ? ' · ' + engagement.auditor : '') : '',
+      owner: engagement ? [engagement.engagementLead, engagement.auditor].filter(Boolean).join(' · ') : '',
       tags: tags
     };
   }
@@ -677,6 +664,7 @@
     var company = findById(companies, engagement.companyId);
     var pocs = state.listRecords('pocs');
     var teams = state.listRecords('teams');
+    var users = state.listRecords('users');
 
     var controlsDocument = readEngagementDocument(state, 'controls', engagement.id) || {};
     var evidenceDocument = readEngagementDocument(state, 'evidence', engagement.id) || {};
@@ -684,12 +672,21 @@
     var testingDocument = readEngagementDocument(state, 'testing', engagement.id) || {};
     var findingsDocument = readEngagementDocument(state, 'findings', engagement.id) || {};
     var reportsDocument = readEngagementDocument(state, 'reports', engagement.id) || {};
+    var activityDocument = readEngagementDocument(state, 'activity', engagement.id) || {};
 
     var evidenceRecords = evidenceDocument.evidence || [];
     var requestRecords = requestsDocument.requests || [];
     var findingRecords = findingsDocument.findings || [];
     var testRecords = testingDocument.tests || [];
     var reportDocument = reportsDocument.document || null;
+    var activityRecords = activityDocument.events || [];
+
+    // Actor id → display name, spanning both client POCs and the Halcyon
+    // engagement team, so activity events resolve to a real name whichever
+    // side recorded them.
+    var actorNames = {};
+    asArray(pocs).forEach(function (poc) { if (poc.id && poc.name) { actorNames[poc.id] = poc.name; } });
+    asArray(users).forEach(function (user) { if (user.id && user.name) { actorNames[user.id] = user.name; } });
 
     // The operational figures every stage, action, and relationship reads.
     var operational = {
@@ -706,9 +703,13 @@
     var team = deriveTeam(pocs, teams, engagement.companyId);
     var timeline = deriveTimeline(engagement, findingRecords);
     var relationships = deriveRelationships(workspaceRegistry, operational);
-    var teamSize = [engagement.engagementManager, engagement.engagementLead]
+    var declaredTeamIds = [engagement.engagementManager, engagement.engagementLead]
       .concat(asArray(engagement.engagementTeam))
-      .filter(function (id, index, all) { return id && all.indexOf(id) === index; }).length;
+      .filter(function (id, index, all) { return id && all.indexOf(id) === index; });
+    // Falls back to the users who declare this engagement (production's
+    // Halcyon roster) when the engagement record carries no explicit team fields.
+    var teamSize = declaredTeamIds.length > 0 ? declaredTeamIds.length :
+      asArray(users).filter(function (user) { return asArray(user.engagementIds).indexOf(engagement.id) !== -1; }).length;
 
     return {
       degraded: false,
@@ -774,7 +775,7 @@
       inspector: buildInspectorEntities(engagement, company, frameworks, team, timeline, relationships, operational),
       metadata: deriveMetadata(engagement, company, engagementsDocument.metadata),
       relationships: relationships,
-      activity: deriveActivity(evidenceRecords, requestRecords, reportDocument),
+      activity: deriveActivity(activityRecords, reportDocument, actorNames),
 
       footer: [
         { label: 'Environment', value: 'Static prototype' },

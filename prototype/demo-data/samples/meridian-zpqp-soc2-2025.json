@@ -1,0 +1,435 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Populations & sample sets (Q-09: no synthetic samples)",
+    "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
+    "engagementId": "ENG-MER-ZPQP-2025",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025"
+  },
+  "summary": {
+    "sampleSets": 27,
+    "totalSamples": 0
+  },
+  "sampleSets": [
+    {
+      "id": "SSET-MER-001",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0001",
+      "populationName": "System generated list of clients using Zephyr Platform and Quanta Portfolio products.",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0001"
+      ]
+    },
+    {
+      "id": "SSET-MER-004",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0069",
+      "populationName": "System generated list of tickets from JIRA created for alerts regarding AWS Infrastructure logging and monitoring for  the audit period.",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0067"
+      ]
+    },
+    {
+      "id": "SSET-MER-005",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0074",
+      "populationName": "System generated list of incidents from PagerDuty specific to logging and monitoring of Zephyr Platform and Quanta Portfolio products for the audit pe",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0071"
+      ]
+    },
+    {
+      "id": "SSET-MER-006",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0091",
+      "populationName": "List of customers onboarded during the audit period using all Zephyr Platform and Quanta Portfolio products.",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0088"
+      ]
+    },
+    {
+      "id": "SSET-MER-007",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0094",
+      "populationName": "List of customers offboarded during the audit period using all Zephyr Platform and Quanta Portfolio products.",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0089"
+      ]
+    },
+    {
+      "id": "SSET-MER-008",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0098",
+      "populationName": "System generated list of incidents from DevRev raised by user entities for Zephyr Platform and Quanta Portfolio products for the audit period.",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0093"
+      ]
+    },
+    {
+      "id": "SSET-MER-009",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0101",
+      "populationName": "System generated list of new joiners from Workday for the audit period",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QC-2025",
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0096"
+      ]
+    },
+    {
+      "id": "SSET-MER-010",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0114",
+      "populationName": "System generated list of active users from Workday as on date",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QA-2026",
+        "ENG-MER-QC-2025",
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0109"
+      ]
+    },
+    {
+      "id": "SSET-MER-011",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0125",
+      "populationName": "System generated list of vendors and third party service providers onboarded during the audit period from Streamline",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QC-2025",
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0120"
+      ]
+    },
+    {
+      "id": "SSET-MER-012",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0144",
+      "populationName": "System generated list of all active vendors and third party service providers as on date from Streamline",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QC-2025",
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0139"
+      ]
+    },
+    {
+      "id": "SSET-MER-013",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0184",
+      "populationName": "Asset Inventory containing a list of workstations, servers and network devices identifying the asset ID, asset owner, asset location, asset ",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QC-2025",
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0176"
+      ]
+    },
+    {
+      "id": "SSET-MER-014",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0227",
+      "populationName": "System generated list of changes to the Meridian on-premises infrastructure from Freshdesk during the audit period",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QC-2025",
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0217"
+      ]
+    },
+    {
+      "id": "SSET-MER-015",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0229",
+      "populationName": "System generated list of endpoint Windows laptops from Automox tool",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QC-2025",
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0219"
+      ]
+    },
+    {
+      "id": "SSET-MER-016",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0231",
+      "populationName": "System generated list of endpoint MAC laptops from Kandji tool",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QC-2025",
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0221"
+      ]
+    },
+    {
+      "id": "SSET-MER-017",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0235",
+      "populationName": "List of commits on the GitHub master branch for the audit period for Zephyr Platform.",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0225"
+      ]
+    },
+    {
+      "id": "SSET-MER-018",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0236",
+      "populationName": "List of commits on the GitHub master branch for the audit period for Quanta Self-Serve.",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0226"
+      ]
+    },
+    {
+      "id": "SSET-MER-019",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0237",
+      "populationName": "List of commits on the GitHub master branch for the audit period for Quanta Analyze.",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0227"
+      ]
+    },
+    {
+      "id": "SSET-MER-020",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0238",
+      "populationName": "List of commits on the GitHub master branch for the audit period for Quanta Discover.",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0228"
+      ]
+    },
+    {
+      "id": "SSET-MER-021",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0239",
+      "populationName": "List of commits on the GitHub master branch for the audit period for Zephyr Console.",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0229"
+      ]
+    },
+    {
+      "id": "SSET-MER-022",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0240",
+      "populationName": "List of commits on the GitHub master branch for the audit period for Quanta Assist (hosted on AWS).",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0230"
+      ]
+    },
+    {
+      "id": "SSET-MER-023",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0241",
+      "populationName": "List of commits on the GitHub master branch for the audit period for Quanta Capture NG.",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0231"
+      ]
+    },
+    {
+      "id": "SSET-MER-025",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0346",
+      "populationName": "System generated list of tickets related to logging and monitoring of Meridian's IT Infrastructure from Freshdesk for the audit period",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QC-2025",
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0327"
+      ]
+    },
+    {
+      "id": "SSET-MER-026",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0348",
+      "populationName": "System generated list of security incidents/breaches from Freshdesk during the audit period",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QC-2025",
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0329"
+      ]
+    },
+    {
+      "id": "SSET-MER-027",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0459",
+      "populationName": "List of consents obtained from data subjects.",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0417"
+      ]
+    },
+    {
+      "id": "SSET-MER-028",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0464",
+      "populationName": "Data Subject Rights request Management tracker 'or' email dump of all emails sent to “privacy@meridian.example” for data subject requests from U",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QA-2026",
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0422"
+      ]
+    },
+    {
+      "id": "SSET-MER-029",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0469",
+      "populationName": "Data Subject Rights request Management tracker 'or' email dump of all emails sent to “privacy@meridian.example” for data subject requests from U",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0427"
+      ]
+    },
+    {
+      "id": "SSET-MER-030",
+      "programId": "PRG-MER-SOC-2025",
+      "requirementId": "REQ-MER-0473",
+      "populationName": "List/Record of of detected or reported unauthorized disclosures (including breaches).",
+      "populationSize": null,
+      "samplingMethod": null,
+      "samples": [],
+      "engagementIds": [
+        "ENG-MER-QA-2026",
+        "ENG-MER-ZPQP-2025"
+      ],
+      "linkedEvidenceIds": [
+        "EVD-MER-0431"
+      ]
+    }
+  ]
+}
