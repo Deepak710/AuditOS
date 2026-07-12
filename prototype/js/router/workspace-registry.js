@@ -87,7 +87,13 @@
     // workspace so no registered position (and no existing deep link) moves.
     // The `dashboard` entry above stays the stable Home id/path (#15/#31);
     // only its rendered content became client-centric.
-    { id: WORKSPACE_IDS.CLIENT,      path: 'clients',      label: 'Client Dashboard',    title: 'Client Dashboard' },
+    //
+    // Renamed by GitHub Issue #35: the Client Dashboard becomes the primary
+    // modular Client Workspace — the client's operational portfolio view,
+    // not a landing page. The identifier and hash path (`client` / `clients`)
+    // stay stable so routing and deep links remain unchanged; only the label
+    // and document title changed to reflect the new identity.
+    { id: WORKSPACE_IDS.CLIENT,      path: 'clients',      label: 'Client Workspace',    title: 'Client Workspace' },
     { id: WORKSPACE_IDS.APPROVALS,   path: 'approvals',    label: 'Global Approvals',    title: 'Global Approvals' },
     // `capability` is access identity, not business content: navigation
     // surfaces hide this workspace from sessions the Permission Foundation

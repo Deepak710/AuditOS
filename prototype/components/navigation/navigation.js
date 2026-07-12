@@ -303,45 +303,51 @@
         }).item);
       }
 
-      // Engagement crumb — only within a client (the trail mirrors the URL).
-      if (context && context.client) {
+      // Engagement crumb (Issue #35 §2) — only once an engagement has
+      // actually been selected, never a placeholder "Select an engagement"
+      // crumb for a client with no engagement in context yet: the trail
+      // mirrors the URL, and a depth-1 client route carries no engagement.
+      if (context && context.client && context.engagement) {
         var engagements = repositoryService.listAccessibleEngagements(context.client.id);
-        if (engagements.length > 0) {
-          var activeEngagement = context.engagement || null;
-          var clientSlug = repositoryService.clientSlug(context.client);
-          trail.appendChild(buildMenuCrumb({
-            label: activeEngagement ? (activeEngagement.name || activeEngagement.id) : 'Engagements',
-            ariaLabel: activeEngagement
-              ? 'Current engagement: ' + (activeEngagement.name || activeEngagement.id) + ' — switch engagement'
-              : 'Select an engagement',
-            menuLabel: 'Engagements',
-            options: engagements.map(function (engagement) {
-              return {
-                label: engagement.name || engagement.id,
-                href: ROUTE_HASH_PREFIX + clientSlug + '/' + repositoryService.engagementSlug(engagement),
-                active: Boolean(activeEngagement && activeEngagement.id === engagement.id)
-              };
-            })
-          }).item);
-        }
+        var activeEngagement = context.engagement;
+        var clientSlug = repositoryService.clientSlug(context.client);
+        trail.appendChild(buildMenuCrumb({
+          label: activeEngagement.name || activeEngagement.id,
+          ariaLabel: 'Current engagement: ' + (activeEngagement.name || activeEngagement.id) + ' — switch engagement',
+          menuLabel: 'Engagements',
+          options: engagements.map(function (engagement) {
+            return {
+              label: engagement.name || engagement.id,
+              href: ROUTE_HASH_PREFIX + clientSlug + '/' + repositoryService.engagementSlug(engagement),
+              active: Boolean(activeEngagement.id === engagement.id)
+            };
+          })
+        }).item);
       }
     }
 
-    // Workspace crumb — the switcher over every visible registered workspace.
-    trail.appendChild(buildMenuCrumb({
-      label: workspace ? workspace.label : '',
-      ariaLabel: workspace
-        ? 'Current workspace: ' + workspace.label + ' — switch workspace'
-        : 'Switch workspace',
-      menuLabel: 'Workspaces',
-      options: visibleWorkspaces().map(function (entry) {
-        return {
-          label: entry.label,
-          href: workspaceHref(entry, context),
-          active: Boolean(workspace && workspace.id === entry.id)
-        };
-      })
-    }).item);
+    // Workspace crumb — the switcher over every visible registered
+    // workspace. Suppressed while the active workspace is the Client
+    // Workspace itself (Issue #35 §2): the client crumb above already names
+    // that identity, so a trailing "Client Workspace" crumb would only
+    // repeat it. Once an engagement is selected the active workspace is
+    // never the Client Workspace, so this crumb reappears automatically.
+    if (!workspace || workspace.id !== registry.IDS.CLIENT) {
+      trail.appendChild(buildMenuCrumb({
+        label: workspace ? workspace.label : '',
+        ariaLabel: workspace
+          ? 'Current workspace: ' + workspace.label + ' — switch workspace'
+          : 'Switch workspace',
+        menuLabel: 'Workspaces',
+        options: visibleWorkspaces().map(function (entry) {
+          return {
+            label: entry.label,
+            href: workspaceHref(entry, context),
+            active: Boolean(workspace && workspace.id === entry.id)
+          };
+        })
+      }).item);
+    }
 
     breadcrumbRegion.replaceChildren(trail);
   }

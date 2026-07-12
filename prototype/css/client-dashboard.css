@@ -1,17 +1,23 @@
 /**
- * AuditOS Client Dashboard Workspace
- * Platform Information Architecture — GitHub Issue #33 (§2 Client Dashboard) /
- * Workspace Design System — Chapter 15 / Layout Components — Chapter 75
+ * AuditOS Client Workspace
+ * Client Workspace Modularization — GitHub Issue #35 / Platform Information
+ * Architecture — GitHub Issue #33 (§2 Client Dashboard) / Workspace Design
+ * System — Chapter 15 / Layout Components — Chapter 75
  *
- * The workspace-layer stylesheet of the Client Dashboard. It owns only the
- * client-specific layout — the section stack, the portfolio health strip,
- * the engagement card grids, the delivery-progress surface, and the footer —
- * plus their responsive behavior. Every visible surface inside those regions
- * is a Shared Enterprise Component Library component (css/components.css)
- * produced by the Enterprise Data Presentation System, so this stylesheet
- * never redefines component chrome. Consumes only the Design Token
- * Foundation (variables.css); introduces no new visual values. Entrance
- * motion comes from the shared design language (design-language.css).
+ * The workspace-layer stylesheet of the Client Workspace. It owns only the
+ * client-specific layout — the module stack, the portfolio health strip, the
+ * interactive portfolio visualization, team/POC analytics, the engagement
+ * card grids, the collapsible Completed Engagements disclosure, universal
+ * search, and the footer — plus their responsive behavior. Every visible
+ * surface these modules compose from is a Shared Enterprise Component
+ * Library component (css/components.css) produced by the Enterprise Data
+ * Presentation System; this stylesheet only lays the modules out and adds
+ * the bespoke interactive pieces (the segmented visualization, the shared
+ * hover tooltip, and the search results panel) that have no Component
+ * Library precedent yet. Consumes only the Design Token Foundation
+ * (variables.css), including its categorical chart palette; introduces no
+ * new raw color values. Entrance motion comes from the shared design
+ * language (design-language.css).
  *
  * Every selector in this file is scoped under the `.aos-client` prefix so
  * the workspace layer can never leak into the shell, components, or other
@@ -21,11 +27,12 @@
 @import 'variables.css';
 
 /* ========================================
- * SECTION STACK
- * The dashboard reads top-to-bottom: overview and portfolio health first,
- * then the active engagements, the read-only completed engagements, the
- * schedule, delivery progress, findings, readiness, workload, approvals,
- * and record metadata.
+ * MODULE STACK
+ * The workspace reads top-to-bottom: Portfolio Overview, Team Analytics,
+ * Engagement Portfolio, then the collapsed Completed Engagements disclosure
+ * — the last thing on the canvas (Issue #35 §9). AI Insights, Activity, and
+ * Related information render into their own reserved framework panels, not
+ * this canvas.
  * ======================================== */
 
 .aos-client {
@@ -106,6 +113,261 @@ a.aos-client__health-item:hover {
 }
 
 /* ========================================
+ * PORTFOLIO VISUALIZATION (Issue #35 §4)
+ * A stacked, segmented bar per metric: each engagement contributes an
+ * independently colored, independently sized, independently clickable
+ * segment. A translucent overlay covers each segment's pending share so
+ * completion reads at a glance. Identity is never color-alone — the legend
+ * and every segment's accessible label both carry the engagement's name.
+ * ======================================== */
+
+.aos-client__viz {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
+  padding-top: var(--aos-space-2);
+  border-top: 1px solid var(--aos-surface-border);
+}
+
+.aos-client__viz-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-1) var(--aos-space-4);
+}
+
+.aos-client__viz-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-secondary);
+  text-decoration: none;
+  border-radius: var(--aos-radius-sm);
+}
+
+a.aos-client__viz-legend-item:hover .aos-client__viz-legend-label {
+  color: var(--aos-text-link);
+  text-decoration: underline;
+}
+
+.aos-client__viz-swatch {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: var(--aos-radius-full);
+  flex-shrink: 0;
+}
+
+.aos-client__viz-legend-label {
+  color: var(--aos-text-primary);
+}
+
+.aos-client__viz-row {
+  display: grid;
+  grid-template-columns: 7rem 1fr 3.5rem;
+  align-items: center;
+  gap: var(--aos-space-3);
+}
+
+.aos-client__viz-row-label {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-secondary);
+}
+
+.aos-client__viz-row-total {
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+  text-align: right;
+}
+
+.aos-client__viz-bar {
+  display: flex;
+  align-items: stretch;
+  height: 1.5rem;
+  min-width: 0;
+  border-radius: var(--aos-radius-sm);
+  overflow: hidden;
+  background-color: var(--aos-surface-workspace);
+}
+
+.aos-client__viz-segment {
+  position: relative;
+  display: block;
+  min-width: 0.5rem;
+  background-color: var(--aos-client-viz-color, var(--aos-color-primary-500));
+  text-decoration: none;
+  transition: filter var(--aos-transition-fast);
+}
+
+.aos-client__viz-segment + .aos-client__viz-segment {
+  margin-left: 2px;
+}
+
+.aos-client__viz-segment:hover,
+.aos-client__viz-segment:focus-visible {
+  filter: brightness(1.08);
+}
+
+.aos-client__viz-segment-pending {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--aos-surface-workspace);
+  opacity: 0.55;
+}
+
+/* ========================================
+ * SHARED HOVER TOOLTIP (Issue #35 §4/§5/§6)
+ * One reusable, absolutely-positioned tooltip per interactive module —
+ * populated and repositioned on hover/focus rather than one node per row.
+ * ======================================== */
+
+.aos-client__tooltip {
+  position: absolute;
+  z-index: var(--aos-z-tooltip);
+  min-width: 12rem;
+  max-width: 18rem;
+  padding: var(--aos-space-3);
+  background-color: var(--aos-surface-panel);
+  border: 1px solid var(--aos-surface-border-strong);
+  border-radius: var(--aos-radius-md);
+  box-shadow: var(--aos-shadow-md);
+  pointer-events: none;
+}
+
+.aos-client__tooltip-title {
+  margin: 0 0 var(--aos-space-2);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-client__tooltip-row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--aos-space-3);
+  font-size: var(--aos-text-xs);
+}
+
+.aos-client__tooltip-term {
+  color: var(--aos-text-tertiary);
+}
+
+.aos-client__tooltip-detail {
+  color: var(--aos-text-primary);
+  font-weight: var(--aos-font-medium);
+  text-align: right;
+}
+
+/* ========================================
+ * TEAM ANALYTICS → POC ANALYTICS (Issue #35 §5/§6)
+ * A selectable rail of team rows; selecting one reveals its POC roster
+ * beneath it. Both levels share the tooltip system above.
+ * ======================================== */
+
+.aos-client__teams {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
+}
+
+.aos-client__team-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: var(--aos-space-3);
+}
+
+.aos-client__team-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  padding: var(--aos-space-3);
+  background-color: var(--aos-surface-panel);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--aos-transition-fast), background-color var(--aos-transition-fast);
+}
+
+.aos-client__team-row:hover {
+  background-color: var(--aos-surface-hover);
+}
+
+.aos-client__team-row--selected {
+  border-color: var(--aos-color-primary-500);
+  background-color: var(--aos-surface-active);
+}
+
+.aos-client__team-row-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+}
+
+.aos-client__team-row-name {
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-client__team-row-completion {
+  color: var(--aos-text-secondary);
+}
+
+.aos-client__team-row-meta {
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-client__poc-mount:empty {
+  display: none;
+}
+
+.aos-client__poc-heading {
+  margin: 0 0 var(--aos-space-3);
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-client__poc-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: var(--aos-space-2);
+}
+
+.aos-client__poc-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-2) var(--aos-space-3);
+  background-color: var(--aos-surface-workspace);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-sm);
+  color: inherit;
+  text-decoration: none;
+}
+
+a.aos-client__poc-row:hover {
+  border-color: var(--aos-color-primary-500);
+}
+
+.aos-client__poc-row-name {
+  font-size: var(--aos-text-sm);
+  color: var(--aos-text-primary);
+}
+
+.aos-client__poc-row-meta {
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-secondary);
+  white-space: nowrap;
+}
+
+/* ========================================
  * ENGAGEMENT GRIDS
  * One Entity Card per engagement, fluid by construction. Active and
  * completed (read-only) engagements share the same grid; the read-only
@@ -121,16 +383,107 @@ a.aos-client__health-item:hover {
 }
 
 /* ========================================
- * DELIVERY PROGRESS / FINDINGS / APPROVALS
- * Live meters and property summaries on one calm padded Surface each.
+ * COMPLETED ENGAGEMENTS DISCLOSURE (Issue #35 §10)
+ * A native <details>/<summary> — collapsed by default, expanded on demand,
+ * with zero bespoke JavaScript.
  * ======================================== */
 
-.aos-client__progress,
-.aos-client__findings,
-.aos-client__approvals {
+.aos-client__collapsible-summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.aos-client__collapsible-summary::-webkit-details-marker {
+  display: none;
+}
+
+.aos-client__collapsible-summary::before {
+  content: '▸';
+  display: inline-block;
+  margin-right: var(--aos-space-2);
+  color: var(--aos-text-tertiary);
+  transition: transform var(--aos-transition-fast);
+}
+
+details[open] > .aos-client__collapsible-summary::before {
+  transform: rotate(90deg);
+}
+
+/* ========================================
+ * UNIVERSAL CLIENT SEARCH (Issue #35 §8)
+ * A results panel this workspace owns, anchored beneath the framework's
+ * shared Search Field — the field itself stays the generic, presentation-
+ * only component every workspace's toolbar reuses.
+ * ======================================== */
+
+.aos-client__search {
+  position: relative;
+}
+
+.aos-client__search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: var(--aos-z-dropdown);
   display: flex;
   flex-direction: column;
-  gap: var(--aos-space-4);
+  width: max-content;
+  min-width: 100%;
+  max-width: 24rem;
+  max-height: 20rem;
+  overflow-y: auto;
+  margin-top: var(--aos-space-1);
+  padding: var(--aos-space-1);
+  background-color: var(--aos-surface-panel);
+  border: 1px solid var(--aos-surface-border-strong);
+  border-radius: var(--aos-radius-md);
+  box-shadow: var(--aos-shadow-md);
+}
+
+.aos-client__search-empty {
+  margin: 0;
+  padding: var(--aos-space-2) var(--aos-space-3);
+  font-size: var(--aos-text-sm);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-client__search-result {
+  display: flex;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-2) var(--aos-space-3);
+  border-radius: var(--aos-radius-sm);
+  color: inherit;
+  text-decoration: none;
+}
+
+a.aos-client__search-result:hover {
+  background-color: var(--aos-surface-hover);
+}
+
+.aos-client__search-result-kind {
+  flex-shrink: 0;
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-client__search-result-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: var(--aos-text-sm);
+  color: var(--aos-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.aos-client__search-result-meta {
+  flex-shrink: 0;
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
 }
 
 /* ========================================
@@ -175,5 +528,22 @@ a.aos-client__health-item:hover {
 
   .aos-client__engagement-grid {
     gap: var(--aos-space-3);
+  }
+
+  .aos-client__viz-row {
+    grid-template-columns: 5.5rem 1fr 3rem;
+  }
+
+  .aos-client__team-list,
+  .aos-client__poc-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aos-client__viz-segment,
+  .aos-client__team-row,
+  .aos-client__collapsible-summary::before {
+    transition: none;
   }
 }

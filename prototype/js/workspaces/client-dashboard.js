@@ -1,44 +1,58 @@
 /**
- * AuditOS Client Dashboard Workspace
- * Platform Information Architecture — GitHub Issue #33 (§2 Client Dashboard) /
- * Workspaces and Navigation — Chapter 12 / Component Architecture — Chapter 74
+ * AuditOS Client Workspace
+ * Client Workspace Modularization — GitHub Issue #35 / Platform Information
+ * Architecture — GitHub Issue #33 (§2 Client Dashboard) / Workspaces and
+ * Navigation — Chapter 12 / Component Architecture — Chapter 74
  *
  * The client level of the permanent platform hierarchy (AuditOS → Client →
- * Program → Engagement). Selecting a client on Global Home opens this
- * at-a-glance operational overview of that client's whole portfolio: active
- * engagements, upcoming milestones, portfolio health, evidence / requirement
- * / testing progress, findings, documentation and report readiness, team
- * workload, and the approval summary. It communicates portfolio health; it
- * never replaces the individual engagement workspaces it links into.
+ * Engagement → Operational Workspaces). This is no longer a landing page: it
+ * is the primary, module-driven operational portfolio workspace for a
+ * client — the single place engagement health, portfolio progress, team and
+ * POC workload, AI advisory signals, and cross-entity search are viewed
+ * before drilling into an individual engagement's own operational
+ * workspaces. It communicates and navigates portfolio health; it never
+ * replaces the engagement workspaces it links into.
  *
- * Completed engagements remain visible but read-only: they render in their
- * own clearly-marked section and contribute to no operational metric — every
- * aggregate below derives exclusively from the engagements that are not
- * completed (the same completed-status handling the Audit Program workspace
- * established in Issue #32, applied one level up).
+ * Completed engagements remain visible but read-only: they render collapsed
+ * by default in their own clearly-marked module and contribute to no
+ * operational metric — every aggregate below derives exclusively from the
+ * engagements that are not completed.
  *
  * Architecture: Business → ViewModel → Components → DOM, identical to every
- * other operational workspace and modeled directly on the Audit Program
- * workspace — the established cross-engagement aggregation precedent.
- * `collectViewModel` is the single place this workspace reads
- * `AuditOS.state`; every count is derived live from the underlying records
- * (never a stored aggregate). The renderer configures the Shared Workspace
- * Framework's inherited skeleton and fills its slots with compositions from
- * the Enterprise Data Presentation System. It reuses the Workspace Shared
+ * other operational workspace. `collectViewModel` is the single place this
+ * workspace reads `AuditOS.state`; every count is derived live from the
+ * underlying records (never a stored aggregate). The workspace is
+ * module-driven (Issue #35 §11): `buildModuleRegistry` returns an ordered,
+ * data-carrying configuration list, each entry naming its framework region
+ * (content canvas / AI / activity / related) and an `enabled` flag — the
+ * renderer only iterates and dispatches this list, so a future release can
+ * hide, reorder, or add a module by editing the registry, never the
+ * rendering code. The renderer configures the Shared Workspace Framework's
+ * inherited skeleton and fills its slots with compositions from the
+ * Enterprise Data Presentation System. It reuses the Workspace Shared
  * Platform (Issue #27), the Cross-Workspace Relationship Engine (Issue #30),
  * and Cross-Workspace Record Navigation (Issue #31) — no logic those issues
  * already extracted is reimplemented here.
  *
- * "Upcoming" milestones are measured against the dataset's own generation
- * date (document metadata `generatedAt`), a data-derived reference that keeps
- * every derivation deterministic and offline-testable — never the runtime
- * clock.
+ * Portfolio Overview (§4), Team Analytics (§5), and POC Analytics (§6) share
+ * one ownership model: a requirement record is the accountable unit (it
+ * carries the owning `teamId` and `primaryPocId` directly); evidence and
+ * testing records join to that same ownership transitively — evidence
+ * through the requirement it satisfies (`requirementIds[0]`), testing
+ * through the control it exercises (`controlId` → the control's own
+ * `requirementIds[0]`). Every visualization, hover summary, and drill-down
+ * is derived live from these real joins — nothing is fabricated in the view
+ * layer (Issue #35 §12 — Repository-Driven UI). The AI Insights module (§7)
+ * renders exclusively from the `ai-portfolio-insights` demo collection,
+ * exactly as a future AI agent's output would render; Release 2 replaces the
+ * generator behind that schema, not this UI. Universal Client Search (§8)
+ * scans the same real per-engagement collections through
+ * `WS.readEngagementDocument`; a result with no dedicated workspace surface
+ * (POCs, users) renders informational with no fabricated link.
  *
  * Presentation only. Every business value is read through `AuditOS.state`;
  * nothing is written. Sections with no data render shared Empty State
- * components; nothing is fabricated. The AI surface is a reserved
- * presentation region — AI stays advisory and human approval remains
- * mandatory.
+ * components; nothing is fabricated.
  *
  * Structure of this file (Coding Standards §30.8): constants, pure derivation
  * helpers (no DOM, no state access), the view-model collector (the single
@@ -102,7 +116,18 @@
    */
   var PENDING_APPROVAL_STATUSES = ['Pending Review', 'Evidence Received - Under HA Review', 'Submitted'];
 
-  /** Testing lifecycle vocabulary of this dataset (read, never invented). */
+  /**
+   * Statuses that mean a record is genuinely blocked — stuck on something
+   * outside the audit team's control — distinct from ordinary pending review
+   * (read from the dataset's own recorded vocabulary, never invented).
+   */
+  var BLOCKED_STATUSES = [
+    'Rejected',
+    'Population Pending - HA unable to share samples',
+    'Evidence Reviewed - Clarification Needed'
+  ];
+
+  /** Testing / walkthrough lifecycle vocabulary of this dataset (read, never invented). */
   var TESTING_STATUS = { COMPLETED: 'Completed', NOT_APPLICABLE: 'Not Applicable' };
 
   /** Finding lifecycle vocabulary (read, never invented). */
@@ -111,11 +136,45 @@
   /** Maximum entries per supporting list so sections stay scannable. */
   var LIST_LIMIT = WS.LIST_LIMIT;
 
-  /** Maximum upcoming milestones shown across the whole portfolio. */
-  var MILESTONE_LIMIT = 12;
+  /** Maximum universal search results shown at once (Issue #35 §8). */
+  var SEARCH_LIMIT = 8;
 
   /** Entrance stagger ceiling — sections beyond this share the last delay. */
   var STAGGER_LIMIT = WS.STAGGER_LIMIT;
+
+  /**
+   * Fixed-order categorical color slots distinguishing engagements by
+   * identity, never by rank (dataviz categorical-theme convention — Issue
+   * #35 §4): a filter that changes which engagements are visible never
+   * repaints the survivors, since each engagement keeps the slot its index
+   * assigned it.
+   */
+  var ENGAGEMENT_COLOR_SLOTS = [
+    '--aos-chart-categorical-1', '--aos-chart-categorical-2', '--aos-chart-categorical-3', '--aos-chart-categorical-4',
+    '--aos-chart-categorical-5', '--aos-chart-categorical-6', '--aos-chart-categorical-7', '--aos-chart-categorical-8'
+  ];
+
+  /** Resolves an engagement's fixed-order categorical color CSS variable name. */
+  function engagementColorVar(index) {
+    return ENGAGEMENT_COLOR_SLOTS[index % ENGAGEMENT_COLOR_SLOTS.length];
+  }
+
+  /**
+   * The six metrics each operational engagement independently contributes to
+   * the portfolio visualization (Issue #35 §4), and the per-engagement
+   * workspace each metric's segment drills into. Approvals has no
+   * per-engagement workspace in this platform — its segment opens the
+   * Global Approvals inbox instead, never a fabricated route.
+   */
+  var PORTFOLIO_METRIC_KEYS = ['requirements', 'evidence', 'testing', 'findings', 'walkthrough', 'approvals'];
+  var PORTFOLIO_METRIC_DEFS = {
+    requirements: { label: 'Requirements', workspaceKey: 'REQUIREMENTS' },
+    evidence: { label: 'Evidence', workspaceKey: 'EVIDENCE' },
+    testing: { label: 'Testing', workspaceKey: 'TESTING' },
+    findings: { label: 'Findings', workspaceKey: 'FINDINGS' },
+    walkthrough: { label: 'Walkthrough', workspaceKey: 'WALKTHROUGH' },
+    approvals: { label: 'Approvals', globalPath: 'approvals' }
+  };
 
   // ------------------------------------------------------------------
   // Pure derivation helpers — no DOM, no AuditOS.state access.
@@ -144,7 +203,7 @@
   }
 
   /**
-   * The client this dashboard presents: the company the route's record id
+   * The client this workspace presents: the company the route's record id
    * names, else the first company in record order (the selection Home always
    * provides), or null when none exist. Nothing is ever fabricated.
    */
@@ -164,9 +223,9 @@
 
   /**
    * Splits a client's engagements into the operational set and the completed
-   * read-only set (Issue #33 §2): completed engagements stay visible but
-   * contribute to no operational metric, so every aggregate downstream takes
-   * only the operational list.
+   * read-only set: completed engagements stay visible but contribute to no
+   * operational metric, so every aggregate downstream takes only the
+   * operational list.
    */
   function splitEngagements(engagements) {
     var operational = [];
@@ -182,38 +241,70 @@
   }
 
   /**
-   * Upcoming milestones across the portfolio: every dated engagement event
-   * (audit-period bounds and as-on dates) on or after the reference date —
-   * the dataset's own generation date, never the runtime clock — sorted
-   * ascending and capped so the timeline stays scannable.
+   * Tags each record of a collection with the id of the engagement it was
+   * read from. A light, in-memory join key attached to the already
+   * deep-cloned records the Shared Audit State returns — never persisted,
+   * never sent back to the store — so cross-engagement aggregates (Team /
+   * POC Analytics, Universal Search) can trace a record back to the one
+   * engagement workspace it belongs to.
    */
-  function deriveUpcomingMilestones(engagements, referenceDate) {
-    var events = [];
-    asArray(engagements).forEach(function (engagement) {
-      var name = engagement.name || engagement.id;
-      if (engagement.auditPeriod) {
-        events.push({ date: engagement.auditPeriod.startDate, title: name + ' — audit period begins' });
-        events.push({ date: engagement.auditPeriod.endDate, title: name + ' — audit period ends' });
-      }
-      if (engagement.asOnDate) {
-        events.push({ date: engagement.asOnDate, title: name + ' — as-on date' });
-      }
-      if (engagement.reportReleaseDate) {
-        events.push({ date: engagement.reportReleaseDate, title: name + ' — report release' });
-      }
+  function tagEngagementId(records, engagementId) {
+    return asArray(records).map(function (record) {
+      record._engagementId = engagementId;
+      return record;
     });
-    return events
-      .filter(function (event) {
-        return Boolean(event.date) && (!referenceDate || String(event.date) >= String(referenceDate));
-      })
-      .sort(function (a, b) { return String(a.date).localeCompare(String(b.date)); })
-      .slice(0, MILESTONE_LIMIT)
-      .map(function (event) { return { timestamp: formatDate(event.date), title: event.title }; });
+  }
+
+  // ---- Ownership resolution (Issue #35 §5/§6): the one join chain Team and
+  // POC Analytics share. A requirement is the accountable unit; evidence and
+  // testing resolve to the same team/POC transitively.
+
+  /** A requirement's own recorded owning team and primary POC. */
+  function requirementOwnership(requirement) {
+    var source = requirement || {};
+    return { teamId: source.teamId || '', pocId: source.primaryPocId || '' };
+  }
+
+  /** An evidence request's own recorded owning team and assigned POC. */
+  function requestOwnership(request) {
+    var source = request || {};
+    return { teamId: source.teamId || '', pocId: source.assignedPocId || '' };
+  }
+
+  /** An evidence item's ownership, resolved through the requirement it satisfies. */
+  function evidenceOwnership(evidence, requirementsById) {
+    var requirementId = asArray((evidence || {}).requirementIds)[0];
+    var requirement = requirementId ? requirementsById[requirementId] : null;
+    return requirement ? requirementOwnership(requirement) : { teamId: '', pocId: '' };
+  }
+
+  /** A test workpaper's ownership, resolved through its control's own linked requirement. */
+  function testOwnership(test, controlsById, requirementsById) {
+    var control = test && test.controlId ? controlsById[test.controlId] : null;
+    var requirementId = control ? asArray(control.requirementIds)[0] : null;
+    var requirement = requirementId ? requirementsById[requirementId] : null;
+    return requirement ? requirementOwnership(requirement) : { teamId: '', pocId: '' };
+  }
+
+  /** Groups records by the named field of their resolved ownership, dropping records with no owner. */
+  function bucketByOwnerKey(records, resolveOwner, keyField) {
+    var buckets = {};
+    asArray(records).forEach(function (record) {
+      var key = resolveOwner(record)[keyField];
+      if (!key) {
+        return;
+      }
+      if (!buckets[key]) {
+        buckets[key] = [];
+      }
+      buckets[key].push(record);
+    });
+    return buckets;
   }
 
   /**
-   * Evidence progress across the operational engagements, derived live from
-   * the evidence records' own review statuses — never a stored summary.
+   * Evidence progress, derived live from the evidence records' own review
+   * statuses — never a stored summary.
    */
   function deriveEvidenceProgress(evidenceRecords) {
     var total = asArray(evidenceRecords).length;
@@ -230,17 +321,20 @@
   }
 
   /**
-   * Requirement completion, read through the evidence requests that fulfil
-   * them: complete, out-of-scope (not applicable — excluded from the pending
-   * count, never counted as outstanding), and pending, classified live.
+   * Requirement / request completion, classified live: complete,
+   * out-of-scope (not applicable — excluded from the pending count, never
+   * counted as outstanding), and pending. Reused identically over the
+   * `evidence-requirements` collection (requirement records) and the
+   * `evidence-requests` collection (request records) — both share this
+   * exact `.status` vocabulary.
    */
-  function deriveRequirementCompletion(requestRecords) {
-    var total = asArray(requestRecords).length;
+  function deriveRequirementCompletion(records) {
+    var total = asArray(records).length;
     var complete = 0, notApplicable = 0;
-    asArray(requestRecords).forEach(function (request) {
-      if (request.status === COMPLETE_STATUS) {
+    asArray(records).forEach(function (record) {
+      if (record.status === COMPLETE_STATUS) {
         complete += 1;
-      } else if (request.status === NOT_APPLICABLE_STATUS) {
+      } else if (record.status === NOT_APPLICABLE_STATUS) {
         notApplicable += 1;
       }
     });
@@ -253,9 +347,8 @@
   }
 
   /**
-   * Testing completion across the operational engagements, derived live from
-   * each workpaper's own testing status. Not-applicable workpapers are out
-   * of scope, not outstanding.
+   * Testing completion, derived live from each workpaper's own testing
+   * status. Not-applicable workpapers are out of scope, not outstanding.
    */
   function deriveTestingCompletion(testRecords) {
     var total = asArray(testRecords).length;
@@ -275,7 +368,31 @@
     };
   }
 
-  /** Findings across the operational engagements: recorded and open counts, live. */
+  /**
+   * Walkthrough completion (Issue #35 §4 — the Walkthrough portfolio
+   * metric), derived live from each workpaper's own recorded
+   * `walkthroughStatus` — the same field this dataset's workpapers already
+   * carry the walkthrough lifecycle on, mirroring `deriveTestingCompletion`.
+   */
+  function deriveWalkthroughCompletion(testRecords) {
+    var total = asArray(testRecords).length;
+    var completed = 0, notApplicable = 0;
+    asArray(testRecords).forEach(function (test) {
+      if (test.walkthroughStatus === TESTING_STATUS.COMPLETED) {
+        completed += 1;
+      } else if (test.walkthroughStatus === TESTING_STATUS.NOT_APPLICABLE) {
+        notApplicable += 1;
+      }
+    });
+    var applicable = total - notApplicable;
+    return {
+      total: total, completed: completed, notApplicable: notApplicable,
+      pending: applicable - completed,
+      completionPct: applicable > 0 ? Math.round((completed / applicable) * 100) : 0
+    };
+  }
+
+  /** Findings, recorded and open, live. */
   function deriveFindingsSummary(findingRecords) {
     var total = asArray(findingRecords).length;
     var open = asArray(findingRecords).filter(function (finding) {
@@ -285,52 +402,10 @@
   }
 
   /**
-   * Documentation and report readiness per operational engagement, read from
-   * each engagement's continuously assembled report document: its real
-   * status, version, and how many sections are currently included.
-   */
-  function deriveReadiness(reportEntries) {
-    return asArray(reportEntries)
-      .filter(function (entry) { return entry.document && entry.document.status; })
-      .map(function (entry) {
-        var sections = asArray(entry.sections);
-        var included = sections.filter(function (section) { return section.included; }).length;
-        return {
-          engagementName: entry.engagement.name || entry.engagement.id,
-          title: entry.document.title || '',
-          status: entry.document.status,
-          version: entry.document.version || '',
-          includedSections: included,
-          totalSections: sections.length
-        };
-      });
-  }
-
-  /**
-   * Team workload: the client teams ranked by the evidence requests still
-   * open with them (neither complete nor out of scope) across the
-   * operational engagements — real assignment records, never an estimate.
-   */
-  function deriveTeamWorkload(requestRecords, teamsById) {
-    var counts = {};
-    asArray(requestRecords).forEach(function (request) {
-      if (!request.teamId || request.status === COMPLETE_STATUS || request.status === NOT_APPLICABLE_STATUS) {
-        return;
-      }
-      counts[request.teamId] = (counts[request.teamId] || 0) + 1;
-    });
-    return Object.keys(counts)
-      .map(function (teamId) {
-        var team = teamsById ? teamsById[teamId] : null;
-        return { teamId: teamId, name: team ? team.name : teamId, openRequests: counts[teamId] };
-      })
-      .sort(function (a, b) { return b.openRequests - a.openRequests; });
-  }
-
-  /**
-   * Approval summary across the operational engagements: evidence and
-   * requests awaiting an audit-team decision — the same statuses the Global
-   * Approvals workspace aggregates platform-wide, scoped to this client.
+   * Approval summary: evidence and requests awaiting an audit-team decision
+   * — the same statuses the Global Approvals workspace aggregates
+   * platform-wide, reused unscoped here so a client/engagement/team/POC
+   * subset reads the identical vocabulary.
    */
   function deriveApprovalSummary(evidenceRecords, requestRecords) {
     var evidencePending = asArray(evidenceRecords).filter(function (item) {
@@ -346,10 +421,186 @@
     };
   }
 
+  /** Records genuinely blocked (Issue #35 §4 hover fact), never merely pending review. */
+  function deriveBlockedCount(evidenceRecords, requestRecords) {
+    var evidenceBlocked = asArray(evidenceRecords).filter(function (item) {
+      return BLOCKED_STATUSES.indexOf(item.reviewStatus) !== -1;
+    }).length;
+    var requestBlocked = asArray(requestRecords).filter(function (request) {
+      return BLOCKED_STATUSES.indexOf(request.status) !== -1;
+    }).length;
+    return evidenceBlocked + requestBlocked;
+  }
+
+  /** The most recent recorded activity timestamp, or '' when none is recorded. */
+  function deriveLastUpdate(activityEvents, actorNames) {
+    var events = RE.deriveRemarkActivity(activityEvents, actorNames, formatDate).slice()
+      .sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); });
+    return events.length > 0 ? events[0].timestamp : '';
+  }
+
   /**
-   * Portfolio Health (Issue #33 §2): navigable operational indicators
-   * aggregated live from the operational engagements only — completed
-   * engagements contribute to none of them.
+   * Normalizes one metric's raw derivation result into the uniform shape the
+   * portfolio visualization renders: `{ total, complete, pending,
+   * completionPct }`, with `completionPct` null when the metric has no
+   * meaningful completion rate (no records, or Approvals — a workload count,
+   * not a completion metric) so the view never fabricates a percentage.
+   */
+  function normalizePortfolioMetric(kind, raw) {
+    if (kind === 'evidence') {
+      return {
+        total: raw.total, complete: raw.complete, pending: raw.total - raw.complete,
+        completionPct: raw.total > 0 ? raw.completionPct : null
+      };
+    }
+    if (kind === 'findings') {
+      var complete = raw.total - raw.open;
+      return {
+        total: raw.total, complete: complete, pending: raw.open,
+        completionPct: raw.total > 0 ? Math.round((complete / raw.total) * 100) : null
+      };
+    }
+    if (kind === 'approvals') {
+      return { total: raw.total, complete: null, pending: raw.total, completionPct: null };
+    }
+    // requirements, testing, walkthrough share the applicable-total shape.
+    var applicable = raw.total - raw.notApplicable;
+    return {
+      total: applicable,
+      complete: raw.complete !== undefined ? raw.complete : raw.completed,
+      pending: raw.pending,
+      completionPct: applicable > 0 ? raw.completionPct : null
+    };
+  }
+
+  /**
+   * One operational engagement's independent contribution to the portfolio
+   * visualization (Issue #35 §4): the six normalized metrics, its fixed
+   * categorical color, blocked-item count, and last recorded activity.
+   */
+  function deriveEngagementPortfolio(entry, index, actorNames) {
+    var raw = {
+      requirements: deriveRequirementCompletion(entry.requirements),
+      evidence: deriveEvidenceProgress(entry.evidence),
+      testing: deriveTestingCompletion(entry.tests),
+      findings: deriveFindingsSummary(entry.findings),
+      walkthrough: deriveWalkthroughCompletion(entry.tests),
+      approvals: deriveApprovalSummary(entry.evidence, entry.requests)
+    };
+    var metrics = {};
+    PORTFOLIO_METRIC_KEYS.forEach(function (kind) {
+      metrics[kind] = normalizePortfolioMetric(kind, raw[kind]);
+    });
+    return {
+      engagement: entry.engagement,
+      colorVar: engagementColorVar(index),
+      metrics: metrics,
+      blocked: deriveBlockedCount(entry.evidence, entry.requests),
+      lastUpdate: deriveLastUpdate(entry.activity, actorNames)
+    };
+  }
+
+  /** The portfolio visualization's data: every engagement's contribution, plus the cross-portfolio total per metric. */
+  function derivePortfolioOverview(portfolioEntries) {
+    var entries = asArray(portfolioEntries);
+    var totals = {};
+    PORTFOLIO_METRIC_KEYS.forEach(function (kind) {
+      totals[kind] = entries.reduce(function (sum, entry) { return sum + entry.metrics[kind].total; }, 0);
+    });
+    return { entries: entries, totals: totals };
+  }
+
+  /**
+   * Team Analytics (Issue #35 §5): every client team with at least one owned
+   * record, ranked busiest first, each carrying its own live Requirements /
+   * Evidence / Testing / Pending approvals / Open findings / completion %.
+   * Findings are always zero in this dataset (no finding carries a team
+   * join) — a real, faithful fact, not an omission.
+   */
+  function deriveTeamAnalytics(teams, requirements, evidence, tests, requests, requirementsById, controlsById) {
+    var requirementBuckets = bucketByOwnerKey(requirements, requirementOwnership, 'teamId');
+    var evidenceBuckets = bucketByOwnerKey(evidence, function (item) { return evidenceOwnership(item, requirementsById); }, 'teamId');
+    var testingBuckets = bucketByOwnerKey(tests, function (item) { return testOwnership(item, controlsById, requirementsById); }, 'teamId');
+    var requestBuckets = bucketByOwnerKey(requests, requestOwnership, 'teamId');
+
+    return asArray(teams).map(function (team) {
+      var requirementRows = requirementBuckets[team.id] || [];
+      var evidenceRows = evidenceBuckets[team.id] || [];
+      var testingRows = testingBuckets[team.id] || [];
+      var requestRows = requestBuckets[team.id] || [];
+      var requirementsSummary = deriveRequirementCompletion(requirementRows);
+      var evidenceSummary = deriveEvidenceProgress(evidenceRows);
+      var testingSummary = deriveTestingCompletion(testingRows);
+      var approvalsSummary = deriveApprovalSummary(evidenceRows, requestRows);
+      var applicableUnits = (requirementsSummary.total - requirementsSummary.notApplicable) +
+        evidenceSummary.total + (testingSummary.total - testingSummary.notApplicable);
+      var doneUnits = requirementsSummary.complete + evidenceSummary.complete + testingSummary.completed;
+      return {
+        team: team,
+        requirements: requirementsSummary,
+        evidence: evidenceSummary,
+        testing: testingSummary,
+        approvals: approvalsSummary,
+        findings: { total: 0, open: 0 },
+        completionPct: applicableUnits > 0 ? Math.round((doneUnits / applicableUnits) * 100) : null
+      };
+    }).filter(function (entry) {
+      return entry.requirements.total > 0 || entry.evidence.total > 0 || entry.testing.total > 0;
+    }).sort(function (a, b) {
+      return (b.requirements.total + b.evidence.total) - (a.requirements.total + a.evidence.total);
+    });
+  }
+
+  /**
+   * POC Analytics (Issue #35 §6): every POC who owns at least one record for
+   * the selected team, each with the same live metrics scoped to just that
+   * POC, plus the id of the one engagement its first contributing
+   * requirement (or, absent one, evidence/testing record) actually belongs
+   * to — the real, traceable engagement a "walkthrough" click opens, never
+   * an arbitrary pick.
+   */
+  function derivePocAnalytics(teamId, requirements, evidence, tests, requests, requirementsById, controlsById, pocsById) {
+    var teamRequirements = asArray(requirements).filter(function (r) { return requirementOwnership(r).teamId === teamId; });
+    var teamEvidence = asArray(evidence).filter(function (item) { return evidenceOwnership(item, requirementsById).teamId === teamId; });
+    var teamTests = asArray(tests).filter(function (item) { return testOwnership(item, controlsById, requirementsById).teamId === teamId; });
+    var teamRequests = asArray(requests).filter(function (r) { return requestOwnership(r).teamId === teamId; });
+
+    var requirementBuckets = bucketByOwnerKey(teamRequirements, requirementOwnership, 'pocId');
+    var evidenceBuckets = bucketByOwnerKey(teamEvidence, function (item) { return evidenceOwnership(item, requirementsById); }, 'pocId');
+    var testingBuckets = bucketByOwnerKey(teamTests, function (item) { return testOwnership(item, controlsById, requirementsById); }, 'pocId');
+    var requestBuckets = bucketByOwnerKey(teamRequests, requestOwnership, 'pocId');
+
+    var pocIds = {};
+    [requirementBuckets, evidenceBuckets, testingBuckets].forEach(function (buckets) {
+      Object.keys(buckets).forEach(function (id) { pocIds[id] = true; });
+    });
+
+    return Object.keys(pocIds).map(function (pocId) {
+      var poc = pocsById[pocId];
+      if (!poc) {
+        return null;
+      }
+      var requirementRows = requirementBuckets[pocId] || [];
+      var evidenceRows = evidenceBuckets[pocId] || [];
+      var testingRows = testingBuckets[pocId] || [];
+      var requestRows = requestBuckets[pocId] || [];
+      var primarySource = requirementRows[0] || evidenceRows[0] || testingRows[0] || null;
+      return {
+        poc: poc,
+        requirements: deriveRequirementCompletion(requirementRows),
+        evidence: deriveEvidenceProgress(evidenceRows),
+        testing: deriveTestingCompletion(testingRows),
+        approvals: deriveApprovalSummary(evidenceRows, requestRows),
+        findings: { total: 0, open: 0 },
+        primaryEngagementId: primarySource ? primarySource._engagementId || '' : ''
+      };
+    }).filter(Boolean).sort(function (a, b) { return b.requirements.total - a.requirements.total; });
+  }
+
+  /**
+   * Portfolio Health (§2): navigable operational indicators aggregated live
+   * from the operational engagements only — completed engagements contribute
+   * to none of them.
    */
   function derivePortfolioHealth(counts, evidence, requirements, testing, findings, approvals, workspaceRegistry) {
     if (!workspaceRegistry) {
@@ -434,7 +685,7 @@
     return events.sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); }).slice(0, LIST_LIMIT);
   }
 
-  /** Client metadata (§8): created / updated / version / owner / tags, from real record fields only. */
+  /** Client metadata: created / updated / version / owner / tags, from real record fields only. */
   function deriveMetadata(company, companiesMetadata, engagementCount) {
     var meta = companiesMetadata || {};
     var tags = [];
@@ -451,6 +702,15 @@
     };
   }
 
+  /**
+   * AI Portfolio Insights (Issue #35 §7): the client's own insight records
+   * from the `ai-portfolio-insights` demo collection, exactly as recorded —
+   * nothing computed or invented here.
+   */
+  function deriveAiInsights(insights, companyId) {
+    return asArray(insights).filter(function (insight) { return insight.companyId === companyId; });
+  }
+
   // ------------------------------------------------------------------
   // View model — the single place this workspace reads AuditOS.state.
   // ------------------------------------------------------------------
@@ -465,10 +725,116 @@
   var readEngagementDocument = WS.readEngagementDocument;
 
   /**
-   * Collects everything the Client Dashboard presents from the Shared Audit
-   * State. `targetId` is the client named by the route (`#/clients?id=`, the
-   * selection Global Home makes). Returns null while the state is not ready,
-   * and a degraded model when no client exists (§15.12).
+   * Universal Client Search index (Issue #35 §8): every searchable
+   * Repository entity under the client — engagements, frameworks,
+   * requirements, controls, evidence, findings, reports, walkthrough
+   * sessions, POCs, and the client's HA team users — each with a real
+   * hierarchical or record href where a dedicated workspace surface exists,
+   * or no href when it does not (POCs and users have none in Release 1 —
+   * shown informational rather than a fabricated link). Built once per
+   * render from the same real per-engagement documents every other module
+   * reads.
+   */
+  function buildClientSearchIndex(state, company, engagements, workspaceRegistry, repository) {
+    var results = [];
+    if (!repository) {
+      return results;
+    }
+
+    function hierarchicalHref(engagement, workspaceId) {
+      return WS.buildHierarchicalHref(repository, workspaceRegistry, company, engagement, workspaceId);
+    }
+
+    var seenFrameworks = {};
+    asArray(engagements).forEach(function (engagement) {
+      results.push({
+        kind: 'Engagement', title: engagement.name || engagement.id, meta: engagement.engagementCode || '',
+        href: hierarchicalHref(engagement, workspaceRegistry.IDS.ENGAGEMENT)
+      });
+
+      var frameworks = WS.normalizeFrameworks ? WS.normalizeFrameworks(engagement)
+        : (engagement.framework ? [engagement.framework] : []);
+      frameworks.forEach(function (framework) {
+        if (seenFrameworks[framework]) {
+          return;
+        }
+        seenFrameworks[framework] = true;
+        results.push({
+          kind: 'Framework', title: framework, meta: engagement.name || '',
+          href: hierarchicalHref(engagement, workspaceRegistry.IDS.ENGAGEMENT)
+        });
+      });
+
+      var requirements = (readEngagementDocument(state, 'evidence-requirements', engagement.id) || {}).requirements || [];
+      requirements.forEach(function (requirement) {
+        results.push({
+          kind: 'Requirement', title: requirement.title || requirement.id, meta: engagement.name || '',
+          href: hierarchicalHref(engagement, workspaceRegistry.IDS.REQUIREMENTS)
+        });
+      });
+
+      var controls = (readEngagementDocument(state, 'controls', engagement.id) || {}).controls || [];
+      controls.forEach(function (control) {
+        results.push({
+          kind: 'Control', title: (control.controlCode ? control.controlCode + ' · ' : '') + (control.title || control.id),
+          meta: engagement.name || '', href: hierarchicalHref(engagement, workspaceRegistry.IDS.CONTROLS)
+        });
+      });
+
+      var evidenceRecords = (readEngagementDocument(state, 'evidence', engagement.id) || {}).evidence || [];
+      evidenceRecords.forEach(function (item) {
+        results.push({
+          kind: 'Evidence', title: item.title || item.id, meta: engagement.name || '',
+          href: hierarchicalHref(engagement, workspaceRegistry.IDS.EVIDENCE)
+        });
+      });
+
+      var findingRecords = (readEngagementDocument(state, 'findings', engagement.id) || {}).findings || [];
+      findingRecords.forEach(function (finding) {
+        results.push({
+          kind: 'Finding', title: finding.title || finding.id, meta: engagement.name || '',
+          href: hierarchicalHref(engagement, workspaceRegistry.IDS.FINDINGS)
+        });
+      });
+
+      var reportDocument = readEngagementDocument(state, 'reports', engagement.id) || {};
+      if (reportDocument.document && reportDocument.document.title) {
+        results.push({
+          kind: 'Report', title: reportDocument.document.title, meta: engagement.name || '',
+          href: hierarchicalHref(engagement, workspaceRegistry.IDS.DOCUMENTATION)
+        });
+      }
+
+      var walkthroughDocument = readEngagementDocument(state, 'walkthroughs', engagement.id) || {};
+      asArray(walkthroughDocument.sessions).forEach(function (session) {
+        results.push({
+          kind: 'Walkthrough', title: session.title || session.id, meta: engagement.name || '',
+          href: hierarchicalHref(engagement, workspaceRegistry.IDS.WALKTHROUGH)
+        });
+      });
+    });
+
+    asArray(state.listRecords('pocs')).filter(function (poc) { return poc.companyId === company.id; })
+      .forEach(function (poc) {
+        results.push({ kind: 'POC', title: poc.name, meta: asArray(poc.teamNames).join(' · '), href: null });
+      });
+
+    var engagementIdSet = {};
+    asArray(engagements).forEach(function (engagement) { engagementIdSet[engagement.id] = true; });
+    asArray(state.listRecords('users')).filter(function (user) {
+      return asArray(user.engagementIds).some(function (id) { return engagementIdSet[id]; });
+    }).forEach(function (user) {
+      results.push({ kind: 'User', title: user.name || user.id, meta: asArray(user.roles).join(' · '), href: null });
+    });
+
+    return results;
+  }
+
+  /**
+   * Collects everything the Client Workspace presents from the Shared Audit
+   * State. `targetId` is the client named by the route (`#/clients?id=`, or
+   * a hierarchical client slug — Issue #34). Returns null while the state is
+   * not ready, and a degraded model when no client exists (§15.12).
    */
   function collectViewModel(state, workspaceRegistry, targetId) {
     if (!state || !state.isReady()) {
@@ -483,30 +849,35 @@
     }
 
     var companiesDocument = state.getDocument('companies') || {};
-    var engagementsDocument = state.getDocument('engagements') || {};
     var engagements = state.listRecords('engagements').filter(function (engagement) {
       return engagement.companyId === company.id;
     });
+    var engagementsById = indexById(engagements);
     var counts = splitEngagements(engagements);
 
     var programs = state.listRecords('programs').filter(function (program) {
       return program.companyId === company.id;
     });
-    var teamsById = indexById(state.listRecords('teams').filter(function (team) {
-      return team.companyId === company.id;
-    }));
+    var teams = state.listRecords('teams').filter(function (team) { return team.companyId === company.id; });
+    var pocs = state.listRecords('pocs').filter(function (poc) { return poc.companyId === company.id; });
+    var pocsById = indexById(pocs);
+    var users = state.listRecords('users');
 
     // Per-engagement operational documents — read only for the operational
     // (non-completed) engagements, so completed engagements contribute to no
-    // operational metric by construction (Issue #33 §2).
+    // operational metric by construction. Every record is tagged with its
+    // source engagement id so cross-engagement aggregates (Team / POC
+    // Analytics, Universal Search) can trace back to it.
     var operational = counts.operational.map(function (engagement) {
       var reportsDocument = readEngagementDocument(state, 'reports', engagement.id) || {};
       return {
         engagement: engagement,
-        evidence: (readEngagementDocument(state, 'evidence', engagement.id) || {}).evidence || [],
-        requests: (readEngagementDocument(state, 'evidence-requests', engagement.id) || {}).requests || [],
-        tests: (readEngagementDocument(state, 'testing', engagement.id) || {}).tests || [],
-        findings: (readEngagementDocument(state, 'findings', engagement.id) || {}).findings || [],
+        requirements: tagEngagementId((readEngagementDocument(state, 'evidence-requirements', engagement.id) || {}).requirements, engagement.id),
+        evidence: tagEngagementId((readEngagementDocument(state, 'evidence', engagement.id) || {}).evidence, engagement.id),
+        requests: tagEngagementId((readEngagementDocument(state, 'evidence-requests', engagement.id) || {}).requests, engagement.id),
+        tests: tagEngagementId((readEngagementDocument(state, 'testing', engagement.id) || {}).tests, engagement.id),
+        findings: tagEngagementId((readEngagementDocument(state, 'findings', engagement.id) || {}).findings, engagement.id),
+        controls: tagEngagementId((readEngagementDocument(state, 'controls', engagement.id) || {}).controls, engagement.id),
         document: reportsDocument.document || null,
         sections: reportsDocument.sections || [],
         activity: (readEngagementDocument(state, 'activity', engagement.id) || {}).events || []
@@ -525,25 +896,17 @@
     var allRequests = concatField('requests');
     var allTests = concatField('tests');
     var allFindings = concatField('findings');
+    var allRequirements = concatField('requirements');
+    var allControls = concatField('controls');
+    var requirementsById = indexById(allRequirements);
+    var controlsById = indexById(allControls);
 
     var evidenceProgress = deriveEvidenceProgress(allEvidence);
-    var requirementCompletion = deriveRequirementCompletion(allRequests);
+    var requirementCompletion = deriveRequirementCompletion(allRequirements);
     var testingCompletion = deriveTestingCompletion(allTests);
     var findingsSummary = deriveFindingsSummary(allFindings);
     var approvalSummary = deriveApprovalSummary(allEvidence, allRequests);
-    var teamWorkload = deriveTeamWorkload(allRequests, teamsById);
-    var readiness = deriveReadiness(operational.map(function (entry) {
-      return { engagement: entry.engagement, document: entry.document, sections: entry.sections };
-    }));
 
-    // "Upcoming" is measured against the dataset's own generation date — a
-    // deterministic, data-derived reference, never the runtime clock.
-    var referenceDate = engagementsDocument.metadata && engagementsDocument.metadata.generatedAt
-      ? String(engagementsDocument.metadata.generatedAt).slice(0, 10) : '';
-    var milestones = deriveUpcomingMilestones(engagements, referenceDate);
-
-    var pocs = state.listRecords('pocs');
-    var users = state.listRecords('users');
     var actorNames = {};
     asArray(pocs).forEach(function (poc) { if (poc.id && poc.name) { actorNames[poc.id] = poc.name; } });
     asArray(users).forEach(function (user) { if (user.id && user.name) { actorNames[user.id] = user.name; } });
@@ -558,6 +921,14 @@
     var activity = deriveActivity(operational, actorNames);
     var metadata = deriveMetadata(company, companiesDocument.metadata, engagements.length);
 
+    var portfolioEntries = operational.map(function (entry, index) {
+      return deriveEngagementPortfolio(entry, index, actorNames);
+    });
+    var portfolioOverview = derivePortfolioOverview(portfolioEntries);
+    var teamAnalytics = deriveTeamAnalytics(teams, allRequirements, allEvidence, allTests, allRequests, requirementsById, controlsById);
+    var insights = deriveAiInsights(state.listRecords('ai-portfolio-insights'), company.id);
+    var searchIndex = buildClientSearchIndex(state, company, engagements, workspaceRegistry, AuditOS.repository);
+
     var headquarters = company.headquarters || {};
 
     return {
@@ -565,6 +936,7 @@
       status: status,
       company: company,
       engagements: engagements,
+      engagementsById: engagementsById,
       counts: counts,
       programs: programs,
 
@@ -578,10 +950,11 @@
         actions: [
           // New engagement (Issue #34): the Engagement Creation Wizard entry
           // point, present only when the session holds the capability —
-          // hidden, never disabled (Issue #33 §5).
+          // hidden, never disabled (Issue #33 §5). The former "Audit
+          // program" shortcut is removed (Issue #35 §3/§1) — the Client
+          // Workspace itself is now the portfolio view.
           AuditOS.permissions && AuditOS.permissions.can('engagements.create')
             ? { label: 'New engagement', href: '#/new-engagement', variant: 'primary' } : null,
-          programs.length > 0 ? { label: 'Audit program', href: '#/program', variant: 'subtle' } : null,
           { label: 'Global approvals', href: '#/approvals', variant: 'subtle' }
         ].filter(Boolean)
       },
@@ -591,29 +964,42 @@
         { label: 'Active engagements', value: String(counts.operational.length) },
         { label: 'Completed (read-only)', value: String(counts.completed.length) },
         { label: 'Programs', value: String(programs.length) },
-        { label: 'Pending approvals', value: String(approvalSummary.total) }
+        { label: 'Pending approvals', value: String(approvalSummary.total) },
+        // Metadata consolidation (Issue #35 §9): folded into the header
+        // ribbon rather than a dedicated Metadata section — no information
+        // lost, one less section to scroll past. Owner is already the
+        // header title, so it is not repeated here.
+        { label: 'Created', value: metadata.created },
+        { label: 'Version', value: metadata.version || '—' },
+        { label: 'Tags', value: asArray(metadata.tags).join(' · ') }
       ],
 
       toolbar: { search: { placeholder: 'Search this client' } },
       filterBar: {
         dropdowns: [{
           label: 'Engagement',
-          options: ['All engagements'].concat(engagements.map(function (engagement) { return engagement.name; }))
+          options: ['All engagements'].concat(counts.operational.map(function (engagement) { return engagement.name; }))
         }]
       },
 
       health: health,
-      milestones: milestones,
       evidenceProgress: evidenceProgress,
       requirementCompletion: requirementCompletion,
       testingCompletion: testingCompletion,
       findingsSummary: findingsSummary,
       approvalSummary: approvalSummary,
-      teamWorkload: teamWorkload,
-      readiness: readiness,
       relationships: relationships,
       activity: activity,
       metadata: metadata,
+
+      portfolioOverview: portfolioOverview,
+      teamAnalytics: teamAnalytics,
+      ownership: {
+        requirements: allRequirements, evidence: allEvidence, tests: allTests, requests: allRequests,
+        requirementsById: requirementsById, controlsById: controlsById, pocsById: pocsById
+      },
+      insights: insights,
+      searchIndex: searchIndex,
 
       footer: [
         { label: 'Environment', value: 'Static prototype' },
@@ -640,24 +1026,311 @@
     return WS.buildSection('aos-client', id, meta, bodyNode);
   }
 
-  /** Builds the Portfolio overview body: the health strip over the client's identity properties. */
-  function buildOverviewBody(model) {
+  /**
+   * Builds one collapsible Section as a native disclosure (`<details>` /
+   * `<summary>`), collapsed by default — the Completed Engagements module
+   * (Issue #35 §10), expanded on demand with zero JavaScript.
+   */
+  function buildCollapsibleSection(id, meta, bodyNode) {
+    var details = el('details', 'aos-section aos-client__section aos-client__section--' + id);
+    details.setAttribute('aria-label', meta.title);
+
+    var summary = el('summary', 'aos-section__header aos-client__collapsible-summary');
+    if (meta.kicker) {
+      summary.appendChild(el('p', 'aos-section__eyebrow', meta.kicker));
+    }
+    summary.appendChild(el('span', 'aos-section__title', meta.title));
+    if (meta.description) {
+      summary.appendChild(el('p', 'aos-section__description', meta.description));
+    }
+    details.appendChild(summary);
+
+    var body = el('div', 'aos-section__body');
+    body.appendChild(bodyNode);
+    details.appendChild(body);
+    return details;
+  }
+
+  // ---- Shared hover-info tooltip (Issue #35 §4/§5/§6): one reusable,
+  // shared tooltip element per module instance — hover or focus a segment or
+  // row to populate and position it, never fabricating a per-row DOM node.
+
+  /** Builds the shared tooltip mount for one interactive module. */
+  function buildInfoTooltip() {
+    var tooltip = el('div', 'aos-client__tooltip');
+    tooltip.setAttribute('role', 'status');
+    tooltip.hidden = true;
+    return tooltip;
+  }
+
+  /** Positions the tooltip beneath its anchor, relative to the module's own positioned container. */
+  function positionTooltip(tooltip, container, anchor) {
+    var anchorRect = anchor.getBoundingClientRect();
+    var hostRect = container.getBoundingClientRect();
+    tooltip.style.top = (anchorRect.bottom - hostRect.top + 6) + 'px';
+    tooltip.style.left = Math.max(0, anchorRect.left - hostRect.left) + 'px';
+  }
+
+  /** Populates and shows the shared tooltip with a title and `[term, detail]` rows. */
+  function showInfoTooltip(tooltip, container, anchor, title, rows) {
+    tooltip.replaceChildren();
+    tooltip.appendChild(el('p', 'aos-client__tooltip-title', title));
+    rows.forEach(function (row) {
+      var line = el('div', 'aos-client__tooltip-row');
+      line.appendChild(el('span', 'aos-client__tooltip-term', row[0]));
+      line.appendChild(el('span', 'aos-client__tooltip-detail', row[1]));
+      tooltip.appendChild(line);
+    });
+    tooltip.hidden = false;
+    positionTooltip(tooltip, container, anchor);
+  }
+
+  /** Hides the shared tooltip. */
+  function hideInfoTooltip(tooltip) {
+    tooltip.hidden = true;
+  }
+
+  /** Wires hover and keyboard-focus handlers so `node` shows the shared tooltip with the given facts. */
+  function wireTooltip(node, tooltip, container, title, rows) {
+    function show() { showInfoTooltip(tooltip, container, node, title, rows); }
+    function hide() { hideInfoTooltip(tooltip); }
+    node.addEventListener('mouseenter', show);
+    node.addEventListener('focus', show);
+    node.addEventListener('mouseleave', hide);
+    node.addEventListener('blur', hide);
+  }
+
+  // ---- Portfolio Overview (Issue #35 §4).
+
+  /** Builds the engagement color legend — identity is never color-alone; every swatch carries its engagement's name. */
+  function buildPortfolioLegend(entries, repository, workspaceRegistry, company) {
+    var legend = el('div', 'aos-client__viz-legend');
+    legend.setAttribute('role', 'list');
+    entries.forEach(function (entry) {
+      var href = WS.buildHierarchicalHref(repository, workspaceRegistry, company, entry.engagement, workspaceRegistry.IDS.ENGAGEMENT);
+      var item = el(href ? 'a' : 'span', 'aos-client__viz-legend-item');
+      item.setAttribute('role', 'listitem');
+      if (href) {
+        item.setAttribute('href', href);
+      }
+      var swatch = el('span', 'aos-client__viz-swatch');
+      swatch.style.backgroundColor = 'var(' + entry.colorVar + ')';
+      swatch.setAttribute('aria-hidden', 'true');
+      item.appendChild(swatch);
+      item.appendChild(el('span', 'aos-client__viz-legend-label', entry.engagement.name || entry.engagement.id));
+      legend.appendChild(item);
+    });
+    return legend;
+  }
+
+  /**
+   * Builds one metric's stacked bar: each engagement contributes an
+   * independently sized, independently colored, independently clickable
+   * segment (Issue #35 §4). A segment's width is its share of the metric's
+   * cross-portfolio total; within the segment, a translucent overlay covers
+   * the pending share so completion reads at a glance without a second
+   * chart. Clicking a segment navigates directly into that engagement's
+   * workspace for this metric.
+   */
+  function buildPortfolioMetricRow(kind, entries, tooltip, container, repository, workspaceRegistry, company) {
+    var def = PORTFOLIO_METRIC_DEFS[kind];
+    var row = el('div', 'aos-client__viz-row');
+    row.appendChild(el('span', 'aos-client__viz-row-label', def.label));
+
+    var bar = el('div', 'aos-client__viz-bar');
+    bar.setAttribute('role', 'img');
+    var totalAcross = entries.reduce(function (sum, entry) { return sum + entry.metrics[kind].total; }, 0);
+    bar.setAttribute('aria-label', def.label + ' by engagement — ' + totalAcross + ' total');
+
+    entries.forEach(function (entry) {
+      var metric = entry.metrics[kind];
+      if (metric.total <= 0) {
+        return;
+      }
+      var href = def.workspaceKey
+        ? WS.buildHierarchicalHref(repository, workspaceRegistry, company, entry.engagement, workspaceRegistry.IDS[def.workspaceKey])
+        : (def.globalPath ? '#/' + def.globalPath : null);
+      var segment = el(href ? 'a' : 'span', 'aos-client__viz-segment');
+      if (href) {
+        segment.setAttribute('href', href);
+      }
+      segment.style.setProperty('--aos-client-viz-color', 'var(' + entry.colorVar + ')');
+      segment.style.flexGrow = String(metric.total);
+      var engagementName = entry.engagement.name || entry.engagement.id;
+      segment.setAttribute('aria-label', engagementName + ': ' +
+        (metric.completionPct !== null ? metric.completionPct + '% complete' : metric.total + ' recorded'));
+
+      if (metric.pending > 0 && metric.total > 0) {
+        var overlay = el('span', 'aos-client__viz-segment-pending');
+        overlay.style.width = Math.round((metric.pending / metric.total) * 100) + '%';
+        overlay.setAttribute('aria-hidden', 'true');
+        segment.appendChild(overlay);
+      }
+
+      wireTooltip(segment, tooltip, container, engagementName, [
+        ['Completed', metric.complete !== null ? String(metric.complete) : '—'],
+        ['Pending', String(metric.pending)],
+        ['Completion', metric.completionPct !== null ? metric.completionPct + '%' : '—'],
+        ['Blocked', String(entry.blocked)],
+        ['Last update', entry.lastUpdate || 'Not recorded']
+      ]);
+      bar.appendChild(segment);
+    });
+
+    row.appendChild(bar);
+    row.appendChild(el('span', 'aos-client__viz-row-total aos-numeric', String(totalAcross)));
+    return row;
+  }
+
+  /** Builds the Portfolio Overview body: the health strip, identity properties, and the interactive segmented visualization. */
+  function buildPortfolioOverviewBody(viewModel, portfolio, repository, workspaceRegistry) {
     var P = presentation();
     var surface = el('div', 'aos-surface aos-surface--padded aos-client__overview');
-    surface.appendChild(WS.buildHealthStrip('aos-client', 'Portfolio health', model.health));
+    surface.appendChild(WS.buildHealthStrip('aos-client', 'Portfolio health', viewModel.health));
     surface.appendChild(P.propertyGrid([
-      { label: 'Client', value: model.company.name },
-      { label: 'Legal name', value: model.company.legalName || '' },
-      { label: 'Industry', value: model.company.industry || '' },
+      { label: 'Client', value: viewModel.company.name },
+      { label: 'Legal name', value: viewModel.company.legalName || '' },
+      { label: 'Industry', value: viewModel.company.industry || '' },
       {
         label: 'Headquarters',
-        value: model.company.headquarters && model.company.headquarters.city
-          ? model.company.headquarters.city + ', ' + model.company.headquarters.country : ''
+        value: viewModel.company.headquarters && viewModel.company.headquarters.city
+          ? viewModel.company.headquarters.city + ', ' + viewModel.company.headquarters.country : ''
       },
-      { label: 'Delivery centers', value: asArray(model.company.deliveryCenters).join(' · ') },
-      { label: 'Status', value: model.company.status || '' }
+      { label: 'Status', value: viewModel.company.status || '' }
     ], { columns: 2 }));
+
+    if (portfolio.entries.length === 0) {
+      surface.appendChild(P.emptyState({
+        icon: '◇', title: 'No active engagements to visualize',
+        description: 'Portfolio completion by engagement appears here once an engagement is active.'
+      }));
+      return surface;
+    }
+
+    var viz = el('div', 'aos-client__viz');
+    viz.appendChild(buildPortfolioLegend(portfolio.entries, repository, workspaceRegistry, viewModel.company));
+    var tooltip = buildInfoTooltip();
+    PORTFOLIO_METRIC_KEYS.forEach(function (kind) {
+      viz.appendChild(buildPortfolioMetricRow(kind, portfolio.entries, tooltip, viz, repository, workspaceRegistry, viewModel.company));
+    });
+    viz.appendChild(tooltip);
+    surface.appendChild(viz);
     return surface;
+  }
+
+  // ---- Team → POC Analytics (Issue #35 §5/§6).
+
+  /** Builds one Team Analytics row. */
+  function buildTeamRow(entry) {
+    var row = el('button', 'aos-client__team-row');
+    row.type = 'button';
+    row.setAttribute('aria-pressed', 'false');
+    var head = el('div', 'aos-client__team-row-head');
+    head.appendChild(el('span', 'aos-client__team-row-name', entry.team.name));
+    head.appendChild(el('span', 'aos-client__team-row-completion aos-numeric',
+      entry.completionPct !== null ? entry.completionPct + '%' : '—'));
+    row.appendChild(head);
+    row.appendChild(el('span', 'aos-client__team-row-meta',
+      entry.requirements.total + ' ' + plural(entry.requirements.total, 'requirement') + ' · ' +
+      entry.evidence.total + ' ' + plural(entry.evidence.total, 'evidence item') + ' · ' +
+      entry.approvals.total + ' pending ' + plural(entry.approvals.total, 'approval')));
+    return row;
+  }
+
+  /** Builds the Team Analytics body: hoverable, selectable team rows with a nested POC Analytics drill-down. */
+  function buildTeamAnalyticsBody(viewModel, repository, workspaceRegistry) {
+    var P = presentation();
+    var teamEntries = viewModel.teamAnalytics;
+    if (teamEntries.length === 0) {
+      return P.emptyState({
+        icon: '◇', title: 'No team assignments yet',
+        description: 'Client teams appear here once a requirement, evidence item, or test is assigned to them.'
+      });
+    }
+
+    var container = el('div', 'aos-client__teams');
+    var list = el('div', 'aos-client__team-list');
+    list.setAttribute('role', 'list');
+    var pocMount = el('div', 'aos-client__poc-mount');
+    var tooltip = buildInfoTooltip();
+    var selectedTeamId = null;
+    var rows = [];
+
+    function renderPocs() {
+      pocMount.replaceChildren();
+      if (!selectedTeamId) {
+        return;
+      }
+      var teamEntry = teamEntries.filter(function (entry) { return entry.team.id === selectedTeamId; })[0];
+      if (!teamEntry) {
+        return;
+      }
+      var ownership = viewModel.ownership;
+      var pocEntries = derivePocAnalytics(selectedTeamId, ownership.requirements, ownership.evidence,
+        ownership.tests, ownership.requests, ownership.requirementsById, ownership.controlsById, ownership.pocsById);
+
+      pocMount.appendChild(el('h3', 'aos-client__poc-heading', teamEntry.team.name + ' — POCs'));
+      if (pocEntries.length === 0) {
+        pocMount.appendChild(P.emptyState({
+          icon: '◇', title: 'No POCs recorded for this team',
+          description: 'A POC appears here once it owns a requirement, evidence item, or test for this team.'
+        }));
+        return;
+      }
+
+      var pocList = el('div', 'aos-client__poc-list');
+      pocList.setAttribute('role', 'list');
+      pocEntries.forEach(function (pocEntry) {
+        var engagement = viewModel.engagementsById[pocEntry.primaryEngagementId];
+        var href = engagement
+          ? WS.buildHierarchicalHref(repository, workspaceRegistry, viewModel.company, engagement, workspaceRegistry.IDS.WALKTHROUGH)
+          : null;
+        var node = el(href ? 'a' : 'div', 'aos-client__poc-row');
+        node.setAttribute('role', 'listitem');
+        if (href) {
+          node.setAttribute('href', href);
+        }
+        node.appendChild(el('span', 'aos-client__poc-row-name', pocEntry.poc.name));
+        node.appendChild(el('span', 'aos-client__poc-row-meta aos-numeric',
+          pocEntry.requirements.complete + ' / ' + (pocEntry.requirements.complete + pocEntry.requirements.pending)));
+        wireTooltip(node, tooltip, container, pocEntry.poc.name, [
+          ['Requirements', pocEntry.requirements.complete + ' / ' + (pocEntry.requirements.complete + pocEntry.requirements.pending)],
+          ['Evidence', pocEntry.evidence.complete + ' / ' + pocEntry.evidence.total],
+          ['Testing', pocEntry.testing.completed + ' / ' + (pocEntry.testing.completed + pocEntry.testing.pending)],
+          ['Pending approvals', String(pocEntry.approvals.total)],
+          ['Open findings', String(pocEntry.findings.open)]
+        ]);
+        pocList.appendChild(node);
+      });
+      pocMount.appendChild(pocList);
+    }
+
+    teamEntries.forEach(function (entry) {
+      var row = buildTeamRow(entry);
+      row.addEventListener('click', function () {
+        selectedTeamId = selectedTeamId === entry.team.id ? null : entry.team.id;
+        rows.forEach(function (rowEntry) {
+          var selected = rowEntry.entry.team.id === selectedTeamId;
+          rowEntry.node.classList.toggle('aos-client__team-row--selected', selected);
+          rowEntry.node.setAttribute('aria-pressed', selected ? 'true' : 'false');
+        });
+        renderPocs();
+      });
+      wireTooltip(row, tooltip, container, entry.team.name, [
+        ['Requirements', entry.requirements.complete + ' / ' + (entry.requirements.complete + entry.requirements.pending)],
+        ['Evidence', entry.evidence.complete + ' / ' + entry.evidence.total],
+        ['Testing', entry.testing.completed + ' / ' + (entry.testing.completed + entry.testing.pending)],
+        ['Pending approvals', String(entry.approvals.total)],
+        ['Open findings', String(entry.findings.open)]
+      ]);
+      rows.push({ entry: entry, node: row });
+      list.appendChild(row);
+    });
+
+    container.appendChild(list);
+    container.appendChild(pocMount);
+    container.appendChild(tooltip);
+    return container;
   }
 
   /**
@@ -687,132 +1360,33 @@
     return grid;
   }
 
-  /** Builds the Upcoming milestones body: the shared Timeline over dated events, or the Empty State. */
-  function buildMilestonesBody(milestones) {
+  /** Builds the AI Portfolio Insights body (Issue #35 §7): every insight rendered exactly as recorded, JSON-backed. */
+  function buildAiInsightsBody(insights, repository, workspaceRegistry, engagementsById, company) {
     var P = presentation();
-    return asArray(milestones).length > 0 ? P.timeline(milestones) : P.emptyState({
-      icon: '◇', title: 'No upcoming milestones',
-      description: 'Dated engagement milestones on or after the dataset date appear here.'
-    });
-  }
-
-  /**
-   * Builds the Delivery progress body: evidence, requirement, and testing
-   * completion as accessible progress meters over live record-level counts.
-   */
-  function buildProgressBody(model) {
-    var P = presentation();
-    var wrap = el('div', 'aos-surface aos-surface--padded aos-client__progress');
-    wrap.appendChild(P.progressMeter({
-      label: 'Evidence complete',
-      value: model.evidenceProgress.complete,
-      total: model.evidenceProgress.total,
-      tone: model.evidenceProgress.completionPct === 100 ? TONES.SUCCESS : null
-    }));
-    wrap.appendChild(P.progressMeter({
-      label: 'Requirements complete',
-      value: model.requirementCompletion.complete,
-      total: model.requirementCompletion.complete + model.requirementCompletion.pending,
-      tone: model.requirementCompletion.pending === 0 ? TONES.SUCCESS : null
-    }));
-    wrap.appendChild(P.progressMeter({
-      label: 'Testing complete',
-      value: model.testingCompletion.completed,
-      total: model.testingCompletion.completed + model.testingCompletion.pending,
-      tone: model.testingCompletion.pending === 0 ? TONES.SUCCESS : null
-    }));
-    wrap.appendChild(P.propertyGrid([
-      { label: 'Evidence items', value: String(model.evidenceProgress.total) },
-      { label: 'Requirements out of scope', value: String(model.requirementCompletion.notApplicable) },
-      { label: 'Workpapers', value: String(model.testingCompletion.total) },
-      { label: 'Testing out of scope', value: String(model.testingCompletion.notApplicable) }
-    ], { columns: 2 }));
-    return wrap;
-  }
-
-  /** Builds the Findings summary body: live counts, or the Empty State when none are recorded. */
-  function buildFindingsBody(findingsSummary) {
-    var P = presentation();
-    if (findingsSummary.total === 0) {
+    if (asArray(insights).length === 0) {
       return P.emptyState({
-        icon: '◇', title: 'No findings recorded',
-        description: 'Findings raised on this client’s active engagements appear here.'
+        icon: '✦', title: 'No AI insights yet',
+        description: 'Portfolio risk, bottleneck, and readiness signals will appear here once recorded.'
       });
     }
-    var wrap = el('div', 'aos-surface aos-surface--padded aos-client__findings');
-    wrap.appendChild(P.propertyGrid([
-      { label: 'Findings recorded', value: String(findingsSummary.total) },
-      { label: 'Open', value: String(findingsSummary.open) }
-    ], { columns: 2 }));
-    return wrap;
-  }
-
-  /** Builds the Documentation & report readiness body: one row per engagement report document. */
-  function buildReadinessBody(readiness) {
-    var P = presentation();
-    if (asArray(readiness).length === 0) {
-      return P.emptyState({
-        icon: '◇', title: 'No report documents yet',
-        description: 'Each active engagement’s continuously assembled report appears here with its live status.'
-      });
-    }
-    var items = readiness.map(function (entry) {
+    var items = insights.map(function (insight) {
+      var engagement = insight.scope && insight.scope.kind === 'engagement' ? engagementsById[insight.scope.id] : null;
+      var href = engagement ? WS.buildHierarchicalHref(repository, workspaceRegistry, company, engagement, workspaceRegistry.IDS.ENGAGEMENT) : null;
+      var confidencePct = typeof insight.confidence === 'number' ? Math.round(insight.confidence * 100) : null;
+      var description = insight.description +
+        (insight.recommendation ? ' Recommended: ' + insight.recommendation : '') +
+        (confidencePct !== null ? ' (confidence ' + confidencePct + '%)' : '');
       return {
-        title: entry.engagementName,
-        description: entry.title,
-        meta: entry.status + (entry.version ? ' · v' + entry.version : '') +
-          ' · ' + entry.includedSections + ' of ' + entry.totalSections + ' sections',
-        tone: TONES.INFO
+        title: insight.title,
+        description: description,
+        tone: insight.severity,
+        actions: href ? [{ label: 'Open engagement', href: href }] : []
       };
     });
     return P.itemList(items, { compact: true });
   }
 
-  /** Builds the Team workload body: client teams ranked by open evidence requests. */
-  function buildWorkloadBody(teamWorkload) {
-    var P = presentation();
-    if (asArray(teamWorkload).length === 0) {
-      return P.emptyState({
-        icon: '◇', title: 'No open team assignments',
-        description: 'Client teams appear here ranked by the evidence requests still open with them.'
-      });
-    }
-    var items = teamWorkload.slice(0, LIST_LIMIT).map(function (team) {
-      return {
-        title: team.name,
-        meta: team.openRequests + ' open ' + plural(team.openRequests, 'request'),
-        tone: TONES.WARNING
-      };
-    });
-    return P.itemList(items, { compact: true });
-  }
-
-  /** Builds the Approval summary body: pending decision counts plus navigation to the Global Approvals inbox. */
-  function buildApprovalsBody(approvalSummary) {
-    var P = presentation();
-    var wrap = el('div', 'aos-surface aos-surface--padded aos-client__approvals');
-    wrap.appendChild(P.propertyGrid([
-      { label: 'Pending approvals', value: String(approvalSummary.total) },
-      { label: 'Evidence awaiting decision', value: String(approvalSummary.evidencePending) },
-      { label: 'Requests awaiting decision', value: String(approvalSummary.requestsPending) }
-    ], { columns: 2 }));
-    wrap.appendChild(P.button({ label: 'Open Global Approvals', href: '#/approvals', variant: 'subtle' }));
-    return wrap;
-  }
-
-  /** Builds the Metadata body: the shared Metadata List of presentation fields. */
-  function buildMetadataBody(metadata) {
-    var pairs = [
-      { term: 'Created', detail: metadata.created },
-      { term: 'Last updated', detail: metadata.updated },
-      { term: 'Version', detail: metadata.version },
-      { term: 'Owner', detail: metadata.owner },
-      { term: 'Tags', detail: asArray(metadata.tags).join(' · ') }
-    ];
-    return WS.metadataBody(pairs);
-  }
-
-  /** Builds the Activity Feed for the activity supporting panel (§7). */
+  /** Builds the Activity Feed for the activity supporting panel. */
   function buildActivityBody(activity) {
     return WS.buildActivityBody(activity, {
       icon: '◇', title: 'No recent activity',
@@ -833,71 +1407,190 @@
   }
 
   // ------------------------------------------------------------------
+  // Module registry (Issue #35 §11) — the module-driven shell. Each entry
+  // names its framework region and carries its own render function; the
+  // renderer below only iterates this list in order and dispatches by
+  // region, so hiding, reordering, or adding a module means editing this
+  // list, never the rendering code.
+  // ------------------------------------------------------------------
+
+  /** Filters the portfolio visualization's entries to one engagement, or returns every entry when no filter is active. */
+  function filterPortfolioEntries(entries, engagementId) {
+    if (!engagementId) {
+      return entries;
+    }
+    return entries.filter(function (entry) { return entry.engagement.id === engagementId; });
+  }
+
+  /** Builds the ordered module configuration for one render pass, given the current engagement filter. */
+  function buildModuleRegistry(viewModel, filterState, repository, workspaceRegistry) {
+    var filteredOperational = filterState.engagementId
+      ? viewModel.counts.operational.filter(function (engagement) { return engagement.id === filterState.engagementId; })
+      : viewModel.counts.operational;
+    var filteredPortfolio = {
+      entries: filterPortfolioEntries(viewModel.portfolioOverview.entries, filterState.engagementId),
+      totals: viewModel.portfolioOverview.totals
+    };
+    var completed = viewModel.counts.completed;
+
+    return [
+      {
+        id: 'portfolio-overview', region: 'content', enabled: true,
+        kicker: 'Portfolio status', title: 'Portfolio overview',
+        render: function () { return buildPortfolioOverviewBody(viewModel, filteredPortfolio, repository, workspaceRegistry); }
+      },
+      {
+        id: 'team-analytics', region: 'content', enabled: true,
+        kicker: 'People', title: 'Team analytics',
+        description: 'Hover a team for its live metrics; select one to drill into its POCs.',
+        render: function () { return buildTeamAnalyticsBody(viewModel, repository, workspaceRegistry); }
+      },
+      {
+        id: 'engagement-portfolio', region: 'content', enabled: true,
+        kicker: 'Operational', title: 'Engagement portfolio',
+        description: 'Each engagement opens its own operational workspace.',
+        present: filteredOperational.length > 0,
+        render: function () { return buildEngagementCards(filteredOperational, workspaceRegistry, false); },
+        empty: {
+          icon: '◇', title: 'No active engagements',
+          description: 'Engagements in progress for this client appear here.'
+        }
+      },
+      {
+        id: 'completed-engagements', region: 'content', enabled: completed.length > 0, collapsedByDefault: true,
+        kicker: 'Reference', title: 'Completed engagements (' + completed.length + ')',
+        description: 'Completed engagements stay visible read-only and contribute to no operational metric.',
+        render: function () { return buildEngagementCards(completed, workspaceRegistry, true); }
+      },
+      {
+        id: 'ai-insights', region: 'ai', enabled: true,
+        render: function () {
+          return buildAiInsightsBody(viewModel.insights, repository, workspaceRegistry, viewModel.engagementsById, viewModel.company);
+        }
+      },
+      {
+        id: 'activity', region: 'activity', enabled: true,
+        render: function () { return buildActivityBody(viewModel.activity); }
+      },
+      {
+        id: 'related', region: 'related', enabled: true,
+        render: function () { return buildRelatedBody(viewModel.relationships); }
+      }
+    ];
+  }
+
+  // ------------------------------------------------------------------
+  // Interaction wiring — engagement filtering and universal search. Both
+  // attach behavior to nodes the Shared Workspace Framework already
+  // rendered, rather than changing the framework's generic contract.
+  // ------------------------------------------------------------------
+
+  /**
+   * Wires the toolbar's Engagement filter to genuinely filter the workspace
+   * (Issue #35 §3/§4) — never an inert control. Selecting an engagement
+   * calls back with the resolved id (or '' for "All engagements"); the
+   * caller re-renders the canvas with that filter applied.
+   */
+  function wireEngagementFilter(view, viewModel, filterState, onChange) {
+    var select = view.querySelector('[data-slot="workspace-filters"] .aos-select__control');
+    if (!select) {
+      return;
+    }
+    var allLabel = 'All engagements';
+    var current = filterState.engagementId ? viewModel.engagementsById[filterState.engagementId] : null;
+    select.value = current ? (current.name || allLabel) : allLabel;
+    select.addEventListener('change', function () {
+      if (select.value === allLabel) {
+        onChange({ engagementId: '' });
+        return;
+      }
+      var match = viewModel.counts.operational.filter(function (engagement) {
+        return engagement.name === select.value;
+      })[0];
+      onChange({ engagementId: match ? match.id : '' });
+    });
+  }
+
+  /**
+   * Wires Universal Client Search (Issue #35 §8) onto the toolbar's Search
+   * Field: filtering the precomputed client-wide index by substring match
+   * and rendering results into a panel this workspace owns (the framework's
+   * search field stays the generic, presentation-only component every other
+   * workspace shares). Closes on Escape or on focus leaving the search
+   * region — tracked through `focusout`'s `relatedTarget`, never a timer.
+   */
+  function wireClientSearch(view, index) {
+    var searchField = view.querySelector('[data-slot="workspace-toolbar"] .aos-search-field');
+    var input = searchField ? searchField.querySelector('.aos-search-field__input') : null;
+    if (!searchField || !input || !searchField.parentNode) {
+      return;
+    }
+
+    var wrapper = el('div', 'aos-client__search');
+    searchField.parentNode.insertBefore(wrapper, searchField);
+    wrapper.appendChild(searchField);
+    var results = el('div', 'aos-client__search-results');
+    results.hidden = true;
+    results.setAttribute('role', 'listbox');
+    wrapper.appendChild(results);
+
+    function render(query) {
+      results.replaceChildren();
+      var trimmed = query.trim().toLowerCase();
+      if (!trimmed) {
+        results.hidden = true;
+        return;
+      }
+      var matches = index.filter(function (item) {
+        return item.title.toLowerCase().indexOf(trimmed) !== -1 ||
+          (item.meta || '').toLowerCase().indexOf(trimmed) !== -1;
+      }).slice(0, SEARCH_LIMIT);
+
+      if (matches.length === 0) {
+        results.appendChild(el('p', 'aos-client__search-empty', 'No matches in this client.'));
+        results.hidden = false;
+        return;
+      }
+      matches.forEach(function (item) {
+        var row = el(item.href ? 'a' : 'div', 'aos-client__search-result');
+        row.setAttribute('role', 'option');
+        if (item.href) {
+          row.setAttribute('href', item.href);
+        }
+        row.appendChild(el('span', 'aos-client__search-result-kind', item.kind));
+        row.appendChild(el('span', 'aos-client__search-result-title', item.title));
+        if (item.meta) {
+          row.appendChild(el('span', 'aos-client__search-result-meta', item.meta));
+        }
+        results.appendChild(row);
+      });
+      results.hidden = false;
+    }
+
+    input.addEventListener('input', function () { render(input.value); });
+    input.addEventListener('focus', function () { if (input.value.trim()) { render(input.value); } });
+    input.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        results.hidden = true;
+        input.blur();
+      }
+    });
+    wrapper.addEventListener('focusout', function (event) {
+      if (!wrapper.contains(event.relatedTarget)) {
+        results.hidden = true;
+      }
+    });
+  }
+
+  // ------------------------------------------------------------------
   // Slot rendering
   // ------------------------------------------------------------------
 
   /** Replaces a slot's content with the given nodes (or clears it). */
   var fillSlot = WS.fillSlot;
 
-  /** The ordered Client Dashboard sections, matching the issue's §2 display list end to end. */
-  function primarySections(viewModel, workspaceRegistry) {
-    return [
-      {
-        id: 'overview', kicker: 'Portfolio status', title: 'Portfolio overview',
-        present: true, body: function () { return buildOverviewBody(viewModel); }
-      },
-      {
-        id: 'engagements', kicker: 'Operational', title: 'Active engagements',
-        description: 'Each engagement opens its own operational workspace.',
-        present: viewModel.counts.operational.length > 0,
-        body: function () { return buildEngagementCards(viewModel.counts.operational, workspaceRegistry, false); },
-        empty: { icon: '◇', title: 'No active engagements', description: 'Engagements in progress for this client appear here.' }
-      },
-      {
-        id: 'completed', kicker: 'Reference', title: 'Completed engagements',
-        description: 'Completed engagements stay visible read-only and contribute to no operational metric.',
-        present: viewModel.counts.completed.length > 0,
-        body: function () { return buildEngagementCards(viewModel.counts.completed, workspaceRegistry, true); },
-        empty: { icon: '◇', title: 'No completed engagements', description: 'Released engagements remain here for reference, read-only.' }
-      },
-      {
-        id: 'milestones', kicker: 'Schedule', title: 'Upcoming milestones',
-        present: viewModel.milestones.length > 0,
-        body: function () { return buildMilestonesBody(viewModel.milestones); },
-        empty: { icon: '◇', title: 'No upcoming milestones', description: 'Dated engagement milestones on or after the dataset date appear here.' }
-      },
-      {
-        id: 'progress', kicker: 'Delivery', title: 'Evidence, requirements & testing',
-        description: 'Completion derived live from the underlying records of the active engagements.',
-        present: viewModel.evidenceProgress.total > 0 || viewModel.testingCompletion.total > 0,
-        body: function () { return buildProgressBody(viewModel); },
-        empty: { icon: '◇', title: 'No delivery records yet', description: 'Evidence, requirement, and testing progress appears here once the active engagements hold records.' }
-      },
-      {
-        id: 'findings', kicker: 'Observations', title: 'Findings summary',
-        present: true, body: function () { return buildFindingsBody(viewModel.findingsSummary); }
-      },
-      {
-        id: 'readiness', kicker: 'Reporting', title: 'Documentation & report readiness',
-        present: true, body: function () { return buildReadinessBody(viewModel.readiness); }
-      },
-      {
-        id: 'workload', kicker: 'People', title: 'Team workload',
-        present: true, body: function () { return buildWorkloadBody(viewModel.teamWorkload); }
-      },
-      {
-        id: 'approvals', kicker: 'Decisions', title: 'Approval summary',
-        present: true, body: function () { return buildApprovalsBody(viewModel.approvalSummary); }
-      },
-      {
-        id: 'metadata', kicker: 'Record', title: 'Metadata',
-        present: true, body: function () { return buildMetadataBody(viewModel.metadata); }
-      }
-    ];
-  }
-
-  /** Renders the ready Client Dashboard experience into the framework slots. */
-  function renderReady(view, viewModel, workspaceRegistry) {
+  /** Renders the ready Client Workspace experience into the framework slots, honoring the current engagement filter. */
+  function renderReady(view, viewModel, workspaceRegistry, repository, filterState) {
     var P = presentation();
 
     AuditOS.workspaceFramework.configure(view, {
@@ -907,12 +1600,15 @@
       filterBar: viewModel.filterBar
     });
 
+    var modules = buildModuleRegistry(viewModel, filterState, repository, workspaceRegistry);
+
     var canvas = el('div', 'aos-client');
     canvas.setAttribute('data-canvas', 'flush');
     var rendered = 0;
-    primarySections(viewModel, workspaceRegistry).forEach(function (section) {
-      var body = section.present ? section.body() : P.emptyState(section.empty);
-      var built = buildSection(section.id, section, body);
+    modules.filter(function (module) { return module.region === 'content' && module.enabled !== false; }).forEach(function (module) {
+      var present = module.present === undefined ? true : module.present;
+      var body = present ? module.render() : P.emptyState(module.empty);
+      var built = module.collapsedByDefault ? buildCollapsibleSection(module.id, module, body) : buildSection(module.id, module, body);
       built.classList.add('aos-rise-in');
       if (rendered > 0) {
         built.classList.add('aos-rise-in--' + Math.min(rendered, STAGGER_LIMIT));
@@ -922,22 +1618,28 @@
     });
     fillSlot(view, SLOTS.CONTENT, [canvas]);
 
-    var related = buildRelatedBody(viewModel.relationships);
-    related.classList.add('aos-fade-in');
-    fillSlot(view, SLOTS.RELATED, [related]);
-
-    var ai = P.emptyState({
-      icon: '✦', title: 'Reserved for AI advisory',
-      description: 'Advisory recommendations will appear here once the AI foundation is implemented. AI remains advisory; human approval remains mandatory.'
+    modules.filter(function (module) { return module.region === 'related' && module.enabled !== false; }).forEach(function (module) {
+      var node = module.render();
+      node.classList.add('aos-fade-in');
+      fillSlot(view, SLOTS.RELATED, [node]);
     });
-    ai.classList.add('aos-tint-brand', 'aos-fade-in');
-    fillSlot(view, SLOTS.AI, [ai]);
-
-    var activity = buildActivityBody(viewModel.activity);
-    activity.classList.add('aos-fade-in');
-    fillSlot(view, SLOTS.ACTIVITY, [activity]);
+    modules.filter(function (module) { return module.region === 'ai' && module.enabled !== false; }).forEach(function (module) {
+      var node = module.render();
+      node.classList.add('aos-tint-brand', 'aos-fade-in');
+      fillSlot(view, SLOTS.AI, [node]);
+    });
+    modules.filter(function (module) { return module.region === 'activity' && module.enabled !== false; }).forEach(function (module) {
+      var node = module.render();
+      node.classList.add('aos-fade-in');
+      fillSlot(view, SLOTS.ACTIVITY, [node]);
+    });
 
     fillSlot(view, SLOTS.FOOTER, [buildFooterItems(viewModel.footer)]);
+
+    wireEngagementFilter(view, viewModel, filterState, function (nextFilterState) {
+      renderReady(view, viewModel, workspaceRegistry, repository, nextFilterState);
+    });
+    wireClientSearch(view, viewModel.searchIndex);
   }
 
   /** Renders the layout-stable loading state (§15.12 — Loading). */
@@ -956,7 +1658,7 @@
       icon: '◇', title: 'No client available',
       description: 'The Shared Audit State holds no client to present' +
         (viewModel.status && viewModel.status.degradedReason ? ' (' + viewModel.status.degradedReason + ')' : '') +
-        '. Regenerate the demo-data bundle and reload to restore the Client Dashboard.'
+        '. Regenerate the demo-data bundle and reload to restore the Client Workspace.'
     })]);
   }
 
@@ -965,7 +1667,7 @@
   // ------------------------------------------------------------------
 
   /**
-   * Renders the Client Dashboard when it is the active workspace: the ready
+   * Renders the Client Workspace when it is the active workspace: the ready
    * experience once the state has loaded, the loading skeleton before that,
    * and the degraded explanation when no client is available.
    */
@@ -997,7 +1699,7 @@
       renderDegraded(view, viewModel);
       return;
     }
-    renderReady(view, viewModel, registry);
+    renderReady(view, viewModel, registry, AuditOS.repository, { engagementId: '' });
   }
 
   AuditOS.clientDashboardWorkspace = {
@@ -1009,24 +1711,41 @@
       companyStatusTone: companyStatusTone,
       resolveTargetCompany: resolveTargetCompany,
       splitEngagements: splitEngagements,
-      deriveUpcomingMilestones: deriveUpcomingMilestones,
+      requirementOwnership: requirementOwnership,
+      requestOwnership: requestOwnership,
+      evidenceOwnership: evidenceOwnership,
+      testOwnership: testOwnership,
       deriveEvidenceProgress: deriveEvidenceProgress,
       deriveRequirementCompletion: deriveRequirementCompletion,
       deriveTestingCompletion: deriveTestingCompletion,
+      deriveWalkthroughCompletion: deriveWalkthroughCompletion,
       deriveFindingsSummary: deriveFindingsSummary,
-      deriveReadiness: deriveReadiness,
-      deriveTeamWorkload: deriveTeamWorkload,
       deriveApprovalSummary: deriveApprovalSummary,
+      deriveBlockedCount: deriveBlockedCount,
+      deriveEngagementPortfolio: deriveEngagementPortfolio,
+      derivePortfolioOverview: derivePortfolioOverview,
+      deriveTeamAnalytics: deriveTeamAnalytics,
+      derivePocAnalytics: derivePocAnalytics,
       derivePortfolioHealth: derivePortfolioHealth,
       deriveRelationships: deriveRelationships,
       deriveActivity: deriveActivity,
-      deriveMetadata: deriveMetadata
+      deriveMetadata: deriveMetadata,
+      deriveAiInsights: deriveAiInsights
     },
 
     collectViewModel: collectViewModel,
 
     /**
-     * Binds the Client Dashboard to the router and the Shared Audit State.
+     * Renders the ready experience into an already-framework-rendered view.
+     * Exposed (mirroring every other workspace's host-agnostic renderer) so
+     * a host can render and test the full module dispatch — engagement
+     * filtering, universal search wiring, and the module registry — without
+     * going through the router.
+     */
+    renderReady: renderReady,
+
+    /**
+     * Binds the Client Workspace to the router and the Shared Audit State.
      * Safe to call once, after the DOM is ready, the router has resolved the
      * initial route, and the framework has rendered its skeleton. Does
      * nothing when the routing or state foundations are absent, so the shell
@@ -1045,7 +1764,7 @@
         state.subscribe(state.EVENTS.STATE_CHANGED, renderActiveClientDashboard);
         state.subscribe(state.EVENTS.STATE_RESET, renderActiveClientDashboard);
       }
-      // The New engagement entry point is capability-gated; the dashboard
+      // The New engagement entry point is capability-gated; the workspace
       // follows Demo Mode role switches (Issue #34).
       if (AuditOS.permissions && typeof AuditOS.permissions.subscribe === 'function') {
         AuditOS.permissions.subscribe(renderActiveClientDashboard);

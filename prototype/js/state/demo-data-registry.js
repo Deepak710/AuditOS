@@ -70,6 +70,11 @@
     { id: 'approvals',          scope: SCOPES.SHARED, path: 'demo-data/approvals.json',           recordsKey: 'approvals' },
     { id: 'audit-logs',         scope: SCOPES.SHARED, path: 'demo-data/audit-logs.json',          recordsKey: 'events' },
     { id: 'ai-telemetry',       scope: SCOPES.SHARED, path: 'demo-data/ai-telemetry.json',        recordsKey: 'events' },
+    // Client Workspace AI Portfolio Insights (GitHub Issue #35 §7): precomputed
+    // advisory signals scoped to a client's portfolio, rendered read-only by
+    // the Client Workspace's AI module exactly as a future AI agent's output
+    // would render.
+    { id: 'ai-portfolio-insights', scope: SCOPES.SHARED, path: 'demo-data/ai-portfolio-insights.json', recordsKey: 'insights' },
 
     // Per-engagement domains (root manifest → one document per dataset).
     { id: 'controls',              scope: SCOPES.ENGAGEMENT, manifestPath: 'demo-data/controls.json',              recordsKey: 'controls' },

@@ -91,6 +91,7 @@ Part IX establishes the following core workspaces.
 | Workspace                     | Primary Purpose                                |
 | ----------------------------- | ---------------------------------------------- |
 | Workspace Shell               | Persistent platform operating environment      |
+| Client Workspace              | Portfolio command center for client management |
 | Engagement Workspace          | Operational command center for engagements     |
 | Walkthrough Workspace         | Business process understanding                 |
 | Controls Workspace            | Business Control management                    |

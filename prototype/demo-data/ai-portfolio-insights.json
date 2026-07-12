@@ -1,0 +1,119 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "AI Portfolio Insights (GitHub Issue #35 §7): precomputed advisory signals scoped to a client's portfolio. Every scope reference (engagement/team/poc) is a real id in this dataset, and every metric cites a real figure already recorded in the corresponding requests/evidence/reports dataset — nothing is invented at render time. Release 1 renders these read-only, exactly as a future AI agent's output would render; Release 2 replaces the generator behind this same schema with a live agent, not the UI.",
+    "source": "Derived from Meridian engagement, team, POC, and evidence-request records",
+    "generatedBy": "deterministic seed 20260711"
+  },
+  "insights": [
+    {
+      "id": "AIN-MER-0001",
+      "companyId": "CMP-MER",
+      "type": "portfolio-risk",
+      "severity": "error",
+      "title": "NXSC SOC 2 Type II is behind pace after its audit period end",
+      "description": "The audit period closed 2026-06-30, but only 75 of 283 evidence requests (26.5%) are complete as of the dataset's generation date.",
+      "scope": { "kind": "engagement", "id": "ENG-MER-NXSC-2026", "label": "NXSC SOC 2 Type II" },
+      "metric": { "label": "Requests complete", "value": "75 of 283 (26.5%)" },
+      "confidence": 0.82,
+      "recommendation": "Escalate the 184 requests still Requested by SOC Team before fieldwork wrap-up."
+    },
+    {
+      "id": "AIN-MER-0002",
+      "companyId": "CMP-MER",
+      "type": "blocked-engagement",
+      "severity": "warning",
+      "title": "15 NXSC requests are blocked on sample population",
+      "description": "Population Pending - HA unable to share samples is a genuine blocker distinct from ordinary pending review — these requests cannot progress until the client shares a sample population.",
+      "scope": { "kind": "engagement", "id": "ENG-MER-NXSC-2026", "label": "NXSC SOC 2 Type II" },
+      "metric": { "label": "Blocked requests", "value": "15" },
+      "confidence": 0.9,
+      "recommendation": "Follow up directly with the client contacts on the outstanding sample populations."
+    },
+    {
+      "id": "AIN-MER-0003",
+      "companyId": "CMP-MER",
+      "type": "overloaded-poc",
+      "severity": "warning",
+      "title": "InfoSec Team carries the largest requirement load in the portfolio",
+      "description": "InfoSec Team owns 118 requirements — more than double the next-largest team — concentrating review risk on a small POC roster.",
+      "scope": { "kind": "team", "id": "TEAM-MER-011", "label": "InfoSec Team" },
+      "metric": { "label": "Owned requirements", "value": "118" },
+      "confidence": 0.68,
+      "recommendation": "Confirm InfoSec Team POCs (including Corbin Yates) have bandwidth before the next evidence cycle."
+    },
+    {
+      "id": "AIN-MER-0004",
+      "companyId": "CMP-MER",
+      "type": "evidence-bottleneck",
+      "severity": "warning",
+      "title": "Cloud Ops Team evidence is trailing on Zephyr Platform & Quanta Portfolio",
+      "description": "20 evidence items owned by Cloud Ops Team are still Evidence Partially Received on this engagement — the largest single-team share of outstanding evidence.",
+      "scope": { "kind": "engagement", "id": "ENG-MER-ZPQP-2025", "label": "Zephyr Platform & Quanta Portfolio SOC 2 Type II" },
+      "metric": { "label": "Partially received", "value": "20 items" },
+      "confidence": 0.64,
+      "recommendation": "Prioritize Cloud Ops Team follow-ups ahead of other partially-received evidence."
+    },
+    {
+      "id": "AIN-MER-0005",
+      "companyId": "CMP-MER",
+      "type": "testing-trend",
+      "severity": "info",
+      "title": "Quanta Capture Legacy testing is ahead of the portfolio average",
+      "description": "216 of 253 evidence requests (85.4%) are complete, the highest completion rate of any active engagement — testing is tracking ahead of the portfolio.",
+      "scope": { "kind": "engagement", "id": "ENG-MER-QC-2025", "label": "Quanta Capture Legacy SOC 2 Type II" },
+      "metric": { "label": "Requests complete", "value": "216 of 253 (85.4%)" },
+      "confidence": 0.71,
+      "recommendation": "No action needed — monitor for regression at the next testing checkpoint."
+    },
+    {
+      "id": "AIN-MER-0006",
+      "companyId": "CMP-MER",
+      "type": "approval-bottleneck",
+      "severity": "warning",
+      "title": "Quanta Assist (GCP) has 15 items under Halcyon Assurance review",
+      "description": "15 requests sit in Evidence Received - Under HA Review, the highest under-review count of any active engagement, ahead of Zephyr Platform & Quanta Portfolio's 16 combined with a larger request pool.",
+      "scope": { "kind": "engagement", "id": "ENG-MER-QA-2026", "label": "Quanta Assist (GCP) SOC 2 Type I" },
+      "metric": { "label": "Under HA review", "value": "15 requests" },
+      "confidence": 0.6,
+      "recommendation": "Schedule reviewer time against the Quanta Assist queue this week."
+    },
+    {
+      "id": "AIN-MER-0007",
+      "companyId": "CMP-MER",
+      "type": "report-readiness",
+      "severity": "info",
+      "title": "Zephyr Platform & Quanta Portfolio report remains in Draft",
+      "description": "The continuously assembled report document is at version 0.1, Draft status — report readiness lags evidence completion (74.2%) on this engagement.",
+      "scope": { "kind": "engagement", "id": "ENG-MER-ZPQP-2025", "label": "Zephyr Platform & Quanta Portfolio SOC 2 Type II" },
+      "metric": { "label": "Report status", "value": "Draft · v0.1" },
+      "confidence": 0.55,
+      "recommendation": "Begin drafting narrative sections that do not depend on the remaining open requests."
+    },
+    {
+      "id": "AIN-MER-0008",
+      "companyId": "CMP-MER",
+      "type": "estimated-completion",
+      "severity": "info",
+      "title": "Quanta Assist (GCP) is trending toward on-time completion",
+      "description": "At 79.25% of requests complete against an as-on date of 2026-04-15, Quanta Assist is the second-most-advanced active engagement in the portfolio.",
+      "scope": { "kind": "engagement", "id": "ENG-MER-QA-2026", "label": "Quanta Assist (GCP) SOC 2 Type I" },
+      "metric": { "label": "Requests complete", "value": "275 of 347 (79.25%)" },
+      "confidence": 0.58,
+      "recommendation": "Hold the current pace to close the remaining 72 requests before sign-off."
+    },
+    {
+      "id": "AIN-MER-0009",
+      "companyId": "CMP-MER",
+      "type": "review-delay-prediction",
+      "severity": "warning",
+      "title": "NXSC review is likely to slip without intervention",
+      "description": "With 184 of 283 requests still Requested by SOC Team and the audit period already closed, Halcyon Assurance review is at elevated risk of delay relative to the other four active engagements.",
+      "scope": { "kind": "engagement", "id": "ENG-MER-NXSC-2026", "label": "NXSC SOC 2 Type II" },
+      "metric": { "label": "Outstanding requests", "value": "184" },
+      "confidence": 0.63,
+      "recommendation": "Flag NXSC for engagement-lead attention at the next portfolio standup."
+    }
+  ]
+}

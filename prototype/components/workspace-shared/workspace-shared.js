@@ -142,6 +142,28 @@
   }
 
   /**
+   * Builds the hierarchical deep link into a workspace scoped to one
+   * engagement: `#/{clientSlug}/{engagementSlug}[/{workspacePath}]` (Issue
+   * #34's route contract). Omitting `workspaceId` (or naming the Engagement
+   * workspace itself) links to the engagement overview; any other registered
+   * workspace id appends its path so the link lands directly on that
+   * engagement-scoped workspace (Issue #35 §4 — portfolio drill-down).
+   * Returns null when the repository, registry, client, or engagement is
+   * absent, so a caller never fabricates a route no resolver can serve.
+   */
+  function buildHierarchicalHref(repository, workspaceRegistry, client, engagement, workspaceId) {
+    if (!repository || !workspaceRegistry || !client || !engagement) {
+      return null;
+    }
+    var base = '#/' + repository.clientSlug(client) + '/' + repository.engagementSlug(engagement);
+    if (!workspaceId || workspaceId === workspaceRegistry.IDS.ENGAGEMENT) {
+      return base;
+    }
+    var workspace = workspaceRegistry.findById(workspaceId);
+    return workspace ? base + '/' + workspace.path : null;
+  }
+
+  /**
    * Normalizes a linked-id reference into an Inspector list item, resolving
    * its name where it joins. When `workspaceRegistry` and `workspaceId` are
    * supplied and the id genuinely joins `map`, the item also carries an
@@ -626,6 +648,7 @@
     deriveCurrentEngagement: deriveCurrentEngagement,
     resolveName: resolveName,
     buildRecordHref: buildRecordHref,
+    buildHierarchicalHref: buildHierarchicalHref,
     resolveRefItem: resolveRefItem,
     textSection: textSection,
     listSection: listSection,
