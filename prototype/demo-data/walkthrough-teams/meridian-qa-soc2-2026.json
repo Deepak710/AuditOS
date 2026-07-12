@@ -1,0 +1,132 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Walkthrough Teams (Issue #36 Build §3/§4): Team → POC operational readiness — one record per Team, Repository-backed so Scheduling, Ingestion, and status writes are audited like every other entity.",
+    "source": "Derived from the real teams/pocs rosters for this engagement",
+    "engagementId": "ENG-MER-QA-2026",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025"
+  },
+  "teams": [
+    {
+      "id": "TEAM-MER-017",
+      "name": "Quanta Assist Team",
+      "status": "In Progress",
+      "stage": "Evidence Collection",
+      "mainPocId": "POC-MER-034",
+      "escalationPocId": "POC-MER-053",
+      "pocIds": [
+        "POC-MER-034",
+        "POC-MER-053"
+      ],
+      "role": "Product Engineering (GCP)",
+      "department": "Product",
+      "timezone": "Asia/Kolkata",
+      "reminderStatus": "Acknowledged",
+      "escalationStatus": "None",
+      "nextSession": {
+        "date": "2026-07-17",
+        "time": "15:00",
+        "timezone": "Asia/Kolkata"
+      },
+      "agenda": [
+        "GCP hosting environment walkthrough",
+        "Confirm the 7 in-progress control evidence owners"
+      ],
+      "evidenceExpected": [
+        "GCP IAM configuration export",
+        "In-progress control evidence tracker"
+      ],
+      "evidenceDemonstrated": [
+        "GCP project structure overview"
+      ],
+      "dependencyIds": [
+        "DEP-MER-QA-001"
+      ],
+      "blockers": [],
+      "comments": [
+        {
+          "author": "Priya Raman",
+          "on": "2026-07-02",
+          "text": "Anjali confirmed GCP IAM export will be ready ahead of the July 17 session."
+        }
+      ],
+      "ingestion": {
+        "notes": [
+          {
+            "on": "2026-07-02",
+            "author": "Priya Raman",
+            "text": "Reviewed the GCP project structure at a high level; deep dive scheduled next session."
+          }
+        ],
+        "transcripts": [],
+        "evidenceUploads": [],
+        "recordingLinks": [],
+        "sharepointLinks": [],
+        "localFileRefs": []
+      },
+      "scheduling": {
+        "recurring": {
+          "enabled": true,
+          "cadence": "Weekly",
+          "dayOfWeek": "Friday",
+          "time": "15:00"
+        },
+        "reminderCadence": "2 days before the session",
+        "escalationCadence": "Escalate to the engagement lead 1 business day after a missed session",
+        "prepChecklist": [
+          "Confirm GCP evidence access",
+          "Circulate agenda 48 hours ahead"
+        ]
+      },
+      "sessions": [
+        {
+          "id": "TWS-MER-QA-001",
+          "title": "GCP hosting overview",
+          "type": "Recurring",
+          "date": "2026-07-02",
+          "time": "15:00",
+          "status": "Completed",
+          "agenda": [
+            "GCP project structure"
+          ],
+          "evidenceExpected": [
+            "GCP project structure overview"
+          ],
+          "participants": [
+            "POC-MER-034"
+          ],
+          "notes": "High-level walkthrough of the GCP project structure.",
+          "recordingLink": "",
+          "sharepointLink": "",
+          "localFileRef": ""
+        },
+        {
+          "id": "TWS-MER-QA-002",
+          "title": "IAM and evidence deep dive",
+          "type": "Recurring",
+          "date": "2026-07-17",
+          "time": "15:00",
+          "status": "Scheduled",
+          "agenda": [
+            "GCP IAM configuration walkthrough",
+            "Evidence tracker review"
+          ],
+          "evidenceExpected": [
+            "GCP IAM configuration export",
+            "In-progress control evidence tracker"
+          ],
+          "participants": [
+            "POC-MER-034",
+            "POC-MER-053"
+          ],
+          "notes": "",
+          "recordingLink": "",
+          "sharepointLink": "",
+          "localFileRef": ""
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Dependency Engine (Issue #36): Team → POC → Requirement → Control → Evidence → Report chains derived from walkthrough operating state.",
+    "source": "Derived from the walkthroughs collection's team operating state",
+    "engagementId": "ENG-MER-NXSC-2026",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025"
+  },
+  "dependencies": [
+    {
+      "id": "DEP-MER-NXSC-001",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "chain": ["team", "requirement"],
+      "sourceType": "team",
+      "sourceId": "TEAM-MER-001",
+      "targetType": "requirement",
+      "targetId": "REQ-MER-0770",
+      "reason": "Closure of REQ-MER-0770 through REQ-MER-0776 was agreed verbally on the June 2 call; documented confirmation from Sotos is still outstanding.",
+      "confidence": 0.5,
+      "blocking": false,
+      "affectedObjects": [
+        { "type": "requirement", "id": "REQ-MER-0770" },
+        { "type": "requirement", "id": "REQ-MER-0771" },
+        { "type": "requirement", "id": "REQ-MER-0772" },
+        { "type": "requirement", "id": "REQ-MER-0773" },
+        { "type": "requirement", "id": "REQ-MER-0774" },
+        { "type": "requirement", "id": "REQ-MER-0775" },
+        { "type": "requirement", "id": "REQ-MER-0776" }
+      ],
+      "auditPeriodImplications": "Within the current audit period (2026-03-01 to 2026-06-30).",
+      "historicalImpact": "No prior-period testing exists for this engagement.",
+      "futureImpact": "If Sotos raises these requirements again, all seven closures reopen and require re-testing before report release."
+    }
+  ]
+}

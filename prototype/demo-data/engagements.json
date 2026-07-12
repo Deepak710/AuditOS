@@ -47,7 +47,8 @@
       ],
       "auditor": "Halcyon Assurance LLP",
       "reportId": "RPT-MER-CSP",
-      "datasetKey": "meridian-csp-soc2-2025"
+      "datasetKey": "meridian-csp-soc2-2025",
+      "auditorTimezone": "America/New_York"
     },
     {
       "id": "ENG-MER-ZPQP-2025",
@@ -83,7 +84,8 @@
       "subserviceOrganizations": [],
       "auditor": "Halcyon Assurance LLP",
       "reportId": "RPT-MER-ZPQP",
-      "datasetKey": "meridian-zpqp-soc2-2025"
+      "datasetKey": "meridian-zpqp-soc2-2025",
+      "auditorTimezone": "America/New_York"
     },
     {
       "id": "ENG-MER-QC-2025",
@@ -119,7 +121,8 @@
       "subserviceOrganizations": [],
       "auditor": "Halcyon Assurance LLP",
       "reportId": "RPT-MER-QC",
-      "datasetKey": "meridian-qc-soc2-2025"
+      "datasetKey": "meridian-qc-soc2-2025",
+      "auditorTimezone": "America/New_York"
     },
     {
       "id": "ENG-MER-QA-2026",
@@ -152,7 +155,8 @@
       "subserviceOrganizations": [],
       "auditor": "Halcyon Assurance LLP",
       "reportId": "RPT-MER-QA",
-      "datasetKey": "meridian-qa-soc2-2026"
+      "datasetKey": "meridian-qa-soc2-2026",
+      "auditorTimezone": "America/New_York"
     },
     {
       "id": "ENG-MER-NXSC-2026",
@@ -188,7 +192,8 @@
       "subserviceOrganizations": [],
       "auditor": "Halcyon Assurance LLP",
       "reportId": "RPT-MER-NXSC",
-      "datasetKey": "meridian-nxsc-soc2-2026"
+      "datasetKey": "meridian-nxsc-soc2-2026",
+      "auditorTimezone": "America/New_York"
     }
   ]
 }

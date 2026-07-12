@@ -97,6 +97,23 @@
   var STAGE_STATUS = { COMPLETE: 'Complete', ACTIVE: 'In progress', NOT_STARTED: 'Not started', RESOLVED: 'Resolved' };
   var STAGE_TONES = { 'Complete': TONES.SUCCESS, 'Resolved': TONES.SUCCESS, 'In progress': TONES.INFO, 'Not started': null, 'Draft': TONES.INFO };
 
+  /** Walkthrough Team operational status vocabulary (Issue #36 §1/§3) and its tones — identical vocabulary to the Walkthrough Workspace. */
+  var WALKTHROUGH_TEAM_TONES = {
+    'Complete': TONES.SUCCESS, 'In Progress': TONES.INFO, 'Scheduling': TONES.WARNING,
+    'Blocked': TONES.ERROR, 'Not Started': null
+  };
+
+  /** AI Suggestion lifecycle status vocabulary (Issue #36 §9) and its tones. */
+  var SUGGESTION_TONES = {
+    'Suggested': TONES.INFO, 'Reviewed': TONES.INFO, 'Approved': TONES.SUCCESS,
+    'Applied': TONES.SUCCESS, 'Rejected': TONES.ERROR, 'Modified': TONES.WARNING
+  };
+
+  /** The Repository Foundation, resolved at call time — read-only, for hierarchical Team hrefs only (Issue #36). */
+  function repositoryService() {
+    return AuditOS.repository || null;
+  }
+
   /** Business status vocabulary used to tone activity and blocking work. */
   var REVIEW_STATUS = { APPROVED: 'Approved', PENDING_REVIEW: 'Pending Review', REJECTED: 'Rejected' };
   var SEVERITY = { HIGH: 'High' };
@@ -507,6 +524,121 @@
    * responsibilities resolve through the team catalog. Name, role,
    * responsibilities, and status all read from JSON.
    */
+  /**
+   * Active Walkthroughs (Issue #36 §1): the Walkthrough Teams currently
+   * being worked — In Progress or actively Scheduling — each linking into
+   * its Team command center. Never a fabricated count; a company with no
+   * Walkthrough Teams data yields an empty list.
+   */
+  function deriveActiveWalkthroughs(walkthroughTeams, hrefOf) {
+    return asArray(walkthroughTeams)
+      .filter(function (team) { return team.status === 'In Progress' || team.status === 'Scheduling'; })
+      .map(function (team) {
+        return {
+          title: team.name || team.id,
+          description: team.stage || '',
+          meta: team.status,
+          tone: WALKTHROUGH_TEAM_TONES[team.status] || null,
+          path: hrefOf ? hrefOf(team.id) : null
+        };
+      });
+  }
+
+  /**
+   * Upcoming Walkthroughs (Issue #36 §1): the Walkthrough Teams with a real
+   * scheduled next session, soonest first. Only teams that actually
+   * recorded a `nextSession` appear — nothing is estimated or invented.
+   */
+  function deriveUpcomingWalkthroughs(walkthroughTeams, hrefOf) {
+    return asArray(walkthroughTeams)
+      .filter(function (team) { return team.nextSession && team.nextSession.date; })
+      .slice()
+      .sort(function (a, b) { return String(a.nextSession.date).localeCompare(String(b.nextSession.date)); })
+      .slice(0, LIST_LIMIT)
+      .map(function (team) {
+        return {
+          title: team.name || team.id,
+          description: [formatDate(team.nextSession.date), team.nextSession.time].filter(Boolean).join(' · '),
+          meta: team.status,
+          tone: TONES.INFO,
+          path: hrefOf ? hrefOf(team.id) : null
+        };
+      });
+  }
+
+  /**
+   * Team Status (Issue #36 §1): the full Walkthrough Team roster with its
+   * current operational status, each linking into its command center.
+   */
+  function deriveTeamStatus(walkthroughTeams, hrefOf) {
+    return asArray(walkthroughTeams).map(function (team) {
+      return {
+        title: team.name || team.id,
+        description: team.stage || '',
+        meta: team.status || 'Not Started',
+        tone: WALKTHROUGH_TEAM_TONES[team.status] || null,
+        path: hrefOf ? hrefOf(team.id) : null
+      };
+    });
+  }
+
+  /**
+   * Pending AI Suggestions (Issue #36 §1/§9): suggestions still awaiting a
+   * decision (Suggested or Reviewed), most recently suggested first.
+   */
+  function derivePendingSuggestions(suggestions) {
+    return asArray(suggestions)
+      .filter(function (suggestion) { return suggestion.status === 'Suggested' || suggestion.status === 'Reviewed'; })
+      .slice()
+      .sort(function (a, b) { return String(b.suggestedOn || '').localeCompare(String(a.suggestedOn || '')); })
+      .slice(0, LIST_LIMIT)
+      .map(function (suggestion) {
+        return {
+          title: suggestion.title,
+          description: suggestion.description || '',
+          meta: suggestion.status,
+          tone: SUGGESTION_TONES[suggestion.status] || TONES.INFO
+        };
+      });
+  }
+
+  /**
+   * Industry Knowledge (Issue #36 §1/§11): the organizational-learning
+   * items already resolved applicable to this engagement's audit period
+   * (never retroactive) — read-only, reusable across every engagement.
+   */
+  function deriveIndustryKnowledgeSummary(applicableItems) {
+    return asArray(applicableItems).slice(0, LIST_LIMIT).map(function (item) {
+      return {
+        title: item.title,
+        description: item.description || '',
+        meta: 'Implemented ' + formatDate(item.implementationDate),
+        tone: TONES.INFO
+      };
+    });
+  }
+
+  /**
+   * AI Insights (Issue #36 §1/§8): the EngagementContextService's working
+   * memory, confidence, and recorded assumptions — the single source of
+   * AI-derived engagement state, rendered read-only. Returns null when no
+   * context document is seeded yet, so the AI panel degrades to the
+   * platform's standard "reserved for AI advisory" state rather than
+   * fabricating insight.
+   */
+  function deriveAiInsights(engagementContext) {
+    if (!engagementContext) {
+      return null;
+    }
+    return {
+      workingMemory: engagementContext.workingMemory || '',
+      confidence: typeof engagementContext.confidence === 'number' ? engagementContext.confidence : null,
+      assumptions: asArray(engagementContext.assumptions).map(function (assumption) {
+        return { title: assumption.text, meta: typeof assumption.confidence === 'number' ? Math.round(assumption.confidence * 100) + '% confidence' : '' };
+      })
+    };
+  }
+
   function deriveTeam(pocs, teams, companyId) {
     var teamsById = {};
     asArray(teams).forEach(function (team) {
@@ -677,6 +809,38 @@
     var reportsDocument = readEngagementDocument(state, 'reports', engagement.id) || {};
     var activityDocument = readEngagementDocument(state, 'activity', engagement.id) || {};
 
+    // Engagement Operating System Foundation (Issue #36): Walkthrough Teams,
+    // AI Suggestions, and Industry Knowledge, read through the same
+    // engagement-scoped document pattern as every domain above — never
+    // fabricated when the collection carries no dataset yet.
+    var walkthroughTeamsDocument = readEngagementDocument(state, 'walkthrough-teams', engagement.id) || {};
+    var walkthroughTeams = asArray(walkthroughTeamsDocument.teams);
+    var suggestionsDocument = readEngagementDocument(state, 'suggestions', engagement.id) || {};
+    var suggestions = asArray(suggestionsDocument.suggestions);
+    var industryKnowledgeItems = state.listRecords('industry-knowledge');
+    var applicableIndustryKnowledge = AuditOS.industryKnowledge
+      ? AuditOS.industryKnowledge.resolveApplicable(industryKnowledgeItems, engagement.auditPeriod)
+      : industryKnowledgeItems;
+    var contextDocument = readEngagementDocument(state, 'engagement-context', engagement.id) || {};
+    var engagementContext = asArray(contextDocument.context)[0] || null;
+
+    // The hierarchical link into a Walkthrough Team's command center
+    // (Issue #36 §3). Read-only — resolved lazily so this workspace still
+    // registers cleanly wherever the Repository has not loaded (offline
+    // unit sandboxes).
+    var repositoryForHref = repositoryService();
+    function teamHref(teamId) {
+      if (!repositoryForHref || !company || !workspaceRegistry) {
+        return null;
+      }
+      var walkthroughWorkspace = workspaceRegistry.findById(workspaceRegistry.IDS.WALKTHROUGH);
+      if (!walkthroughWorkspace) {
+        return null;
+      }
+      return '#/' + repositoryForHref.clientSlug(company) + '/' + repositoryForHref.engagementSlug(engagement) +
+        '/' + walkthroughWorkspace.path + '/' + encodeURIComponent(teamId);
+    }
+
     var evidenceRecords = evidenceDocument.evidence || [];
     var requestRecords = requestsDocument.requests || [];
     var findingRecords = findingsDocument.findings || [];
@@ -759,6 +923,18 @@
       nextActions: deriveNextActions(operational, workspaceRegistry),
       blocking: deriveBlockingItems(findingRecords, evidenceRecords, testRecords, workspaceRegistry),
       lifecycle: deriveLifecycle(workspaceRegistry, operational),
+
+      // Engagement Operating System Foundation (Issue #36 §1): the
+      // executive walkthrough-operations surfaces, each real and derived
+      // from the Walkthrough Teams / Suggestions / Industry Knowledge /
+      // Engagement Context collections — never duplicated from the Client
+      // Workspace, and never fabricated when a collection carries no data.
+      activeWalkthroughs: deriveActiveWalkthroughs(walkthroughTeams, teamHref),
+      upcomingWalkthroughs: deriveUpcomingWalkthroughs(walkthroughTeams, teamHref),
+      teamStatus: deriveTeamStatus(walkthroughTeams, teamHref),
+      pendingSuggestions: derivePendingSuggestions(suggestions),
+      industryKnowledgeSummary: deriveIndustryKnowledgeSummary(applicableIndustryKnowledge),
+      aiInsights: deriveAiInsights(engagementContext),
 
       summary: {
         frameworks: frameworks,
@@ -1079,6 +1255,50 @@
     return grid;
   }
 
+  /**
+   * Builds a list body of Walkthrough Team links (Active Walkthroughs,
+   * Upcoming Walkthroughs, Team Status — Issue #36 §1). `item.path`, when
+   * present, is already the complete hierarchical href into that Team's
+   * command center — used as-is, never re-prefixed.
+   */
+  function buildTeamLinkedListBody(items) {
+    var P = presentation();
+    return P.itemList(asArray(items).map(function (item) {
+      return {
+        title: item.title, description: item.description, meta: item.meta, tone: item.tone,
+        actions: item.path ? [{ label: 'Open', href: item.path }] : []
+      };
+    }));
+  }
+
+  /** Builds the Pending AI Suggestions / Industry Knowledge list bodies (Issue #36 §1) — already presentation-shaped by their derivations. */
+  function buildInfoListBody(items) {
+    return presentation().itemList(items);
+  }
+
+  /**
+   * Builds the AI Insights body (Issue #36 §1/§8): the EngagementContext's
+   * working memory, confidence, and recorded assumptions, read-only. AI
+   * remains advisory; human approval remains mandatory.
+   */
+  function buildAiInsightsBody(insights) {
+    var P = presentation();
+    var wrap = el('div', 'aos-surface aos-surface--padded aos-engagement__ai-insights');
+    if (insights.workingMemory) {
+      wrap.appendChild(el('p', 'aos-engagement__ai-insights-memory', insights.workingMemory));
+    }
+    if (insights.confidence !== null) {
+      wrap.appendChild(P.propertyGrid([
+        { label: 'Confidence', value: Math.round(insights.confidence * 100) + '%' }
+      ], { columns: 1 }));
+    }
+    if (insights.assumptions.length > 0) {
+      wrap.appendChild(el('p', 'aos-engagement__ai-insights-subtitle', 'Assumptions'));
+      wrap.appendChild(P.itemList(insights.assumptions, { compact: true }));
+    }
+    return wrap;
+  }
+
   /** Builds the Metadata body: the shared Metadata List of presentation fields. */
   function buildMetadataBody(metadata) {
     var pairs = [
@@ -1196,6 +1416,37 @@
         empty: { icon: '◇', title: 'No lifecycle stages', description: 'Operational stages appear here once the workspaces are registered.' }
       },
       {
+        id: 'active-walkthroughs', kicker: 'In progress now', title: 'Active Walkthroughs',
+        present: viewModel.activeWalkthroughs.length > 0,
+        body: function () { return buildTeamLinkedListBody(viewModel.activeWalkthroughs); },
+        empty: { icon: '◇', title: 'No active walkthroughs', description: 'Walkthrough Teams currently being worked appear here.' }
+      },
+      {
+        id: 'upcoming-walkthroughs', kicker: 'Scheduled', title: 'Upcoming Walkthroughs',
+        present: viewModel.upcomingWalkthroughs.length > 0,
+        body: function () { return buildTeamLinkedListBody(viewModel.upcomingWalkthroughs); },
+        empty: { icon: '◇', title: 'Nothing scheduled', description: 'Teams with a scheduled next session appear here.' }
+      },
+      {
+        id: 'team-status', kicker: 'Operational readiness', title: 'Team Status',
+        present: viewModel.teamStatus.length > 0,
+        body: function () { return buildTeamLinkedListBody(viewModel.teamStatus); },
+        empty: { icon: '◇', title: 'No teams recorded yet', description: 'The Walkthrough Team roster appears here once it is authored.' }
+      },
+      {
+        id: 'pending-suggestions', kicker: 'Suggested → Reviewed → Approved → Applied', title: 'Pending AI Suggestions',
+        present: viewModel.pendingSuggestions.length > 0,
+        body: function () { return buildInfoListBody(viewModel.pendingSuggestions); },
+        empty: { icon: '✓', title: 'Nothing pending', description: 'AI Suggestions awaiting review or a decision appear here.' }
+      },
+      {
+        id: 'industry-knowledge', kicker: 'Organizational learning', title: 'Industry Knowledge',
+        description: 'Reusable knowledge applicable to this engagement’s audit period — never retroactive.',
+        present: viewModel.industryKnowledgeSummary.length > 0,
+        body: function () { return buildInfoListBody(viewModel.industryKnowledgeSummary); },
+        empty: { icon: '◇', title: 'No applicable Industry Knowledge', description: 'Organizational learning applicable to this engagement’s audit period appears here.' }
+      },
+      {
         id: 'summary', kicker: 'Context', title: 'Engagement summary',
         present: true, body: function () { return buildSummaryBody(viewModel.summary); }
       },
@@ -1249,10 +1500,16 @@
     related.classList.add('aos-fade-in');
     fillSlot(view, SLOTS.RELATED, [related]);
 
-    var ai = P.emptyState({
-      icon: '✦', title: 'Reserved for AI advisory',
-      description: 'Advisory recommendations will appear here once the AI foundation is implemented. AI remains advisory; human approval remains mandatory.'
-    });
+    // AI Insights (Issue #36 §1/§8): the EngagementContext's working memory
+    // and confidence when a context document is seeded; the platform's
+    // standard "reserved for AI advisory" state otherwise — never
+    // fabricated. AI remains advisory; human approval remains mandatory.
+    var ai = viewModel.aiInsights
+      ? buildAiInsightsBody(viewModel.aiInsights)
+      : P.emptyState({
+        icon: '✦', title: 'Reserved for AI advisory',
+        description: 'Advisory recommendations will appear here once the AI foundation is implemented. AI remains advisory; human approval remains mandatory.'
+      });
     ai.classList.add('aos-tint-brand', 'aos-fade-in');
     fillSlot(view, SLOTS.AI, [ai]);
 
@@ -1343,7 +1600,13 @@
       deriveActivity: deriveActivity,
       deriveMetadata: deriveMetadata,
       deriveTimeline: deriveTimeline,
-      buildInspectorEntities: buildInspectorEntities
+      buildInspectorEntities: buildInspectorEntities,
+      deriveActiveWalkthroughs: deriveActiveWalkthroughs,
+      deriveUpcomingWalkthroughs: deriveUpcomingWalkthroughs,
+      deriveTeamStatus: deriveTeamStatus,
+      derivePendingSuggestions: derivePendingSuggestions,
+      deriveIndustryKnowledgeSummary: deriveIndustryKnowledgeSummary,
+      deriveAiInsights: deriveAiInsights
     },
 
     collectViewModel: collectViewModel,

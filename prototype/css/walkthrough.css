@@ -190,6 +190,214 @@
 }
 
 /* ========================================
+ * TEAMS ROSTER (GitHub Issue #36 §1/§3)
+ * Operational readiness, not historical meetings — a fluid grid of Entity
+ * Cards, one per Team, each wrapped in a plain link into its command center.
+ * ======================================== */
+
+.aos-walkthrough__teams,
+.aos-walkthrough__pocs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--aos-space-4);
+  align-items: stretch;
+}
+
+.aos-walkthrough__team-link,
+.aos-walkthrough__poc-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  border-radius: var(--aos-radius-lg);
+  transition: box-shadow var(--aos-transition-fast);
+}
+
+.aos-walkthrough__team-link:hover,
+.aos-walkthrough__poc-link:hover {
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-walkthrough__team-link:focus-visible,
+.aos-walkthrough__poc-link:focus-visible {
+  outline: none;
+  box-shadow: var(--aos-focus-ring);
+}
+
+/* ========================================
+ * TEAM COMMAND CENTER (Issue #36 §4)
+ * ======================================== */
+
+.aos-walkthrough__subtitle {
+  margin: 0 0 var(--aos-space-2);
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-secondary);
+}
+
+.aos-walkthrough__split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--aos-space-4);
+  align-items: start;
+}
+
+/* Dual timezone display (Issue #36 §6) — Auditor local time above, POC
+ * local time below, derived automatically from the recorded IANA timezone. */
+.aos-walkthrough__timezones {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--aos-space-2);
+  margin-top: var(--aos-space-4);
+  padding-top: var(--aos-space-4);
+  border-top: 1px solid var(--aos-surface-border);
+}
+
+.aos-walkthrough__timezone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--aos-space-1);
+}
+
+.aos-walkthrough__timezone-label {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-walkthrough__timezone-value {
+  font-size: var(--aos-text-base);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-walkthrough__timezone-arrow {
+  color: var(--aos-text-tertiary);
+}
+
+/* ========================================
+ * AI SUGGESTIONS (Issue #36 §9/§13)
+ * Suggested → Reviewed → Approved → Applied.
+ * ======================================== */
+
+.aos-walkthrough__suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
+}
+
+.aos-walkthrough__suggestion-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+  margin-bottom: var(--aos-space-2);
+}
+
+.aos-walkthrough__suggestion-title {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-walkthrough__suggestion-description {
+  margin: 0 0 var(--aos-space-3);
+  font-size: var(--aos-text-sm);
+  color: var(--aos-text-secondary);
+}
+
+.aos-walkthrough__suggestion .aos-action-group {
+  margin: var(--aos-space-3) 0;
+}
+
+/* ========================================
+ * SCHEDULING (Issue #36 §5/§6) AND INGESTION (Issue #36 §7)
+ * ======================================== */
+
+.aos-walkthrough__scheduling,
+.aos-walkthrough__ingestion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
+}
+
+.aos-walkthrough__schedule-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-3);
+  margin-bottom: var(--aos-space-3);
+}
+
+.aos-walkthrough__schedule-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+}
+
+.aos-walkthrough__schedule-field-label {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-walkthrough__schedule-participants {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-3);
+  margin: var(--aos-space-3) 0;
+}
+
+.aos-walkthrough__schedule-participant {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-1);
+  font-size: var(--aos-text-sm);
+  color: var(--aos-text-secondary);
+}
+
+.aos-walkthrough__status-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-2);
+  margin-top: var(--aos-space-3);
+}
+
+/* Shared text field styling for the Scheduling, Ingestion, and Comment
+ * forms — a single scoped input treatment rather than per-form chrome. */
+.aos-walkthrough__field {
+  width: 100%;
+  padding: var(--aos-space-2);
+  margin-bottom: var(--aos-space-2);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  background: var(--aos-surface-panel);
+  color: var(--aos-text-primary);
+  font-family: var(--aos-font-sans);
+  font-size: var(--aos-text-sm);
+  resize: vertical;
+}
+
+.aos-walkthrough__field:focus-visible {
+  outline: none;
+  box-shadow: var(--aos-focus-ring);
+}
+
+/* ========================================
+ * COMMENTS (Issue #36 §4)
+ * ======================================== */
+
+.aos-walkthrough__comment-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--aos-space-2);
+  margin-bottom: var(--aos-space-3);
+}
+
+/* ========================================
  * WORKSPACE FOOTER ITEMS
  * Environment and demo status, divided by hairline rules.
  * ======================================== */
@@ -230,7 +438,10 @@
     gap: var(--aos-space-6);
   }
 
-  .aos-walkthrough__processes {
+  .aos-walkthrough__processes,
+  .aos-walkthrough__teams,
+  .aos-walkthrough__pocs,
+  .aos-walkthrough__split {
     gap: var(--aos-space-3);
   }
 }
@@ -240,7 +451,10 @@
     gap: var(--aos-space-5);
   }
 
-  .aos-walkthrough__processes {
+  .aos-walkthrough__processes,
+  .aos-walkthrough__teams,
+  .aos-walkthrough__pocs,
+  .aos-walkthrough__split {
     grid-template-columns: 1fr;
   }
 

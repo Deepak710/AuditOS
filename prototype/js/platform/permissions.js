@@ -91,6 +91,12 @@
       label: 'Audit log',
       requiredRoles: [ROLES.ADMINISTRATOR],
       reason: 'The platform audit trail spans every client and session and is platform administration data, visible to administrators only.'
+    },
+    'suggestions.decide': {
+      id: 'suggestions.decide',
+      label: 'Suggestion decisions',
+      requiredRoles: [ROLES.REVIEWER_1, ROLES.REVIEWER_2],
+      reason: 'Approving, rejecting, modifying, or applying an AI suggestion changes engagement working state and is reserved for engagement reviewers; other roles review, comment, and recommend instead.'
     }
   };
 

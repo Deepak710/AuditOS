@@ -1,0 +1,31 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Dependency Engine (Issue #36): Team → POC → Requirement → Control → Evidence → Report chains derived from walkthrough operating state.",
+    "source": "Derived from the walkthroughs collection's team operating state",
+    "engagementId": "ENG-MER-QA-2026",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025"
+  },
+  "dependencies": [
+    {
+      "id": "DEP-MER-QA-001",
+      "engagementId": "ENG-MER-QA-2026",
+      "chain": ["team", "evidence"],
+      "sourceType": "team",
+      "sourceId": "TEAM-MER-017",
+      "targetType": "evidence",
+      "targetId": "",
+      "reason": "GCP IAM configuration export has not yet been provided; the seven in-progress controls cannot be tested without it.",
+      "confidence": 0.6,
+      "blocking": true,
+      "affectedObjects": [
+        { "type": "evidence", "id": "", "description": "GCP IAM configuration export" }
+      ],
+      "auditPeriodImplications": "As-on-date engagement (2026-04-15); the export must reflect configuration as of that date.",
+      "historicalImpact": "No prior-period testing exists — this is a Type I engagement.",
+      "futureImpact": "A missed July 17 session pushes evidence collection into the fieldwork close window."
+    }
+  ]
+}

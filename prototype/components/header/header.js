@@ -228,6 +228,8 @@
     }
 
     var totals = { calls: events.length, costUsd: 0, tokens: 0, failures: 0 };
+    var costByDay = {};
+    var dayOrder = [];
     events.forEach(function (event) {
       totals.costUsd += event.costUsd || 0;
       var tokens = event.tokens || {};
@@ -235,13 +237,29 @@
       if (event.failed) {
         totals.failures += 1;
       }
+      var day = event.date || String(event.timestamp || '').slice(0, 10);
+      if (day) {
+        if (!Object.prototype.hasOwnProperty.call(costByDay, day)) {
+          costByDay[day] = 0;
+          dayOrder.push(day);
+        }
+        costByDay[day] += event.costUsd || 0;
+      }
     });
+
+    // The last seven recorded days' cost, chronological — the graphical
+    // trend the hover tooltip renders as a sparkline (Issue #36 §14).
+    var dailyTrend = dayOrder.sort().slice(-7).map(function (day) {
+      return { day: day, costUsd: Math.round(costByDay[day] * 100) / 100 };
+    });
+
     return {
       scopeLabel: scopeLabel,
       calls: totals.calls,
       costUsd: Math.round(totals.costUsd * 100) / 100,
       tokens: totals.tokens,
-      failures: totals.failures
+      failures: totals.failures,
+      dailyTrend: dailyTrend
     };
   }
 
@@ -276,6 +294,23 @@
         line.appendChild(el('span', 'aos-global-header__tooltip-detail', row.detail));
         tooltip.appendChild(line);
       });
+      // Graphical cost trend (Issue #36 §14 — "header hover becomes
+      // graphical"): a small sparkline of the last recorded days' cost,
+      // alongside the existing text rows (never in place of them).
+      if (summary.dailyTrend && summary.dailyTrend.length > 0) {
+        var maxCost = Math.max.apply(null, summary.dailyTrend.map(function (point) { return point.costUsd; }).concat([0.01]));
+        var sparkline = el('span', 'aos-global-header__sparkline');
+        sparkline.setAttribute('role', 'img');
+        sparkline.setAttribute('aria-label', 'Cost trend over the last ' + summary.dailyTrend.length +
+          ' recorded ' + (summary.dailyTrend.length === 1 ? 'day' : 'days'));
+        summary.dailyTrend.forEach(function (point) {
+          var bar = el('span', 'aos-global-header__sparkline-bar');
+          bar.style.height = Math.max(10, Math.round((point.costUsd / maxCost) * 100)) + '%';
+          bar.setAttribute('title', point.day + ': $' + point.costUsd.toFixed(2));
+          sparkline.appendChild(bar);
+        });
+        tooltip.appendChild(sparkline);
+      }
     } else {
       tooltip.appendChild(el('span', 'aos-global-header__tooltip-row',
         'AI telemetry loads with the demo data.'));

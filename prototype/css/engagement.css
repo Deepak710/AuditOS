@@ -406,3 +406,26 @@ a.aos-engagement__health-item:hover {
     white-space: normal;
   }
 }
+
+/* ========================================
+ * AI INSIGHTS (GitHub Issue #36 §1/§8)
+ * The EngagementContextService's working memory and assumptions, rendered
+ * read-only in the AI advisory panel. AI remains advisory; human approval
+ * remains mandatory.
+ * ======================================== */
+
+.aos-engagement__ai-insights-memory {
+  margin: 0 0 var(--aos-space-3);
+  font-size: var(--aos-text-sm);
+  line-height: var(--aos-leading-relaxed);
+  color: var(--aos-text-secondary);
+}
+
+.aos-engagement__ai-insights-subtitle {
+  margin: var(--aos-space-3) 0 var(--aos-space-2);
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}

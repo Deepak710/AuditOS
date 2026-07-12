@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "version": "1.0.0",
+    "version": "1.1.0",
     "generatedAt": "2026-07-11T00:00:00Z",
-    "description": "Walkthroughs (R-12): remark-evidenced sessions; per-control WT status lives on controls",
+    "description": "Walkthroughs (R-12): remark-evidenced sessions; per-control WT status lives on controls. Teams (Issue #36): Team → POC walkthrough operating state, authored against the real teams/pocs rosters.",
     "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
     "engagementId": "ENG-MER-ZPQP-2025",
     "companyId": "CMP-MER",

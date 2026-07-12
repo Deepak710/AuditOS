@@ -1,0 +1,9 @@
+{
+  "datasets": [
+    "suggestions/meridian-zpqp-soc2-2025.json",
+    "suggestions/meridian-qc-soc2-2025.json",
+    "suggestions/meridian-qa-soc2-2026.json",
+    "suggestions/meridian-nxsc-soc2-2026.json",
+    "suggestions/meridian-csp-soc2-2025.json"
+  ]
+}

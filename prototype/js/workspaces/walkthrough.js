@@ -4,16 +4,31 @@
  * Audit Lifecycle — Chapter 11 / Component Architecture — Chapter 74
  *
  * The primary operational workspace where the audit team progressively learns
- * the client's environment (GitHub Issue #20). Release 1 is a faithful
- * visualization of the demo JSON: no AI, no transcript processing, no
- * workflow engine, no writes. The demo-data catalog carries no walkthrough
- * collection yet, so every operational section renders through the shared
- * Empty State component today — nothing here is fabricated. The workspace
- * reads its walkthrough data through the same engagement-scoped document
- * pattern as controls, evidence, testing, and findings (`findDatasetsForEngagement`
- * / `getDocument`), so the moment a `walkthroughs` collection and dataset
- * exist, every section fills in automatically with no further changes here —
- * the Release 1 → Release 2 seam this workspace exists to open.
+ * the client's environment (GitHub Issue #20), extended by the Engagement
+ * Operating System Foundation (GitHub Issue #36) into the Team → POC
+ * operating hierarchy: one continuously evolving Walkthrough Workspace per
+ * Team, each Team owning multiple POCs, each POC owning multiple walkthrough
+ * sessions. The top-level view is a roster of Teams and their operational
+ * readiness; selecting a Team opens its command center (scheduling,
+ * ingestion, dependencies, AI Suggestions, Industry Knowledge, dual
+ * timezone); selecting a POC within it opens that POC's detail. Route depth
+ * (Client → Engagement → Walkthrough → Team → POC) comes from
+ * `AuditOS.repository.resolveHierarchy` (`js/platform/repository.js`); this
+ * workspace only renders the view the resolved context names.
+ *
+ * Release 1 remains a faithful visualization of the demo JSON — no AI, no
+ * transcript processing, no workflow engine — except that this issue adds
+ * real, audited Repository writes for Scheduling, Ingestion, comments, and
+ * the Suggestion Lifecycle (Architectural Principle: AI never writes
+ * directly; AI only creates Suggestions; permissioned users Approve;
+ * Repository Applies). Every write goes through `AuditOS.repository`
+ * (never `AuditOS.state` directly) and records an immutable audit event,
+ * identical semantics to every other Repository-backed workspace (Issue
+ * #34). The legacy top-level `sessions` / `processes` / `questions` reads
+ * stay exactly as they were; `teams` is the new, additive field this issue
+ * introduces — the workspace reads its walkthrough data through the same
+ * engagement-scoped document pattern as controls, evidence, testing, and
+ * findings (`findDatasetsForEngagement` / `getDocument`).
  *
  * Architecture: Business → ViewModel → Components → DOM, identical to the
  * Engagement workspace. `collectViewModel` is the single place this workspace
@@ -23,15 +38,26 @@
  * System (`AuditOS.presentation`) — no bespoke primitives, no duplicated
  * components (Component Design Patterns §81.4 — Composition Over Duplication).
  *
- * The expected walkthrough document shape (once it exists), read from the
- * `walkthroughs` engagement-scoped collection:
+ * The walkthrough document shape, read from the `walkthroughs`
+ * engagement-scoped collection:
  *   { sessions: [ { id, title, owner, status, scheduledDate, completedDate,
  *       participants, summary, objective, agenda, notes, linkedProcesses,
  *       linkedRequirements, linkedEvidence, followUpItems, processId } ],
  *     processes: [ { id, name } ],
- *     questions: [ { id, title, kind, status } ] }
+ *     questions: [ { id, title, kind, status } ],
+ *     teams: [ { teamId, name, status, stage, mainPocId, escalationPocId,
+ *       pocIds, role, department, timezone, reminderStatus, escalationStatus,
+ *       nextSession: { date, time, timezone } | null, agenda,
+ *       evidenceExpected, evidenceDemonstrated, dependencyIds, blockers,
+ *       comments, ingestion: { notes, transcripts, evidenceUploads,
+ *       recordingLinks, sharepointLinks, localFileRefs }, scheduling:
+ *       { recurring, reminderCadence, escalationCadence, prepChecklist },
+ *       sessions: [ { id, title, type, date, time, status, agenda,
+ *       evidenceExpected, participants, notes, recordingLink,
+ *       sharepointLink, localFileRef } ] } ] }
  * Nothing in this file hardcodes those values; every read defaults to an
- * empty array so an absent collection renders exactly like an empty one.
+ * empty array so an absent collection, or a team field the dataset omits,
+ * renders exactly like an empty one.
  *
  * Loaded as a classic script so the prototype runs directly from
  * file:///.../prototype/index.html with no build step or module loader.
@@ -43,6 +69,11 @@
 
   /** Shared Workspace Platform (Issue #27) — harmonized helpers reused across every operational workspace. */
   var WS = AuditOS.workspaceShared || {};
+
+  /** The Repository Foundation, resolved at call time so load order stays flexible (Issue #34). */
+  function repositoryService() {
+    return AuditOS.repository || null;
+  }
 
   // ------------------------------------------------------------------
   // Constants
@@ -57,6 +88,33 @@
   };
 
   var TONES = WS.TONES;
+
+  /** Team operational status vocabulary (Issue #36 §3/§4) and its tones. */
+  var TEAM_STATUS_TONES = {
+    'Complete': TONES.SUCCESS,
+    'In Progress': TONES.INFO,
+    'Scheduling': TONES.WARNING,
+    'Blocked': TONES.ERROR,
+    'Not Started': null
+  };
+
+  /** Suggestion lifecycle status → tone (Issue #36 §9), mirrors the Approval Workflow's vocabulary shape. */
+  var SUGGESTION_TONES = {
+    'Suggested': TONES.INFO,
+    'Reviewed': TONES.INFO,
+    'Approved': TONES.SUCCESS,
+    'Applied': TONES.SUCCESS,
+    'Rejected': TONES.ERROR,
+    'Modified': TONES.WARNING
+  };
+
+  /**
+   * Memory-only presentation state: the record ids named by the last
+   * user-triggered write (scheduling, ingestion, a comment, a suggestion
+   * decision), so the workspace stays on the same Team/POC after a
+   * re-render instead of snapping back to the roster.
+   */
+  var presentationState = { lastTeamId: '', lastPocId: '' };
 
   /** Walkthrough session status vocabulary (read, never invented) and its tones. */
   var SESSION_STATUS = { COMPLETED: 'Completed', IN_PROGRESS: 'In Progress', SCHEDULED: 'Scheduled' };
@@ -368,6 +426,213 @@
   }
 
   // ------------------------------------------------------------------
+  // Team → POC derivations (Issue #36 §3/§4) — pure, no DOM, no state
+  // access. Every field defaults to a real, empty value; nothing here
+  // fabricates operational state the dataset does not declare.
+  // ------------------------------------------------------------------
+
+  /** Resolves a Team's operational status to a presentation tone. */
+  function resolveTeamStatusTone(status) {
+    return Object.prototype.hasOwnProperty.call(TEAM_STATUS_TONES, status) ? TEAM_STATUS_TONES[status] : null;
+  }
+
+  /** Resolves a Suggestion's lifecycle status to a presentation tone. */
+  function resolveSuggestionTone(status) {
+    return Object.prototype.hasOwnProperty.call(SUGGESTION_TONES, status) ? SUGGESTION_TONES[status] : TONES.INFO;
+  }
+
+  /** Finds a Team record by its `id`, or null. */
+  function findTeamById(teams, teamId) {
+    var list = asArray(teams);
+    for (var index = 0; index < list.length; index += 1) {
+      if (list[index].id === teamId) {
+        return list[index];
+      }
+    }
+    return null;
+  }
+
+  /** Resolves a Team's real POC roster against the shared `pocs` collection, in recorded order. */
+  function resolveTeamPocs(team, pocsById) {
+    var byId = pocsById || {};
+    return asArray(team ? team.pocIds : []).map(function (id) { return byId[id]; }).filter(Boolean);
+  }
+
+  /** The next scheduled session label ("Jul 21, 2026 · 10:00"), or '' when none is scheduled. */
+  function formatNextSessionLabel(nextSession) {
+    if (!nextSession || !nextSession.date) {
+      return '';
+    }
+    var parts = [formatDate(nextSession.date)];
+    if (nextSession.time) {
+      parts.push(nextSession.time);
+    }
+    return parts.join(' · ');
+  }
+
+  /**
+   * The Team roster for the top-level Walkthrough view (§3 — "operational
+   * readiness rather than historical meetings"): one entry per recorded
+   * Team, its status, stage, main POC, and next scheduled session. `hrefOf`
+   * builds the real hierarchical link into that Team (supplied by the
+   * caller, which alone knows the client/engagement routing context).
+   */
+  function deriveTeamRoster(teams, pocsById, hrefOf) {
+    return asArray(teams).map(function (team) {
+      var mainPoc = team.mainPocId && pocsById ? pocsById[team.mainPocId] : null;
+      return {
+        teamId: team.id,
+        name: team.name || team.id,
+        status: team.status || 'Not Started',
+        statusTone: resolveTeamStatusTone(team.status || 'Not Started'),
+        stage: team.stage || 'Not Started',
+        mainPocName: mainPoc ? mainPoc.name : '',
+        pocCount: asArray(team.pocIds).length,
+        nextSession: formatNextSessionLabel(team.nextSession),
+        blockerCount: asArray(team.blockers).length,
+        path: hrefOf ? hrefOf(team.id, null) : null
+      };
+    });
+  }
+
+  /**
+   * The Audit Health-style roster summary (§1 — Team Status / Active &
+   * Upcoming Walkthroughs seam every executive surface reuses): counts of
+   * Teams by operational status, real and never fabricated.
+   */
+  function deriveTeamRosterSummary(teams) {
+    var list = asArray(teams);
+    var counts = { total: list.length, active: 0, upcoming: 0, complete: 0, blocked: 0 };
+    list.forEach(function (team) {
+      if (team.status === 'In Progress') { counts.active += 1; }
+      if (team.status === 'Scheduling' && team.nextSession) { counts.upcoming += 1; }
+      if (team.status === 'Complete') { counts.complete += 1; }
+      if (team.status === 'Blocked' || asArray(team.blockers).length > 0) { counts.blocked += 1; }
+    });
+    return counts;
+  }
+
+  /** Formats a `{ timezone }`-bearing entity's current local time, or '' when the timezone is absent/invalid. */
+  function currentTimeInZone(timezone, now) {
+    if (!timezone) {
+      return '';
+    }
+    try {
+      return new Intl.DateTimeFormat('en-US', {
+        timeZone: timezone, weekday: 'short', month: 'short', day: 'numeric',
+        hour: '2-digit', minute: '2-digit', hour12: true
+      }).format(now || new Date());
+    } catch (error) {
+      return '';
+    }
+  }
+
+  /** Normalizes a text or `{ title }` list entry into an Inspector list item. */
+  function toPlainItem(entry) {
+    var title = typeof entry === 'string' ? entry : (entry && entry.title) || '';
+    return { title: title, tone: TONES.INFO };
+  }
+
+  /**
+   * The full Team Workspace detail (§4 — Team command center): identity,
+   * scheduling/reminder/escalation state, dual timezone, agenda, evidence,
+   * dependencies, blockers, comments, ingestion log, scheduling
+   * configuration, and the Team's own session history. Pure — plain data,
+   * no DOM. `context` carries the cross-cutting reads the Team view needs
+   * beyond the team record itself: `pocsById`, `suggestions`,
+   * `dependencies`, `industryKnowledge`, `auditPeriod`, `auditorTimezone`.
+   */
+  function buildTeamDetail(team, context) {
+    var ctx = context || {};
+    var pocsById = ctx.pocsById || {};
+    var mainPoc = team.mainPocId ? pocsById[team.mainPocId] : null;
+    var escalationPoc = team.escalationPocId ? pocsById[team.escalationPocId] : null;
+    var ingestion = team.ingestion || {};
+    var scheduling = team.scheduling || {};
+    var recurring = scheduling.recurring || {};
+
+    return {
+      teamId: team.id,
+      name: team.name || team.id,
+      status: team.status || 'Not Started',
+      statusTone: resolveTeamStatusTone(team.status || 'Not Started'),
+      stage: team.stage || 'Not Started',
+      role: team.role || '',
+      department: team.department || '',
+      mainPoc: mainPoc,
+      escalationPoc: escalationPoc,
+      pocs: resolveTeamPocs(team, pocsById),
+      reminderStatus: team.reminderStatus || 'Not Sent',
+      escalationStatus: team.escalationStatus || 'None',
+      nextSession: team.nextSession || null,
+      nextSessionLabel: formatNextSessionLabel(team.nextSession),
+      teamTimezone: team.timezone || '',
+      auditorTimezone: ctx.auditorTimezone || '',
+      teamLocalTime: currentTimeInZone(team.timezone),
+      auditorLocalTime: currentTimeInZone(ctx.auditorTimezone),
+      agenda: asArray(team.agenda).map(toPlainItem),
+      evidenceExpected: asArray(team.evidenceExpected).map(toPlainItem),
+      evidenceDemonstrated: asArray(team.evidenceDemonstrated).map(toPlainItem),
+      blockers: asArray(team.blockers),
+      // Comments, ingestion notes/uploads, and sessions stay in the record's
+      // own recorded (write) order here; the DOM builders below reverse or
+      // sort a display copy — never the view model itself — so a write that
+      // appends to the same array the view model already carries stays
+      // correct instead of round-tripping a display-reordered copy back into
+      // storage.
+      comments: asArray(team.comments),
+      dependencies: asArray(ctx.dependencies),
+      suggestions: asArray(ctx.suggestions),
+      industryKnowledge: asArray(ctx.industryKnowledge),
+      ingestion: {
+        notes: asArray(ingestion.notes),
+        transcripts: asArray(ingestion.transcripts),
+        evidenceUploads: asArray(ingestion.evidenceUploads),
+        recordingLinks: asArray(ingestion.recordingLinks),
+        sharepointLinks: asArray(ingestion.sharepointLinks),
+        localFileRefs: asArray(ingestion.localFileRefs)
+      },
+      scheduling: {
+        recurringEnabled: Boolean(recurring.enabled),
+        cadence: recurring.cadence || '',
+        dayOfWeek: recurring.dayOfWeek || '',
+        time: recurring.time || '',
+        reminderCadence: scheduling.reminderCadence || '',
+        escalationCadence: scheduling.escalationCadence || '',
+        prepChecklist: asArray(scheduling.prepChecklist)
+      },
+      sessions: asArray(team.sessions)
+    };
+  }
+
+  /**
+   * The POC detail within a Team (§3 — POC-level drill-down): identity,
+   * the Team it belongs to, and the real sessions it participated in
+   * (filtered from the Team's own session history — never a fabricated
+   * count).
+   */
+  function buildPocDetail(team, poc, pocsById) {
+    if (!poc) {
+      return null;
+    }
+    var sessions = asArray(team.sessions).filter(function (session) {
+      return asArray(session.participants).indexOf(poc.id) !== -1;
+    });
+    return {
+      id: poc.id,
+      name: poc.name,
+      status: poc.status || '',
+      teamId: team.id,
+      teamName: team.name || team.id,
+      role: team.role || '',
+      isMainPoc: team.mainPocId === poc.id,
+      isEscalationPoc: team.escalationPocId === poc.id,
+      contact: poc.preferredCommunication || '',
+      sessions: sessions
+    };
+  }
+
+  // ------------------------------------------------------------------
   // View model — the single place this workspace reads AuditOS.state.
   // ------------------------------------------------------------------
 
@@ -380,9 +645,12 @@
   /**
    * Collects everything the Walkthrough Workspace presents from the Shared
    * Audit State. Returns null while the state is not ready, and a degraded
-   * model when no engagement exists (§15.12).
+   * model when no engagement exists (§15.12). `routeContext`
+   * (`{ teamId, pocId }`, both optional) selects the Team → POC depth the
+   * current route names (Issue #36); omitting it (every existing caller)
+   * preserves today's roster-level view exactly.
    */
-  function collectViewModel(state, workspaceRegistry) {
+  function collectViewModel(state, workspaceRegistry, routeContext) {
     if (!state || !state.isReady()) {
       return null;
     }
@@ -397,6 +665,7 @@
     var companies = state.listRecords('companies');
     var company = findById(companies, engagement.companyId);
     var pocs = state.listRecords('pocs');
+    var pocsById = WS.indexById ? WS.indexById(pocs) : {};
 
     // The walkthrough collection is not yet registered in the demo-data
     // catalog (Release 1 has no walkthrough JSON). Reading it through the same
@@ -408,6 +677,48 @@
     var sessions = asArray(walkthroughsDocument.sessions);
     var processes = asArray(walkthroughsDocument.processes);
     var questions = asArray(walkthroughsDocument.questions);
+
+    // Walkthrough Teams (Issue #36 §3/§4) live in their own engagement-scoped
+    // collection — a separate Repository entity from `walkthroughs`, since
+    // the generic Repository write API operates on exactly one `recordsKey`
+    // per collection and `walkthroughs` already owns `sessions`.
+    var walkthroughTeamsDocument = readEngagementDocument(state, 'walkthrough-teams', engagement.id) || {};
+    var teams = asArray(walkthroughTeamsDocument.teams);
+
+    // Team → POC context (Issue #36 §3/§8/§10/§11): AI Suggestions,
+    // Dependencies, and Industry Knowledge, read through the same
+    // engagement-scoped document pattern as every other domain above.
+    // Industry Knowledge is shared/cross-engagement (Architectural Decision
+    // #5), so it reads without a datasetId, then narrows to what is
+    // genuinely applicable to this engagement's audit period.
+    var suggestionsDocument = readEngagementDocument(state, 'suggestions', engagement.id) || {};
+    var allSuggestions = asArray(suggestionsDocument.suggestions);
+    var dependenciesDocument = readEngagementDocument(state, 'dependencies', engagement.id) || {};
+    var allDependencies = asArray(dependenciesDocument.dependencies);
+    var industryKnowledgeItems = state.listRecords('industry-knowledge');
+    var applicableIndustryKnowledge = AuditOS.industryKnowledge
+      ? AuditOS.industryKnowledge.resolveApplicable(industryKnowledgeItems, engagement.auditPeriod)
+      : industryKnowledgeItems;
+
+    var context = routeContext || {};
+    var activeTeamRecord = context.teamId ? findTeamById(teams, context.teamId) : null;
+    var activePocRecord = (activeTeamRecord && context.pocId) ? pocsById[context.pocId] : null;
+    var registry = repositoryService();
+    function hrefOf(teamId, pocId) {
+      if (!registry || !company || !engagement || !workspaceRegistry) {
+        return null;
+      }
+      var workspace = workspaceRegistry.findById(workspaceRegistry.IDS.WALKTHROUGH);
+      if (!workspace) {
+        return null;
+      }
+      var base = '#/' + registry.clientSlug(company) + '/' + registry.engagementSlug(engagement) + '/' + workspace.path;
+      if (!teamId) {
+        return base;
+      }
+      var withTeam = base + '/' + encodeURIComponent(teamId);
+      return pocId ? withTeam + '/' + encodeURIComponent(pocId) : withTeam;
+    }
 
     var requirementsDocument = readEngagementDocument(state, 'evidence-requirements', engagement.id) || {};
     var controlsDocument = readEngagementDocument(state, 'controls', engagement.id) || {};
@@ -432,6 +743,22 @@
     var relationships = deriveRelationships(workspaceRegistry, operational);
     var processCoverage = deriveProcessCoverage(processes, sessions);
 
+    // Team detail context (Issue #36 §4/§8/§10/§11): the cross-cutting reads
+    // the Team command center needs beyond the team record itself.
+    var teamDetailContext = {
+      pocsById: pocsById,
+      auditorTimezone: engagement.auditorTimezone || '',
+      dependencies: activeTeamRecord ? allDependencies.filter(function (dependency) {
+        return asArray(activeTeamRecord.dependencyIds).indexOf(dependency.id) !== -1;
+      }) : [],
+      suggestions: activeTeamRecord ? allSuggestions.filter(function (suggestion) {
+        return suggestion.teamId === activeTeamRecord.id;
+      }) : [],
+      industryKnowledge: applicableIndustryKnowledge
+    };
+
+    var view = activeTeamRecord ? (activePocRecord ? 'poc' : 'team') : 'roster';
+
     return {
       degraded: false,
       status: status,
@@ -441,6 +768,20 @@
       sessions: sessions,
       processes: processCoverage,
       questions: questions,
+      teams: teams,
+
+      // Team → POC hierarchy (Issue #36 §3): which view the current route
+      // names, and that view's fully-derived detail. `activeTeam` /
+      // `activePoc` stay null outside their view — never fabricated.
+      view: view,
+      teamRoster: deriveTeamRoster(teams, pocsById, hrefOf),
+      teamRosterSummary: deriveTeamRosterSummary(teams),
+      activeTeam: activeTeamRecord ? buildTeamDetail(activeTeamRecord, teamDetailContext) : null,
+      activePoc: (activeTeamRecord && activePocRecord) ? buildPocDetail(activeTeamRecord, activePocRecord, pocsById) : null,
+      hrefOf: hrefOf,
+      pendingSuggestions: allSuggestions.filter(function (suggestion) {
+        return suggestion.status === 'Suggested' || suggestion.status === 'Reviewed';
+      }),
 
       header: {
         eyebrow: engagement.engagementCode + ' · Walkthrough',
@@ -690,6 +1031,669 @@
   }
 
   // ------------------------------------------------------------------
+  // Write actions — simulated Repository writes (Issue #36). Every action
+  // funnels through `updateTeam`, which performs one audited
+  // `repository.walkthroughTeams.update` and publishes the
+  // SynchronizationBus propagation chain (§12) so downstream workspaces can
+  // react. AI never writes directly (Architectural Principle): the
+  // Suggestion Lifecycle actions below delegate to
+  // `AuditOS.suggestionService`, which owns that write path.
+  // ------------------------------------------------------------------
+
+  /** Today's date in the dataset's own ISO date convention. */
+  function todayIso() {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  /** The acting session's label, for comment/history entries (never an invented user). */
+  function sessionLabel() {
+    var permissions = AuditOS.permissions;
+    return permissions && typeof permissions.getSessionInfo === 'function'
+      ? permissions.getSessionInfo().label : '';
+  }
+
+  /** The dataset id an engagement's Walkthrough Teams document lives under, or null. */
+  function teamDatasetId(repository, engagementId) {
+    var datasets = repository.walkthroughTeams.datasetsForEngagement(engagementId);
+    return datasets.length > 0 ? datasets[0] : null;
+  }
+
+  /**
+   * Applies a patch to a Team record by id — the one write path every
+   * Scheduling, Ingestion, and comment action below funnels through.
+   * Publishes the SynchronizationBus propagation chain on every successful
+   * write (Issue #36 §12 — a Team change is exactly the kind of
+   * walkthrough-originated event downstream workspaces react to). Takes the
+   * bare `teamId` (not a team object) so every caller passes exactly the
+   * raw field it is changing — never a display-reordered copy of the rest
+   * of the record.
+   */
+  function updateTeam(engagementId, teamId, changes, action, reason) {
+    var repository = repositoryService();
+    if (!repository || !teamId) {
+      return null;
+    }
+    var datasetId = teamDatasetId(repository, engagementId);
+    if (!datasetId) {
+      return null;
+    }
+    var auditService = AuditOS.auditService;
+    var updated = repository.walkthroughTeams.update(teamId, changes, {
+      datasetId: datasetId,
+      action: action,
+      reason: reason || null,
+      engagementId: engagementId,
+      workspaceId: 'walkthroughs',
+      correlationId: auditService ? auditService.newCorrelationId() : null
+    });
+    if (updated && AuditOS.synchronizationBus) {
+      AuditOS.synchronizationBus.propagate(AuditOS.synchronizationBus.EVENT_TYPES.WALKTHROUGH_UPDATED, {
+        engagementId: engagementId, teamId: teamId, workspaceId: 'walkthroughs', reason: reason || action
+      });
+    }
+    presentationState.lastTeamId = teamId;
+    return updated;
+  }
+
+  /** Adds a Team-level comment (Issue #36 §4 — Comments). `existingComments` is the record's own current array, in its own recorded order. */
+  function addTeamComment(engagementId, teamId, existingComments, text) {
+    if (!text) {
+      return null;
+    }
+    var comments = asArray(existingComments).concat([{ author: sessionLabel(), on: todayIso(), text: text }]);
+    return updateTeam(engagementId, teamId, { comments: comments }, 'team-commented', text);
+  }
+
+  /** Records one Ingestion entry — notes, evidence upload, recording link, SharePoint link, or local file reference (Issue #36 §7). `existingIngestion` is the record's own current `ingestion` object. */
+  function addIngestionEntry(engagementId, teamId, existingIngestion, kind, entry) {
+    var fieldByKind = {
+      notes: 'notes', evidence: 'evidenceUploads', recording: 'recordingLinks',
+      sharepoint: 'sharepointLinks', local: 'localFileRefs'
+    };
+    var field = fieldByKind[kind];
+    if (!field) {
+      return null;
+    }
+    var source = existingIngestion || {};
+    var updatedIngestion = {
+      notes: asArray(source.notes),
+      transcripts: asArray(source.transcripts),
+      evidenceUploads: asArray(source.evidenceUploads),
+      recordingLinks: asArray(source.recordingLinks),
+      sharepointLinks: asArray(source.sharepointLinks),
+      localFileRefs: asArray(source.localFileRefs)
+    };
+    updatedIngestion[field] = updatedIngestion[field].concat([entry]);
+    return updateTeam(engagementId, teamId, { ingestion: updatedIngestion }, 'team-ingestion-recorded',
+      entry && (entry.text || entry.title || entry.url) || null);
+  }
+
+  /** Schedules a session — manual or recurring — and advances the Team's next-session pointer (Issue #36 §5). `existingSessions` is the record's own current array. */
+  function scheduleTeamSession(engagementId, teamId, existingSessions, teamTimezone, sessionRecord) {
+    var sessions = asArray(existingSessions).concat([sessionRecord]);
+    var changes = { sessions: sessions };
+    if (sessionRecord.date) {
+      changes.nextSession = { date: sessionRecord.date, time: sessionRecord.time || '', timezone: teamTimezone || '' };
+    }
+    return updateTeam(engagementId, teamId, changes, 'team-session-scheduled', sessionRecord.title);
+  }
+
+  /** Records the reminder status a Team's next session carries (Issue #36 §5/§6). */
+  function updateReminderStatus(engagementId, teamId, status) {
+    return updateTeam(engagementId, teamId, { reminderStatus: status }, 'team-reminder-status-updated', status);
+  }
+
+  /** Records the escalation status a Team's next session carries (Issue #36 §5/§6). */
+  function updateEscalationStatus(engagementId, teamId, status) {
+    return updateTeam(engagementId, teamId, { escalationStatus: status }, 'team-escalation-status-updated', status);
+  }
+
+  // ------------------------------------------------------------------
+  // Team → POC DOM builders (Issue #36 §1/§3/§4/§5/§6/§7/§9/§10/§11).
+  // ------------------------------------------------------------------
+
+  /** Builds the top-level Teams roster: one Entity Card per Team, linking into its command center. */
+  function buildTeamsRosterBody(teamRoster) {
+    var P = presentation();
+    var grid = el('div', 'aos-walkthrough__teams');
+    asArray(teamRoster).forEach(function (team) {
+      var card = P.entityCard({
+        title: team.name,
+        subtitle: team.stage,
+        badge: { label: team.status, tone: team.statusTone },
+        facts: [
+          { term: 'Main POC', detail: team.mainPocName || 'Not recorded' },
+          { term: 'POCs', detail: String(team.pocCount) },
+          { term: 'Next session', detail: team.nextSession || 'Not scheduled' },
+          { term: 'Blockers', detail: String(team.blockerCount) }
+        ]
+      });
+      if (team.path) {
+        var link = el('a', 'aos-walkthrough__team-link');
+        link.setAttribute('href', team.path);
+        link.setAttribute('aria-label', 'Open ' + team.name);
+        link.appendChild(card);
+        grid.appendChild(link);
+      } else {
+        grid.appendChild(card);
+      }
+    });
+    return grid;
+  }
+
+  /** Builds the Team command center overview: identity, scheduling state, and the dual timezone display (Issue #36 §6). */
+  function buildTeamOverviewBody(team) {
+    var P = presentation();
+    var surface = el('div', 'aos-surface aos-surface--padded aos-walkthrough__team-overview');
+    surface.appendChild(P.propertyGrid([
+      { label: 'Status', node: P.statusBadge({ label: team.status, tone: team.statusTone }) },
+      { label: 'Stage', value: team.stage },
+      { label: 'Main POC', value: team.mainPoc ? team.mainPoc.name : 'Not recorded' },
+      { label: 'Escalation POC', value: team.escalationPoc ? team.escalationPoc.name : 'Not recorded' },
+      { label: 'Role', value: team.role || 'Not recorded' },
+      { label: 'Department', value: team.department || 'Not recorded' },
+      { label: 'Next session', value: team.nextSessionLabel || 'Not scheduled' },
+      { label: 'Reminder status', value: team.reminderStatus },
+      { label: 'Escalation status', value: team.escalationStatus }
+    ], { columns: 3 }));
+
+    var clocks = el('div', 'aos-walkthrough__timezones');
+    clocks.setAttribute('role', 'group');
+    clocks.setAttribute('aria-label', 'Auditor and POC local time');
+    var auditorClock = el('div', 'aos-walkthrough__timezone');
+    auditorClock.appendChild(el('span', 'aos-walkthrough__timezone-label', 'Auditor local time'));
+    auditorClock.appendChild(el('span', 'aos-walkthrough__timezone-value', team.auditorLocalTime || 'Not recorded'));
+    clocks.appendChild(auditorClock);
+    var arrow = el('span', 'aos-walkthrough__timezone-arrow', '↓');
+    arrow.setAttribute('aria-hidden', 'true');
+    clocks.appendChild(arrow);
+    var pocClock = el('div', 'aos-walkthrough__timezone');
+    pocClock.appendChild(el('span', 'aos-walkthrough__timezone-label', 'POC local time'));
+    pocClock.appendChild(el('span', 'aos-walkthrough__timezone-value', team.teamLocalTime || 'Not recorded'));
+    clocks.appendChild(pocClock);
+    surface.appendChild(clocks);
+
+    return surface;
+  }
+
+  /** Builds the Team's POC roster body: one Entity Card per POC, linking to its detail. */
+  function buildTeamRosterBody(team, hrefOf) {
+    var P = presentation();
+    var grid = el('div', 'aos-walkthrough__pocs');
+    asArray(team.pocs).forEach(function (poc) {
+      var badges = [];
+      if (team.mainPoc && team.mainPoc.id === poc.id) { badges.push('Main'); }
+      if (team.escalationPoc && team.escalationPoc.id === poc.id) { badges.push('Escalation'); }
+      var card = P.entityCard({
+        title: poc.name,
+        subtitle: badges.join(' · '),
+        badge: { label: poc.status || 'Active', tone: TONES.INFO },
+        facts: [{ term: 'Role', detail: team.role || '' }]
+      });
+      var href = hrefOf ? hrefOf(team.teamId, poc.id) : null;
+      if (href) {
+        var link = el('a', 'aos-walkthrough__poc-link');
+        link.setAttribute('href', href);
+        link.setAttribute('aria-label', 'Open ' + poc.name);
+        link.appendChild(card);
+        grid.appendChild(link);
+      } else {
+        grid.appendChild(card);
+      }
+    });
+    return grid;
+  }
+
+  /** Builds the Evidence expected / demonstrated body, side by side. */
+  function buildEvidenceBody(team) {
+    var P = presentation();
+    var wrap = el('div', 'aos-walkthrough__split');
+    var expected = el('div', 'aos-surface aos-surface--padded');
+    expected.appendChild(el('p', 'aos-walkthrough__subtitle', 'Evidence expected'));
+    expected.appendChild(team.evidenceExpected.length > 0
+      ? P.itemList(team.evidenceExpected, { compact: true })
+      : P.emptyState({ icon: '◇', title: 'None recorded' }));
+    wrap.appendChild(expected);
+    var demonstrated = el('div', 'aos-surface aos-surface--padded');
+    demonstrated.appendChild(el('p', 'aos-walkthrough__subtitle', 'Evidence demonstrated'));
+    demonstrated.appendChild(team.evidenceDemonstrated.length > 0
+      ? P.itemList(team.evidenceDemonstrated, { compact: true })
+      : P.emptyState({ icon: '◇', title: 'None recorded' }));
+    wrap.appendChild(demonstrated);
+    return wrap;
+  }
+
+  /** Builds the Pending Blockers body, high severity flagged critical. */
+  function buildBlockersBody(blockers) {
+    var P = presentation();
+    return P.itemList(asArray(blockers).map(function (blocker) {
+      var high = blocker.severity === 'High';
+      return {
+        title: blocker.title, description: blocker.description,
+        meta: blocker.severity || '', tone: high ? TONES.ERROR : TONES.WARNING, critical: high
+      };
+    }));
+  }
+
+  /** Builds the Dependencies body (Issue #36 §10): reason, confidence, blocking state, and implications. */
+  function buildDependenciesBody(dependencies) {
+    var P = presentation();
+    return P.itemList(asArray(dependencies).map(function (dependency) {
+      return {
+        title: dependency.reason || dependency.id,
+        description: [dependency.auditPeriodImplications, dependency.futureImpact].filter(Boolean).join(' '),
+        meta: dependency.blocking ? 'Blocking' : 'Confidence ' + Math.round((dependency.confidence || 0) * 100) + '%',
+        tone: dependency.blocking ? TONES.ERROR : TONES.INFO,
+        critical: Boolean(dependency.blocking)
+      };
+    }));
+  }
+
+  /** Builds the Industry Knowledge body (Issue #36 §11): only entries already resolved applicable to this engagement's audit period. */
+  function buildIndustryKnowledgeBody(items) {
+    var P = presentation();
+    return P.itemList(asArray(items).map(function (item) {
+      return {
+        title: item.title, description: item.description,
+        meta: 'Implemented ' + formatDate(item.implementationDate), tone: TONES.INFO
+      };
+    }));
+  }
+
+  /** Builds a labeled comment box: a textarea plus an action button (shared by Team comments and Suggestion cards). */
+  function buildCommentForm(placeholder, buttonLabel, onSubmit) {
+    var P = presentation();
+    var wrap = el('div', 'aos-walkthrough__comment-form');
+    var input = el('textarea', 'aos-walkthrough__field');
+    input.rows = 2;
+    input.placeholder = placeholder;
+    input.setAttribute('aria-label', placeholder);
+    wrap.appendChild(input);
+    var button = P.button({ label: buttonLabel || 'Comment', variant: 'subtle' });
+    button.addEventListener('click', function () {
+      var text = input.value.trim();
+      if (!text) {
+        return;
+      }
+      onSubmit(text);
+      input.value = '';
+    });
+    wrap.appendChild(button);
+    return wrap;
+  }
+
+  /** Builds the Team Comments body: the comment form plus the recorded discussion, newest first. */
+  function buildCommentsBody(team, engagementId) {
+    var P = presentation();
+    var wrap = el('div', 'aos-walkthrough__comments');
+    wrap.appendChild(buildCommentForm('Add a comment', 'Comment', function (text) {
+      addTeamComment(engagementId, team.teamId, team.comments, text);
+      renderActiveWalkthrough();
+    }));
+    wrap.appendChild(team.comments.length > 0
+      ? P.itemList(team.comments.slice().reverse().map(function (comment) {
+        return { title: comment.text, meta: [comment.author, comment.on].filter(Boolean).join(' · ') };
+      }), { compact: true })
+      : P.emptyState({ icon: '◇', title: 'No comments yet' }));
+    return wrap;
+  }
+
+  /** Builds one AI Suggestion card: status, description, recommendations, the lifecycle actions the session may take, and its comment trail (Issue #36 §9/§13). */
+  function buildSuggestionCard(suggestion, engagementId) {
+    var P = presentation();
+    var repository = repositoryService();
+    var suggestionService = AuditOS.suggestionService;
+    var permissions = AuditOS.permissions;
+    var denial = (permissions && suggestionService) ? permissions.explainDenial(suggestionService.DECIDE_CAPABILITY) : null;
+
+    var card = el('div', 'aos-surface aos-surface--padded aos-walkthrough__suggestion');
+    var head = el('div', 'aos-walkthrough__suggestion-head');
+    head.appendChild(el('span', 'aos-walkthrough__suggestion-title', suggestion.title));
+    head.appendChild(P.statusBadge({ label: suggestion.status, tone: resolveSuggestionTone(suggestion.status) }));
+    card.appendChild(head);
+    if (suggestion.description) {
+      card.appendChild(el('p', 'aos-walkthrough__suggestion-description', suggestion.description));
+    }
+    if (asArray(suggestion.recommendations).length > 0) {
+      card.appendChild(P.itemList(suggestion.recommendations.map(toPlainItem), { compact: true }));
+    }
+
+    if (suggestionService && repository) {
+      var actions = el('div', 'aos-action-group');
+      actions.setAttribute('role', 'group');
+      actions.setAttribute('aria-label', 'Suggestion actions');
+
+      // Review, comment, and recommend are available to every session
+      // (Issue #36 §9 — "users without permissions may review, comment,
+      // recommend").
+      if (suggestion.status === suggestionService.STATUS.SUGGESTED) {
+        var reviewButton = P.button({ label: 'Mark reviewed', variant: 'subtle' });
+        reviewButton.addEventListener('click', function () {
+          presentationState.lastTeamId = suggestion.teamId;
+          suggestionService.review(repository, engagementId, suggestion, '');
+          renderActiveWalkthrough();
+        });
+        actions.appendChild(reviewButton);
+      }
+
+      if (!denial) {
+        [
+          { id: 'approve', label: 'Approve', variant: 'primary' },
+          { id: 'reject', label: 'Reject', variant: 'subtle' },
+          { id: 'modify', label: 'Modify', variant: 'subtle' },
+          { id: 'apply', label: 'Apply', variant: 'primary' }
+        ].forEach(function (decision) {
+          var button = P.button({ label: decision.label, variant: decision.variant });
+          button.addEventListener('click', function () {
+            presentationState.lastTeamId = suggestion.teamId;
+            suggestionService.decide(repository, engagementId, suggestion, decision.id, '');
+            renderActiveWalkthrough();
+          });
+          actions.appendChild(button);
+        });
+        card.appendChild(actions);
+      } else {
+        if (actions.firstChild) {
+          card.appendChild(actions);
+        }
+        card.appendChild(WS.buildPermissionNotice(denial, ''));
+      }
+
+      card.appendChild(buildCommentForm('Comment or recommend', 'Comment', function (text) {
+        presentationState.lastTeamId = suggestion.teamId;
+        suggestionService.comment(repository, engagementId, suggestion, text);
+        renderActiveWalkthrough();
+      }));
+    }
+
+    var comments = asArray(suggestion.comments);
+    if (comments.length > 0) {
+      card.appendChild(P.itemList(comments.map(function (comment) {
+        return { title: comment.text, meta: [comment.author, comment.on].filter(Boolean).join(' · ') };
+      }), { compact: true }));
+    }
+
+    return card;
+  }
+
+  /** Builds the AI Suggestions body: one card per suggestion, most recently suggested first. */
+  function buildSuggestionsBody(suggestions, engagementId) {
+    var wrap = el('div', 'aos-walkthrough__suggestions');
+    asArray(suggestions).slice().sort(function (a, b) {
+      return String(b.suggestedOn || '').localeCompare(String(a.suggestedOn || ''));
+    }).forEach(function (suggestion) {
+      wrap.appendChild(buildSuggestionCard(suggestion, engagementId));
+    });
+    return wrap;
+  }
+
+  /** Builds the Scheduling form: manual/recurring, date, time, agenda, and evidence expected (Issue #36 §5). */
+  function buildScheduleForm(team, engagementId) {
+    var P = presentation();
+    var form = el('div', 'aos-surface aos-surface--padded aos-walkthrough__schedule-form');
+    form.appendChild(el('p', 'aos-walkthrough__subtitle', 'Schedule a session'));
+
+    var typeSelect = el('select', 'aos-select__control');
+    typeSelect.setAttribute('aria-label', 'Session type');
+    ['Manual', 'Recurring'].forEach(function (option) {
+      var opt = el('option', null, option);
+      opt.value = option;
+      typeSelect.appendChild(opt);
+    });
+
+    var dateInput = el('input', 'aos-walkthrough__field');
+    dateInput.type = 'date';
+    dateInput.setAttribute('aria-label', 'Session date');
+    var timeInput = el('input', 'aos-walkthrough__field');
+    timeInput.type = 'time';
+    timeInput.setAttribute('aria-label', 'Session time');
+
+    var fields = el('div', 'aos-walkthrough__schedule-fields');
+    [['Type', typeSelect], ['Date', dateInput], ['Time', timeInput]].forEach(function (pair) {
+      var field = el('label', 'aos-walkthrough__schedule-field');
+      field.appendChild(el('span', 'aos-walkthrough__schedule-field-label', pair[0]));
+      field.appendChild(pair[1]);
+      fields.appendChild(field);
+    });
+    form.appendChild(fields);
+
+    var agendaInput = el('textarea', 'aos-walkthrough__field');
+    agendaInput.rows = 2;
+    agendaInput.placeholder = 'Agenda (one item per line)';
+    agendaInput.setAttribute('aria-label', 'Agenda');
+    form.appendChild(agendaInput);
+
+    var evidenceInput = el('textarea', 'aos-walkthrough__field');
+    evidenceInput.rows = 2;
+    evidenceInput.placeholder = 'Evidence expected (one item per line)';
+    evidenceInput.setAttribute('aria-label', 'Evidence expected');
+    form.appendChild(evidenceInput);
+
+    var participants = el('div', 'aos-walkthrough__schedule-participants');
+    participants.setAttribute('role', 'group');
+    participants.setAttribute('aria-label', 'Participants');
+    var checkboxes = [];
+    asArray(team.pocs).forEach(function (poc) {
+      var label = el('label', 'aos-walkthrough__schedule-participant');
+      var checkbox = el('input', null);
+      checkbox.type = 'checkbox';
+      checkbox.value = poc.id;
+      checkboxes.push(checkbox);
+      label.appendChild(checkbox);
+      label.appendChild(el('span', null, poc.name));
+      participants.appendChild(label);
+    });
+    form.appendChild(participants);
+
+    function splitLines(value) {
+      return value.split('\n').map(function (line) { return line.trim(); }).filter(Boolean);
+    }
+
+    var submit = P.button({ label: 'Schedule session', variant: 'primary' });
+    submit.addEventListener('click', function () {
+      if (!dateInput.value) {
+        return;
+      }
+      var sessionRecord = {
+        id: 'SIM-TWS-' + Date.now(),
+        title: typeSelect.value + ' walkthrough',
+        type: typeSelect.value,
+        date: dateInput.value,
+        time: timeInput.value || '',
+        status: 'Scheduled',
+        agenda: splitLines(agendaInput.value),
+        evidenceExpected: splitLines(evidenceInput.value),
+        participants: checkboxes.filter(function (box) { return box.checked; }).map(function (box) { return box.value; }),
+        notes: '', recordingLink: '', sharepointLink: '', localFileRef: ''
+      };
+      scheduleTeamSession(engagementId, team.teamId, team.sessions, team.teamTimezone, sessionRecord);
+      dateInput.value = '';
+      timeInput.value = '';
+      agendaInput.value = '';
+      evidenceInput.value = '';
+      checkboxes.forEach(function (box) { box.checked = false; });
+      renderActiveWalkthrough();
+    });
+    form.appendChild(submit);
+    return form;
+  }
+
+  /** Builds the reminder / escalation status quick actions. */
+  function buildStatusActions(team, engagementId) {
+    var P = presentation();
+    var wrap = el('div', 'aos-walkthrough__status-actions');
+    wrap.setAttribute('role', 'group');
+    wrap.setAttribute('aria-label', 'Reminder and escalation actions');
+
+    var reminderButton = P.button({ label: 'Mark reminder sent', variant: 'subtle' });
+    reminderButton.addEventListener('click', function () {
+      updateReminderStatus(engagementId, team.teamId, 'Sent');
+      renderActiveWalkthrough();
+    });
+    wrap.appendChild(reminderButton);
+
+    var escalateButton = P.button({ label: 'Escalate now', variant: 'subtle' });
+    escalateButton.addEventListener('click', function () {
+      updateEscalationStatus(engagementId, team.teamId, 'Escalated');
+      renderActiveWalkthrough();
+    });
+    wrap.appendChild(escalateButton);
+
+    return wrap;
+  }
+
+  /** Builds the Scheduling section body: recorded configuration, the schedule form, quick status actions, and session history. */
+  function buildSchedulingBody(team, engagementId) {
+    var P = presentation();
+    var wrap = el('div', 'aos-walkthrough__scheduling');
+
+    var config = el('div', 'aos-surface aos-surface--padded');
+    config.appendChild(P.propertyGrid([
+      {
+        label: 'Recurring', value: team.scheduling.recurringEnabled
+          ? [team.scheduling.cadence, team.scheduling.dayOfWeek, team.scheduling.time].filter(Boolean).join(' · ')
+          : 'Not recurring'
+      },
+      { label: 'Reminder cadence', value: team.scheduling.reminderCadence || 'Not recorded' },
+      { label: 'Escalation cadence', value: team.scheduling.escalationCadence || 'Not recorded' }
+    ], { columns: 3 }));
+    if (team.scheduling.prepChecklist.length > 0) {
+      config.appendChild(el('p', 'aos-walkthrough__subtitle', 'Preparation checklist'));
+      config.appendChild(P.itemList(team.scheduling.prepChecklist.map(toPlainItem), { compact: true }));
+    }
+    config.appendChild(buildStatusActions(team, engagementId));
+    wrap.appendChild(config);
+
+    wrap.appendChild(buildScheduleForm(team, engagementId));
+
+    if (team.sessions.length > 0) {
+      var history = el('div', 'aos-surface aos-surface--padded');
+      history.appendChild(el('p', 'aos-walkthrough__subtitle', 'Sessions'));
+      history.appendChild(P.itemList(team.sessions.slice().sort(function (a, b) {
+        return String(b.date || '').localeCompare(String(a.date || ''));
+      }).map(function (session) {
+        return {
+          title: session.title,
+          description: session.notes || '',
+          meta: [session.type, formatDate(session.date), session.time].filter(Boolean).join(' · '),
+          tone: session.status === 'Completed' ? TONES.SUCCESS : TONES.INFO
+        };
+      }), { compact: true }));
+      wrap.appendChild(history);
+    }
+
+    return wrap;
+  }
+
+  /** Builds the Ingestion form: one entry kind at a time (Issue #36 §7). */
+  function buildIngestionForm(team, engagementId) {
+    var P = presentation();
+    var wrap = el('div', 'aos-surface aos-surface--padded aos-walkthrough__ingestion-form');
+    wrap.appendChild(el('p', 'aos-walkthrough__subtitle', 'Record ingestion'));
+
+    var kindSelect = el('select', 'aos-select__control');
+    kindSelect.setAttribute('aria-label', 'Ingestion kind');
+    [
+      { value: 'notes', label: 'Note' },
+      { value: 'evidence', label: 'Evidence reference' },
+      { value: 'recording', label: 'Recording link' },
+      { value: 'sharepoint', label: 'SharePoint link' },
+      { value: 'local', label: 'Local file reference' }
+    ].forEach(function (option) {
+      var opt = el('option', null, option.label);
+      opt.value = option.value;
+      kindSelect.appendChild(opt);
+    });
+    wrap.appendChild(kindSelect);
+
+    var textInput = el('textarea', 'aos-walkthrough__field');
+    textInput.rows = 2;
+    textInput.placeholder = 'Details (note text, reference, or URL)';
+    textInput.setAttribute('aria-label', 'Ingestion details');
+    wrap.appendChild(textInput);
+
+    var submit = P.button({ label: 'Add', variant: 'subtle' });
+    submit.addEventListener('click', function () {
+      var text = textInput.value.trim();
+      if (!text) {
+        return;
+      }
+      var kind = kindSelect.value;
+      var entry;
+      if (kind === 'notes') {
+        entry = { on: todayIso(), author: sessionLabel(), text: text };
+      } else if (kind === 'evidence') {
+        entry = { on: todayIso(), title: text, reference: 'SIM-EVID-' + Date.now() };
+      } else if (kind === 'recording') {
+        entry = { sessionId: '', url: text };
+      } else if (kind === 'sharepoint') {
+        entry = { title: text, url: text };
+      } else {
+        entry = { title: text, path: text };
+      }
+      addIngestionEntry(engagementId, team.teamId, team.ingestion, kind, entry);
+      textInput.value = '';
+      renderActiveWalkthrough();
+    });
+    wrap.appendChild(submit);
+    return wrap;
+  }
+
+  /** Builds the Ingestion section body: the form plus the recorded log, grouped by kind. */
+  function buildIngestionBody(team, engagementId) {
+    var P = presentation();
+    var wrap = el('div', 'aos-walkthrough__ingestion');
+    wrap.appendChild(buildIngestionForm(team, engagementId));
+
+    [
+      { title: 'Notes', items: team.ingestion.notes.slice().reverse().map(function (n) { return { title: n.text, meta: [n.author, n.on].filter(Boolean).join(' · ') }; }) },
+      { title: 'Evidence uploads', items: team.ingestion.evidenceUploads.slice().reverse().map(function (e) { return { title: e.title, meta: [e.reference, e.on].filter(Boolean).join(' · ') }; }) },
+      { title: 'Recording links', items: team.ingestion.recordingLinks.map(function (r) { return { title: r.sessionId || 'Recording', meta: r.url }; }) },
+      { title: 'SharePoint links', items: team.ingestion.sharepointLinks.map(function (s) { return { title: s.title, meta: s.url }; }) },
+      { title: 'Local file references', items: team.ingestion.localFileRefs.map(function (f) { return { title: f.title, meta: f.path }; }) }
+    ].forEach(function (group) {
+      if (group.items.length === 0) {
+        return;
+      }
+      var block = el('div', 'aos-surface aos-surface--padded');
+      block.appendChild(el('p', 'aos-walkthrough__subtitle', group.title));
+      block.appendChild(P.itemList(group.items, { compact: true }));
+      wrap.appendChild(block);
+    });
+
+    return wrap;
+  }
+
+  /** Builds the POC detail overview: identity, role, and Team membership. */
+  function buildPocOverviewBody(poc) {
+    var P = presentation();
+    var surface = el('div', 'aos-surface aos-surface--padded');
+    var badges = [];
+    if (poc.isMainPoc) { badges.push('Main POC'); }
+    if (poc.isEscalationPoc) { badges.push('Escalation POC'); }
+    surface.appendChild(P.propertyGrid([
+      { label: 'Status', value: poc.status || 'Not recorded' },
+      { label: 'Team', value: poc.teamName },
+      { label: 'Role', value: poc.role || 'Not recorded' },
+      { label: 'Contact', value: poc.contact || 'Not recorded' },
+      { label: 'Responsibilities', value: badges.join(' · ') || 'None recorded' }
+    ], { columns: 2 }));
+    return surface;
+  }
+
+  /** Builds the POC's session participation body — the real sessions it appears in, never a fabricated count. */
+  function buildPocSessionsBody(sessions) {
+    var P = presentation();
+    return P.itemList(asArray(sessions).map(function (session) {
+      return {
+        title: session.title,
+        meta: [session.type, formatDate(session.date), session.time].filter(Boolean).join(' · '),
+        tone: session.status === 'Completed' ? TONES.SUCCESS : TONES.INFO
+      };
+    }));
+  }
+
+  // ------------------------------------------------------------------
   // Slot rendering
   // ------------------------------------------------------------------
 
@@ -700,13 +1704,26 @@
   var fillSlot = WS.fillSlot;
 
   /**
-   * The ordered walkthrough sections (§ Workspace Structure): Audit Health,
-   * then the operational sections in the order a team works through them.
-   * Each entry names the section id, its header, whether it has data, its
-   * body builder, and an empty descriptor used when the data is absent.
+   * The roster-level walkthrough sections (§ Workspace Structure): the Team
+   * roster leads — "operational readiness rather than historical
+   * meetings" (Issue #36 §3) — then Audit Health and the operational
+   * sections in the order a team works through them, unchanged from
+   * Release 1. Each entry names the section id, its header, whether it has
+   * data, its body builder, and an empty descriptor used when the data is
+   * absent.
    */
-  function primarySections(viewModel) {
+  function rosterSections(viewModel) {
     return [
+      {
+        id: 'teams', kicker: 'Operational readiness', title: 'Teams',
+        description: 'One continuously evolving walkthrough workspace per Team — select a Team to open its command center.',
+        present: viewModel.teamRoster.length > 0,
+        body: function () { return buildTeamsRosterBody(viewModel.teamRoster); },
+        empty: {
+          icon: '◇', title: 'No teams recorded yet',
+          description: 'Teams appear here once the engagement’s walkthrough roster is authored.'
+        }
+      },
       {
         id: 'health', kicker: 'Operational status', title: 'Audit health',
         present: true, body: function () { return buildAuditHealth(viewModel.auditHealth); }
@@ -760,6 +1777,111 @@
         }
       }
     ];
+  }
+
+  /**
+   * The Team command center sections (Issue #36 §4–§13): overview with
+   * dual timezone, the POC roster, agenda, evidence, dependencies,
+   * blockers, AI Suggestions, Industry Knowledge, Scheduling, Ingestion,
+   * and Comments.
+   */
+  function teamSections(viewModel) {
+    var team = viewModel.activeTeam;
+    var engagementId = viewModel.engagement.id;
+    return [
+      {
+        id: 'overview', kicker: 'Command center', title: team.name,
+        present: true, body: function () { return buildTeamOverviewBody(team); }
+      },
+      {
+        id: 'roster', kicker: 'POCs', title: 'Team roster',
+        present: team.pocs.length > 0,
+        body: function () { return buildTeamRosterBody(team, viewModel.hrefOf); },
+        empty: { icon: '◇', title: 'No POCs recorded yet', description: 'The POC roster appears here once it is authored.' }
+      },
+      {
+        id: 'agenda', kicker: 'Next session', title: 'Agenda',
+        present: team.agenda.length > 0,
+        body: function () { return presentation().itemList(team.agenda, { compact: true }); },
+        empty: { icon: '◇', title: 'No agenda recorded', description: 'The agenda for the next session appears here once it is set.' }
+      },
+      {
+        id: 'evidence', kicker: 'Evidence', title: 'Evidence expected & demonstrated',
+        present: team.evidenceExpected.length > 0 || team.evidenceDemonstrated.length > 0,
+        body: function () { return buildEvidenceBody(team); },
+        empty: { icon: '◇', title: 'No evidence recorded yet', description: 'Evidence expected and demonstrated appear here as the walkthrough progresses.' }
+      },
+      {
+        id: 'dependencies', kicker: 'Dependency Engine', title: 'Dependencies',
+        description: 'Team → POC → Requirement → Control → Evidence → Report — reason, confidence, and audit-period implications.',
+        present: team.dependencies.length > 0,
+        body: function () { return buildDependenciesBody(team.dependencies); },
+        empty: { icon: '✓', title: 'No dependencies recorded', description: 'Dependencies this Team’s work relies on appear here.' }
+      },
+      {
+        id: 'blockers', kicker: 'At risk', title: 'Pending blockers',
+        present: team.blockers.length > 0,
+        body: function () { return buildBlockersBody(team.blockers); },
+        empty: { icon: '✓', title: 'Nothing blocking', description: 'Blockers preventing this Team’s walkthrough from progressing appear here.' }
+      },
+      {
+        id: 'suggestions', kicker: 'Suggested → Reviewed → Approved → Applied', title: 'AI Suggestions',
+        present: team.suggestions.length > 0,
+        body: function () { return buildSuggestionsBody(team.suggestions, engagementId); },
+        empty: { icon: '✦', title: 'No suggestions yet', description: 'AI Suggestions for this Team appear here as soon as they are raised. AI never writes directly — Suggestions require Approval to Apply.' }
+      },
+      {
+        id: 'industry-knowledge', kicker: 'Organizational learning', title: 'Industry Knowledge',
+        description: 'Reusable knowledge applicable to this engagement’s audit period — never retroactive.',
+        present: team.industryKnowledge.length > 0,
+        body: function () { return buildIndustryKnowledgeBody(team.industryKnowledge); },
+        empty: { icon: '◇', title: 'No applicable Industry Knowledge', description: 'Organizational learning applicable to this engagement’s audit period appears here.' }
+      },
+      {
+        id: 'scheduling', kicker: 'Recurring & manual meetings', title: 'Scheduling',
+        present: true, body: function () { return buildSchedulingBody(team, engagementId); }
+      },
+      {
+        id: 'ingestion', kicker: 'Notes, transcripts, evidence', title: 'Ingestion',
+        present: true, body: function () { return buildIngestionBody(team, engagementId); }
+      },
+      {
+        id: 'comments', kicker: 'Discussion', title: 'Comments',
+        present: true, body: function () { return buildCommentsBody(team, engagementId); }
+      }
+    ];
+  }
+
+  /** The POC detail sections (Issue #36 §3): identity and the real sessions it participated in. */
+  function pocSections(viewModel) {
+    var poc = viewModel.activePoc;
+    return [
+      {
+        id: 'overview', kicker: poc.teamName, title: poc.name,
+        present: true, body: function () { return buildPocOverviewBody(poc); }
+      },
+      {
+        id: 'sessions', kicker: 'Participation', title: 'Sessions',
+        present: poc.sessions.length > 0,
+        body: function () { return buildPocSessionsBody(poc.sessions); },
+        empty: { icon: '◇', title: 'No sessions recorded yet', description: 'Sessions this POC participated in appear here once they are logged.' }
+      }
+    ];
+  }
+
+  /**
+   * The ordered sections for the current view: the Team roster (default),
+   * a Team's command center, or a POC's detail — whichever the resolved
+   * route context names (Issue #36 §3).
+   */
+  function primarySections(viewModel) {
+    if (viewModel.view === 'poc' && viewModel.activePoc) {
+      return pocSections(viewModel);
+    }
+    if (viewModel.view === 'team' && viewModel.activeTeam) {
+      return teamSections(viewModel);
+    }
+    return rosterSections(viewModel);
   }
 
   /** Renders the ready walkthrough experience into the framework slots. */
@@ -854,7 +1976,13 @@
       return;
     }
 
-    var viewModel = state ? collectViewModel(state, registry) : null;
+    // Team → POC depth (Issue #36 §3) comes from the resolved hierarchy
+    // context the router already carries; omitted entirely for flat routes,
+    // which keeps every existing deep link and test call (`collectViewModel`
+    // with just `state, registry`) resolving to the roster view exactly as
+    // before.
+    var routeContext = router.getCurrentContext ? router.getCurrentContext() : null;
+    var viewModel = state ? collectViewModel(state, registry, routeContext) : null;
     if (!viewModel) {
       renderLoading(view);
       return;
@@ -877,6 +2005,16 @@
       resolveSessionTone: resolveSessionTone,
       formatSessionDate: formatSessionDate,
       deriveWalkthroughStatus: deriveWalkthroughStatus,
+      resolveTeamStatusTone: resolveTeamStatusTone,
+      resolveSuggestionTone: resolveSuggestionTone,
+      findTeamById: findTeamById,
+      resolveTeamPocs: resolveTeamPocs,
+      formatNextSessionLabel: formatNextSessionLabel,
+      deriveTeamRoster: deriveTeamRoster,
+      deriveTeamRosterSummary: deriveTeamRosterSummary,
+      currentTimeInZone: currentTimeInZone,
+      buildTeamDetail: buildTeamDetail,
+      buildPocDetail: buildPocDetail,
       deriveLastSession: deriveLastSession,
       deriveTeamNames: deriveTeamNames,
       countParticipatedTeamMembers: countParticipatedTeamMembers,

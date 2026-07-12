@@ -219,14 +219,18 @@
   /**
    * Renders a workspace's placeholder host into the outlet and publishes the
    * route change. Skips redundant work only when the workspace, the record
-   * id, and the hierarchy context are all unchanged, so navigating between
-   * records or between hierarchy scopes within one workspace still
-   * republishes the route change (Issues #31 / #34).
+   * id, the POC sub-id, and the hierarchy context are all unchanged, so
+   * navigating between records, between a Team and one of its POCs (Issue
+   * #36), or between hierarchy scopes within one workspace still republishes
+   * the route change (Issues #31 / #34 / #36).
    */
   function activateWorkspace(workspace, isKnownRoute, recordId, context) {
     var normalizedRecordId = recordId || '';
+    var normalizedPocId = (context && context.pocId) || '';
+    var currentPocId = (currentContext && currentContext.pocId) || '';
     var sameWorkspace = hasActivatedOnce && workspace.id === currentWorkspaceId;
     if (sameWorkspace && normalizedRecordId === currentRecordId &&
+        normalizedPocId === currentPocId &&
         contextKey(context) === contextKey(currentContext)) {
       return;
     }

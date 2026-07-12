@@ -45,6 +45,42 @@
 }
 
 /* ========================================
+ * HORIZONTAL EXECUTIVE KPI STRIP (GitHub Issue #36 §14)
+ * The primary usage figures as one scannable row ahead of the full
+ * property grid — a horizontal executive summary, not a layout change.
+ * ======================================== */
+
+.aos-ai-usage__kpi-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-6);
+  padding-bottom: var(--aos-space-4);
+  border-bottom: 1px solid var(--aos-surface-border);
+}
+
+.aos-ai-usage__kpi-tile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  min-width: 6rem;
+}
+
+.aos-ai-usage__kpi-value {
+  font-size: var(--aos-text-2xl);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-tight);
+  color: var(--aos-text-primary);
+}
+
+.aos-ai-usage__kpi-label {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+/* ========================================
  * RESTRICTED ACCESS
  * The standard access explanation for sessions without the administrator
  * capability: the educating Empty State with the shared Permission Notice

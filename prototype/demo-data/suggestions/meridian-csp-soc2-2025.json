@@ -1,0 +1,12 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "AI Suggestion Lifecycle (Issue #36): engagement-specific suggestions derived from walkthrough activity. Suggested → Reviewed → Approved → Applied.",
+    "source": "Simulated — Release 2 AI agents author these; Release 1 seeds representative suggestions for the lifecycle UI.",
+    "engagementId": "ENG-MER-CSP-2025",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025"
+  },
+  "suggestions": []
+}

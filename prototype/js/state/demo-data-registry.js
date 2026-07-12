@@ -86,7 +86,28 @@
     { id: 'findings',              scope: SCOPES.ENGAGEMENT, manifestPath: 'demo-data/findings.json',              recordsKey: 'findings' },
     { id: 'reports',               scope: SCOPES.ENGAGEMENT, manifestPath: 'demo-data/reports.json',               recordsKey: 'sections' },
     { id: 'walkthroughs',          scope: SCOPES.ENGAGEMENT, manifestPath: 'demo-data/walkthroughs.json',          recordsKey: 'sessions' },
-    { id: 'activity',              scope: SCOPES.ENGAGEMENT, manifestPath: 'demo-data/activity.json',              recordsKey: 'events' }
+    { id: 'activity',              scope: SCOPES.ENGAGEMENT, manifestPath: 'demo-data/activity.json',              recordsKey: 'events' },
+
+    // Walkthrough Teams (GitHub Issue #36 §3/§4): Team → POC operational
+    // state, one Repository record per Team so Scheduling, Ingestion, and
+    // status changes are audited writes like every other entity — a
+    // separate collection from `walkthroughs` because the generic
+    // Repository write API operates on exactly one `recordsKey` per
+    // collection, and `walkthroughs` already owns `sessions`.
+    { id: 'walkthrough-teams',     scope: SCOPES.ENGAGEMENT, manifestPath: 'demo-data/walkthrough-teams.json',     recordsKey: 'teams' },
+
+    // Engagement Operating System Foundation (GitHub Issue #36): Suggestion
+    // Lifecycle, AI Context Service, and Dependency Engine collections, one
+    // dataset per engagement, following the same per-engagement document
+    // library pattern as every domain above.
+    { id: 'suggestions',           scope: SCOPES.ENGAGEMENT, manifestPath: 'demo-data/suggestions.json',           recordsKey: 'suggestions' },
+    { id: 'engagement-context',    scope: SCOPES.ENGAGEMENT, manifestPath: 'demo-data/engagement-context.json',    recordsKey: 'context' },
+    { id: 'dependencies',          scope: SCOPES.ENGAGEMENT, manifestPath: 'demo-data/dependencies.json',          recordsKey: 'dependencies' },
+    // Industry Knowledge (Architectural Decision #5) is reusable
+    // organizational learning, not engagement-specific — a shared, root
+    // document like companies.json or teams.json, not a per-engagement
+    // manifest.
+    { id: 'industry-knowledge',    scope: SCOPES.SHARED,    path: 'demo-data/industry-knowledge.json',            recordsKey: 'items' }
   ];
 
   AuditOS.demoDataRegistry = {

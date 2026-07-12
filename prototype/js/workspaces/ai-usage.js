@@ -304,11 +304,50 @@
   // ------------------------------------------------------------------
 
   /**
-   * Collects everything the telemetry workspace presents. `filters` is the
-   * memory-only presentation state (trend granularity). Returns null while
-   * the repository is not ready.
+   * Narrows telemetry events to the current route scope (Issue #36 §14 —
+   * "metrics automatically scope to Engagement / Walkthrough / Requirements
+   * / Controls / Report without changing page layout"): the engagement when
+   * the route carries one, else the client, else the whole platform.
+   * Identical scoping rule to the header's AI Usage indicator
+   * (`deriveAiUsageSummary`, `components/header/header.js`) so the two
+   * surfaces never disagree. Every section below (totals, trend, per-model /
+   * per-workspace rollups, heatmap, hierarchy) derives from this one
+   * narrowed set — the page layout itself is unchanged; only which events
+   * feed it changes. The per-workspace rollup already breaks the scoped set
+   * down by Walkthrough / Requirements / Controls / Report, so no separate
+   * per-domain section is needed.
    */
-  function collectViewModel(repository, workspaceRegistry, permissions, filters) {
+  function scopeEvents(events, routeContext) {
+    if (routeContext && routeContext.engagement) {
+      var engagementId = routeContext.engagement.id;
+      return asArray(events).filter(function (event) { return event.engagementId === engagementId; });
+    }
+    if (routeContext && routeContext.client) {
+      var companyId = routeContext.client.id;
+      return asArray(events).filter(function (event) { return event.companyId === companyId; });
+    }
+    return asArray(events);
+  }
+
+  /** The scope label for the header/ribbon (Issue #36 §14), identical rule to the header indicator's own scope label. */
+  function resolveScopeLabel(routeContext) {
+    if (routeContext && routeContext.engagement) {
+      return routeContext.engagement.name || routeContext.engagement.id;
+    }
+    if (routeContext && routeContext.client) {
+      return routeContext.client.name;
+    }
+    return 'Platform';
+  }
+
+  /**
+   * Collects everything the telemetry workspace presents. `filters` is the
+   * memory-only presentation state (trend granularity). `routeContext`
+   * (optional — every existing caller omits it) narrows every figure to the
+   * engagement or client the current route names (Issue #36 §14). Returns
+   * null while the repository is not ready.
+   */
+  function collectViewModel(repository, workspaceRegistry, permissions, filters, routeContext) {
     if (!repository || !repository.isReady()) {
       return null;
     }
@@ -316,19 +355,21 @@
     var telemetryDocument = repository.telemetry.getDocument() || {};
     var metadata = telemetryDocument.metadata || {};
     var assumptions = metadata.assumptions || {};
-    var events = repository.telemetry.list();
+    var events = scopeEvents(repository.telemetry.list(), routeContext);
     var companiesById = WS.indexById(repository.clients.list());
     var engagementsById = WS.indexById(repository.engagements.list());
     var programsById = WS.indexById(repository.programs.list());
 
     var totals = aggregateTotals(events, assumptions.blendedHourlyRateUsd);
     var hierarchy = aggregateHierarchy(events);
+    var scopeLabel = resolveScopeLabel(routeContext);
 
     return {
       events: events,
       metadata: metadata,
       assumptions: assumptions,
       totals: totals,
+      scopeLabel: scopeLabel,
       byModel: aggregateByDimension(events, function (e) { return e.model; }),
       byProvider: aggregateByDimension(events, function (e) { return e.provider; }),
       byWorkspace: aggregateByDimension(events, function (e) { return e.workspaceId; }),
@@ -342,10 +383,11 @@
       programsById: programsById,
 
       header: {
-        eyebrow: 'Platform administration',
+        eyebrow: scopeLabel === 'Platform' ? 'Platform administration' : scopeLabel,
         meta: 'AI operational telemetry and spend accounting — every figure aggregated live from the JSON-backed telemetry events, nothing hardcoded.'
       },
       ribbon: [
+        { label: 'Scope', value: scopeLabel },
         { label: 'AI calls', value: String(totals.calls) },
         { label: 'Cost', value: '$' + totals.costUsd.toFixed(2) },
         { label: 'Tokens', value: totals.totalTokens.toLocaleString('en-US') },
@@ -379,11 +421,39 @@
     return WS.buildSection('aos-ai-usage', id, meta, bodyNode);
   }
 
-  /** Builds the Overview body: the complete rollup as labeled figures. */
+  /**
+   * Builds the horizontal executive KPI strip (Issue #36 §14 — "the usage
+   * page becomes a horizontal executive summary"): the primary figures as a
+   * single scannable row, ahead of the full property grid below it. Adds no
+   * new section and changes no other region — the same Overview section,
+   * fronted by a horizontal read instead of only a dense grid.
+   */
+  function buildKpiStrip(totals) {
+    var strip = el('div', 'aos-ai-usage__kpi-strip');
+    strip.setAttribute('role', 'group');
+    strip.setAttribute('aria-label', 'Key usage metrics');
+    [
+      { label: 'AI calls', value: String(totals.calls) },
+      { label: 'Cost', value: '$' + totals.costUsd.toFixed(2) },
+      { label: 'Tokens', value: totals.totalTokens.toLocaleString('en-US') },
+      { label: 'Acceptance', value: totals.acceptanceRate + '%' },
+      { label: 'Hours saved', value: String(totals.hoursSaved) },
+      { label: 'ROI', value: totals.roi !== null ? totals.roi + '%' : 'Not recorded' }
+    ].forEach(function (kpi) {
+      var tile = el('div', 'aos-ai-usage__kpi-tile');
+      tile.appendChild(el('span', 'aos-ai-usage__kpi-value aos-numeric', kpi.value));
+      tile.appendChild(el('span', 'aos-ai-usage__kpi-label', kpi.label));
+      strip.appendChild(tile);
+    });
+    return strip;
+  }
+
+  /** Builds the Overview body: the horizontal KPI strip, then the complete rollup as labeled figures. */
   function buildOverviewBody(model) {
     var P = WS.presentation();
     var totals = model.totals;
     var surface = el('div', 'aos-surface aos-surface--padded aos-ai-usage__overview');
+    surface.appendChild(buildKpiStrip(totals));
     surface.appendChild(P.propertyGrid([
       { label: 'AI calls', value: String(totals.calls) },
       { label: 'Total cost', value: '$' + totals.costUsd.toFixed(2) },
@@ -699,7 +769,12 @@
       return;
     }
 
-    var model = collectViewModel(repository, registry, permissions, presentationState);
+    // Metrics automatically scope to Engagement / Walkthrough /
+    // Requirements / Controls / Report (Issue #36 §14) whenever AI Usage is
+    // reached through a hierarchical route; flat routes (the header
+    // indicator's default) carry no context and stay platform-wide.
+    var routeContext = router.getCurrentContext ? router.getCurrentContext() : null;
+    var model = collectViewModel(repository, registry, permissions, presentationState, routeContext);
     if (!model) {
       fillSlot(view, SLOTS.CONTENT, [WS.presentation().loadingState({ variant: 'cards', label: 'Loading telemetry' })]);
       return;
@@ -720,7 +795,9 @@
       aggregateHierarchy: aggregateHierarchy,
       aggregateHeatmap: aggregateHeatmap,
       isoWeekKey: isoWeekKey,
-      periodKey: periodKey
+      periodKey: periodKey,
+      scopeEvents: scopeEvents,
+      resolveScopeLabel: resolveScopeLabel
     },
 
     collectViewModel: collectViewModel,

@@ -1,0 +1,278 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Walkthrough Teams (Issue #36 Build §3/§4): Team → POC operational readiness — one record per Team, Repository-backed so Scheduling, Ingestion, and status writes are audited like every other entity.",
+    "source": "Derived from the real teams/pocs rosters for this engagement",
+    "engagementId": "ENG-MER-ZPQP-2025",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025"
+  },
+  "teams": [
+    {
+      "id": "TEAM-MER-019",
+      "name": "Quanta Capture NG Team",
+      "status": "In Progress",
+      "stage": "Evidence Collection",
+      "mainPocId": "POC-MER-003",
+      "escalationPocId": "POC-MER-014",
+      "pocIds": [
+        "POC-MER-003",
+        "POC-MER-005",
+        "POC-MER-014",
+        "POC-MER-015",
+        "POC-MER-021",
+        "POC-MER-054"
+      ],
+      "role": "Product Engineering",
+      "department": "Product",
+      "timezone": "Asia/Kolkata",
+      "reminderStatus": "Sent",
+      "escalationStatus": "None",
+      "nextSession": {
+        "date": "2026-07-21",
+        "time": "10:00",
+        "timezone": "Asia/Kolkata"
+      },
+      "agenda": [
+        "Walk through access provisioning for Quanta Capture NG",
+        "Confirm change-management evidence for REQ-MER-0026",
+        "Review outstanding evidence request status"
+      ],
+      "evidenceExpected": [
+        "Access review export for Quanta Capture NG (current quarter)",
+        "Change ticket log for REQ-MER-0026"
+      ],
+      "evidenceDemonstrated": [
+        "Screen share of access provisioning workflow (May 6 session)"
+      ],
+      "dependencyIds": [
+        "DEP-MER-ZPQP-001"
+      ],
+      "blockers": [
+        {
+          "title": "Change ticket export pending",
+          "description": "Engineering has not yet exported the change ticket log referenced in the May session; testing for REQ-MER-0026 cannot proceed without it.",
+          "severity": "Medium"
+        }
+      ],
+      "comments": [
+        {
+          "author": "Priya Raman",
+          "on": "2026-06-11",
+          "text": "Tobias confirmed the call for REQ-MER-0512 will happen next sprint."
+        }
+      ],
+      "ingestion": {
+        "notes": [
+          {
+            "on": "2026-05-06",
+            "author": "Priya Raman",
+            "text": "Access provisioning walkthrough covered onboarding and offboarding paths end to end."
+          }
+        ],
+        "transcripts": [],
+        "evidenceUploads": [
+          {
+            "on": "2026-05-06",
+            "title": "Access provisioning screen share notes",
+            "reference": "SIM-EVID-QCNG-001"
+          }
+        ],
+        "recordingLinks": [],
+        "sharepointLinks": [
+          {
+            "title": "Quanta Capture NG walkthrough folder",
+            "url": "https://meridian.sharepoint.example/sites/audit/QuantaCaptureNG"
+          }
+        ],
+        "localFileRefs": []
+      },
+      "scheduling": {
+        "recurring": {
+          "enabled": true,
+          "cadence": "Biweekly",
+          "dayOfWeek": "Tuesday",
+          "time": "10:00"
+        },
+        "reminderCadence": "3 days before the session",
+        "escalationCadence": "Escalate to the engagement lead 1 business day after a missed session",
+        "prepChecklist": [
+          "Confirm attendee availability",
+          "Circulate agenda 48 hours ahead",
+          "Pre-stage evidence request in the portal"
+        ]
+      },
+      "sessions": [
+        {
+          "id": "TWS-MER-QCNG-001",
+          "title": "Access provisioning walkthrough",
+          "type": "Manual",
+          "date": "2026-05-06",
+          "time": "10:00",
+          "status": "Completed",
+          "agenda": [
+            "Access provisioning workflow",
+            "Offboarding process"
+          ],
+          "evidenceExpected": [
+            "Access review export"
+          ],
+          "participants": [
+            "POC-MER-003",
+            "POC-MER-005"
+          ],
+          "notes": "Session evidenced the May 6 screen share remark on REQ-MER-0020.",
+          "recordingLink": "",
+          "sharepointLink": "https://meridian.sharepoint.example/sites/audit/QuantaCaptureNG",
+          "localFileRef": ""
+        },
+        {
+          "id": "TWS-MER-QCNG-002",
+          "title": "Change management follow-up",
+          "type": "Recurring",
+          "date": "2026-07-21",
+          "time": "10:00",
+          "status": "Scheduled",
+          "agenda": [
+            "Change ticket export walkthrough",
+            "REQ-MER-0026 evidence confirmation"
+          ],
+          "evidenceExpected": [
+            "Change ticket log"
+          ],
+          "participants": [
+            "POC-MER-003",
+            "POC-MER-014"
+          ],
+          "notes": "",
+          "recordingLink": "",
+          "sharepointLink": "",
+          "localFileRef": ""
+        }
+      ]
+    },
+    {
+      "id": "TEAM-MER-029",
+      "name": "Zephyr Platform Team",
+      "status": "Scheduling",
+      "stage": "Kickoff",
+      "mainPocId": "POC-MER-026",
+      "escalationPocId": "POC-MER-029",
+      "pocIds": [
+        "POC-MER-026"
+      ],
+      "role": "Platform Engineering",
+      "department": "Product",
+      "timezone": "Asia/Kolkata",
+      "reminderStatus": "Not Sent",
+      "escalationStatus": "None",
+      "nextSession": {
+        "date": "2026-07-28",
+        "time": "11:30",
+        "timezone": "Asia/Kolkata"
+      },
+      "agenda": [
+        "Introduce the SOC 2 walkthrough scope for Zephyr Platform",
+        "Identify control owners for the platform's core services"
+      ],
+      "evidenceExpected": [
+        "Zephyr Platform architecture overview"
+      ],
+      "evidenceDemonstrated": [],
+      "dependencyIds": [],
+      "blockers": [],
+      "comments": [],
+      "ingestion": {
+        "notes": [],
+        "transcripts": [],
+        "evidenceUploads": [],
+        "recordingLinks": [],
+        "sharepointLinks": [],
+        "localFileRefs": []
+      },
+      "scheduling": {
+        "recurring": {
+          "enabled": false,
+          "cadence": "",
+          "dayOfWeek": "",
+          "time": ""
+        },
+        "reminderCadence": "3 days before the session",
+        "escalationCadence": "Escalate to the engagement lead 1 business day after a missed session",
+        "prepChecklist": [
+          "Confirm attendee availability",
+          "Circulate agenda 48 hours ahead"
+        ]
+      },
+      "sessions": [
+        {
+          "id": "TWS-MER-ZPLAT-001",
+          "title": "Kickoff walkthrough",
+          "type": "Manual",
+          "date": "2026-07-28",
+          "time": "11:30",
+          "status": "Scheduled",
+          "agenda": [
+            "Scope introduction",
+            "Control owner identification"
+          ],
+          "evidenceExpected": [
+            "Architecture overview"
+          ],
+          "participants": [
+            "POC-MER-026"
+          ],
+          "notes": "",
+          "recordingLink": "",
+          "sharepointLink": "",
+          "localFileRef": ""
+        }
+      ]
+    },
+    {
+      "id": "TEAM-MER-016",
+      "name": "Quanta Analyze Team",
+      "status": "Not Started",
+      "stage": "Not Started",
+      "mainPocId": "POC-MER-016",
+      "escalationPocId": "POC-MER-017",
+      "pocIds": [
+        "POC-MER-016",
+        "POC-MER-017"
+      ],
+      "role": "Product Engineering",
+      "department": "Product",
+      "timezone": "Asia/Kolkata",
+      "reminderStatus": "Not Sent",
+      "escalationStatus": "None",
+      "nextSession": null,
+      "agenda": [],
+      "evidenceExpected": [],
+      "evidenceDemonstrated": [],
+      "dependencyIds": [],
+      "blockers": [],
+      "comments": [],
+      "ingestion": {
+        "notes": [],
+        "transcripts": [],
+        "evidenceUploads": [],
+        "recordingLinks": [],
+        "sharepointLinks": [],
+        "localFileRefs": []
+      },
+      "scheduling": {
+        "recurring": {
+          "enabled": false,
+          "cadence": "",
+          "dayOfWeek": "",
+          "time": ""
+        },
+        "reminderCadence": "",
+        "escalationCadence": "",
+        "prepChecklist": []
+      },
+      "sessions": []
+    }
+  ]
+}

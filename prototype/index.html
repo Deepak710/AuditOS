@@ -170,6 +170,25 @@
   <script src="js/platform/repository.js"></script>
 
   <!-- ========================================================= -->
+  <!-- Engagement Operating System Foundation (Issue #36)        -->
+  <!-- SynchronizationBus (pages publish events; the bus updates  -->
+  <!-- EngagementContext), EngagementContextService (the single   -->
+  <!-- source of AI-derived engagement state), DependencyService  -->
+  <!-- (Team → POC → Requirement → Control → Evidence → Report),  -->
+  <!-- Industry Knowledge (reusable organizational learning,      -->
+  <!-- separate from engagement-specific Suggestions), and the    -->
+  <!-- Suggestion Lifecycle Service (Suggested → Reviewed →       -->
+  <!-- Approved → Applied). Each depends only on the Repository   -->
+  <!-- and Audit Service above; loads before every workspace      -->
+  <!-- module that consumes them.                                 -->
+  <!-- ========================================================= -->
+  <script src="js/platform/synchronization-bus.js"></script>
+  <script src="js/platform/engagement-context-service.js"></script>
+  <script src="js/platform/dependency-service.js"></script>
+  <script src="js/platform/industry-knowledge.js"></script>
+  <script src="js/platform/suggestion-service.js"></script>
+
+  <!-- ========================================================= -->
   <!-- Workspace Shared Platform (Issue #27)                    -->
   <!-- Harmonized helpers reused by every operational workspace: -->
   <!-- shared constants, DOM builders (section, health strip,    -->

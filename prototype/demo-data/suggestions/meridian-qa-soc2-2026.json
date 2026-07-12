@@ -1,0 +1,39 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "AI Suggestion Lifecycle (Issue #36): engagement-specific suggestions derived from walkthrough activity. Suggested → Reviewed → Approved → Applied.",
+    "source": "Simulated — Release 2 AI agents author these; Release 1 seeds representative suggestions for the lifecycle UI.",
+    "engagementId": "ENG-MER-QA-2026",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025"
+  },
+  "suggestions": [
+    {
+      "id": "SUG-MER-QA-001",
+      "engagementId": "ENG-MER-QA-2026",
+      "teamId": "TEAM-MER-017",
+      "title": "Request the GCP IAM export ahead of the July 17 session",
+      "description": "Anjali confirmed the export verbally on July 2 but no formal evidence request has been logged. Recommend raising the request now so it is not the blocking item at the session itself.",
+      "category": "evidence",
+      "status": "Suggested",
+      "confidence": 0.72,
+      "suggestedBy": "AI",
+      "suggestedOn": "2026-07-08",
+      "reviewedByLabel": "",
+      "reviewedOn": "",
+      "approvedByLabel": "",
+      "approvedOn": "",
+      "appliedByLabel": "",
+      "appliedOn": "",
+      "comments": [],
+      "recommendations": [
+        "Log a formal evidence request for the GCP IAM configuration export."
+      ],
+      "affectedRequirements": [],
+      "affectedControls": [],
+      "affectedReportSections": [],
+      "auditReferences": ["TWS-MER-QA-001"]
+    }
+  ]
+}

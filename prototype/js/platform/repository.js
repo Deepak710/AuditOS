@@ -55,10 +55,20 @@
     { name: 'evidence',         collectionId: 'evidence' },
     { name: 'evidenceRequests', collectionId: 'evidence-requests' },
     { name: 'walkthroughs',     collectionId: 'walkthroughs' },
+    { name: 'walkthroughTeams', collectionId: 'walkthrough-teams' },
     { name: 'reports',          collectionId: 'reports' },
     { name: 'approvals',        collectionId: 'approvals' },
     { name: 'auditLogs',        collectionId: 'audit-logs' },
-    { name: 'telemetry',        collectionId: 'ai-telemetry' }
+    { name: 'telemetry',        collectionId: 'ai-telemetry' },
+    // Engagement Operating System Foundation (GitHub Issue #36): the
+    // engagement-scoped collections the Suggestion Lifecycle, the AI Context
+    // Service, and the Dependency Engine are backed by, plus the shared,
+    // reusable Industry Knowledge library (Architectural Decision #5 —
+    // Industry Knowledge is organizational, not engagement-specific).
+    { name: 'suggestions',      collectionId: 'suggestions' },
+    { name: 'engagementContext', collectionId: 'engagement-context' },
+    { name: 'dependencies',     collectionId: 'dependencies' },
+    { name: 'industryKnowledge', collectionId: 'industry-knowledge' }
   ];
 
   /** Returns the value when it is an array, otherwise an empty array. */
@@ -290,6 +300,14 @@
    *   [clientSlug, engagementSlug, path]    → that workspace
    *   [clientSlug, engagementSlug, path, id]→ that workspace, record selected
    *
+   * The Walkthrough workspace (GitHub Issue #36 — Engagement Operating
+   * System Foundation) carries two further levels: Team, then POC —
+   *   [..., 'walkthroughs', teamId]           → Team workspace
+   *   [..., 'walkthroughs', teamId, pocId]    → POC detail within that Team
+   * `recordId` still carries the raw fourth segment (unchanged contract for
+   * every other workspace); `teamId`/`pocId` are additional, Walkthrough-only
+   * fields that stay '' everywhere else.
+   *
    * The router parses URL segments only; this resolver turns them into
    * entities. When a later segment cannot be resolved the remaining segments
    * are ignored and the deepest valid parent wins; when nothing resolves the
@@ -319,6 +337,8 @@
       engagementSlug: '',
       workspaceId: workspaceRegistry.IDS.CLIENT,
       recordId: '',
+      teamId: '',
+      pocId: '',
       depth: 1
     };
 
@@ -340,25 +360,40 @@
     context.depth = 3;
 
     if (parts.length > 3 && parts[3]) {
-      var recordId = parts[3];
-      try {
-        // decodeURIComponent is an ECMAScript builtin, reachable in every
-        // execution context (browser and offline test sandbox alike).
-        recordId = decodeURIComponent(parts[3]);
-      } catch (error) {
-        // A malformed escape sequence keeps the raw segment; resolution
-        // simply selects nothing downstream.
-      }
+      var recordId = decodeSegment(parts[3]);
       context.recordId = recordId;
       context.depth = 4;
+
+      // Team → POC depth is Walkthrough-only (Issue #36); every other
+      // workspace's fourth segment stays the plain `recordId` it always was.
+      if (workspace.id === workspaceRegistry.IDS.WALKTHROUGH) {
+        context.teamId = recordId;
+        if (parts.length > 4 && parts[4]) {
+          context.pocId = decodeSegment(parts[4]);
+          context.depth = 5;
+        }
+      }
     }
     return context;
   }
 
+  /** Decodes one URL path segment, keeping the raw value on a malformed escape. */
+  function decodeSegment(segment) {
+    try {
+      // decodeURIComponent is an ECMAScript builtin, reachable in every
+      // execution context (browser and offline test sandbox alike).
+      return decodeURIComponent(segment);
+    } catch (error) {
+      return segment;
+    }
+  }
+
   /**
    * Builds the canonical hierarchical route hash for a resolved context:
-   * `#/{clientSlug}[/{engagementSlug}[/{workspacePath}[/{recordId}]]]`.
-   * Segments beyond the deepest supplied entity are omitted.
+   * `#/{clientSlug}[/{engagementSlug}[/{workspacePath}[/{recordId}[/{pocId}]]]]`.
+   * Segments beyond the deepest supplied entity are omitted. For the
+   * Walkthrough workspace, `recordId` carries the Team and a further
+   * `pocId` segment carries the POC (Issue #36 — Team → POC depth).
    */
   function buildHierarchicalHash(context, workspaceRegistry) {
     if (!context || !context.client) {
@@ -373,6 +408,9 @@
         segments.push(workspace.path);
         if (context.recordId) {
           segments.push(encodeURIComponent(context.recordId));
+          if (workspace.id === workspaceRegistry.IDS.WALKTHROUGH && context.pocId) {
+            segments.push(encodeURIComponent(context.pocId));
+          }
         }
       }
     }

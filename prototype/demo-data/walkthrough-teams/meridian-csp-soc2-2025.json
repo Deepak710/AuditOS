@@ -1,0 +1,58 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Walkthrough Teams (Issue #36 Build §3/§4): Team → POC operational readiness — one record per Team, Repository-backed so Scheduling, Ingestion, and status writes are audited like every other entity.",
+    "source": "Derived from the real teams/pocs rosters for this engagement",
+    "engagementId": "ENG-MER-CSP-2025",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025"
+  },
+  "teams": [
+    {
+      "id": "TEAM-MER-011",
+      "name": "InfoSec Team",
+      "status": "Complete",
+      "stage": "Complete",
+      "mainPocId": "POC-MER-023",
+      "escalationPocId": "",
+      "pocIds": [
+        "POC-MER-023"
+      ],
+      "role": "Information Security",
+      "department": "Security",
+      "timezone": "Asia/Kolkata",
+      "reminderStatus": "Acknowledged",
+      "escalationStatus": "None",
+      "nextSession": null,
+      "agenda": [],
+      "evidenceExpected": [],
+      "evidenceDemonstrated": [
+        "CSP walkthrough series (engagement complete)"
+      ],
+      "dependencyIds": [],
+      "blockers": [],
+      "comments": [],
+      "ingestion": {
+        "notes": [],
+        "transcripts": [],
+        "evidenceUploads": [],
+        "recordingLinks": [],
+        "sharepointLinks": [],
+        "localFileRefs": []
+      },
+      "scheduling": {
+        "recurring": {
+          "enabled": false,
+          "cadence": "",
+          "dayOfWeek": "",
+          "time": ""
+        },
+        "reminderCadence": "",
+        "escalationCadence": "",
+        "prepChecklist": []
+      },
+      "sessions": []
+    }
+  ]
+}

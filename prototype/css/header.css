@@ -411,3 +411,22 @@
   color: var(--aos-text-primary);
   font-variant-numeric: tabular-nums;
 }
+
+/* Graphical cost trend sparkline (GitHub Issue #36 §14 — "header hover
+ * becomes graphical"): a small bar row alongside the text rows above. */
+.aos-global-header__sparkline {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 1.5rem;
+  margin-top: var(--aos-space-2);
+  padding-top: var(--aos-space-2);
+  border-top: 1px solid var(--aos-surface-border);
+}
+
+.aos-global-header__sparkline-bar {
+  flex: 1;
+  min-width: 2px;
+  background: var(--aos-color-primary-500);
+  border-radius: var(--aos-radius-sm) var(--aos-radius-sm) 0 0;
+}

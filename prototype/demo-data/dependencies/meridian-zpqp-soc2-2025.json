@@ -1,0 +1,31 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Dependency Engine (Issue #36): Team → POC → Requirement → Control → Evidence → Report chains derived from walkthrough operating state.",
+    "source": "Derived from the walkthroughs collection's team operating state",
+    "engagementId": "ENG-MER-ZPQP-2025",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025"
+  },
+  "dependencies": [
+    {
+      "id": "DEP-MER-ZPQP-001",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "chain": ["team", "requirement"],
+      "sourceType": "team",
+      "sourceId": "TEAM-MER-019",
+      "targetType": "requirement",
+      "targetId": "REQ-MER-0026",
+      "reason": "Change ticket export has not been provided; testing for REQ-MER-0026 cannot proceed without it.",
+      "confidence": 0.7,
+      "blocking": true,
+      "affectedObjects": [
+        { "type": "requirement", "id": "REQ-MER-0026" }
+      ],
+      "auditPeriodImplications": "Within the current audit period (2025-01-01 to 2025-12-31); the export covers change activity for the full period.",
+      "historicalImpact": "No prior-period testing exists for this requirement under this engagement.",
+      "futureImpact": "If the export slips past the next scheduled session (2026-07-21), testing for REQ-MER-0026 will not complete before the planned fieldwork close."
+    }
+  ]
+}

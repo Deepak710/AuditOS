@@ -232,6 +232,43 @@
     });
   }
 
+  /**
+   * Engagement Navigation (GitHub Issue #36 §2): once an engagement is
+   * selected, the workspace switcher exposes only these four destinations —
+   * nothing else. Requirements, Controls & Documentation, and Report remain
+   * registered, already-built workspaces (Requirements/Controls #22/#23,
+   * Documentation #26); this issue only narrows engagement-scoped navigation
+   * to reach them, and reserves "Controls & Documentation" and "Report" as
+   * integration points — Report has no dedicated implementation yet
+   * (out of scope by design; see the Reporting workspace registration).
+   * `label` overrides the registry's own label for this curated menu only —
+   * the registry label (and every other surface that reads it) is
+   * unchanged.
+   */
+  var ENGAGEMENT_NAV_ITEMS = [
+    { id: registry.IDS.WALKTHROUGH, label: 'Walkthrough' },
+    { id: registry.IDS.REQUIREMENTS, label: 'Requirements' },
+    { id: registry.IDS.CONTROLS, label: 'Controls & Documentation' },
+    { id: registry.IDS.REPORTING, label: 'Report' }
+  ];
+
+  /** The curated Engagement Navigation entries, capability-filtered like `visibleWorkspaces`. */
+  function engagementNavWorkspaces() {
+    var permissions = AuditOS.permissions;
+    var entries = [];
+    ENGAGEMENT_NAV_ITEMS.forEach(function (item) {
+      var workspace = registry.findById(item.id);
+      if (!workspace) {
+        return;
+      }
+      if (workspace.capability && permissions && !permissions.can(workspace.capability)) {
+        return;
+      }
+      entries.push({ id: workspace.id, path: workspace.path, label: item.label });
+    });
+    return entries;
+  }
+
   /** The route hash of a workspace within the current hierarchy context. */
   function workspaceHref(workspace, context) {
     var repositoryService = repository();
@@ -245,6 +282,52 @@
       return base + '/' + workspace.path;
     }
     return ROUTE_HASH_PREFIX + workspace.path;
+  }
+
+  /**
+   * The route hash into the Walkthrough hierarchy (Issue #36): the
+   * workspace itself, one Team within it, or one POC within that Team.
+   */
+  function walkthroughHref(context, teamId, pocId) {
+    var walkthroughWorkspace = registry.findById(registry.IDS.WALKTHROUGH);
+    var base = workspaceHref(walkthroughWorkspace, context);
+    if (!teamId) {
+      return base;
+    }
+    var withTeam = base + '/' + encodeURIComponent(teamId);
+    return pocId ? withTeam + '/' + encodeURIComponent(pocId) : withTeam;
+  }
+
+  /**
+   * The Teams recorded against one engagement's Walkthrough Teams dataset
+   * (Issue #36 §3 — Team → POC hierarchy), read live from the Repository so
+   * the Team crumb menu never goes stale. Returns [] when the engagement
+   * has no walkthrough-teams dataset yet.
+   */
+  function engagementTeams(engagementId) {
+    var repositoryService = repository();
+    if (!repositoryService || !engagementId) {
+      return [];
+    }
+    var datasets = repositoryService.walkthroughTeams.datasetsForEngagement(engagementId);
+    if (datasets.length === 0) {
+      return [];
+    }
+    return repositoryService.walkthroughTeams.list({ datasetId: datasets[0] });
+  }
+
+  /** The real POC records for a Team's roster, resolved from the shared `pocs` collection. */
+  function teamPocs(team) {
+    var state = AuditOS.state;
+    if (!state || !team) {
+      return [];
+    }
+    var pocs = state.listRecords('pocs');
+    var byId = {};
+    pocs.forEach(function (poc) { byId[poc.id] = poc; });
+    return (Array.isArray(team.pocIds) ? team.pocIds : [])
+      .map(function (id) { return byId[id]; })
+      .filter(Boolean);
   }
 
   /** Builds the Home crumb — a plain link to the AuditOS Home workspace. */
@@ -327,19 +410,25 @@
     }
 
     // Workspace crumb — the switcher over every visible registered
-    // workspace. Suppressed while the active workspace is the Client
-    // Workspace itself (Issue #35 §2): the client crumb above already names
-    // that identity, so a trailing "Client Workspace" crumb would only
-    // repeat it. Once an engagement is selected the active workspace is
-    // never the Client Workspace, so this crumb reappears automatically.
+    // workspace, narrowed to the curated Engagement Navigation (Issue #36
+    // §2 — Walkthrough / Requirements / Controls & Documentation / Report,
+    // nothing else) once an engagement is in context; the full platform
+    // switcher applies everywhere else, unchanged. Suppressed while the
+    // active workspace is the Client Workspace itself (Issue #35 §2): the
+    // client crumb above already names that identity, so a trailing "Client
+    // Workspace" crumb would only repeat it. Once an engagement is selected
+    // the active workspace is never the Client Workspace, so this crumb
+    // reappears automatically.
+    var inEngagementScope = Boolean(context && context.client && context.engagement);
     if (!workspace || workspace.id !== registry.IDS.CLIENT) {
+      var navSource = inEngagementScope ? engagementNavWorkspaces() : visibleWorkspaces();
       trail.appendChild(buildMenuCrumb({
         label: workspace ? workspace.label : '',
         ariaLabel: workspace
           ? 'Current workspace: ' + workspace.label + ' — switch workspace'
           : 'Switch workspace',
-        menuLabel: 'Workspaces',
-        options: visibleWorkspaces().map(function (entry) {
+        menuLabel: inEngagementScope ? 'Engagement navigation' : 'Workspaces',
+        options: navSource.map(function (entry) {
           return {
             label: entry.label,
             href: workspaceHref(entry, context),
@@ -347,6 +436,44 @@
           };
         })
       }).item);
+    }
+
+    // Team and POC crumbs (Issue #36 §3 / Breadcrumbs — Walkthrough → Team →
+    // POC): only within the Walkthrough workspace, and only as deep as the
+    // route actually carries. Breadcrumbs disappear when navigating upward
+    // because the trail is always rebuilt fresh from the current context.
+    if (inEngagementScope && workspace && workspace.id === registry.IDS.WALKTHROUGH && context.teamId) {
+      var teams = engagementTeams(context.engagement.id);
+      var activeTeam = teams.filter(function (team) { return team.id === context.teamId; })[0] || null;
+      trail.appendChild(buildMenuCrumb({
+        label: activeTeam ? activeTeam.name : context.teamId,
+        ariaLabel: 'Current team: ' + (activeTeam ? activeTeam.name : context.teamId) + ' — switch team',
+        menuLabel: 'Teams',
+        options: teams.map(function (team) {
+          return {
+            label: team.name || team.id,
+            href: walkthroughHref(context, team.id, null),
+            active: Boolean(team.id === context.teamId)
+          };
+        })
+      }).item);
+
+      if (context.pocId && activeTeam) {
+        var pocs = teamPocs(activeTeam);
+        var activePoc = pocs.filter(function (poc) { return poc.id === context.pocId; })[0] || null;
+        trail.appendChild(buildMenuCrumb({
+          label: activePoc ? activePoc.name : context.pocId,
+          ariaLabel: 'Current POC: ' + (activePoc ? activePoc.name : context.pocId) + ' — switch POC',
+          menuLabel: 'POCs',
+          options: pocs.map(function (poc) {
+            return {
+              label: poc.name || poc.id,
+              href: walkthroughHref(context, activeTeam.id, poc.id),
+              active: Boolean(poc.id === context.pocId)
+            };
+          })
+        }).item);
+      }
     }
 
     breadcrumbRegion.replaceChildren(trail);

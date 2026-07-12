@@ -1,0 +1,53 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "Industry Knowledge (Issue #36, Architectural Decision #5): reusable organizational learning, separate from engagement-specific AI Suggestions. Always considers implementation date, audit period, historical applicability, and future applicability — never recommends retroactive changes.",
+    "source": "Simulated — Release 2 populates this from cross-engagement AI learning; Release 1 seeds representative entries."
+  },
+  "items": [
+    {
+      "id": "IK-001",
+      "title": "Firewall vendor changed",
+      "category": "Infrastructure",
+      "description": "A client migrated its perimeter firewall vendor. Rule sets, logging formats, and change-management evidence templates typically change with the new platform.",
+      "implementationDate": "2026-03-01",
+      "potentialControlUpdates": [
+        "Network perimeter control descriptions referencing the prior vendor's rule syntax"
+      ],
+      "potentialEvidenceUpdates": [
+        "Firewall rule-set export format",
+        "Change-ticket evidence template for network changes"
+      ],
+      "potentialTestingUpdates": [
+        "Sample selection should draw from post-migration change tickets only"
+      ],
+      "potentialReportUpdates": [
+        "System description language naming the firewall vendor"
+      ],
+      "historicalApplicability": "Does not apply to testing performed before 2026-03-01 — the prior vendor's evidence remains valid for that period.",
+      "futureApplicability": "Applies to all testing and evidence collected on or after 2026-03-01.",
+      "applicableFrameworks": ["SOC 2 (2017 Trust Services Criteria)"]
+    },
+    {
+      "id": "IK-002",
+      "title": "Cloud IAM provider migrated to short-lived credentials",
+      "category": "Identity & Access",
+      "description": "A client's cloud-hosted product line moved from long-lived service account keys to short-lived, automatically rotated credentials. Evidence of key rotation and access review cadence typically changes with this shift.",
+      "implementationDate": "2026-05-15",
+      "potentialControlUpdates": [
+        "Service account key rotation control language"
+      ],
+      "potentialEvidenceUpdates": [
+        "IAM configuration export should show credential TTL, not key age"
+      ],
+      "potentialTestingUpdates": [
+        "Testing procedures referencing key rotation cadence need updating to reference credential TTL policy"
+      ],
+      "potentialReportUpdates": [],
+      "historicalApplicability": "Does not apply to testing performed before 2026-05-15.",
+      "futureApplicability": "Applies to all IAM-related testing and evidence collected on or after 2026-05-15 for cloud-hosted systems.",
+      "applicableFrameworks": ["SOC 2 (2017 Trust Services Criteria)"]
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "AI Suggestion Lifecycle (Issue #36): engagement-specific suggestions derived from walkthrough activity. Suggested → Reviewed → Approved → Applied.",
+    "source": "Simulated — Release 2 AI agents author these; Release 1 seeds representative suggestions for the lifecycle UI.",
+    "engagementId": "ENG-MER-ZPQP-2025",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025"
+  },
+  "suggestions": [
+    {
+      "id": "SUG-MER-ZPQP-001",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "teamId": "TEAM-MER-019",
+      "title": "Add a change-management evidence checklist item to the Quanta Capture NG agenda",
+      "description": "The May 6 walkthrough surfaced a change ticket export as the missing evidence for REQ-MER-0026. Add an explicit evidence checklist item so the next session captures it without a follow-up request.",
+      "category": "agenda",
+      "status": "Approved",
+      "confidence": 0.78,
+      "suggestedBy": "AI",
+      "suggestedOn": "2026-06-11",
+      "reviewedByLabel": "Priya Raman",
+      "reviewedOn": "2026-06-12",
+      "approvedByLabel": "Sana Kapoor",
+      "approvedOn": "2026-06-13",
+      "appliedByLabel": "",
+      "appliedOn": "",
+      "comments": [
+        { "author": "Priya Raman", "on": "2026-06-12", "text": "Agreed — this would have avoided the follow-up email." }
+      ],
+      "recommendations": [
+        "Add 'Change ticket export for REQ-MER-0026' to the evidence expected list."
+      ],
+      "affectedRequirements": ["REQ-MER-0026"],
+      "affectedControls": [],
+      "affectedReportSections": [],
+      "auditReferences": ["WTS-MER-002"]
+    },
+    {
+      "id": "SUG-MER-ZPQP-002",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "teamId": "TEAM-MER-019",
+      "title": "Flag REQ-MER-0512 for a dedicated call before the next Quanta Capture NG session",
+      "description": "Tobias Whitmore's discussion topic (REQ-MER-0512) has been open since June 10 with no scheduled call. Recommend a dedicated 15-minute slot ahead of the next recurring session.",
+      "category": "agenda",
+      "status": "Reviewed",
+      "confidence": 0.64,
+      "suggestedBy": "AI",
+      "suggestedOn": "2026-06-20",
+      "reviewedByLabel": "Priya Raman",
+      "reviewedOn": "2026-06-21",
+      "approvedByLabel": "",
+      "approvedOn": "",
+      "appliedByLabel": "",
+      "appliedOn": "",
+      "comments": [
+        { "author": "Priya Raman", "on": "2026-06-21", "text": "Recommending we bundle this with the July 21 session instead of a separate call." }
+      ],
+      "recommendations": [
+        "Add a 15-minute agenda item for REQ-MER-0512 to the July 21 session."
+      ],
+      "affectedRequirements": ["REQ-MER-0512"],
+      "affectedControls": [],
+      "affectedReportSections": [],
+      "auditReferences": ["WTS-MER-003"]
+    },
+    {
+      "id": "SUG-MER-ZPQP-003",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "teamId": "TEAM-MER-029",
+      "title": "Schedule a Zephyr Platform kickoff before the next reporting cycle",
+      "description": "Zephyr Platform Team has no completed sessions yet and the engagement's audit period closes 2025-12-31. Recommend confirming the kickoff date already proposed (2026-07-28) is locked in.",
+      "category": "requirements",
+      "status": "Suggested",
+      "confidence": 0.55,
+      "suggestedBy": "AI",
+      "suggestedOn": "2026-07-05",
+      "reviewedByLabel": "",
+      "reviewedOn": "",
+      "approvedByLabel": "",
+      "approvedOn": "",
+      "appliedByLabel": "",
+      "appliedOn": "",
+      "comments": [],
+      "recommendations": [
+        "Confirm the July 28 kickoff with the Zephyr Platform Team's main POC."
+      ],
+      "affectedRequirements": [],
+      "affectedControls": [],
+      "affectedReportSections": [],
+      "auditReferences": []
+    }
+  ]
+}

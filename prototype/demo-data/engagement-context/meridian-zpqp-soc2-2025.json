@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2026-07-11T00:00:00Z",
+    "description": "EngagementContextService (Issue #36): the single source of AI-derived engagement state. Pages publish events through the SynchronizationBus; this document is the one they update.",
+    "source": "Simulated — Release 2 AI agents write this through the SynchronizationBus; Release 1 seeds a representative snapshot.",
+    "engagementId": "ENG-MER-ZPQP-2025",
+    "companyId": "CMP-MER",
+    "programId": "PRG-MER-SOC-2025"
+  },
+  "context": [
+    {
+      "id": "CTX-ENG-MER-ZPQP-2025",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "workingMemory": "Quanta Capture NG walkthroughs are the most advanced of the three tracked teams; the outstanding change ticket export is the single blocking item for REQ-MER-0026. Zephyr Platform has not started. Quanta Analyze has not been scheduled.",
+      "observedEvidence": [
+        { "on": "2026-05-06", "description": "Access provisioning screen share for Quanta Capture NG", "teamId": "TEAM-MER-019" }
+      ],
+      "assumptions": [
+        { "text": "Zephyr Platform's kickoff (2026-07-28) will proceed as proposed.", "confidence": 0.6 }
+      ],
+      "dependencyIds": ["DEP-MER-ZPQP-001"],
+      "suggestionIds": ["SUG-MER-ZPQP-001", "SUG-MER-ZPQP-002", "SUG-MER-ZPQP-003"],
+      "timeline": [
+        { "date": "2026-05-06", "event": "Quanta Capture NG access provisioning walkthrough completed" },
+        { "date": "2026-06-10", "event": "REQ-MER-0512 flagged for a call with Tobias Whitmore" },
+        { "date": "2026-06-11", "event": "AI suggestion raised: change-management evidence checklist item" },
+        { "date": "2026-06-13", "event": "Suggestion SUG-MER-ZPQP-001 approved" }
+      ],
+      "industryKnowledgeIds": ["IK-001"],
+      "confidence": 0.68,
+      "affectedRequirements": ["REQ-MER-0020", "REQ-MER-0026", "REQ-MER-0512"],
+      "affectedControls": [],
+      "affectedReportSections": [],
+      "auditReferences": ["WTS-MER-001", "WTS-MER-002", "WTS-MER-003"]
+    }
+  ]
+}

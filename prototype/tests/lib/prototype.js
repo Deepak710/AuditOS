@@ -35,6 +35,11 @@ const SCRIPTS = {
   permissions: ['js', 'platform', 'permissions.js'],
   auditService: ['js', 'platform', 'audit-service.js'],
   repository: ['js', 'platform', 'repository.js'],
+  synchronizationBus: ['js', 'platform', 'synchronization-bus.js'],
+  engagementContextService: ['js', 'platform', 'engagement-context-service.js'],
+  dependencyService: ['js', 'platform', 'dependency-service.js'],
+  industryKnowledge: ['js', 'platform', 'industry-knowledge.js'],
+  suggestionService: ['js', 'platform', 'suggestion-service.js'],
   workspaceShared: ['components', 'workspace-shared', 'workspace-shared.js'],
   homeWorkspace: ['js', 'workspaces', 'home.js'],
   engagementWorkspace: ['js', 'workspaces', 'engagement.js'],
@@ -79,7 +84,7 @@ function readText() {
  */
 function loadClassicScript(segments) {
   const code = fs.readFileSync(prototypePath.apply(null, segments), 'utf8');
-  const windowObject = {};
+  const windowObject = { console: console };
   const sandbox = { window: windowObject };
   vm.runInNewContext(code, sandbox, { filename: segments.join('/') });
   return windowObject;
@@ -92,7 +97,7 @@ function loadClassicScript(segments) {
  * other (e.g. bundle → registry → state store → home workspace).
  */
 function loadClassicScripts(scriptList) {
-  const windowObject = {};
+  const windowObject = { console: console };
   const sandbox = { window: windowObject };
   scriptList.forEach(function (segments) {
     const code = fs.readFileSync(prototypePath.apply(null, segments), 'utf8');
@@ -142,14 +147,21 @@ function loadWorkspaceFramework() {
 }
 
 /**
- * Loads the Walkthrough workspace module (window.AuditOS.walkthroughWorkspace).
- * The module guards its DOM self-init on `document` and reads the
- * presentation system only inside DOM builders, so it registers cleanly in
- * the sandbox where no document exists; suites exercise its pure derivations
- * directly.
+ * Loads the Walkthrough workspace module (window.AuditOS.walkthroughWorkspace)
+ * over the full platform stack (Issue #36 — the Team → POC command center
+ * writes through the Repository, the Suggestion Lifecycle Service, and the
+ * SynchronizationBus). The module guards its DOM self-init on `document` and
+ * reads the presentation system only inside DOM builders, so it registers
+ * cleanly in the sandbox where no document exists; suites exercise its pure
+ * derivations directly.
  */
 function loadWalkthroughWorkspace() {
-  return loadClassicScripts([SCRIPTS.relationships, SCRIPTS.workspaceShared, SCRIPTS.walkthroughWorkspace]).AuditOS.walkthroughWorkspace;
+  return loadClassicScripts([
+    SCRIPTS.relationships, SCRIPTS.permissions, SCRIPTS.auditService, SCRIPTS.repository,
+    SCRIPTS.synchronizationBus, SCRIPTS.engagementContextService, SCRIPTS.dependencyService,
+    SCRIPTS.industryKnowledge, SCRIPTS.suggestionService,
+    SCRIPTS.workspaceShared, SCRIPTS.walkthroughWorkspace
+  ]).AuditOS.walkthroughWorkspace;
 }
 
 /**
