@@ -1,15 +1,26 @@
 /**
  * AuditOS Global Header Content
  * Application Shell — Chapter 114 / Navigation Components — Chapter 76 /
- * Application Shell optimization (GitHub Issue #16)
+ * Application Shell optimization (GitHub Issue #16) / Platform Foundation II
+ * — GitHub Issue #34 (Session Panel / AI Usage in the header)
  *
- * Renders the global header's trailing regions: the theme toggle, the
- * notification indicator, and the signed-in user control. Presentation only —
- * every business value derives from the Shared Audit State (never from
- * demo-data files, never hardcoded), the notification indicator is navigation
- * to AuditOS Home's signals, and the theme preference is memory-only
- * presentation state stamped on the root element (`data-aos-theme`), which
- * the Design Token Foundation resolves to the light or dark token set.
+ * Renders the global header's trailing regions: the theme toggle, the AI
+ * Usage indicator, the notification indicator, the Global Approvals
+ * indicator, and the signed-in user control with its Session Panel.
+ * Presentation only — every business value derives from the Repository
+ * Foundation and the Shared Audit State (never from demo-data files, never
+ * hardcoded), and the theme preference is memory-only presentation state
+ * stamped on the root element (`data-aos-theme`).
+ *
+ * AI Usage (Issue #34): always visible in the header. Hovering or focusing
+ * it shows contextual statistics scoped to the current route (platform,
+ * client, or engagement), aggregated live from the telemetry repository.
+ * Clicking it opens the AI Telemetry workspace.
+ *
+ * Session Panel (Issue #34): clicking the signed-in user opens a panel with
+ * the user, the active roles, the held permissions, session information,
+ * and — in Demo Mode only — role switching between the declared session
+ * presets. Every switch records one Platform Audit Service event.
  *
  * Loaded as a classic script so the prototype runs directly from
  * file:///.../prototype/index.html with no build step or module loader.
@@ -35,8 +46,7 @@
   /**
    * The review statuses that mean a record is awaiting an audit-team approval
    * decision (Issue #33 §3) — the same vocabulary the Global Approvals
-   * workspace groups its inbox by, mirrored here the way this header already
-   * mirrors Home's notification rules, so the navigation badge and the inbox
+   * workspace groups its inbox by, so the navigation badge and the inbox
    * always count the same records.
    */
   var PENDING_APPROVAL_STATUSES = ['Pending Review', 'Evidence Received - Under HA Review', 'Submitted'];
@@ -46,6 +56,8 @@
   var profileRegion = null;
   var themeButton = null;
   var themeIcon = null;
+  var sessionPanelElement = null;
+  var userButtonElement = null;
 
   /** Creates an element with a class and optional text content. */
   function el(tagName, className, textContent) {
@@ -130,6 +142,15 @@
   }
 
   /**
+   * The signed-in identity: the current engagement's recorded lead, else the
+   * recorded audit firm — the same join-or-fallback the Engagement workspace
+   * applies. Never an invented name.
+   */
+  function resolveUserName(engagement) {
+    return engagement ? (engagement.engagementLead || engagement.auditor || '') : '';
+  }
+
+  /**
    * Operational events currently requesting attention (§16.18): evidence
    * awaiting review, rejected evidence, and submitted evidence requests —
    * the same events AuditOS Home presents as notifications.
@@ -156,8 +177,7 @@
   /**
    * Pending approvals across the entire platform (Issue #33 §3): evidence and
    * evidence requests awaiting an audit-team decision, summed over every
-   * engagement that is not completed — completed engagements are read-only
-   * and contribute to no operational count. Program-scoped pool datasets are
+   * engagement that is not completed. Program-scoped pool datasets are
    * excluded by construction: `findDatasetsForEngagement` resolves only the
    * datasets an engagement itself owns, so pooled records are never counted
    * twice.
@@ -185,14 +205,93 @@
   }
 
   // ------------------------------------------------------------------
-  // State-bound controls
+  // AI Usage indicator (Issue #34) — always visible; statistics scoped to
+  // the current route context, aggregated live from the telemetry repository.
+  // ------------------------------------------------------------------
+
+  /**
+   * Aggregates the telemetry events within the current route scope: the
+   * engagement when the route carries one, else the client, else the whole
+   * platform. Pure aggregation over repository reads — nothing hardcoded.
+   */
+  function deriveAiUsageSummary(repository, routeContext) {
+    var events = repository.telemetry.list();
+    var scopeLabel = 'Platform';
+    if (routeContext && routeContext.engagement) {
+      var engagementId = routeContext.engagement.id;
+      events = events.filter(function (event) { return event.engagementId === engagementId; });
+      scopeLabel = routeContext.engagement.name || routeContext.engagement.id;
+    } else if (routeContext && routeContext.client) {
+      var companyId = routeContext.client.id;
+      events = events.filter(function (event) { return event.companyId === companyId; });
+      scopeLabel = routeContext.client.name;
+    }
+
+    var totals = { calls: events.length, costUsd: 0, tokens: 0, failures: 0 };
+    events.forEach(function (event) {
+      totals.costUsd += event.costUsd || 0;
+      var tokens = event.tokens || {};
+      totals.tokens += (tokens.input || 0) + (tokens.output || 0);
+      if (event.failed) {
+        totals.failures += 1;
+      }
+    });
+    return {
+      scopeLabel: scopeLabel,
+      calls: totals.calls,
+      costUsd: Math.round(totals.costUsd * 100) / 100,
+      tokens: totals.tokens,
+      failures: totals.failures
+    };
+  }
+
+  /**
+   * Builds the AI Usage indicator: an always-visible header control whose
+   * hover/focus tooltip carries the scoped statistics and whose click opens
+   * the AI Telemetry workspace.
+   */
+  function buildAiUsageIndicator(summary) {
+    var link = el('a', 'aos-global-header__icon-button aos-global-header__ai-usage');
+    link.setAttribute('href', '#/ai-usage');
+    link.setAttribute('aria-label', 'AI usage — open AI telemetry');
+    link.setAttribute('aria-describedby', 'aos-ai-usage-tooltip');
+
+    var icon = el('i', 'bi bi-stars');
+    icon.setAttribute('aria-hidden', 'true');
+    link.appendChild(icon);
+
+    var tooltip = el('span', 'aos-global-header__tooltip');
+    tooltip.id = 'aos-ai-usage-tooltip';
+    tooltip.setAttribute('role', 'tooltip');
+    if (summary) {
+      [
+        { term: 'Scope', detail: summary.scopeLabel },
+        { term: 'AI calls', detail: String(summary.calls) },
+        { term: 'Tokens', detail: summary.tokens.toLocaleString('en-US') },
+        { term: 'Cost', detail: '$' + summary.costUsd.toFixed(2) },
+        { term: 'Failures', detail: String(summary.failures) }
+      ].forEach(function (row) {
+        var line = el('span', 'aos-global-header__tooltip-row');
+        line.appendChild(el('span', 'aos-global-header__tooltip-term', row.term));
+        line.appendChild(el('span', 'aos-global-header__tooltip-detail', row.detail));
+        tooltip.appendChild(line);
+      });
+    } else {
+      tooltip.appendChild(el('span', 'aos-global-header__tooltip-row',
+        'AI telemetry loads with the demo data.'));
+    }
+    link.appendChild(tooltip);
+    return link;
+  }
+
+  // ------------------------------------------------------------------
+  // State-bound indicators
   // ------------------------------------------------------------------
 
   /**
    * Builds the Global Approvals indicator (Issue #33 §3): always-visible
    * navigation to the platform-wide approval inbox, carrying the live pending
-   * approval count as its badge. Follows the notification indicator's exact
-   * composition — icon button, numeric badge only when work is pending.
+   * approval count as its badge.
    */
   function buildApprovalsIndicator(count) {
     var link = el('a', 'aos-global-header__icon-button');
@@ -216,8 +315,7 @@
 
   /**
    * Builds the notification indicator: navigation to AuditOS Home, where the
-   * Signals section lists every operational event. The badge carries the
-   * live attention count from the Shared Audit State.
+   * Signals section lists every operational event.
    */
   function buildNotifications(count) {
     var link = el('a', 'aos-global-header__icon-button');
@@ -239,44 +337,207 @@
     return link;
   }
 
-  /** Builds the signed-in user control from the engagement's records. */
-  function buildUserChip(engagement) {
-    var chip = el('div', 'aos-global-header__user');
-    chip.setAttribute('aria-label',
-      'Signed in as ' + engagement.engagementLead + ' — Engagement Lead, ' + engagement.auditor);
+  // ------------------------------------------------------------------
+  // Session Panel (Issue #34) — user, roles, permissions, session
+  // information, and Demo-Mode role switching.
+  // ------------------------------------------------------------------
+
+  /** Formats an ISO timestamp as a compact deterministic label. */
+  function formatTimestamp(iso) {
+    if (typeof iso !== 'string' || iso.indexOf('T') === -1) {
+      return iso || '';
+    }
+    return iso.slice(0, 10) + ' ' + iso.slice(11, 16) + ' UTC';
+  }
+
+  /** Builds one labeled row of the session panel. */
+  function buildSessionRow(term, detail) {
+    var row = el('div', 'aos-session-panel__row');
+    row.appendChild(el('dt', 'aos-session-panel__term', term));
+    row.appendChild(el('dd', 'aos-session-panel__detail', detail));
+    return row;
+  }
+
+  /** Closes the session panel, optionally restoring focus to the user control. */
+  function closeSessionPanel(restoreFocus) {
+    if (!sessionPanelElement || sessionPanelElement.hidden) {
+      return;
+    }
+    sessionPanelElement.hidden = true;
+    if (userButtonElement) {
+      userButtonElement.setAttribute('aria-expanded', 'false');
+      if (restoreFocus) {
+        userButtonElement.focus();
+      }
+    }
+  }
+
+  /** Toggles the session panel from the user control. */
+  function toggleSessionPanel() {
+    if (!sessionPanelElement) {
+      return;
+    }
+    var opening = sessionPanelElement.hidden;
+    sessionPanelElement.hidden = !opening;
+    userButtonElement.setAttribute('aria-expanded', opening ? 'true' : 'false');
+  }
+
+  /**
+   * Switches the demo session to a preset and records the switch as an
+   * immutable audit event (Issue #34 — every significant action is audited).
+   * The subsequent session-change notification re-renders every gated
+   * surface.
+   */
+  function handleRoleSwitch(presetId, previousInfo) {
+    var permissions = AuditOS.permissions;
+    if (!permissions || !permissions.switchSession(presetId)) {
+      return;
+    }
+    var auditService = AuditOS.auditService;
+    if (auditService) {
+      auditService.record({
+        action: 'session-role-switched',
+        previousValue: { presetId: previousInfo.presetId, roles: previousInfo.roles },
+        newValue: { presetId: presetId },
+        reason: 'Demo Mode role switching from the Session Panel',
+        metadata: { surface: 'session-panel' }
+      });
+    }
+  }
+
+  /**
+   * Builds the Session Panel (Issue #34): user, role, held permissions,
+   * session information, and — Demo Mode only — role switching between the
+   * declared presets. All facts come from the Permission Foundation and the
+   * Shared Audit State; nothing is invented.
+   */
+  function buildSessionPanel(userName, sessionInfo) {
+    var panel = el('div', 'aos-session-panel');
+    panel.setAttribute('role', 'dialog');
+    panel.setAttribute('aria-label', 'Session');
+    panel.hidden = true;
+
+    var identity = el('div', 'aos-session-panel__identity');
+    identity.appendChild(el('span', 'aos-session-panel__name', userName || 'Demo session'));
+    identity.appendChild(el('span', 'aos-session-panel__label', sessionInfo.label));
+    panel.appendChild(identity);
+
+    var facts = el('dl', 'aos-session-panel__facts');
+    facts.appendChild(buildSessionRow('Roles', sessionInfo.roles.join(' · ')));
+    facts.appendChild(buildSessionRow('Permissions', sessionInfo.capabilities.length > 0
+      ? sessionInfo.capabilities.join(' · ')
+      : 'None — actions route through approval requests'));
+    facts.appendChild(buildSessionRow('Mode', sessionInfo.mode === 'demo' ? 'Demo Mode' : 'Production'));
+    facts.appendChild(buildSessionRow('Session started', formatTimestamp(sessionInfo.startedAt)));
+    panel.appendChild(facts);
+
+    // Role switching — Demo Mode only (Issue #34). The production
+    // architecture disables it in the Permission Foundation, and this
+    // section simply never renders.
+    if (sessionInfo.roleSwitching) {
+      var switcher = el('div', 'aos-session-panel__switcher');
+      switcher.setAttribute('role', 'group');
+      switcher.setAttribute('aria-label', 'Switch role (Demo Mode)');
+      switcher.appendChild(el('p', 'aos-session-panel__switcher-title', 'Switch role · Demo Mode only'));
+      AuditOS.permissions.SESSION_PRESETS.forEach(function (preset) {
+        var active = preset.id === sessionInfo.presetId;
+        var option = el('button',
+          'aos-session-panel__preset' + (active ? ' aos-session-panel__preset--active' : ''),
+          preset.label);
+        option.setAttribute('type', 'button');
+        option.setAttribute('aria-pressed', active ? 'true' : 'false');
+        option.addEventListener('click', function () {
+          handleRoleSwitch(preset.id, sessionInfo);
+        });
+        switcher.appendChild(option);
+      });
+      panel.appendChild(switcher);
+    }
+
+    return panel;
+  }
+
+  /** Builds the signed-in user control: the chip button plus its Session Panel. */
+  function buildUserControl(engagement) {
+    var permissions = AuditOS.permissions;
+    var sessionInfo = permissions && typeof permissions.getSessionInfo === 'function'
+      ? permissions.getSessionInfo()
+      : { label: '', roles: [], capabilities: [], mode: 'demo', startedAt: '', roleSwitching: false, presetId: '' };
+    var userName = resolveUserName(engagement);
+
+    var wrap = el('div', 'aos-global-header__user-wrap');
+
+    userButtonElement = el('button', 'aos-global-header__user');
+    userButtonElement.setAttribute('type', 'button');
+    userButtonElement.setAttribute('aria-haspopup', 'dialog');
+    userButtonElement.setAttribute('aria-expanded', 'false');
+    userButtonElement.setAttribute('aria-label',
+      'Signed in as ' + (userName || 'demo session') + ' — ' + sessionInfo.label + '. Open session panel.');
 
     var avatar = el('span', 'aos-global-header__avatar');
     var icon = el('i', 'bi bi-person');
     icon.setAttribute('aria-hidden', 'true');
     avatar.appendChild(icon);
-    chip.appendChild(avatar);
+    userButtonElement.appendChild(avatar);
 
     var text = el('span', 'aos-global-header__user-text');
-    text.appendChild(el('span', 'aos-global-header__user-name', engagement.engagementLead));
-    text.appendChild(el('span', 'aos-global-header__user-role', 'Engagement Lead · ' + engagement.auditor));
-    chip.appendChild(text);
-    return chip;
+    text.appendChild(el('span', 'aos-global-header__user-name', userName));
+    text.appendChild(el('span', 'aos-global-header__user-role', sessionInfo.label));
+    userButtonElement.appendChild(text);
+    userButtonElement.addEventListener('click', toggleSessionPanel);
+    userButtonElement.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        closeSessionPanel(true);
+      }
+    });
+    wrap.appendChild(userButtonElement);
+
+    sessionPanelElement = buildSessionPanel(userName, sessionInfo);
+    sessionPanelElement.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeSessionPanel(true);
+      }
+    });
+    wrap.appendChild(sessionPanelElement);
+    return wrap;
+  }
+
+  /** Closes the session panel when the interaction leaves the profile region. */
+  function handleDocumentPointerDown(event) {
+    if (profileRegion && !profileRegion.contains(event.target)) {
+      closeSessionPanel(false);
+    }
   }
 
   /**
-   * Renders the header regions. The theme toggle is always available; the
-   * notification indicator and user control appear once the Shared Audit
-   * State is ready, and simply stay absent when demo data is unavailable —
-   * the header never fabricates values.
+   * Renders the header regions. The theme toggle and AI Usage indicator are
+   * always present; the state-bound indicators and user control appear once
+   * the Shared Audit State is ready, and simply stay absent when demo data
+   * is unavailable — the header never fabricates values.
    */
   function render() {
     var state = AuditOS.state;
-    var actionChildren = [buildThemeToggle()];
-    var profileChildren = [];
+    var repository = AuditOS.repository;
+    var router = AuditOS.router;
+    var ready = Boolean(state && typeof state.isReady === 'function' && state.isReady());
+    var routeContext = router && typeof router.getCurrentContext === 'function'
+      ? router.getCurrentContext() : null;
 
-    if (state && typeof state.isReady === 'function' && state.isReady()) {
-      // Global Approvals is always reachable from the header (Issue #33 §3);
-      // its badge carries the platform-wide pending approval count.
+    var actionChildren = [buildThemeToggle()];
+
+    // AI Usage is always visible in the header (Issue #34); its statistics
+    // aggregate live once the telemetry repository is readable.
+    actionChildren.push(buildAiUsageIndicator(
+      ready && repository ? deriveAiUsageSummary(repository, routeContext) : null));
+
+    var profileChildren = [];
+    if (ready) {
       actionChildren.push(buildApprovalsIndicator(deriveGlobalPendingApprovals(state)));
       var engagement = currentEngagement(state);
       if (engagement) {
         actionChildren.push(buildNotifications(deriveAttentionCount(state, engagement)));
-        profileChildren.push(buildUserChip(engagement));
+        profileChildren.push(buildUserControl(engagement));
       }
     }
 
@@ -286,9 +547,11 @@
 
   AuditOS.globalHeader = {
     /**
-     * Renders the header content and binds it to the Shared Audit State.
-     * Safe to call once, after the DOM is ready. Does nothing when the
-     * header regions are absent, so the shell degrades rather than throwing.
+     * Renders the header content and binds it to the Shared Audit State, the
+     * router (AI usage scope), and the Permission Foundation (session
+     * changes). Safe to call once, after the DOM is ready. Does nothing when
+     * the header regions are absent, so the shell degrades rather than
+     * throwing.
      */
     init: function () {
       actionsRegion = global.document.querySelector(ACTIONS_REGION_SELECTOR);
@@ -303,6 +566,20 @@
         state.subscribe(state.EVENTS.STATE_CHANGED, render);
         state.subscribe(state.EVENTS.STATE_RESET, render);
       }
+
+      // The AI Usage statistics follow the route scope (Issue #34).
+      var router = AuditOS.router;
+      if (router) {
+        global.document.addEventListener(router.ROUTE_CHANGED_EVENT, render);
+      }
+
+      // The user control and gated indicators follow session switches.
+      var permissions = AuditOS.permissions;
+      if (permissions && typeof permissions.subscribe === 'function') {
+        permissions.subscribe(render);
+      }
+
+      global.document.addEventListener('pointerdown', handleDocumentPointerDown);
       render();
     }
   };

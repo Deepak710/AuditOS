@@ -11,6 +11,7 @@
 @import url('./components.css');
 @import url('./navigation.css');
 @import url('./header.css');
+@import url('./footer.css');
 @import url('./workspace.css');
 @import url('./workspace-framework.css');
 @import url('./home.css');
@@ -27,3 +28,5 @@
 @import url('./client-dashboard.css');
 @import url('./approvals.css');
 @import url('./ai-usage.css');
+@import url('./wizard.css');
+@import url('./audit-log.css');

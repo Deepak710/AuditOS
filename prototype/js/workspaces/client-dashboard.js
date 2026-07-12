@@ -576,6 +576,11 @@
         status: company.status ? { label: company.status, tone: companyStatusTone(company.status) } : null,
         lastUpdated: metadata.updated ? 'Updated ' + metadata.updated : '',
         actions: [
+          // New engagement (Issue #34): the Engagement Creation Wizard entry
+          // point, present only when the session holds the capability —
+          // hidden, never disabled (Issue #33 §5).
+          AuditOS.permissions && AuditOS.permissions.can('engagements.create')
+            ? { label: 'New engagement', href: '#/new-engagement', variant: 'primary' } : null,
           programs.length > 0 ? { label: 'Audit program', href: '#/program', variant: 'subtle' } : null,
           { label: 'Global approvals', href: '#/approvals', variant: 'subtle' }
         ].filter(Boolean)
@@ -1039,6 +1044,11 @@
         state.subscribe(state.EVENTS.STATE_LOADED, renderActiveClientDashboard);
         state.subscribe(state.EVENTS.STATE_CHANGED, renderActiveClientDashboard);
         state.subscribe(state.EVENTS.STATE_RESET, renderActiveClientDashboard);
+      }
+      // The New engagement entry point is capability-gated; the dashboard
+      // follows Demo Mode role switches (Issue #34).
+      if (AuditOS.permissions && typeof AuditOS.permissions.subscribe === 'function') {
+        AuditOS.permissions.subscribe(renderActiveClientDashboard);
       }
       renderActiveClientDashboard();
     }

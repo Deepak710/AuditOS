@@ -33,6 +33,8 @@ const SCRIPTS = {
   stateStore: ['js', 'state', 'state-store.js'],
   relationships: ['js', 'platform', 'relationships.js'],
   permissions: ['js', 'platform', 'permissions.js'],
+  auditService: ['js', 'platform', 'audit-service.js'],
+  repository: ['js', 'platform', 'repository.js'],
   workspaceShared: ['components', 'workspace-shared', 'workspace-shared.js'],
   homeWorkspace: ['js', 'workspaces', 'home.js'],
   engagementWorkspace: ['js', 'workspaces', 'engagement.js'],
@@ -48,7 +50,14 @@ const SCRIPTS = {
   clientDashboardWorkspace: ['js', 'workspaces', 'client-dashboard.js'],
   globalApprovalsWorkspace: ['js', 'workspaces', 'global-approvals.js'],
   aiUsageWorkspace: ['js', 'workspaces', 'ai-usage.js'],
-  workspaceFramework: ['components', 'workspace-framework', 'workspace-framework.js']
+  workspaceFramework: ['components', 'workspace-framework', 'workspace-framework.js'],
+  wizardEngine: ['components', 'wizard', 'wizard.js'],
+  platformFooter: ['components', 'footer', 'footer.js'],
+  navigation: ['components', 'navigation', 'navigation.js'],
+  globalHeader: ['components', 'header', 'header.js'],
+  auditLogWorkspace: ['js', 'workspaces', 'audit-log.js'],
+  clientWizardWorkspace: ['js', 'workspaces', 'client-wizard.js'],
+  engagementWizardWorkspace: ['js', 'workspaces', 'engagement-wizard.js']
 };
 
 /** Resolves a path inside the prototype from path segments. */
@@ -255,7 +264,7 @@ function loadClientDashboardWorkspace() {
  * suites exercise its pure derivations directly.
  */
 function loadGlobalApprovalsWorkspace() {
-  return loadClassicScripts([SCRIPTS.relationships, SCRIPTS.permissions, SCRIPTS.workspaceShared, SCRIPTS.globalApprovalsWorkspace]).AuditOS.globalApprovalsWorkspace;
+  return loadClassicScripts([SCRIPTS.relationships, SCRIPTS.permissions, SCRIPTS.auditService, SCRIPTS.repository, SCRIPTS.workspaceShared, SCRIPTS.globalApprovalsWorkspace]).AuditOS.globalApprovalsWorkspace;
 }
 
 /**
@@ -265,7 +274,39 @@ function loadGlobalApprovalsWorkspace() {
  * where no document exists; suites exercise its pure derivations directly.
  */
 function loadAiUsageWorkspace() {
-  return loadClassicScripts([SCRIPTS.relationships, SCRIPTS.permissions, SCRIPTS.workspaceShared, SCRIPTS.aiUsageWorkspace]).AuditOS.aiUsageWorkspace;
+  return loadClassicScripts([SCRIPTS.relationships, SCRIPTS.permissions, SCRIPTS.auditService, SCRIPTS.repository, SCRIPTS.workspaceShared, SCRIPTS.aiUsageWorkspace]).AuditOS.aiUsageWorkspace;
+}
+
+/**
+ * Loads the shared Wizard Engine (window.AuditOS.wizard). The module only
+ * touches the DOM inside `create`, so it registers cleanly in the sandbox.
+ */
+function loadWizardEngine() {
+  return loadClassicScript(SCRIPTS.wizardEngine).AuditOS.wizard;
+}
+
+/**
+ * Loads the Client Creation Wizard workspace
+ * (window.AuditOS.clientWizardWorkspace) over the platform foundations.
+ */
+function loadClientWizardWorkspace() {
+  return loadClassicScripts([SCRIPTS.permissions, SCRIPTS.auditService, SCRIPTS.repository, SCRIPTS.workspaceShared, SCRIPTS.wizardEngine, SCRIPTS.clientWizardWorkspace]).AuditOS.clientWizardWorkspace;
+}
+
+/**
+ * Loads the Engagement Creation Wizard workspace
+ * (window.AuditOS.engagementWizardWorkspace) over the platform foundations.
+ */
+function loadEngagementWizardWorkspace() {
+  return loadClassicScripts([SCRIPTS.permissions, SCRIPTS.auditService, SCRIPTS.repository, SCRIPTS.workspaceShared, SCRIPTS.wizardEngine, SCRIPTS.engagementWizardWorkspace]).AuditOS.engagementWizardWorkspace;
+}
+
+/**
+ * Loads the Global Audit Log workspace (window.AuditOS.auditLogWorkspace)
+ * over the platform foundations.
+ */
+function loadAuditLogWorkspace() {
+  return loadClassicScripts([SCRIPTS.permissions, SCRIPTS.auditService, SCRIPTS.repository, SCRIPTS.workspaceShared, SCRIPTS.auditLogWorkspace]).AuditOS.auditLogWorkspace;
 }
 
 /**
@@ -303,5 +344,9 @@ module.exports = {
   loadGlobalApprovalsWorkspace: loadGlobalApprovalsWorkspace,
   loadAiUsageWorkspace: loadAiUsageWorkspace,
   loadWorkspaceFramework: loadWorkspaceFramework,
+  loadWizardEngine: loadWizardEngine,
+  loadClientWizardWorkspace: loadClientWizardWorkspace,
+  loadEngagementWizardWorkspace: loadEngagementWizardWorkspace,
+  loadAuditLogWorkspace: loadAuditLogWorkspace,
   toHostArray: toHostArray
 };

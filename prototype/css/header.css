@@ -226,3 +226,188 @@
     display: none;
   }
 }
+
+/* ========================================
+ * SESSION PANEL (Issue #34)
+ * The signed-in user control opens a session panel: user, roles, held
+ * permissions, session information, and Demo-Mode role switching. The user
+ * chip is a real button; the panel is a popover anchored to it.
+ * ======================================== */
+
+.aos-global-header__user-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* The user chip is a button (Issue #34); neutralize the native chrome. */
+.aos-global-header__user {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.aos-global-header__user:hover {
+  background: var(--aos-surface-hover);
+}
+
+.aos-global-header__user:focus-visible {
+  outline: none;
+  box-shadow: var(--aos-focus-ring);
+}
+
+.aos-session-panel {
+  position: absolute;
+  top: calc(100% + var(--aos-space-2));
+  right: 0;
+  width: 20rem;
+  padding: var(--aos-space-4);
+  background: var(--aos-surface-panel);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-lg);
+  box-shadow: var(--aos-shadow-lg);
+  z-index: var(--aos-z-popover);
+}
+
+.aos-session-panel__identity {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  padding-bottom: var(--aos-space-3);
+  border-bottom: 1px solid var(--aos-surface-border);
+}
+
+.aos-session-panel__name {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-session-panel__label {
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-session-panel__facts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  margin: var(--aos-space-3) 0 0;
+}
+
+.aos-session-panel__row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.aos-session-panel__term {
+  font-size: var(--aos-text-2xs, 0.6875rem);
+  font-weight: var(--aos-font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-session-panel__detail {
+  margin: 0;
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.aos-session-panel__switcher {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  margin-top: var(--aos-space-3);
+  padding-top: var(--aos-space-3);
+  border-top: 1px solid var(--aos-surface-border);
+}
+
+.aos-session-panel__switcher-title {
+  margin: 0 0 var(--aos-space-1);
+  font-size: var(--aos-text-2xs, 0.6875rem);
+  font-weight: var(--aos-font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-session-panel__preset {
+  display: block;
+  width: 100%;
+  padding: var(--aos-space-2);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  background: transparent;
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-secondary);
+  text-align: left;
+  cursor: pointer;
+}
+
+.aos-session-panel__preset:hover {
+  background: var(--aos-surface-hover);
+}
+
+.aos-session-panel__preset:focus-visible {
+  outline: none;
+  box-shadow: var(--aos-focus-ring);
+}
+
+.aos-session-panel__preset--active {
+  border-color: var(--aos-color-primary-600);
+  color: var(--aos-text-primary);
+  font-weight: var(--aos-font-semibold);
+}
+
+/* ========================================
+ * HEADER TOOLTIP (Issue #34 — AI Usage hover statistics)
+ * Hidden until its owner is hovered or focused; the aria-describedby wiring
+ * keeps the content available to assistive technology at all times.
+ * ======================================== */
+
+.aos-global-header__ai-usage {
+  position: relative;
+}
+
+.aos-global-header__tooltip {
+  position: absolute;
+  top: calc(100% + var(--aos-space-2));
+  right: 0;
+  display: none;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  min-width: 13rem;
+  padding: var(--aos-space-3);
+  background: var(--aos-surface-panel);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  box-shadow: var(--aos-shadow-md);
+  z-index: var(--aos-z-popover);
+  cursor: default;
+}
+
+.aos-global-header__ai-usage:hover .aos-global-header__tooltip,
+.aos-global-header__ai-usage:focus-visible .aos-global-header__tooltip {
+  display: flex;
+}
+
+.aos-global-header__tooltip-row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--aos-space-3);
+  font-size: var(--aos-text-xs);
+}
+
+.aos-global-header__tooltip-term {
+  color: var(--aos-text-tertiary);
+}
+
+.aos-global-header__tooltip-detail {
+  color: var(--aos-text-primary);
+  font-variant-numeric: tabular-nums;
+}

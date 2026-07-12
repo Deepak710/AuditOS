@@ -1,0 +1,137 @@
+{
+  "metadata": {
+    "collection": "approvals",
+    "description": "Platform approval workflow requests (GitHub Issue #34). Each record is one request routed through the Approval Workflow: a user without the required capability requested an action instead of changing business state, and an approver completes it. Statuses cover the full workflow vocabulary: Pending, Approved, Rejected, Changes Requested, Delegated, Escalated. Entity references point at real records in the demo dataset; nothing is fabricated.",
+    "statusVocabulary": [
+      "Pending",
+      "Approved",
+      "Rejected",
+      "Changes Requested",
+      "Delegated",
+      "Escalated"
+    ]
+  },
+  "approvals": [
+    {
+      "id": "APR-2026-0001",
+      "type": "Evidence decision",
+      "title": "Reviewer decision requested — EVD-MER-0299",
+      "status": "Pending",
+      "entity": {
+        "collection": "evidence",
+        "recordId": "EVD-MER-0299",
+        "datasetId": "meridian-zpqp-soc2-2025"
+      },
+      "companyId": "CMP-MER",
+      "programId": "PRG-MER-SOC-2025",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "workspaceId": "evidence",
+      "requestedById": "USR-HA-006",
+      "requestedOn": "2026-06-24",
+      "assignedRole": "Reviewer 1",
+      "assignedToId": "USR-HA-007",
+      "reason": "Preparer role cannot record approval decisions; evidence received and awaiting a reviewer decision.",
+      "comments": [
+        {
+          "authorId": "USR-HA-006",
+          "on": "2026-06-24",
+          "text": "Evidence uploaded by the client POC and pre-checked against the request; ready for review."
+        }
+      ],
+      "history": [
+        { "action": "Request created", "actorId": "USR-HA-006", "on": "2026-06-24" }
+      ]
+    },
+    {
+      "id": "APR-2026-0002",
+      "type": "Evidence decision",
+      "title": "Reviewer decision requested — EVD-MER-0529",
+      "status": "Pending",
+      "entity": {
+        "collection": "evidence",
+        "recordId": "EVD-MER-0529",
+        "datasetId": "meridian-nxsc-soc2-2026"
+      },
+      "companyId": "CMP-MER",
+      "programId": "PRG-MER-SOC-2025",
+      "engagementId": "ENG-MER-NXSC-2026",
+      "workspaceId": "evidence",
+      "requestedById": "USR-HA-006",
+      "requestedOn": "2026-07-01",
+      "assignedRole": "Reviewer 2",
+      "assignedToId": "USR-HA-008",
+      "reason": "Evidence received under HA review; second reviewer requested for the NXSC engagement.",
+      "comments": [],
+      "history": [
+        { "action": "Request created", "actorId": "USR-HA-006", "on": "2026-07-01" }
+      ]
+    },
+    {
+      "id": "APR-2026-0003",
+      "type": "Evidence request decision",
+      "title": "Request decision — RQS-MER-0257",
+      "status": "Changes Requested",
+      "entity": {
+        "collection": "evidence-requests",
+        "recordId": "RQS-MER-0257",
+        "datasetId": "meridian-zpqp-soc2-2025"
+      },
+      "companyId": "CMP-MER",
+      "programId": "PRG-MER-SOC-2025",
+      "engagementId": "ENG-MER-ZPQP-2025",
+      "workspaceId": "evidence",
+      "requestedById": "USR-HA-001",
+      "requestedOn": "2026-06-28",
+      "assignedRole": "Reviewer 1",
+      "assignedToId": "USR-HA-007",
+      "decidedById": "USR-HA-007",
+      "decidedOn": "2026-07-02",
+      "reason": "Evidence received for the request; reviewer decision requested.",
+      "comments": [
+        {
+          "authorId": "USR-HA-007",
+          "on": "2026-07-02",
+          "text": "Sample coverage is incomplete for the audit period; please extend the population and resubmit."
+        }
+      ],
+      "history": [
+        { "action": "Request created", "actorId": "USR-HA-001", "on": "2026-06-28" },
+        { "action": "Changes requested", "actorId": "USR-HA-007", "on": "2026-07-02" }
+      ]
+    },
+    {
+      "id": "APR-2026-0004",
+      "type": "Evidence decision",
+      "title": "Escalated decision — EVD-MER-0143",
+      "status": "Escalated",
+      "entity": {
+        "collection": "evidence",
+        "recordId": "EVD-MER-0143",
+        "datasetId": "meridian-qc-soc2-2025"
+      },
+      "companyId": "CMP-MER",
+      "programId": "PRG-MER-SOC-2025",
+      "engagementId": "ENG-MER-QC-2025",
+      "workspaceId": "evidence",
+      "requestedById": "USR-HA-002",
+      "requestedOn": "2026-06-19",
+      "assignedRole": "Reviewer 1",
+      "assignedToId": "USR-HA-007",
+      "escalatedToRole": "Reviewer 2",
+      "escalatedToId": "USR-HA-008",
+      "escalatedOn": "2026-07-05",
+      "reason": "Shared evidence item is pending across multiple engagements; decision escalated to the second reviewer.",
+      "comments": [
+        {
+          "authorId": "USR-HA-007",
+          "on": "2026-07-05",
+          "text": "This item backs QC and QA engagements simultaneously; escalating so one decision covers both."
+        }
+      ],
+      "history": [
+        { "action": "Request created", "actorId": "USR-HA-002", "on": "2026-06-19" },
+        { "action": "Escalated", "actorId": "USR-HA-007", "on": "2026-07-05" }
+      ]
+    }
+  ]
+}

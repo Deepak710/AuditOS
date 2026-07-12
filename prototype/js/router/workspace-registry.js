@@ -42,7 +42,10 @@
     PROGRAM: 'program',
     CLIENT: 'client',
     APPROVALS: 'approvals',
-    AI_USAGE: 'ai-usage'
+    AI_USAGE: 'ai-usage',
+    AUDIT_LOG: 'audit-log',
+    CLIENT_WIZARD: 'client-wizard',
+    ENGAGEMENT_WIZARD: 'engagement-wizard'
   };
 
   /**
@@ -89,7 +92,15 @@
     // `capability` is access identity, not business content: navigation
     // surfaces hide this workspace from sessions the Permission Foundation
     // (js/platform/permissions.js) does not grant the capability to.
-    { id: WORKSPACE_IDS.AI_USAGE,    path: 'ai-usage',     label: 'AI Usage',            title: 'AI Usage', capability: 'ai-usage.view' }
+    { id: WORKSPACE_IDS.AI_USAGE,    path: 'ai-usage',     label: 'AI Usage',            title: 'AI Usage', capability: 'ai-usage.view' },
+    // Platform Foundation II (GitHub Issue #34): the platform-wide immutable
+    // audit trail and the two Repository-backed creation wizards. Appended
+    // after every existing workspace so no registered position (and no
+    // existing deep link) moves. Capability gates follow the same
+    // hidden-not-disabled pattern as AI Usage.
+    { id: WORKSPACE_IDS.AUDIT_LOG,         path: 'audit-log',      label: 'Audit Log',         title: 'Audit Log', capability: 'audit-log.view' },
+    { id: WORKSPACE_IDS.CLIENT_WIZARD,     path: 'new-client',     label: 'New Client',        title: 'New Client', capability: 'clients.create' },
+    { id: WORKSPACE_IDS.ENGAGEMENT_WIZARD, path: 'new-engagement', label: 'New Engagement',    title: 'New Engagement', capability: 'engagements.create' }
   ];
 
   /**

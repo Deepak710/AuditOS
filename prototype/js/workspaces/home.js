@@ -376,7 +376,14 @@
         eyebrow: 'Assurance portfolio',
         meta: companies.length + ' ' + plural(companies.length, 'client') + ' · ' +
           programs.length + ' ' + plural(programs.length, 'program') + ' · ' +
-          activeCount + ' active ' + plural(activeCount, 'engagement')
+          activeCount + ' active ' + plural(activeCount, 'engagement'),
+        // Add Client (Issue #34): the Client Creation Wizard entry point,
+        // present only when the session holds the capability — hidden, never
+        // disabled (Issue #33 §5). The gate is read here so the header
+        // follows Demo Mode role switches.
+        actions: AuditOS.permissions && AuditOS.permissions.can('clients.create')
+          ? [{ label: 'Add client', href: '#/new-client', variant: 'primary', id: 'add-client' }]
+          : []
       },
 
       // Release 1 search is the framework's own presentation-only toolbar
@@ -754,7 +761,13 @@
     // #17) — configured, not re-implemented. Configured first because the
     // framework clears unconfigured regions; Home fills its own slots after.
     if (AuditOS.workspaceFramework && typeof AuditOS.workspaceFramework.configure === 'function') {
-      AuditOS.workspaceFramework.configure(view, { toolbar: viewModel.toolbar });
+      // The header travels through the framework so its action cluster —
+      // including the capability-gated Add Client entry point (Issue #34) —
+      // renders from one shared implementation.
+      AuditOS.workspaceFramework.configure(view, {
+        toolbar: viewModel.toolbar,
+        header: viewModel.header
+      });
     }
 
     var eyebrow = slotElement(view, SLOTS.EYEBROW);
@@ -765,9 +778,10 @@
     if (meta) {
       meta.textContent = viewModel.header.meta;
     }
-    // The only action on Home is selecting a client (§1) — the header action
-    // slot stays intentionally empty.
-    fillSlot(view, SLOTS.ACTIONS, []);
+    // The header action slot is owned by the framework configure() above:
+    // it carries the capability-gated Add Client entry point (Issue #34) and
+    // stays empty for sessions without the capability — hidden, never
+    // disabled (Issue #33 §5).
     fillSlot(view, SLOTS.RIBBON, [buildLabeledItems(viewModel.ribbon, 'aos-home-ribbon')]);
 
     var home = el('div', 'aos-home');
@@ -927,6 +941,11 @@
         state.subscribe(state.EVENTS.STATE_LOADED, renderActiveHome);
         state.subscribe(state.EVENTS.STATE_CHANGED, renderActiveHome);
         state.subscribe(state.EVENTS.STATE_RESET, renderActiveHome);
+      }
+      // The Add Client entry point is capability-gated; Home follows Demo
+      // Mode role switches (Issue #34).
+      if (AuditOS.permissions && typeof AuditOS.permissions.subscribe === 'function') {
+        AuditOS.permissions.subscribe(renderActiveHome);
       }
       renderActiveHome();
     }

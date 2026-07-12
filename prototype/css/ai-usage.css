@@ -97,3 +97,205 @@
     gap: var(--aos-space-6);
   }
 }
+
+/* ========================================
+ * AI TELEMETRY PLATFORM (Issue #34)
+ * Charts and heatmap for the rebuilt telemetry workspace. Single-series
+ * bars in the primary hue (one measure, one axis); the heatmap is a
+ * sequential single-hue ramp from the primary tokens — light→dark on light
+ * surfaces, dark→bright on dark surfaces — with every value also available
+ * as text in the adjacent rollup lists. Labels and values wear text tokens.
+ * ======================================== */
+
+.aos-ai-usage__subtitle {
+  margin: 0 0 var(--aos-space-2);
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-ai-usage__split,
+.aos-ai-usage__hierarchy {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: var(--aos-space-4);
+}
+
+.aos-ai-usage__trend {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
+}
+
+.aos-ai-usage__trend-controls {
+  display: flex;
+  gap: var(--aos-space-2);
+}
+
+.aos-ai-usage__charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: var(--aos-space-4);
+}
+
+.aos-ai-usage__chart {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-4);
+  background: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-lg);
+}
+
+.aos-ai-usage__chart-title {
+  margin: 0;
+  order: -1;
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-ai-usage__plot {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--aos-space-1);
+  height: 9rem;
+  border-bottom: 1px solid var(--aos-surface-border); /* the one axis */
+  padding-bottom: 2px;
+}
+
+.aos-ai-usage__column {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  flex: 1 1 0;
+  height: 100%;
+  min-width: 0;
+}
+
+.aos-ai-usage__bar {
+  width: 100%;
+  max-width: 1.25rem;
+  background: var(--aos-color-primary-600);
+  border-radius: var(--aos-radius-sm) var(--aos-radius-sm) 0 0; /* rounded data end, flat baseline */
+}
+
+.aos-ai-usage__bar:hover {
+  background: var(--aos-color-primary-700);
+}
+
+.aos-ai-usage__bar-value {
+  position: absolute;
+  top: -1.1rem;
+  font-size: var(--aos-text-2xs, 0.6875rem);
+  color: var(--aos-text-secondary);
+  white-space: nowrap;
+}
+
+.aos-ai-usage__bar-label {
+  position: absolute;
+  bottom: -1.2rem;
+  font-size: var(--aos-text-2xs, 0.6875rem);
+  color: var(--aos-text-tertiary);
+  white-space: nowrap;
+}
+
+/* Room for the selective labels above and below the plot. */
+.aos-ai-usage__chart .aos-ai-usage__plot {
+  margin: 1.25rem 0 1.4rem;
+}
+
+/* Heatmap — sequential single-hue ramp from the primary tokens. */
+.aos-ai-usage__heat-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr);
+  gap: var(--aos-space-4);
+  align-items: start;
+}
+
+.aos-ai-usage__heatmap {
+  --aos-heat-0: var(--aos-surface-active);
+  --aos-heat-1: var(--aos-color-primary-100);
+  --aos-heat-2: var(--aos-color-primary-300);
+  --aos-heat-3: var(--aos-color-primary-500);
+  --aos-heat-4: var(--aos-color-primary-700);
+  --aos-heat-5: var(--aos-color-primary-900);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--aos-space-4);
+  background: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-lg);
+  overflow-x: auto;
+}
+
+/* On dark surfaces "more" reads as brighter, not darker: the ramp inverts
+ * so intensity stays light→dark relative to the surface. */
+[data-aos-theme='dark'] .aos-ai-usage__heatmap {
+  --aos-heat-1: var(--aos-color-primary-900);
+  --aos-heat-2: var(--aos-color-primary-700);
+  --aos-heat-3: var(--aos-color-primary-500);
+  --aos-heat-4: var(--aos-color-primary-400);
+  --aos-heat-5: var(--aos-color-primary-300);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-aos-theme='light']) .aos-ai-usage__heatmap {
+    --aos-heat-1: var(--aos-color-primary-900);
+    --aos-heat-2: var(--aos-color-primary-700);
+    --aos-heat-3: var(--aos-color-primary-500);
+    --aos-heat-4: var(--aos-color-primary-400);
+    --aos-heat-5: var(--aos-color-primary-300);
+  }
+}
+
+.aos-ai-usage__heat-row {
+  display: flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+}
+
+.aos-ai-usage__heat-label {
+  flex: 0 0 8rem;
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-secondary);
+  text-align: end;
+}
+
+.aos-ai-usage__heat-cells {
+  display: flex;
+  gap: 2px; /* the 2px surface gap between fills */
+}
+
+.aos-ai-usage__heat-cell {
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: var(--aos-radius-sm);
+  background: var(--aos-heat-0);
+}
+
+.aos-ai-usage__heat-cell[data-level='1'] { background: var(--aos-heat-1); }
+.aos-ai-usage__heat-cell[data-level='2'] { background: var(--aos-heat-2); }
+.aos-ai-usage__heat-cell[data-level='3'] { background: var(--aos-heat-3); }
+.aos-ai-usage__heat-cell[data-level='4'] { background: var(--aos-heat-4); }
+.aos-ai-usage__heat-cell[data-level='5'] { background: var(--aos-heat-5); }
+
+.aos-ai-usage__denied {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--aos-space-4);
+  padding: var(--aos-space-5);
+}
+
+@media (max-width: 900px) {
+  .aos-ai-usage__heat-wrap {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

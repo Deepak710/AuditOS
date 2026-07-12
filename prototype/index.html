@@ -142,6 +142,34 @@
   <script src="js/platform/permissions.js"></script>
 
   <!-- ========================================================= -->
+  <!-- Platform Audit Service (Issue #34)                       -->
+  <!-- The platform-wide immutable audit trail                   -->
+  <!-- (window.AuditOS.auditService): every significant action   -->
+  <!-- records one event with the full schema (user, role,       -->
+  <!-- session, entity, previous/new value, reason, approval     -->
+  <!-- chain, hierarchy context, correlation id). Append-only —  -->
+  <!-- no update or removal API exists. Events live in the       -->
+  <!-- simulated runtime state only. Loads after the Permission  -->
+  <!-- Foundation (session identity) and before the Repository   -->
+  <!-- Foundation, whose writes record through it.               -->
+  <!-- ========================================================= -->
+  <script src="js/platform/audit-service.js"></script>
+
+  <!-- ========================================================= -->
+  <!-- Repository Foundation (Issue #34)                        -->
+  <!-- The single data-access layer between the UI and storage   -->
+  <!-- (window.AuditOS.repository): one entity repository per    -->
+  <!-- business collection, wrapping the Shared Audit State's    -->
+  <!-- deep-clone reads and simulated writes behind the          -->
+  <!-- interfaces Release 2 implementations will fill in. Every  -->
+  <!-- write records one Platform Audit Service event. Also owns -->
+  <!-- routing-slug hierarchy resolution for the Repository-     -->
+  <!-- aware router and hierarchical breadcrumb. Loads before    -->
+  <!-- the navigation content and every workspace module.        -->
+  <!-- ========================================================= -->
+  <script src="js/platform/repository.js"></script>
+
+  <!-- ========================================================= -->
   <!-- Workspace Shared Platform (Issue #27)                    -->
   <!-- Harmonized helpers reused by every operational workspace: -->
   <!-- shared constants, DOM builders (section, health strip,    -->
@@ -181,6 +209,16 @@
   <script src="components/header/header.js"></script>
 
   <!-- ========================================================= -->
+  <!-- Persistent Platform Footer (Issue #34)                   -->
+  <!-- Renders the shell's persistent status footer into the     -->
+  <!-- workspace host footer region: environment, session mode,  -->
+  <!-- demo-data status, active workspace, and audit event       -->
+  <!-- count — every value derived from the platform             -->
+  <!-- foundations, never fabricated.                            -->
+  <!-- ========================================================= -->
+  <script src="components/footer/footer.js"></script>
+
+  <!-- ========================================================= -->
   <!-- Shared Workspace Framework                                -->
   <!-- Renders the Universal Workspace Structure into the active -->
   <!-- workspace host on every route change, so every workspace  -->
@@ -188,6 +226,16 @@
   <!-- bootstrap so the initial route is resolved first.         -->
   <!-- ========================================================= -->
   <script src="components/workspace-framework/workspace-framework.js"></script>
+
+  <!-- ========================================================= -->
+  <!-- Shared Wizard Engine (Issue #34)                         -->
+  <!-- One reusable multi-step wizard renderer                   -->
+  <!-- (window.AuditOS.wizard) both creation wizards configure   -->
+  <!-- declaratively: steps, fields, validation, review, and     -->
+  <!-- completion. Presentation and captured input only — what   -->
+  <!-- the values become belongs to the wizard workspaces.       -->
+  <!-- ========================================================= -->
+  <script src="components/wizard/wizard.js"></script>
 
   <!-- ========================================================= -->
   <!-- AuditOS Home Workspace                                    -->
@@ -381,5 +429,31 @@
   <!-- exists before it fills the slots.                         -->
   <!-- ========================================================= -->
   <script src="js/workspaces/ai-usage.js"></script>
+
+  <!-- ========================================================= -->
+  <!-- Global Audit Log Workspace (Issue #34)                   -->
+  <!-- The platform-wide immutable audit trail surface:          -->
+  <!-- every recorded Platform Audit Service event with its      -->
+  <!-- complete schema, searchable and inspectable. Gated by     -->
+  <!-- the Permission Foundation (audit-log.view).               -->
+  <!-- ========================================================= -->
+  <script src="js/workspaces/audit-log.js"></script>
+
+  <!-- ========================================================= -->
+  <!-- Client Creation Wizard (Issue #34)                       -->
+  <!-- Multi-step, Repository-backed client onboarding:          -->
+  <!-- details, business information, services, technology,      -->
+  <!-- contacts, user access, programs, review. Capability-      -->
+  <!-- gated; simulated persistence.                             -->
+  <!-- ========================================================= -->
+  <script src="js/workspaces/client-wizard.js"></script>
+
+  <!-- ========================================================= -->
+  <!-- Engagement Creation Wizard (Issue #34)                   -->
+  <!-- Multi-step, Repository-backed engagement scoping — the    -->
+  <!-- future entry point for AI-assisted scoping. Capability-   -->
+  <!-- gated; simulated persistence.                             -->
+  <!-- ========================================================= -->
+  <script src="js/workspaces/engagement-wizard.js"></script>
 </body>
 </html>

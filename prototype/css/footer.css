@@ -1,0 +1,51 @@
+/**
+ * AuditOS Persistent Platform Footer
+ * Platform Foundation II — GitHub Issue #34 (Responsive Layout System)
+ *
+ * The shell's persistent status footer, mounted in the workspace host's
+ * footer region below the independently scrolling workspace body. Chrome
+ * only — content is rendered by components/footer/footer.js from the
+ * platform foundations. Consumes only the Design Token Foundation.
+ */
+
+@import 'variables.css';
+
+.aos-platform-footer {
+  display: flex;
+  align-items: center;
+  gap: var(--aos-space-5);
+  min-height: 2rem;
+  padding: 0 clamp(var(--aos-space-4), 3vw, var(--aos-space-10));
+  background: var(--aos-surface-panel);
+  border-top: 1px solid var(--aos-surface-border);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.aos-platform-footer__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--aos-space-1);
+  font-size: var(--aos-text-xs);
+}
+
+.aos-platform-footer__label {
+  color: var(--aos-text-tertiary);
+}
+
+.aos-platform-footer__value {
+  color: var(--aos-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 640px) {
+  .aos-platform-footer {
+    gap: var(--aos-space-3);
+    padding: 0 var(--aos-space-3);
+  }
+
+  /* The environment and mode lead; later items yield on narrow screens. */
+  .aos-platform-footer__item:nth-child(n + 4) {
+    display: none;
+  }
+}

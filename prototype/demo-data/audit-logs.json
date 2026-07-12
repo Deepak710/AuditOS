@@ -1,0 +1,28 @@
+{
+  "metadata": {
+    "collection": "audit-logs",
+    "description": "Platform Audit Service event log (GitHub Issue #34). Append-only: every significant platform action records one immutable event through AuditOS.auditService. The baseline dataset is intentionally empty — the demo dataset fabricates no history; events accumulate at runtime as simulated actions are performed and are discarded on reset, exactly like every other simulated write.",
+    "schema": {
+      "fields": [
+        "id",
+        "timestamp",
+        "user",
+        "role",
+        "session",
+        "action",
+        "entity",
+        "previousValue",
+        "newValue",
+        "reason",
+        "approvalChain",
+        "companyId",
+        "programId",
+        "engagementId",
+        "workspaceId",
+        "correlationId",
+        "metadata"
+      ]
+    }
+  },
+  "events": []
+}

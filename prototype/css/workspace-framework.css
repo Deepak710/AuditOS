@@ -430,3 +430,26 @@
     padding: var(--aos-space-3);
   }
 }
+
+/* ========================================
+ * APPLICATION SHELL VARIANTS (Issue #34)
+ * Two reusable shells over one framework skeleton. Single Pane (default) —
+ * dashboards, reports, forms, telemetry, wizards — keeps the flowing canvas.
+ * Split Pane — controls, requirements, evidence, walkthroughs, findings,
+ * approvals — bounds its Master–Detail compositions to the viewport so the
+ * rail and the inspector scroll independently and the inspector remains
+ * visible regardless of list length, browser zoom, or screen size. Pane
+ * proportions stay standardized by the shared --aos-master-detail-list
+ * ratio (components.css); no workspace overrides it.
+ * ======================================== */
+
+.aos-workspace-framework--split .aos-master-detail__list,
+.aos-workspace-framework--split .aos-master-detail__detail {
+  /* Viewport-bound pane height: full height minus the shell header, the
+   * workspace header band, and the canvas padding. The subtrahend is a
+   * conservative fixed allowance so panes never push the inspector below
+   * the fold. */
+  max-height: calc(100vh - var(--aos-space-header-height) - 19rem);
+  min-height: 18rem;
+  overflow-y: auto;
+}

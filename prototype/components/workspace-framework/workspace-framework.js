@@ -443,6 +443,13 @@
     var toolbar = source.toolbar || {};
     var filterBar = source.filterBar || {};
     return {
+      // Application shell variant (Issue #34): 'single' for dashboards,
+      // reports, forms, telemetry, and wizards; 'split' for the rail +
+      // inspector workspaces (controls, requirements, evidence,
+      // walkthroughs, findings, approvals). The framework stamps the shell
+      // on the root region; the stylesheet gives split shells independent
+      // pane scrolling with the inspector always visible.
+      shell: source.shell === 'split' ? 'split' : 'single',
       header: source.header || null,
       contextSummary: asArray(source.contextSummary),
       toolbar: {
@@ -633,6 +640,17 @@
       return;
     }
     var normalized = normalizeConfiguration(config);
+
+    // Stamp the shell variant (Issue #34) on the framework root so the
+    // stylesheet can lay out Single Pane and Split Pane shells differently
+    // without any workspace inventing its own page structure.
+    var frameworkRoot = view.querySelector('[data-region="workspace-framework"]') ||
+      (view.getAttribute && view.getAttribute('data-region') === 'workspace-framework' ? view : null);
+    if (frameworkRoot) {
+      frameworkRoot.setAttribute('data-shell', normalized.shell);
+      frameworkRoot.classList.toggle('aos-workspace-framework--split', normalized.shell === 'split');
+      frameworkRoot.classList.toggle('aos-workspace-framework--single', normalized.shell === 'single');
+    }
 
     if (normalized.header) {
       applyHeader(view, normalized.header);

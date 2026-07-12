@@ -299,3 +299,15 @@
     white-space: normal;
   }
 }
+
+/* ========================================
+ * EQUAL RECENT / PINNED SIZING (Issue #34 — Client Home)
+ * Recent Clients and Pinned Clients already share one row at span-6 each
+ * (above); stretching the pair to equal height keeps the row visually
+ * balanced while pinning remains an honest empty state.
+ * ======================================== */
+
+.aos-home__section--recent-clients,
+.aos-home__section--pinned-clients {
+  align-self: stretch;
+}

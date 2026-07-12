@@ -1,0 +1,130 @@
+/**
+ * AuditOS Global Audit Log Workspace
+ * Platform Foundation II — GitHub Issue #34 (Platform Audit Service)
+ *
+ * Chrome for the immutable audit trail surface: the event rail beside the
+ * event inspector, mirroring the shared Master–Detail rail composition
+ * every rail-based workspace uses. Consumes only the Design Token
+ * Foundation.
+ */
+
+@import 'variables.css';
+
+.aos-audit-log__log {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
+}
+
+.aos-audit-log__row-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-audit-log__group {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-2) var(--aos-space-1) var(--aos-space-1);
+  margin-top: var(--aos-space-2);
+  border-bottom: 1px solid var(--aos-surface-border);
+}
+
+.aos-audit-log__group:first-child {
+  margin-top: 0;
+}
+
+.aos-audit-log__group-label {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-audit-log__group-count {
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-audit-log__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  width: 100%;
+  padding: var(--aos-space-3);
+  text-align: start;
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  cursor: pointer;
+  transition: background-color var(--aos-transition-fast), border-color var(--aos-transition-fast);
+}
+
+.aos-audit-log__row:hover {
+  background-color: var(--aos-surface-hover);
+  border-color: var(--aos-surface-border-strong);
+}
+
+.aos-audit-log__row--selected {
+  background-color: var(--aos-surface-active);
+  border-color: var(--aos-surface-border-strong);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-audit-log__row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+}
+
+.aos-audit-log__row-title {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-primary);
+}
+
+.aos-audit-log__row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-1) var(--aos-space-3);
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-audit-log__detail-mount {
+  min-width: 0;
+}
+
+.aos-audit-log__denied {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--aos-space-4);
+  padding: var(--aos-space-5);
+}
+
+/* Workspace footer items */
+.aos-audit-log-footer__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--aos-space-1);
+  font-size: var(--aos-text-xs);
+}
+
+.aos-audit-log-footer__item + .aos-audit-log-footer__item {
+  margin-left: var(--aos-space-5);
+}
+
+.aos-audit-log-footer__label {
+  color: var(--aos-text-tertiary);
+}
+
+.aos-audit-log-footer__value {
+  color: var(--aos-text-secondary);
+}
