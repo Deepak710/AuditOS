@@ -24,3 +24,6 @@
 @import url('./findings.css');
 @import url('./documentation.css');
 @import url('./program.css');
+@import url('./client-dashboard.css');
+@import url('./approvals.css');
+@import url('./ai-usage.css');

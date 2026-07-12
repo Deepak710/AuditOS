@@ -111,14 +111,29 @@
     breadcrumbRegion.replaceChildren(trail);
   }
 
-  /** Renders the workspace menu — one destination per registered workspace. */
+  /**
+   * The workspaces the current session may navigate to (Issue #33 §5): an
+   * entry that declares a `capability` the Permission Foundation does not
+   * grant is hidden entirely — never rendered as a disabled destination. When
+   * the Permission Foundation is absent the menu degrades open (every entry
+   * visible) rather than throwing, matching how this content degrades when
+   * other foundations are missing.
+   */
+  function visibleWorkspaces() {
+    var permissions = AuditOS.permissions;
+    return registry.WORKSPACES.filter(function (workspace) {
+      return !workspace.capability || !permissions || permissions.can(workspace.capability);
+    });
+  }
+
+  /** Renders the workspace menu — one destination per visible registered workspace. */
   function renderMenu() {
     menuElement = el('ul', 'aos-breadcrumb__menu');
     menuElement.setAttribute('role', 'menu');
     menuElement.setAttribute('aria-label', 'Workspaces');
     menuElement.hidden = true;
 
-    registry.WORKSPACES.forEach(function (workspace) {
+    visibleWorkspaces().forEach(function (workspace) {
       var item = el('li', '');
       item.setAttribute('role', 'none');
 

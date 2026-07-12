@@ -266,6 +266,29 @@
      static block under prefers-reduced-motion. -->
 <span class="aos-skeleton aos-skeleton--circle" aria-hidden="true"></span>
 
+<!-- Permission Notice (Issue #33 §5) — the permission-aware action area.
+     Unavailable actions are hidden, never disabled controls; the area shows a
+     quiet hint, and hovering or focusing it reveals the explanation panel:
+     required role, appropriate contact, and reason. -->
+<span class="aos-permission-notice" tabindex="0" aria-describedby="permission-notice-example"
+      aria-label="Approval decisions — not available to your role">
+  <span class="aos-permission-notice__hint">Approval decisions</span>
+  <span class="aos-permission-notice__tooltip" role="tooltip" id="permission-notice-example">
+    <span class="aos-permission-notice__row">
+      <span class="aos-permission-notice__term">Required role</span>
+      <span class="aos-permission-notice__detail">Reviewer 1 or Reviewer 2</span>
+    </span>
+    <span class="aos-permission-notice__row">
+      <span class="aos-permission-notice__term">Contact</span>
+      <span class="aos-permission-notice__detail">The engagement reviewer</span>
+    </span>
+    <span class="aos-permission-notice__row">
+      <span class="aos-permission-notice__term">Why</span>
+      <span class="aos-permission-notice__detail">Recording an approval decision is reserved for engagement reviewers.</span>
+    </span>
+  </span>
+</span>
+
 <!-- ======================================================================= -->
 <!-- ENTERPRISE DATA PRESENTATION (Issue #18)                                -->
 <!-- Composite presentation components. Each composes the primitives above;   -->

@@ -1,12 +1,12 @@
 /**
- * AuditOS Home Workspace
- * Workspaces and Navigation — Chapter 12 (§12.6 Home) / Workspace Design
- * System — Chapter 15 / Layout Components — Chapter 75
+ * AuditOS Global Home Workspace
+ * Platform Information Architecture — GitHub Issue #33 (§1 Global Home) /
+ * Workspace Design System — Chapter 15 / Layout Components — Chapter 75
  *
- * The workspace-layer stylesheet of AuditOS Home. It owns only the
- * Home-specific layout — the resume-card grid, the KPI band, the entity-card
- * and signal-panel grids, the list surfaces, the context-ribbon items, and
- * the footer items — plus their responsive behavior. Every visible surface
+ * The workspace-layer stylesheet of the client-centric Global Home. It owns
+ * only the Home-specific layout — the resume-card grid, the client entity-
+ * card grids, the group list surface, the context-ribbon items, and the
+ * footer items — plus their responsive behavior. Every visible surface
  * inside those grids is a Shared Enterprise Component Library component
  * (css/components.css); this stylesheet never redefines component chrome.
  * Consumes only the Design Token Foundation (variables.css); introduces no
@@ -22,11 +22,10 @@
 @import 'variables.css';
 
 /* ========================================
- * HOME MASTER GRID (Issue #16)
- * A 12-column command-center grid that turns the landing bands into a dense,
- * low-scroll operational layout: Continue working spans the full width,
- * Urgent work and Assigned to me share one row, the KPI pulse spans the full
- * width, and the client portfolio sits beside the Signals rail. Each band is
+ * HOME MASTER GRID (Issue #33)
+ * A 12-column client-selection grid: Continue working spans the full width,
+ * Recent clients and Pinned clients share one row, the full portfolio spans
+ * the width beneath them, and Client groups close the page. Each band is
  * still a Section component; grid placement is layout identity only, keyed
  * by the per-section modifier home.js assigns from the descriptor id.
  * ======================================== */
@@ -44,28 +43,18 @@
   min-width: 0;
 }
 
-/* Urgent work and Assigned to me read side by side: one row answers both
- * "what is at risk" and "what is mine" without scrolling. */
-.aos-home__section--urgent-work,
-.aos-home__section--assigned-to-me {
+/* Recent and Pinned read side by side: one row answers both "where was I"
+ * and "what do I keep at hand" without scrolling. */
+.aos-home__section--recent-clients,
+.aos-home__section--pinned-clients {
   grid-column: span 6;
-}
-
-/* The portfolio and the Signals rail share the final row: clients dominate,
- * notifications and calendar stack beside them as a quiet rail. */
-.aos-home__section--clients {
-  grid-column: span 8;
-}
-
-.aos-home__section--signals {
-  grid-column: span 4;
 }
 
 /* ========================================
  * CONTINUE WORKING — RESUME CARDS
- * Interactive Card components that link back into the operational
- * workspaces. A quiet arrow affordance slides on hover; the count leads the
- * typography so resumable work reads at a glance.
+ * Interactive Card components that open a client's Client Dashboard. A quiet
+ * arrow affordance slides on hover; the active-engagement count leads the
+ * typography so resumable clients read at a glance.
  * ======================================== */
 
 .aos-home__resume {
@@ -112,8 +101,8 @@
   color: var(--aos-text-secondary);
 }
 
-/* The task's destination — the workspace it resumes into — pinned to the
- * card base so every resume card reads "count · task · where it continues". */
+/* The card's destination — the Client Dashboard it opens — pinned to the
+ * card base so every resume card reads "count · client · where it opens". */
 .aos-home__resume-destination {
   margin-top: auto;
   padding-top: var(--aos-space-3);
@@ -139,8 +128,8 @@
 
 /* ========================================
  * LIST SURFACES
- * Urgent work, assigned work, and section empty states sit on one calm
- * Surface each, so lists read as a single quiet region rather than chrome.
+ * Client groups and section empty states sit on one calm Surface each, so
+ * lists read as a single quiet region rather than chrome.
  * ======================================== */
 
 .aos-home__list-surface {
@@ -148,25 +137,10 @@
 }
 
 /* ========================================
- * ENGAGEMENT PULSE — KPI BAND
- * A fluid KPI band; tiles keep a readable minimum width and wrap naturally.
- * The decorative meter inside a tile sits below the caption.
- * ======================================== */
-
-.aos-home__kpis {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
-  gap: var(--aos-space-4);
-}
-
-.aos-home__kpis .aos-progress {
-  margin-top: var(--aos-space-2);
-}
-
-/* ========================================
  * CLIENTS — ENTITY CARDS
- * One business-object card per client: identity, risk badge, readiness
- * meter, and engagement facts.
+ * One business-object card per client: identity, status badge, and the
+ * portfolio facts. The whole card is the selection affordance — the only
+ * action Home offers (Issue #33 §1).
  * ======================================== */
 
 .aos-home__entities {
@@ -174,6 +148,11 @@
   grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
   gap: var(--aos-space-4);
   align-items: stretch;
+}
+
+.aos-home__entity-card {
+  text-decoration: none;
+  color: inherit;
 }
 
 .aos-home__entity-identity {
@@ -195,23 +174,29 @@
   gap: var(--aos-space-4);
 }
 
-/* The client's engagements — the contents of the entry point — separated
- * from the profile facts by a hairline rule. */
-.aos-home__entity-engagements {
+/* The card's single action — opening the Client Dashboard — separated from
+ * the profile facts by a hairline rule, with the shared hover affordance. */
+.aos-home__entity-open {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+  margin-top: auto;
   border-top: 1px solid var(--aos-surface-border);
   padding-top: var(--aos-space-3);
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-link);
 }
 
-/* ========================================
- * SIGNALS — PANEL GRID
- * Notifications and calendar as Panel Section components in one row.
- * ======================================== */
+.aos-home__entity-open-arrow {
+  color: var(--aos-text-tertiary);
+  transition: transform var(--aos-transition-fast), color var(--aos-transition-fast);
+}
 
-.aos-home__panel-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-  gap: var(--aos-space-4);
-  align-items: stretch;
+.aos-home__entity-card:hover .aos-home__entity-open-arrow {
+  transform: translateX(var(--aos-space-1));
+  color: var(--aos-text-link);
 }
 
 /* ========================================
@@ -244,7 +229,7 @@
 
 /* ========================================
  * WORKSPACE FOOTER ITEMS
- * Environment, demo status, version, client, and loaded demo data, divided
+ * Environment, demo status, version, clients, and loaded demo data, divided
  * by hairline rules inside the framework footer.
  * ======================================== */
 
@@ -274,9 +259,9 @@
 /* ========================================
  * RESPONSIVE ARCHITECTURE
  * The grids are fluid by construction — auto-fit tracks with readable
- * minimum widths absorb the canvas width at every shell state (context
- * panel open or collapsed). The shell breakpoints then tighten the rhythm
- * on tablets and settle everything into a single relaxed column on mobile.
+ * minimum widths absorb the canvas width at every shell state. The shell
+ * breakpoints then tighten the rhythm on tablets and settle everything into
+ * a single relaxed column on mobile.
  * ======================================== */
 
 @media (max-width: 1024px) {
@@ -285,21 +270,17 @@
   }
 
   /* The master grid settles into a single column: every band spans full
-   * width so tablets keep readable lists and cards. */
-  .aos-home__section--urgent-work,
-  .aos-home__section--assigned-to-me,
-  .aos-home__section--clients,
-  .aos-home__section--signals {
+   * width so tablets keep readable cards and lists. */
+  .aos-home__section--recent-clients,
+  .aos-home__section--pinned-clients {
     grid-column: 1 / -1;
   }
 
-  .aos-home__resume,
-  .aos-home__kpis {
+  .aos-home__resume {
     gap: var(--aos-space-3);
   }
 
-  .aos-home__entities,
-  .aos-home__panel-grid {
+  .aos-home__entities {
     grid-template-columns: 1fr;
     gap: var(--aos-space-3);
   }
@@ -311,10 +292,6 @@
   }
 
   .aos-home__resume {
-    grid-template-columns: 1fr;
-  }
-
-  .aos-home__kpis {
     grid-template-columns: 1fr;
   }
 

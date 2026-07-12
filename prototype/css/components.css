@@ -1879,3 +1879,81 @@ button.aos-chip:focus-visible {
   gap: var(--aos-space-3);
   min-width: 0;
 }
+
+/* ============================================================================
+ * STATE — PERMISSION NOTICE (Issue #33 §5 Permission-aware Actions)
+ * The permission-aware action area, the standard interaction model across
+ * AuditOS: an action the session may not perform is hidden — never a disabled
+ * control — and the area it would occupy renders this quiet notice instead.
+ * Hovering or focusing the notice reveals the explanation panel: the required
+ * role, the appropriate contact, and the reason the permission is scoped.
+ * Token-only, and keyboard-equivalent to hover via :focus-visible.
+ * ========================================================================== */
+
+.aos-permission-notice {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+  max-width: 100%;
+  cursor: help;
+}
+
+.aos-permission-notice__hint {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-medium);
+  letter-spacing: 0.04em;
+  color: var(--aos-text-tertiary);
+  border-bottom: 1px dashed var(--aos-surface-border);
+  white-space: nowrap;
+}
+
+.aos-permission-notice__tooltip {
+  position: absolute;
+  top: calc(100% + var(--aos-space-2));
+  right: 0;
+  z-index: var(--aos-z-tooltip);
+  display: none;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 16rem;
+  max-width: 24rem;
+  padding: var(--aos-space-4);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  background-color: var(--aos-surface-card);
+  box-shadow: var(--aos-shadow-lg);
+  text-align: left;
+}
+
+.aos-permission-notice:hover .aos-permission-notice__tooltip,
+.aos-permission-notice:focus-visible .aos-permission-notice__tooltip,
+.aos-permission-notice:focus-within .aos-permission-notice__tooltip {
+  display: flex;
+}
+
+.aos-permission-notice:focus-visible {
+  outline: none;
+  box-shadow: var(--aos-focus-ring);
+  border-radius: var(--aos-radius-sm);
+}
+
+.aos-permission-notice__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+}
+
+.aos-permission-notice__term {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-permission-notice__detail {
+  font-size: var(--aos-text-xs);
+  line-height: var(--aos-leading-relaxed);
+  color: var(--aos-text-secondary);
+}

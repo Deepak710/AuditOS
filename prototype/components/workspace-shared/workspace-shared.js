@@ -457,6 +457,67 @@
     return P.metadataList(asArray(pairs).filter(function (pair) { return pair.detail; }));
   }
 
+  /** Monotonic id source for permission-notice tooltip wiring. */
+  var permissionNoticeSequence = 0;
+
+  /**
+   * Builds the standard permission-aware notice (Issue #33 §5) for an action
+   * area whose actions the current session may not perform. Unavailable
+   * actions are hidden, never rendered as disabled controls; this notice is
+   * what the action area shows instead, and hovering or focusing it explains
+   * the required role, the appropriate contact, and the reason. The denial
+   * (`{ label, requiredRoles, reason }`) comes from the Permission Foundation
+   * as plain data, and the contact is resolved by the caller from real
+   * records — this module fabricates neither.
+   */
+  function buildPermissionNotice(denial, contact) {
+    var explanation = denial || {};
+    permissionNoticeSequence += 1;
+    var tooltipId = 'aos-permission-notice-' + permissionNoticeSequence;
+
+    var notice = el('span', 'aos-permission-notice');
+    notice.setAttribute('tabindex', '0');
+    notice.setAttribute('aria-describedby', tooltipId);
+    notice.setAttribute('aria-label',
+      (explanation.label || 'Restricted action') + ' — not available to your role');
+
+    var hint = el('span', 'aos-permission-notice__hint', explanation.label || 'Restricted action');
+    notice.appendChild(hint);
+
+    var tooltip = el('span', 'aos-permission-notice__tooltip');
+    tooltip.id = tooltipId;
+    tooltip.setAttribute('role', 'tooltip');
+
+    var rows = [
+      { term: 'Required role', detail: asArray(explanation.requiredRoles).join(' or ') },
+      { term: 'Contact', detail: contact || '' },
+      { term: 'Why', detail: explanation.reason || '' }
+    ];
+    rows.forEach(function (row) {
+      if (!row.detail) {
+        return;
+      }
+      var line = el('span', 'aos-permission-notice__row');
+      line.appendChild(el('span', 'aos-permission-notice__term', row.term));
+      line.appendChild(el('span', 'aos-permission-notice__detail', row.detail));
+      tooltip.appendChild(line);
+    });
+    notice.appendChild(tooltip);
+    return notice;
+  }
+
+  /**
+   * The permission-aware action area (Issue #33 §5), the standard interaction
+   * model across AuditOS: when `denial` is null the session holds the
+   * capability and the caller's own action nodes render; otherwise the
+   * actions stay hidden and the area renders the shared explanation notice.
+   * `buildAllowed()` is only invoked when permitted, so gated surfaces never
+   * even construct controls the session cannot use.
+   */
+  function buildPermissionAwareActions(denial, buildAllowed, contact) {
+    return denial ? buildPermissionNotice(denial, contact) : buildAllowed();
+  }
+
   /**
    * A selection controller shared by every rail rendering: registering a row
    * wires its click to swap the caller's Inspector into the detail mount;
@@ -590,6 +651,8 @@
     buildRelatedBody: buildRelatedBody,
     buildActivityBody: buildActivityBody,
     metadataBody: metadataBody,
+    buildPermissionNotice: buildPermissionNotice,
+    buildPermissionAwareActions: buildPermissionAwareActions,
     createRailSelection: createRailSelection,
     mountRailGroups: mountRailGroups
   };

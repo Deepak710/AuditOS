@@ -28,9 +28,18 @@
   var THEMES = { LIGHT: 'light', DARK: 'dark' };
 
   /** Business status vocabulary of the demo-data (read, never invented). */
-  var ENGAGEMENT_STATUS = { IN_PROGRESS: 'In Progress' };
+  var ENGAGEMENT_STATUS = { IN_PROGRESS: 'In Progress', COMPLETED: 'Completed' };
   var REVIEW_STATUS = { PENDING_REVIEW: 'Pending Review', REJECTED: 'Rejected' };
   var REQUEST_STATUS = { SUBMITTED: 'Submitted' };
+
+  /**
+   * The review statuses that mean a record is awaiting an audit-team approval
+   * decision (Issue #33 §3) — the same vocabulary the Global Approvals
+   * workspace groups its inbox by, mirrored here the way this header already
+   * mirrors Home's notification rules, so the navigation badge and the inbox
+   * always count the same records.
+   */
+  var PENDING_APPROVAL_STATUSES = ['Pending Review', 'Evidence Received - Under HA Review', 'Submitted'];
 
   // Established during init().
   var actionsRegion = null;
@@ -144,9 +153,66 @@
     return count;
   }
 
+  /**
+   * Pending approvals across the entire platform (Issue #33 §3): evidence and
+   * evidence requests awaiting an audit-team decision, summed over every
+   * engagement that is not completed — completed engagements are read-only
+   * and contribute to no operational count. Program-scoped pool datasets are
+   * excluded by construction: `findDatasetsForEngagement` resolves only the
+   * datasets an engagement itself owns, so pooled records are never counted
+   * twice.
+   */
+  function deriveGlobalPendingApprovals(state) {
+    var count = 0;
+    state.listRecords('engagements').forEach(function (engagement) {
+      if (engagement.status === ENGAGEMENT_STATUS.COMPLETED) {
+        return;
+      }
+      var evidenceDocument = readEngagementDocument(state, 'evidence', engagement.id) || {};
+      var requestsDocument = readEngagementDocument(state, 'evidence-requests', engagement.id) || {};
+      (evidenceDocument.evidence || []).forEach(function (item) {
+        if (PENDING_APPROVAL_STATUSES.indexOf(item.reviewStatus) !== -1) {
+          count += 1;
+        }
+      });
+      (requestsDocument.requests || []).forEach(function (request) {
+        if (PENDING_APPROVAL_STATUSES.indexOf(request.status) !== -1) {
+          count += 1;
+        }
+      });
+    });
+    return count;
+  }
+
   // ------------------------------------------------------------------
   // State-bound controls
   // ------------------------------------------------------------------
+
+  /**
+   * Builds the Global Approvals indicator (Issue #33 §3): always-visible
+   * navigation to the platform-wide approval inbox, carrying the live pending
+   * approval count as its badge. Follows the notification indicator's exact
+   * composition — icon button, numeric badge only when work is pending.
+   */
+  function buildApprovalsIndicator(count) {
+    var link = el('a', 'aos-global-header__icon-button');
+    link.setAttribute('href', '#/approvals');
+    link.setAttribute('aria-label', count > 0
+      ? count + ' pending approvals — open Global Approvals'
+      : 'Global Approvals — nothing awaiting a decision');
+    link.setAttribute('title', 'Global Approvals');
+
+    var icon = el('i', 'bi bi-check2-circle');
+    icon.setAttribute('aria-hidden', 'true');
+    link.appendChild(icon);
+
+    if (count > 0) {
+      var badge = el('span', 'aos-global-header__badge aos-numeric', String(count));
+      badge.setAttribute('aria-hidden', 'true');
+      link.appendChild(badge);
+    }
+    return link;
+  }
 
   /**
    * Builds the notification indicator: navigation to AuditOS Home, where the
@@ -204,6 +270,9 @@
     var profileChildren = [];
 
     if (state && typeof state.isReady === 'function' && state.isReady()) {
+      // Global Approvals is always reachable from the header (Issue #33 §3);
+      // its badge carries the platform-wide pending approval count.
+      actionChildren.push(buildApprovalsIndicator(deriveGlobalPendingApprovals(state)));
       var engagement = currentEngagement(state);
       if (engagement) {
         actionChildren.push(buildNotifications(deriveAttentionCount(state, engagement)));

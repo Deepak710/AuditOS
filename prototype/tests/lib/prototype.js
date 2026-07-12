@@ -32,6 +32,7 @@ const SCRIPTS = {
   demoDataRegistry: ['js', 'state', 'demo-data-registry.js'],
   stateStore: ['js', 'state', 'state-store.js'],
   relationships: ['js', 'platform', 'relationships.js'],
+  permissions: ['js', 'platform', 'permissions.js'],
   workspaceShared: ['components', 'workspace-shared', 'workspace-shared.js'],
   homeWorkspace: ['js', 'workspaces', 'home.js'],
   engagementWorkspace: ['js', 'workspaces', 'engagement.js'],
@@ -44,6 +45,9 @@ const SCRIPTS = {
   documentationWorkspace: ['js', 'workspaces', 'documentation.js'],
   workQueueWorkspace: ['js', 'workspaces', 'work-queue.js'],
   programWorkspace: ['js', 'workspaces', 'program.js'],
+  clientDashboardWorkspace: ['js', 'workspaces', 'client-dashboard.js'],
+  globalApprovalsWorkspace: ['js', 'workspaces', 'global-approvals.js'],
+  aiUsageWorkspace: ['js', 'workspaces', 'ai-usage.js'],
   workspaceFramework: ['components', 'workspace-framework', 'workspace-framework.js']
 };
 
@@ -224,6 +228,47 @@ function loadProgramWorkspace() {
 }
 
 /**
+ * Loads the Permission Foundation (window.AuditOS.permissions) — the static
+ * capability descriptor behind Issue #33's permission-aware action pattern.
+ * Pure reads only, so it registers cleanly in the sandbox.
+ */
+function loadPermissions() {
+  return loadClassicScript(SCRIPTS.permissions).AuditOS.permissions;
+}
+
+/**
+ * Loads the Client Dashboard workspace module
+ * (window.AuditOS.clientDashboardWorkspace). The module guards its DOM
+ * self-init on `document` and reads the presentation system only inside DOM
+ * builders, so it registers cleanly in the sandbox where no document exists;
+ * suites exercise its pure derivations directly.
+ */
+function loadClientDashboardWorkspace() {
+  return loadClassicScripts([SCRIPTS.relationships, SCRIPTS.workspaceShared, SCRIPTS.clientDashboardWorkspace]).AuditOS.clientDashboardWorkspace;
+}
+
+/**
+ * Loads the Global Approvals workspace module
+ * (window.AuditOS.globalApprovalsWorkspace). The module guards its DOM
+ * self-init on `document` and reads the presentation system only inside DOM
+ * builders, so it registers cleanly in the sandbox where no document exists;
+ * suites exercise its pure derivations directly.
+ */
+function loadGlobalApprovalsWorkspace() {
+  return loadClassicScripts([SCRIPTS.relationships, SCRIPTS.permissions, SCRIPTS.workspaceShared, SCRIPTS.globalApprovalsWorkspace]).AuditOS.globalApprovalsWorkspace;
+}
+
+/**
+ * Loads the AI Usage workspace module (window.AuditOS.aiUsageWorkspace). The
+ * module guards its DOM self-init on `document` and reads the presentation
+ * system only inside DOM builders, so it registers cleanly in the sandbox
+ * where no document exists; suites exercise its pure derivations directly.
+ */
+function loadAiUsageWorkspace() {
+  return loadClassicScripts([SCRIPTS.relationships, SCRIPTS.permissions, SCRIPTS.workspaceShared, SCRIPTS.aiUsageWorkspace]).AuditOS.aiUsageWorkspace;
+}
+
+/**
  * Normalizes a value produced inside the vm sandbox into this realm. Arrays
  * created in the sandbox have a different Array.prototype, which trips strict
  * deep-equality; suites pass registry-derived collections through this before
@@ -253,6 +298,10 @@ module.exports = {
   loadDocumentationWorkspace: loadDocumentationWorkspace,
   loadWorkQueueWorkspace: loadWorkQueueWorkspace,
   loadProgramWorkspace: loadProgramWorkspace,
+  loadPermissions: loadPermissions,
+  loadClientDashboardWorkspace: loadClientDashboardWorkspace,
+  loadGlobalApprovalsWorkspace: loadGlobalApprovalsWorkspace,
+  loadAiUsageWorkspace: loadAiUsageWorkspace,
   loadWorkspaceFramework: loadWorkspaceFramework,
   toHostArray: toHostArray
 };

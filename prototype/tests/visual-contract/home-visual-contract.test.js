@@ -13,20 +13,14 @@
 const { readText, loadComponentLibrary, toHostArray } = require('../lib/prototype');
 const css = require('../lib/css');
 
-/** Component base classes Home composes (registry ids they must map to). */
+/** Component base classes the client-centric Home composes (registry ids they must map to). */
 const REUSED_COMPONENTS = {
   'aos-surface': 'surface',
   'aos-section': 'section',
   'aos-card': 'card',
-  'aos-panel-section': 'panel-section',
-  'aos-kpi-tile': 'kpi-tile',
   'aos-status-badge': 'status-badge',
-  'aos-progress': 'progress',
   'aos-item-list': 'item-list',
-  'aos-timeline': 'timeline',
   'aos-metadata-list': 'metadata-list',
-  'aos-action-group': 'action-group',
-  'aos-button': 'button',
   'aos-empty-state': 'empty-state',
   'aos-loading-state': 'loading-state',
   'aos-skeleton': 'skeleton'
@@ -89,7 +83,7 @@ module.exports = function registerVisualContractTests(harness) {
   });
 
   test('the new library components keep the library-wide visual contracts', function () {
-    ['aos-progress', 'aos-item-list', 'aos-timeline', 'aos-button'].forEach(function (className) {
+    ['aos-progress', 'aos-item-list', 'aos-timeline', 'aos-button', 'aos-permission-notice'].forEach(function (className) {
       assert.ok(css.definesSelector(componentsCss, className), '.' + className + ' is defined');
     });
     assert.deepEqual(css.findHexColors(componentsCss), [], 'components.css stays token-only');

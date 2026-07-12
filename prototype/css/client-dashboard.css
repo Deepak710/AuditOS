@@ -1,0 +1,179 @@
+/**
+ * AuditOS Client Dashboard Workspace
+ * Platform Information Architecture — GitHub Issue #33 (§2 Client Dashboard) /
+ * Workspace Design System — Chapter 15 / Layout Components — Chapter 75
+ *
+ * The workspace-layer stylesheet of the Client Dashboard. It owns only the
+ * client-specific layout — the section stack, the portfolio health strip,
+ * the engagement card grids, the delivery-progress surface, and the footer —
+ * plus their responsive behavior. Every visible surface inside those regions
+ * is a Shared Enterprise Component Library component (css/components.css)
+ * produced by the Enterprise Data Presentation System, so this stylesheet
+ * never redefines component chrome. Consumes only the Design Token
+ * Foundation (variables.css); introduces no new visual values. Entrance
+ * motion comes from the shared design language (design-language.css).
+ *
+ * Every selector in this file is scoped under the `.aos-client` prefix so
+ * the workspace layer can never leak into the shell, components, or other
+ * workspaces.
+ */
+
+@import 'variables.css';
+
+/* ========================================
+ * SECTION STACK
+ * The dashboard reads top-to-bottom: overview and portfolio health first,
+ * then the active engagements, the read-only completed engagements, the
+ * schedule, delivery progress, findings, readiness, workload, approvals,
+ * and record metadata.
+ * ======================================== */
+
+.aos-client {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-8);
+  min-width: 0;
+}
+
+.aos-client__section {
+  min-width: 0;
+}
+
+.aos-client__overview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-5);
+}
+
+/* ========================================
+ * PORTFOLIO HEALTH
+ * A slim, clickable operational status strip (editor status-bar style),
+ * identical composition to every other workspace's health strip.
+ * ======================================== */
+
+.aos-client__health {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  padding: var(--aos-space-1) var(--aos-space-2);
+  background-color: var(--aos-surface-workspace);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  font-size: var(--aos-text-xs);
+}
+
+.aos-client__health-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-1) var(--aos-space-3);
+  text-decoration: none;
+  color: var(--aos-text-secondary);
+  border-radius: var(--aos-radius-sm);
+  transition: background-color var(--aos-transition-fast), color var(--aos-transition-fast);
+}
+
+.aos-client__health-item + .aos-client__health-item {
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+a.aos-client__health-item:hover {
+  background-color: var(--aos-surface-hover);
+  color: var(--aos-text-primary);
+}
+
+.aos-client__health-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex-shrink: 0;
+  border-radius: var(--aos-radius-full);
+  background-color: var(--aos-text-tertiary);
+}
+
+.aos-client__health-dot--info { background-color: var(--aos-color-info-600); }
+.aos-client__health-dot--success { background-color: var(--aos-color-success-700); }
+.aos-client__health-dot--warning { background-color: var(--aos-color-warning-700); }
+.aos-client__health-dot--error { background-color: var(--aos-color-error-700); }
+
+.aos-client__health-label {
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-client__health-status {
+  color: var(--aos-text-secondary);
+  white-space: nowrap;
+}
+
+/* ========================================
+ * ENGAGEMENT GRIDS
+ * One Entity Card per engagement, fluid by construction. Active and
+ * completed (read-only) engagements share the same grid; the read-only
+ * marking is carried by the card's own status badge, never by muting the
+ * card into an ambiguous disabled look.
+ * ======================================== */
+
+.aos-client__engagement-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: var(--aos-space-4);
+  align-items: stretch;
+}
+
+/* ========================================
+ * DELIVERY PROGRESS / FINDINGS / APPROVALS
+ * Live meters and property summaries on one calm padded Surface each.
+ * ======================================== */
+
+.aos-client__progress,
+.aos-client__findings,
+.aos-client__approvals {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
+}
+
+/* ========================================
+ * WORKSPACE FOOTER ITEMS
+ * Environment, demo status, and client, divided by hairline rules.
+ * ======================================== */
+
+.aos-client-footer__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  white-space: nowrap;
+}
+
+.aos-client-footer__item:not(:first-child) {
+  padding-left: var(--aos-space-4);
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+.aos-client-footer__label {
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-client-footer__value {
+  color: var(--aos-text-secondary);
+}
+
+/* ========================================
+ * RESPONSIVE ARCHITECTURE
+ * The grids are fluid by construction — auto-fit tracks with readable
+ * minimum widths absorb the canvas width at every shell state. The shell
+ * breakpoints then tighten the rhythm on tablets.
+ * ======================================== */
+
+@media (max-width: 1024px) {
+  .aos-client {
+    gap: var(--aos-space-6);
+  }
+
+  .aos-client__engagement-grid {
+    gap: var(--aos-space-3);
+  }
+}

@@ -21,7 +21,9 @@ const EXPECTED_COMPONENT_IDS = [
   'data-grid', 'entity-card', 'activity-feed', 'inspector',
   'button', 'search-field', 'select',
   'toolbar-group', 'action-group', 'master-detail',
-  'empty-state', 'loading-state', 'skeleton'
+  'empty-state', 'loading-state', 'skeleton',
+  // Permission-aware action pattern (Issue #33 §5).
+  'permission-notice'
 ];
 
 module.exports = function registerSmokeTests(harness) {
@@ -65,7 +67,7 @@ module.exports = function registerSmokeTests(harness) {
     const registry = loadComponentLibrary();
     const stateIds = toHostArray(registry.findByCategory(registry.CATEGORIES.STATE))
       .map(function (component) { return component.id; });
-    assert.deepEqual(stateIds.slice().sort(), ['empty-state', 'loading-state', 'skeleton']);
+    assert.deepEqual(stateIds.slice().sort(), ['empty-state', 'loading-state', 'permission-notice', 'skeleton']);
     assert.equal(toHostArray(registry.findByCategory('unknown-category')).length, 0,
       'unknown category resolves to an empty result');
   });

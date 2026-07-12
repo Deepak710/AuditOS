@@ -235,6 +235,13 @@
       category: COMPONENT_CATEGORIES.STATE,
       className: 'aos-skeleton',
       description: 'A decorative placeholder block whose shimmer collapses to a static block under reduced motion.'
+    },
+    {
+      id: 'permission-notice',
+      name: 'Permission Notice',
+      category: COMPONENT_CATEGORIES.STATE,
+      className: 'aos-permission-notice',
+      description: 'The permission-aware action area (Issue #33 §5): unavailable actions stay hidden, and hovering or focusing the area explains the required role, the appropriate contact, and the reason.'
     }
   ];
 

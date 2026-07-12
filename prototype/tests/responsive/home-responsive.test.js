@@ -40,7 +40,7 @@ module.exports = function registerResponsiveTests(harness) {
   const componentsCss = css.readCss('components.css');
 
   test('every Home grid is fluid (auto-fit with a readable minimum)', function () {
-    ['aos-home__resume', 'aos-home__kpis', 'aos-home__entities', 'aos-home__panel-grid']
+    ['aos-home__resume', 'aos-home__entities']
       .forEach(function (gridClass) {
         assert.match(homeCss,
           new RegExp('\\.' + gridClass + '\\s*\\{[\\s\\S]*?repeat\\(auto-fit,\\s*minmax\\([\\s\\S]*?\\}'),
@@ -51,13 +51,13 @@ module.exports = function registerResponsiveTests(harness) {
   test('the Home grids collapse at the tablet breakpoint (1024px)', function () {
     const tablet = mediaBlocks(homeCss, 'max-width:\\s*1024px');
     assert.ok(tablet.length > 0, 'a tablet breakpoint exists');
-    assert.match(tablet, /grid-template-columns:\s*1fr/, 'entity and signal grids settle to one column');
+    assert.match(tablet, /grid-template-columns:\s*1fr/, 'the client entity grid settles to one column');
   });
 
   test('the Home grids collapse at the mobile breakpoint (640px)', function () {
     const mobile = mediaBlocks(homeCss, 'max-width:\\s*640px');
     assert.ok(mobile.length > 0, 'a mobile breakpoint exists');
-    assert.match(mobile, /grid-template-columns:\s*1fr/, 'resume cards and KPIs collapse to one column');
+    assert.match(mobile, /grid-template-columns:\s*1fr/, 'resume cards collapse to one column');
   });
 
   test('home.css declares no fixed pixel widths', function () {

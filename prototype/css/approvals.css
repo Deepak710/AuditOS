@@ -1,0 +1,183 @@
+/**
+ * AuditOS Global Approvals Workspace
+ * Platform Information Architecture — GitHub Issue #33 (§3 Global Approvals) /
+ * Workspace Design System — Chapter 15 / Layout Components — Chapter 75
+ *
+ * The workspace-layer stylesheet of the Global Approvals inbox. It owns only
+ * the approvals-specific layout — the section stack, the inbox rail rows and
+ * groups, and the footer — plus their responsive behavior. Every visible
+ * surface inside those regions is a Shared Enterprise Component Library
+ * component (css/components.css) produced by the Enterprise Data
+ * Presentation System, so this stylesheet never redefines component chrome
+ * (including the shared Permission Notice, whose styles live with the
+ * component library). Consumes only the Design Token Foundation
+ * (variables.css); introduces no new visual values. Entrance motion comes
+ * from the shared design language (design-language.css).
+ *
+ * Every selector in this file is scoped under the `.aos-approvals` prefix so
+ * the workspace layer can never leak into the shell, components, or other
+ * workspaces.
+ */
+
+@import 'variables.css';
+
+/* ========================================
+ * SECTION STACK
+ * The inbox reads top-to-bottom: the live overview counts, the Master–Detail
+ * approval inbox, and the approval-type coverage.
+ * ======================================== */
+
+.aos-approvals {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-8);
+  min-width: 0;
+}
+
+.aos-approvals__section {
+  min-width: 0;
+}
+
+.aos-approvals__overview,
+.aos-approvals__types {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
+}
+
+/* ========================================
+ * APPROVAL INBOX RAIL
+ * The same Master–Detail rail composition every rail-based workspace shares:
+ * grouped, selectable row buttons beside the Approval Inspector.
+ * ======================================== */
+
+.aos-approvals__inbox {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
+}
+
+.aos-approvals__row-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-approvals__group {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-2) var(--aos-space-1) var(--aos-space-1);
+  margin-top: var(--aos-space-2);
+  border-bottom: 1px solid var(--aos-surface-border);
+}
+
+.aos-approvals__group:first-child {
+  margin-top: 0;
+}
+
+.aos-approvals__group-label {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-approvals__group-count {
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-approvals__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  width: 100%;
+  padding: var(--aos-space-3);
+  text-align: start;
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  cursor: pointer;
+  transition: background-color var(--aos-transition-fast), border-color var(--aos-transition-fast);
+}
+
+.aos-approvals__row:hover {
+  background-color: var(--aos-surface-hover);
+  border-color: var(--aos-surface-border-strong);
+}
+
+.aos-approvals__row--selected {
+  background-color: var(--aos-surface-active);
+  border-color: var(--aos-surface-border-strong);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-approvals__row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+}
+
+.aos-approvals__row-title {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-primary);
+}
+
+.aos-approvals__row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-1) var(--aos-space-3);
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-approvals__detail-mount {
+  min-width: 0;
+}
+
+/* ========================================
+ * WORKSPACE FOOTER ITEMS
+ * Environment, demo status, and the pending count, divided by hairline rules.
+ * ======================================== */
+
+.aos-approvals-footer__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  white-space: nowrap;
+}
+
+.aos-approvals-footer__item:not(:first-child) {
+  padding-left: var(--aos-space-4);
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+.aos-approvals-footer__label {
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-approvals-footer__value {
+  color: var(--aos-text-secondary);
+}
+
+/* ========================================
+ * RESPONSIVE ARCHITECTURE
+ * The rail's Master–Detail collapse comes from the shared component layer;
+ * the shell breakpoints tighten the section rhythm on tablets.
+ * ======================================== */
+
+@media (max-width: 1024px) {
+  .aos-approvals {
+    gap: var(--aos-space-6);
+  }
+}

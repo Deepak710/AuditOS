@@ -1,35 +1,35 @@
 /**
- * AuditOS Home Workspace
+ * AuditOS Global Home Workspace
+ * Platform Information Architecture — GitHub Issue #33 (§1 Global Home) /
  * Workspaces and Navigation — Chapter 12 (§12.6 Home) / Workspace Design
- * System — Chapter 15 / Dashboard Workspace — Chapter 115 / Component
- * Architecture — Chapter 74
+ * System — Chapter 15 / Component Architecture — Chapter 74
  *
- * The operating-system landing experience of AuditOS. Home answers the five
- * command-center questions of §115.4 the moment a session begins: what
- * requires my attention (Urgent work), what should I do next (Continue
- * working), what is mine (Assigned to me), what changed (Activity,
- * Notifications), and what does AI recommend (the reserved AI advisory
- * surface). It is an operational surface, never a reporting dashboard
- * (§12.6): every section is either personally actionable or situational
- * awareness, and everything rendered derives from the existing demo-data
- * through the Shared Audit State.
+ * The client-centric landing experience of AuditOS and the top of the
+ * permanent platform hierarchy: AuditOS → Client → Program → Engagement.
+ * Home no longer presents engagement summaries, evidence cards, reports, or
+ * activity feeds — it answers exactly one question: which client do I work
+ * with now? Its sections are Continue Working, Recent Clients, Pinned
+ * Clients, All Clients, Client Groups, and Search; the only action available
+ * anywhere on this page is selecting a client, which opens that client's
+ * Client Dashboard. Users always start here, and Home never automatically
+ * reopens the previous client — resuming is always an explicit choice.
  *
- * Architecture: Business → ViewModel → Components → DOM. The view model is a
- * declarative description of the page — an ordered list of section
- * descriptors plus panel, ribbon, action, and footer data — produced entirely
- * by pure derivation helpers. The renderer owns no page-specific assembly:
- * it dispatches each descriptor to a generic, reusable body builder and
- * composes everything from Shared Enterprise Component Library primitives.
- * The same builders can render any future workspace's descriptors.
+ * Architecture: Business → ViewModel → Components → DOM, unchanged from the
+ * original Home. The view model is a declarative, ordered list of section
+ * descriptors produced entirely by pure derivation helpers; the renderer
+ * dispatches each descriptor to a generic body builder and composes
+ * everything from Shared Enterprise Component Library primitives. The search
+ * affordance reuses the Shared Workspace Framework's own toolbar
+ * configuration (Issue #17) rather than duplicating a search field.
  *
  * Presentation only. Every business value is read through `AuditOS.state` —
- * never from demo-data files, never hardcoded — so the frontend cannot tell
- * whether the data came from JSON, SharePoint, or AI. Sections whose data
- * does not exist render Empty State components; nothing is ever fabricated.
- * Runtime writes remain memory-only elsewhere; Home performs no writes. AI
- * regions are reserved presentation surfaces: AI remains advisory and human
- * approval remains mandatory. Quick actions are navigation only, routed
- * through the Static Router's canonical hash paths.
+ * never from demo-data files, never hardcoded — and the page is architected
+ * for N clients while rendering exactly the clients the state holds today;
+ * nothing is ever fabricated. Recent Clients is memory-only presentation
+ * state derived from real navigation within this session (route changes into
+ * the Client Dashboard); it is never persisted and resets on reload. Pinned
+ * Clients renders its Empty State until a future issue records pins — no pin
+ * is ever invented. AI regions stay reserved advisory surfaces.
  *
  * Structure of this file (Coding Standards §30.8): constants, pure
  * derivation helpers (offline-testable, no DOM, no state access), the view
@@ -65,7 +65,7 @@
     FOOTER: 'workspace-footer'
   };
 
-  /** Presentation tones shared by badges, markers, and progress meters. */
+  /** Presentation tones shared by badges and markers. */
   var TONES = {
     INFO: 'info',
     SUCCESS: 'success',
@@ -75,15 +75,7 @@
 
   /** Business status vocabulary of the demo-data (read, never invented). */
   var ENGAGEMENT_STATUS = { IN_PROGRESS: 'In Progress', COMPLETED: 'Completed' };
-  var REVIEW_STATUS = { APPROVED: 'Approved', PENDING_REVIEW: 'Pending Review', REJECTED: 'Rejected' };
-  var REQUEST_STATUS = { SUBMITTED: 'Submitted' };
-  var FINDING_STATUS = { OPEN: 'Open' };
-  var TEST_RESULT = { FAIL: 'Fail' };
-
-  /** Severity ranking (highest first) and tone mappings for business status. */
-  var SEVERITY_RANK = { High: 0, Medium: 1, Low: 2 };
-  var SEVERITY_TONES = { High: TONES.ERROR, Medium: TONES.WARNING, Low: TONES.INFO };
-  var RISK_TONES = { High: TONES.ERROR, Medium: TONES.WARNING, Low: TONES.SUCCESS };
+  var COMPANY_STATUS = { ACTIVE: 'Active' };
 
   /** Marker glyphs that reinforce tone without ever carrying it alone. */
   var TONE_GLYPHS = { info: '•', success: '✓', warning: '!', error: '!' };
@@ -91,8 +83,11 @@
   /** Deterministic month labels so dates never depend on runtime locale. */
   var MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-  /** Maximum entries per list so sections stay scannable. */
+  /** Maximum entries per list so sections stay scannable with N clients. */
   var LIST_LIMIT = 6;
+
+  /** Maximum clients remembered by the session-only Recent Clients list. */
+  var RECENT_LIMIT = 6;
 
   /** Entrance stagger ceiling — sections beyond this share the last delay. */
   var STAGGER_LIMIT = 3;
@@ -102,6 +97,16 @@
   // plain records and returns plain view data, so the offline unit suites
   // exercise them directly (derived values remain derived, §30.12).
   // ------------------------------------------------------------------
+
+  /** Returns the value when it is an array, otherwise an empty array. */
+  function asArray(value) {
+    return Array.isArray(value) ? value : [];
+  }
+
+  /** Naive English pluralization for whole-count labels. */
+  function plural(count, noun) {
+    return count === 1 ? noun : noun + 's';
+  }
 
   /** Formats an ISO `YYYY-MM-DD` date as a compact, deterministic label. */
   function formatDate(isoDate) {
@@ -116,351 +121,197 @@
     return month + ' ' + Number(parts[2]) + ', ' + parts[0];
   }
 
-  /** Formats a date period as `start – end`. */
-  function formatPeriod(period) {
-    if (!period || !period.startDate || !period.endDate) {
-      return '';
-    }
-    return formatDate(period.startDate) + ' – ' + formatDate(period.endDate);
+  /** Resolves a company lifecycle status to a presentation tone. */
+  function companyStatusTone(status) {
+    return status === COMPANY_STATUS.ACTIVE ? TONES.SUCCESS : TONES.INFO;
   }
 
-  /** Whole-number percentage; an empty total reads as zero, never NaN. */
-  function formatPercent(part, total) {
-    if (!total || total <= 0) {
-      return 0;
-    }
-    return Math.round((part / total) * 100);
+  /** The engagements a company owns, split into active / completed / total. */
+  function engagementCountsFor(companyId, engagements) {
+    var owned = asArray(engagements).filter(function (engagement) {
+      return engagement.companyId === companyId;
+    });
+    var active = owned.filter(function (engagement) {
+      return engagement.status === ENGAGEMENT_STATUS.IN_PROGRESS;
+    }).length;
+    var completed = owned.filter(function (engagement) {
+      return engagement.status === ENGAGEMENT_STATUS.COMPLETED;
+    }).length;
+    return { total: owned.length, active: active, completed: completed };
   }
 
-  /**
-   * The current engagement: the first in-progress engagement in record order,
-   * falling back to the first engagement, or null when none exist.
-   */
-  function deriveCurrentEngagement(engagements) {
-    if (!Array.isArray(engagements) || engagements.length === 0) {
-      return null;
-    }
-    for (var index = 0; index < engagements.length; index += 1) {
-      if (engagements[index].status === ENGAGEMENT_STATUS.IN_PROGRESS) {
-        return engagements[index];
-      }
-    }
-    return engagements[0];
-  }
-
-  /**
-   * Continue Working — the resume points of the engagement, derived from the
-   * operational domain summaries. Only work that actually exists appears;
-   * a fully caught-up engagement yields an empty list (and an Empty State).
-   * Each item names the workspace it resumes into; the renderer resolves the
-   * route from the Workspace Registry.
-   */
-  function deriveContinueWorking(evidenceSummary, testingSummary, findingsSummary, requestsSummary, reportDocument) {
-    var evidence = evidenceSummary || {};
-    var testing = testingSummary || {};
-    var findings = findingsSummary || {};
-    var requests = requestsSummary || {};
-    var resume = [];
-
-    if (evidence.pendingReview > 0) {
-      resume.push({
-        workspaceId: 'evidence',
-        value: String(evidence.pendingReview),
-        title: 'Review evidence',
-        description: 'Evidence items awaiting a reviewer decision'
-      });
-    }
-    if (testing.pending > 0) {
-      resume.push({
-        workspaceId: 'testing',
-        value: String(testing.pending),
-        title: 'Continue testing',
-        description: 'Test procedures awaiting execution'
-      });
-    }
-    if (findings.open > 0) {
-      resume.push({
-        workspaceId: 'findings',
-        value: String(findings.open),
-        title: 'Resolve findings',
-        description: 'Open findings awaiting remediation'
-      });
-    }
-    if (requests.pending > 0) {
-      resume.push({
-        workspaceId: 'evidence',
-        value: String(requests.pending),
-        title: 'Fulfill evidence requests',
-        description: 'Requests not yet submitted by the client'
-      });
-    }
-    if (reportDocument && reportDocument.status) {
-      resume.push({
-        workspaceId: 'reporting',
-        value: 'v' + reportDocument.version,
-        title: 'Continue the report',
-        description: reportDocument.title + ' · ' + reportDocument.status
-      });
-    }
-    return resume;
-  }
-
-  /**
-   * Urgent Work — what is at risk right now: high-severity open findings,
-   * rejected evidence, and failed test procedures, in that order.
-   */
-  function deriveUrgentWork(findings, evidence, tests) {
-    var urgent = [];
-    (findings || [])
-      .filter(function (finding) {
-        return finding.status === FINDING_STATUS.OPEN && SEVERITY_RANK[finding.severity] === 0;
-      })
-      .forEach(function (finding) {
-        urgent.push({
-          title: finding.title,
-          description: finding.severity + ' severity finding · Due ' + formatDate(finding.targetClosureDate),
-          meta: finding.id,
-          tone: TONES.ERROR,
-          critical: true
-        });
-      });
-    (evidence || [])
-      .filter(function (item) { return item.reviewStatus === REVIEW_STATUS.REJECTED; })
-      .forEach(function (item) {
-        urgent.push({
-          title: item.title,
-          description: 'Evidence rejected — resubmission required',
-          meta: formatDate(item.uploadedOn),
-          tone: TONES.ERROR,
-          critical: true
-        });
-      });
-    (tests || [])
-      .filter(function (test) { return test.result === TEST_RESULT.FAIL; })
-      .forEach(function (test) {
-        urgent.push({
-          title: 'Failed test ' + test.id,
-          description: test.procedure + ' · Control ' + test.controlId,
-          meta: test.workingPaperId,
-          tone: TONES.WARNING
-        });
-      });
-    return urgent.slice(0, LIST_LIMIT);
-  }
-
-  /**
-   * Assigned to Me — everything the current user is responsible for in the
-   * existing records: engagements they lead or manage, and test procedures
-   * they execute or review. Nothing is fabricated; a user with no
-   * assignments yields an empty list.
-   */
-  function deriveAssignedWork(engagements, tests, userId) {
-    var assigned = [];
-    (engagements || []).forEach(function (engagement) {
-      var role = engagement.engagementLead === userId ? 'Engagement Lead'
-        : engagement.engagementManager === userId ? 'Engagement Manager'
-          : null;
-      if (!role) {
+  /** The distinct frameworks a company's engagements declare, in record order. */
+  function frameworksFor(companyId, engagements) {
+    var seen = {};
+    var frameworks = [];
+    asArray(engagements).forEach(function (engagement) {
+      if (engagement.companyId !== companyId || !engagement.framework || seen[engagement.framework]) {
         return;
       }
-      assigned.push({
-        title: engagement.name,
-        description: role + ' · ' + engagement.status,
-        meta: formatPeriod(engagement.auditPeriod),
-        tone: engagement.status === ENGAGEMENT_STATUS.IN_PROGRESS ? TONES.INFO
-          : engagement.status === ENGAGEMENT_STATUS.COMPLETED ? TONES.SUCCESS
-            : null,
-        inProgress: engagement.status === ENGAGEMENT_STATUS.IN_PROGRESS
-      });
+      seen[engagement.framework] = true;
+      frameworks.push(engagement.framework);
     });
-    (tests || []).forEach(function (test) {
-      var duty = test.testedBy === userId ? 'Execute test '
-        : test.reviewedBy === userId ? 'Review test '
-          : null;
-      if (!duty) {
-        return;
-      }
-      assigned.push({
-        title: duty + test.id,
-        description: test.procedure + ' · Control ' + test.controlId,
-        meta: test.workingPaperId,
-        tone: TONES.WARNING,
-        inProgress: true
-      });
-    });
-    return assigned
-      .sort(function (a, b) { return (a.inProgress ? 0 : 1) - (b.inProgress ? 0 : 1); })
-      .slice(0, LIST_LIMIT);
+    return frameworks;
   }
 
   /**
-   * Clients — the engagement portfolio, one entity card per company. Each
-   * card is the entry point into that client: identity, risk posture, audit
-   * readiness, and the client's engagements — all read from existing records.
+   * Client entity cards — one card per company record, the entry points of
+   * the platform. Every fact derives from the company's own record and its
+   * engagements/programs; the card's only affordance is opening that
+   * client's Client Dashboard (`workspaceId` + `recordId` resolve to the
+   * stable `#/clients?id=` route in the renderer).
    */
-  function deriveClients(companies, engagements) {
-    return (companies || []).map(function (company) {
-      var owned = (engagements || []).filter(function (engagement) {
-        return engagement.companyId === company.id;
-      });
-      var active = owned.filter(function (engagement) {
-        return engagement.status === ENGAGEMENT_STATUS.IN_PROGRESS;
+  function deriveClientCards(companies, engagements, programs) {
+    return asArray(companies).map(function (company) {
+      var counts = engagementCountsFor(company.id, engagements);
+      var frameworks = frameworksFor(company.id, engagements);
+      var ownedPrograms = asArray(programs).filter(function (program) {
+        return program.companyId === company.id;
       });
       var headquarters = company.headquarters || {};
+      var facts = [
+        { term: 'Engagements', detail: counts.active + ' active of ' + counts.total },
+        { term: 'Programs', detail: String(ownedPrograms.length) }
+      ];
+      if (frameworks.length > 0) {
+        facts.push({ term: 'Frameworks', detail: frameworks.join(' · ') });
+      }
       return {
+        id: company.id,
+        workspaceId: 'client',
+        recordId: company.id,
         title: company.name,
-        subtitle: company.industry +
+        subtitle: (company.industry || '') +
           (headquarters.city ? ' · ' + headquarters.city + ', ' + headquarters.country : ''),
-        badge: { text: company.riskRating + ' risk', tone: RISK_TONES[company.riskRating] || TONES.INFO },
-        meter: {
-          label: 'Audit readiness',
-          value: company.auditReadinessScore || 0,
-          total: 100,
-          tone: (company.auditReadinessScore || 0) >= 85 ? TONES.SUCCESS : TONES.WARNING
-        },
-        facts: [
-          { term: 'Engagements', detail: active.length + ' active of ' + owned.length },
-          { term: 'Frameworks', detail: (company.frameworks || []).join(' · ') }
-        ],
-        engagements: owned.slice(0, LIST_LIMIT).map(function (engagement) {
-          return {
-            title: engagement.name,
-            description: engagement.framework + ' · ' + engagement.status,
-            meta: formatDate(engagement.auditPeriod && engagement.auditPeriod.endDate),
-            tone: engagement.status === ENGAGEMENT_STATUS.IN_PROGRESS ? TONES.INFO
-              : engagement.status === ENGAGEMENT_STATUS.COMPLETED ? TONES.SUCCESS
-                : null
-          };
-        })
+        badge: company.status ? { text: company.status, tone: companyStatusTone(company.status) } : null,
+        facts: facts,
+        openLabel: 'Open client dashboard'
       };
     });
   }
 
   /**
-   * Engagement overview KPIs, derived from the operational domain documents
-   * so the tiles reflect the same records the rest of Home presents.
+   * Continue Working — the clients with in-progress engagements, resumable
+   * with one selection. Resuming is always explicit: Home never reopens the
+   * previous client automatically (§1). A portfolio with no active work
+   * yields an empty list (and the section's Empty State).
    */
-  function deriveKpis(controlsSummary, evidenceSummary, testingSummary, findingsSummary) {
-    var controls = controlsSummary || {};
-    var evidence = evidenceSummary || {};
-    var testing = testingSummary || {};
-    var findings = findingsSummary || {};
-    return [
-      { label: 'Controls in scope', value: controls.controls || 0, total: null, caption: (controls.eligibleForEvidenceReuse || 0) + ' eligible for evidence reuse' },
-      { label: 'Evidence approved', value: evidence.approved || 0, total: evidence.evidenceItems || 0, caption: 'of ' + (evidence.evidenceItems || 0) + ' evidence items' },
-      { label: 'Tests passed', value: testing.passed || 0, total: testing.tests || 0, caption: 'of ' + (testing.tests || 0) + ' test procedures' },
-      { label: 'Open findings', value: findings.open || 0, total: null, caption: 'of ' + (findings.findings || 0) + ' findings recorded' }
-    ];
+  function deriveContinueWorking(companies, engagements) {
+    var resume = [];
+    asArray(companies).forEach(function (company) {
+      var counts = engagementCountsFor(company.id, engagements);
+      if (counts.active === 0) {
+        return;
+      }
+      resume.push({
+        workspaceId: 'client',
+        recordId: company.id,
+        value: String(counts.active),
+        title: 'Continue with ' + company.name,
+        description: counts.active + ' active ' + plural(counts.active, 'engagement') +
+          ' of ' + counts.total + ' total'
+      });
+    });
+    return resume.slice(0, LIST_LIMIT);
   }
 
   /**
-   * Notifications (§16.18): each entry informs, guides, or requests action —
-   * approvals required, rejected evidence, and received submissions.
+   * Records a client at the head of the session-only Recent Clients list:
+   * newest first, deduplicated, capped. Pure — returns a new array — so the
+   * memory-only presentation state stays trivially testable.
    */
-  function deriveNotifications(evidence, requests, reportDocument) {
-    var notifications = [];
-    (evidence || []).forEach(function (item) {
-      if (item.reviewStatus === REVIEW_STATUS.PENDING_REVIEW) {
-        notifications.push({
-          title: 'Approval required: ' + item.title,
-          description: 'Evidence awaiting review',
-          meta: formatDate(item.uploadedOn),
-          date: item.uploadedOn,
-          tone: TONES.WARNING
-        });
-      }
-      if (item.reviewStatus === REVIEW_STATUS.REJECTED) {
-        notifications.push({
-          title: 'Evidence rejected: ' + item.title,
-          description: 'Resubmission needed',
-          meta: formatDate(item.uploadedOn),
-          date: item.uploadedOn,
-          tone: TONES.ERROR
-        });
+  function recordRecentClient(recentIds, companyId, limit) {
+    var cap = typeof limit === 'number' ? limit : RECENT_LIMIT;
+    if (!companyId) {
+      return asArray(recentIds).slice(0, cap);
+    }
+    var next = [companyId];
+    asArray(recentIds).forEach(function (id) {
+      if (id !== companyId) {
+        next.push(id);
       }
     });
-    (requests || []).forEach(function (request) {
-      if (request.status === REQUEST_STATUS.SUBMITTED) {
-        notifications.push({
-          title: 'Evidence received for request ' + request.id,
-          description: 'Submission ready for review',
-          meta: formatDate(request.submittedOn),
-          date: request.submittedOn,
-          tone: TONES.INFO
-        });
-      }
+    return next.slice(0, cap);
+  }
+
+  /**
+   * Recent Clients — the session's real navigation history projected onto
+   * the client cards, in recency order. An id that no longer joins a company
+   * record is dropped, never rendered as a fabricated client.
+   */
+  function deriveRecentClients(recentIds, clientCards) {
+    var byId = {};
+    asArray(clientCards).forEach(function (card) {
+      byId[card.id] = card;
     });
-    if (reportDocument && reportDocument.status) {
-      notifications.push({
-        title: 'Report ' + String(reportDocument.status).toLowerCase() + ': ' + reportDocument.title,
-        description: 'Version ' + reportDocument.version,
-        meta: '',
-        date: '',
+    return asArray(recentIds)
+      .map(function (id) { return byId[id]; })
+      .filter(Boolean)
+      .slice(0, RECENT_LIMIT);
+  }
+
+  /**
+   * Client Groups — the portfolio grouped by the one grouping fact the
+   * company records actually carry, industry. Groups are derived live and
+   * scale to N clients; no group structure is invented.
+   */
+  function deriveClientGroups(companies) {
+    var order = [];
+    var groups = {};
+    asArray(companies).forEach(function (company) {
+      var industry = company.industry || 'Uncategorized';
+      if (!groups[industry]) {
+        groups[industry] = [];
+        order.push(industry);
+      }
+      groups[industry].push(company.name);
+    });
+    return order.map(function (industry) {
+      var members = groups[industry];
+      return {
+        title: industry,
+        description: members.join(' · '),
+        meta: members.length + ' ' + plural(members.length, 'client'),
         tone: TONES.INFO
-      });
-    }
-    return notifications
-      .sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); })
-      .slice(0, LIST_LIMIT);
+      };
+    });
   }
 
-  /** Engagement calendar: every dated milestone, sorted ascending. */
-  function deriveCalendarEntries(engagement, findings) {
-    var entries = [];
-    if (engagement) {
-      if (engagement.auditPeriod) {
-        entries.push({ date: engagement.auditPeriod.startDate, title: 'Audit period begins' });
-        entries.push({ date: engagement.auditPeriod.endDate, title: 'Audit period ends' });
-      }
-      if (engagement.fieldworkPeriod) {
-        entries.push({ date: engagement.fieldworkPeriod.startDate, title: 'Fieldwork begins' });
-        entries.push({ date: engagement.fieldworkPeriod.endDate, title: 'Fieldwork ends' });
-      }
-      if (engagement.reportReleaseDate) {
-        entries.push({ date: engagement.reportReleaseDate, title: 'Report release' });
-      }
-    }
-    (findings || [])
-      .filter(function (finding) { return finding.status === FINDING_STATUS.OPEN && finding.targetClosureDate; })
-      .forEach(function (finding) {
-        entries.push({ date: finding.targetClosureDate, title: 'Finding closure target: ' + finding.id });
-      });
-    return entries
-      .sort(function (a, b) { return String(a.date).localeCompare(String(b.date)); })
-      .map(function (entry) {
-        return { title: entry.title, meta: formatDate(entry.date), date: entry.date };
-      })
-      .slice(0, LIST_LIMIT);
+  /** Portfolio ribbon instruments — live portfolio counts, never stored aggregates. */
+  function derivePortfolioRibbon(companies, engagements, programs) {
+    var active = asArray(engagements).filter(function (engagement) {
+      return engagement.status === ENGAGEMENT_STATUS.IN_PROGRESS;
+    }).length;
+    var completed = asArray(engagements).filter(function (engagement) {
+      return engagement.status === ENGAGEMENT_STATUS.COMPLETED;
+    }).length;
+    return [
+      { label: 'Clients', value: String(asArray(companies).length) },
+      { label: 'Programs', value: String(asArray(programs).length) },
+      { label: 'Active engagements', value: String(active) },
+      { label: 'Completed engagements', value: String(completed) }
+    ];
   }
 
-  /** Recent activity: evidence receipts and request submissions, newest first. */
-  function deriveRecentActivity(evidence, requests) {
-    var events = [];
-    (evidence || []).forEach(function (item) {
-      events.push({
-        title: 'Evidence received: ' + item.title,
-        description: item.reviewStatus,
-        meta: formatDate(item.uploadedOn),
-        date: item.uploadedOn,
-        tone: item.reviewStatus === REVIEW_STATUS.APPROVED ? TONES.SUCCESS
-          : item.reviewStatus === REVIEW_STATUS.REJECTED ? TONES.ERROR
-            : TONES.WARNING
-      });
-    });
-    (requests || []).forEach(function (request) {
-      if (request.submittedOn) {
-        events.push({
-          title: 'Request ' + request.id + ' submitted',
-          description: 'Review status: ' + request.reviewStatus,
-          meta: formatDate(request.submittedOn),
-          date: request.submittedOn,
-          tone: TONES.INFO
-        });
+  /** Related-information facts: the portfolio described in one description list. */
+  function deriveRelatedFacts(companies, engagements, programs) {
+    var frameworks = [];
+    var seen = {};
+    asArray(engagements).forEach(function (engagement) {
+      if (engagement.framework && !seen[engagement.framework]) {
+        seen[engagement.framework] = true;
+        frameworks.push(engagement.framework);
       }
     });
-    return events
-      .sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); })
-      .slice(0, LIST_LIMIT);
+    var facts = [
+      { term: 'Clients', detail: String(asArray(companies).length) },
+      { term: 'Programs', detail: String(asArray(programs).length) },
+      { term: 'Engagements', detail: String(asArray(engagements).length) }
+    ];
+    if (frameworks.length > 0) {
+      facts.push({ term: 'Frameworks', detail: frameworks.join(' · ') });
+    }
+    return facts;
   }
 
   /** Counts the collections, datasets, and records the state currently holds. */
@@ -486,119 +337,53 @@
   // state directly, so the data source can change without frontend changes.
   // ------------------------------------------------------------------
 
-  /** Reads the first dataset document an engagement owns in a collection. */
-  function readEngagementDocument(state, collectionId, engagementId) {
-    var datasetIds = state.findDatasetsForEngagement(collectionId, engagementId);
-    return datasetIds.length > 0 ? state.getDocument(collectionId, datasetIds[0]) : null;
-  }
-
-  /** Finds a record by id within a list. */
-  function findById(records, id) {
-    for (var index = 0; index < (records || []).length; index += 1) {
-      if (records[index].id === id) {
-        return records[index];
-      }
-    }
-    return null;
-  }
-
   /**
-   * Quick actions — navigation-only destinations resolved from the Workspace
-   * Registry (navigation identity, never business content).
+   * Collects everything Global Home presents from the Shared Audit State as
+   * an ordered list of declarative section descriptors plus header, ribbon,
+   * panel, and footer data. `recentClientIds` is the session-only recency
+   * list maintained by the route wiring (memory-only, never persisted).
+   * Returns null while the state is not ready, and a degraded model when no
+   * client data is available (§15.12).
    */
-  function deriveQuickActions(workspaceRegistry) {
-    if (!workspaceRegistry) {
-      return [];
-    }
-    var destinationIds = [
-      { id: workspaceRegistry.IDS.ENGAGEMENT, primary: true },
-      { id: workspaceRegistry.IDS.EVIDENCE, primary: false },
-      { id: workspaceRegistry.IDS.TESTING, primary: false },
-      { id: workspaceRegistry.IDS.FINDINGS, primary: false },
-      { id: workspaceRegistry.IDS.REPORTING, primary: false }
-    ];
-    var actions = [];
-    destinationIds.forEach(function (destination) {
-      var workspace = workspaceRegistry.findById(destination.id);
-      if (workspace) {
-        actions.push({ label: workspace.label, path: workspace.path, primary: destination.primary });
-      }
-    });
-    return actions;
-  }
-
-  /**
-   * Collects everything Home presents from the Shared Audit State as an
-   * ordered list of declarative section descriptors plus panel, ribbon,
-   * action, and footer data. Returns null while the state is not ready, and
-   * a degraded model when no engagement data is available (§15.12).
-   */
-  function collectViewModel(state, workspaceRegistry) {
+  function collectViewModel(state, workspaceRegistry, recentClientIds) {
     if (!state || !state.isReady()) {
       return null;
     }
 
     var status = state.getStatus();
-    var engagementsDocument = state.getDocument('engagements');
-    var engagements = state.listRecords('engagements');
-    var engagement = deriveCurrentEngagement(engagements);
-    if (!engagement) {
+    var companies = state.listRecords('companies');
+    if (companies.length === 0) {
       return { degraded: true, status: status };
     }
 
-    var companies = state.listRecords('companies');
-    var company = findById(companies, engagement.companyId);
+    var engagements = state.listRecords('engagements');
+    var programs = state.listRecords('programs');
+    var companiesDocument = state.getDocument('companies');
 
-    var controlsDocument = readEngagementDocument(state, 'controls', engagement.id) || {};
-    var evidenceDocument = readEngagementDocument(state, 'evidence', engagement.id) || {};
-    var requestsDocument = readEngagementDocument(state, 'evidence-requests', engagement.id) || {};
-    var testingDocument = readEngagementDocument(state, 'testing', engagement.id) || {};
-    var findingsDocument = readEngagementDocument(state, 'findings', engagement.id) || {};
-    var reportsDocument = readEngagementDocument(state, 'reports', engagement.id) || {};
-
-    var evidence = evidenceDocument.evidence || [];
-    var requests = requestsDocument.requests || [];
-    var findings = findingsDocument.findings || [];
-    var tests = testingDocument.tests || [];
-    var evidenceSummary = evidenceDocument.summary || {};
-    var testingSummary = testingDocument.summary || {};
-    var findingsSummary = findingsDocument.summary || {};
-    var requestsSummary = requestsDocument.summary || {};
-    var reportDocument = reportsDocument.document || null;
-
-    var userId = engagement.engagementLead;
-    var openFindings = findings.filter(function (finding) { return finding.status === FINDING_STATUS.OPEN; }).length;
-    var pendingReviews = evidence.filter(function (item) { return item.reviewStatus === REVIEW_STATUS.PENDING_REVIEW; }).length;
+    var clientCards = deriveClientCards(companies, engagements, programs);
+    var ribbon = derivePortfolioRibbon(companies, engagements, programs);
     var footprint = deriveDemoDataFootprint(state);
-
-    var briefingSummary = (company ? company.name + ' · ' : '') + engagement.name + ' — ' +
-      (evidenceSummary.approved || 0) + ' of ' + (evidenceSummary.evidenceItems || 0) + ' evidence items approved, ' +
-      (testingSummary.passed || 0) + ' of ' + (testingSummary.tests || 0) + ' tests passed, ' +
-      openFindings + ' open findings.';
+    var activeCount = engagements.filter(function (engagement) {
+      return engagement.status === ENGAGEMENT_STATUS.IN_PROGRESS;
+    }).length;
 
     return {
       degraded: false,
       status: status,
-      engagement: engagement,
-      company: company,
+      companies: companies,
 
       header: {
-        eyebrow: (company ? company.name + ' · ' : '') + engagement.engagementCode +
-          ' · ' + formatPeriod(engagement.auditPeriod),
-        meta: engagement.framework + ' — ' + engagement.status +
-          ' · Fieldwork ' + formatPeriod(engagement.fieldworkPeriod)
+        eyebrow: 'Assurance portfolio',
+        meta: companies.length + ' ' + plural(companies.length, 'client') + ' · ' +
+          programs.length + ' ' + plural(programs.length, 'program') + ' · ' +
+          activeCount + ' active ' + plural(activeCount, 'engagement')
       },
 
-      quickActions: deriveQuickActions(workspaceRegistry),
+      // Release 1 search is the framework's own presentation-only toolbar
+      // search (Issue #17) — reused, never re-implemented here.
+      toolbar: { search: { placeholder: 'Search clients' } },
 
-      ribbon: [
-        { label: 'Client', value: company ? company.name : engagement.companyId },
-        { label: 'Engagement', value: engagement.engagementCode },
-        { label: 'Phase', value: engagement.status },
-        { label: 'Open findings', value: String(openFindings) },
-        { label: 'Pending reviews', value: String(pendingReviews) },
-        { label: 'Client risk', value: company ? company.riskRating : '' }
-      ],
+      ribbon: ribbon,
 
       sections: [
         {
@@ -606,52 +391,47 @@
           kind: 'link-cards',
           kicker: 'Resume',
           title: 'Continue working',
-          description: briefingSummary,
-          items: deriveContinueWorking(evidenceSummary, testingSummary, findingsSummary, requestsSummary, reportDocument),
+          description: 'Pick up a client with active engagements. Home never reopens a client automatically.',
+          items: deriveContinueWorking(companies, engagements),
           empty: {
             icon: '✓',
-            title: 'All caught up',
-            description: 'Nothing is waiting on you right now. Resume points appear here as reviews, testing, findings, requests, and reporting progress.'
+            title: 'No active client work',
+            description: 'Clients with in-progress engagements appear here so one selection resumes the work.'
           }
         },
         {
-          id: 'urgent-work',
-          kind: 'items',
-          kicker: 'Needs attention',
-          title: 'Urgent work',
-          items: deriveUrgentWork(findings, evidence, tests),
-          empty: {
-            icon: '✓',
-            title: 'Nothing urgent',
-            description: 'High-severity findings, rejected evidence, and failed tests appear here the moment they need action.'
-          }
-        },
-        {
-          id: 'assigned-to-me',
-          kind: 'items',
-          kicker: 'Your work',
-          title: 'Assigned to me',
-          description: 'Signed in as ' + userId + ' · Engagement Lead · ' + engagement.auditor,
-          items: deriveAssignedWork(engagements, tests, userId),
+          id: 'recent-clients',
+          kind: 'entity-cards',
+          kicker: 'This session',
+          title: 'Recent clients',
+          items: deriveRecentClients(recentClientIds, clientCards),
           empty: {
             icon: '◇',
-            title: 'Nothing assigned',
-            description: 'Engagements you lead or manage and tests you execute or review appear here.'
+            title: 'No recent clients yet',
+            description: 'Clients you open this session appear here, newest first. Nothing is stored between sessions.'
           }
         },
         {
-          id: 'engagement-overview',
-          kind: 'kpis',
-          kicker: 'Pulse',
-          title: 'Engagement overview',
-          items: deriveKpis(controlsDocument.summary, evidenceSummary, testingSummary, findingsSummary)
+          id: 'pinned-clients',
+          kind: 'entity-cards',
+          kicker: 'Favorites',
+          title: 'Pinned clients',
+          // No pin is recorded anywhere in Release 1's data, so this section
+          // renders its Empty State rather than fabricating a favorite.
+          items: [],
+          empty: {
+            icon: '◇',
+            title: 'No pinned clients',
+            description: 'Pinning keeps frequent clients at hand. Pins arrive with a future issue; none are recorded today.'
+          }
         },
         {
-          id: 'clients',
+          id: 'all-clients',
           kind: 'entity-cards',
           kicker: 'Portfolio',
-          title: 'Clients',
-          items: deriveClients(companies, engagements),
+          title: 'All clients',
+          description: 'Every client in the portfolio. Selecting a client opens its Client Dashboard.',
+          items: clientCards,
           empty: {
             icon: '◇',
             title: 'No clients yet',
@@ -659,58 +439,41 @@
           }
         },
         {
-          id: 'signals',
-          kind: 'panel-grid',
-          kicker: 'Today',
-          title: 'Signals',
-          panels: [
-            {
-              title: 'Notifications',
-              kind: 'items',
-              items: deriveNotifications(evidence, requests, reportDocument),
-              empty: {
-                icon: '◇',
-                title: 'No notifications',
-                description: 'Operational events that inform, guide, or request action appear here.'
-              }
-            },
-            {
-              title: 'Calendar',
-              kind: 'timeline',
-              items: deriveCalendarEntries(engagement, findings),
-              empty: {
-                icon: '◇',
-                title: 'No dated milestones',
-                description: 'Engagement milestones and closure targets appear here.'
-              }
-            }
-          ]
+          id: 'client-groups',
+          kind: 'items',
+          kicker: 'Segments',
+          title: 'Client groups',
+          description: 'The portfolio grouped by industry — the grouping the client records themselves carry.',
+          items: deriveClientGroups(companies),
+          empty: {
+            icon: '◇',
+            title: 'No client groups',
+            description: 'Groups derive from the industries of the clients in the portfolio.'
+          }
         }
       ],
 
       panels: {
-        related: [
-          { term: 'Client', detail: company ? company.name : engagement.companyId },
-          { term: 'Engagement', detail: engagement.name },
-          { term: 'Framework', detail: engagement.framework },
-          { term: 'Audit period', detail: formatPeriod(engagement.auditPeriod) },
-          { term: 'Fieldwork', detail: formatPeriod(engagement.fieldworkPeriod) },
-          { term: 'Control set', detail: engagement.controlSet },
-          { term: 'Report', detail: engagement.reportId }
-        ],
+        related: deriveRelatedFacts(companies, engagements, programs),
         ai: {
           icon: '✦',
           title: 'Reserved for AI advisory',
           description: 'Advisory recommendations will appear here once the AI foundation is implemented. AI remains advisory; human approval remains mandatory.'
         },
-        activity: deriveRecentActivity(evidence, requests)
+        // Home carries no activity feed by design (Issue #33 §1); the panel
+        // explains where operational activity now lives instead.
+        activity: {
+          icon: '◇',
+          title: 'Activity lives with each client',
+          description: 'Open a client to see the operational activity of its programs and engagements.'
+        }
       },
 
       footer: [
         { label: 'Environment', value: 'Static prototype' },
         { label: 'Demo status', value: status.demoDataLoaded ? 'Demo data loaded' : 'Demo data degraded' },
-        { label: 'Version', value: engagementsDocument && engagementsDocument.metadata ? engagementsDocument.metadata.version : '' },
-        { label: 'Client', value: company ? company.name : engagement.companyId },
+        { label: 'Version', value: companiesDocument && companiesDocument.metadata ? companiesDocument.metadata.version : '' },
+        { label: 'Clients', value: String(companies.length) },
         { label: 'Loaded', value: footprint.collections + ' collections · ' + footprint.records + ' records' }
       ]
     };
@@ -740,14 +503,29 @@
   }
 
   /**
-   * Builds an Item List component from `{title, description, meta, tone,
-   * critical}` rows. Critical rows compose the library's prioritized variant
-   * so they visually dominate the list.
+   * Resolves the stable route hash for a section item that names a workspace
+   * and optionally a record (`#/{path}?id={recordId}`, Issue #31's canonical
+   * record-navigation format). Returns null when the workspace is unknown,
+   * so a card never links to a route the registry cannot resolve.
+   */
+  function itemHref(item, workspaceRegistry) {
+    var workspace = workspaceRegistry && item.workspaceId
+      ? workspaceRegistry.findById(item.workspaceId) : null;
+    if (!workspace) {
+      return null;
+    }
+    var hash = '#/' + workspace.path;
+    return item.recordId ? hash + '?id=' + global.encodeURIComponent(item.recordId) : hash;
+  }
+
+  /**
+   * Builds an Item List component from `{title, description, meta, tone}`
+   * rows.
    */
   function buildItemList(items, compact) {
     var list = el('ul', 'aos-item-list' + (compact ? ' aos-item-list--compact' : ''));
     items.forEach(function (item) {
-      var row = el('li', 'aos-item-list__item' + (item.critical ? ' aos-item-list__item--critical' : ''));
+      var row = el('li', 'aos-item-list__item');
       var marker = el('span', 'aos-item-list__marker' + (item.tone ? ' aos-item-list__marker--' + item.tone : ''),
         TONE_GLYPHS[item.tone] || TONE_GLYPHS.info);
       marker.setAttribute('aria-hidden', 'true');
@@ -768,34 +546,6 @@
     return list;
   }
 
-  /** Builds a Progress component with accessible progressbar semantics. */
-  function buildProgress(label, value, total, tone) {
-    var percent = formatPercent(value, total);
-    var progress = el('div', 'aos-progress' + (tone ? ' aos-progress--' + tone : ''));
-    progress.setAttribute('role', 'progressbar');
-    progress.setAttribute('aria-label', label);
-    progress.setAttribute('aria-valuemin', '0');
-    progress.setAttribute('aria-valuemax', String(total));
-    progress.setAttribute('aria-valuenow', String(value));
-
-    var header = el('div', 'aos-progress__header');
-    header.appendChild(el('span', 'aos-progress__label', label));
-    header.appendChild(el('span', 'aos-progress__value aos-numeric', value + ' of ' + total + ' · ' + percent + '%'));
-    progress.appendChild(header);
-
-    progress.appendChild(buildMeterTrack(percent));
-    return progress;
-  }
-
-  /** Builds a bare progress track (used decoratively and inside meters). */
-  function buildMeterTrack(percent) {
-    var track = el('div', 'aos-progress__track');
-    var indicator = el('div', 'aos-progress__indicator');
-    indicator.style.width = percent + '%';
-    track.appendChild(indicator);
-    return track;
-  }
-
   /** Builds a Metadata List component from `{term, detail}` pairs. */
   function buildMetadataList(pairs, inline) {
     var list = el('dl', 'aos-metadata-list' + (inline ? ' aos-metadata-list--inline' : ''));
@@ -806,44 +556,6 @@
       list.appendChild(item);
     });
     return list;
-  }
-
-  /** Builds a Timeline component from `{meta, title, description, tone}` events. */
-  function buildTimeline(events) {
-    var timeline = el('ol', 'aos-timeline');
-    events.forEach(function (event) {
-      var item = el('li', 'aos-timeline__event');
-      var marker = el('span', 'aos-timeline__marker' + (event.tone ? ' aos-timeline__marker--' + event.tone : ''));
-      marker.setAttribute('aria-hidden', 'true');
-      item.appendChild(marker);
-
-      var content = el('div', 'aos-timeline__content');
-      content.appendChild(el('span', 'aos-timeline__meta aos-numeric', event.meta));
-      content.appendChild(el('span', 'aos-timeline__title', event.title));
-      if (event.description) {
-        content.appendChild(el('span', 'aos-timeline__description', event.description));
-      }
-      item.appendChild(content);
-      timeline.appendChild(item);
-    });
-    return timeline;
-  }
-
-  /** Builds a Panel Section component with a heading and body children. */
-  function buildPanelSection(title, bodyChildren) {
-    var section = el('section', 'aos-panel-section');
-    section.setAttribute('aria-label', title);
-
-    var header = el('header', 'aos-panel-section__header');
-    header.appendChild(el('h3', 'aos-panel-section__title', title));
-    section.appendChild(header);
-
-    var body = el('div', 'aos-panel-section__body');
-    bodyChildren.forEach(function (child) {
-      body.appendChild(child);
-    });
-    section.appendChild(body);
-    return section;
   }
 
   /** Builds an Empty State component from a descriptor. */
@@ -877,17 +589,18 @@
   // ------------------------------------------------------------------
 
   /**
-   * Resume cards: interactive Card components that link back into their
-   * workspaces — resume tasks, not dashboard widgets. The destination line
-   * carries the workspace's registry label (navigation identity).
+   * Resume cards: interactive Card components that open a client's Client
+   * Dashboard — resume points, not dashboard widgets. The destination line
+   * carries the target workspace's registry label (navigation identity).
    */
   function buildLinkCardsBody(section, workspaceRegistry) {
     var grid = el('div', 'aos-home__resume');
     section.items.forEach(function (item) {
+      var href = itemHref(item, workspaceRegistry);
       var workspace = workspaceRegistry ? workspaceRegistry.findById(item.workspaceId) : null;
-      var card = el(workspace ? 'a' : 'div', 'aos-card aos-card--interactive aos-home__resume-card');
-      if (workspace) {
-        card.setAttribute('href', '#/' + workspace.path);
+      var card = el(href ? 'a' : 'div', 'aos-card aos-card--interactive aos-home__resume-card');
+      if (href) {
+        card.setAttribute('href', href);
         card.setAttribute('aria-label', item.title + ' — ' + item.description);
       }
       var body = el('div', 'aos-card__body aos-home__resume-body');
@@ -914,32 +627,20 @@
     return surface;
   }
 
-  /** KPI band: KPI Tiles with a decorative meter when a total exists. */
-  function buildKpisBody(section) {
-    var grid = el('div', 'aos-home__kpis');
-    section.items.forEach(function (kpi) {
-      var tile = el('div', 'aos-kpi-tile');
-      tile.appendChild(el('span', 'aos-kpi-tile__label', kpi.label));
-      tile.appendChild(el('span', 'aos-kpi-tile__value aos-numeric', String(kpi.value)));
-      tile.appendChild(el('span', 'aos-kpi-tile__caption', kpi.caption));
-      if (kpi.total) {
-        // Decorative meter: the tile's value and caption already carry the
-        // numbers as text, so the bar is hidden from assistive technology.
-        var meter = el('div', 'aos-progress');
-        meter.setAttribute('aria-hidden', 'true');
-        meter.appendChild(buildMeterTrack(formatPercent(kpi.value, kpi.total)));
-        tile.appendChild(meter);
-      }
-      grid.appendChild(tile);
-    });
-    return grid;
-  }
-
-  /** Entity cards: business-object Cards with badge, meter, and facts. */
-  function buildEntityCardsBody(section) {
+  /**
+   * Client entity cards: each card is one client and one action — opening
+   * that client's Client Dashboard. The whole card is the link (§1: the only
+   * action available is selecting a client).
+   */
+  function buildEntityCardsBody(section, workspaceRegistry) {
     var grid = el('div', 'aos-home__entities');
     section.items.forEach(function (entity) {
-      var card = el('article', 'aos-card aos-home__entity-card');
+      var href = itemHref(entity, workspaceRegistry);
+      var card = el(href ? 'a' : 'article', 'aos-card aos-home__entity-card' + (href ? ' aos-card--interactive' : ''));
+      if (href) {
+        card.setAttribute('href', href);
+        card.setAttribute('aria-label', entity.title + ' — ' + entity.openLabel);
+      }
       var header = el('header', 'aos-card__header');
       var identity = el('div', 'aos-home__entity-identity');
       identity.appendChild(el('h3', 'aos-card__title', entity.title));
@@ -951,31 +652,19 @@
       card.appendChild(header);
 
       var body = el('div', 'aos-card__body aos-home__entity-body');
-      if (entity.meter) {
-        body.appendChild(buildProgress(entity.meter.label, entity.meter.value, entity.meter.total, entity.meter.tone));
-      }
       if (entity.facts) {
         body.appendChild(buildMetadataList(entity.facts, true));
       }
-      if (entity.engagements && entity.engagements.length > 0) {
-        var engagements = el('div', 'aos-home__entity-engagements');
-        engagements.appendChild(buildItemList(entity.engagements, true));
-        body.appendChild(engagements);
+      if (href && entity.openLabel) {
+        var open = el('span', 'aos-home__entity-open');
+        open.appendChild(el('span', 'aos-home__entity-open-label', entity.openLabel));
+        var arrow = el('span', 'aos-home__entity-open-arrow', '→');
+        arrow.setAttribute('aria-hidden', 'true');
+        open.appendChild(arrow);
+        body.appendChild(open);
       }
       card.appendChild(body);
       grid.appendChild(card);
-    });
-    return grid;
-  }
-
-  /** Panel grid: a row of Panel Sections, each with its own list body. */
-  function buildPanelGridBody(section) {
-    var grid = el('div', 'aos-home__panel-grid');
-    section.panels.forEach(function (panel) {
-      var content = panel.items.length === 0 ? buildEmptyState(panel.empty)
-        : panel.kind === 'timeline' ? buildTimeline(panel.items)
-          : buildItemList(panel.items, true);
-      grid.appendChild(buildPanelSection(panel.title, [content]));
     });
     return grid;
   }
@@ -984,9 +673,7 @@
   var SECTION_BODIES = {
     'link-cards': buildLinkCardsBody,
     'items': buildItemsBody,
-    'kpis': buildKpisBody,
-    'entity-cards': buildEntityCardsBody,
-    'panel-grid': buildPanelGridBody
+    'entity-cards': buildEntityCardsBody
   };
 
   /**
@@ -1027,20 +714,6 @@
     return element;
   }
 
-  /** Quick actions: navigation-only Button links in an Action Group. */
-  function buildQuickActions(actions) {
-    var group = el('div', 'aos-action-group aos-action-group--end');
-    group.setAttribute('role', 'group');
-    group.setAttribute('aria-label', 'Quick actions');
-    actions.forEach(function (action) {
-      var link = el('a', 'aos-button aos-button--small' + (action.primary ? ' aos-button--primary' : ''),
-        action.label);
-      link.setAttribute('href', '#/' + action.path);
-      group.appendChild(link);
-    });
-    return group;
-  }
-
   /**
    * Builds a run of labeled value items — one shared builder for the context
    * ribbon (§15.5) and the workspace footer, which share the same structure
@@ -1075,8 +748,15 @@
     slot.replaceChildren.apply(slot, nodes || []);
   }
 
-  /** Renders the ready Home experience into the framework slots. */
+  /** Renders the ready Global Home experience into the framework slots. */
   function renderReady(view, viewModel, workspaceRegistry) {
+    // The search affordance is the framework's own toolbar search (Issue
+    // #17) — configured, not re-implemented. Configured first because the
+    // framework clears unconfigured regions; Home fills its own slots after.
+    if (AuditOS.workspaceFramework && typeof AuditOS.workspaceFramework.configure === 'function') {
+      AuditOS.workspaceFramework.configure(view, { toolbar: viewModel.toolbar });
+    }
+
     var eyebrow = slotElement(view, SLOTS.EYEBROW);
     if (eyebrow) {
       eyebrow.textContent = viewModel.header.eyebrow;
@@ -1085,7 +765,9 @@
     if (meta) {
       meta.textContent = viewModel.header.meta;
     }
-    fillSlot(view, SLOTS.ACTIONS, [buildQuickActions(viewModel.quickActions)]);
+    // The only action on Home is selecting a client (§1) — the header action
+    // slot stays intentionally empty.
+    fillSlot(view, SLOTS.ACTIONS, []);
     fillSlot(view, SLOTS.RIBBON, [buildLabeledItems(viewModel.ribbon, 'aos-home-ribbon')]);
 
     var home = el('div', 'aos-home');
@@ -1116,9 +798,11 @@
     aiPlaceholder.classList.add('aos-tint-brand', 'aos-fade-in');
     fillSlot(view, SLOTS.AI, [aiPlaceholder]);
 
-    var activity = buildItemList(viewModel.panels.activity, true);
-    activity.classList.add('aos-fade-in');
-    fillSlot(view, SLOTS.ACTIVITY, [activity]);
+    // No activity feed on Home by design (Issue #33 §1) — the panel carries
+    // guidance to the client level instead.
+    var activityGuidance = buildEmptyState(viewModel.panels.activity);
+    activityGuidance.classList.add('aos-fade-in');
+    fillSlot(view, SLOTS.ACTIVITY, [activityGuidance]);
 
     fillSlot(view, SLOTS.FOOTER, [buildLabeledItems(viewModel.footer, 'aos-home-footer')]);
   }
@@ -1136,7 +820,7 @@
     fillSlot(view, SLOTS.CONTENT, [buildEmptyState({
       icon: '◇',
       title: 'Demo data unavailable',
-      description: 'The Shared Audit State could not load its demo data' +
+      description: 'The Shared Audit State could not load its client data' +
         (viewModel.status.degradedReason ? ' (' + viewModel.status.degradedReason + ')' : '') +
         '. Regenerate the demo-data bundle and reload to restore AuditOS Home.'
     })]);
@@ -1145,6 +829,13 @@
   // ------------------------------------------------------------------
   // Wiring — follows the router and the Shared Audit State.
   // ------------------------------------------------------------------
+
+  /**
+   * The session-only Recent Clients list: memory-only presentation state
+   * derived from real navigation (route changes into the Client Dashboard).
+   * Never persisted, never used to reopen a client automatically (§1).
+   */
+  var sessionRecentClientIds = [];
 
   /**
    * Renders Home when it is the active workspace: the ready experience once
@@ -1166,7 +857,7 @@
       return;
     }
 
-    var viewModel = state ? collectViewModel(state, registry) : null;
+    var viewModel = state ? collectViewModel(state, registry, sessionRecentClientIds) : null;
     if (!viewModel) {
       renderLoading(view);
       return;
@@ -1178,24 +869,36 @@
     renderReady(view, viewModel, registry);
   }
 
+  /**
+   * Follows every route change: records visits to the Client Dashboard in
+   * the session-only recency list, then re-renders Home when it is active.
+   */
+  function handleRouteChanged(event) {
+    var registry = AuditOS.workspaceRegistry;
+    var detail = event && event.detail ? event.detail : {};
+    if (registry && detail.workspaceId === registry.IDS.CLIENT && detail.recordId) {
+      sessionRecentClientIds = recordRecentClient(sessionRecentClientIds, detail.recordId, RECENT_LIMIT);
+    }
+    renderActiveHome();
+  }
+
   AuditOS.homeWorkspace = {
     SLOTS: SLOTS,
 
     // Pure, offline-testable derivations.
     derivations: {
       formatDate: formatDate,
-      formatPeriod: formatPeriod,
-      formatPercent: formatPercent,
-      deriveCurrentEngagement: deriveCurrentEngagement,
+      plural: plural,
+      companyStatusTone: companyStatusTone,
+      engagementCountsFor: engagementCountsFor,
+      frameworksFor: frameworksFor,
+      deriveClientCards: deriveClientCards,
       deriveContinueWorking: deriveContinueWorking,
-      deriveUrgentWork: deriveUrgentWork,
-      deriveAssignedWork: deriveAssignedWork,
-      deriveClients: deriveClients,
-      deriveKpis: deriveKpis,
-      deriveNotifications: deriveNotifications,
-      deriveCalendarEntries: deriveCalendarEntries,
-      deriveRecentActivity: deriveRecentActivity,
-      deriveQuickActions: deriveQuickActions,
+      recordRecentClient: recordRecentClient,
+      deriveRecentClients: deriveRecentClients,
+      deriveClientGroups: deriveClientGroups,
+      derivePortfolioRibbon: derivePortfolioRibbon,
+      deriveRelatedFacts: deriveRelatedFacts,
       deriveDemoDataFootprint: deriveDemoDataFootprint
     },
 
@@ -1217,8 +920,9 @@
       }
 
       // Re-render whenever the route returns to Home (the framework has just
-      // rebuilt the slots) and when the state loads, changes, or resets.
-      global.document.addEventListener(router.ROUTE_CHANGED_EVENT, renderActiveHome);
+      // rebuilt the slots) and when the state loads, changes, or resets. The
+      // same route listener maintains the session-only Recent Clients list.
+      global.document.addEventListener(router.ROUTE_CHANGED_EVENT, handleRouteChanged);
       if (state && typeof state.subscribe === 'function') {
         state.subscribe(state.EVENTS.STATE_LOADED, renderActiveHome);
         state.subscribe(state.EVENTS.STATE_CHANGED, renderActiveHome);

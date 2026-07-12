@@ -128,6 +128,20 @@
   <script src="js/platform/relationships.js"></script>
 
   <!-- ========================================================= -->
+  <!-- Permission Foundation (Issue #33)                        -->
+  <!-- The static, platform-wide capability descriptor           -->
+  <!-- (window.AuditOS.permissions): which roles hold which      -->
+  <!-- gated capabilities, the static demo session, and the      -->
+  <!-- pure can / explainDenial reads behind the permission-     -->
+  <!-- aware action pattern (§5). Not an authorization engine —  -->
+  <!-- Release 1 has no authentication. Depends on nothing in    -->
+  <!-- components/, keeping the js → components boundary         -->
+  <!-- one-way. Loads before the navigation content and every    -->
+  <!-- workspace module that gates on it.                        -->
+  <!-- ========================================================= -->
+  <script src="js/platform/permissions.js"></script>
+
+  <!-- ========================================================= -->
   <!-- Workspace Shared Platform (Issue #27)                    -->
   <!-- Harmonized helpers reused by every operational workspace: -->
   <!-- shared constants, DOM builders (section, health strip,    -->
@@ -326,5 +340,46 @@
   <!-- slots.                                                     -->
   <!-- ========================================================= -->
   <script src="js/workspaces/program.js"></script>
+
+  <!-- ========================================================= -->
+  <!-- Client Dashboard Workspace (Issue #33)                   -->
+  <!-- The client level of the permanent platform hierarchy      -->
+  <!-- (AuditOS → Client → Program → Engagement): the at-a-      -->
+  <!-- glance operational overview of one client's portfolio —   -->
+  <!-- active engagements, milestones, portfolio health,         -->
+  <!-- delivery progress, findings, readiness, team workload,    -->
+  <!-- and approvals — every value derived live from the         -->
+  <!-- operational (non-completed) engagements. Completed        -->
+  <!-- engagements stay visible read-only and contribute to no   -->
+  <!-- operational metric. Loads after the framework so the      -->
+  <!-- skeleton exists before it fills the slots.                -->
+  <!-- ========================================================= -->
+  <script src="js/workspaces/client-dashboard.js"></script>
+
+  <!-- ========================================================= -->
+  <!-- Global Approvals Workspace (Issue #33)                   -->
+  <!-- The one approval inbox of the entire platform: every      -->
+  <!-- evidence item and request awaiting an audit-team decision -->
+  <!-- across every client and operational engagement, each row  -->
+  <!-- deep-linking to its record (Issue #31). Decision actions  -->
+  <!-- are permission-aware (§5): hidden behind the shared       -->
+  <!-- Permission Notice, never disabled controls. Loads after   -->
+  <!-- the framework so the skeleton exists before it fills the  -->
+  <!-- slots.                                                    -->
+  <!-- ========================================================= -->
+  <script src="js/workspaces/global-approvals.js"></script>
+
+  <!-- ========================================================= -->
+  <!-- AI Usage Workspace (Issue #33)                           -->
+  <!-- The administrator-only platform surface for AI            -->
+  <!-- operational telemetry and spend accounting. Architectural -->
+  <!-- in Release 1: reserved overview instruments, reserved     -->
+  <!-- client / engagement / operation breakdowns, and the       -->
+  <!-- declared attribution contract — no AI integration, no     -->
+  <!-- fabricated figures. Visibility is gated by the Permission -->
+  <!-- Foundation. Loads after the framework so the skeleton     -->
+  <!-- exists before it fills the slots.                         -->
+  <!-- ========================================================= -->
+  <script src="js/workspaces/ai-usage.js"></script>
 </body>
 </html>

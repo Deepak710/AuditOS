@@ -39,7 +39,10 @@
     GOVERNANCE: 'governance',
     AI: 'ai',
     EXECUTIVE: 'executive',
-    PROGRAM: 'program'
+    PROGRAM: 'program',
+    CLIENT: 'client',
+    APPROVALS: 'approvals',
+    AI_USAGE: 'ai-usage'
   };
 
   /**
@@ -74,7 +77,19 @@
     { id: WORKSPACE_IDS.EXECUTIVE,   path: 'executive',    label: 'Executive Dashboard', title: 'Executive Dashboard' },
     // Cross-engagement Audit Program overview (GitHub Issue #32): appended
     // last so every existing workspace keeps its registered position.
-    { id: WORKSPACE_IDS.PROGRAM,     path: 'program',      label: 'Audit Program',       title: 'Audit Program' }
+    { id: WORKSPACE_IDS.PROGRAM,     path: 'program',      label: 'Audit Program',       title: 'Audit Program' },
+    // Platform Information Architecture (GitHub Issue #33): the client level
+    // of the permanent AuditOS → Client → Program → Engagement hierarchy plus
+    // the two platform-level surfaces. Appended after every existing
+    // workspace so no registered position (and no existing deep link) moves.
+    // The `dashboard` entry above stays the stable Home id/path (#15/#31);
+    // only its rendered content became client-centric.
+    { id: WORKSPACE_IDS.CLIENT,      path: 'clients',      label: 'Client Dashboard',    title: 'Client Dashboard' },
+    { id: WORKSPACE_IDS.APPROVALS,   path: 'approvals',    label: 'Global Approvals',    title: 'Global Approvals' },
+    // `capability` is access identity, not business content: navigation
+    // surfaces hide this workspace from sessions the Permission Foundation
+    // (js/platform/permissions.js) does not grant the capability to.
+    { id: WORKSPACE_IDS.AI_USAGE,    path: 'ai-usage',     label: 'AI Usage',            title: 'AI Usage', capability: 'ai-usage.view' }
   ];
 
   /**

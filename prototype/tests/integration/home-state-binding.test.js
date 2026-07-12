@@ -1,17 +1,16 @@
 'use strict';
 
 /**
- * Integration Tests — Home Workspace Binding to the Shared Audit State
+ * Integration Tests — Global Home Binding to the Shared Audit State
  *
- * Verifies that AuditOS Home consumes business data exclusively through the
- * Shared Audit State and composes only the Shared Workspace Framework's
- * reserved slots (GitHub Issue #15 — Testing / Integration Tests). The first
- * group runs the real foundations together — generated demo-data bundle →
- * demo-data registry → state store → workspace registry → Home — inside one
- * sandbox and asserts the declarative view model against independent state
- * reads. The second group asserts the source contracts: state-only access,
- * slot fidelity, script and stylesheet ordering, and no hardcoded business
- * values.
+ * Verifies that the client-centric Global Home (Issue #33 §1) consumes
+ * business data exclusively through the Shared Audit State and composes only
+ * the Shared Workspace Framework's reserved slots. The first group runs the
+ * real foundations together — generated demo-data bundle → demo-data
+ * registry → state store → workspace registry → Home — inside one sandbox
+ * and asserts the declarative view model against independent state reads.
+ * The second group asserts the source contracts: state-only access, slot
+ * fidelity, script and stylesheet ordering, and no hardcoded business values.
  */
 
 const { SCRIPTS, readText, loadClassicScripts } = require('../lib/prototype');
@@ -46,109 +45,112 @@ module.exports = function registerIntegrationTests(harness) {
 
   // ---- Live binding through the real state store and demo-data bundle.
 
-  test('Home collects a ready view model from the loaded Shared Audit State', async function () {
+  test('Home collects a ready, client-centric view model from the loaded Shared Audit State', async function () {
     const AuditOS = bootHomeSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.homeWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.homeWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, []);
 
     assert.ok(viewModel, 'a view model is collected once the state is ready');
     assert.equal(viewModel.degraded, false, 'demo data loads without degradation');
-    assert.equal(viewModel.engagement.status, 'In Progress', 'the current engagement is in progress');
-    assert.equal(viewModel.company.id, viewModel.engagement.companyId,
-      'the company is resolved from the engagement');
+    assert.equal(viewModel.companies.length, AuditOS.state.listRecords('companies').length,
+      'the portfolio is exactly the companies the state holds');
+    assert.equal(viewModel.header.eyebrow, 'Assurance portfolio', 'Home orients on the portfolio, not an engagement');
   });
 
-  test('the view model is a declarative list of populated section descriptors', async function () {
+  test('the view model is the declarative client-selection section list of Issue #33 §1', async function () {
     const AuditOS = bootHomeSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.homeWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.homeWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, []);
 
     const sectionIds = Array.from(viewModel.sections).map(function (section) { return section.id; });
     assert.deepEqual(sectionIds,
-      ['continue-working', 'urgent-work', 'assigned-to-me', 'engagement-overview', 'clients', 'signals'],
-      'the OS-landing sections appear in order');
-
-    assert.ok(sectionById(viewModel, 'continue-working').items.length > 0,
-      'resume points derive from outstanding work');
-    // Production carries zero open high-severity findings, zero rejected
-    // evidence, and zero failed tests today — urgent work is genuinely
-    // empty; the section still degrades to the shared Empty State, not a
-    // fabricated item.
-    assert.ok(sectionById(viewModel, 'urgent-work').items.length >= 0,
-      'urgent work derives from findings, rejections, and failed tests');
-    assert.ok(sectionById(viewModel, 'assigned-to-me').items.length > 0,
-      'assignments derive from engagement roles and test duties');
-    assert.equal(sectionById(viewModel, 'engagement-overview').items.length, 4,
-      'the pulse carries four KPIs');
+      ['continue-working', 'recent-clients', 'pinned-clients', 'all-clients', 'client-groups'],
+      'the client-selection sections appear in order');
 
     const companies = AuditOS.state.listRecords('companies');
-    assert.equal(sectionById(viewModel, 'clients').items.length, companies.length,
+    assert.equal(sectionById(viewModel, 'all-clients').items.length, companies.length,
       'one client card per company record in the state');
-
-    const signals = sectionById(viewModel, 'signals');
-    assert.equal(signals.panels.length, 2, 'signals hold the notifications and calendar panels');
-    assert.ok(signals.panels[0].items.length > 0, 'notifications derive from operational events');
-    assert.ok(signals.panels[1].items.length > 0, 'the calendar derives from dated milestones');
+    assert.ok(sectionById(viewModel, 'continue-working').items.length > 0,
+      'clients with in-progress engagements are resumable');
+    assert.equal(sectionById(viewModel, 'recent-clients').items.length, 0,
+      'a fresh session has no recent clients — nothing is fabricated');
+    assert.equal(sectionById(viewModel, 'pinned-clients').items.length, 0,
+      'no pin exists in Release 1 data, so none is invented');
+    assert.ok(sectionById(viewModel, 'client-groups').items.length > 0,
+      'client groups derive from the recorded industries');
   });
 
-  test('every section descriptor with empty items carries an educating empty state', async function () {
+  test('Home no longer presents engagement summaries, evidence, reports, or activity feeds', async function () {
     const AuditOS = bootHomeSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.homeWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.homeWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, []);
 
-    Array.from(viewModel.sections).forEach(function (section) {
-      if (section.items && section.id !== 'engagement-overview') {
-        assert.ok(section.empty && section.empty.title && section.empty.description,
-          section.id + ' declares an empty state instead of ever faking data');
-      }
-      if (section.panels) {
-        Array.from(section.panels).forEach(function (panel) {
-          assert.ok(panel.empty && panel.empty.title, panel.title + ' panel declares an empty state');
-        });
-      }
+    const sectionIds = Array.from(viewModel.sections).map(function (section) { return section.id; });
+    ['engagement-overview', 'urgent-work', 'assigned-to-me', 'signals'].forEach(function (removed) {
+      assert.ok(sectionIds.indexOf(removed) === -1, removed + ' is no longer a Home section');
+    });
+    assert.ok(viewModel.panels.activity.title, 'the activity panel carries guidance, not a feed');
+    assert.match(viewModel.panels.activity.description, /client/i,
+      'the guidance points to the client level, where activity now lives');
+  });
+
+  test('every client selection routes to the Client Dashboard through the registry', async function () {
+    const AuditOS = bootHomeSandbox();
+    await AuditOS.state.init();
+    const viewModel = AuditOS.homeWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, []);
+
+    const registry = AuditOS.workspaceRegistry;
+    const clientWorkspace = registry.findById(registry.IDS.CLIENT);
+    assert.ok(clientWorkspace, 'the Client Dashboard is a registered workspace');
+
+    const selectable = Array.from(sectionById(viewModel, 'all-clients').items)
+      .concat(Array.from(sectionById(viewModel, 'continue-working').items));
+    assert.ok(selectable.length > 0, 'there is at least one selectable client');
+    selectable.forEach(function (item) {
+      assert.equal(item.workspaceId, registry.IDS.CLIENT, 'every selection opens the Client Dashboard');
+      assert.ok(item.recordId, 'every selection carries the stable client record id (Issue #31)');
     });
   });
 
-  test('universal panels, ribbon, and quick actions derive from state and registry', async function () {
+  test('the session-only Recent Clients list projects real navigation, never persistence', async function () {
     const AuditOS = bootHomeSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.homeWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const companies = AuditOS.state.listRecords('companies');
+    const derive = AuditOS.homeWorkspace.derivations;
 
-    assert.ok(viewModel.panels.activity.length > 0, 'recent activity derives from state records');
-    assert.equal(viewModel.panels.related.length, 7, 'related information carries the engagement facts');
+    let recents = derive.recordRecentClient([], companies[0].id);
+    const viewModel = AuditOS.homeWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, recents);
+    const recentSection = sectionById(viewModel, 'recent-clients');
+    assert.equal(recentSection.items.length, 1, 'an opened client appears in Recent Clients');
+    assert.equal(recentSection.items[0].id, companies[0].id);
+
+    const stale = AuditOS.homeWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, ['CMP-NOT-REAL']);
+    assert.equal(sectionById(stale, 'recent-clients').items.length, 0,
+      'an id that joins no company renders nothing — never a fabricated client');
+  });
+
+  test('universal panels, ribbon, and footer derive from state and registry', async function () {
+    const AuditOS = bootHomeSandbox();
+    await AuditOS.state.init();
+    const viewModel = AuditOS.homeWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, []);
+
+    assert.ok(viewModel.panels.related.length >= 3, 'related information carries the portfolio facts');
     assert.match(viewModel.panels.ai.description, /advisory/, 'the AI surface stays a reserved placeholder');
-    assert.equal(viewModel.ribbon.length, 6, 'the context ribbon carries six instruments');
-
-    assert.equal(viewModel.quickActions.length, 5, 'quick actions resolve from the workspace registry');
-    viewModel.quickActions.forEach(function (action) {
-      assert.ok(AuditOS.workspaceRegistry.findByPath(action.path),
-        action.label + ' routes to a registered workspace path');
-    });
-  });
-
-  test('Home footer values equal independent Shared Audit State reads', async function () {
-    const AuditOS = bootHomeSandbox();
-    await AuditOS.state.init();
-    const viewModel = AuditOS.homeWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    assert.equal(viewModel.ribbon.length, 4, 'the context ribbon carries the four portfolio instruments');
+    assert.match(viewModel.toolbar.search.placeholder, /client/i, 'search targets clients');
 
     const footer = {};
     Array.from(viewModel.footer).forEach(function (entry) { footer[entry.label] = entry.value; });
-
-    const engagementsDocument = AuditOS.state.getDocument('engagements');
-    assert.equal(footer.Version, engagementsDocument.metadata.version,
-      'the footer version comes from the engagement dataset metadata');
+    const companiesDocument = AuditOS.state.getDocument('companies');
+    assert.equal(footer.Version, companiesDocument.metadata.version,
+      'the footer version comes from the client dataset metadata');
     assert.equal(footer['Demo status'], 'Demo data loaded', 'the footer reports the load status');
+    assert.equal(footer.Clients, String(AuditOS.state.listRecords('companies').length),
+      'the footer client count equals an independent state read');
 
     const collectionCount = AuditOS.state.listCollections().length;
     assert.match(footer.Loaded, new RegExp('^' + collectionCount + ' collections'),
       'the footprint counts every registered collection');
-    assert.match(footer.Loaded, /[1-9]\d* records$/, 'the footprint counts loaded records');
-
-    const companies = AuditOS.state.listRecords('companies');
-    const company = companies.filter(function (record) {
-      return record.id === viewModel.engagement.companyId;
-    })[0];
-    assert.equal(footer.Client, company.name, 'the footer client is the state company record');
   });
 
   // ---- Source contracts.
@@ -164,9 +166,16 @@ module.exports = function registerIntegrationTests(harness) {
   });
 
   test('Home carries no hardcoded business values', function () {
-    const businessLiterals = /NimbusCloud|Helix|ENG-00\d|CMP-00\d|POC-0|SOC 2|ISO\/IEC/;
+    const businessLiterals = /Meridian|CMP-MER|ENG-MER|PRG-MER|meridian-|NimbusCloud|Helix|ENG-00\d|CMP-00\d/;
     assert.doesNotMatch(homeJs, businessLiterals, 'home.js embeds no demo business content');
     assert.doesNotMatch(homeHtml, businessLiterals, 'home.html embeds no demo business content');
+  });
+
+  test('Home never reopens the previous client automatically', function () {
+    assert.doesNotMatch(homeJs, /router\.navigate|location\.hash\s*=/,
+      'Home performs no programmatic navigation — selecting a client is always explicit');
+    assert.doesNotMatch(homeJs, /localStorage|sessionStorage/,
+      'the Recent Clients list is memory-only, never persisted');
   });
 
   test('the renderer assembles sections through a generic dispatch, not bespoke assembly', function () {
@@ -190,6 +199,12 @@ module.exports = function registerIntegrationTests(harness) {
       assert.ok(frameworkHtml.indexOf('data-slot="' + slotName + '"') !== -1,
         slotName + ' is a reserved framework slot');
     });
+  });
+
+  test('the search affordance reuses the framework toolbar, never a bespoke field', function () {
+    assert.match(homeJs, /workspaceFramework\.configure/, 'Home configures the framework toolbar');
+    assert.match(homeJs, /toolbar:\s*viewModel\.toolbar|toolbar:\s*\{\s*search/, 'the toolbar carries the search config');
+    assert.doesNotMatch(homeJs, /aos-search-field/, 'Home builds no duplicate search primitive');
   });
 
   test('Home follows the router and the state events, never polling', function () {

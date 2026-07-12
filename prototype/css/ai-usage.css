@@ -1,0 +1,99 @@
+/**
+ * AuditOS AI Usage Workspace
+ * Platform Information Architecture — GitHub Issue #33 (§4 AI Usage) /
+ * Workspace Design System — Chapter 15 / Layout Components — Chapter 75
+ *
+ * The workspace-layer stylesheet of the administrator-only AI Usage
+ * workspace. Architectural in Release 1: the sections are reserved
+ * instruments and honest Empty States, so this stylesheet owns only the
+ * section stack, the reserved-surface rhythm, the restricted-access layout,
+ * and the footer. Every visible surface is a Shared Enterprise Component
+ * Library component (css/components.css); this stylesheet never redefines
+ * component chrome. Consumes only the Design Token Foundation
+ * (variables.css); introduces no new visual values. Entrance motion comes
+ * from the shared design language (design-language.css).
+ *
+ * Every selector in this file is scoped under the `.aos-ai-usage` prefix so
+ * the workspace layer can never leak into the shell, components, or other
+ * workspaces.
+ */
+
+@import 'variables.css';
+
+/* ========================================
+ * SECTION STACK
+ * The workspace reads top-to-bottom: the reserved overview instruments, the
+ * three attribution breakdowns, and the attribution contract.
+ * ======================================== */
+
+.aos-ai-usage {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-8);
+  min-width: 0;
+}
+
+.aos-ai-usage__section {
+  min-width: 0;
+}
+
+.aos-ai-usage__overview,
+.aos-ai-usage__attribution {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
+}
+
+/* ========================================
+ * RESTRICTED ACCESS
+ * The standard access explanation for sessions without the administrator
+ * capability: the educating Empty State with the shared Permission Notice
+ * beneath it for hover / focus detail.
+ * ======================================== */
+
+.aos-ai-usage__restricted {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--aos-space-4);
+  padding: var(--aos-space-6) 0;
+}
+
+/* ========================================
+ * WORKSPACE FOOTER ITEMS
+ * Environment, demo status, and telemetry status, divided by hairline rules.
+ * ======================================== */
+
+.aos-ai-usage-footer__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  white-space: nowrap;
+}
+
+.aos-ai-usage-footer__item:not(:first-child) {
+  padding-left: var(--aos-space-4);
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+.aos-ai-usage-footer__label {
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-ai-usage-footer__value {
+  color: var(--aos-text-secondary);
+}
+
+/* ========================================
+ * RESPONSIVE ARCHITECTURE
+ * The shell breakpoints tighten the section rhythm on tablets.
+ * ======================================== */
+
+@media (max-width: 1024px) {
+  .aos-ai-usage {
+    gap: var(--aos-space-6);
+  }
+}
