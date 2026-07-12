@@ -92,6 +92,166 @@
 }
 
 /* ========================================
+ * REQUIREMENTS & EVIDENCE — KPI STRIP, GRAPHS, FILTERS, DENSE TABLE
+ * (Issue #37 Part 7.) The modern enterprise layout: KPI tiles and progress
+ * meters on top, filters, then the dense requirement-first table. Detail
+ * opens in the shared right-side drawer, never a modal.
+ * ======================================== */
+
+.aos-requirements__overview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
+}
+
+.aos-requirements__kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+  gap: var(--aos-space-3);
+}
+
+.aos-requirements__kpi {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  padding: var(--aos-space-3) var(--aos-space-4);
+  background-color: var(--aos-surface-panel);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+}
+
+.aos-requirements__kpi-value {
+  font-size: var(--aos-text-xl);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-requirements__kpi-label {
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-secondary);
+}
+
+.aos-requirements__kpi--success { border-left: 3px solid var(--aos-color-success-700); }
+.aos-requirements__kpi--warning { border-left: 3px solid var(--aos-color-warning-700); }
+.aos-requirements__kpi--error { border-left: 3px solid var(--aos-color-error-700); }
+.aos-requirements__kpi--info { border-left: 3px solid var(--aos-color-primary-500); }
+
+.aos-requirements__graphs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--aos-space-4);
+  padding: var(--aos-space-3) var(--aos-space-4);
+  background-color: var(--aos-surface-panel);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+}
+
+.aos-requirements__table {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-3);
+  min-width: 0;
+}
+
+.aos-requirements__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-3);
+}
+
+.aos-requirements__filter {
+  display: flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+}
+
+.aos-requirements__filter-label {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-secondary);
+}
+
+.aos-requirements__grid-mount {
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.aos-requirements__table-title {
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  text-align: left;
+  color: var(--aos-text-link);
+  cursor: pointer;
+}
+
+.aos-requirements__table-title:hover {
+  color: var(--aos-text-link-hover);
+  text-decoration: underline;
+}
+
+.aos-requirements__table-title:focus-visible {
+  outline: none;
+  box-shadow: var(--aos-focus-ring);
+  border-radius: var(--aos-radius-sm);
+}
+
+/* ========================================
+ * EVIDENCE STATUS WORKFLOW (Issue #37 Part 8)
+ * Rendered inside the shared drawer beneath the inspector sections:
+ * per-evidence propose-change controls, pending proposals with their
+ * lifecycle actions, recent history, and the on-demand complete lineage.
+ * ======================================== */
+
+.aos-requirements__workflow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-3);
+}
+
+.aos-requirements__workflow-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+}
+
+.aos-requirements__workflow-card-title {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+  overflow-wrap: anywhere;
+}
+
+.aos-requirements__workflow-card-meta {
+  margin: var(--aos-space-1) 0 0;
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-secondary);
+}
+
+.aos-requirements__workflow-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--aos-space-2);
+  margin-top: var(--aos-space-2);
+}
+
+.aos-requirements__workflow-subtitle {
+  margin: var(--aos-space-2) 0 0;
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-requirements__workflow-lineage:empty {
+  display: none;
+}
+
+/* ========================================
  * REQUIREMENTS QUEUE — VIEW SWITCHER
  * A chip group above the queue master rail. Choosing a view regroups the same
  * rows; presentation-only, memory-only — the underlying dataset never changes.

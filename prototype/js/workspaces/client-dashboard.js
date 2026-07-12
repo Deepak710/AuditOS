@@ -286,22 +286,6 @@
     return requirement ? requirementOwnership(requirement) : { teamId: '', pocId: '' };
   }
 
-  /** Groups records by the named field of their resolved ownership, dropping records with no owner. */
-  function bucketByOwnerKey(records, resolveOwner, keyField) {
-    var buckets = {};
-    asArray(records).forEach(function (record) {
-      var key = resolveOwner(record)[keyField];
-      if (!key) {
-        return;
-      }
-      if (!buckets[key]) {
-        buckets[key] = [];
-      }
-      buckets[key].push(record);
-    });
-    return buckets;
-  }
-
   /**
    * Evidence progress, derived live from the evidence records' own review
    * statuses — never a stored summary.
@@ -511,93 +495,6 @@
   }
 
   /**
-   * Team Analytics (Issue #35 §5): every client team with at least one owned
-   * record, ranked busiest first, each carrying its own live Requirements /
-   * Evidence / Testing / Pending approvals / Open findings / completion %.
-   * Findings are always zero in this dataset (no finding carries a team
-   * join) — a real, faithful fact, not an omission.
-   */
-  function deriveTeamAnalytics(teams, requirements, evidence, tests, requests, requirementsById, controlsById) {
-    var requirementBuckets = bucketByOwnerKey(requirements, requirementOwnership, 'teamId');
-    var evidenceBuckets = bucketByOwnerKey(evidence, function (item) { return evidenceOwnership(item, requirementsById); }, 'teamId');
-    var testingBuckets = bucketByOwnerKey(tests, function (item) { return testOwnership(item, controlsById, requirementsById); }, 'teamId');
-    var requestBuckets = bucketByOwnerKey(requests, requestOwnership, 'teamId');
-
-    return asArray(teams).map(function (team) {
-      var requirementRows = requirementBuckets[team.id] || [];
-      var evidenceRows = evidenceBuckets[team.id] || [];
-      var testingRows = testingBuckets[team.id] || [];
-      var requestRows = requestBuckets[team.id] || [];
-      var requirementsSummary = deriveRequirementCompletion(requirementRows);
-      var evidenceSummary = deriveEvidenceProgress(evidenceRows);
-      var testingSummary = deriveTestingCompletion(testingRows);
-      var approvalsSummary = deriveApprovalSummary(evidenceRows, requestRows);
-      var applicableUnits = (requirementsSummary.total - requirementsSummary.notApplicable) +
-        evidenceSummary.total + (testingSummary.total - testingSummary.notApplicable);
-      var doneUnits = requirementsSummary.complete + evidenceSummary.complete + testingSummary.completed;
-      return {
-        team: team,
-        requirements: requirementsSummary,
-        evidence: evidenceSummary,
-        testing: testingSummary,
-        approvals: approvalsSummary,
-        findings: { total: 0, open: 0 },
-        completionPct: applicableUnits > 0 ? Math.round((doneUnits / applicableUnits) * 100) : null
-      };
-    }).filter(function (entry) {
-      return entry.requirements.total > 0 || entry.evidence.total > 0 || entry.testing.total > 0;
-    }).sort(function (a, b) {
-      return (b.requirements.total + b.evidence.total) - (a.requirements.total + a.evidence.total);
-    });
-  }
-
-  /**
-   * POC Analytics (Issue #35 §6): every POC who owns at least one record for
-   * the selected team, each with the same live metrics scoped to just that
-   * POC, plus the id of the one engagement its first contributing
-   * requirement (or, absent one, evidence/testing record) actually belongs
-   * to — the real, traceable engagement a "walkthrough" click opens, never
-   * an arbitrary pick.
-   */
-  function derivePocAnalytics(teamId, requirements, evidence, tests, requests, requirementsById, controlsById, pocsById) {
-    var teamRequirements = asArray(requirements).filter(function (r) { return requirementOwnership(r).teamId === teamId; });
-    var teamEvidence = asArray(evidence).filter(function (item) { return evidenceOwnership(item, requirementsById).teamId === teamId; });
-    var teamTests = asArray(tests).filter(function (item) { return testOwnership(item, controlsById, requirementsById).teamId === teamId; });
-    var teamRequests = asArray(requests).filter(function (r) { return requestOwnership(r).teamId === teamId; });
-
-    var requirementBuckets = bucketByOwnerKey(teamRequirements, requirementOwnership, 'pocId');
-    var evidenceBuckets = bucketByOwnerKey(teamEvidence, function (item) { return evidenceOwnership(item, requirementsById); }, 'pocId');
-    var testingBuckets = bucketByOwnerKey(teamTests, function (item) { return testOwnership(item, controlsById, requirementsById); }, 'pocId');
-    var requestBuckets = bucketByOwnerKey(teamRequests, requestOwnership, 'pocId');
-
-    var pocIds = {};
-    [requirementBuckets, evidenceBuckets, testingBuckets].forEach(function (buckets) {
-      Object.keys(buckets).forEach(function (id) { pocIds[id] = true; });
-    });
-
-    return Object.keys(pocIds).map(function (pocId) {
-      var poc = pocsById[pocId];
-      if (!poc) {
-        return null;
-      }
-      var requirementRows = requirementBuckets[pocId] || [];
-      var evidenceRows = evidenceBuckets[pocId] || [];
-      var testingRows = testingBuckets[pocId] || [];
-      var requestRows = requestBuckets[pocId] || [];
-      var primarySource = requirementRows[0] || evidenceRows[0] || testingRows[0] || null;
-      return {
-        poc: poc,
-        requirements: deriveRequirementCompletion(requirementRows),
-        evidence: deriveEvidenceProgress(evidenceRows),
-        testing: deriveTestingCompletion(testingRows),
-        approvals: deriveApprovalSummary(evidenceRows, requestRows),
-        findings: { total: 0, open: 0 },
-        primaryEngagementId: primarySource ? primarySource._engagementId || '' : ''
-      };
-    }).filter(Boolean).sort(function (a, b) { return b.requirements.total - a.requirements.total; });
-  }
-
-  /**
    * Portfolio Health (§2): navigable operational indicators aggregated live
    * from the operational engagements only — completed engagements contribute
    * to none of them.
@@ -649,21 +546,6 @@
         path: pathFor(ids.APPROVALS)
       }
     ];
-  }
-
-  /** Related objects (§12.13): the client-scoped destinations as count-annotated links. */
-  function deriveRelationships(workspaceRegistry, counts) {
-    if (!workspaceRegistry) {
-      return [];
-    }
-    var ids = workspaceRegistry.IDS;
-    var related = [
-      { id: ids.PROGRAM, title: 'Audit programs', meta: String(counts.programs), present: counts.programs > 0 },
-      { id: ids.ENGAGEMENT, title: 'Engagements', meta: String(counts.engagements), present: counts.engagements > 0 },
-      { id: ids.WORKQUEUE, title: 'Work queue', meta: '', present: counts.engagements > 0 },
-      { id: ids.APPROVALS, title: 'Global approvals', meta: String(counts.approvals), present: true }
-    ];
-    return WS.resolveRelationships(workspaceRegistry, related);
   }
 
   /**
@@ -858,9 +740,7 @@
     var programs = state.listRecords('programs').filter(function (program) {
       return program.companyId === company.id;
     });
-    var teams = state.listRecords('teams').filter(function (team) { return team.companyId === company.id; });
     var pocs = state.listRecords('pocs').filter(function (poc) { return poc.companyId === company.id; });
-    var pocsById = indexById(pocs);
     var users = state.listRecords('users');
 
     // Per-engagement operational documents — read only for the operational
@@ -913,11 +793,6 @@
 
     var health = derivePortfolioHealth(counts, evidenceProgress, requirementCompletion,
       testingCompletion, findingsSummary, approvalSummary, workspaceRegistry);
-    var relationships = deriveRelationships(workspaceRegistry, {
-      programs: programs.length,
-      engagements: engagements.length,
-      approvals: approvalSummary.total
-    });
     var activity = deriveActivity(operational, actorNames);
     var metadata = deriveMetadata(company, companiesDocument.metadata, engagements.length);
 
@@ -925,7 +800,6 @@
       return deriveEngagementPortfolio(entry, index, actorNames);
     });
     var portfolioOverview = derivePortfolioOverview(portfolioEntries);
-    var teamAnalytics = deriveTeamAnalytics(teams, allRequirements, allEvidence, allTests, allRequests, requirementsById, controlsById);
     var insights = deriveAiInsights(state.listRecords('ai-portfolio-insights'), company.id);
     var searchIndex = buildClientSearchIndex(state, company, engagements, workspaceRegistry, AuditOS.repository);
 
@@ -988,16 +862,10 @@
       testingCompletion: testingCompletion,
       findingsSummary: findingsSummary,
       approvalSummary: approvalSummary,
-      relationships: relationships,
       activity: activity,
       metadata: metadata,
 
       portfolioOverview: portfolioOverview,
-      teamAnalytics: teamAnalytics,
-      ownership: {
-        requirements: allRequirements, evidence: allEvidence, tests: allTests, requests: allRequests,
-        requirementsById: requirementsById, controlsById: controlsById, pocsById: pocsById
-      },
       insights: insights,
       searchIndex: searchIndex,
 
@@ -1218,121 +1086,6 @@
     return surface;
   }
 
-  // ---- Team → POC Analytics (Issue #35 §5/§6).
-
-  /** Builds one Team Analytics row. */
-  function buildTeamRow(entry) {
-    var row = el('button', 'aos-client__team-row');
-    row.type = 'button';
-    row.setAttribute('aria-pressed', 'false');
-    var head = el('div', 'aos-client__team-row-head');
-    head.appendChild(el('span', 'aos-client__team-row-name', entry.team.name));
-    head.appendChild(el('span', 'aos-client__team-row-completion aos-numeric',
-      entry.completionPct !== null ? entry.completionPct + '%' : '—'));
-    row.appendChild(head);
-    row.appendChild(el('span', 'aos-client__team-row-meta',
-      entry.requirements.total + ' ' + plural(entry.requirements.total, 'requirement') + ' · ' +
-      entry.evidence.total + ' ' + plural(entry.evidence.total, 'evidence item') + ' · ' +
-      entry.approvals.total + ' pending ' + plural(entry.approvals.total, 'approval')));
-    return row;
-  }
-
-  /** Builds the Team Analytics body: hoverable, selectable team rows with a nested POC Analytics drill-down. */
-  function buildTeamAnalyticsBody(viewModel, repository, workspaceRegistry) {
-    var P = presentation();
-    var teamEntries = viewModel.teamAnalytics;
-    if (teamEntries.length === 0) {
-      return P.emptyState({
-        icon: '◇', title: 'No team assignments yet',
-        description: 'Client teams appear here once a requirement, evidence item, or test is assigned to them.'
-      });
-    }
-
-    var container = el('div', 'aos-client__teams');
-    var list = el('div', 'aos-client__team-list');
-    list.setAttribute('role', 'list');
-    var pocMount = el('div', 'aos-client__poc-mount');
-    var tooltip = buildInfoTooltip();
-    var selectedTeamId = null;
-    var rows = [];
-
-    function renderPocs() {
-      pocMount.replaceChildren();
-      if (!selectedTeamId) {
-        return;
-      }
-      var teamEntry = teamEntries.filter(function (entry) { return entry.team.id === selectedTeamId; })[0];
-      if (!teamEntry) {
-        return;
-      }
-      var ownership = viewModel.ownership;
-      var pocEntries = derivePocAnalytics(selectedTeamId, ownership.requirements, ownership.evidence,
-        ownership.tests, ownership.requests, ownership.requirementsById, ownership.controlsById, ownership.pocsById);
-
-      pocMount.appendChild(el('h3', 'aos-client__poc-heading', teamEntry.team.name + ' — POCs'));
-      if (pocEntries.length === 0) {
-        pocMount.appendChild(P.emptyState({
-          icon: '◇', title: 'No POCs recorded for this team',
-          description: 'A POC appears here once it owns a requirement, evidence item, or test for this team.'
-        }));
-        return;
-      }
-
-      var pocList = el('div', 'aos-client__poc-list');
-      pocList.setAttribute('role', 'list');
-      pocEntries.forEach(function (pocEntry) {
-        var engagement = viewModel.engagementsById[pocEntry.primaryEngagementId];
-        var href = engagement
-          ? WS.buildHierarchicalHref(repository, workspaceRegistry, viewModel.company, engagement, workspaceRegistry.IDS.WALKTHROUGH)
-          : null;
-        var node = el(href ? 'a' : 'div', 'aos-client__poc-row');
-        node.setAttribute('role', 'listitem');
-        if (href) {
-          node.setAttribute('href', href);
-        }
-        node.appendChild(el('span', 'aos-client__poc-row-name', pocEntry.poc.name));
-        node.appendChild(el('span', 'aos-client__poc-row-meta aos-numeric',
-          pocEntry.requirements.complete + ' / ' + (pocEntry.requirements.complete + pocEntry.requirements.pending)));
-        wireTooltip(node, tooltip, container, pocEntry.poc.name, [
-          ['Requirements', pocEntry.requirements.complete + ' / ' + (pocEntry.requirements.complete + pocEntry.requirements.pending)],
-          ['Evidence', pocEntry.evidence.complete + ' / ' + pocEntry.evidence.total],
-          ['Testing', pocEntry.testing.completed + ' / ' + (pocEntry.testing.completed + pocEntry.testing.pending)],
-          ['Pending approvals', String(pocEntry.approvals.total)],
-          ['Open findings', String(pocEntry.findings.open)]
-        ]);
-        pocList.appendChild(node);
-      });
-      pocMount.appendChild(pocList);
-    }
-
-    teamEntries.forEach(function (entry) {
-      var row = buildTeamRow(entry);
-      row.addEventListener('click', function () {
-        selectedTeamId = selectedTeamId === entry.team.id ? null : entry.team.id;
-        rows.forEach(function (rowEntry) {
-          var selected = rowEntry.entry.team.id === selectedTeamId;
-          rowEntry.node.classList.toggle('aos-client__team-row--selected', selected);
-          rowEntry.node.setAttribute('aria-pressed', selected ? 'true' : 'false');
-        });
-        renderPocs();
-      });
-      wireTooltip(row, tooltip, container, entry.team.name, [
-        ['Requirements', entry.requirements.complete + ' / ' + (entry.requirements.complete + entry.requirements.pending)],
-        ['Evidence', entry.evidence.complete + ' / ' + entry.evidence.total],
-        ['Testing', entry.testing.completed + ' / ' + (entry.testing.completed + entry.testing.pending)],
-        ['Pending approvals', String(entry.approvals.total)],
-        ['Open findings', String(entry.findings.open)]
-      ]);
-      rows.push({ entry: entry, node: row });
-      list.appendChild(row);
-    });
-
-    container.appendChild(list);
-    container.appendChild(pocMount);
-    container.appendChild(tooltip);
-    return container;
-  }
-
   /**
    * Builds an engagement card grid. Active engagements link into the
    * Engagement workspace via stable record routes (Issue #31); completed
@@ -1394,13 +1147,6 @@
     });
   }
 
-  /** Builds the Related information panel body: related client-scoped objects with navigation. */
-  function buildRelatedBody(relationships) {
-    return WS.buildRelatedBody(relationships, {
-      icon: '◇', title: 'No related objects', description: 'Related client objects appear here once the client has data.'
-    });
-  }
-
   /** Builds a run of labeled value items for the workspace footer. */
   function buildFooterItems(entries) {
     return WS.buildFooterItems('aos-client', entries);
@@ -1440,12 +1186,6 @@
         render: function () { return buildPortfolioOverviewBody(viewModel, filteredPortfolio, repository, workspaceRegistry); }
       },
       {
-        id: 'team-analytics', region: 'content', enabled: true,
-        kicker: 'People', title: 'Team analytics',
-        description: 'Hover a team for its live metrics; select one to drill into its POCs.',
-        render: function () { return buildTeamAnalyticsBody(viewModel, repository, workspaceRegistry); }
-      },
-      {
         id: 'engagement-portfolio', region: 'content', enabled: true,
         kicker: 'Operational', title: 'Engagement portfolio',
         description: 'Each engagement opens its own operational workspace.',
@@ -1471,10 +1211,6 @@
       {
         id: 'activity', region: 'activity', enabled: true,
         render: function () { return buildActivityBody(viewModel.activity); }
-      },
-      {
-        id: 'related', region: 'related', enabled: true,
-        render: function () { return buildRelatedBody(viewModel.relationships); }
       }
     ];
   }
@@ -1618,11 +1354,16 @@
     });
     fillSlot(view, SLOTS.CONTENT, [canvas]);
 
-    modules.filter(function (module) { return module.region === 'related' && module.enabled !== false; }).forEach(function (module) {
+    // Issue #37 Part 1: the Client Workspace registers no related-region
+    // module; filling the slot with the (empty) mapped list clears any
+    // loading placeholder instead of leaving it behind.
+    fillSlot(view, SLOTS.RELATED, modules.filter(function (module) {
+      return module.region === 'related' && module.enabled !== false;
+    }).map(function (module) {
       var node = module.render();
       node.classList.add('aos-fade-in');
-      fillSlot(view, SLOTS.RELATED, [node]);
-    });
+      return node;
+    }));
     modules.filter(function (module) { return module.region === 'ai' && module.enabled !== false; }).forEach(function (module) {
       var node = module.render();
       node.classList.add('aos-tint-brand', 'aos-fade-in');
@@ -1646,7 +1387,6 @@
   function renderLoading(view) {
     var P = presentation();
     fillSlot(view, SLOTS.CONTENT, [P.loadingState({ variant: 'detail', label: 'Loading client' })]);
-    fillSlot(view, SLOTS.RELATED, [P.loadingState({ variant: 'list', label: 'Loading related information' })]);
     fillSlot(view, SLOTS.AI, [P.loadingState({ variant: 'list', label: 'Loading AI advisory' })]);
     fillSlot(view, SLOTS.ACTIVITY, [P.loadingState({ variant: 'list', label: 'Loading activity' })]);
   }
@@ -1724,10 +1464,7 @@
       deriveBlockedCount: deriveBlockedCount,
       deriveEngagementPortfolio: deriveEngagementPortfolio,
       derivePortfolioOverview: derivePortfolioOverview,
-      deriveTeamAnalytics: deriveTeamAnalytics,
-      derivePocAnalytics: derivePocAnalytics,
       derivePortfolioHealth: derivePortfolioHealth,
-      deriveRelationships: deriveRelationships,
       deriveActivity: deriveActivity,
       deriveMetadata: deriveMetadata,
       deriveAiInsights: deriveAiInsights

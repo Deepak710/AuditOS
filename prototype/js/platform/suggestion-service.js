@@ -152,6 +152,60 @@
   }
 
   /**
+   * Records a human-proposed change as a new Suggestion (Issue #37 Part 8):
+   * production state is never edited directly — the proposal enters the
+   * same Suggested → Reviewed → Approved → Applied lifecycle as an AI
+   * suggestion, optionally carrying the concrete Repository write to
+   * perform on Apply (`applyTarget: { entity, recordId, changes }`).
+   * Creating the record is itself an audited Repository write. Returns the
+   * stored suggestion, or null when the engagement has no suggestions
+   * dataset to hold it.
+   */
+  function propose(repository, engagementId, proposal) {
+    if (!repository || !engagementId || !proposal || !proposal.title) {
+      return null;
+    }
+    var datasetId = resolveDatasetId(repository, engagementId);
+    if (!datasetId) {
+      return null;
+    }
+    var auditService = AuditOS.auditService;
+    var record = {
+      id: 'SUG-' + engagementId + '-' + Date.now(),
+      engagementId: engagementId,
+      teamId: proposal.teamId || '',
+      title: proposal.title,
+      description: proposal.description || '',
+      category: proposal.category || 'change-proposal',
+      status: STATUS.SUGGESTED,
+      confidence: null,
+      suggestedBy: sessionLabel() || 'User',
+      suggestedOn: todayIso(),
+      reviewedByLabel: '',
+      reviewedOn: '',
+      approvedByLabel: '',
+      approvedOn: '',
+      appliedByLabel: '',
+      appliedOn: '',
+      comments: [],
+      recommendations: asArray(proposal.recommendations),
+      affectedRequirements: asArray(proposal.affectedRequirements),
+      affectedControls: asArray(proposal.affectedControls),
+      affectedReportSections: [],
+      auditReferences: asArray(proposal.auditReferences),
+      applyTarget: proposal.applyTarget || null
+    };
+    return repository.suggestions.create(record, {
+      datasetId: datasetId,
+      action: 'suggestion-proposed',
+      reason: proposal.description || proposal.title,
+      engagementId: engagementId,
+      workspaceId: proposal.workspaceId || 'requirements',
+      correlationId: auditService ? auditService.newCorrelationId() : null
+    });
+  }
+
+  /**
    * Records a decision — approve, reject, modify, or apply — gated by the
    * `suggestions.decide` capability (Issue #36 §9). Callers check
    * `AuditOS.permissions.explainDenial(DECIDE_CAPABILITY)` before invoking
@@ -188,6 +242,26 @@
       correlationId: correlationId
     });
 
+    // A human-proposed change (Issue #37 Part 8) carries the concrete write
+    // to perform once Applied — the only place production state changes,
+    // under the same correlation id as the lifecycle transition so the
+    // audit chain reads Genesis → decision → applied state.
+    if (decisionId === 'apply' && updated && suggestion.applyTarget && suggestion.applyTarget.entity) {
+      var target = suggestion.applyTarget;
+      var entityRepository = repository[target.entity];
+      if (entityRepository && target.recordId && target.changes) {
+        var targetDatasets = entityRepository.datasetsForEngagement(engagementId);
+        entityRepository.update(target.recordId, target.changes, {
+          datasetId: targetDatasets.length > 0 ? targetDatasets[0] : null,
+          action: 'suggestion-apply',
+          reason: 'Applied suggestion: ' + suggestion.title,
+          engagementId: engagementId,
+          workspaceId: 'requirements',
+          correlationId: correlationId
+        });
+      }
+    }
+
     if (decisionId === 'apply' && updated && AuditOS.synchronizationBus) {
       AuditOS.synchronizationBus.propagate(AuditOS.synchronizationBus.EVENT_TYPES.WALKTHROUGH_UPDATED, {
         engagementId: engagementId,
@@ -208,6 +282,7 @@
     listPending: listPending,
     comment: comment,
     review: review,
+    propose: propose,
     decide: decide
   };
 })(window);

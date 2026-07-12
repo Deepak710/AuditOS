@@ -116,6 +116,23 @@
     return engagements[0];
   }
 
+  /**
+   * The engagement the active route names (Issue #37 Phase 0). When
+   * `routeContext` (the object `router.getCurrentContext()` returns) carries
+   * a hierarchical engagement, that exact record is returned — matched by id
+   * against the live records so the workspace never reads a stale route
+   * snapshot. On flat routes (no context) this falls back to
+   * `deriveCurrentEngagement`, preserving the persistent-context behavior
+   * every workspace has always had outside an engagement scope. This is the
+   * one shared place hierarchical engagement selection happens; workspaces
+   * must not re-derive it locally.
+   */
+  function resolveContextEngagement(engagements, routeContext) {
+    var targetId = routeContext && routeContext.engagement ? routeContext.engagement.id : null;
+    var requested = targetId ? findById(engagements, targetId) : null;
+    return requested || deriveCurrentEngagement(engagements);
+  }
+
   /** Resolves a record's name field from an id map, falling back to the raw id (join-or-raw). */
   function resolveName(map, id, field) {
     var record = id && map ? map[id] : null;
@@ -646,6 +663,7 @@
     formatPeriod: formatPeriod,
     normalizeFrameworks: normalizeFrameworks,
     deriveCurrentEngagement: deriveCurrentEngagement,
+    resolveContextEngagement: resolveContextEngagement,
     resolveName: resolveName,
     buildRecordHref: buildRecordHref,
     buildHierarchicalHref: buildHierarchicalHref,

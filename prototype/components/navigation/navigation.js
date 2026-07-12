@@ -247,7 +247,7 @@
    */
   var ENGAGEMENT_NAV_ITEMS = [
     { id: registry.IDS.WALKTHROUGH, label: 'Walkthrough' },
-    { id: registry.IDS.REQUIREMENTS, label: 'Requirements' },
+    { id: registry.IDS.REQUIREMENTS, label: 'Requirements & Evidence' },
     { id: registry.IDS.CONTROLS, label: 'Controls & Documentation' },
     { id: registry.IDS.REPORTING, label: 'Report' }
   ];

@@ -633,6 +633,149 @@
   }
 
   // ------------------------------------------------------------------
+  // Team summary / POC operational derivations (Issue #37 Parts 5/6) —
+  // pure, no DOM. The Team Workspace is an operational summary; every
+  // number below is counted from the record's own arrays, never stored.
+  // ------------------------------------------------------------------
+
+  /** Sessions not yet completed, oldest first — the walkthroughs still ahead of this Team. */
+  function derivePendingWalkthroughs(sessions) {
+    return asArray(sessions).filter(function (session) {
+      return session.status !== SESSION_STATUS.COMPLETED;
+    }).sort(function (a, b) {
+      return String(a.date || '').localeCompare(String(b.date || ''));
+    });
+  }
+
+  /** The Team's at-a-glance progress meters: sessions, evidence, suggestions — real counts only. */
+  function deriveTeamProgress(teamDetail) {
+    var sessions = asArray(teamDetail.sessions);
+    var completed = sessions.length - derivePendingWalkthroughs(sessions).length;
+    var demonstrated = asArray(teamDetail.evidenceDemonstrated).length;
+    var expected = asArray(teamDetail.evidenceExpected).length;
+    var suggestions = asArray(teamDetail.suggestions);
+    var applied = suggestions.filter(function (s) { return s.status === 'Applied'; }).length;
+    return [
+      { label: 'Walkthrough sessions', value: completed, total: sessions.length },
+      { label: 'Evidence demonstrated', value: demonstrated, total: expected + demonstrated },
+      { label: 'Suggestions applied', value: applied, total: suggestions.length }
+    ];
+  }
+
+  /** Splits the Team's suggestions into awaiting-review (Suggested) and awaiting-approval/apply (Reviewed/Approved). */
+  function splitSuggestionLifecycle(suggestions) {
+    var pendingSuggestions = [];
+    var pendingApprovals = [];
+    asArray(suggestions).forEach(function (suggestion) {
+      if (suggestion.status === 'Suggested') {
+        pendingSuggestions.push(suggestion);
+      } else if (suggestion.status === 'Reviewed' || suggestion.status === 'Approved') {
+        pendingApprovals.push(suggestion);
+      }
+    });
+    return { pendingSuggestions: pendingSuggestions, pendingApprovals: pendingApprovals };
+  }
+
+  /** POC card grouping order (Issue #37 Part 5) — Completed renders collapsed, last. */
+  var POC_CARD_GROUPS = [
+    'Blocked', 'Pending walkthrough', 'Pending evidence',
+    'Pending approvals', 'Recently active', 'Completed'
+  ];
+
+  /**
+   * One card per POC on the Team, classified into the Part 5 priority
+   * groups from real record joins only: the POC's own status, the sessions
+   * it genuinely participates in, and — for the main POC — the Team-level
+   * evidence and approval workload it is accountable for. Groups the data
+   * cannot substantiate simply stay empty; nothing is fabricated.
+   */
+  function derivePocCards(teamDetail) {
+    var sessions = asArray(teamDetail.sessions);
+    var lifecycle = splitSuggestionLifecycle(teamDetail.suggestions);
+    return asArray(teamDetail.pocs).map(function (poc) {
+      var participated = sessions.filter(function (session) {
+        return asArray(session.participants).indexOf(poc.id) !== -1;
+      });
+      var scheduled = participated.filter(function (session) { return session.status !== SESSION_STATUS.COMPLETED; });
+      var completed = participated.filter(function (session) { return session.status === SESSION_STATUS.COMPLETED; });
+      var lastCompletedDate = completed.reduce(function (latest, session) {
+        return String(session.date || '') > latest ? String(session.date || '') : latest;
+      }, '');
+      var isMain = Boolean(teamDetail.mainPoc && teamDetail.mainPoc.id === poc.id);
+      var isEscalation = Boolean(teamDetail.escalationPoc && teamDetail.escalationPoc.id === poc.id);
+
+      var group;
+      if (poc.status === 'Blocked') {
+        group = 'Blocked';
+      } else if (poc.status === 'Completed' || poc.status === 'Complete') {
+        group = 'Completed';
+      } else if (scheduled.length > 0) {
+        group = 'Pending walkthrough';
+      } else if (isMain && asArray(teamDetail.evidenceExpected).length > 0) {
+        group = 'Pending evidence';
+      } else if (isMain && lifecycle.pendingApprovals.length > 0) {
+        group = 'Pending approvals';
+      } else {
+        group = 'Recently active';
+      }
+
+      return {
+        poc: poc, group: group, isMain: isMain, isEscalation: isEscalation,
+        sessionCount: participated.length,
+        lastActivity: lastCompletedDate,
+        nextSession: scheduled.length > 0 ? scheduled[0] : null
+      };
+    }).sort(function (a, b) {
+      var byGroup = POC_CARD_GROUPS.indexOf(a.group) - POC_CARD_GROUPS.indexOf(b.group);
+      if (byGroup !== 0) {
+        return byGroup;
+      }
+      return String(b.lastActivity).localeCompare(String(a.lastActivity));
+    });
+  }
+
+  /**
+   * The Team's recent operational trail, merged newest-first from the
+   * record's own dated entries — comments, ingestion notes and uploads,
+   * and sessions. Rendered on the POC Workspace (Issue #37 Part 6).
+   */
+  function deriveTeamRecentActivity(teamDetail) {
+    var events = [];
+    asArray(teamDetail.comments).forEach(function (comment) {
+      events.push({
+        title: comment.text,
+        meta: 'Comment · ' + [comment.author, formatDate(comment.on)].filter(Boolean).join(' · '),
+        date: comment.on || ''
+      });
+    });
+    var ingestion = teamDetail.ingestion || {};
+    asArray(ingestion.notes).forEach(function (note) {
+      events.push({
+        title: note.text,
+        meta: 'Note · ' + [note.author, formatDate(note.on)].filter(Boolean).join(' · '),
+        date: note.on || ''
+      });
+    });
+    asArray(ingestion.evidenceUploads).forEach(function (upload) {
+      events.push({
+        title: upload.title,
+        meta: 'Evidence upload · ' + [upload.reference, formatDate(upload.on)].filter(Boolean).join(' · '),
+        date: upload.on || ''
+      });
+    });
+    asArray(teamDetail.sessions).forEach(function (session) {
+      events.push({
+        title: session.title,
+        meta: [(session.status || 'Session'), formatDate(session.date), session.time].filter(Boolean).join(' · '),
+        date: session.date || ''
+      });
+    });
+    return events.sort(function (a, b) {
+      return String(b.date).localeCompare(String(a.date));
+    }).slice(0, LIST_LIMIT);
+  }
+
+  // ------------------------------------------------------------------
   // View model — the single place this workspace reads AuditOS.state.
   // ------------------------------------------------------------------
 
@@ -657,7 +800,10 @@
 
     var status = state.getStatus();
     var engagements = state.listRecords('engagements');
-    var engagement = deriveCurrentEngagement(engagements);
+    // Issue #37 Phase 0: honor the engagement the hierarchical route names —
+    // never silently substitute the first in-progress engagement when the
+    // URL already says which engagement this walkthrough belongs to.
+    var engagement = WS.resolveContextEngagement(engagements, routeContext);
     if (!engagement) {
       return { degraded: true, status: status };
     }
@@ -1216,32 +1362,111 @@
     return surface;
   }
 
-  /** Builds the Team's POC roster body: one Entity Card per POC, linking to its detail. */
-  function buildTeamRosterBody(team, hrefOf) {
+  /** Builds the at-a-glance progress meters (Issue #37 Part 5) — every value reads as text beside the bar. */
+  function buildTeamProgressBody(teamDetail) {
     var P = presentation();
-    var grid = el('div', 'aos-walkthrough__pocs');
-    asArray(team.pocs).forEach(function (poc) {
+    var wrap = el('div', 'aos-surface aos-surface--padded aos-walkthrough__progress');
+    deriveTeamProgress(teamDetail).forEach(function (meter) {
+      wrap.appendChild(P.progressMeter(meter));
+    });
+    return wrap;
+  }
+
+  /** Builds a compact, read-only suggestion summary — lifecycle actions live on the POC Workspace (Issue #37 Part 6). */
+  function buildSuggestionSummaryBody(suggestions) {
+    var P = presentation();
+    return P.itemList(asArray(suggestions).map(function (suggestion) {
+      return { title: suggestion.title, meta: suggestion.status, tone: resolveSuggestionTone(suggestion.status) };
+    }), { compact: true });
+  }
+
+  /** Builds the pending walkthroughs list: the sessions still ahead, oldest first. */
+  function buildPendingWalkthroughsBody(sessions) {
+    var P = presentation();
+    return P.itemList(asArray(sessions).map(function (session) {
+      return {
+        title: session.title,
+        meta: [session.type, formatDate(session.date), session.time].filter(Boolean).join(' · '),
+        tone: TONES.WARNING
+      };
+    }), { compact: true });
+  }
+
+  /** Builds the upcoming walkthroughs body: the next scheduled session plus the recorded recurring cadence. */
+  function buildUpcomingWalkthroughsBody(teamDetail) {
+    var P = presentation();
+    var surface = el('div', 'aos-surface aos-surface--padded');
+    surface.appendChild(P.propertyGrid([
+      { label: 'Next session', value: teamDetail.nextSessionLabel || 'Not scheduled' },
+      {
+        label: 'Recurring', value: teamDetail.scheduling.recurringEnabled
+          ? [teamDetail.scheduling.cadence, teamDetail.scheduling.dayOfWeek, teamDetail.scheduling.time].filter(Boolean).join(' · ')
+          : 'Not recurring'
+      }
+    ], { columns: 2 }));
+    return surface;
+  }
+
+  /**
+   * Builds the grouped POC cards (Issue #37 Part 5): the priority groups in
+   * order — Blocked, Pending walkthrough, Pending evidence, Pending
+   * approvals, Recently active — with Completed collapsed last. Every card
+   * links into the dedicated POC Workspace; nothing expands inline.
+   */
+  function buildPocCardsBody(teamDetail, hrefOf) {
+    var P = presentation();
+    var wrap = el('div', 'aos-walkthrough__poc-groups');
+    var cards = derivePocCards(teamDetail);
+
+    function cardNode(entry) {
       var badges = [];
-      if (team.mainPoc && team.mainPoc.id === poc.id) { badges.push('Main'); }
-      if (team.escalationPoc && team.escalationPoc.id === poc.id) { badges.push('Escalation'); }
+      if (entry.isMain) { badges.push('Main'); }
+      if (entry.isEscalation) { badges.push('Escalation'); }
+      var tone = entry.group === 'Blocked' ? TONES.ERROR
+        : entry.group === 'Completed' ? TONES.SUCCESS
+          : entry.group === 'Recently active' ? TONES.INFO : TONES.WARNING;
       var card = P.entityCard({
-        title: poc.name,
+        title: entry.poc.name,
         subtitle: badges.join(' · '),
-        badge: { label: poc.status || 'Active', tone: TONES.INFO },
-        facts: [{ term: 'Role', detail: team.role || '' }]
+        badge: { label: entry.group, tone: tone },
+        facts: [
+          { term: 'Sessions', detail: String(entry.sessionCount) },
+          { term: 'Next session', detail: entry.nextSession ? formatDate(entry.nextSession.date) : 'None scheduled' },
+          { term: 'Last active', detail: entry.lastActivity ? formatDate(entry.lastActivity) : 'No recorded activity' }
+        ]
       });
-      var href = hrefOf ? hrefOf(team.teamId, poc.id) : null;
-      if (href) {
-        var link = el('a', 'aos-walkthrough__poc-link');
-        link.setAttribute('href', href);
-        link.setAttribute('aria-label', 'Open ' + poc.name);
-        link.appendChild(card);
-        grid.appendChild(link);
+      var href = hrefOf ? hrefOf(teamDetail.teamId, entry.poc.id) : null;
+      if (!href) {
+        return card;
+      }
+      var link = el('a', 'aos-walkthrough__poc-link');
+      link.setAttribute('href', href);
+      link.setAttribute('aria-label', 'Open ' + entry.poc.name);
+      link.appendChild(card);
+      return link;
+    }
+
+    POC_CARD_GROUPS.forEach(function (group) {
+      var entries = cards.filter(function (entry) { return entry.group === group; });
+      if (entries.length === 0) {
+        return;
+      }
+      var grid = el('div', 'aos-walkthrough__pocs');
+      entries.forEach(function (entry) { grid.appendChild(cardNode(entry)); });
+      if (group === 'Completed') {
+        var details = el('details', 'aos-walkthrough__poc-group aos-walkthrough__poc-group--completed');
+        var summary = el('summary', 'aos-walkthrough__poc-group-title', group + ' (' + entries.length + ')');
+        details.appendChild(summary);
+        details.appendChild(grid);
+        wrap.appendChild(details);
       } else {
-        grid.appendChild(card);
+        var block = el('div', 'aos-walkthrough__poc-group');
+        block.appendChild(el('p', 'aos-walkthrough__subtitle', group));
+        block.appendChild(grid);
+        wrap.appendChild(block);
       }
     });
-    return grid;
+    return wrap;
   }
 
   /** Builds the Evidence expected / demonstrated body, side by side. */
@@ -1542,7 +1767,7 @@
     return wrap;
   }
 
-  /** Builds the Scheduling section body: recorded configuration, the schedule form, quick status actions, and session history. */
+  /** Builds the Scheduling section body: recorded configuration, the schedule form, and session history. */
   function buildSchedulingBody(team, engagementId) {
     var P = presentation();
     var wrap = el('div', 'aos-walkthrough__scheduling');
@@ -1554,14 +1779,12 @@
           ? [team.scheduling.cadence, team.scheduling.dayOfWeek, team.scheduling.time].filter(Boolean).join(' · ')
           : 'Not recurring'
       },
-      { label: 'Reminder cadence', value: team.scheduling.reminderCadence || 'Not recorded' },
-      { label: 'Escalation cadence', value: team.scheduling.escalationCadence || 'Not recorded' }
-    ], { columns: 3 }));
+      { label: 'Next session', value: team.nextSessionLabel || 'Not scheduled' }
+    ], { columns: 2 }));
     if (team.scheduling.prepChecklist.length > 0) {
       config.appendChild(el('p', 'aos-walkthrough__subtitle', 'Preparation checklist'));
       config.appendChild(P.itemList(team.scheduling.prepChecklist.map(toPlainItem), { compact: true }));
     }
-    config.appendChild(buildStatusActions(team, engagementId));
     wrap.appendChild(config);
 
     wrap.appendChild(buildScheduleForm(team, engagementId));
@@ -1681,16 +1904,97 @@
     return surface;
   }
 
-  /** Builds the POC's session participation body — the real sessions it appears in, never a fabricated count. */
-  function buildPocSessionsBody(sessions) {
+  /**
+   * Builds the Reminders & escalation body (Issue #37 Part 6): the recorded
+   * reminder/escalation state and cadences plus the real Repository-backed
+   * quick actions (moved here from the Team page — the Team Workspace is a
+   * summary only).
+   */
+  function buildRemindersBody(team, engagementId) {
     var P = presentation();
-    return P.itemList(asArray(sessions).map(function (session) {
-      return {
-        title: session.title,
-        meta: [session.type, formatDate(session.date), session.time].filter(Boolean).join(' · '),
-        tone: session.status === 'Completed' ? TONES.SUCCESS : TONES.INFO
-      };
-    }));
+    var wrap = el('div', 'aos-surface aos-surface--padded');
+    wrap.appendChild(P.propertyGrid([
+      { label: 'Reminder status', value: team.reminderStatus },
+      { label: 'Reminder cadence', value: team.scheduling.reminderCadence || 'Not recorded' },
+      { label: 'Escalation status', value: team.escalationStatus },
+      { label: 'Escalation cadence', value: team.scheduling.escalationCadence || 'Not recorded' },
+      { label: 'Escalation POC', value: team.escalationPoc ? team.escalationPoc.name : 'Not recorded' }
+    ], { columns: 2 }));
+    wrap.appendChild(buildStatusActions(team, engagementId));
+    return wrap;
+  }
+
+  /**
+   * Builds the Mail drafting seam (Issue #37 Part 6): compose a subject and
+   * body for this POC and hand off to the local mail client via `mailto:`.
+   * Release 1 sends nothing itself and stores nothing — this is the
+   * integration seam where Release 2's AI-drafted follow-ups will surface.
+   */
+  function buildMailDraftBody(poc) {
+    var P = presentation();
+    var wrap = el('div', 'aos-surface aos-surface--padded aos-walkthrough__mail');
+    wrap.appendChild(P.propertyGrid([
+      { label: 'To', value: poc.name },
+      { label: 'Preferred channel', value: poc.contact || 'Not recorded' }
+    ], { columns: 2 }));
+
+    var subject = el('input', 'aos-walkthrough__field');
+    subject.type = 'text';
+    subject.placeholder = 'Subject';
+    subject.setAttribute('aria-label', 'Mail subject');
+    wrap.appendChild(subject);
+
+    var body = el('textarea', 'aos-walkthrough__field');
+    body.rows = 3;
+    body.placeholder = 'Draft the mail body';
+    body.setAttribute('aria-label', 'Mail body');
+    wrap.appendChild(body);
+
+    var open = P.button({ label: 'Open in mail client', variant: 'subtle' });
+    open.addEventListener('click', function () {
+      global.location.href = 'mailto:?subject=' + encodeURIComponent(subject.value) +
+        '&body=' + encodeURIComponent(body.value);
+    });
+    wrap.appendChild(open);
+    wrap.appendChild(el('p', 'aos-walkthrough__seam-note',
+      'Integration seam — Release 1 hands the draft to your local mail client; AI-drafted follow-ups arrive with the AI foundation.'));
+    return wrap;
+  }
+
+  /** Builds the POC call history: the real sessions this POC participated in, newest first, plus recorded meeting recordings. */
+  function buildCallHistoryBody(poc, teamDetail) {
+    var P = presentation();
+    var wrap = el('div', 'aos-walkthrough__call-history');
+    wrap.appendChild(asArray(poc.sessions).length > 0
+      ? P.itemList(asArray(poc.sessions).slice().sort(function (a, b) {
+        return String(b.date || '').localeCompare(String(a.date || ''));
+      }).map(function (session) {
+        return {
+          title: session.title,
+          meta: [session.type, formatDate(session.date), session.time].filter(Boolean).join(' · '),
+          tone: session.status === 'Completed' ? TONES.SUCCESS : TONES.INFO
+        };
+      }), { compact: true })
+      : P.emptyState({
+        icon: '◇', title: 'No calls recorded yet',
+        description: 'Sessions this POC participated in appear here once they are logged.'
+      }));
+    var recordings = asArray(teamDetail.ingestion.recordingLinks);
+    if (recordings.length > 0) {
+      wrap.appendChild(el('p', 'aos-walkthrough__subtitle', 'Recordings'));
+      wrap.appendChild(P.itemList(recordings.map(function (recording) {
+        return { title: recording.sessionId || 'Recording', meta: recording.url };
+      }), { compact: true }));
+    }
+    return wrap;
+  }
+
+  /** Builds the recent activity body: the Team's merged operational trail, newest first. */
+  function buildRecentActivityBody(teamDetail) {
+    var P = presentation();
+    return P.itemList(deriveTeamRecentActivity(teamDetail).map(function (event) {
+      return { title: event.title, meta: event.meta };
+    }), { compact: true });
   }
 
   // ------------------------------------------------------------------
@@ -1780,24 +2084,86 @@
   }
 
   /**
-   * The Team command center sections (Issue #36 §4–§13): overview with
-   * dual timezone, the POC roster, agenda, evidence, dependencies,
-   * blockers, AI Suggestions, Industry Knowledge, Scheduling, Ingestion,
-   * and Comments.
+   * The Team Workspace sections (Issue #37 Part 5) — an operational summary
+   * only: health, at-a-glance progress, the pending workload, upcoming
+   * walkthroughs, and the prioritized POC cards. Every operational feature
+   * (agenda, scheduling, reminders, ingestion, comments, suggestion
+   * lifecycle, dependencies, industry knowledge) lives on the POC
+   * Workspace (Part 6); nothing here expands inline.
    */
   function teamSections(viewModel) {
+    var team = viewModel.activeTeam;
+    var lifecycle = splitSuggestionLifecycle(team.suggestions);
+    var pendingWalkthroughs = derivePendingWalkthroughs(team.sessions);
+    return [
+      {
+        id: 'overview', kicker: 'Team health', title: team.name,
+        present: true, body: function () { return buildTeamOverviewBody(team); }
+      },
+      {
+        id: 'blockers', kicker: 'At risk', title: 'Blockers',
+        present: team.blockers.length > 0,
+        body: function () { return buildBlockersBody(team.blockers); },
+        empty: { icon: '✓', title: 'Nothing blocking', description: 'Blockers preventing this Team’s walkthrough from progressing appear here.' }
+      },
+      {
+        id: 'progress', kicker: 'At a glance', title: 'Progress',
+        present: true, body: function () { return buildTeamProgressBody(team); }
+      },
+      {
+        id: 'pending-walkthroughs', kicker: 'Pending', title: 'Pending walkthroughs',
+        present: pendingWalkthroughs.length > 0,
+        body: function () { return buildPendingWalkthroughsBody(pendingWalkthroughs); },
+        empty: { icon: '✓', title: 'No pending walkthroughs', description: 'Sessions awaiting completion appear here.' }
+      },
+      {
+        id: 'pending-evidence', kicker: 'Pending', title: 'Pending evidence',
+        present: team.evidenceExpected.length > 0,
+        body: function () { return presentation().itemList(team.evidenceExpected, { compact: true }); },
+        empty: { icon: '✓', title: 'No evidence pending', description: 'Evidence this Team still owes appears here.' }
+      },
+      {
+        id: 'pending-approvals', kicker: 'Pending', title: 'Pending approvals',
+        present: lifecycle.pendingApprovals.length > 0,
+        body: function () { return buildSuggestionSummaryBody(lifecycle.pendingApprovals); },
+        empty: { icon: '✓', title: 'Nothing awaiting approval', description: 'Suggestions reviewed and awaiting an approval decision appear here.' }
+      },
+      {
+        id: 'pending-suggestions', kicker: 'Pending', title: 'Pending AI suggestions',
+        present: lifecycle.pendingSuggestions.length > 0,
+        body: function () { return buildSuggestionSummaryBody(lifecycle.pendingSuggestions); },
+        empty: { icon: '✦', title: 'No suggestions awaiting review', description: 'Newly raised AI Suggestions appear here until they are reviewed.' }
+      },
+      {
+        id: 'upcoming', kicker: 'Schedule', title: 'Upcoming walkthroughs',
+        present: true, body: function () { return buildUpcomingWalkthroughsBody(team); }
+      },
+      {
+        id: 'pocs', kicker: 'People', title: 'POCs',
+        description: 'Prioritized by operational need — select a POC to open its dedicated workspace.',
+        present: team.pocs.length > 0,
+        body: function () { return buildPocCardsBody(team, viewModel.hrefOf); },
+        empty: { icon: '◇', title: 'No POCs recorded yet', description: 'The POC roster appears here once it is authored.' }
+      }
+    ];
+  }
+
+  /**
+   * The POC Workspace sections (Issue #37 Part 6) — every operational
+   * feature moved here from the Team page: agenda, evidence pending,
+   * dependencies, scheduling, reminders & escalation, the AI Suggestion
+   * lifecycle, Industry Knowledge, comments, transcript & evidence
+   * ingestion, mail drafting, call history, and recent activity. All data
+   * is Repository-backed; mail and AI surfaces are integration seams only.
+   */
+  function pocSections(viewModel) {
+    var poc = viewModel.activePoc;
     var team = viewModel.activeTeam;
     var engagementId = viewModel.engagement.id;
     return [
       {
-        id: 'overview', kicker: 'Command center', title: team.name,
-        present: true, body: function () { return buildTeamOverviewBody(team); }
-      },
-      {
-        id: 'roster', kicker: 'POCs', title: 'Team roster',
-        present: team.pocs.length > 0,
-        body: function () { return buildTeamRosterBody(team, viewModel.hrefOf); },
-        empty: { icon: '◇', title: 'No POCs recorded yet', description: 'The POC roster appears here once it is authored.' }
+        id: 'overview', kicker: poc.teamName, title: poc.name,
+        present: true, body: function () { return buildPocOverviewBody(poc); }
       },
       {
         id: 'agenda', kicker: 'Next session', title: 'Agenda',
@@ -1806,7 +2172,7 @@
         empty: { icon: '◇', title: 'No agenda recorded', description: 'The agenda for the next session appears here once it is set.' }
       },
       {
-        id: 'evidence', kicker: 'Evidence', title: 'Evidence expected & demonstrated',
+        id: 'evidence', kicker: 'Evidence', title: 'Evidence pending',
         present: team.evidenceExpected.length > 0 || team.evidenceDemonstrated.length > 0,
         body: function () { return buildEvidenceBody(team); },
         empty: { icon: '◇', title: 'No evidence recorded yet', description: 'Evidence expected and demonstrated appear here as the walkthrough progresses.' }
@@ -1816,19 +2182,21 @@
         description: 'Team → POC → Requirement → Control → Evidence → Report — reason, confidence, and audit-period implications.',
         present: team.dependencies.length > 0,
         body: function () { return buildDependenciesBody(team.dependencies); },
-        empty: { icon: '✓', title: 'No dependencies recorded', description: 'Dependencies this Team’s work relies on appear here.' }
+        empty: { icon: '✓', title: 'No dependencies recorded', description: 'Dependencies this walkthrough relies on appear here.' }
       },
       {
-        id: 'blockers', kicker: 'At risk', title: 'Pending blockers',
-        present: team.blockers.length > 0,
-        body: function () { return buildBlockersBody(team.blockers); },
-        empty: { icon: '✓', title: 'Nothing blocking', description: 'Blockers preventing this Team’s walkthrough from progressing appear here.' }
+        id: 'scheduling', kicker: 'Recurring & manual meetings', title: 'Scheduling',
+        present: true, body: function () { return buildSchedulingBody(team, engagementId); }
+      },
+      {
+        id: 'reminders', kicker: 'Follow-through', title: 'Reminders & escalation',
+        present: true, body: function () { return buildRemindersBody(team, engagementId); }
       },
       {
         id: 'suggestions', kicker: 'Suggested → Reviewed → Approved → Applied', title: 'AI Suggestions',
         present: team.suggestions.length > 0,
         body: function () { return buildSuggestionsBody(team.suggestions, engagementId); },
-        empty: { icon: '✦', title: 'No suggestions yet', description: 'AI Suggestions for this Team appear here as soon as they are raised. AI never writes directly — Suggestions require Approval to Apply.' }
+        empty: { icon: '✦', title: 'No suggestions yet', description: 'AI Suggestions appear here as soon as they are raised. AI never writes directly — Suggestions require Approval to Apply.' }
       },
       {
         id: 'industry-knowledge', kicker: 'Organizational learning', title: 'Industry Knowledge',
@@ -1838,33 +2206,26 @@
         empty: { icon: '◇', title: 'No applicable Industry Knowledge', description: 'Organizational learning applicable to this engagement’s audit period appears here.' }
       },
       {
-        id: 'scheduling', kicker: 'Recurring & manual meetings', title: 'Scheduling',
-        present: true, body: function () { return buildSchedulingBody(team, engagementId); }
+        id: 'comments', kicker: 'Discussion', title: 'Comments',
+        present: true, body: function () { return buildCommentsBody(team, engagementId); }
       },
       {
-        id: 'ingestion', kicker: 'Notes, transcripts, evidence', title: 'Ingestion',
+        id: 'ingestion', kicker: 'Notes, transcripts, evidence', title: 'Transcript & evidence ingestion',
         present: true, body: function () { return buildIngestionBody(team, engagementId); }
       },
       {
-        id: 'comments', kicker: 'Discussion', title: 'Comments',
-        present: true, body: function () { return buildCommentsBody(team, engagementId); }
-      }
-    ];
-  }
-
-  /** The POC detail sections (Issue #36 §3): identity and the real sessions it participated in. */
-  function pocSections(viewModel) {
-    var poc = viewModel.activePoc;
-    return [
-      {
-        id: 'overview', kicker: poc.teamName, title: poc.name,
-        present: true, body: function () { return buildPocOverviewBody(poc); }
+        id: 'mail', kicker: 'Communication', title: 'Mail drafting',
+        present: true, body: function () { return buildMailDraftBody(poc); }
       },
       {
-        id: 'sessions', kicker: 'Participation', title: 'Sessions',
-        present: poc.sessions.length > 0,
-        body: function () { return buildPocSessionsBody(poc.sessions); },
-        empty: { icon: '◇', title: 'No sessions recorded yet', description: 'Sessions this POC participated in appear here once they are logged.' }
+        id: 'call-history', kicker: 'Participation', title: 'Call history',
+        present: true, body: function () { return buildCallHistoryBody(poc, team); }
+      },
+      {
+        id: 'activity', kicker: 'History', title: 'Recent activity',
+        present: deriveTeamRecentActivity(team).length > 0,
+        body: function () { return buildRecentActivityBody(team); },
+        empty: { icon: '◇', title: 'No recorded activity yet', description: 'Comments, notes, uploads, and sessions appear here as the walkthrough progresses.' }
       }
     ];
   }
@@ -2015,6 +2376,12 @@
       currentTimeInZone: currentTimeInZone,
       buildTeamDetail: buildTeamDetail,
       buildPocDetail: buildPocDetail,
+      derivePendingWalkthroughs: derivePendingWalkthroughs,
+      deriveTeamProgress: deriveTeamProgress,
+      splitSuggestionLifecycle: splitSuggestionLifecycle,
+      derivePocCards: derivePocCards,
+      deriveTeamRecentActivity: deriveTeamRecentActivity,
+      POC_CARD_GROUPS: POC_CARD_GROUPS,
       deriveLastSession: deriveLastSession,
       deriveTeamNames: deriveTeamNames,
       countParticipatedTeamMembers: countParticipatedTeamMembers,

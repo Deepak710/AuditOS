@@ -720,14 +720,14 @@
    * State. Returns null while the state is not ready, and a degraded model when
    * no engagement exists (§15.12).
    */
-  function collectViewModel(state, workspaceRegistry) {
+  function collectViewModel(state, workspaceRegistry, routeContext) {
     if (!state || !state.isReady()) {
       return null;
     }
 
     var status = state.getStatus();
     var engagements = state.listRecords('engagements');
-    var engagement = deriveCurrentEngagement(engagements);
+    var engagement = WS.resolveContextEngagement(engagements, routeContext);
     if (!engagement) {
       return { degraded: true, status: status };
     }
@@ -1217,7 +1217,8 @@
       return;
     }
 
-    var viewModel = state ? collectViewModel(state, registry) : null;
+    var routeContext = router.getCurrentContext ? router.getCurrentContext() : null;
+    var viewModel = state ? collectViewModel(state, registry, routeContext) : null;
     if (!viewModel) {
       renderLoading(view);
       return;

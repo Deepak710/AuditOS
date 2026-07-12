@@ -176,12 +176,22 @@
   var resolveName = WS.resolveName;
 
   /**
-   * The controls a requirement links to, always as an array. Reads the
-   * multi-control shape (`linkedControlIds`) where present and the single-control
-   * shape (`controlId`) otherwise; a requirement declaring neither yields an
-   * empty array (never a fabricated link).
+   * The controls a requirement links to, always as an array. Reads across
+   * three dataset shapes, in priority order: the multi-control shape
+   * (`linkedControlIds`), the single-control shape (`controlId`), and the
+   * `controlLinks` shape (`[{ engagementId, controlCode }]`) — the dominant
+   * shape in the live demo data, where a requirement's control link is
+   * scoped by engagement and named by code rather than id, and a
+   * requirement may name links belonging to other engagements/programs
+   * (cross-engagement reuse candidates). `codeToId` is a `controlCode →
+   * control id` index already scoped to the current engagement (built once
+   * in `collectViewModel` from `controlsById`); a `controlLinks` entry
+   * whose `engagementId` doesn't match the current engagement, or whose
+   * code doesn't resolve within it, is dropped rather than fabricated —
+   * the id it would need lives in a different engagement's control
+   * collection, which this workspace does not read.
    */
-  function normalizeControlIds(requirement) {
+  function normalizeControlIds(requirement, codeToId) {
     var source = requirement || {};
     if (Array.isArray(source.linkedControlIds) && source.linkedControlIds.length > 0) {
       return source.linkedControlIds.slice();
@@ -189,7 +199,35 @@
     if (typeof source.controlId === 'string' && source.controlId) {
       return [source.controlId];
     }
+    if (Array.isArray(source.controlLinks) && source.controlLinks.length > 0 && codeToId) {
+      var seen = {};
+      var ids = [];
+      source.controlLinks.forEach(function (link) {
+        var id = link && link.controlCode ? codeToId[link.engagementId + '::' + link.controlCode] : null;
+        if (id && !seen[id]) {
+          seen[id] = true;
+          ids.push(id);
+        }
+      });
+      return ids;
+    }
     return [];
+  }
+
+  /**
+   * A `controlCode → control id` index scoped by `engagementId::controlCode`
+   * (a control's code is only unique within its own engagement), built from
+   * the current engagement's own controls collection — never a cross-
+   * engagement guess.
+   */
+  function indexControlsByCode(controls) {
+    var index = {};
+    asArray(controls).forEach(function (control) {
+      if (control && control.engagementId && control.controlCode) {
+        index[control.engagementId + '::' + control.controlCode] = control.id;
+      }
+    });
+    return index;
   }
 
   /**
@@ -264,7 +302,7 @@
    * a real join (requirement → control, requirement → engagement); nothing is
    * inferred. Returns an empty string when the engagement declares no framework.
    */
-  function deriveFrameworkMapping(requirement, controlsById, frameworks) {
+  function deriveFrameworkMapping(requirement, controlsById, frameworks, controlIds) {
     var source = requirement || {};
     if (Array.isArray(source.trustServicesCriteria) && source.trustServicesCriteria.length > 0) {
       return source.trustServicesCriteria.join(', ');
@@ -274,7 +312,10 @@
     }
     var criteria = {};
     var order = [];
-    normalizeControlIds(source).forEach(function (id) {
+    // `controlIds` lets a caller supply the fuller, already-resolved set
+    // (e.g. joined through `controlLinks`); when omitted, resolve the two
+    // simpler dataset shapes directly (no engagement-scoped code index needed).
+    asArray(controlIds || normalizeControlIds(source)).forEach(function (id) {
       var control = controlsById ? controlsById[id] : null;
       asArray(control && control.trustServicesCriteria).forEach(function (value) {
         if (!criteria[value]) {
@@ -300,6 +341,7 @@
   function deriveRequirementRow(requirement, context) {
     var source = requirement || {};
     var ctx = context || {};
+    var controlIds = normalizeControlIds(source, ctx.controlCodeToId);
     return {
       id: source.id || '',
       title: source.title || source.id || '',
@@ -310,7 +352,8 @@
       statusTone: resolveStatusTone(source.status),
       priority: source.priority || '',
       evidence: deriveEvidenceStatus(source),
-      framework: deriveFrameworkMapping(source, ctx.controlsById, ctx.frameworks)
+      controlIds: controlIds,
+      framework: deriveFrameworkMapping(source, ctx.controlsById, ctx.frameworks, controlIds)
     };
   }
 
@@ -385,6 +428,114 @@
       return { label: 'Approved', tone: TONES.SUCCESS };
     }
     return { label: 'In review', tone: TONES.INFO };
+  }
+
+  // ---- Requirements & Evidence derivations (Issue #37 Part 7) — the KPI
+  // strip, the at-a-glance graphs, and the requirement-first joins the dense
+  // table and detail drawer read. All pure; every relationship is a real join.
+
+  /**
+   * Evidence satisfying a requirement — the union of the requirement's own
+   * linked evidence ids and every evidence record that itself declares the
+   * requirement (`requirementIds`), so the many-to-many relationship (evidence
+   * can satisfy many requirements; requirements can hold many evidence items)
+   * reads from both directions and never invents a link.
+   */
+  function deriveRequirementEvidenceIds(requirement, evidenceRecords) {
+    var source = requirement || {};
+    var seen = {};
+    var order = [];
+    normalizeEvidenceIds(source).forEach(function (id) {
+      if (!seen[id]) { seen[id] = true; order.push(id); }
+    });
+    asArray(evidenceRecords).forEach(function (item) {
+      if (item && item.id && !seen[item.id] && asArray(item.requirementIds).indexOf(source.id) !== -1) {
+        seen[item.id] = true;
+        order.push(item.id);
+      }
+    });
+    return order;
+  }
+
+  /** Groups an engagement's test workpapers by `controlId` — the requirement → control → test join index. */
+  function indexTestsByControl(tests) {
+    var index = {};
+    asArray(tests).forEach(function (test) {
+      var controlId = test && test.controlId;
+      if (!controlId) {
+        return;
+      }
+      if (!index[controlId]) {
+        index[controlId] = [];
+      }
+      index[controlId].push(test);
+    });
+    return index;
+  }
+
+  /** The test workpapers exercising a requirement, joined through its (already-resolved) linked control ids. */
+  function deriveRequirementTests(controlIds, testsByControlId) {
+    var byControl = testsByControlId || {};
+    var tests = [];
+    asArray(controlIds).forEach(function (controlId) {
+      asArray(byControl[controlId]).forEach(function (test) { tests.push(test); });
+    });
+    return tests;
+  }
+
+  /** The AI suggestions that explicitly name a requirement in `affectedRequirements` — a real join, never inferred. */
+  function deriveRequirementSuggestions(requirement, suggestions) {
+    var id = requirement ? requirement.id : '';
+    return asArray(suggestions).filter(function (suggestion) {
+      return asArray(suggestion.affectedRequirements).indexOf(id) !== -1;
+    });
+  }
+
+  /**
+   * The KPI strip (Issue #37 Part 7): real counts over the queue rows —
+   * requirements, evidence collected / requested / outstanding, and
+   * requirements mapped to at least one control. Never a fabricated figure.
+   */
+  function deriveKpis(queue) {
+    var rows = asArray(queue);
+    var collected = 0;
+    var requested = 0;
+    var outstanding = 0;
+    var mapped = 0;
+    rows.forEach(function (row) {
+      if (row.evidence.key === EVIDENCE_STATUS.COLLECTED.key) {
+        collected += 1;
+      } else if (row.evidence.key === EVIDENCE_STATUS.REQUESTED.key) {
+        requested += 1;
+      } else {
+        outstanding += 1;
+      }
+      if (asArray(row.controlIds).length > 0) {
+        mapped += 1;
+      }
+    });
+    return [
+      { key: 'requirements', label: 'Requirements', value: String(rows.length), tone: null },
+      { key: 'collected', label: 'Evidence collected', value: String(collected), tone: collected > 0 ? TONES.SUCCESS : null },
+      { key: 'requested', label: 'Evidence requested', value: String(requested), tone: requested > 0 ? TONES.INFO : null },
+      { key: 'outstanding', label: 'Evidence outstanding', value: String(outstanding), tone: outstanding > 0 ? TONES.WARNING : TONES.SUCCESS },
+      { key: 'mapped', label: 'Mapped to controls', value: String(mapped), tone: null }
+    ];
+  }
+
+  /** The at-a-glance graphs: evidence collection and control mapping as real ratios over the same rows. */
+  function deriveGraphs(queue) {
+    var rows = asArray(queue);
+    var collected = rows.filter(function (row) {
+      return row.evidence.key === EVIDENCE_STATUS.COLLECTED.key;
+    }).length;
+    var mapped = rows.filter(function (row) {
+      return asArray(row.controlIds).length > 0;
+    }).length;
+    return [
+      { label: 'Evidence collected', value: collected, total: rows.length },
+      { label: 'Mapped to controls', value: mapped, total: rows.length }
+    ];
   }
 
   // ---- Presentation views — three regroupings of the one queue dataset. Each is
@@ -584,11 +735,87 @@
     var owner = resolveName(ctx.pocsById, item.primaryPocId, 'name');
     var team = resolveName(ctx.teamsById, resolveTeamId(item), 'name');
     var businessUnit = resolveName(ctx.businessUnitsById, resolveBusinessUnitId(item), 'name');
-    var frameworkMapping = deriveFrameworkMapping(item, ctx.controlsById, ctx.frameworks);
-    var controlIds = normalizeControlIds(item);
-    var evidenceIds = normalizeEvidenceIds(item);
+    var controlIds = normalizeControlIds(item, ctx.controlCodeToId);
+    var frameworkMapping = deriveFrameworkMapping(item, ctx.controlsById, ctx.frameworks, controlIds);
+    var evidenceIds = deriveRequirementEvidenceIds(item, ctx.evidenceRecords);
     var evidenceRequestIds = normalizeEvidenceRequestIds(item);
     var versionHistory = deriveVersionHistory(item);
+
+    // Requirement → control → test joins (Issue #37 Part 7): the real
+    // procedures, attributes, and samples the linked controls' workpapers
+    // record. Empty arrays render placeholders; nothing is fabricated.
+    var tests = deriveRequirementTests(controlIds, ctx.testsByControlId);
+    var procedureItems = tests.map(function (test) {
+      return {
+        title: test.testProcedure || test.procedure || test.id,
+        meta: [test.id, test.status].filter(Boolean).join(' · '),
+        tone: TONES.INFO
+      };
+    }).filter(function (entry) { return entry.title; });
+    var attributeItems = [];
+    tests.forEach(function (test) {
+      asArray(test.walkthroughTest && test.walkthroughTest.attributes).forEach(function (attribute) {
+        attributeItems.push({
+          title: attribute.text || String(attribute),
+          meta: [test.id, attribute.key ? 'Attribute ' + attribute.key : ''].filter(Boolean).join(' · '),
+          tone: TONES.INFO
+        });
+      });
+    });
+    var sampleItems = [];
+    tests.forEach(function (test) {
+      var oe = test.oeTest || {};
+      asArray(oe.samples).forEach(function (sample) {
+        sampleItems.push({
+          title: sample.title || sample.id || String(sample),
+          meta: test.id,
+          tone: TONES.INFO
+        });
+      });
+      if (asArray(oe.samples).length === 0 && (oe.samplingMethod || oe.sampleSize)) {
+        sampleItems.push({
+          title: [oe.samplingMethod, oe.sampleSize ? oe.sampleSize + ' samples' : ''].filter(Boolean).join(' · '),
+          meta: test.id,
+          tone: TONES.INFO
+        });
+      }
+    });
+    var suggestionItems = deriveRequirementSuggestions(item, ctx.suggestions).map(function (suggestion) {
+      return { title: suggestion.title, meta: suggestion.status, tone: resolveStatusTone(suggestion.status) };
+    });
+    var storageItems = evidenceIds.map(function (id) {
+      var record = ctx.evidenceById ? ctx.evidenceById[id] : null;
+      if (!record) {
+        return null;
+      }
+      return {
+        title: record.title || record.id,
+        meta: record.fileName || 'No file recorded',
+        tone: TONES.INFO
+      };
+    }).filter(Boolean);
+    var reuseItems = [];
+    if (item.reuseStatus || item.sourceEngagementId) {
+      reuseItems.push({
+        title: item.reuseStatus || 'Reused',
+        meta: item.sourceEngagementId || '',
+        tone: TONES.INFO
+      });
+    }
+    evidenceIds.forEach(function (id) {
+      var record = ctx.evidenceById ? ctx.evidenceById[id] : null;
+      var reuse = record ? record.reuse : null;
+      if (!reuse) {
+        return;
+      }
+      if (reuse.eligible || reuse.sourceEngagementId || (reuse.reuseDecision && reuse.reuseDecision !== 'Fresh Collection')) {
+        reuseItems.push({
+          title: (record.title || record.id) + ' — ' + (reuse.reuseDecision || 'Reuse eligible'),
+          meta: reuse.sourceEngagementId || '',
+          tone: TONES.INFO
+        });
+      }
+    });
 
     return {
       eyebrow: resolveEvidenceType(item) || 'Requirement',
@@ -600,7 +827,11 @@
       ].filter(Boolean),
       sections: [
         {
-          title: 'Properties', kind: 'properties', columns: 2,
+          // Single column (Issue #37 Part 9): the drawer's fixed width is
+          // narrower than the old wide Master–Detail pane this section was
+          // originally sized for — two columns wrapped labels and values
+          // character-by-character at drawer width.
+          title: 'Properties', kind: 'properties',
           rows: [
             { label: 'Requirement id', value: item.id || '' },
             { label: 'Version', value: item.version || '' },
@@ -631,8 +862,18 @@
           'No evidence requests raised for this requirement yet.'),
         listSection('Related walkthroughs', [],
           'No linked walkthroughs yet — walkthrough linkage arrives with the walkthrough collection.'),
-        listSection('Related testing', [],
-          'No linked testing recorded for this requirement.'),
+        listSection('Test procedures', procedureItems,
+          'No test procedures linked yet — procedures join through this requirement’s controls.'),
+        listSection('Attributes to test', attributeItems,
+          'No test attributes recorded for this requirement’s controls yet.'),
+        listSection('Samples', sampleItems,
+          'No samples recorded — sampling appears here once operating-effectiveness testing selects them.'),
+        listSection('AI suggestions', suggestionItems,
+          'No AI suggestions reference this requirement. AI never writes directly — suggestions require approval to apply.'),
+        listSection('Storage & audit folders', storageItems,
+          'No storage locations recorded for the linked evidence yet.'),
+        listSection('Cross-engagement reuse', reuseItems,
+          'No reuse recorded — same-period, partial-overlap, and cross-engagement reuse appear here as evidence declares it; cross-client reuse arrives in a future release.'),
         versionHistory.length > 0
           ? { title: 'Version history', kind: 'timeline', events: versionHistory }
           : {
@@ -666,14 +907,14 @@
    * State. Returns null while the state is not ready, and a degraded model when
    * no engagement exists (§15.12).
    */
-  function collectViewModel(state, workspaceRegistry) {
+  function collectViewModel(state, workspaceRegistry, routeContext) {
     if (!state || !state.isReady()) {
       return null;
     }
 
     var status = state.getStatus();
     var engagements = state.listRecords('engagements');
-    var engagement = deriveCurrentEngagement(engagements);
+    var engagement = WS.resolveContextEngagement(engagements, routeContext);
     if (!engagement) {
       return { degraded: true, status: status };
     }
@@ -694,11 +935,16 @@
     var findingsDocument = readEngagementDocument(state, 'findings', engagement.id) || {};
     var reportsDocument = readEngagementDocument(state, 'reports', engagement.id) || {};
     var activityDocument = readEngagementDocument(state, 'activity', engagement.id) || {};
+    var suggestionsDocument = readEngagementDocument(state, 'suggestions', engagement.id) || {};
 
     var requirementRecords = asArray(requirementsDocument.requirements);
     var controlsById = indexById(controlsDocument.controls);
+    var controlCodeToId = indexControlsByCode(controlsDocument.controls);
+    var evidenceRecords = asArray(evidenceDocument.evidence);
     var evidenceById = indexById(evidenceDocument.evidence);
     var evidenceRequestsById = indexById(requestsDocument.requests);
+    var testsByControlId = indexTestsByControl(testingDocument.tests);
+    var suggestions = asArray(suggestionsDocument.suggestions);
 
     // Actor id → display name, spanning both client POCs and the Halcyon
     // engagement team, so requirement activity resolves to a real name.
@@ -737,8 +983,12 @@
       teamsById: teamsById,
       businessUnitsById: businessUnitsById,
       controlsById: controlsById,
+      controlCodeToId: controlCodeToId,
       evidenceById: evidenceById,
+      evidenceRecords: evidenceRecords,
       evidenceRequestsById: evidenceRequestsById,
+      testsByControlId: testsByControlId,
+      suggestions: suggestions,
       workspaceRegistry: workspaceRegistry,
       frameworks: frameworks,
       auditPeriodLabel: auditPeriodLabel,
@@ -767,7 +1017,7 @@
       context: context,
 
       header: {
-        eyebrow: engagement.engagementCode + ' · Requirements',
+        eyebrow: engagement.engagementCode + ' · Requirements & Evidence',
         title: company ? company.name : engagement.companyId,
         meta: engagement.name + ' · living audit knowledge',
         frameworks: frameworks,
@@ -791,6 +1041,8 @@
 
       requirementHealth: deriveRequirementHealth(requirementRecords),
       queue: queue,
+      kpis: deriveKpis(queue),
+      graphs: deriveGraphs(queue),
       views: deriveViews(queue),
       lineage: deriveLineage(workspaceRegistry, operational),
       relationships: deriveRelationships(workspaceRegistry, operational),
@@ -819,16 +1071,6 @@
   /** Builds one Section component: an eyebrow, a title, an optional description, then a body node. */
   function buildSection(id, meta, bodyNode) {
     return WS.buildSection('aos-requirements', id, meta, bodyNode);
-  }
-
-  /**
-   * Builds the Requirement Health strip: a row of tone-dot indicators (editor
-   * status-bar style, identical composition to the other operational workspaces).
-   * The status text carries the meaning; the dot only reinforces the tone, so
-   * health reads without relying on color.
-   */
-  function buildHealthStrip(items) {
-    return WS.buildHealthStrip('aos-requirements', 'Requirement health', items);
   }
 
   /** Builds one Requirements Queue master row: title, status, and operational meta. */
@@ -871,57 +1113,380 @@
     WS.mountRailGroups('aos-requirements', listNode, detailMount, groups, context, buildRow, buildRequirementInspector, 'requirement', targetId);
   }
 
+  // ------------------------------------------------------------------
+  // Requirements & Evidence layout (Issue #37 Part 7) — KPI strip and
+  // graphs on top, the dense requirement-first table in the center, and
+  // the shared right-side drawer for detail (Part 9). Filtering is
+  // presentation-only; the drawer content is the same host-agnostic
+  // inspector configuration the Master–Detail renderer reads.
+  // ------------------------------------------------------------------
+
   /**
-   * Builds the Requirements Queue: a view switcher above a Master–Detail whose
-   * master rail lists the requirements for the active view and whose detail shows
-   * the selected requirement's Inspector Panel. The switcher swaps between the
-   * three presentation modes — Requirement view, Pending by POC, Evidence view —
-   * by re-rendering the same rail from the same dataset (presentation-only,
-   * memory-only); it never changes the data. `targetId` (Issue #31 — the record
-   * id carried by the current route) selects that requirement on first render
-   * and again on every view switch, so following a cross-workspace link into a
-   * requirement keeps it selected regardless of which view is active.
+   * Memory-only presentation state: the active table filters and the
+   * requirement the shared drawer currently shows, so a Repository write
+   * re-render refreshes the same drawer instead of closing it.
    */
-  function buildQueueBody(views, context, targetId) {
-    var wrap = el('div', 'aos-requirements__queue');
-    var detailMount = el('div', 'aos-requirements__detail-mount');
-    var listNode = el('div', 'aos-requirements__row-list');
-    listNode.setAttribute('role', 'list');
+  var tableState = { status: '', evidence: '', drawerRequirementId: '', lastTargetId: '' };
 
-    var switcher = el('div', 'aos-requirements__views');
-    switcher.setAttribute('role', 'group');
-    switcher.setAttribute('aria-label', 'Requirement views');
-    var chips = [];
+  /** Builds the KPI strip: one stat tile per KPI — the value always reads as text, tone only reinforces. */
+  function buildKpiStrip(kpis) {
+    var strip = el('div', 'aos-requirements__kpis');
+    asArray(kpis).forEach(function (kpi) {
+      var tile = el('div', 'aos-requirements__kpi' + (kpi.tone ? ' aos-requirements__kpi--' + kpi.tone : ''));
+      tile.appendChild(el('span', 'aos-requirements__kpi-value aos-numeric', kpi.value));
+      tile.appendChild(el('span', 'aos-requirements__kpi-label', kpi.label));
+      strip.appendChild(tile);
+    });
+    return strip;
+  }
 
-    function activate(index) {
-      chips.forEach(function (chip, chipIndex) {
-        var selected = chipIndex === index;
-        chip.classList.toggle('aos-requirements__view-chip--active', selected);
-        chip.setAttribute('aria-pressed', selected ? 'true' : 'false');
-      });
-      mountRailGroups(listNode, detailMount, views[index].view.groups, context, targetId);
+  /** Builds the at-a-glance graphs: the shared progress meters over the same rows the KPIs count. */
+  function buildGraphsBody(graphs) {
+    var P = presentation();
+    var wrap = el('div', 'aos-requirements__graphs');
+    asArray(graphs).forEach(function (meter) {
+      wrap.appendChild(P.progressMeter(meter));
+    });
+    return wrap;
+  }
+
+  // ------------------------------------------------------------------
+  // Evidence Status Workflow (Issue #37 Part 8) — a status change never
+  // edits production state directly: it creates a Suggestion that walks
+  // Suggested → Reviewed → Approved → Applied through the existing
+  // Suggestion Lifecycle Service; the Repository write happens only on
+  // Apply, and every transition records an audit entry.
+  // ------------------------------------------------------------------
+
+  /** The distinct evidence review statuses the engagement's records actually use — the real vocabulary, never invented. */
+  function collectEvidenceStatusOptions(evidenceRecords) {
+    var options = [];
+    asArray(evidenceRecords).forEach(function (record) {
+      if (record && record.reviewStatus && options.indexOf(record.reviewStatus) === -1) {
+        options.push(record.reviewStatus);
+      }
+    });
+    return options.sort();
+  }
+
+  /** Builds one pending evidence-status suggestion card with its lifecycle actions. */
+  function buildWorkflowSuggestionCard(suggestion, engagementId) {
+    var P = presentation();
+    var repository = AuditOS.repository;
+    var suggestionService = AuditOS.suggestionService;
+    var permissions = AuditOS.permissions;
+    var denial = (permissions && suggestionService) ? permissions.explainDenial(suggestionService.DECIDE_CAPABILITY) : null;
+
+    var card = el('div', 'aos-surface aos-surface--padded aos-requirements__workflow-card');
+    var head = el('div', 'aos-requirements__workflow-card-head');
+    head.appendChild(el('span', 'aos-requirements__workflow-card-title', suggestion.title));
+    head.appendChild(P.statusBadge({ label: suggestion.status, tone: resolveStatusTone(suggestion.status) }));
+    card.appendChild(head);
+    if (suggestion.description) {
+      card.appendChild(el('p', 'aos-requirements__workflow-card-meta', suggestion.description));
     }
 
-    asArray(views).forEach(function (view, index) {
-      var chip = el('button', 'aos-requirements__view-chip', view.label);
-      chip.type = 'button';
-      chip.setAttribute('aria-pressed', index === 0 ? 'true' : 'false');
-      if (index === 0) {
-        chip.classList.add('aos-requirements__view-chip--active');
+    if (!suggestionService || !repository) {
+      return card;
+    }
+    var actions = el('div', 'aos-action-group');
+    actions.setAttribute('role', 'group');
+    actions.setAttribute('aria-label', 'Suggestion actions');
+    if (suggestion.status === suggestionService.STATUS.SUGGESTED) {
+      var reviewButton = P.button({ label: 'Mark reviewed', variant: 'subtle' });
+      reviewButton.addEventListener('click', function () {
+        suggestionService.review(repository, engagementId, suggestion, '');
+      });
+      actions.appendChild(reviewButton);
+    }
+    if (!denial) {
+      if (suggestion.status === suggestionService.STATUS.REVIEWED) {
+        ['approve', 'reject'].forEach(function (decisionId) {
+          var button = P.button({
+            label: decisionId === 'approve' ? 'Approve' : 'Reject',
+            variant: decisionId === 'approve' ? 'primary' : 'subtle'
+          });
+          button.addEventListener('click', function () {
+            suggestionService.decide(repository, engagementId, suggestion, decisionId, '');
+          });
+          actions.appendChild(button);
+        });
       }
-      chip.addEventListener('click', function () { activate(index); });
-      chips.push(chip);
-      switcher.appendChild(chip);
+      if (suggestion.status === suggestionService.STATUS.APPROVED) {
+        var applyButton = P.button({ label: 'Apply', variant: 'primary' });
+        applyButton.addEventListener('click', function () {
+          suggestionService.decide(repository, engagementId, suggestion, 'apply', '');
+        });
+        actions.appendChild(applyButton);
+      }
+    }
+    if (actions.firstChild) {
+      card.appendChild(actions);
+    }
+    if (denial && WS.buildPermissionNotice) {
+      card.appendChild(WS.buildPermissionNotice(denial, ''));
+    }
+    return card;
+  }
+
+  /**
+   * Builds the drawer's Evidence Status Workflow section: each linked
+   * evidence item with its current review status and a propose-change
+   * control, the pending status-change suggestions with their lifecycle
+   * actions, the latest audit events (recent history), and the complete
+   * lineage — Genesis → ripple effects → current state — on demand.
+   */
+  function buildEvidenceWorkflowBody(row, context) {
+    var P = presentation();
+    var repository = AuditOS.repository;
+    var suggestionService = AuditOS.suggestionService;
+    var auditService = AuditOS.auditService;
+    var engagementId = context.engagement ? context.engagement.id : '';
+    var wrap = el('div', 'aos-requirements__workflow');
+
+    var evidenceIds = deriveRequirementEvidenceIds(row.requirement, context.evidenceRecords);
+    var statusOptions = collectEvidenceStatusOptions(context.evidenceRecords);
+
+    // Propose a status change per linked evidence item — never a direct edit.
+    evidenceIds.forEach(function (id) {
+      var record = context.evidenceById ? context.evidenceById[id] : null;
+      if (!record) {
+        return;
+      }
+      var item = el('div', 'aos-surface aos-surface--padded aos-requirements__workflow-item');
+      var head = el('div', 'aos-requirements__workflow-card-head');
+      head.appendChild(el('span', 'aos-requirements__workflow-card-title', record.title || record.id));
+      if (record.reviewStatus) {
+        head.appendChild(P.statusBadge({ label: record.reviewStatus, tone: resolveStatusTone(record.reviewStatus) }));
+      }
+      item.appendChild(head);
+
+      if (suggestionService && repository && statusOptions.length > 0) {
+        var controls = el('div', 'aos-requirements__workflow-controls');
+        var select = el('select', 'aos-select__control');
+        select.setAttribute('aria-label', 'Proposed evidence status for ' + (record.title || record.id));
+        statusOptions.forEach(function (status) {
+          var option = el('option', null, status);
+          option.value = status;
+          select.appendChild(option);
+        });
+        select.value = record.reviewStatus || statusOptions[0];
+        controls.appendChild(select);
+        var proposeButton = P.button({ label: 'Propose status change', variant: 'subtle' });
+        proposeButton.addEventListener('click', function () {
+          if (!select.value || select.value === record.reviewStatus) {
+            return;
+          }
+          suggestionService.propose(repository, engagementId, {
+            title: 'Change evidence status: ' + (record.title || record.id),
+            description: (record.reviewStatus || 'Unset') + ' → ' + select.value,
+            category: 'evidence-status',
+            affectedRequirements: [row.id],
+            auditReferences: [record.id],
+            workspaceId: 'requirements',
+            applyTarget: { entity: 'evidence', recordId: record.id, changes: { reviewStatus: select.value } }
+          });
+        });
+        controls.appendChild(proposeButton);
+        item.appendChild(controls);
+      }
+      wrap.appendChild(item);
     });
 
-    var masterDetail = presentation().masterDetail({
-      list: listNode, detail: detailMount, ratio: 42,
-      listLabel: 'Requirements queue', detailLabel: 'Requirement inspector'
+    if (evidenceIds.length === 0) {
+      wrap.appendChild(P.emptyState({
+        icon: '◇', title: 'No evidence linked yet',
+        description: 'Status changes become available here once evidence is linked to this requirement.'
+      }));
+    }
+
+    // Pending status-change proposals for this requirement, live from the store.
+    var proposals = asArray(context.suggestions).filter(function (suggestion) {
+      return suggestion.category === 'evidence-status' &&
+        asArray(suggestion.affectedRequirements).indexOf(row.id) !== -1 &&
+        suggestion.status !== 'Applied' && suggestion.status !== 'Rejected';
+    });
+    proposals.forEach(function (suggestion) {
+      wrap.appendChild(buildWorkflowSuggestionCard(suggestion, engagementId));
     });
 
-    wrap.appendChild(switcher);
-    wrap.appendChild(masterDetail);
-    activate(0);
+    // Recent history (latest 4–5 events) and the complete lineage on demand.
+    if (auditService) {
+      var entityIds = [row.id].concat(evidenceIds);
+      var events = [];
+      entityIds.forEach(function (id) {
+        auditService.listForEntity(id).forEach(function (event) { events.push(event); });
+      });
+      events.sort(function (a, b) { return String(b.timestamp).localeCompare(String(a.timestamp)); });
+
+      function eventItem(event) {
+        return {
+          title: event.action + (event.reason ? ' — ' + event.reason : ''),
+          meta: [event.user, String(event.timestamp).slice(0, 10)].filter(Boolean).join(' · '),
+          tone: TONES.INFO
+        };
+      }
+
+      if (events.length > 0) {
+        wrap.appendChild(el('h4', 'aos-requirements__workflow-subtitle', 'Recent history'));
+        wrap.appendChild(P.itemList(events.slice(0, 5).map(eventItem), { compact: true }));
+
+        var lineageMount = el('div', 'aos-requirements__workflow-lineage');
+        var lineageButton = P.button({ label: 'View complete lineage', variant: 'subtle' });
+        lineageButton.addEventListener('click', function () {
+          // Genesis first — the complete chain from origin through every
+          // ripple to the current state, oldest to newest.
+          var chain = events.slice().reverse();
+          lineageMount.replaceChildren(P.timeline(chain.map(function (event, index) {
+            return {
+              title: (index === 0 ? 'Genesis — ' : '') + event.action,
+              meta: [event.user, String(event.timestamp).slice(0, 10), event.reason || ''].filter(Boolean).join(' · '),
+              tone: index === chain.length - 1 ? TONES.SUCCESS : TONES.INFO
+            };
+          })));
+          lineageButton.hidden = true;
+        });
+        wrap.appendChild(lineageButton);
+        wrap.appendChild(lineageMount);
+      }
+    }
+
+    return wrap;
+  }
+
+  /**
+   * Opens the shared enterprise drawer (Issue #37 Part 9) for one
+   * requirement: the same inspector configuration, hosted in the one
+   * application-wide slide-over — never a modal dialog. Control links
+   * inside navigate into Controls & Documentation with the control
+   * highlighted (its stable record route). The Evidence Status Workflow
+   * (Part 8) renders beneath the inspector sections.
+   */
+  function openRequirementDrawer(row, context) {
+    var P = presentation();
+    tableState.drawerRequirementId = row.id;
+    var config = buildRequirementInspector(row.requirement, context);
+    var workflow = el('section', 'aos-inspector__section');
+    workflow.appendChild(el('h3', 'aos-inspector__section-title', 'Evidence status workflow'));
+    workflow.appendChild(buildEvidenceWorkflowBody(row, context));
+    P.openDrawer({
+      eyebrow: config.eyebrow,
+      title: config.title,
+      subtitle: config.subtitle,
+      badges: config.badges,
+      wide: true,
+      content: [P.inspectorSections(config.sections), workflow],
+      onClose: function () { tableState.drawerRequirementId = ''; }
+    });
+  }
+
+  /** Builds one dense-table row descriptor: the title cell opens the requirement's drawer. */
+  function buildTableRow(row, context) {
+    var P = presentation();
+    var open = el('button', 'aos-requirements__table-title');
+    open.type = 'button';
+    open.textContent = row.title || row.id;
+    open.addEventListener('click', function () { openRequirementDrawer(row, context); });
+    return {
+      status: { tone: row.statusTone, label: row.status },
+      cells: {
+        id: row.id,
+        title: open,
+        status: P.statusBadge({ label: row.status, tone: row.statusTone }),
+        owner: row.owner || '—',
+        evidence: P.statusBadge({ label: row.evidence.label, tone: row.evidence.tone }),
+        controls: String(asArray(row.controlIds).length),
+        framework: row.framework || '—'
+      }
+    };
+  }
+
+  /**
+   * Builds the dense Requirements & Evidence table with its status and
+   * evidence filters. Filtering re-renders the grid from the same queue —
+   * presentation only, never a data change.
+   */
+  function buildTableBody(queue, context) {
+    var P = presentation();
+    var wrap = el('div', 'aos-requirements__table');
+
+    var filters = el('div', 'aos-requirements__filters');
+    filters.setAttribute('role', 'group');
+    filters.setAttribute('aria-label', 'Requirement filters');
+
+    var statuses = [];
+    asArray(queue).forEach(function (row) {
+      if (row.status && statuses.indexOf(row.status) === -1) {
+        statuses.push(row.status);
+      }
+    });
+    statuses.sort();
+
+    function buildFilter(labelText, options, current, onChange) {
+      var label = el('label', 'aos-requirements__filter');
+      label.appendChild(el('span', 'aos-requirements__filter-label', labelText));
+      var control = el('select', 'aos-select__control');
+      options.forEach(function (option) {
+        var opt = el('option', null, option.label);
+        opt.value = option.value;
+        control.appendChild(opt);
+      });
+      control.value = current;
+      control.addEventListener('change', function () { onChange(control.value); });
+      label.appendChild(control);
+      return label;
+    }
+
+    var gridMount = el('div', 'aos-requirements__grid-mount');
+
+    function renderGrid() {
+      var rows = asArray(queue).filter(function (row) {
+        if (tableState.status && row.status !== tableState.status) {
+          return false;
+        }
+        if (tableState.evidence && row.evidence.key !== tableState.evidence) {
+          return false;
+        }
+        return true;
+      });
+      gridMount.replaceChildren(P.dataGrid({
+        density: 'compact',
+        selectable: true,
+        caption: 'Requirements and their evidence, controls, and mapping',
+        columns: [
+          { key: 'id', label: 'ID', width: '7.5rem' },
+          { key: 'title', label: 'Requirement' },
+          { key: 'status', label: 'Status' },
+          { key: 'owner', label: 'POC' },
+          { key: 'evidence', label: 'Evidence' },
+          { key: 'controls', label: 'Controls', align: 'numeric' },
+          { key: 'framework', label: 'Mapping' }
+        ],
+        rows: rows.map(function (row) { return buildTableRow(row, context); }),
+        emptyState: {
+          icon: '◇', title: 'No requirements match the filters',
+          description: 'Adjust the status or evidence filter to see more of the queue.'
+        }
+      }));
+    }
+
+    filters.appendChild(buildFilter('Status',
+      [{ value: '', label: 'All statuses' }].concat(statuses.map(function (status) {
+        return { value: status, label: status };
+      })), tableState.status,
+      function (value) { tableState.status = value; renderGrid(); }));
+
+    filters.appendChild(buildFilter('Evidence', [
+      { value: '', label: 'All evidence states' },
+      { value: EVIDENCE_STATUS.OUTSTANDING.key, label: 'Outstanding' },
+      { value: EVIDENCE_STATUS.REQUESTED.key, label: 'Requested' },
+      { value: EVIDENCE_STATUS.COLLECTED.key, label: 'Collected' }
+    ], tableState.evidence,
+    function (value) { tableState.evidence = value; renderGrid(); }));
+
+    wrap.appendChild(filters);
+    wrap.appendChild(gridMount);
+    renderGrid();
     return wrap;
   }
 
@@ -1009,14 +1574,19 @@
     var context = viewModel.context;
     return [
       {
-        id: 'health', kicker: 'Operational status', title: 'Requirement health',
-        present: true, body: function () { return buildHealthStrip(viewModel.requirementHealth); }
+        id: 'overview', kicker: 'Operational status', title: 'At a glance',
+        present: true, body: function () {
+          var wrap = el('div', 'aos-requirements__overview');
+          wrap.appendChild(buildKpiStrip(viewModel.kpis));
+          wrap.appendChild(buildGraphsBody(viewModel.graphs));
+          return wrap;
+        }
       },
       {
-        id: 'queue', kicker: 'Operational queue', title: 'Requirements queue',
-        description: 'Every requirement for the engagement. Switch between Requirement view, Pending by POC, and Evidence view — the same dataset, regrouped — and select a requirement to open its Inspector.',
+        id: 'table', kicker: 'Requirement-first', title: 'Requirements & evidence',
+        description: 'Every requirement for the engagement, dense and filterable. Select a requirement to open its detail drawer — evidence, controls, test procedures, attributes, samples, suggestions, storage, and reuse.',
         present: viewModel.queue.length > 0,
-        body: function () { return buildQueueBody(viewModel.views, context, targetId); },
+        body: function () { return buildTableBody(viewModel.queue, context); },
         empty: {
           icon: '◇', title: 'No requirements yet',
           description: 'Requirements appear here as they are drafted for the engagement. Release 2 adds AI-drafted and AI-refined requirements; Release 1 renders only the current requirement state.'
@@ -1066,6 +1636,27 @@
       canvas.appendChild(built);
     });
     fillSlot(view, SLOTS.CONTENT, [canvas]);
+
+    // Drawer synchronization (Issue #37 Parts 8/9): a Repository write that
+    // re-renders the workspace refreshes the already-open drawer with the
+    // same record's fresh data instead of closing it; a route that names a
+    // record opens its drawer once per navigation (closing it stays closed
+    // until the route changes again).
+    function findQueueRow(id) {
+      return viewModel.queue.filter(function (row) { return row.id === id; })[0] || null;
+    }
+    if (tableState.drawerRequirementId && P.isDrawerOpen && P.isDrawerOpen()) {
+      var openRow = findQueueRow(tableState.drawerRequirementId);
+      if (openRow) {
+        openRequirementDrawer(openRow, viewModel.context);
+      }
+    } else if (targetId && targetId !== tableState.lastTargetId) {
+      var targetRow = findQueueRow(targetId);
+      if (targetRow) {
+        openRequirementDrawer(targetRow, viewModel.context);
+      }
+    }
+    tableState.lastTargetId = targetId;
 
     var related = buildRelatedBody(viewModel.relationships);
     related.classList.add('aos-fade-in');
@@ -1132,7 +1723,8 @@
       return;
     }
 
-    var viewModel = state ? collectViewModel(state, registry) : null;
+    var routeContext = router.getCurrentContext ? router.getCurrentContext() : null;
+    var viewModel = state ? collectViewModel(state, registry, routeContext) : null;
     if (!viewModel) {
       renderLoading(view);
       return;
@@ -1166,6 +1758,13 @@
       deriveQueue: deriveQueue,
       deriveRequirementHealth: deriveRequirementHealth,
       deriveCollectionStatus: deriveCollectionStatus,
+      deriveRequirementEvidenceIds: deriveRequirementEvidenceIds,
+      indexTestsByControl: indexTestsByControl,
+      indexControlsByCode: indexControlsByCode,
+      deriveRequirementTests: deriveRequirementTests,
+      deriveRequirementSuggestions: deriveRequirementSuggestions,
+      deriveKpis: deriveKpis,
+      deriveGraphs: deriveGraphs,
       requirementView: requirementView,
       pendingByPocView: pendingByPocView,
       evidenceView: evidenceView,
@@ -1200,6 +1799,15 @@
       if (!AuditOS.workspaceRegistry || !router) {
         return;
       }
+
+      // Navigating away closes the requirement drawer (Issue #37 Part 9) —
+      // an overlay never outlives the page that opened it. Repository writes
+      // (STATE_CHANGED) do not close it; renderReady refreshes it in place.
+      global.document.addEventListener(router.ROUTE_CHANGED_EVENT, function () {
+        if (tableState.drawerRequirementId && AuditOS.presentation && AuditOS.presentation.closeDrawer) {
+          AuditOS.presentation.closeDrawer();
+        }
+      });
 
       global.document.addEventListener(router.ROUTE_CHANGED_EVENT, renderActiveRequirements);
       if (state && typeof state.subscribe === 'function') {

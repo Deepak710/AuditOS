@@ -373,6 +373,110 @@
   }
 
   // ------------------------------------------------------------------
+  // Header Activity Drawer (Issue #37 Part 10) — context-sensitive audit
+  // activity for sessions holding `audit-log.view` (Platform
+  // Administrator): current page → current engagement → current client →
+  // platform. Recent entries render inline; the complete lineage —
+  // Genesis → ripple effects → current state — opens on demand. Hosted in
+  // the shared enterprise drawer, never a modal dialog.
+  // ------------------------------------------------------------------
+
+  var AUDIT_VIEW_CAPABILITY = 'audit-log.view';
+  var activityDrawerOpen = false;
+
+  /** One audit event as a compact list item — action, reason, actor, and time. */
+  function activityEventItem(event) {
+    return {
+      title: event.action + (event.reason ? ' — ' + event.reason : ''),
+      meta: [event.user, formatTimestamp(event.timestamp)].filter(Boolean).join(' · ')
+    };
+  }
+
+  /** Builds one context scope block: its latest events inline, the complete lineage on demand. */
+  function buildActivityScope(P, auditService, label, filter) {
+    var events = auditService.list(filter);
+    var block = el('section', 'aos-inspector__section');
+    block.appendChild(el('h3', 'aos-inspector__section-title', label));
+    if (events.length === 0) {
+      block.appendChild(P.emptyState({
+        icon: '◇', title: 'No recorded activity',
+        description: 'Audit events in this scope appear here as work happens.'
+      }));
+      return block;
+    }
+    block.appendChild(P.itemList(events.slice(0, 5).map(activityEventItem), { compact: true }));
+    if (events.length > 5) {
+      var mount = el('div', 'aos-global-header__activity-lineage');
+      var button = P.button({ label: 'View complete lineage (' + events.length + ')', variant: 'subtle' });
+      button.addEventListener('click', function () {
+        // Genesis first — the whole chain from origin through every ripple
+        // to the current state, oldest to newest.
+        var chain = events.slice().reverse();
+        mount.replaceChildren(P.timeline(chain.map(function (event, index) {
+          return {
+            title: (index === 0 ? 'Genesis — ' : '') + event.action,
+            meta: [event.user, formatTimestamp(event.timestamp), event.reason || ''].filter(Boolean).join(' · ')
+          };
+        })));
+        button.hidden = true;
+      });
+      block.appendChild(button);
+      block.appendChild(mount);
+    }
+    return block;
+  }
+
+  /** Opens the global Activity drawer scoped to the current route's context. */
+  function openActivityDrawer() {
+    var P = AuditOS.presentation;
+    var auditService = AuditOS.auditService;
+    var router = AuditOS.router;
+    if (!P || !P.openDrawer || !auditService) {
+      return;
+    }
+    var routeContext = router && typeof router.getCurrentContext === 'function' ? router.getCurrentContext() : null;
+    var workspaceId = router && typeof router.getCurrentWorkspaceId === 'function' ? router.getCurrentWorkspaceId() : '';
+    var engagement = routeContext && routeContext.engagement ? routeContext.engagement : null;
+    var client = routeContext && routeContext.client ? routeContext.client : null;
+
+    var body = el('div', 'aos-global-header__activity');
+    if (workspaceId) {
+      body.appendChild(buildActivityScope(P, auditService, 'Current page', { workspaceId: workspaceId }));
+    }
+    if (engagement) {
+      body.appendChild(buildActivityScope(P, auditService,
+        'Current engagement — ' + (engagement.name || engagement.id), { engagementId: engagement.id }));
+    }
+    if (client) {
+      body.appendChild(buildActivityScope(P, auditService,
+        'Current client — ' + (client.name || client.id), { companyId: client.id }));
+    }
+    body.appendChild(buildActivityScope(P, auditService, 'Platform', {}));
+
+    activityDrawerOpen = true;
+    P.openDrawer({
+      eyebrow: 'Audit trail',
+      title: 'Activity',
+      subtitle: 'Context-sensitive audit activity — current page, engagement, client, then platform.',
+      content: body,
+      onClose: function () { activityDrawerOpen = false; }
+    });
+  }
+
+  /** Builds the Activity drawer trigger — present only for sessions holding `audit-log.view` (hidden, never disabled). */
+  function buildActivityIndicator() {
+    var button = el('button', 'aos-global-header__icon-button');
+    button.type = 'button';
+    button.setAttribute('aria-label', 'Open audit activity');
+    button.setAttribute('title', 'Audit activity');
+    var icon = el('i', 'bi bi-clock-history');
+    icon.setAttribute('aria-hidden', 'true');
+    button.appendChild(icon);
+    button.addEventListener('click', openActivityDrawer);
+    return button;
+  }
+
+  // ------------------------------------------------------------------
   // Session Panel (Issue #34) — user, roles, permissions, session
   // information, and Demo-Mode role switching.
   // ------------------------------------------------------------------
@@ -569,6 +673,13 @@
     var profileChildren = [];
     if (ready) {
       actionChildren.push(buildApprovalsIndicator(deriveGlobalPendingApprovals(state)));
+      // The Activity drawer trigger is capability-gated — hidden, never
+      // disabled (Issue #37 Part 10 / permission pattern of Issue #33 §5).
+      var permissionService = AuditOS.permissions;
+      if (permissionService && typeof permissionService.can === 'function' &&
+          permissionService.can(AUDIT_VIEW_CAPABILITY)) {
+        actionChildren.push(buildActivityIndicator());
+      }
       var engagement = currentEngagement(state);
       if (engagement) {
         actionChildren.push(buildNotifications(deriveAttentionCount(state, engagement)));
@@ -606,6 +717,13 @@
       var router = AuditOS.router;
       if (router) {
         global.document.addEventListener(router.ROUTE_CHANGED_EVENT, render);
+        // Navigating closes the Activity drawer (Issue #37 Part 10) — its
+        // context scopes belong to the page that opened it.
+        global.document.addEventListener(router.ROUTE_CHANGED_EVENT, function () {
+          if (activityDrawerOpen && AuditOS.presentation && AuditOS.presentation.closeDrawer) {
+            AuditOS.presentation.closeDrawer();
+          }
+        });
       }
 
       // The user control and gated indicators follow session switches.

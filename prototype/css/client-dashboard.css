@@ -261,113 +261,6 @@ a.aos-client__viz-legend-item:hover .aos-client__viz-legend-label {
 }
 
 /* ========================================
- * TEAM ANALYTICS → POC ANALYTICS (Issue #35 §5/§6)
- * A selectable rail of team rows; selecting one reveals its POC roster
- * beneath it. Both levels share the tooltip system above.
- * ======================================== */
-
-.aos-client__teams {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--aos-space-4);
-}
-
-.aos-client__team-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
-  gap: var(--aos-space-3);
-}
-
-.aos-client__team-row {
-  display: flex;
-  flex-direction: column;
-  gap: var(--aos-space-1);
-  padding: var(--aos-space-3);
-  background-color: var(--aos-surface-panel);
-  border: 1px solid var(--aos-surface-border);
-  border-radius: var(--aos-radius-md);
-  text-align: left;
-  cursor: pointer;
-  transition: border-color var(--aos-transition-fast), background-color var(--aos-transition-fast);
-}
-
-.aos-client__team-row:hover {
-  background-color: var(--aos-surface-hover);
-}
-
-.aos-client__team-row--selected {
-  border-color: var(--aos-color-primary-500);
-  background-color: var(--aos-surface-active);
-}
-
-.aos-client__team-row-head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--aos-space-2);
-}
-
-.aos-client__team-row-name {
-  font-weight: var(--aos-font-semibold);
-  color: var(--aos-text-primary);
-}
-
-.aos-client__team-row-completion {
-  color: var(--aos-text-secondary);
-}
-
-.aos-client__team-row-meta {
-  font-size: var(--aos-text-xs);
-  color: var(--aos-text-tertiary);
-}
-
-.aos-client__poc-mount:empty {
-  display: none;
-}
-
-.aos-client__poc-heading {
-  margin: 0 0 var(--aos-space-3);
-  font-size: var(--aos-text-sm);
-  font-weight: var(--aos-font-semibold);
-  color: var(--aos-text-primary);
-}
-
-.aos-client__poc-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
-  gap: var(--aos-space-2);
-}
-
-.aos-client__poc-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--aos-space-2);
-  padding: var(--aos-space-2) var(--aos-space-3);
-  background-color: var(--aos-surface-workspace);
-  border: 1px solid var(--aos-surface-border);
-  border-radius: var(--aos-radius-sm);
-  color: inherit;
-  text-decoration: none;
-}
-
-a.aos-client__poc-row:hover {
-  border-color: var(--aos-color-primary-500);
-}
-
-.aos-client__poc-row-name {
-  font-size: var(--aos-text-sm);
-  color: var(--aos-text-primary);
-}
-
-.aos-client__poc-row-meta {
-  font-size: var(--aos-text-xs);
-  color: var(--aos-text-secondary);
-  white-space: nowrap;
-}
-
-/* ========================================
  * ENGAGEMENT GRIDS
  * One Entity Card per engagement, fluid by construction. Active and
  * completed (read-only) engagements share the same grid; the read-only
@@ -533,16 +426,10 @@ a.aos-client__search-result:hover {
   .aos-client__viz-row {
     grid-template-columns: 5.5rem 1fr 3rem;
   }
-
-  .aos-client__team-list,
-  .aos-client__poc-list {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .aos-client__viz-segment,
-  .aos-client__team-row,
   .aos-client__collapsible-summary::before {
     transition: none;
   }

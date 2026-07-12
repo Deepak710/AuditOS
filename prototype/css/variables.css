@@ -83,6 +83,8 @@
   --aos-surface-active: var(--aos-color-neutral-100);
   --aos-surface-border: var(--aos-color-neutral-200);
   --aos-surface-border-strong: var(--aos-color-neutral-300);
+  /* Overlay scrim behind drawers (Issue #37) — page stays visible through it. */
+  --aos-surface-scrim: rgb(15 23 42 / 0.4);
 
   /* Text Hierarchy */
   --aos-text-primary: var(--aos-color-neutral-900);
@@ -210,6 +212,9 @@
   --aos-z-fixed: 300;
   --aos-z-modal-backdrop: 400;
   --aos-z-modal: 500;
+  /* Drawers replace modal dialogs (Issue #37) — same overlay tier, so
+   * popovers and tooltips opened from inside a drawer still layer above. */
+  --aos-z-drawer: 500;
   --aos-z-popover: 600;
   --aos-z-tooltip: 700;
   --aos-z-toast: 800;
@@ -242,6 +247,7 @@
     --aos-surface-active: var(--aos-color-neutral-700);
     --aos-surface-border: var(--aos-color-neutral-700);
     --aos-surface-border-strong: var(--aos-color-neutral-600);
+    --aos-surface-scrim: rgb(0 0 0 / 0.55);
 
     --aos-text-primary: var(--aos-color-neutral-50);
     --aos-text-secondary: var(--aos-color-neutral-400);
@@ -272,6 +278,7 @@
   --aos-surface-active: var(--aos-color-neutral-700);
   --aos-surface-border: var(--aos-color-neutral-700);
   --aos-surface-border-strong: var(--aos-color-neutral-600);
+  --aos-surface-scrim: rgb(0 0 0 / 0.55);
 
   --aos-text-primary: var(--aos-color-neutral-50);
   --aos-text-secondary: var(--aos-color-neutral-400);

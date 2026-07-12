@@ -66,7 +66,6 @@ The workspace is divided into logical regions:
 **Primary Content Canvas**
 
 * **Portfolio Overview** — Segmented visualization showing 6 live metrics (Requirements, Evidence, Testing, Walkthroughs, Approvals, Findings) across operational engagements; click drills into engagement workspaces.
-* **Team Analytics** — Rankings of client-side teams by workload; click reveals POC roster and drill-down analytics by team.
 * **Engagement Portfolio** — Entity cards for all active engagements; click navigates to the Engagement Workspace.
 * **Completed Engagements** — Collapsed by default; read-only reference for closed engagements.
 
@@ -244,7 +243,6 @@ The Client Workspace maintains:
 
 * Findings carry no team/POC join field in the current dataset; "Open findings" metric may legitimately be 0
 * AI Portfolio Insights is a static precomputed-signal collection; Release 2 will replace the generation strategy, not this UI
-* Team Analytics is scoped to company-level teams (cross-engagement only); per-engagement teams are out of scope
 
 ---
 
@@ -260,3 +258,26 @@ The Client Workspace replaces the prior "Client Dashboard" concept with:
 * Removal of the "Audit Program" shortcut and obsolete Metadata section
 
 Issue #35 established this workspace as the primary Client Workspace for all releases.
+
+#### Issue #37 Phase 1 Update — Team Analytics Removal
+
+Issue #37 Phase 1 simplified the Client Workspace by removing the Team Analytics module.
+
+**Change:**
+
+Team Analytics (rankings of client-side teams by workload with POC drill-down) is no longer present in the Client Workspace.
+
+**Rationale:**
+
+Team-level analytics belong in the **Team Workspace** (Issue #37 Phase 2–3) and **POC Workspace** (Issue #37 Phase 3), not at the client portfolio level. The Client Workspace focuses exclusively on engagement-level Portfolio Overview and cross-engagement insights; team-level detail is accessed by navigating into specific engagements and their Walkthroughs.
+
+**Navigation Pattern:**
+
+To view team workload and POC analytics:
+
+1. Select an engagement from the Engagement Portfolio
+2. Navigate to Walkthroughs
+3. Select a team to open Team Workspace
+4. View team-scoped analytics and POC roster
+
+This navigation pattern maintains the hierarchical engagement model (Client → Engagement → Walkthrough → Team) while keeping the Client Workspace focused on portfolio-level concerns.

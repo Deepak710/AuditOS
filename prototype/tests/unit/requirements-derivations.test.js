@@ -62,6 +62,27 @@ module.exports = function registerUnitTests(harness) {
     assert.deepEqual(Array.from(derive.normalizeControlIds({})), [], 'neither shape yields no fabricated link');
   });
 
+  test('normalizeControlIds resolves the controlLinks shape through an engagement-scoped code index, and fabricates nothing it cannot join', function () {
+    const codeToId = derive.indexControlsByCode([
+      { id: 'CTL-1', engagementId: 'ENG-1', controlCode: 'CSC-01' },
+      { id: 'CTL-2', engagementId: 'ENG-1', controlCode: 'CSC-02' },
+      { id: 'CTL-OTHER-ENG', engagementId: 'ENG-2', controlCode: 'CSC-01' }
+    ]);
+    const requirement = {
+      controlLinks: [
+        { engagementId: 'ENG-1', controlCode: 'CSC-01' },
+        { engagementId: 'ENG-1', controlCode: 'CSC-02' },
+        { engagementId: 'ENG-2', controlCode: 'CSC-99' }
+      ]
+    };
+    assert.deepEqual(Array.from(derive.normalizeControlIds(requirement, codeToId)), ['CTL-1', 'CTL-2'],
+      'links scoped to the current engagement resolve; a link into a different engagement/program with no local match is dropped, never fabricated');
+    assert.deepEqual(Array.from(derive.normalizeControlIds(requirement)), [],
+      'without a code index, controlLinks resolves to nothing rather than guessing');
+    assert.deepEqual(Array.from(derive.normalizeControlIds({ controlLinks: [{ engagementId: 'ENG-1', controlCode: 'CSC-UNKNOWN' }] }, codeToId)), [],
+      'a code that does not resolve within the engagement is dropped, not fabricated');
+  });
+
   test('normalizeEvidenceIds reads whichever evidence-link shape is present', function () {
     assert.deepEqual(Array.from(derive.normalizeEvidenceIds({ evidenceIds: ['EV-1'] })), ['EV-1']);
     assert.deepEqual(Array.from(derive.normalizeEvidenceIds({ linkedEvidenceIds: ['EV-2'] })), ['EV-2']);

@@ -1957,3 +1957,164 @@ button.aos-chip:focus-visible {
   line-height: var(--aos-leading-relaxed);
   color: var(--aos-text-secondary);
 }
+
+/* ========================================
+ * DRAWER (Issue #37 Phase 5)
+ * The one slide-over overlay for the whole application — requirement /
+ * evidence detail and the header Activity drawer both render through it.
+ * Fixed at the drawer tier of the z-index scale; popovers and tooltips
+ * still layer above it. Never a modal dialog: the page stays visible
+ * behind a light backdrop.
+ * ======================================== */
+
+.aos-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: var(--aos-z-drawer);
+}
+
+.aos-drawer__backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--aos-surface-scrim);
+}
+
+.aos-drawer__panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(30rem, 94vw);
+  display: flex;
+  flex-direction: column;
+  background: var(--aos-surface-panel);
+  border-left: 1px solid var(--aos-surface-border);
+  box-shadow: var(--aos-shadow-xl);
+  outline: none;
+}
+
+.aos-drawer--open .aos-drawer__panel {
+  animation: aos-drawer-slide-in var(--aos-duration-normal) var(--aos-ease-out);
+}
+
+.aos-drawer--open .aos-drawer__backdrop {
+  animation: aos-drawer-fade-in var(--aos-duration-normal) var(--aos-ease-out);
+}
+
+.aos-drawer__panel--wide {
+  width: min(40rem, 96vw);
+}
+
+.aos-drawer__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--aos-space-3);
+  padding: var(--aos-space-4) var(--aos-space-5);
+  border-bottom: 1px solid var(--aos-surface-border);
+}
+
+.aos-drawer__heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  min-width: 0;
+}
+
+.aos-drawer__eyebrow {
+  margin: 0;
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-drawer__title {
+  margin: 0;
+  font-size: var(--aos-text-lg);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+  overflow-wrap: anywhere;
+}
+
+.aos-drawer__subtitle {
+  margin: 0;
+  font-size: var(--aos-text-sm);
+  color: var(--aos-text-secondary);
+}
+
+.aos-drawer__close {
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  background: transparent;
+  color: var(--aos-text-secondary);
+  font-size: var(--aos-text-lg);
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--aos-transition-fast), color var(--aos-transition-fast);
+}
+
+.aos-drawer__close:hover {
+  background: var(--aos-surface-hover);
+  color: var(--aos-text-primary);
+}
+
+.aos-drawer__close:focus-visible {
+  outline: none;
+  box-shadow: var(--aos-focus-ring);
+}
+
+.aos-drawer__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-3) var(--aos-space-5) 0;
+}
+
+.aos-drawer__badges[hidden] {
+  display: none;
+}
+
+.aos-drawer__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
+  padding: var(--aos-space-4) var(--aos-space-5) var(--aos-space-6);
+}
+
+@keyframes aos-drawer-slide-in {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes aos-drawer-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aos-drawer--open .aos-drawer__panel,
+  .aos-drawer--open .aos-drawer__backdrop {
+    animation: none;
+  }
+}

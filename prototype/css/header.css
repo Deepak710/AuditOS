@@ -430,3 +430,19 @@
   background: var(--aos-color-primary-500);
   border-radius: var(--aos-radius-sm) var(--aos-radius-sm) 0 0;
 }
+
+/* ========================================
+ * HEADER ACTIVITY DRAWER (Issue #37 Part 10)
+ * The drawer chrome itself is the shared .aos-drawer component; this
+ * layer only spaces the context scope blocks inside its body.
+ * ======================================== */
+
+.aos-global-header__activity {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
+}
+
+.aos-global-header__activity-lineage:empty {
+  display: none;
+}

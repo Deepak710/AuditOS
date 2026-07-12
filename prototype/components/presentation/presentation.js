@@ -903,6 +903,19 @@
   }
 
   /**
+   * Builds just the titled Inspector sections with no identity header — the
+   * body the shared Drawer hosts (Issue #37), whose own header already
+   * carries the eyebrow / title / subtitle / badges.
+   */
+  function inspectorSections(sections) {
+    var wrap = element('div', 'aos-inspector__body');
+    asArray(sections).forEach(function (section) {
+      wrap.appendChild(inspectorSection(section));
+    });
+    return wrap;
+  }
+
+  /**
    * Builds the Inspector Panel (Issue #18 §3): an identity header (eyebrow,
    * title, subtitle, status badges), a body of titled sections — properties,
    * metadata, relationships, timeline, activity, or reserved placeholders
@@ -951,6 +964,147 @@
   }
 
   // ------------------------------------------------------------------
+  // Shared enterprise Drawer (Issue #37 Phase 5) — the ONE slide-over
+  // implementation the whole application reuses (Requirement/Evidence
+  // detail, the header Activity drawer, and any future overlay). Never a
+  // modal dialog: the page behind stays visible, the panel slides in from
+  // the right, and Escape / backdrop / the close button dismiss it with
+  // focus returning where it was. A single host element is created lazily
+  // on first open and reused for every drawer after it — no per-page
+  // drawer implementations, no stacked overlays, no duplicated state.
+  // ------------------------------------------------------------------
+
+  var drawerState = { host: null, lastFocused: null, onClose: null };
+
+  /** Builds the singleton drawer host and appends it to the document body. */
+  function buildDrawerHost() {
+    var root = element('div', 'aos-drawer');
+    root.hidden = true;
+
+    var backdrop = element('div', 'aos-drawer__backdrop');
+    backdrop.addEventListener('click', closeDrawer);
+    root.appendChild(backdrop);
+
+    var panel = element('aside', 'aos-drawer__panel');
+    panel.setAttribute('role', 'dialog');
+    panel.setAttribute('aria-modal', 'false');
+    panel.tabIndex = -1;
+
+    var header = element('header', 'aos-drawer__header');
+    var heading = element('div', 'aos-drawer__heading');
+    var eyebrow = element('p', 'aos-drawer__eyebrow');
+    var title = element('h2', 'aos-drawer__title');
+    var subtitle = element('p', 'aos-drawer__subtitle');
+    heading.appendChild(eyebrow);
+    heading.appendChild(title);
+    heading.appendChild(subtitle);
+    header.appendChild(heading);
+
+    var close = element('button', 'aos-drawer__close');
+    close.type = 'button';
+    close.setAttribute('aria-label', 'Close drawer');
+    close.textContent = '×';
+    close.addEventListener('click', closeDrawer);
+    header.appendChild(close);
+    panel.appendChild(header);
+
+    var badges = element('div', 'aos-drawer__badges');
+    panel.appendChild(badges);
+
+    var body = element('div', 'aos-drawer__body');
+    panel.appendChild(body);
+
+    root.appendChild(panel);
+    root.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        closeDrawer();
+      }
+    });
+
+    global.document.body.appendChild(root);
+    return {
+      root: root, panel: panel,
+      eyebrow: eyebrow, title: title, subtitle: subtitle,
+      badges: badges, body: body
+    };
+  }
+
+  /** Returns the singleton drawer host, rebuilding it if it was detached. */
+  function ensureDrawerHost() {
+    if (!drawerState.host || !drawerState.host.root.isConnected) {
+      drawerState.host = buildDrawerHost();
+    }
+    return drawerState.host;
+  }
+
+  /**
+   * Opens the shared drawer: `{ eyebrow, title, subtitle, badges:
+   * [{ label, tone }], content: node | node[], wide, onClose }`.
+   * Opening while already open replaces the content in place — one
+   * drawer, one stacking context, never stacked overlays.
+   */
+  function openDrawer(config) {
+    var source = config || {};
+    var host = ensureDrawerHost();
+    var wasOpen = !host.root.hidden;
+
+    host.eyebrow.textContent = source.eyebrow || '';
+    host.eyebrow.hidden = !source.eyebrow;
+    host.title.textContent = source.title || '';
+    host.subtitle.textContent = source.subtitle || '';
+    host.subtitle.hidden = !source.subtitle;
+    host.panel.setAttribute('aria-label', source.title || 'Details');
+    host.panel.classList.toggle('aos-drawer__panel--wide', Boolean(source.wide));
+
+    host.badges.replaceChildren();
+    asArray(source.badges).forEach(function (badge) {
+      host.badges.appendChild(statusBadge(badge));
+    });
+    host.badges.hidden = asArray(source.badges).length === 0;
+
+    host.body.replaceChildren();
+    (Array.isArray(source.content) ? source.content : [source.content]).forEach(function (node) {
+      if (node) {
+        host.body.appendChild(node);
+      }
+    });
+
+    drawerState.onClose = typeof source.onClose === 'function' ? source.onClose : null;
+    if (!wasOpen) {
+      drawerState.lastFocused = global.document.activeElement || null;
+      host.root.hidden = false;
+    }
+    host.root.classList.add('aos-drawer--open');
+    if (typeof host.panel.focus === 'function') {
+      host.panel.focus();
+    }
+  }
+
+  /** Closes the shared drawer, restoring focus to where it was before opening. */
+  function closeDrawer() {
+    var host = drawerState.host;
+    if (!host || host.root.hidden) {
+      return;
+    }
+    host.root.classList.remove('aos-drawer--open');
+    host.root.hidden = true;
+    if (drawerState.lastFocused && typeof drawerState.lastFocused.focus === 'function') {
+      drawerState.lastFocused.focus();
+    }
+    drawerState.lastFocused = null;
+    var onClose = drawerState.onClose;
+    drawerState.onClose = null;
+    if (onClose) {
+      onClose();
+    }
+  }
+
+  /** Whether the shared drawer is currently open. */
+  function isDrawerOpen() {
+    return Boolean(drawerState.host && !drawerState.host.root.hidden);
+  }
+
+  // ------------------------------------------------------------------
   // Public API — the presentation system. Pure resolvers are exposed so the
   // offline suites exercise the presentation decisions directly; the builders
   // compose the registered component primitives from configuration.
@@ -989,7 +1143,14 @@
     dataGrid: dataGrid,
     masterDetail: masterDetail,
     inspectorPanel: inspectorPanel,
+    inspectorSections: inspectorSections,
     emptyState: emptyState,
-    loadingState: loadingState
+    loadingState: loadingState,
+
+    // The shared enterprise Drawer (Issue #37 Phase 5) — one slide-over
+    // for the whole application; never a modal dialog.
+    openDrawer: openDrawer,
+    closeDrawer: closeDrawer,
+    isDrawerOpen: isDrawerOpen
   };
 })(window);
