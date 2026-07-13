@@ -19,7 +19,7 @@
  * that keep the workspace presentation-only and offline.
  */
 
-const { SCRIPTS, readText, loadClassicScripts } = require('../lib/prototype');
+const { SCRIPTS, readText, loadClassicScripts, engagementRouteContext } = require('../lib/prototype');
 
 /** Boots the state foundations plus the Testing workspace in one sandbox window. */
 function bootTestingSandbox() {
@@ -122,7 +122,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the Testing workspace collects a ready, non-degraded view model from the loaded state', async function () {
     const AuditOS = bootTestingSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.testingWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.testingWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     assert.ok(viewModel, 'a view model is collected once the state is ready');
     assert.equal(viewModel.degraded, false, 'demo data loads without degradation');
@@ -133,7 +133,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the test queue and health strip read real values from the current engagement', async function () {
     const AuditOS = bootTestingSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.testingWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.testingWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     assert.ok(Array.from(viewModel.queue).length > 0, 'the current engagement holds real tests');
     viewModel.queue.forEach(function (row) {
@@ -152,7 +152,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the related control resolves against the shared control library for real tests', async function () {
     const AuditOS = bootTestingSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.testingWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.testingWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     const resolved = viewModel.queue.filter(function (row) { return row.control && row.control.title; });
     assert.ok(resolved.length > 0, 'at least some tests resolve their related control through a real join');
@@ -161,7 +161,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('testing progress reads real completed / total counts, never an estimated percentage', async function () {
     const AuditOS = bootTestingSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.testingWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.testingWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     const progress = viewModel.progress;
     assert.equal(progress.total, Array.from(viewModel.queue).length, 'the progress total is the real test count');
@@ -172,7 +172,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the three presentation modes regroup one dataset without changing it', async function () {
     const AuditOS = bootTestingSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.testingWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.testingWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     const total = Array.from(viewModel.queue).length;
     const views = Array.from(viewModel.views);
@@ -186,7 +186,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('exceptions surface only actual failures, resolved to their raised finding', async function () {
     const AuditOS = bootTestingSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.testingWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.testingWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     // Production carries zero failed test results ("Fail") for every
     // engagement today; exceptions are genuinely empty, never fabricated.
@@ -200,7 +200,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the audit lineage highlights Testing and carries only real, current counts', async function () {
     const AuditOS = bootTestingSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.testingWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.testingWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     const lineage = Array.from(viewModel.lineage);
     const testingNode = lineage.filter(function (node) { return node.label === 'Testing'; })[0];
@@ -224,7 +224,7 @@ module.exports = function registerIntegrationTests(harness) {
       SCRIPTS.testingWorkspace
     ]).AuditOS;
     return AuditOS.state.init().then(function () {
-      const viewModel = AuditOS.testingWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+      const viewModel = AuditOS.testingWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
       assert.equal(viewModel.degraded, true, 'no engagement yields a degraded model, never an exception');
     });
   });
@@ -246,7 +246,7 @@ module.exports = function registerIntegrationTests(harness) {
     await AuditOS.state.init();
     win.document = createDocument();
 
-    const viewModel = AuditOS.testingWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.testingWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
     const node = AuditOS.testingWorkspace.renderInspector(viewModel.queue, viewModel.context);
 
     assert.ok(node, 'the inspector renders a node');

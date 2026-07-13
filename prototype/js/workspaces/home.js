@@ -444,20 +444,9 @@
             title: 'No clients yet',
             description: 'Client profiles appear here once companies exist in the Shared Audit State.'
           }
-        },
-        {
-          id: 'client-groups',
-          kind: 'items',
-          kicker: 'Segments',
-          title: 'Client groups',
-          description: 'The portfolio grouped by industry — the grouping the client records themselves carry.',
-          items: deriveClientGroups(companies),
-          empty: {
-            icon: '◇',
-            title: 'No client groups',
-            description: 'Groups derive from the industries of the clients in the portfolio.'
-          }
         }
+        // The Segments (client groups) section was removed by Issue #39 —
+        // Home carries only useful operational information.
       ],
 
       panels: {

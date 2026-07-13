@@ -62,9 +62,11 @@ module.exports = function registerIntegrationTests(harness) {
     await AuditOS.state.init();
     const viewModel = AuditOS.homeWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, []);
 
+    // Issue #39 removed the Segments (client-groups) section — Home carries
+    // only useful operational selection sections.
     const sectionIds = Array.from(viewModel.sections).map(function (section) { return section.id; });
     assert.deepEqual(sectionIds,
-      ['continue-working', 'recent-clients', 'pinned-clients', 'all-clients', 'client-groups'],
+      ['continue-working', 'recent-clients', 'pinned-clients', 'all-clients'],
       'the client-selection sections appear in order');
 
     const companies = AuditOS.state.listRecords('companies');
@@ -76,8 +78,8 @@ module.exports = function registerIntegrationTests(harness) {
       'a fresh session has no recent clients — nothing is fabricated');
     assert.equal(sectionById(viewModel, 'pinned-clients').items.length, 0,
       'no pin exists in Release 1 data, so none is invented');
-    assert.ok(sectionById(viewModel, 'client-groups').items.length > 0,
-      'client groups derive from the recorded industries');
+    assert.equal(sectionById(viewModel, 'client-groups'), undefined,
+      'the Segments section is removed (Issue #39)');
   });
 
   test('Home no longer presents engagement summaries, evidence, reports, or activity feeds', async function () {

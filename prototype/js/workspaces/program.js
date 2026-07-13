@@ -100,23 +100,23 @@
   };
 
   /**
-   * Evidence/requirement review-status vocabulary (read, never invented),
-   * mirrored from the Evidence workspace so the same real statuses read with
-   * the same tone wherever they appear.
+   * Evidence/requirement lifecycle vocabulary — the canonical Evidence
+   * Lifecycle (Issue #39), so the same statuses read with the same tone
+   * wherever they appear. Tones resolve through the shared lifecycle
+   * service; the local map only covers request statuses outside it.
    */
   var REVIEW_TONES = {
-    'Approved': TONES.SUCCESS, 'All Evidence Received': TONES.SUCCESS,
-    'Pending Review': TONES.WARNING, 'Evidence Partially Received': TONES.WARNING,
-    'Population Pending - HA unable to share samples': TONES.WARNING,
-    'Evidence Reviewed - Clarification Needed': TONES.WARNING,
+    'Received': TONES.SUCCESS, 'Accepted': TONES.SUCCESS, 'Closed': TONES.SUCCESS,
+    'Partially Received': TONES.WARNING, 'Population Pending': TONES.WARNING,
+    'Clarification Needed': TONES.WARNING, 'Revision Requested': TONES.WARNING,
     'Rejected': TONES.ERROR,
-    'Requested by SOC Team': TONES.INFO, 'Requested by Consulting Team': TONES.INFO,
-    'Evidence Received - Under HA Review': TONES.INFO,
-    'Not Applicable': null
+    'Requested': TONES.INFO, 'Requested by Consulting': TONES.INFO,
+    'Under Review': TONES.INFO, 'Reused': TONES.INFO, 'Cross Engagement': TONES.INFO,
+    'Not Applicable': null, 'Duplicate': null, 'Archived': null
   };
 
   /** The single status this dataset's requests/requirements treat as fully satisfied. */
-  var COMPLETE_STATUS = 'All Evidence Received';
+  var COMPLETE_STATUS = 'Received';
 
   /** The status that means the requirement/request is out of scope, not outstanding. */
   var NOT_APPLICABLE_STATUS = 'Not Applicable';
@@ -397,7 +397,6 @@
     }
     var ids = workspaceRegistry.IDS;
     var related = [
-      { id: ids.REQUIREMENTS, title: 'Requirements', meta: String(counts.requirements), present: counts.requirements > 0 },
       { id: ids.CONTROLS, title: 'Controls', meta: String(counts.controls), present: counts.controls > 0 },
       { id: ids.EVIDENCE, title: 'Evidence', meta: String(counts.evidence), present: counts.evidence > 0 },
       { id: ids.TESTING, title: 'Testing', meta: String(counts.testing), present: counts.testing > 0 },
@@ -569,8 +568,7 @@
         meta: memberEngagements.length + ' participating engagements · ' + (company ? company.name : program.companyId),
         lastUpdated: metadata.updated ? 'Updated ' + metadata.updated : '',
         actions: [
-          { label: 'Program evidence', href: '#/evidence', variant: 'subtle' },
-          { label: 'Program requirements', href: '#/requirements', variant: 'subtle' }
+          { label: 'Program evidence', href: '#/evidence', variant: 'subtle' }
         ]
       },
 
@@ -714,7 +712,12 @@
     return wrap;
   }
 
-  /** Builds the Shared requirements body: live counts over a sample of requirements more than one engagement shares, each linking into Requirements. */
+  /**
+   * Builds the Shared requirements body: live counts over a sample of
+   * requirements more than one engagement shares. Requirement knowledge
+   * renders read-only here — Requirements ceased to exist as a user-facing
+   * workspace (Issue #39), so shared entries carry no requirement URL.
+   */
   function buildSharedRequirementsBody(sharedRequirements, workspaceRegistry) {
     var P = presentation();
     var wrap = el('div', 'aos-surface aos-surface--padded aos-program__requirements');
@@ -725,12 +728,10 @@
 
     var sample = sharedRequirements.entries.filter(function (entry) { return entry.shared; }).slice(0, LIST_LIMIT);
     var items = sample.map(function (entry) {
-      var href = WS.buildRecordHref(workspaceRegistry, workspaceRegistry.IDS.REQUIREMENTS, entry.requirement.id);
       return {
         title: entry.requirement.title || entry.requirement.id,
         meta: entry.engagementIds.length + ' engagements',
-        tone: TONES.INFO,
-        actions: href ? [{ label: 'Open', href: href }] : []
+        tone: TONES.INFO
       };
     });
     wrap.appendChild(items.length > 0 ? P.itemList(items, { compact: true }) : P.emptyState({

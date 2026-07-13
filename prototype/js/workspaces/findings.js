@@ -485,7 +485,6 @@
 
     var nodes = [
       { id: ids.WALKTHROUGH, label: 'Walkthrough', count: null, present: false, hint: 'Knowledge acquisition' },
-      { id: ids.REQUIREMENTS, label: 'Requirement', count: requirements.requirements || 0, present: (requirements.requirements || 0) > 0, hint: 'What the control satisfies' },
       { id: ids.CONTROLS, label: 'Control', count: controls.controls || 0, present: (controls.controls || 0) > 0, hint: 'What testing validates' },
       { id: ids.EVIDENCE, label: 'Evidence', count: evidence.evidenceItems || 0, present: (evidence.evidenceItems || 0) > 0, hint: 'What testing inspects' },
       { id: ids.TESTING, label: 'Testing', count: testing.tests || 0, present: (testing.tests || 0) > 0, hint: 'Where the finding is surfaced' },
@@ -518,7 +517,6 @@
       { id: ids.TESTING, title: 'Testing', meta: String(testing.tests || 0), present: (testing.tests || 0) > 0 },
       { id: ids.CONTROLS, title: 'Controls', meta: String(controls.controls || 0), present: (controls.controls || 0) > 0 },
       { id: ids.EVIDENCE, title: 'Evidence', meta: String(evidence.evidenceItems || 0), present: (evidence.evidenceItems || 0) > 0 },
-      { id: ids.REQUIREMENTS, title: 'Requirements', meta: String(requirements.requirements || 0), present: (requirements.requirements || 0) > 0 },
       { id: ids.REPORTING, title: 'Report', meta: report ? String(report.status) : '—', present: Boolean(report) }
     ];
     return WS.resolveRelationships(workspaceRegistry, related);
@@ -692,12 +690,6 @@
         listSection('Related testing',
           test.id ? [{ title: (test.title ? test.title + ' · ' : '') + test.id, tone: TONES.INFO, actions: testHref ? [{ label: 'Open', href: testHref }] : [] }] : [],
           'No related test recorded for this finding.'),
-        listSection('Related requirements',
-          requirements.map(function (requirement) {
-            var href = WS.buildRecordHref(ctx.workspaceRegistry, ids.REQUIREMENTS, requirement.id);
-            return { title: requirement.title || requirement.id, tone: TONES.INFO, actions: href ? [{ label: 'Open', href: href }] : [] };
-          }),
-          'No related requirement recorded for this finding — findings trace requirements through the related control, which declares none.'),
         listSection('Remediation', deriveRemediationItems(item),
           'No remediation recorded for this finding. Release 2 adds AI-suggested remediation for human approval.'),
         priorYear.length > 0

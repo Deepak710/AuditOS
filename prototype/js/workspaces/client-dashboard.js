@@ -106,25 +106,26 @@
    * invented; mirrored from the Evidence and Program workspaces so the same
    * real statuses classify identically wherever they appear).
    */
-  var COMPLETE_STATUS = 'All Evidence Received';
+  var COMPLETE_STATUS = 'Received';
   var NOT_APPLICABLE_STATUS = 'Not Applicable';
 
   /**
    * The statuses that mean a record is awaiting an audit-team approval
-   * decision — the same vocabulary the Global Approvals workspace and the
-   * header badge count, so every surface reports one number.
+   * decision — the same canonical Evidence Lifecycle vocabulary (Issue #39)
+   * the Global Approvals workspace and the header badge count, so every
+   * surface reports one number.
    */
-  var PENDING_APPROVAL_STATUSES = ['Pending Review', 'Evidence Received - Under HA Review', 'Submitted'];
+  var PENDING_APPROVAL_STATUSES = ['Pending Review', 'Under Review', 'Submitted'];
 
   /**
    * Statuses that mean a record is genuinely blocked — stuck on something
-   * outside the audit team's control — distinct from ordinary pending review
-   * (read from the dataset's own recorded vocabulary, never invented).
+   * outside the audit team's control — distinct from ordinary pending review.
    */
   var BLOCKED_STATUSES = [
     'Rejected',
-    'Population Pending - HA unable to share samples',
-    'Evidence Reviewed - Clarification Needed'
+    'Population Pending',
+    'Clarification Needed',
+    'Revision Requested'
   ];
 
   /** Testing / walkthrough lifecycle vocabulary of this dataset (read, never invented). */
@@ -160,15 +161,16 @@
   }
 
   /**
-   * The six metrics each operational engagement independently contributes to
+   * The metrics each operational engagement independently contributes to
    * the portfolio visualization (Issue #35 §4), and the per-engagement
-   * workspace each metric's segment drills into. Approvals has no
+   * workspace each metric's segment drills into. Requirement work is part
+   * of Evidence — the operational object (Issue #39). Approvals has no
    * per-engagement workspace in this platform — its segment opens the
    * Global Approvals inbox instead, never a fabricated route.
    */
   var PORTFOLIO_METRIC_KEYS = ['requirements', 'evidence', 'testing', 'findings', 'walkthrough', 'approvals'];
   var PORTFOLIO_METRIC_DEFS = {
-    requirements: { label: 'Requirements', workspaceKey: 'REQUIREMENTS' },
+    requirements: { label: 'Requirements', workspaceKey: 'EVIDENCE' },
     evidence: { label: 'Evidence', workspaceKey: 'EVIDENCE' },
     testing: { label: 'Testing', workspaceKey: 'TESTING' },
     findings: { label: 'Findings', workspaceKey: 'FINDINGS' },
@@ -525,7 +527,7 @@
         key: 'requirements', label: 'Requirements',
         status: requirements.pending + ' pending',
         tone: requirements.pending > 0 ? TONES.WARNING : TONES.SUCCESS,
-        path: pathFor(ids.REQUIREMENTS)
+        path: pathFor(ids.EVIDENCE)
       },
       {
         key: 'testing', label: 'Testing',
@@ -647,11 +649,13 @@
         });
       });
 
+      // Requirement knowledge is reached through Evidence — the operational
+      // object (Issue #39); requirement titles remain searchable.
       var requirements = (readEngagementDocument(state, 'evidence-requirements', engagement.id) || {}).requirements || [];
       requirements.forEach(function (requirement) {
         results.push({
           kind: 'Requirement', title: requirement.title || requirement.id, meta: engagement.name || '',
-          href: hierarchicalHref(engagement, workspaceRegistry.IDS.REQUIREMENTS)
+          href: hierarchicalHref(engagement, workspaceRegistry.IDS.EVIDENCE)
         });
       });
 
@@ -803,6 +807,21 @@
     var insights = deriveAiInsights(state.listRecords('ai-portfolio-insights'), company.id);
     var searchIndex = buildClientSearchIndex(state, company, engagements, workspaceRegistry, AuditOS.repository);
 
+    // Issue #39 — each operational engagement is one full-width operational
+    // card carrying its own AI recommendations and activity, scrollable
+    // within that engagement. Insights scope to the engagement; client-wide
+    // insights stay on the portfolio overview.
+    var engagementCards = operational.map(function (entry) {
+      return {
+        engagement: entry.engagement,
+        insights: insights.filter(function (insight) {
+          return insight.scope && insight.scope.kind === 'engagement' && insight.scope.id === entry.engagement.id;
+        }),
+        activity: RE.deriveRemarkActivity(entry.activity, actorNames, formatDate)
+          .sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); })
+      };
+    });
+
     var headquarters = company.headquarters || {};
 
     return {
@@ -824,12 +843,11 @@
         actions: [
           // New engagement (Issue #34): the Engagement Creation Wizard entry
           // point, present only when the session holds the capability —
-          // hidden, never disabled (Issue #33 §5). The former "Audit
-          // program" shortcut is removed (Issue #35 §3/§1) — the Client
-          // Workspace itself is now the portfolio view.
+          // hidden, never disabled (Issue #33 §5). The Global Approvals
+          // button is removed (Issue #39): the application header is the
+          // one canonical Global Approvals entry point.
           AuditOS.permissions && AuditOS.permissions.can('engagements.create')
-            ? { label: 'New engagement', href: '#/new-engagement', variant: 'primary' } : null,
-          { label: 'Global approvals', href: '#/approvals', variant: 'subtle' }
+            ? { label: 'New engagement', href: '#/new-engagement', variant: 'primary' } : null
         ].filter(Boolean)
       },
 
@@ -867,6 +885,7 @@
 
       portfolioOverview: portfolioOverview,
       insights: insights,
+      engagementCards: engagementCards,
       searchIndex: searchIndex,
 
       footer: [
@@ -1113,38 +1132,86 @@
     return grid;
   }
 
-  /** Builds the AI Portfolio Insights body (Issue #35 §7): every insight rendered exactly as recorded, JSON-backed. */
-  function buildAiInsightsBody(insights, repository, workspaceRegistry, engagementsById, company) {
+  /**
+   * Builds the full-width operational engagement cards (Issue #39): one card
+   * per operational engagement, carrying the engagement's identity and open
+   * action plus its own AI recommendations and activity — each independently
+   * scrollable within that engagement's card. No disconnected panels exist
+   * beneath the portfolio; everything an engagement says lives on its card.
+   */
+  function buildEngagementOperationalCards(cards, workspaceRegistry) {
     var P = presentation();
-    if (asArray(insights).length === 0) {
-      return P.emptyState({
-        icon: '✦', title: 'No AI insights yet',
-        description: 'Portfolio risk, bottleneck, and readiness signals will appear here once recorded.'
-      });
-    }
-    var items = insights.map(function (insight) {
-      var engagement = insight.scope && insight.scope.kind === 'engagement' ? engagementsById[insight.scope.id] : null;
-      var href = engagement ? WS.buildHierarchicalHref(repository, workspaceRegistry, company, engagement, workspaceRegistry.IDS.ENGAGEMENT) : null;
-      var confidencePct = typeof insight.confidence === 'number' ? Math.round(insight.confidence * 100) : null;
-      var description = insight.description +
-        (insight.recommendation ? ' Recommended: ' + insight.recommendation : '') +
-        (confidencePct !== null ? ' (confidence ' + confidencePct + '%)' : '');
-      return {
-        title: insight.title,
-        description: description,
-        tone: insight.severity,
-        actions: href ? [{ label: 'Open engagement', href: href }] : []
-      };
-    });
-    return P.itemList(items, { compact: true });
-  }
+    var wrap = el('div', 'aos-client__engagement-stack');
+    asArray(cards).forEach(function (card) {
+      var engagement = card.engagement;
+      var node = el('article', 'aos-surface aos-surface--padded aos-client__engagement-card');
+      node.setAttribute('aria-label', engagement.name || engagement.id);
 
-  /** Builds the Activity Feed for the activity supporting panel. */
-  function buildActivityBody(activity) {
-    return WS.buildActivityBody(activity, {
-      icon: '◇', title: 'No recent activity',
-      description: 'Remarks recorded across this client’s active engagements appear here as work progresses.'
+      var head = el('header', 'aos-client__engagement-card-head');
+      var identity = el('div', 'aos-client__engagement-card-identity');
+      var title = el('a', 'aos-client__engagement-card-title');
+      title.textContent = engagement.name || engagement.id;
+      var href = WS.buildRecordHref(workspaceRegistry, workspaceRegistry.IDS.ENGAGEMENT, engagement.id);
+      if (href) {
+        title.setAttribute('href', href);
+      }
+      identity.appendChild(title);
+      identity.appendChild(el('span', 'aos-client__engagement-card-code', engagement.engagementCode || ''));
+      head.appendChild(identity);
+      head.appendChild(P.statusBadge({ label: engagement.status, tone: statusTone(engagement.status) }));
+      node.appendChild(head);
+
+      node.appendChild(P.metadataList([
+        { term: 'Framework', detail: engagement.framework || '' },
+        { term: 'Audit period', detail: formatPeriod(engagement.auditPeriod) },
+        { term: 'Auditor', detail: engagement.auditor || '' }
+      ].filter(function (pair) { return pair.detail; })));
+
+      var panels = el('div', 'aos-client__engagement-card-panels');
+
+      var aiPanel = el('div', 'aos-client__engagement-card-panel');
+      aiPanel.appendChild(el('h4', 'aos-client__engagement-card-panel-title', 'AI recommendations'));
+      var aiBody = el('div', 'aos-client__engagement-card-scroll');
+      if (card.insights.length === 0) {
+        aiBody.appendChild(P.emptyState({
+          icon: '✦', title: 'No AI recommendations',
+          description: 'Risk, bottleneck, and readiness signals recorded for this engagement appear here.'
+        }));
+      } else {
+        aiBody.appendChild(P.itemList(card.insights.map(function (insight) {
+          var confidencePct = typeof insight.confidence === 'number' ? Math.round(insight.confidence * 100) : null;
+          return {
+            title: insight.title,
+            description: insight.description +
+              (insight.recommendation ? ' Recommended: ' + insight.recommendation : '') +
+              (confidencePct !== null ? ' (confidence ' + confidencePct + '%)' : ''),
+            tone: insight.severity
+          };
+        }), { compact: true }));
+      }
+      aiPanel.appendChild(aiBody);
+      panels.appendChild(aiPanel);
+
+      var activityPanel = el('div', 'aos-client__engagement-card-panel');
+      activityPanel.appendChild(el('h4', 'aos-client__engagement-card-panel-title', 'Activity'));
+      var activityBody = el('div', 'aos-client__engagement-card-scroll');
+      if (card.activity.length === 0) {
+        activityBody.appendChild(P.emptyState({
+          icon: '◇', title: 'No recorded activity',
+          description: 'Remarks recorded on this engagement appear here as work progresses.'
+        }));
+      } else {
+        activityBody.appendChild(P.itemList(card.activity.map(function (event) {
+          return { title: event.title, meta: [event.actor, event.timestamp].filter(Boolean).join(' · ') };
+        }), { compact: true }));
+      }
+      activityPanel.appendChild(activityBody);
+      panels.appendChild(activityPanel);
+
+      node.appendChild(panels);
+      wrap.appendChild(node);
     });
+    return wrap;
   }
 
   /** Builds a run of labeled value items for the workspace footer. */
@@ -1188,29 +1255,27 @@
       {
         id: 'engagement-portfolio', region: 'content', enabled: true,
         kicker: 'Operational', title: 'Engagement portfolio',
-        description: 'Each engagement opens its own operational workspace.',
+        description: 'Each engagement is one full-width operational card — its AI recommendations and activity live on the card.',
         present: filteredOperational.length > 0,
-        render: function () { return buildEngagementCards(filteredOperational, workspaceRegistry, false); },
+        render: function () {
+          var cards = viewModel.engagementCards.filter(function (card) {
+            return !filterState.engagementId || card.engagement.id === filterState.engagementId;
+          });
+          return buildEngagementOperationalCards(cards, workspaceRegistry);
+        },
         empty: {
           icon: '◇', title: 'No active engagements',
           description: 'Engagements in progress for this client appear here.'
         }
       },
+      // The Completed Engagements module stays last, collapsed and
+      // read-only; no panels render beneath it (Issue #39 — the former
+      // client-wide AI / Activity panels moved onto each engagement card).
       {
         id: 'completed-engagements', region: 'content', enabled: completed.length > 0, collapsedByDefault: true,
         kicker: 'Reference', title: 'Completed engagements (' + completed.length + ')',
         description: 'Completed engagements stay visible read-only and contribute to no operational metric.',
         render: function () { return buildEngagementCards(completed, workspaceRegistry, true); }
-      },
-      {
-        id: 'ai-insights', region: 'ai', enabled: true,
-        render: function () {
-          return buildAiInsightsBody(viewModel.insights, repository, workspaceRegistry, viewModel.engagementsById, viewModel.company);
-        }
-      },
-      {
-        id: 'activity', region: 'activity', enabled: true,
-        render: function () { return buildActivityBody(viewModel.activity); }
       }
     ];
   }
@@ -1354,26 +1419,13 @@
     });
     fillSlot(view, SLOTS.CONTENT, [canvas]);
 
-    // Issue #37 Part 1: the Client Workspace registers no related-region
-    // module; filling the slot with the (empty) mapped list clears any
-    // loading placeholder instead of leaving it behind.
-    fillSlot(view, SLOTS.RELATED, modules.filter(function (module) {
-      return module.region === 'related' && module.enabled !== false;
-    }).map(function (module) {
-      var node = module.render();
-      node.classList.add('aos-fade-in');
-      return node;
-    }));
-    modules.filter(function (module) { return module.region === 'ai' && module.enabled !== false; }).forEach(function (module) {
-      var node = module.render();
-      node.classList.add('aos-tint-brand', 'aos-fade-in');
-      fillSlot(view, SLOTS.AI, [node]);
-    });
-    modules.filter(function (module) { return module.region === 'activity' && module.enabled !== false; }).forEach(function (module) {
-      var node = module.render();
-      node.classList.add('aos-fade-in');
-      fillSlot(view, SLOTS.ACTIVITY, [node]);
-    });
+    // Issue #39 — no disconnected panels beneath the portfolio: each
+    // engagement card carries its own AI recommendations and activity, so
+    // the framework's supporting panels band is hidden entirely.
+    var panelsRegion = view.querySelector('[data-region="supporting-panels"]');
+    if (panelsRegion) {
+      panelsRegion.hidden = true;
+    }
 
     fillSlot(view, SLOTS.FOOTER, [buildFooterItems(viewModel.footer)]);
 
@@ -1386,9 +1438,11 @@
   /** Renders the layout-stable loading state (§15.12 — Loading). */
   function renderLoading(view) {
     var P = presentation();
+    var panelsRegion = view.querySelector('[data-region="supporting-panels"]');
+    if (panelsRegion) {
+      panelsRegion.hidden = true;
+    }
     fillSlot(view, SLOTS.CONTENT, [P.loadingState({ variant: 'detail', label: 'Loading client' })]);
-    fillSlot(view, SLOTS.AI, [P.loadingState({ variant: 'list', label: 'Loading AI advisory' })]);
-    fillSlot(view, SLOTS.ACTIVITY, [P.loadingState({ variant: 'list', label: 'Loading activity' })]);
   }
 
   /** Renders the degraded state (§15.12 — Empty / Error). */

@@ -21,7 +21,7 @@
  * throwing (the render validation).
  */
 
-const { SCRIPTS, readText, loadClassicScripts } = require('../lib/prototype');
+const { SCRIPTS, readText, loadClassicScripts, engagementRouteContext } = require('../lib/prototype');
 
 /** Boots the state foundations plus the Work Queue workspace in one sandbox window. */
 function bootWorkQueueSandbox() {
@@ -134,7 +134,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the Work Queue workspace collects a ready, non-degraded view model from the loaded state', async function () {
     const AuditOS = bootWorkQueueSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.workQueueWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.workQueueWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     assert.ok(viewModel, 'a view model is collected once the state is ready');
     assert.equal(viewModel.degraded, false, 'demo data loads without degradation');
@@ -145,7 +145,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the unified work queue aggregates real items across multiple operational categories', async function () {
     const AuditOS = bootWorkQueueSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.workQueueWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.workQueueWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     const queue = Array.from(viewModel.queue);
     assert.ok(queue.length > 0, 'the current engagement holds real, aggregated work items');
@@ -166,7 +166,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the operational health strip reads real counts, never a fabricated bucket', async function () {
     const AuditOS = bootWorkQueueSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.workQueueWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.workQueueWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     const health = Array.from(viewModel.health);
     assert.ok(health.length >= 1, 'the health strip carries at least one indicator');
@@ -185,7 +185,7 @@ module.exports = function registerIntegrationTests(harness) {
       SCRIPTS.workQueueWorkspace
     ]).AuditOS;
     return AuditOS.state.init().then(function () {
-      const viewModel = AuditOS.workQueueWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+      const viewModel = AuditOS.workQueueWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
       assert.equal(viewModel.degraded, true, 'no engagement yields a degraded model, never an exception');
     });
   });
@@ -208,7 +208,7 @@ module.exports = function registerIntegrationTests(harness) {
     await AuditOS.state.init();
     win.document = createDocument();
 
-    const viewModel = AuditOS.workQueueWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.workQueueWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
     const node = AuditOS.workQueueWorkspace.renderInspector(viewModel.queue, viewModel.context);
 
     assert.ok(node, 'the inspector renders a node');
@@ -240,17 +240,16 @@ module.exports = function registerIntegrationTests(harness) {
     await AuditOS.state.init();
     win.document = createDocument();
 
-    const viewModel = AuditOS.workQueueWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.workQueueWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
     const derive = AuditOS.workQueueWorkspace.derivations;
-    // Production carries zero findings for every engagement today, so
-    // "Findings" is never a populated work-item type; "Requirements" is
-    // reliably populated (hundreds of open requirements per engagement) and
-    // exercises the same filter-narrowing behavior.
-    const requirementsOnly = Array.from(derive.filterQueue(viewModel.queue, 'Requirements', 'All priorities'));
-    assert.ok(requirementsOnly.length > 0, 'the current engagement holds at least one Requirements work item to filter to');
-    assert.ok(requirementsOnly.length < Array.from(viewModel.queue).length,
+    // Requirements ceased to be a user-facing work-item type (Issue #39);
+    // "Evidence" is reliably populated (evidence items and requests per
+    // engagement) and exercises the same filter-narrowing behavior.
+    const evidenceOnly = Array.from(derive.filterQueue(viewModel.queue, 'Evidence', 'All priorities'));
+    assert.ok(evidenceOnly.length > 0, 'the current engagement holds at least one Evidence work item to filter to');
+    assert.ok(evidenceOnly.length < Array.from(viewModel.queue).length,
       'filtering to one workspace narrows the rendered set without touching the underlying queue');
-    requirementsOnly.forEach(function (item) { assert.equal(item.itemType, 'Requirements'); });
+    evidenceOnly.forEach(function (item) { assert.equal(item.itemType, 'Evidence'); });
   });
 
   // ---- Source contracts.

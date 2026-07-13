@@ -57,6 +57,25 @@
   --aos-chart-categorical-5: #4a3aa7;
   --aos-chart-categorical-6: #e34948;
   --aos-chart-categorical-7: #e87ba4;
+
+  /* Evidence Type identity palette (GitHub Issue #39 — Evidence Types):
+   * persistent, application-wide colors keyed by evidence type. A type keeps
+   * its color everywhere it appears (table title, type badge, drawer); the
+   * type name always renders as text alongside — never color alone. */
+  --aos-evidence-type-configuration: #2a78d6;
+  --aos-evidence-type-documentation: #7c3aed;
+  --aos-evidence-type-population: #0d9488;
+  --aos-evidence-type-photograph: #d5417f;
+  --aos-evidence-type-walkthrough: #d95f02;
+  --aos-evidence-type-sample: #a16207;
+  --aos-evidence-type-sample-documentation: #0e7490;
+  --aos-evidence-type-sample-configuration: #4f46e5;
+  --aos-evidence-type-slate: #64748b;
+  --aos-evidence-type-teal: #0d9488;
+  --aos-evidence-type-indigo: #4f46e5;
+  --aos-evidence-type-amber: #a16207;
+  --aos-evidence-type-rose: #d5417f;
+  --aos-evidence-type-cyan: #0e7490;
   --aos-chart-categorical-8: #eb6834;
 
   /* Neutral Scale - Surfaces, Text, Borders */
@@ -266,6 +285,22 @@
     --aos-chart-categorical-6: #e66767;
     --aos-chart-categorical-7: #d55181;
     --aos-chart-categorical-8: #d95926;
+
+    /* The same Evidence Type identities, stepped for the dark surface. */
+    --aos-evidence-type-configuration: #4c93e6;
+    --aos-evidence-type-documentation: #a78bfa;
+    --aos-evidence-type-population: #14b8a6;
+    --aos-evidence-type-photograph: #ec7bab;
+    --aos-evidence-type-walkthrough: #f08c4a;
+    --aos-evidence-type-sample: #d4a72c;
+    --aos-evidence-type-sample-documentation: #22b8cf;
+    --aos-evidence-type-sample-configuration: #818cf8;
+    --aos-evidence-type-slate: #94a3b8;
+    --aos-evidence-type-teal: #14b8a6;
+    --aos-evidence-type-indigo: #818cf8;
+    --aos-evidence-type-amber: #d4a72c;
+    --aos-evidence-type-rose: #ec7bab;
+    --aos-evidence-type-cyan: #22b8cf;
   }
 }
 
@@ -295,6 +330,22 @@
   --aos-chart-categorical-6: #e66767;
   --aos-chart-categorical-7: #d55181;
   --aos-chart-categorical-8: #d95926;
+
+  /* The same Evidence Type identities, stepped for the dark surface. */
+  --aos-evidence-type-configuration: #4c93e6;
+  --aos-evidence-type-documentation: #a78bfa;
+  --aos-evidence-type-population: #14b8a6;
+  --aos-evidence-type-photograph: #ec7bab;
+  --aos-evidence-type-walkthrough: #f08c4a;
+  --aos-evidence-type-sample: #d4a72c;
+  --aos-evidence-type-sample-documentation: #22b8cf;
+  --aos-evidence-type-sample-configuration: #818cf8;
+  --aos-evidence-type-slate: #94a3b8;
+  --aos-evidence-type-teal: #14b8a6;
+  --aos-evidence-type-indigo: #818cf8;
+  --aos-evidence-type-amber: #d4a72c;
+  --aos-evidence-type-rose: #ec7bab;
+  --aos-evidence-type-cyan: #22b8cf;
 }
 
 /* ========================================

@@ -276,6 +276,93 @@ a.aos-client__viz-legend-item:hover .aos-client__viz-legend-label {
 }
 
 /* ========================================
+ * FULL-WIDTH OPERATIONAL ENGAGEMENT CARDS (Issue #39)
+ * Each operational engagement is one full-width card carrying its identity,
+ * facts, and its own AI recommendations + Activity — each independently
+ * scrollable within the card. Nothing about an engagement renders outside
+ * its card.
+ * ======================================== */
+
+.aos-client__engagement-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
+}
+
+.aos-client__engagement-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-3);
+}
+
+.aos-client__engagement-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--aos-space-3);
+}
+
+.aos-client__engagement-card-identity {
+  display: flex;
+  align-items: baseline;
+  gap: var(--aos-space-3);
+  min-width: 0;
+}
+
+.aos-client__engagement-card-title {
+  font-size: var(--aos-text-lg);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+  text-decoration: none;
+}
+
+.aos-client__engagement-card-title:hover {
+  color: var(--aos-text-link);
+  text-decoration: underline;
+}
+
+.aos-client__engagement-card-title:focus-visible {
+  outline: none;
+  box-shadow: var(--aos-focus-ring);
+  border-radius: var(--aos-radius-sm);
+}
+
+.aos-client__engagement-card-code {
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-client__engagement-card-panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: var(--aos-space-4);
+}
+
+.aos-client__engagement-card-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-client__engagement-card-panel-title {
+  margin: 0;
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-client__engagement-card-scroll {
+  max-height: 14rem;
+  overflow-y: auto;
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  padding: var(--aos-space-2);
+}
+
+/* ========================================
  * COMPLETED ENGAGEMENTS DISCLOSURE (Issue #35 §10)
  * A native <details>/<summary> — collapsed by default, expanded on demand,
  * with zero bespoke JavaScript.

@@ -11,9 +11,10 @@
   "summary": {
     "evidenceItems": 83,
     "byReviewStatus": {
-      "All Evidence Received": 75,
-      "Evidence Partially Received": 7,
-      "Evidence Received - Under HA Review": 1
+      "Received": 47,
+      "Partially Received": 7,
+      "Under Review": 1,
+      "Reused": 28
     },
     "reused": 28,
     "multiEngagement": 0
@@ -32,7 +33,7 @@
       "evidenceType": "Population",
       "fileName": null,
       "uploadedByPocId": "POC-MER-024",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -56,7 +57,7 @@
       "evidenceType": "Population",
       "fileName": null,
       "uploadedByPocId": "POC-MER-024",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -80,7 +81,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-018",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -104,7 +105,7 @@
       "evidenceType": "Population",
       "fileName": null,
       "uploadedByPocId": "POC-MER-018",
-      "reviewStatus": "Evidence Partially Received",
+      "reviewStatus": "Partially Received",
       "partiallyReceived": true,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -128,7 +129,7 @@
       "evidenceType": "Sample based",
       "fileName": null,
       "uploadedByPocId": "POC-MER-018",
-      "reviewStatus": "Evidence Partially Received",
+      "reviewStatus": "Partially Received",
       "partiallyReceived": true,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -152,7 +153,7 @@
       "evidenceType": "Population",
       "fileName": null,
       "uploadedByPocId": "POC-MER-010",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -176,7 +177,7 @@
       "evidenceType": "Sample based",
       "fileName": null,
       "uploadedByPocId": "POC-MER-030",
-      "reviewStatus": "Evidence Received - Under HA Review",
+      "reviewStatus": "Under Review",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -200,7 +201,7 @@
       "evidenceType": "Sample-based + Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-007",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -224,7 +225,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-020",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -248,7 +249,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-020",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -272,7 +273,7 @@
       "evidenceType": "Population",
       "fileName": null,
       "uploadedByPocId": "POC-MER-010",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -296,7 +297,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-020",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -320,7 +321,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-023",
-      "reviewStatus": "Evidence Partially Received",
+      "reviewStatus": "Partially Received",
       "partiallyReceived": true,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -344,7 +345,7 @@
       "evidenceType": "Population",
       "fileName": null,
       "uploadedByPocId": "POC-MER-002",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -368,7 +369,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-023",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -392,7 +393,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-023",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -416,7 +417,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-023",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -440,7 +441,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-023",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -464,7 +465,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-023",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -488,7 +489,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-023",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -512,7 +513,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-023",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -536,7 +537,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-023",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -560,7 +561,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-023",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -584,7 +585,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-023",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -608,7 +609,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-023",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -632,7 +633,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-023",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -656,7 +657,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-023",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -680,7 +681,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-023",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -704,7 +705,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-023",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -728,7 +729,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-023",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -752,7 +753,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-023",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -776,7 +777,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-023",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -800,7 +801,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-023",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -824,7 +825,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-055",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -848,7 +849,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -872,7 +873,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -896,7 +897,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -921,7 +922,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -946,7 +947,7 @@
       "evidenceType": "Sample based",
       "fileName": null,
       "uploadedByPocId": "POC-MER-055",
-      "reviewStatus": "Evidence Partially Received",
+      "reviewStatus": "Partially Received",
       "partiallyReceived": true,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -970,7 +971,7 @@
       "evidenceType": "Sample based",
       "fileName": null,
       "uploadedByPocId": "POC-MER-055",
-      "reviewStatus": "Evidence Partially Received",
+      "reviewStatus": "Partially Received",
       "partiallyReceived": true,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -994,7 +995,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-055",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1019,7 +1020,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-055",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1044,7 +1045,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1069,7 +1070,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1094,7 +1095,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1119,7 +1120,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1144,7 +1145,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1169,7 +1170,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1194,7 +1195,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1219,7 +1220,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1244,7 +1245,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1269,7 +1270,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1294,7 +1295,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1319,7 +1320,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1344,7 +1345,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1369,7 +1370,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1394,7 +1395,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1419,7 +1420,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1444,7 +1445,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1469,7 +1470,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1494,7 +1495,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1519,7 +1520,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1544,7 +1545,7 @@
       "evidenceType": "Documentation",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1569,7 +1570,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1594,7 +1595,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1619,7 +1620,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-044",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Reused",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1644,7 +1645,7 @@
       "evidenceType": "Sample based",
       "fileName": null,
       "uploadedByPocId": "POC-MER-055",
-      "reviewStatus": "Evidence Partially Received",
+      "reviewStatus": "Partially Received",
       "partiallyReceived": true,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1668,7 +1669,7 @@
       "evidenceType": "Sample based",
       "fileName": null,
       "uploadedByPocId": "POC-MER-055",
-      "reviewStatus": "Evidence Partially Received",
+      "reviewStatus": "Partially Received",
       "partiallyReceived": true,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1692,7 +1693,7 @@
       "evidenceType": "Population",
       "fileName": null,
       "uploadedByPocId": "POC-MER-008",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1716,7 +1717,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-008",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1740,7 +1741,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-008",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1764,7 +1765,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-008",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1788,7 +1789,7 @@
       "evidenceType": "Configuration",
       "fileName": null,
       "uploadedByPocId": "POC-MER-008",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1812,7 +1813,7 @@
       "evidenceType": "Population",
       "fileName": null,
       "uploadedByPocId": "POC-MER-008",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1836,7 +1837,7 @@
       "evidenceType": "Photograph",
       "fileName": null,
       "uploadedByPocId": "POC-MER-043",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1860,7 +1861,7 @@
       "evidenceType": "Photograph",
       "fileName": null,
       "uploadedByPocId": "POC-MER-043",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1884,7 +1885,7 @@
       "evidenceType": "Photograph",
       "fileName": null,
       "uploadedByPocId": "POC-MER-013",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1908,7 +1909,7 @@
       "evidenceType": "Photograph",
       "fileName": null,
       "uploadedByPocId": "POC-MER-013",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1932,7 +1933,7 @@
       "evidenceType": "Photograph",
       "fileName": null,
       "uploadedByPocId": "POC-MER-043",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1956,7 +1957,7 @@
       "evidenceType": "Photograph",
       "fileName": null,
       "uploadedByPocId": "POC-MER-013",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -1980,7 +1981,7 @@
       "evidenceType": "Population",
       "fileName": null,
       "uploadedByPocId": "POC-MER-002",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -2004,7 +2005,7 @@
       "evidenceType": "Sample based",
       "fileName": null,
       "uploadedByPocId": "POC-MER-002",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"
@@ -2028,7 +2029,7 @@
       "evidenceType": "Sample based",
       "fileName": null,
       "uploadedByPocId": "POC-MER-002",
-      "reviewStatus": "All Evidence Received",
+      "reviewStatus": "Received",
       "partiallyReceived": false,
       "engagementIds": [
         "ENG-MER-NXSC-2026"

@@ -138,6 +138,23 @@
   display: none;
 }
 
+/* Viewport-aware repositioning (Issue #39 — no floating UI outside the
+ * viewport): a menu that would overflow the right edge is re-anchored to the
+ * crumb's end edge. Height capping is applied inline by the component. */
+.aos-breadcrumb__menu--align-end {
+  left: auto;
+  right: 0;
+}
+
+/* A plain crumb (no menu) is a real anchor styled as the crumbs around it. */
+a.aos-breadcrumb__crumb--link {
+  text-decoration: none;
+}
+
+a.aos-breadcrumb__crumb--link[aria-current='page'] {
+  color: var(--aos-text-primary);
+}
+
 .aos-breadcrumb__option {
   display: flex;
   align-items: center;

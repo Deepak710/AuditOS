@@ -19,7 +19,7 @@
  * the Suggestion Lifecycle (GitHub Issue #38).
  */
 
-const { SCRIPTS, readText, loadClassicScripts, loadEvidenceWorkspace } = require('../lib/prototype');
+const { SCRIPTS, readText, loadClassicScripts, loadEvidenceWorkspace, engagementRouteContext } = require('../lib/prototype');
 
 /** Boots the state foundations plus the Evidence workspace in one sandbox window. */
 function bootEvidenceSandbox() {
@@ -30,6 +30,8 @@ function bootEvidenceSandbox() {
     SCRIPTS.workspaceRegistry,
     SCRIPTS.relationships,
     SCRIPTS.workspaceShared,
+    SCRIPTS.evidenceLifecycle,
+    SCRIPTS.aiLineage,
     SCRIPTS.evidenceWorkspace
   ]).AuditOS;
 }
@@ -122,7 +124,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the Evidence workspace collects a ready, non-degraded view model from the loaded state', async function () {
     const AuditOS = bootEvidenceSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.evidenceWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.evidenceWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     assert.ok(viewModel, 'a view model is collected once the state is ready');
     assert.equal(viewModel.degraded, false, 'demo data loads without degradation');
@@ -133,7 +135,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the evidence table, KPIs, and charts read real engagement-scoped values', async function () {
     const AuditOS = bootEvidenceSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.evidenceWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.evidenceWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     assert.ok(Array.from(viewModel.rows).length > 0, 'the current engagement holds real evidence rows');
     viewModel.rows.forEach(function (row) {
@@ -155,7 +157,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('every control mapping resolves within the current engagement, never fabricated', async function () {
     const AuditOS = bootEvidenceSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.evidenceWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.evidenceWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     let mapped = 0;
     viewModel.rows.forEach(function (row) {
@@ -175,10 +177,12 @@ module.exports = function registerIntegrationTests(harness) {
       SCRIPTS.workspaceRegistry,
       SCRIPTS.relationships,
       SCRIPTS.workspaceShared,
+      SCRIPTS.evidenceLifecycle,
+      SCRIPTS.aiLineage,
       SCRIPTS.evidenceWorkspace
     ]).AuditOS;
     return AuditOS.state.init().then(function () {
-      const viewModel = AuditOS.evidenceWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+      const viewModel = AuditOS.evidenceWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
       assert.equal(viewModel.degraded, true, 'no engagement yields a degraded model, never an exception');
     });
   });
@@ -194,14 +198,16 @@ module.exports = function registerIntegrationTests(harness) {
       SCRIPTS.presentation,
       SCRIPTS.relationships,
       SCRIPTS.workspaceShared,
+      SCRIPTS.evidenceLifecycle,
+      SCRIPTS.aiLineage,
       SCRIPTS.evidenceWorkspace
     ]);
     const AuditOS = win.AuditOS;
     await AuditOS.state.init();
     win.document = createDocument();
 
-    const viewModel = AuditOS.evidenceWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
-    const node = AuditOS.evidenceWorkspace.renderInspector(viewModel.rows, viewModel.context);
+    const viewModel = AuditOS.evidenceWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
+    const node = AuditOS.evidenceWorkspace.renderBoard(viewModel);
 
     assert.ok(node, 'the renderer returns a node');
     assert.ok(hasClass(node, 'aos-evidence__board'), 'it renders the one engagement Evidence board');
@@ -213,9 +219,9 @@ module.exports = function registerIntegrationTests(harness) {
 
   test('the enterprise-table renderer is host-agnostic and exposed for reuse', function () {
     const AuditOS = bootEvidenceSandbox();
-    assert.equal(typeof AuditOS.evidenceWorkspace.renderInspector, 'function',
+    assert.equal(typeof AuditOS.evidenceWorkspace.renderBoard, 'function',
       'the renderer is exposed so any host can mount it');
-    assert.match(evidenceJs, /function renderInspector\(rows, context\)/, 'the renderer is data-in, node-out');
+    assert.match(evidenceJs, /renderBoard: function \(viewModel\)/, 'the renderer is data-in, node-out');
   });
 
   // ---- Source contracts.
@@ -243,11 +249,14 @@ module.exports = function registerIntegrationTests(harness) {
     assert.match(evidenceJs, /workspaceFramework\.configure/,
       'the header, ribbon, toolbar, and filters are configured through the shared framework');
     assert.match(evidenceJs, /presentation\(\)/, 'content composes the Enterprise Data Presentation System');
-    assert.match(evidenceJs, /inspectorPanel|masterDetail|entityCard|activityFeed|itemList/,
+    assert.match(evidenceJs, /dataGrid|inspectorSections|statusBadge|openDrawer|itemList/,
       'the workspace reuses the shared presentation builders');
   });
 
   test('the Evidence workspace populates only reserved framework slots', function () {
+    // Issue #39 consolidated the Evidence surface to a single content slot —
+    // the supporting panels and footer are hidden, not filled — so the
+    // workspace addresses one reserved slot, and it must be a real one.
     const slotBlock = evidenceJs.match(/SLOTS\s*=\s*\{([\s\S]*?)\}/);
     assert.ok(slotBlock, 'evidence.js declares its slot map');
     const usedSlots = [];
@@ -256,7 +265,7 @@ module.exports = function registerIntegrationTests(harness) {
     while ((match = valuePattern.exec(slotBlock[1])) !== null) {
       usedSlots.push(match[1]);
     }
-    assert.ok(usedSlots.length >= 5, 'the workspace addresses the content, panels, and footer slots');
+    assert.ok(usedSlots.length >= 1, 'the consolidated workspace addresses the content slot');
     usedSlots.forEach(function (slotName) {
       assert.ok(frameworkHtml.indexOf('data-slot="' + slotName + '"') !== -1,
         slotName + ' is a reserved framework slot');

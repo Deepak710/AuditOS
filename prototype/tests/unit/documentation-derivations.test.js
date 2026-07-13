@@ -162,7 +162,7 @@ module.exports = function registerUnitTests(harness) {
       testing: { tests: 100 }, findings: { findings: 5 }, documentation: { sections: 4 }
     }));
     assert.deepEqual(lineage.map(function (node) { return node.label; }), [
-      'Walkthrough', 'Requirement', 'Control', 'Evidence', 'Testing', 'Finding', 'Documentation'
+      'Walkthrough', 'Control', 'Evidence', 'Testing', 'Finding', 'Documentation'
     ]);
     const docNode = lineage.filter(function (node) { return node.label === 'Documentation'; })[0];
     assert.equal(docNode.highlighted, true, 'the Documentation node is highlighted');

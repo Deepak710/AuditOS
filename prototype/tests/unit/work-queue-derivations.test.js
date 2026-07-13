@@ -157,14 +157,9 @@ module.exports = function registerUnitTests(harness) {
     assert.equal(items[0].priority, 'Blocking');
   });
 
-  test('deriveRequirementItems escalates a recorded High priority to Blocking', function () {
-    const items = Array.from(derive.deriveRequirementItems([
-      { id: 'REQ-1', title: 'Change management evidence', status: 'Pending', priority: 'High', primaryPocId: 'POC-1' }
-    ], { pocsById: { 'POC-1': { name: 'Alex Rivera' } } }));
-    assert.equal(items[0].itemType, 'Requirements');
-    assert.equal(items[0].owner, 'Alex Rivera');
-    assert.equal(items[0].priority, 'Blocking');
-  });
+  // Requirements ceased to be a user-facing workspace (Issue #39): the Work
+  // Queue no longer aggregates a Requirements item type; requirement-driven
+  // work reaches the queue through evidence requests below.
 
   test('deriveEvidenceRequestItems titles the item from the related requirement and reads the recorded due date', function () {
     const items = Array.from(derive.deriveEvidenceRequestItems([

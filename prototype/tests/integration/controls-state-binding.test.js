@@ -19,7 +19,7 @@
  * workspace presentation-only and offline.
  */
 
-const { SCRIPTS, readText, loadClassicScripts } = require('../lib/prototype');
+const { SCRIPTS, readText, loadClassicScripts, engagementRouteContext } = require('../lib/prototype');
 
 /** Boots the state foundations plus the Controls workspace in one sandbox window. */
 function bootControlsSandbox() {
@@ -122,7 +122,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the Controls workspace collects a ready, non-degraded view model from the loaded state', async function () {
     const AuditOS = bootControlsSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.controlsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.controlsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     assert.ok(viewModel, 'a view model is collected once the state is ready');
     assert.equal(viewModel.degraded, false, 'demo data loads without degradation');
@@ -133,7 +133,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the control library and health strip read real values from the current engagement', async function () {
     const AuditOS = bootControlsSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.controlsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.controlsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     assert.ok(Array.from(viewModel.library).length > 0, 'the current engagement holds real controls');
     viewModel.library.forEach(function (row) {
@@ -152,7 +152,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the three presentation modes regroup one dataset without changing it', async function () {
     const AuditOS = bootControlsSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.controlsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.controlsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     const total = Array.from(viewModel.library).length;
     const views = Array.from(viewModel.views);
@@ -166,7 +166,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the audit lineage highlights Control and carries only real, current counts', async function () {
     const AuditOS = bootControlsSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.controlsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.controlsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     const lineage = Array.from(viewModel.lineage);
     const controlNode = lineage.filter(function (node) { return node.label === 'Control'; })[0];
@@ -183,7 +183,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('framework mappings are drawn only from present relationships, never a fabricated cross-framework join', async function () {
     const AuditOS = bootControlsSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.controlsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.controlsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
     const derive = AuditOS.controlsWorkspace.derivations;
 
     viewModel.library.forEach(function (row) {
@@ -204,7 +204,7 @@ module.exports = function registerIntegrationTests(harness) {
       SCRIPTS.controlsWorkspace
     ]).AuditOS;
     return AuditOS.state.init().then(function () {
-      const viewModel = AuditOS.controlsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+      const viewModel = AuditOS.controlsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
       assert.equal(viewModel.degraded, true, 'no engagement yields a degraded model, never an exception');
     });
   });
@@ -226,7 +226,7 @@ module.exports = function registerIntegrationTests(harness) {
     await AuditOS.state.init();
     win.document = createDocument();
 
-    const viewModel = AuditOS.controlsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.controlsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
     const node = AuditOS.controlsWorkspace.renderInspector(viewModel.library, viewModel.context);
 
     assert.ok(node, 'the inspector renders a node');
@@ -251,7 +251,7 @@ module.exports = function registerIntegrationTests(harness) {
     await AuditOS.state.init();
     win.document = createDocument();
 
-    const viewModel = AuditOS.controlsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.controlsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
     assert.equal(Array.from(viewModel.views).length, 3, 'three presentation modes are offered');
     const node = AuditOS.controlsWorkspace.renderInspector(viewModel.library, viewModel.context);
     assert.ok(hasClass(node, 'aos-inspector'), 'the control inspector renders for the selected row');

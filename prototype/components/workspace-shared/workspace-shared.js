@@ -117,20 +117,18 @@
   }
 
   /**
-   * The engagement the active route names (Issue #37 Phase 0). When
-   * `routeContext` (the object `router.getCurrentContext()` returns) carries
-   * a hierarchical engagement, that exact record is returned — matched by id
-   * against the live records so the workspace never reads a stale route
-   * snapshot. On flat routes (no context) this falls back to
-   * `deriveCurrentEngagement`, preserving the persistent-context behavior
-   * every workspace has always had outside an engagement scope. This is the
-   * one shared place hierarchical engagement selection happens; workspaces
-   * must not re-derive it locally.
+   * The engagement the active route names (Issue #39 — Context Resolver
+   * contract). When `routeContext` (the Context Resolver's context) carries
+   * an engagement, that exact record is returned — matched by id against the
+   * live records so the workspace never reads a stale route snapshot. A
+   * route that names no engagement yields null: no "find first engagement",
+   * no global fallback — engagement-scoped workspaces are only ever reached
+   * through hierarchical routes, and a context-less render is a degraded
+   * state, never a guessed engagement.
    */
   function resolveContextEngagement(engagements, routeContext) {
     var targetId = routeContext && routeContext.engagement ? routeContext.engagement.id : null;
-    var requested = targetId ? findById(engagements, targetId) : null;
-    return requested || deriveCurrentEngagement(engagements);
+    return targetId ? findById(engagements, targetId) : null;
   }
 
   /** Resolves a record's name field from an id map, falling back to the raw id (join-or-raw). */
@@ -143,41 +141,55 @@
   }
 
   /**
-   * Builds the stable deep link for one record: `#/{workspace path}?id={record
-   * id}` (Issue #31 — Cross-Workspace Record Navigation). The one place a
-   * record-level href is derived, reused by every workspace's "Related X"
-   * Inspector sections instead of each re-deriving the query-string format.
-   * Returns null when the target workspace or the id is unknown, so a caller
-   * never links to a route the Workspace Registry cannot resolve.
+   * Builds the stable deep link for one record within the current route
+   * context (Issue #39 — every URL comes from the Navigation Service).
+   * Engagement-scoped workspaces resolve hierarchically inside the current
+   * client + engagement; platform workspaces resolve flat. Returns null when
+   * the target cannot be reached from the current scope, so a caller never
+   * links to a route no resolver can serve.
    */
   function buildRecordHref(workspaceRegistry, workspaceId, recordId) {
-    if (!workspaceRegistry || !workspaceId || !recordId) {
+    var navigation = AuditOS.navigationService;
+    if (!navigation || !workspaceId || !recordId) {
       return null;
     }
-    var workspace = workspaceRegistry.findById(workspaceId);
-    return workspace ? '#/' + workspace.path + '?id=' + encodeURIComponent(recordId) : null;
+    return navigation.hrefFor(workspaceId, null, recordId);
   }
 
   /**
-   * Builds the hierarchical deep link into a workspace scoped to one
-   * engagement: `#/{clientSlug}/{engagementSlug}[/{workspacePath}]` (Issue
-   * #34's route contract). Omitting `workspaceId` (or naming the Engagement
-   * workspace itself) links to the engagement overview; any other registered
-   * workspace id appends its path so the link lands directly on that
-   * engagement-scoped workspace (Issue #35 §4 — portfolio drill-down).
-   * Returns null when the repository, registry, client, or engagement is
-   * absent, so a caller never fabricates a route no resolver can serve.
+   * Builds the canonical hierarchical deep link into a workspace scoped to
+   * one engagement (Issue #39 route contract, built by the Navigation
+   * Service). Omitting `workspaceId` (or naming the Engagement workspace
+   * itself) links to the engagement overview. Returns null when the
+   * registry, client, or engagement is absent, so a caller never fabricates
+   * a route no resolver can serve. The `repository` parameter is retained
+   * for call-site stability; the canonical route needs only the entity ids.
    */
   function buildHierarchicalHref(repository, workspaceRegistry, client, engagement, workspaceId) {
-    if (!repository || !workspaceRegistry || !client || !engagement) {
+    var navigation = AuditOS.navigationService;
+    if (!navigation || !workspaceRegistry || !client || !engagement) {
       return null;
     }
-    var base = '#/' + repository.clientSlug(client) + '/' + repository.engagementSlug(engagement);
     if (!workspaceId || workspaceId === workspaceRegistry.IDS.ENGAGEMENT) {
-      return base;
+      return navigation.hrefEngagement(client.id, engagement.id);
     }
-    var workspace = workspaceRegistry.findById(workspaceId);
-    return workspace ? base + '/' + workspace.path : null;
+    return navigation.hrefWorkspace(client.id, engagement.id, workspaceId);
+  }
+
+  /**
+   * The canonical href of a workspace named by its registered hash path,
+   * resolved within the current route context — the shared resolution the
+   * health strips, lineage chains, and related-object lists link through.
+   * Null when the path is unknown or unreachable from the current scope.
+   */
+  function workspacePathHref(path) {
+    var navigation = AuditOS.navigationService;
+    var registry = AuditOS.workspaceRegistry;
+    if (!navigation || !registry || !path) {
+      return null;
+    }
+    var workspace = registry.findByPath(path);
+    return workspace ? navigation.hrefFor(workspace.id) : null;
   }
 
   /**
@@ -375,9 +387,10 @@
     strip.setAttribute('role', 'group');
     strip.setAttribute('aria-label', ariaLabel);
     asArray(items).forEach(function (item) {
-      var node = el(item.path ? 'a' : 'span', prefix + '__health-item');
-      if (item.path) {
-        node.setAttribute('href', '#/' + item.path);
+      var href = item.path ? workspacePathHref(item.path) : null;
+      var node = el(href ? 'a' : 'span', prefix + '__health-item');
+      if (href) {
+        node.setAttribute('href', href);
       }
       node.setAttribute('aria-label', item.label + ': ' + item.status);
       var dot = el('span', prefix + '__health-dot' + (item.tone ? ' ' + prefix + '__health-dot--' + item.tone : ''));
@@ -430,11 +443,12 @@
         connector.setAttribute('aria-hidden', 'true');
         chain.appendChild(connector);
       }
-      var tag = node.path ? 'a' : 'div';
+      var href = node.path ? workspacePathHref(node.path) : null;
+      var tag = href ? 'a' : 'div';
       var card = el(tag, prefix + '__lineage-node' + (node.highlighted ? ' ' + prefix + '__lineage-node--highlighted' : '') + (node.present ? '' : ' ' + prefix + '__lineage-node--empty'));
       card.setAttribute('role', 'listitem');
-      if (node.path) {
-        card.setAttribute('href', '#/' + node.path);
+      if (href) {
+        card.setAttribute('href', href);
       }
       card.appendChild(el('span', prefix + '__lineage-label', node.label));
       var value = node.count === null ? (node.present ? '' : '—') : String(node.count);
@@ -474,9 +488,10 @@
       return P.emptyState(emptyDescriptor);
     }
     return P.itemList(relationships.map(function (item) {
+      var href = item.path ? workspacePathHref(item.path) : null;
       return {
         title: item.title, meta: item.meta, tone: TONES.INFO,
-        actions: item.path ? [{ label: 'Open', href: '#/' + item.path }] : []
+        actions: href ? [{ label: 'Open', href: href }] : []
       };
     }), { compact: true });
   }
@@ -667,6 +682,7 @@
     resolveName: resolveName,
     buildRecordHref: buildRecordHref,
     buildHierarchicalHref: buildHierarchicalHref,
+    workspacePathHref: workspacePathHref,
     resolveRefItem: resolveRefItem,
     textSection: textSection,
     listSection: listSection,

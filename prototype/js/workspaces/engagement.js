@@ -850,9 +850,18 @@
     asArray(users).forEach(function (user) { if (user.id && user.name) { actorNames[user.id] = user.name; } });
 
     // The operational figures every stage, action, and relationship reads.
+    // Evidence settled/pending figures derive from the canonical Evidence
+    // Lifecycle distribution the dataset summary records (Issue #39).
+    var evidenceSummary = evidenceDocument.summary || {};
+    var byReviewStatus = evidenceSummary.byReviewStatus || {};
     var operational = {
       controls: controlsDocument.summary || {},
-      evidence: evidenceDocument.summary || {},
+      evidence: {
+        evidenceItems: evidenceSummary.evidenceItems || 0,
+        approved: (byReviewStatus['Received'] || 0) + (byReviewStatus['Accepted'] || 0) +
+          (byReviewStatus['Reused'] || 0) + (byReviewStatus['Closed'] || 0),
+        pendingReview: (byReviewStatus['Under Review'] || 0)
+      },
       testing: testingDocument.summary || {},
       findings: findingsDocument.summary || {},
       requests: requestsDocument.summary || {},
@@ -1157,22 +1166,36 @@
   }
 
   /**
-   * Builds the lifecycle body: one navigation card per stage. Each card is a
-   * link into its workspace and shows the stage's operational status, pending
-   * work, caption, and (where a ratio exists) a slim progress track.
+   * Builds the lifecycle body as one connected enterprise workflow (Issue
+   * #39 — Lifecycle redesign): an ordered stepper rail. Every stage is a
+   * numbered step joined to the next by a visible connector, so the chain
+   * reads as one process rather than disconnected cards. Each step is still
+   * a link into its workspace carrying the stage's operational status,
+   * pending work, caption, and (where a ratio exists) a slim progress track.
    */
   function buildLifecycleBody(lifecycle) {
     var P = presentation();
-    var grid = el('div', 'aos-engagement__lifecycle');
-    asArray(lifecycle).forEach(function (stage) {
+    var rail = el('ol', 'aos-engagement__lifecycle');
+    rail.setAttribute('role', 'list');
+    asArray(lifecycle).forEach(function (stage, index) {
+      var step = el('li', 'aos-engagement__lifecycle-step');
+
       var card = el(stage.path ? 'a' : 'div', 'aos-card aos-card--interactive aos-engagement__stage');
       if (stage.path) {
-        card.setAttribute('href', '#/' + stage.path);
+        var href = WS.workspacePathHref ? WS.workspacePathHref(stage.path) : null;
+        if (href) {
+          card.setAttribute('href', href);
+        }
         card.setAttribute('aria-label', stage.label + ' — ' + stage.status + (stage.pending ? ' · ' + stage.pending : ''));
       }
 
       var head = el('div', 'aos-engagement__stage-head');
-      head.appendChild(el('span', 'aos-engagement__stage-name', stage.label));
+      var identity = el('span', 'aos-engagement__stage-identity');
+      var marker = el('span', 'aos-engagement__stage-number aos-numeric', String(index + 1));
+      marker.setAttribute('aria-hidden', 'true');
+      identity.appendChild(marker);
+      identity.appendChild(el('span', 'aos-engagement__stage-name', stage.label));
+      head.appendChild(identity);
       head.appendChild(P.statusBadge({ label: stage.status, tone: stage.statusTone }));
       card.appendChild(head);
 
@@ -1186,12 +1209,10 @@
       }
       card.appendChild(body);
 
-      var arrow = el('span', 'aos-engagement__stage-arrow', '→');
-      arrow.setAttribute('aria-hidden', 'true');
-      card.appendChild(arrow);
-      grid.appendChild(card);
+      step.appendChild(card);
+      rail.appendChild(step);
     });
-    return grid;
+    return rail;
   }
 
   /**

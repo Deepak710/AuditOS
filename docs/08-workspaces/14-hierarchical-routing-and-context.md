@@ -1,274 +1,243 @@
 # PART IX — WORKSPACE SPECIFICATIONS
 
-## Chapter 65 — Hierarchical Routing and Context Resolution
+## Chapter 65 — Navigation & Context Architecture
+
+> **Issue #39 (Navigation & Context Architecture Rewrite) — reflects the shipped implementation.**
+> This chapter documents the canonical hierarchical routing model as it is
+> actually built in `prototype/`. It supersedes the earlier slug-based routing
+> description; legacy routes still resolve, but only as redirects to the
+> canonical form.
 
 ---
 
 ### 65.1 Purpose
 
-Hierarchical routing establishes how users navigate through nested operational contexts within AuditOS.
+Navigation and context are a single architectural concern owned by four
+canonical services. No page constructs a URL, derives its own context, calls
+the router directly, or implements its own breadcrumb. Every route is built by
+one service, every page's context comes from one resolver, the hierarchy is
+derived in one place, and the breadcrumb is generated in one place.
 
-The routing model ensures that:
+The model guarantees:
 
-* Users can navigate directly to any operational context
-* Context is preserved across workspace boundaries
-* Breadcrumbs accurately reflect the hierarchy
-* Deep linking remains stable and shareable
-* Navigation is predictable and queryable
-
----
-
-### 65.2 The Engagement Hierarchy
-
-AuditOS organizes all work around a canonical hierarchy.
-
-```text
-Platform
-│
-├── Organization
-│
-├── Client
-│   │
-│   └── Engagement
-│       │
-│       └── Walkthrough (optional)
-│           │
-│           ├── Team
-│           │   │
-│           │   └── POC
-│           │
-│           └── [Engagement-scoped Walkthroughs]
-│
-├── Workspace (requires context)
-│
-└── Entity (requires workspace context)
-```
-
-Every operational context exists within exactly one parent context.
-
-No context is ambiguous.
+* Users can deep-link directly to any operational context.
+* Context is derived once, from the URL, and read identically everywhere.
+* Breadcrumbs always mirror the URL — hierarchy, never categories.
+* Legacy deep links keep working (as internal redirects).
+* Navigation is predictable, queryable, and centrally testable.
 
 ---
 
-### 65.3 Routing Format (Issue #34)
+### 65.2 The Canonical Hierarchy
 
-Hierarchical routes follow this format:
+AuditOS organizes all work around one permanent hierarchy, built by the
+**Hierarchy Builder** (`js/services/hierarchy-builder.js`):
 
 ```text
-#/{clientSlug}/{engagementSlug}/{workspacePath}
+AuditOS → Clients → Programs → Engagements → Workspaces
 ```
 
-**clientSlug**: Derived from the client organization name (lowercase, hyphenated).
+Every breadcrumb, dropdown, and navigation surface derives from this
+hierarchy. Entities are read live through the Repository Foundation; nothing
+re-derives client/engagement/workspace lists locally. Programs group
+engagements but have no route of their own.
 
-**engagementSlug**: Derived from the engagement name (lowercase, hyphenated).
+Below an engagement, the Walkthrough workspace carries a deeper operational
+context: **Team → POC**.
 
-**workspacePath**: The workspace identifier plus optional record/sub-context identifiers.
+---
+
+### 65.3 The Canonical Route Contract
+
+There is one route contract. Scope is explicit in the URL:
+
+```text
+#/home
+#/{platformWorkspacePath}[/{recordId}]
+#/client/{clientId}
+#/client/{clientId}/engagement/{engagementId}
+#/client/{clientId}/engagement/{engagementId}/{workspacePath}[/{recordId}[/{pocId}]]
+```
+
+* **Platform-scoped** workspaces (Home, Executive, Program, Global Approvals,
+  AI Usage, Audit Log, wizards) are flat: `#/{path}`.
+* **Client-scoped** routes name the client: `#/client/{clientId}`.
+* **Engagement-scoped** workspaces are always hierarchical and carry the full
+  `client → engagement → workspace` path.
+
+Identifiers are the entities' own record ids (`CMP-MER`,
+`ENG-MER-ZPQP-2025`), not derived slugs — resolution is a Repository lookup by
+id, never string parsing of a display name.
 
 #### Examples
 
-**Client Workspace:**
+```text
+#/home
+#/client/CMP-MER
+#/client/CMP-MER/engagement/ENG-MER-ZPQP-2025
+#/client/CMP-MER/engagement/ENG-MER-ZPQP-2025/evidence
+#/client/CMP-MER/engagement/ENG-MER-ZPQP-2025/evidence/EVD-MER-0523
+#/client/CMP-MER/engagement/ENG-MER-ZPQP-2025/walkthrough/TEAM-MER-005/POC-MER-024
+#/approvals
 ```
-#/meridian/mer-zpqp-soc2-2025
-```
-
-**Engagement Workspace:**
-```
-#/meridian/mer-zpqp-soc2-2025/engagement
-```
-
-**Requirements Workspace:**
-```
-#/meridian/mer-zpqp-soc2-2025/requirements
-```
-
-**Walkthrough Workspace:**
-```
-#/meridian/mer-zpqp-soc2-2025/walkthroughs
-```
-
-**Team (within Walkthrough):**
-```
-#/meridian/mer-zpqp-soc2-2025/walkthroughs/team-alpha
-```
-
-**POC (within Team):**
-```
-#/meridian/mer-zpqp-soc2-2025/walkthroughs/team-alpha/poc-1
-```
-
-Note: No literal "client/" or "engagement/" segments appear in the route. Context is resolved through Repository lookups, not URL parsing.
 
 ---
 
-### 65.4 Context Resolution Helper (Issue #37, Phase 0)
+### 65.4 The Navigation Service
 
-The Shared Engagement Resolution Helper (`resolveContextEngagement`) consolidates the logic for extracting engagement context from hierarchical routes.
+`js/services/navigation-service.js` is the one place a URL is constructed and
+the one place a route transition is initiated. It exposes:
 
-**Responsibility:** Given a route context, resolve the canonical engagement object.
+* **Pure builders** — `hrefHome()`, `hrefClient(clientId)`,
+  `hrefEngagement(clientId, engagementId)`,
+  `hrefWorkspace(clientId, engagementId, workspaceId, recordId, pocId)`,
+  `hrefPlatform(workspaceId, recordId)`, and `hrefFor(workspaceId, context,
+  recordId)` which resolves a workspace's canonical href within a context by
+  its declared scope.
+* **Imperative navigation** — `navigate(href)` plus intent-named helpers
+  (`goHome`, `goClient`, `goEngagement`, `goEvidence`, `goWalkthrough`, …).
 
-**Usage Pattern:**
-```javascript
-var engagement = resolveContextEngagement(engagements, routeContext);
-if (!engagement) {
-  // Route refers to a non-existent or inaccessible engagement
-  router.navigate('#/home');
-}
-```
-
-**Internals:**
-- Reads the route context (`routeContext.clientId`, `routeContext.engagementId`, or derived from slug)
-- Joins against the `engagements` collection
-- Returns the resolved engagement object or null
-
-**Benefit:** All workspaces use the same resolution logic. Changes to routing are isolated to one location.
+Pages call the Navigation Service; they never write `location.hash`. Even the
+router's compatibility `navigate(workspaceId, recordId)` shim delegates here.
 
 ---
 
-### 65.5 Breadcrumb Navigation
+### 65.5 The Context Resolver
 
-The Application Shell renders a breadcrumb that reflects the current context hierarchy.
+`js/services/context-resolver.js` turns a hash into a resolved context. It is
+the single entry point `resolve(hash)` and returns one of:
 
-**Typical Breadcrumb Structure:**
+* a **resolved context** — `{ scope, workspaceId, workspace, client, program,
+  engagement, frameworks, audit, permissions, hierarchy, recordId, teamId,
+  pocId, depth, isKnownRoute }`;
+* a **`{ redirect }`** to the canonical equivalent of a legacy route;
+* **`{ pending: true }`** while the Shared Audit State is still loading;
+* **`null`** for an unknown route.
+
+The router calls `resolve()` and then `setCurrent()` so the resolver mirrors
+the active route. Every page reads its context from `contextResolver.current()`
+(or the router's `getCurrentContext()`), and no page re-derives it. There is
+no "find the first in-progress engagement" fallback anywhere — an
+engagement-scoped workspace reached without an engagement in context renders
+its degraded state, never a guessed engagement.
+
+**Legacy redirects handled internally (via `history.replaceState`, so history
+stays clean):**
+
+| Legacy route | Resolves to |
+| --- | --- |
+| `#/dashboard` | `#/home` |
+| `#/walkthroughs` | `#/walkthrough` |
+| `#/requirements` | `#/evidence` (Requirements is removed — see §65.9) |
+| `#/{engagementWorkspace}` (flat) | the same workspace under the **last visited** engagement, else Home |
+| `#/{workspace}?id={recordId}` | the canonical `…/{workspace}/{recordId}` segment |
+| `#/{clientSlug}/{engagementSlug}/…` | the canonical `#/client/{id}/engagement/{id}/…` form |
+
+---
+
+### 65.6 The Breadcrumb Generator
+
+`js/services/breadcrumb-generator.js` produces the ordered crumb descriptors;
+the navigation component (`components/navigation/navigation.js`) renders them.
+The trail always begins with the **AuditOS** root and adds only the levels the
+route carries:
 
 ```text
-Home / Meridian / Engagement: Zephyr Platform & Quanta Portfolio SOC 2 Type II / Requirements & Evidence
+AuditOS
+AuditOS → Meridian
+AuditOS → Meridian → Zephyr
+AuditOS → Meridian → Zephyr → Evidence
 ```
 
-The breadcrumb:
-* Remains visible in the shell header
-* Shows the client name (readable, not slug)
-* Shows the engagement name (readable, not slug)
-* Shows the current workspace
-* Each segment is clickable and navigates up the hierarchy
-* Workspace-local state (filters, selections) does not survive breadcrumb navigation
+Crumb rules:
+
+* The **AuditOS** crumb's dropdown lists clients.
+* The **client** crumb's dropdown lists ONLY that client's engagements.
+* The **engagement** crumb's dropdown lists ONLY that engagement's workspaces.
+* The **workspace** crumb is never a dropdown.
+* On the Walkthrough route the trail extends with **Team** and **POC** crumbs.
+
+Opening a menu never navigates; only selecting a destination does — menu items
+are real anchors. Menus are viewport-aware (repositioned to stay on screen)
+and fully keyboard-accessible.
 
 ---
 
-### 65.6 Deep Linking and Bookmarking
+### 65.7 The Router
 
-Every operational context has a stable, bookmarkable deep link.
-
-**Stability:** Route slugs are derived from the record's own immutable name fields. Renaming an engagement changes its slug, breaking historical bookmarks. This is acceptable — bookmarks remain valid only as long as organizational names remain stable.
-
-**Shareability:** Routes can be copied from the address bar and shared. Recipients navigate directly to the same context.
-
-**Browser Integration:** Standard browser back/forward buttons work correctly. Route changes do not clear workspace state; state is only cleared on explicit navigation away or on route change that changes the engagement context.
-
----
-
-### 65.7 Client-to-Engagement Resolution
-
-When a user selects a client from the landing page or other client-picker interface:
-
-1. The router resolves the client to a company record
-2. Retrieves all accessible engagements for that company
-3. Selects the most recently active engagement (or the first operational one)
-4. Routes to that engagement's Client Workspace: `#/{clientSlug}/{engagementSlug}`
-
-The user arrives at the Client Workspace with the engagement context already established.
+`js/router/router.js` parses nothing. It resolves every hash through the
+Context Resolver, follows internal redirects with `replaceState`, hosts the
+default workspace while the state is `pending`, activates the resolved
+workspace, mirrors the context onto the resolver, and publishes the
+`auditos:route-changed` business event (carrying scope, client, engagement,
+and record ids). It re-resolves on `hashchange` and on Shared-Audit-State
+readiness, so a hierarchical deep link that arrives before the data loads
+resolves the moment the data is ready.
 
 ---
 
-### 65.8 Engagement-to-Workspace Navigation
+### 65.8 Deep Linking, History, and Scroll
 
-From the Client Workspace, users navigate to specialized workspaces (Requirements, Evidence, Testing, etc.).
-
-Route format: `#/{clientSlug}/{engagementSlug}/{workspaceId}`
-
-The router:
-1. Resolves the client and engagement from slugs
-2. Verifies the user has access to the engagement
-3. Initializes the workspace with the engagement context pre-loaded
-4. Renders the workspace with no additional loading step
+Every operational context has a stable, bookmarkable deep link built from
+record ids, so links survive display-name changes. Browser back/forward work
+through the single `hashchange` path. The router remembers scroll position per
+workspace and restores it on return, and lands a freshly deep-linked record at
+the top.
 
 ---
 
-### 65.9 Walkthrough Hierarchy (Issue #37, Phase 2–3)
+### 65.9 Requirements Is Not a Workspace
 
-Walkthroughs introduce a nested context below engagements.
-
-From the Engagement Workspace, users may navigate into a Walkthrough to access specialized operational sub-contexts: Teams and POCs.
-
-**Route Structure:**
-```
-#/{clientSlug}/{engagementSlug}/walkthroughs/{walkthroughId}
-```
-
-**Team Route:**
-```
-#/{clientSlug}/{engagementSlug}/walkthroughs/{teamId}
-```
-
-**POC Route:**
-```
-#/{clientSlug}/{engagementSlug}/walkthroughs/{teamId}/poc/{pocId}
-```
-
-The Walkthrough Workspace acts as a navigation hub, presenting:
-* The list of Teams
-* For each Team: the Team's operational status, POC roster, progress
-* Navigation into Team or POC detail
+Requirements ceased to exist as a user-facing workspace. **Evidence is the
+operational object of an engagement.** Requirement records remain an internal
+mapping layer (evidence → requirement → control), but there is no Requirements
+route, no Requirements navigation entry, and no requirement UI in the drawers.
+All Requirements URLs redirect to Evidence.
 
 ---
 
-### 65.10 Workspace-Local Context
+### 65.10 Capability Gating
 
-Some workspaces maintain their own internal context (e.g., a selected requirement, an expanded evidence record).
-
-This context:
-* Does not appear in the route (routes are shareable and stable)
-* Is preserved when the user navigates away and returns to the same engagement + workspace
-* Is cleared when the user navigates to a different engagement or workspace
-
-Workspace-local context is stored in presentation state, never serialized to the route.
+Workspace visibility is capability-gated in one place: the Hierarchy Builder
+filters the engagement's workspace list by the session's capabilities (hidden,
+never disabled). The breadcrumb's workspace menu therefore only ever offers
+reachable destinations.
 
 ---
 
-### 65.11 Accessibility and Keyboard Navigation
+### 65.11 Accessibility
 
-* All route navigation is accessible via keyboard (Enter, spacebar, Tab)
-* Breadcrumb navigation is keyboard-accessible
-* Deep links can be opened in new tabs without losing context
-* A `<skip-to-content>` link allows keyboard users to bypass the header and navigate
-
----
-
-### 65.12 Constraints and Limitations
-
-* Routes assume a single active engagement per session. Multi-engagement sessions are Release 2 future work.
-* Slugs are immutable during an engagement's lifetime. Renaming an engagement generates a new slug; the old route becomes broken.
-* Routes resolve engagement context synchronously after the Shared Audit State loads. During loading, route navigation is deferred.
-* Nested Walkthrough routes require that the Walkthrough exists. Referencing a non-existent Walkthrough navigates to the Engagement instead.
+Route changes move focus into the freshly rendered workspace region and
+announce the workspace to assistive technology through a polite live region.
+Breadcrumb menus implement the menu-button pattern (roving arrow-key focus,
+Home/End, Escape) and every destination is a real anchor, so keyboard and
+new-tab navigation work natively.
 
 ---
 
-### 65.13 Historical Context
+### 65.12 Historical Context
 
-Prior to Issue #34 ("Platform Foundation II with Repository Layer, Audit Service, Hierarchical Routing"):
-* Routes were flat: `#/workspace?id=recordId`
-* Engagement context was implicit or embedded in query parameters
-* Breadcrumbs could not reflect the hierarchy
-
-Issue #34 introduced:
-* Hierarchical route format: `#/{clientSlug}/{engagementSlug}/{workspacePath}`
-* Repository-backed slug derivation
-* Canonical breadcrumb rendering reflecting the actual hierarchy
-
-Issue #37 (Engagement UX Improvements) extended this with:
-* Shared engagement resolution helper to consolidate the resolution logic across all workspaces
-* Phase 2–3: Walkthrough hierarchy (Team/POC nested routes)
+* **Pre-Issue #34:** flat routes `#/workspace?id=recordId`; implicit
+  engagement context; breadcrumbs could not reflect hierarchy.
+* **Issue #34:** slug-based hierarchical routes
+  `#/{clientSlug}/{engagementSlug}/{workspacePath}`.
+* **Issue #39 (this chapter):** one canonical id-based route contract behind
+  four services (Navigation Service, Context Resolver, Hierarchy Builder,
+  Breadcrumb Generator); all earlier route shapes preserved as internal
+  redirects; Requirements removed in favor of Evidence.
 
 ---
 
-### 65.14 Summary
+### 65.13 Summary
 
-Hierarchical routing ensures that every operational context within AuditOS is:
+Navigation is a first-class architecture, not an implementation detail:
 
-* **Addressable:** Stable, deep-linkable, shareable
-* **Navigable:** Breadcrumbs reflect the hierarchy; users always know where they are
-* **Consistent:** All workspaces resolve context identically through a shared helper
-* **Resilient:** Broken routes gracefully degrade (missing engagement → home)
-
-Navigation becomes a first-class architectural concern rather than an implementation detail.
+* **One URL builder** — the Navigation Service.
+* **One context source** — the Context Resolver.
+* **One hierarchy** — the Hierarchy Builder.
+* **One breadcrumb** — the Breadcrumb Generator.
+* **Addressable, navigable, consistent, resilient** — legacy links redirect,
+  unknown routes fall back to Home, and pending routes resolve on data
+  readiness.
 
 ---

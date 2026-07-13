@@ -2035,8 +2035,8 @@
         present: viewModel.teamRoster.length > 0,
         body: function () { return buildTeamsRosterBody(viewModel.teamRoster); },
         empty: {
-          icon: '◇', title: 'No teams recorded yet',
-          description: 'Teams appear here once the engagement’s walkthrough roster is authored.'
+          icon: '◇', title: 'No teams configured',
+          description: 'This engagement has no team data yet. Teams can be populated later — by the audit team or by AI — and are never fabricated; an unknown POC is acceptable until populated.'
         }
       },
       {

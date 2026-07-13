@@ -311,3 +311,11 @@
 .aos-home__section--pinned-clients {
   align-self: stretch;
 }
+
+/* Identical card sizing across the Recent / Pinned pair (Issue #39): both
+ * sections' entity cards share one fixed minimum footprint so the row reads
+ * as one visual system regardless of which section holds cards. */
+.aos-home__section--recent-clients .aos-entity-card,
+.aos-home__section--pinned-clients .aos-entity-card {
+  min-height: 9rem;
+}

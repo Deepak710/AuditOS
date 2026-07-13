@@ -2,6 +2,15 @@
 
 ## Chapter 68 — Requirements & Evidence Workspace
 
+> **⚠️ SUPERSEDED BY Issue #39 (Evidence Workspace Consolidation).**
+> Requirements ceased to exist as a user-facing workspace. **Evidence is the
+> operational object of an engagement** (see Chapter 66 — Evidence Workspace).
+> Requirement records remain an internal mapping layer (evidence → requirement
+> → control), but there is no Requirements route, navigation entry, or
+> requirement UI. All `#/requirements` URLs redirect to Evidence. This chapter
+> is retained for historical context only; the sections below describe the
+> pre-Issue-#39 design.
+
 ---
 
 ### 68.1 Purpose

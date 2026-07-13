@@ -103,10 +103,13 @@
     /**
      * Records one immutable audit event. `event` supplies the action (required)
      * and any of: entity `{ collection, recordId, datasetId }`, previousValue,
-     * newValue, reason, approvalChain, companyId, programId, engagementId,
-     * workspaceId, correlationId, metadata, user. Timestamp, user, role, and
-     * session identity are stamped here. Returns the stored event copy, or
-     * null when the store is unavailable or the action is missing.
+     * newValue, reason, comment, approvalChain, companyId, programId,
+     * engagementId, workspaceId, correlationId, metadata, user. Timestamp,
+     * user, role, and session identity are stamped here. The full Issue #39
+     * audit-history contract — user, timestamp, previous state, new state,
+     * reason, comment — is carried by every event; a bare "status changed"
+     * is never recorded. Returns the stored event copy, or null when the
+     * store is unavailable or the action is missing.
      */
     record: function (event) {
       var state = stateStore();
@@ -125,6 +128,7 @@
         previousValue: source.previousValue === undefined ? null : source.previousValue,
         newValue: source.newValue === undefined ? null : source.newValue,
         reason: source.reason || null,
+        comment: source.comment || null,
         approvalChain: source.approvalChain || null,
         companyId: source.companyId || null,
         programId: source.programId || null,

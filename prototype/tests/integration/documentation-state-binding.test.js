@@ -19,7 +19,7 @@
  * source contracts that keep the workspace presentation-only and offline.
  */
 
-const { SCRIPTS, readText, loadClassicScripts } = require('../lib/prototype');
+const { SCRIPTS, readText, loadClassicScripts, engagementRouteContext } = require('../lib/prototype');
 
 /** Boots the state foundations plus the Documentation workspace in one sandbox window. */
 function bootDocumentationSandbox() {
@@ -122,7 +122,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the Documentation workspace collects a ready, non-degraded view model from the loaded state', async function () {
     const AuditOS = bootDocumentationSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.documentationWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.documentationWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     assert.ok(viewModel, 'a view model is collected once the state is ready');
     assert.equal(viewModel.degraded, false, 'demo data loads without degradation');
@@ -133,7 +133,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the document navigator and health strip read real values from the current engagement', async function () {
     const AuditOS = bootDocumentationSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.documentationWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.documentationWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     assert.ok(Array.from(viewModel.navigator).length > 0, 'the current engagement holds a real documentation section set');
     viewModel.navigator.forEach(function (row) {
@@ -150,7 +150,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('related evidence, controls, and findings resolve through real section references for real sections', async function () {
     const AuditOS = bootDocumentationSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.documentationWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.documentationWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
     const derive = AuditOS.documentationWorkspace.derivations;
 
     const withReferences = viewModel.navigator.filter(function (row) { return row.referenceKeys.length > 0; });
@@ -165,7 +165,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the navigator preserves the document authored order, never re-sorted', async function () {
     const AuditOS = bootDocumentationSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.documentationWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.documentationWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     const ids = Array.from(viewModel.navigator).map(function (row) { return row.id; });
     const sorted = ids.slice().sort();
@@ -177,7 +177,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the audit lineage highlights Documentation and carries only real, current counts', async function () {
     const AuditOS = bootDocumentationSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.documentationWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.documentationWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     const lineage = Array.from(viewModel.lineage);
     const docNode = lineage.filter(function (node) { return node.label === 'Documentation'; })[0];
@@ -201,7 +201,7 @@ module.exports = function registerIntegrationTests(harness) {
       SCRIPTS.documentationWorkspace
     ]).AuditOS;
     return AuditOS.state.init().then(function () {
-      const viewModel = AuditOS.documentationWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+      const viewModel = AuditOS.documentationWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
       assert.equal(viewModel.degraded, true, 'no engagement yields a degraded model, never an exception');
     });
   });
@@ -223,7 +223,7 @@ module.exports = function registerIntegrationTests(harness) {
     await AuditOS.state.init();
     win.document = createDocument();
 
-    const viewModel = AuditOS.documentationWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.documentationWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
     const node = AuditOS.documentationWorkspace.renderInspector(viewModel.navigator, viewModel.context);
 
     assert.ok(node, 'the inspector renders a node');

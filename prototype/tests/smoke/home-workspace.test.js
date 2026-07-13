@@ -36,7 +36,7 @@ module.exports = function registerSmokeTests(harness) {
     assert.equal(home.label, 'AuditOS Home', 'the default workspace label is AuditOS Home');
     assert.equal(home.title, 'AuditOS Home', 'the default workspace title is AuditOS Home');
     assert.equal(home.id, 'dashboard', 'the stable workspace identifier is unchanged');
-    assert.equal(home.path, 'dashboard', 'the stable hash path is unchanged');
+    assert.equal(home.path, 'home', 'the canonical Home path (Issue #39 renamed dashboard→home)');
   });
 
   test('the Home workspace files exist under their owned locations', function () {

@@ -1,42 +1,44 @@
 /**
  * AuditOS Evidence Workspace
- * Workspaces and Navigation — Chapter 12 / Workspace Architecture — Chapter 61 /
- * Audit Lifecycle — Chapter 11 / Component Architecture — Chapter 74 /
- * Engagement Evidence Workspace — GitHub Issue #38 (Parts 7–17)
+ * Evidence Workspace Consolidation — GitHub Issue #39 / Workspaces and
+ * Navigation — Chapter 12 / Workspace Architecture — Chapter 61
  *
- * The operational system of record for an engagement's evidence (GitHub Issue
- * #21, completed by Issue #38). The workspace is one engagement-scoped
- * enterprise table: a header band of KPIs and operational charts that both
- * update with the filters and act as filters when clicked, above a dense,
- * filterable evidence table that owns its own scrolling while the page stays
- * fixed-height. Selecting a row opens the shared enterprise drawer (Issue #37);
- * status is edited inline through the existing Suggestion Lifecycle
- * (Suggested → Reviewed → Approved → Applied), so the Repository is written
- * only on Apply; control-mapping pills navigate directly to the mapped control.
+ * Evidence is the operational object of an engagement (Issue #39):
+ * Requirements ceased to exist as a user-facing workspace, and this
+ * workspace is the one operational system of record. The surface is
+ * deliberately consolidated — filters, metrics, table, drawer, and workflow;
+ * nothing else. The search strip, framework strip, summary strip, related
+ * requirement UI, AI recommendations panel, and activity panel are removed.
+ *
+ * Layout (Issue #39 — Table Layout): the board occupies the remaining
+ * viewport height; the table owns all scrolling internally, so the page
+ * itself never scrolls — an enterprise audit application layout.
+ *
+ * Search (Issue #39 — Evidence Search): the input is mounted once and never
+ * recreated; typing debounces a filter pass that updates the table rows (and
+ * the live metrics) only, so focus and the caret never move.
+ *
+ * Lifecycle: every status renders through the canonical Evidence Lifecycle
+ * (js/services/evidence-lifecycle.js). Evidence types carry persistent
+ * colors (the same type is the same color everywhere); the evidence title
+ * renders in its type color.
+ *
+ * Predictive metrics (Issue #39): the status chart displays Current and
+ * Projected — the projection assumes every pending approval is accepted
+ * (in-flight status proposals land, evidence under review is accepted) —
+ * with projected values rendered as ghosted overlays.
+ *
+ * Workflow drawer (Issue #39): the entire workflow lives inside the shared
+ * enterprise drawer — the lifecycle timeline, propose/approve/reject/ignore,
+ * the in-flight suggestions, the complete audit history (user, timestamp,
+ * previous state, new state, reason, comment), and the AI lineage — no
+ * floating popups. Status changes never edit production state directly: a
+ * proposal walks Suggested → Reviewed → Approved → Applied through the
+ * Suggestion Lifecycle Service, and the Repository is written only on Apply.
  *
  * Everything resolves exclusively from the engagement in the active route
- * context (Issue #38 architectural rule): evidence, requirements, controls,
- * POCs, teams, and suggestions are read for that one engagement, and nothing
- * falls back to a global collection. Requirement, control, POC, and team
- * identifiers resolve to names only when they genuinely join; an unresolved id
- * renders as its raw value, never a fabricated label.
- *
- * Architecture: Business → ViewModel → Components → DOM, identical to the
- * Requirements workspace it mirrors (requirements.js — the shipped
- * table + drawer + suggestion-workflow pattern this workspace reuses rather
- * than re-implements). `collectViewModel` is the single place this workspace
- * reads `AuditOS.state`; it returns a declarative model of pure,
- * offline-testable derivations. The renderer configures the Shared Workspace
- * Framework's inherited skeleton (`AuditOS.workspaceFramework.configure`) and
- * fills its slots with compositions from the Enterprise Data Presentation
- * System (`AuditOS.presentation`) — no bespoke primitives, no duplicated
- * components (Component Design Patterns §81.4 — Composition Over Duplication).
- *
- * Presentation-plus-workflow: business values are read through `AuditOS.state`;
- * the only writes are Suggestion-lifecycle transitions performed through the
- * shared `AuditOS.suggestionService`, and the underlying evidence record is
- * written only when a status-change suggestion is Applied. Sections with no
- * data render shared Empty State components; nothing is fabricated.
+ * context (Context Resolver contract — no fallback engagement); identifiers
+ * resolve to names only when they genuinely join, and nothing is fabricated.
  *
  * Loaded as a classic script so the prototype runs directly from
  * file:///.../prototype/index.html with no build step or module loader.
@@ -46,11 +48,8 @@
 
   var AuditOS = global.AuditOS = global.AuditOS || {};
 
-  /** Shared Workspace Platform (Issue #27) — harmonized helpers reused across every operational workspace. */
+  /** Shared Workspace Platform (Issue #27) — harmonized helpers. */
   var WS = AuditOS.workspaceShared || {};
-
-  /** Cross-Workspace Relationship Engine (Issue #30) — shared relationship/derivation layer. */
-  var RE = AuditOS.relationships || {};
 
   // ------------------------------------------------------------------
   // Constants
@@ -58,55 +57,18 @@
 
   /** The Shared Workspace Framework slots this workspace fills directly. */
   var SLOTS = {
-    CONTENT: 'primary-content',
-    RELATED: 'related-information',
-    AI: 'ai-recommendations',
-    ACTIVITY: 'activity',
-    FOOTER: 'workspace-footer'
+    CONTENT: 'primary-content'
   };
 
   /** Presentation tones shared by badges, markers, and rails. */
   var TONES = WS.TONES;
 
-  /**
-   * Evidence review-status vocabulary → tone (read, never invented). The
-   * production dataset's `reviewStatus` mirrors the shared evidenceStatus
-   * vocabulary (enums.json); the demo-lifecycle vocabulary (Approved/Pending
-   * Review/Rejected) is kept as a fallback for a differently sourced dataset.
-   * An unmapped status resolves to a neutral info tone.
-   */
-  var REVIEW_STATUS = { APPROVED: 'Approved', PENDING_REVIEW: 'Pending Review', REJECTED: 'Rejected' };
-  var REVIEW_TONES = {
-    'Approved': TONES.SUCCESS, 'Pending Review': TONES.WARNING, 'Rejected': TONES.ERROR,
-    'No Action': null,
-    'No Action - POC Details Requested by HA': TONES.WARNING,
-    'Requested by Consulting Team': TONES.INFO,
-    'Requested by SOC Team': TONES.INFO,
-    'Evidence Received - Under HA Review': TONES.INFO,
-    'Evidence Reviewed - Clarification Needed': TONES.WARNING,
-    'Evidence Partially Received': TONES.WARNING,
-    'Population Pending - HA unable to share samples': TONES.WARNING,
-    'All Evidence Received': TONES.SUCCESS,
-    'Not Applicable': null
-  };
-
-  /** Maximum entries per supporting list so panels stay scannable. */
-  var LIST_LIMIT = WS.LIST_LIMIT;
-
-  /** Entrance stagger ceiling — sections beyond this share the last delay. */
-  var STAGGER_LIMIT = WS.STAGGER_LIMIT;
-
   // ------------------------------------------------------------------
-  // Pure derivation helpers — no DOM, no AuditOS.state access. Each takes plain
-  // records and returns plain view data, so the offline unit suites exercise
-  // them directly (derived values remain derived, §30.12).
+  // Pure derivation helpers — no DOM, no AuditOS.state access.
   // ------------------------------------------------------------------
 
   /** Returns the value when it is an array, otherwise an empty array. */
   var asArray = WS.asArray;
-
-  /** Naive English pluralization for whole-count labels. */
-  var plural = WS.plural;
 
   /** Formats an ISO `YYYY-MM-DD` date as a compact, deterministic label. */
   var formatDate = WS.formatDate;
@@ -114,30 +76,31 @@
   /** Formats a `{ startDate, endDate }` period as `start – end`. */
   var formatPeriod = WS.formatPeriod;
 
-  /**
-   * The frameworks attached to an engagement, always as an array. Identical
-   * Release 1 → Release 2 seam as the other workspaces: a future engagement
-   * with a `frameworks` array renders every entry; today's single `framework`
-   * string becomes a one-element array; neither yields an empty array.
-   */
+  /** The frameworks attached to an engagement, always as an array. */
   var normalizeFrameworks = WS.normalizeFrameworks;
 
-  /** The current engagement: identical rule to Home, Engagement, and Walkthrough. */
-  var deriveCurrentEngagement = WS.deriveCurrentEngagement;
+  /** The canonical Evidence Lifecycle, resolved at call time. */
+  function lifecycle() {
+    return AuditOS.evidenceLifecycle || null;
+  }
 
-  /** Resolves an evidence review status to a presentation tone. */
+  /** Resolves an evidence status to its lifecycle tone; unknown reads neutral. */
   function resolveReviewTone(status) {
-    return Object.prototype.hasOwnProperty.call(REVIEW_TONES, status) ? REVIEW_TONES[status] : TONES.INFO;
+    var model = lifecycle();
+    return model ? model.toneOf(status) : TONES.INFO;
+  }
+
+  /** The persistent color key of an evidence type (consistent across the app). */
+  function typeColorKey(evidenceType) {
+    var model = lifecycle();
+    return model ? model.typeColorKey(evidenceType) : 'slate';
   }
 
   /**
    * Normalizes the two reuse shapes the evidence datasets carry into one plain
-   * descriptor, or null when a record declares no reuse. `reuse` is the
-   * same-company shape (`eligible`, `sourceEngagementId`, `sourceEvidenceId`,
-   * `reuseDecision`); `knowledgeReuse` is the cross-company methodology shape
-   * (`methodologyReusable`, `sourceCompanyId`, `sourceEngagementId`,
-   * `evidenceReusable`). Nothing is fabricated: a record with neither key, or
-   * one whose reuse is not eligible in any form, yields null.
+   * descriptor, or null when a record declares no reuse. Nothing is
+   * fabricated: a record with neither key, or one whose reuse is not eligible
+   * in any form, yields null.
    */
   function normalizeReuse(record) {
     var source = record || {};
@@ -189,7 +152,6 @@
    * A `controlCode → control id` index scoped by `engagementId::controlCode`
    * (a control's code is only unique within its own engagement), built from
    * the engagement's own controls collection — never a cross-engagement guess.
-   * Mirrors the Requirements workspace's `indexControlsByCode`.
    */
   function indexControlsByCode(controls) {
     var index = {};
@@ -203,13 +165,12 @@
 
   /**
    * The control mappings of an evidence record, drawn only from real joins:
-   * the evidence's linked requirements' `controlLinks` (`{ engagementId,
-   * controlCode }` — the dominant demo shape) resolved to a control id within
-   * their engagement, plus any direct `linkedControlIds` the record carries.
-   * Each mapping records whether it resolves inside the current engagement
-   * (Issue #38 Part 15 — same engagement opens directly; a different one is a
-   * reused mapping the pill navigates to). Nothing is fabricated: a code that
-   * does not resolve keeps its raw code and a null control id.
+   * the evidence's linked requirements' `controlLinks` resolved to a control
+   * id within their engagement (requirement records remain an internal
+   * mapping layer — Issue #39), plus any direct `linkedControlIds`. Each
+   * mapping records whether it resolves inside the current engagement.
+   * Nothing is fabricated: a code that does not resolve keeps its raw code
+   * and a null control id.
    */
   function deriveControlMappings(record, context) {
     var ctx = context || {};
@@ -260,7 +221,7 @@
     return mappings;
   }
 
-  /** The reuse classification of an evidence row (Issue #38 Part 15). */
+  /** The reuse classification of an evidence row. */
   function deriveReuseScope(record) {
     var engagements = asArray(record.engagementIds);
     var reuse = normalizeReuse(record);
@@ -299,12 +260,7 @@
     return { teamId: '', team: poc ? asArray(poc.teamNames).join(', ') : '' };
   }
 
-  /**
-   * One Evidence table row, resolved to display fields. Owner and team resolve
-   * to names where the identifiers genuinely join and render the raw identifier
-   * otherwise; the control mappings and reuse scope are real joins. The
-   * evidence record is carried through for the drawer and the status workflow.
-   */
+  /** One Evidence table row, resolved to display fields. */
   function deriveEvidenceRow(record, context) {
     var source = record || {};
     var ctx = context || {};
@@ -318,6 +274,7 @@
       team: team.team,
       teamId: team.teamId,
       evidenceType: source.evidenceType || source.fileType || '',
+      typeColor: typeColorKey(source.evidenceType || source.fileType || ''),
       status: source.reviewStatus || '',
       statusTone: resolveReviewTone(source.reviewStatus),
       mappings: mappings,
@@ -328,33 +285,40 @@
     };
   }
 
-  /**
-   * The Evidence table — every evidence record for the engagement rendered
-   * once, ordered by identifier so the surface is stable. Nothing is capped:
-   * the table is the full engagement dataset the header band and filters work
-   * over.
-   */
+  /** The Evidence table — every record rendered once, ordered by identifier. */
   function deriveEvidenceRows(records, context) {
     return asArray(records)
       .map(function (record) { return deriveEvidenceRow(record, context); })
       .sort(function (a, b) { return String(a.id).localeCompare(String(b.id)); });
   }
 
-  /** The distinct review statuses the engagement's records actually use — the real vocabulary, never invented. */
+  /**
+   * The distinct review statuses the records actually use, in canonical
+   * lifecycle order (unknown statuses trail alphabetically) — the filter
+   * vocabulary is real, never invented.
+   */
   function collectStatusOptions(records) {
+    var model = lifecycle();
     var seen = {};
-    var order = [];
+    var present = [];
     asArray(records).forEach(function (record) {
       var status = record && record.reviewStatus;
       if (status && !seen[status]) {
         seen[status] = true;
-        order.push(status);
+        present.push(status);
       }
     });
-    return order.sort();
+    return present.sort(function (a, b) {
+      var orderA = model ? model.orderOf(a) : -1;
+      var orderB = model ? model.orderOf(b) : -1;
+      if (orderA === -1 && orderB === -1) { return a.localeCompare(b); }
+      if (orderA === -1) { return 1; }
+      if (orderB === -1) { return -1; }
+      return orderA - orderB;
+    });
   }
 
-  /** The distinct non-empty values of a row field, in first-seen order — for a filter control. */
+  /** The distinct non-empty values of a row field, sorted — for a filter control. */
   function collectRowValues(rows, field) {
     var seen = {};
     var order = [];
@@ -369,23 +333,63 @@
   }
 
   /**
-   * The KPI strip (Issue #38 Part 8): real counts over the currently filtered
-   * rows. Each KPI carries a `filter` descriptor so a click toggles that facet
-   * on the table, and the "Evidence" total clears every facet. Never a
-   * fabricated figure.
+   * The in-flight status proposal targeting a row, or null: an evidence-status
+   * suggestion not yet Applied or Rejected.
    */
-  function deriveKpis(rows) {
+  function pendingStatusSuggestion(row, context) {
+    return asArray(context.suggestions).filter(function (suggestion) {
+      return suggestion.category === 'evidence-status' &&
+        asArray(suggestion.auditReferences).indexOf(row.id) !== -1 &&
+        suggestion.status !== 'Applied' && suggestion.status !== 'Rejected';
+    })[0] || null;
+  }
+
+  /** The proposed status carried by a status suggestion's apply target, or ''. */
+  function proposedStatusOf(suggestion) {
+    var target = suggestion && suggestion.applyTarget;
+    return target && target.changes && target.changes.reviewStatus ? target.changes.reviewStatus : '';
+  }
+
+  /**
+   * The projected status of a row assuming every pending approval is
+   * accepted (Issue #39 — Predictive Metrics): an in-flight proposal lands
+   * on its proposed status, and evidence under review is accepted. Rows with
+   * nothing pending project unchanged.
+   */
+  function deriveProjectedStatus(row, context) {
+    var pending = pendingStatusSuggestion(row, context);
+    var proposed = proposedStatusOf(pending);
+    if (proposed) {
+      return proposed;
+    }
+    if (row.status === 'Under Review' || row.status === 'Pending Review') {
+      return 'Accepted';
+    }
+    return row.status;
+  }
+
+  /**
+   * The KPI strip: real counts over the currently filtered rows. Each KPI
+   * carries a `filter` descriptor so a click toggles that facet, and the
+   * "Evidence" total clears every facet. Never a fabricated figure.
+   */
+  function deriveKpis(rows, context) {
+    var model = lifecycle();
     var list = asArray(rows);
     var mapped = 0;
     var reusable = 0;
     var multiEngagement = 0;
+    var pending = 0;
     list.forEach(function (row) {
       if (row.mappedCount > 0) { mapped += 1; }
       if (row.reusable) { reusable += 1; }
       if (row.reuse.key !== 'current') { multiEngagement += 1; }
+      if (model && model.isPending(row.status)) { pending += 1; }
+      else if (context && pendingStatusSuggestion(row, context)) { pending += 1; }
     });
     return [
       { key: 'total', label: 'Evidence', value: String(list.length), tone: null, filter: null },
+      { key: 'pending', label: 'In lifecycle', value: String(pending), tone: pending > 0 ? TONES.WARNING : null, filter: { field: 'pending', value: true } },
       { key: 'mapped', label: 'Mapped to controls', value: String(mapped), tone: mapped > 0 ? TONES.INFO : null, filter: { field: 'mapped', value: true } },
       { key: 'reusable', label: 'Reusable', value: String(reusable), tone: reusable > 0 ? TONES.INFO : null, filter: { field: 'reusable', value: true } },
       { key: 'multi-engagement', label: 'Cross-engagement', value: String(multiEngagement), tone: multiEngagement > 0 ? TONES.INFO : null, filter: { field: 'multiEngagement', value: true } }
@@ -393,28 +397,40 @@
   }
 
   /**
-   * One operational chart: the distribution of the filtered rows across the
-   * distinct values of a field, ordered by count descending. Each segment
-   * carries a `filter` descriptor so a click toggles that facet (Issue #38
-   * Parts 8 / 10). `toneFor` resolves a segment's tone from its value.
+   * One distribution chart over a row field, ordered by count descending.
+   * Each segment carries a `filter` descriptor so a click toggles that facet.
+   * When `projectField` resolves projected values, every segment also carries
+   * its projected count so the chart renders Current + Projected (ghosted).
    */
-  function deriveDistribution(rows, field, toneFor) {
+  function deriveDistribution(rows, field, toneFor, projectValue) {
     var list = asArray(rows);
     var counts = {};
+    var projected = {};
     var order = [];
     list.forEach(function (row) {
       var value = row[field] || 'Unspecified';
       if (!Object.prototype.hasOwnProperty.call(counts, value)) {
         counts[value] = 0;
+        projected[value] = 0;
         order.push(value);
       }
       counts[value] += 1;
+      if (projectValue) {
+        var future = projectValue(row) || 'Unspecified';
+        if (!Object.prototype.hasOwnProperty.call(projected, future)) {
+          counts[future] = counts[future] || 0;
+          projected[future] = projected[future] || 0;
+          if (order.indexOf(future) === -1) { order.push(future); }
+        }
+        projected[future] += 1;
+      }
     });
     order.sort(function (a, b) { return counts[b] - counts[a] || a.localeCompare(b); });
     return order.map(function (value) {
       return {
         label: value,
         value: counts[value],
+        projected: projectValue ? projected[value] || 0 : null,
         total: list.length,
         tone: toneFor ? toneFor(value) : null,
         filter: { field: field, value: value }
@@ -422,108 +438,16 @@
     });
   }
 
-  /** The review-status distribution chart. */
-  function deriveStatusChart(rows) {
-    return deriveDistribution(rows, 'status', resolveReviewTone);
+  /** The review-status distribution chart, with projected (ghost) counts. */
+  function deriveStatusChart(rows, context) {
+    return deriveDistribution(rows, 'status', resolveReviewTone, function (row) {
+      return deriveProjectedStatus(row, context || {});
+    });
   }
 
-  /** The evidence-type distribution chart. */
+  /** The evidence-type distribution chart (persistent type colors). */
   function deriveTypeChart(rows) {
-    return deriveDistribution(rows, 'evidenceType', null);
-  }
-
-  /**
-   * Related audit objects for the supporting panel: the domains the evidence
-   * connects to, each with its real count, only when data exists. Requirement
-   * is the evidence's most direct relation; controls, testing, findings, and
-   * report follow.
-   */
-  function deriveRelationships(workspaceRegistry, operational) {
-    if (!workspaceRegistry) {
-      return [];
-    }
-    var ops = operational || {};
-    var requirements = ops.requirements || {};
-    var controls = ops.controls || {};
-    var testing = ops.testing || {};
-    var findings = ops.findings || {};
-    var report = ops.report || null;
-    var ids = workspaceRegistry.IDS;
-
-    var related = [
-      { id: ids.REQUIREMENTS, title: 'Requirements', meta: String(requirements.requirements || 0), present: (requirements.requirements || 0) > 0 },
-      { id: ids.CONTROLS, title: 'Controls', meta: String(controls.controls || 0), present: (controls.controls || 0) > 0 },
-      { id: ids.TESTING, title: 'Testing', meta: String(testing.tests || 0), present: (testing.tests || 0) > 0 },
-      { id: ids.FINDINGS, title: 'Findings', meta: String(findings.findings || 0), present: (findings.findings || 0) > 0 },
-      { id: ids.REPORTING, title: 'Report', meta: report ? String(report.status) : '—', present: Boolean(report) }
-    ];
-    return WS.resolveRelationships(workspaceRegistry, related);
-  }
-
-  /**
-   * Recent evidence activity, newest first: remarks recorded in the immutable
-   * activity log, falling back to evidence receipts / request submissions when
-   * a dataset carries those dated fields instead. Every event derives from a
-   * real dated record; undated records never appear.
-   */
-  function deriveActivity(evidenceRecords, requestRecords, activityEvents, actorNames) {
-    var events = RE.deriveRemarkActivity(activityEvents, actorNames, formatDate);
-    asArray(evidenceRecords).forEach(function (item) {
-      if (!item.uploadedOn) {
-        return;
-      }
-      events.push({
-        title: 'Evidence received: ' + (item.title || item.fileName || item.id),
-        meta: 'Review status: ' + (item.reviewStatus || ''),
-        timestamp: formatDate(item.uploadedOn),
-        date: item.uploadedOn,
-        kind: 'review', value: item.reviewStatus
-      });
-    });
-    asArray(requestRecords).forEach(function (request) {
-      if (!request.submittedOn) {
-        return;
-      }
-      events.push({
-        title: 'Evidence submitted for request ' + request.id,
-        meta: 'Review status: ' + (request.reviewStatus || 'Submitted'),
-        timestamp: formatDate(request.submittedOn),
-        date: request.submittedOn,
-        kind: 'review', value: 'Submitted'
-      });
-    });
-    return events
-      .sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); })
-      .slice(0, LIST_LIMIT);
-  }
-
-  /**
-   * Evidence collection metadata: created / modified / owner / version / tags /
-   * source, derived from the evidence document's metadata, the engagement, and
-   * the company. Only fields with real values are surfaced by the builder.
-   */
-  function deriveMetadata(evidenceMetadata, engagement, company, evidenceRecords) {
-    return RE.deriveCollectionMetadata(evidenceMetadata, engagement, company, evidenceRecords, formatDate);
-  }
-
-  /**
-   * The evidence collection status for the header badge: awaiting when nothing
-   * is collected, complete once every record is received/approved, collecting
-   * otherwise. Never a fabricated count.
-   */
-  function deriveCollectionStatus(evidenceRecords) {
-    var records = asArray(evidenceRecords);
-    if (records.length === 0) {
-      return { label: 'Awaiting', tone: null };
-    }
-    var settled = records.filter(function (record) {
-      var status = record.reviewStatus;
-      return status === REVIEW_STATUS.APPROVED || status === 'All Evidence Received';
-    }).length;
-    if (settled === records.length) {
-      return { label: 'Complete', tone: TONES.SUCCESS };
-    }
-    return { label: 'Collecting', tone: TONES.INFO };
+    return deriveDistribution(rows, 'evidenceType', null, null);
   }
 
   /** One text-valued Inspector section rendered as a single placeholder-capable list row. */
@@ -532,40 +456,25 @@
   /** One list-valued Inspector section; an empty list renders one placeholder row. */
   var listSection = WS.listSection;
 
-  /** Normalizes a linked-id reference, resolving its name where it joins. */
-  var toRefItem = WS.resolveRefItem;
-
   /**
-   * The Evidence Inspector configuration for one evidence record (Issue #38
-   * Part 13 — the shared enterprise drawer's body). Renders high-density
-   * metadata, owner, team, evidence type, folders and links, control mappings,
-   * related requirements, reuse metadata, comments, approval status, and
-   * activity history — a placeholder row wherever the JSON lacks data, and
-   * never a fabricated relationship. Pure: returns plain Inspector Panel
-   * configuration, no DOM. Host-agnostic.
+   * The Evidence Inspector configuration for one evidence record — the shared
+   * enterprise drawer's descriptive body. High-density metadata, owner, team,
+   * evidence type, folders and links, control mappings, reuse, and comments —
+   * a placeholder row wherever the JSON lacks data, never a fabricated
+   * relationship. Requirement references remain internal (Issue #39): no
+   * requirement UI, no requirement URLs. Pure: no DOM.
    */
   function buildEvidenceInspector(evidence, context) {
     var item = evidence || {};
     var ctx = context || {};
-    var ids = ctx.workspaceRegistry ? ctx.workspaceRegistry.IDS : {};
     var reuse = normalizeReuse(item);
     var status = item.reviewStatus || '';
     var owner = resolveName(ctx.pocsById, item.uploadedByPocId, 'name');
     var team = resolveEvidenceTeam(item, ctx);
     var mappings = deriveControlMappings(item, ctx);
     var reuseScope = deriveReuseScope(item);
+    var model = lifecycle();
 
-    var approvalHistory = status
-      ? [{ title: status, description: item.uploadedOn ? 'As of ' + formatDate(item.uploadedOn) : '', tone: resolveReviewTone(status) }]
-      : [];
-
-    var activityHistory = item.uploadedOn
-      ? [{ title: 'Uploaded' + (owner ? ' by ' + owner : ''), description: formatDate(item.uploadedOn), tone: TONES.INFO }]
-      : [];
-
-    // Folders and links: rendered only from fields the record carries
-    // (SharePoint / master / audit folder urls, or a storage path). Nothing is
-    // fabricated for a dataset that records no location.
     var folderItems = [];
     [
       { field: 'masterFolderUrl', label: 'Master folder' },
@@ -604,6 +513,7 @@
       subtitle: [item.id, status].filter(Boolean).join(' · '),
       badges: [
         status ? { label: status, tone: resolveReviewTone(status) } : null,
+        model && status ? { label: model.phaseOf(status) || 'Lifecycle', tone: null } : null,
         reuseScope.key !== 'current' ? { label: reuseScope.label, tone: reuseScope.tone } : null
       ].filter(Boolean),
       sections: [
@@ -613,6 +523,7 @@
             { label: 'Evidence id', value: item.id || '' },
             { label: 'Evidence type', value: item.evidenceType || item.fileType || '' },
             { label: 'Status', value: status },
+            { label: 'Lifecycle phase', value: model ? model.phaseOf(status) : '' },
             { label: 'Owner', value: owner },
             { label: 'Owning team', value: team.team },
             { label: 'File name', value: item.fileName || '' },
@@ -629,17 +540,12 @@
           'No description recorded for this evidence.'),
         listSection('Control mappings', mappingItems,
           'No linked controls recorded — this evidence satisfies no control yet.'),
-        listSection('Related requirements',
-          asArray(item.requirementIds).map(function (id) { return toRefItem(id, ctx.requirementsById, 'title', ctx.workspaceRegistry, ids.REQUIREMENTS); }),
-          'No linked requirements recorded.'),
         listSection('Folders & links', folderItems,
           'No storage locations recorded for this evidence yet. Release 2 connects evidence folders to SharePoint.'),
         reuse
           ? listSection('Reuse', [{ title: reuse.decision || 'Reusable', description: reuse.sourceEngagementId ? 'Source: ' + reuse.sourceEngagementId : '', tone: TONES.INFO }], '')
-          : { title: 'Reuse', kind: 'placeholder', empty: { icon: '◇', title: 'No reuse recorded', description: 'Reuse opportunities appear here when the evidence declares them. Release 2 connects reuse to SharePoint and overlapping audit periods.' } },
-        listSection('Comments', commentItems, 'No comments recorded on this evidence.'),
-        listSection('Approval status', approvalHistory, 'No approval decision recorded yet.'),
-        listSection('Activity history', activityHistory, 'No activity recorded for this evidence.')
+          : { title: 'Reuse', kind: 'placeholder', empty: { icon: '◇', title: 'No reuse recorded', description: 'Reuse opportunities appear here when the evidence declares them.' } },
+        listSection('Comments', commentItems, 'No comments recorded on this evidence.')
       ]
     };
   }
@@ -659,9 +565,9 @@
 
   /**
    * Collects everything the Evidence Workspace presents from the Shared Audit
-   * State, scoped strictly to the engagement in the active route context
-   * (Issue #38 Part 2). Returns null while the state is not ready, and a
-   * degraded model when no engagement exists (§15.12).
+   * State, scoped strictly to the engagement in the active route context.
+   * Returns null while the state is not ready, and a degraded model when the
+   * route carries no engagement (§15.12) — never a fallback engagement.
    */
   function collectViewModel(state, workspaceRegistry, routeContext) {
     if (!state || !state.isReady()) {
@@ -678,49 +584,25 @@
     var companies = state.listRecords('companies');
     var company = findById(companies, engagement.companyId);
     var pocs = state.listRecords('pocs');
-    var users = state.listRecords('users');
     var pocsById = indexById(pocs);
     var teamsById = indexById(state.listRecords('teams'));
-    var actorNames = {};
-    asArray(pocs).forEach(function (poc) { if (poc.id && poc.name) { actorNames[poc.id] = poc.name; } });
-    asArray(users).forEach(function (user) { if (user.id && user.name) { actorNames[user.id] = user.name; } });
 
     var evidenceDocument = readEngagementDocument(state, 'evidence', engagement.id) || {};
-    var requestsDocument = readEngagementDocument(state, 'evidence-requests', engagement.id) || {};
     var requirementsDocument = readEngagementDocument(state, 'evidence-requirements', engagement.id) || {};
     var controlsDocument = readEngagementDocument(state, 'controls', engagement.id) || {};
-    var testingDocument = readEngagementDocument(state, 'testing', engagement.id) || {};
-    var findingsDocument = readEngagementDocument(state, 'findings', engagement.id) || {};
-    var reportsDocument = readEngagementDocument(state, 'reports', engagement.id) || {};
-    var activityDocument = readEngagementDocument(state, 'activity', engagement.id) || {};
     var suggestionsDocument = readEngagementDocument(state, 'suggestions', engagement.id) || {};
 
     var evidenceRecords = asArray(evidenceDocument.evidence);
-    var requestRecords = asArray(requestsDocument.requests);
-    var requirementsById = indexById(requirementsDocument.requirements);
-    var controlsById = indexById(controlsDocument.controls);
-    var controlCodeToId = indexControlsByCode(controlsDocument.controls);
-    var suggestions = asArray(suggestionsDocument.suggestions);
-
-    var operational = {
-      requirements: requirementsDocument.summary || {},
-      controls: controlsDocument.summary || {},
-      evidence: evidenceDocument.summary || {},
-      testing: testingDocument.summary || {},
-      findings: findingsDocument.summary || {},
-      report: reportsDocument.document || null
-    };
-
     var frameworks = normalizeFrameworks(engagement);
     var auditPeriodLabel = formatPeriod(engagement.auditPeriod);
 
     var context = {
-      requirementsById: requirementsById,
-      controlsById: controlsById,
-      controlCodeToId: controlCodeToId,
+      requirementsById: indexById(requirementsDocument.requirements),
+      controlsById: indexById(controlsDocument.controls),
+      controlCodeToId: indexControlsByCode(controlsDocument.controls),
       pocsById: pocsById,
       teamsById: teamsById,
-      suggestions: suggestions,
+      suggestions: asArray(suggestionsDocument.suggestions),
       workspaceRegistry: workspaceRegistry,
       repository: AuditOS.repository || null,
       auditPeriodLabel: auditPeriodLabel,
@@ -730,7 +612,6 @@
     };
 
     var rows = deriveEvidenceRows(evidenceRecords, context);
-    var collectionStatus = deriveCollectionStatus(evidenceRecords);
 
     return {
       degraded: false,
@@ -743,96 +624,55 @@
       header: {
         eyebrow: engagement.engagementCode + ' · Evidence',
         title: company ? company.name : engagement.companyId,
-        meta: engagement.name + ' · system of record',
+        meta: engagement.name + ' · operational system of record',
         frameworks: frameworks,
-        status: collectionStatus,
         lastUpdated: evidenceDocument.metadata && evidenceDocument.metadata.generatedAt
           ? 'Updated ' + formatDate(String(evidenceDocument.metadata.generatedAt).slice(0, 10))
-          : '',
-        actions: [{ label: 'Engagement overview', href: engagementOverviewHref(context), variant: 'subtle' }]
-      },
-
-      ribbon: [
-        { label: 'Client', value: company ? company.name : engagement.companyId },
-        { label: 'Audit period', value: auditPeriodLabel },
-        { label: 'Evidence items', value: String(evidenceRecords.length) }
-      ],
-
-      toolbar: { search: { placeholder: 'Search evidence' } },
-      filterBar: {
-        dropdowns: [{ label: 'Framework', options: ['All frameworks'].concat(frameworks) }]
+          : ''
       },
 
       rows: rows,
       statusOptions: context.statusOptions,
       typeOptions: collectRowValues(rows, 'evidenceType'),
-      teamOptions: collectRowValues(rows, 'team'),
-      relationships: deriveRelationships(workspaceRegistry, operational),
-      activity: deriveActivity(evidenceRecords, requestRecords, asArray(activityDocument.events), actorNames),
-      metadata: deriveMetadata(evidenceDocument.metadata, engagement, company, evidenceRecords),
-
-      footer: [
-        { label: 'Environment', value: 'Static prototype' },
-        { label: 'Demo status', value: status.demoDataLoaded ? 'Demo data loaded' : 'Demo data degraded' }
-      ]
+      teamOptions: collectRowValues(rows, 'team')
     };
   }
 
   // ------------------------------------------------------------------
-  // Navigation helpers — every in-engagement link preserves the client /
-  // engagement hierarchy (Issue #38 Part 4), degrading to the flat route only
-  // where the Repository is not loaded (offline unit sandboxes).
+  // Navigation — every destination is a canonical NavigationService route.
   // ------------------------------------------------------------------
 
-  /** The hierarchical link to the engagement overview. */
-  function engagementOverviewHref(context) {
-    var href = WS.buildHierarchicalHref(context.repository, context.workspaceRegistry, context.company, context.engagement, null);
-    return href || '#/engagements';
-  }
-
   /**
-   * The link to a mapped control (Issue #38 Part 15). Same engagement: the
-   * control's own hierarchical record route, opened directly. A different
-   * engagement: the mapped control within that engagement (resolved through
-   * the Repository), so the pill navigates to that engagement. Falls back to
-   * the flat record route where the hierarchy cannot be built.
+   * The link to a mapped control: same engagement opens the control's own
+   * hierarchical record route; a different engagement resolves that
+   * engagement and its client so the pill navigates into it. Null where the
+   * hierarchy cannot be built — never a fabricated route.
    */
   function controlHref(mapping, context) {
     var registry = context.workspaceRegistry;
-    if (!registry) {
+    var navigation = AuditOS.navigationService;
+    if (!registry || !navigation) {
       return null;
     }
     var controlsId = registry.IDS.CONTROLS;
     var repository = context.repository;
 
-    if (mapping.sameEngagement) {
-      var base = WS.buildHierarchicalHref(repository, registry, context.company, context.engagement, controlsId);
-      if (base && mapping.controlId) {
-        return base + '/' + encodeURIComponent(mapping.controlId);
-      }
-      return WS.buildRecordHref(registry, controlsId, mapping.controlId) || base;
+    if (mapping.sameEngagement && context.company && context.engagement) {
+      return navigation.hrefWorkspace(context.company.id, context.engagement.id, controlsId, mapping.controlId || undefined);
     }
-
-    // A different engagement's control — resolve that engagement and its
-    // company so the pill navigates into that engagement's Controls workspace.
     if (repository && mapping.engagementId) {
       var targetEngagement = findById(repository.engagements.list(), mapping.engagementId);
       var targetCompany = targetEngagement ? findById(repository.clients.list(), targetEngagement.companyId) : null;
-      var crossBase = WS.buildHierarchicalHref(repository, registry, targetCompany, targetEngagement, controlsId);
-      if (crossBase && mapping.controlId) {
-        return crossBase + '/' + encodeURIComponent(mapping.controlId);
-      }
-      if (crossBase) {
-        return crossBase;
+      if (targetCompany && targetEngagement) {
+        return navigation.hrefWorkspace(targetCompany.id, targetEngagement.id, controlsId, mapping.controlId || undefined);
       }
     }
-    return WS.buildRecordHref(registry, controlsId, mapping.controlId);
+    return null;
   }
 
   // ------------------------------------------------------------------
-  // Generic DOM builders — thin layout wrappers around the Enterprise Data
-  // Presentation System (AuditOS.presentation). Text is always assigned through
-  // textContent, never markup injection.
+  // DOM builders — thin layout wrappers around the Enterprise Data
+  // Presentation System. Text is always assigned through textContent.
   // ------------------------------------------------------------------
 
   /** Creates an element with a class and optional text content. */
@@ -841,27 +681,24 @@
   /** The shared presentation system, resolved at render time. */
   var presentation = WS.presentation;
 
-  /** Builds one Section component: an eyebrow, a title, an optional description, then a body node. */
-  function buildSection(id, meta, bodyNode) {
-    return WS.buildSection('aos-evidence', id, meta, bodyNode);
-  }
-
   /**
-   * Memory-only presentation state: the composed table filters (search, the
-   * status/type/team facets, and the KPI facets), plus the evidence the shared
-   * drawer currently shows, so a Repository write re-render refreshes the same
-   * drawer instead of closing it (mirrors requirements.js `tableState`).
+   * Memory-only presentation state: the composed table filters, whether the
+   * projected overlay is on, and the evidence the shared drawer currently
+   * shows so a Repository write refreshes the same drawer instead of closing
+   * it.
    */
   var tableState = {
     search: '', status: '', evidenceType: '', team: '',
-    mapped: false, reusable: false, multiEngagement: false,
+    mapped: false, reusable: false, multiEngagement: false, pending: false,
+    projected: true,
     drawerEvidenceId: '', lastTargetId: ''
   };
 
   /** Whether any facet or search filter is active. */
   function hasActiveFilters() {
     return Boolean(tableState.search || tableState.status || tableState.evidenceType ||
-      tableState.team || tableState.mapped || tableState.reusable || tableState.multiEngagement);
+      tableState.team || tableState.mapped || tableState.reusable ||
+      tableState.multiEngagement || tableState.pending);
   }
 
   /** Clears every composed filter. */
@@ -873,14 +710,12 @@
     tableState.mapped = false;
     tableState.reusable = false;
     tableState.multiEngagement = false;
+    tableState.pending = false;
   }
 
-  /**
-   * Applies every composed filter to the rows (Issue #38 Part 10 — search,
-   * column filters, KPI filters, and chart filters all compose). Presentation
-   * only: the underlying dataset never changes.
-   */
-  function applyFilters(rows) {
+  /** Applies every composed filter to the rows. Presentation only. */
+  function applyFilters(rows, context) {
+    var model = lifecycle();
     var term = tableState.search.trim().toLowerCase();
     return asArray(rows).filter(function (row) {
       if (tableState.status && row.status !== tableState.status) { return false; }
@@ -889,6 +724,11 @@
       if (tableState.mapped && row.mappedCount === 0) { return false; }
       if (tableState.reusable && !row.reusable) { return false; }
       if (tableState.multiEngagement && row.reuse.key === 'current') { return false; }
+      if (tableState.pending) {
+        var isPending = (model && model.isPending(row.status)) ||
+          Boolean(context && pendingStatusSuggestion(row, context));
+        if (!isPending) { return false; }
+      }
       if (term) {
         var haystack = [row.id, row.title, row.owner, row.team, row.evidenceType, row.status]
           .join(' ').toLowerCase();
@@ -926,11 +766,7 @@
     }
   }
 
-  /**
-   * Builds the KPI strip: one stat tile per KPI. Each tile is a real button
-   * that toggles its facet (Issue #38 Part 8) and reads active when its facet
-   * is on; the value always reads as text, tone only reinforces.
-   */
+  /** Builds the KPI strip: one stat-tile toggle button per KPI. */
   function buildKpiStrip(kpis, onFilter) {
     var strip = el('div', 'aos-evidence__kpis');
     strip.setAttribute('role', 'group');
@@ -952,30 +788,57 @@
 
   /**
    * Builds one operational chart: a segmented proportion bar plus a legend of
-   * toggle buttons (Issue #38 Part 8 — every chart updates with the filters and
-   * becomes a filter when clicked). Each legend row and bar segment toggles its
-   * facet.
+   * toggle buttons. When segments carry projected counts and the projected
+   * overlay is on, a second ghosted bar renders the projection beneath the
+   * current bar and each legend row reads `current → projected`.
    */
-  function buildChart(title, segments, onFilter) {
+  function buildChart(title, segments, onFilter, options) {
+    var config = options || {};
     var wrap = el('div', 'aos-evidence__chart');
-    wrap.appendChild(el('h4', 'aos-evidence__chart-title', title));
+    var head = el('div', 'aos-evidence__chart-head');
+    head.appendChild(el('h4', 'aos-evidence__chart-title', title));
+    var showProjected = Boolean(config.projectable && tableState.projected);
+    if (config.projectable) {
+      var toggle = el('button', 'aos-evidence__chart-projected-toggle' +
+        (tableState.projected ? ' aos-evidence__chart-projected-toggle--active' : ''));
+      toggle.type = 'button';
+      toggle.setAttribute('aria-pressed', tableState.projected ? 'true' : 'false');
+      toggle.textContent = 'Projected';
+      toggle.title = 'Projected assumes every pending approval is accepted';
+      toggle.addEventListener('click', function () {
+        tableState.projected = !tableState.projected;
+        config.onProjectedToggle();
+      });
+      head.appendChild(toggle);
+    }
+    wrap.appendChild(head);
 
     var total = asArray(segments).reduce(function (sum, segment) { return sum + segment.value; }, 0);
-    var bar = el('div', 'aos-evidence__chart-bar');
-    bar.setAttribute('role', 'group');
-    bar.setAttribute('aria-label', title + ' distribution');
-    asArray(segments).forEach(function (segment) {
-      var percent = total > 0 ? Math.round((segment.value / total) * 100) : 0;
-      var fill = el('button', 'aos-evidence__chart-segment' +
-        (segment.tone ? ' aos-evidence__chart-segment--' + segment.tone : '') +
-        (isFacetActive(segment.filter) ? ' aos-evidence__chart-segment--active' : ''));
-      fill.type = 'button';
-      fill.style.width = percent + '%';
-      fill.setAttribute('aria-label', segment.label + ': ' + segment.value + ' (' + percent + '%)');
-      fill.addEventListener('click', function () { onFilter(segment.filter); });
-      bar.appendChild(fill);
-    });
-    wrap.appendChild(bar);
+
+    function buildBar(readValue, ghost) {
+      var bar = el('div', 'aos-evidence__chart-bar' + (ghost ? ' aos-evidence__chart-bar--projected' : ''));
+      bar.setAttribute('role', 'group');
+      bar.setAttribute('aria-label', title + (ghost ? ' projected distribution' : ' distribution'));
+      asArray(segments).forEach(function (segment) {
+        var value = readValue(segment);
+        var percent = total > 0 ? Math.round((value / total) * 100) : 0;
+        if (ghost && value === 0) { percent = 0; }
+        var fill = el('button', 'aos-evidence__chart-segment' +
+          (segment.tone ? ' aos-evidence__chart-segment--' + segment.tone : '') +
+          (isFacetActive(segment.filter) ? ' aos-evidence__chart-segment--active' : ''));
+        fill.type = 'button';
+        fill.style.width = percent + '%';
+        fill.setAttribute('aria-label', segment.label + ': ' + value + (ghost ? ' projected' : '') + ' (' + percent + '%)');
+        fill.addEventListener('click', function () { onFilter(segment.filter); });
+        bar.appendChild(fill);
+      });
+      return bar;
+    }
+
+    wrap.appendChild(buildBar(function (segment) { return segment.value; }, false));
+    if (showProjected) {
+      wrap.appendChild(buildBar(function (segment) { return segment.projected || 0; }, true));
+    }
 
     var legend = el('ul', 'aos-evidence__chart-legend');
     asArray(segments).forEach(function (segment) {
@@ -989,7 +852,11 @@
       dot.setAttribute('aria-hidden', 'true');
       button.appendChild(dot);
       button.appendChild(el('span', 'aos-evidence__chart-legend-label', segment.label));
-      button.appendChild(el('span', 'aos-evidence__chart-legend-value aos-numeric', segment.value + ' · ' + percent + '%'));
+      var reading = segment.value + ' · ' + percent + '%';
+      if (showProjected && segment.projected !== null && segment.projected !== segment.value) {
+        reading += ' → ' + segment.projected;
+      }
+      button.appendChild(el('span', 'aos-evidence__chart-legend-value aos-numeric', reading));
       button.addEventListener('click', function () { onFilter(segment.filter); });
       entry.appendChild(button);
       legend.appendChild(entry);
@@ -998,29 +865,20 @@
     return wrap;
   }
 
-  /** Whether an evidence row has an unapplied status-change suggestion in flight. */
-  function pendingStatusSuggestion(row, context) {
-    return asArray(context.suggestions).filter(function (suggestion) {
-      return suggestion.category === 'evidence-status' &&
-        asArray(suggestion.auditReferences).indexOf(row.id) !== -1 &&
-        suggestion.status !== 'Applied' && suggestion.status !== 'Rejected';
-    })[0] || null;
-  }
-
   /**
-   * Builds the inline Status cell (Issue #38 Part 11): a dropdown of the real
-   * status vocabulary. Selecting a new status never edits the record directly —
-   * it proposes a Suggestion that walks Suggested → Reviewed → Approved →
-   * Applied through the existing Suggestion Lifecycle Service; the Repository
-   * write happens only on Apply. A pending proposal shows a clock affordance
-   * that opens the drawer's status workflow.
+   * Builds the inline Status cell: a dropdown of the canonical lifecycle.
+   * Selecting a new status never edits the record directly — it proposes a
+   * Suggestion through the Suggestion Lifecycle Service; the Repository write
+   * happens only on Apply. A pending proposal shows a clock affordance that
+   * opens the drawer's workflow — no floating popups.
    */
   function buildStatusCell(row, context) {
     var P = presentation();
     var repository = AuditOS.repository;
     var suggestionService = AuditOS.suggestionService;
+    var model = lifecycle();
     var engagementId = context.engagement ? context.engagement.id : '';
-    var statusOptions = context.statusOptions || [];
+    var statusOptions = model ? model.statusLabels() : (context.statusOptions || []);
     var pending = pendingStatusSuggestion(row, context);
 
     var cell = el('div', 'aos-evidence__status-cell');
@@ -1048,15 +906,7 @@
         if (!proposed || proposed === row.status) {
           return;
         }
-        suggestionService.propose(repository, engagementId, {
-          title: 'Change evidence status: ' + (row.title || row.id),
-          description: (row.status || 'Unset') + ' → ' + proposed,
-          category: 'evidence-status',
-          affectedRequirements: asArray(row.evidence.requirementIds),
-          auditReferences: [row.id],
-          workspaceId: 'evidence',
-          applyTarget: { entity: 'evidence', recordId: row.id, changes: { reviewStatus: proposed } }
-        });
+        proposeStatusChange(row, proposed, context);
       });
       cell.appendChild(select);
     } else {
@@ -1066,7 +916,7 @@
     if (pending) {
       var clock = el('button', 'aos-evidence__status-pending');
       clock.type = 'button';
-      clock.setAttribute('aria-label', 'Pending status change (' + pending.status + ') — open status workflow');
+      clock.setAttribute('aria-label', 'Pending status change (' + pending.status + ') — open workflow');
       clock.title = 'Pending: ' + pending.title + ' · ' + pending.status;
       clock.appendChild(el('i', 'bi bi-clock-history'));
       clock.addEventListener('click', function () { openEvidenceDrawer(row, context); });
@@ -1075,12 +925,29 @@
     return cell;
   }
 
+  /** Records a status-change proposal through the Suggestion Lifecycle. */
+  function proposeStatusChange(row, proposed, context) {
+    var repository = AuditOS.repository;
+    var suggestionService = AuditOS.suggestionService;
+    var engagementId = context.engagement ? context.engagement.id : '';
+    if (!repository || !suggestionService || !engagementId) {
+      return;
+    }
+    suggestionService.propose(repository, engagementId, {
+      title: 'Change evidence status: ' + (row.title || row.id),
+      description: (row.status || 'Unset') + ' → ' + proposed,
+      category: 'evidence-status',
+      affectedRequirements: asArray(row.evidence.requirementIds),
+      auditReferences: [row.id],
+      workspaceId: 'evidence',
+      applyTarget: { entity: 'evidence', recordId: row.id, changes: { reviewStatus: proposed } }
+    });
+  }
+
   /**
-   * Builds the Control Mapping cell (Issue #38 Part 15): one pill per mapped
-   * control. Clicking a pill navigates directly to the mapped control — within
-   * the current engagement, or into the engagement that owns it. Same-engagement
-   * pills read as the current engagement; cross-engagement (reused) pills are
-   * visually distinguished.
+   * Builds the Control Mapping cell: one pill per mapped control. Clicking a
+   * pill navigates directly to the mapped control — within the current
+   * engagement, or into the engagement that owns it.
    */
   function buildControlPills(row, context) {
     var wrap = el('div', 'aos-evidence__pills');
@@ -1103,36 +970,32 @@
     return wrap;
   }
 
-  /**
-   * Builds the row Actions cell (Issue #38 Part 12): an Eye that opens the
-   * Evidence drawer and a History icon that opens the Status History — minimal,
-   * professional iconography (bootstrap-icons, already vendored locally).
-   */
+  /** Builds the row Actions cell: an Eye that opens the workflow drawer. */
   function buildActionCell(row, context) {
     var wrap = el('div', 'aos-evidence__actions');
-
     var view = el('button', 'aos-evidence__icon-button');
     view.type = 'button';
-    view.setAttribute('aria-label', 'Open evidence detail for ' + (row.title || row.id));
-    view.title = 'View evidence';
+    view.setAttribute('aria-label', 'Open evidence workflow for ' + (row.title || row.id));
+    view.title = 'Open evidence workflow';
     view.appendChild(el('i', 'bi bi-eye'));
     view.addEventListener('click', function () { openEvidenceDrawer(row, context); });
     wrap.appendChild(view);
-
-    var history = el('button', 'aos-evidence__icon-button');
-    history.type = 'button';
-    history.setAttribute('aria-label', 'Open status history for ' + (row.title || row.id));
-    history.title = 'Status history';
-    history.appendChild(el('i', 'bi bi-clock-history'));
-    history.addEventListener('click', function () { openStatusHistory(row, context); });
-    wrap.appendChild(history);
-
     return wrap;
   }
 
-  /** Builds one dense-table row descriptor: the title cell opens the evidence drawer. */
+  /** Builds the evidence-type badge: a colored dot plus the type name (persistent color). */
+  function buildTypeBadge(row) {
+    var badge = el('span', 'aos-evidence__type aos-evidence-type--' + row.typeColor);
+    var dot = el('span', 'aos-evidence__type-dot');
+    dot.setAttribute('aria-hidden', 'true');
+    badge.appendChild(dot);
+    badge.appendChild(el('span', 'aos-evidence__type-label', row.evidenceType || '—'));
+    return badge;
+  }
+
+  /** Builds one dense-table row descriptor: the title (in its type color) opens the drawer. */
   function buildTableRow(row, context) {
-    var open = el('button', 'aos-evidence__table-title');
+    var open = el('button', 'aos-evidence__table-title aos-evidence-type--' + row.typeColor);
     open.type = 'button';
     open.textContent = row.title || row.id;
     open.addEventListener('click', function () { openEvidenceDrawer(row, context); });
@@ -1143,7 +1006,7 @@
         title: open,
         owner: row.owner || '—',
         team: row.team || '—',
-        type: row.evidenceType || '—',
+        type: buildTypeBadge(row),
         status: buildStatusCell(row, context),
         controls: buildControlPills(row, context),
         actions: buildActionCell(row, context)
@@ -1152,12 +1015,12 @@
   }
 
   /**
-   * Builds the engagement Evidence board (Issue #38 Parts 7–10): the KPI strip
-   * and the operational charts on top, a composing filter toolbar, then the one
-   * dense enterprise table that owns the scrolling. A single `render()` closure
-   * recomputes the filtered rows and rebuilds the KPIs, charts, and grid so the
-   * header figures update with the filters and every KPI / chart segment acts
-   * as a filter when clicked.
+   * Builds the Evidence board: the metrics band (KPIs + charts with the
+   * projected overlay), the filter row, then the one dense enterprise table
+   * that owns the scrolling. The filter row — including the search input —
+   * is built exactly once and never rebuilt: `render()` recomputes the
+   * filtered rows and replaces only the metrics and the grid, so the search
+   * input keeps focus through every keystroke (Issue #39 — Evidence Search).
    */
   function buildBoard(viewModel) {
     var P = presentation();
@@ -1176,17 +1039,24 @@
     toolbar.setAttribute('aria-label', 'Evidence filters');
     var gridMount = el('div', 'aos-evidence__grid-mount');
 
-    function render() {
-      var filtered = applyFilters(viewModel.rows);
+    var dropdowns = {};
+    var resetMount = el('span', 'aos-evidence__toolbar-reset');
 
-      kpiMount.replaceChildren(buildKpiStrip(deriveKpis(filtered), function (filter) {
+    function render() {
+      var filtered = applyFilters(viewModel.rows, context);
+
+      kpiMount.replaceChildren(buildKpiStrip(deriveKpis(filtered, context), function (filter) {
         toggleFacet(filter);
         render();
       }));
 
       chartMount.replaceChildren(
-        buildChart('Review status', deriveStatusChart(filtered), function (filter) { toggleFacet(filter); render(); }),
-        buildChart('Evidence type', deriveTypeChart(filtered), function (filter) { toggleFacet(filter); render(); })
+        buildChart('Lifecycle status', deriveStatusChart(filtered, context), function (filter) {
+          toggleFacet(filter); render();
+        }, { projectable: true, onProjectedToggle: render }),
+        buildChart('Evidence type', deriveTypeChart(filtered), function (filter) {
+          toggleFacet(filter); render();
+        }, {})
       );
 
       gridMount.replaceChildren(P.dataGrid({
@@ -1210,21 +1080,25 @@
         }
       }));
 
-      // The filter toolbar is rebuilt with the current option sets so a facet
-      // chosen from a KPI or chart reflects in the dropdowns too.
-      toolbar.replaceChildren.apply(toolbar, buildToolbarControls(viewModel, render));
+      // Sync the mounted controls to the shared filter state without ever
+      // recreating them (a KPI or chart click reflects in the dropdowns).
+      dropdowns.status.value = tableState.status;
+      dropdowns.evidenceType.value = tableState.evidenceType;
+      dropdowns.team.value = tableState.team;
+      resetMount.replaceChildren.apply(resetMount, hasActiveFilters() ? [buildResetButton()] : []);
     }
 
-    board.appendChild(toolbar);
-    board.appendChild(gridMount);
-    render();
-    return board;
-  }
+    function buildResetButton() {
+      var reset = presentation().button({ label: 'Reset filters', variant: 'subtle', size: 'small' });
+      reset.addEventListener('click', function () {
+        resetFilters();
+        searchInput.value = '';
+        render();
+      });
+      return reset;
+    }
 
-  /** Builds the composing filter toolbar controls: search, status / type / team dropdowns, and a reset. */
-  function buildToolbarControls(viewModel, render) {
-    var controls = [];
-
+    // --- The one-time filter row: search input + dropdowns + reset mount ---
     var searchLabel = el('label', 'aos-evidence__search');
     searchLabel.appendChild(el('span', 'aos-evidence__filter-label', 'Search'));
     var searchInput = el('input', 'aos-evidence__search-input');
@@ -1232,60 +1106,91 @@
     searchInput.value = tableState.search;
     searchInput.setAttribute('placeholder', 'Search evidence, owner, or team');
     searchInput.setAttribute('aria-label', 'Search evidence');
+    // Filter synchronously on every keystroke (Issue #39 — Evidence Search):
+    // the search input is mounted once and never rebuilt, and only the
+    // metrics and grid below it are replaced, so focus and the caret never
+    // move. No timer, no polling — the table simply reflects the query.
     searchInput.addEventListener('input', function () {
       tableState.search = searchInput.value;
       render();
     });
     searchLabel.appendChild(searchInput);
-    controls.push(searchLabel);
+    toolbar.appendChild(searchLabel);
 
-    controls.push(buildFilterDropdown('Status', 'All statuses', viewModel.statusOptions, tableState.status, function (value) {
-      tableState.status = value; render();
-    }));
-    controls.push(buildFilterDropdown('Evidence type', 'All types', viewModel.typeOptions, tableState.evidenceType, function (value) {
-      tableState.evidenceType = value; render();
-    }));
-    controls.push(buildFilterDropdown('Team', 'All teams', viewModel.teamOptions, tableState.team, function (value) {
-      tableState.team = value; render();
-    }));
-
-    if (hasActiveFilters()) {
-      var reset = presentation().button({ label: 'Reset filters', variant: 'subtle', size: 'small' });
-      reset.addEventListener('click', function () { resetFilters(); render(); });
-      controls.push(reset);
+    function buildFilterDropdown(key, labelText, allLabel, options) {
+      var label = el('label', 'aos-evidence__filter');
+      label.appendChild(el('span', 'aos-evidence__filter-label', labelText));
+      var control = el('select', 'aos-select__control');
+      var all = el('option', null, allLabel);
+      all.value = '';
+      control.appendChild(all);
+      asArray(options).forEach(function (option) {
+        var node = el('option', null, option);
+        node.value = option;
+        control.appendChild(node);
+      });
+      control.value = tableState[key] || '';
+      control.addEventListener('change', function () {
+        tableState[key] = control.value;
+        render();
+      });
+      dropdowns[key] = control;
+      label.appendChild(control);
+      return label;
     }
-    return controls;
+
+    toolbar.appendChild(buildFilterDropdown('status', 'Status', 'All statuses', viewModel.statusOptions));
+    toolbar.appendChild(buildFilterDropdown('evidenceType', 'Evidence type', 'All types', viewModel.typeOptions));
+    toolbar.appendChild(buildFilterDropdown('team', 'Team', 'All teams', viewModel.teamOptions));
+    toolbar.appendChild(resetMount);
+
+    board.appendChild(toolbar);
+    board.appendChild(gridMount);
+    render();
+    return board;
   }
 
-  /** Builds one labeled filter dropdown over a set of option values. */
-  function buildFilterDropdown(labelText, allLabel, options, current, onChange) {
-    var label = el('label', 'aos-evidence__filter');
-    label.appendChild(el('span', 'aos-evidence__filter-label', labelText));
-    var control = el('select', 'aos-select__control');
-    var all = el('option', null, allLabel);
-    all.value = '';
-    control.appendChild(all);
-    asArray(options).forEach(function (option) {
-      var node = el('option', null, option);
-      node.value = option;
-      control.appendChild(node);
+  // ------------------------------------------------------------------
+  // Evidence Workflow Drawer (Issue #39) — the entire workflow in one place:
+  // lifecycle timeline, propose / approve / reject / ignore, in-flight
+  // suggestions, complete audit history, and AI lineage. No floating popups.
+  // ------------------------------------------------------------------
+
+  /**
+   * Builds the lifecycle timeline: the canonical phases as a connected
+   * chain with the record's current phase highlighted — the redesigned
+   * lifecycle visualization (Issue #39 — Evidence Lifecycle).
+   */
+  function buildLifecycleTimeline(row) {
+    var model = lifecycle();
+    var chain = el('div', 'aos-evidence__lifecycle');
+    chain.setAttribute('role', 'list');
+    if (!model) {
+      return chain;
+    }
+    var currentPhase = model.phaseOf(row.status);
+    model.PHASES.forEach(function (phase, index) {
+      if (index > 0) {
+        var connector = el('span', 'aos-evidence__lifecycle-connector', '→');
+        connector.setAttribute('aria-hidden', 'true');
+        chain.appendChild(connector);
+      }
+      var reached = currentPhase &&
+        model.PHASES.indexOf(phase) <= model.PHASES.indexOf(currentPhase);
+      var node = el('div', 'aos-evidence__lifecycle-node' +
+        (phase === currentPhase ? ' aos-evidence__lifecycle-node--current' : '') +
+        (reached ? ' aos-evidence__lifecycle-node--reached' : ''));
+      node.setAttribute('role', 'listitem');
+      node.appendChild(el('span', 'aos-evidence__lifecycle-phase', phase));
+      if (phase === currentPhase) {
+        node.appendChild(el('span', 'aos-evidence__lifecycle-status', row.status));
+      }
+      chain.appendChild(node);
     });
-    control.value = current || '';
-    control.addEventListener('change', function () { onChange(control.value); });
-    label.appendChild(control);
-    return label;
+    return chain;
   }
 
-  // ------------------------------------------------------------------
-  // Evidence Status Workflow (Issue #38 Part 11) — a status change never edits
-  // production state directly: it creates a Suggestion that walks Suggested →
-  // Reviewed → Approved → Applied through the existing Suggestion Lifecycle
-  // Service; the Repository write happens only on Apply, and every transition
-  // records an audit entry. Mirrors requirements.js so no lifecycle logic is
-  // duplicated.
-  // ------------------------------------------------------------------
-
-  /** Builds one pending status-change suggestion card with its lifecycle actions. */
+  /** Builds one in-flight suggestion card with Approve / Reject / Ignore inside the drawer. */
   function buildWorkflowSuggestionCard(suggestion, engagementId) {
     var P = presentation();
     var repository = AuditOS.repository;
@@ -1317,16 +1222,17 @@
     }
     if (!denial) {
       if (suggestion.status === suggestionService.STATUS.REVIEWED) {
-        ['approve', 'reject'].forEach(function (decisionId) {
-          var button = P.button({
-            label: decisionId === 'approve' ? 'Approve' : 'Reject',
-            variant: decisionId === 'approve' ? 'primary' : 'subtle'
-          });
-          button.addEventListener('click', function () {
-            suggestionService.decide(repository, engagementId, suggestion, decisionId, '');
-          });
-          actions.appendChild(button);
+        var approveButton = P.button({ label: 'Approve', variant: 'primary' });
+        approveButton.addEventListener('click', function () {
+          suggestionService.decide(repository, engagementId, suggestion, 'approve', '');
         });
+        actions.appendChild(approveButton);
+
+        var rejectButton = P.button({ label: 'Reject', variant: 'subtle' });
+        rejectButton.addEventListener('click', function () {
+          suggestionService.decide(repository, engagementId, suggestion, 'reject', '');
+        });
+        actions.appendChild(rejectButton);
       }
       if (suggestion.status === suggestionService.STATUS.APPROVED) {
         var applyButton = P.button({ label: 'Apply', variant: 'primary' });
@@ -1335,6 +1241,14 @@
         });
         actions.appendChild(applyButton);
       }
+      // Ignore dismisses the proposal without adopting it — recorded as a
+      // rejection with an explicit reason, so the audit trail never reads
+      // a bare "status changed".
+      var ignoreButton = P.button({ label: 'Ignore', variant: 'subtle' });
+      ignoreButton.addEventListener('click', function () {
+        suggestionService.decide(repository, engagementId, suggestion, 'reject', 'Ignored without adoption');
+      });
+      actions.appendChild(ignoreButton);
     }
     if (actions.firstChild) {
       card.appendChild(actions);
@@ -1346,19 +1260,19 @@
   }
 
   /**
-   * Builds the drawer's Evidence Status Workflow section: an inline propose
-   * control for the current status, the pending status-change suggestions with
-   * their lifecycle actions, and the recent audit history. The Repository is
-   * written only when a suggestion is Applied.
+   * Builds the drawer's workflow section: the propose control over the
+   * canonical lifecycle, the in-flight suggestions with their lifecycle
+   * actions, and nothing floating.
    */
   function buildWorkflowBody(row, context) {
     var P = presentation();
     var repository = AuditOS.repository;
     var suggestionService = AuditOS.suggestionService;
+    var model = lifecycle();
     var engagementId = context.engagement ? context.engagement.id : '';
     var wrap = el('div', 'aos-evidence__workflow');
 
-    var statusOptions = context.statusOptions || [];
+    var statusOptions = model ? model.statusLabels() : (context.statusOptions || []);
     if (suggestionService && repository && statusOptions.length > 0) {
       var controls = el('div', 'aos-evidence__workflow-controls');
       var select = el('select', 'aos-select__control');
@@ -1368,22 +1282,14 @@
         option.value = status;
         select.appendChild(option);
       });
-      select.value = row.status || statusOptions[0];
+      select.value = statusOptions.indexOf(row.status) !== -1 ? row.status : statusOptions[0];
       controls.appendChild(select);
       var proposeButton = P.button({ label: 'Propose status change', variant: 'subtle' });
       proposeButton.addEventListener('click', function () {
         if (!select.value || select.value === row.status) {
           return;
         }
-        suggestionService.propose(repository, engagementId, {
-          title: 'Change evidence status: ' + (row.title || row.id),
-          description: (row.status || 'Unset') + ' → ' + select.value,
-          category: 'evidence-status',
-          affectedRequirements: asArray(row.evidence.requirementIds),
-          auditReferences: [row.id],
-          workspaceId: 'evidence',
-          applyTarget: { entity: 'evidence', recordId: row.id, changes: { reviewStatus: select.value } }
-        });
+        proposeStatusChange(row, select.value, context);
       });
       controls.appendChild(proposeButton);
       wrap.appendChild(controls);
@@ -1401,64 +1307,20 @@
     proposals.forEach(function (suggestion) {
       wrap.appendChild(buildWorkflowSuggestionCard(suggestion, engagementId));
     });
-
-    var auditService = AuditOS.auditService;
-    if (auditService) {
-      var events = auditService.listForEntity(row.id, 'evidence').slice(0, 5);
-      if (events.length > 0) {
-        wrap.appendChild(el('h4', 'aos-evidence__workflow-subtitle', 'Recent history'));
-        wrap.appendChild(P.itemList(events.map(function (event) {
-          return {
-            title: event.action + (event.reason ? ' — ' + event.reason : ''),
-            meta: [event.user, String(event.timestamp).slice(0, 10)].filter(Boolean).join(' · '),
-            tone: TONES.INFO
-          };
-        }), { compact: true }));
-      }
-    }
     return wrap;
   }
 
   /**
-   * Opens the shared enterprise drawer (Issue #37 Part 9 / Issue #38 Part 13)
-   * for one evidence record: the same inspector configuration, hosted in the
-   * one application-wide slide-over — never a modal dialog. The Evidence Status
-   * Workflow (Part 11) renders beneath the inspector sections.
+   * Builds the complete audit history of the record: every recorded event
+   * with user, timestamp, previous state, new state, reason, and comment
+   * (Issue #39 — Audit History; never only "status changed"). Suggestion
+   * lifecycle events targeting the record surface alongside its own writes.
    */
-  function openEvidenceDrawer(row, context) {
-    var P = presentation();
-    tableState.drawerEvidenceId = row.id;
-    var config = buildEvidenceInspector(row.evidence, context);
-    var workflow = el('section', 'aos-inspector__section');
-    workflow.appendChild(el('h3', 'aos-inspector__section-title', 'Evidence status workflow'));
-    workflow.appendChild(buildWorkflowBody(row, context));
-    P.openDrawer({
-      eyebrow: config.eyebrow,
-      title: config.title,
-      subtitle: config.subtitle,
-      badges: config.badges,
-      wide: true,
-      content: [P.inspectorSections(config.sections), workflow],
-      onClose: function () { tableState.drawerEvidenceId = ''; }
-    });
-  }
-
-  /**
-   * Opens the Status History (Issue #38 Part 14) in the shared drawer: the
-   * recorded audit events touching this evidence record, each showing when,
-   * the action, the old and new status, the actor, and any comment — reusing
-   * the existing audit-history conventions. Both the applied status changes
-   * (evidence writes) and the suggestion lifecycle (proposal → decision) are
-   * drawn from the audit trail.
-   */
-  function openStatusHistory(row, context) {
+  function buildHistoryBody(row, context) {
     var P = presentation();
     var auditService = AuditOS.auditService;
     var events = auditService ? auditService.listForEntity(row.id, 'evidence') : [];
 
-    // Suggestion lifecycle events reference this evidence through the
-    // suggestions that target it; surface them alongside the record's own
-    // writes so the history reads proposal → decision → applied.
     var suggestionIds = asArray(context.suggestions).filter(function (suggestion) {
       return suggestion.category === 'evidence-status' &&
         asArray(suggestion.auditReferences).indexOf(row.id) !== -1;
@@ -1470,107 +1332,141 @@
     }
     events.sort(function (a, b) { return String(b.timestamp).localeCompare(String(a.timestamp)); });
 
-    var content;
     if (events.length === 0) {
-      content = P.emptyState({
-        icon: '◇', title: 'No status history yet',
-        description: 'Status changes are recorded here once a proposal is reviewed, approved, and applied.'
-      });
-    } else {
-      content = P.dataGrid({
-        density: 'compact',
-        caption: 'Status history for ' + row.id,
-        columns: [
-          { key: 'when', label: 'When', width: '11rem' },
-          { key: 'action', label: 'Action' },
-          { key: 'old', label: 'Old' },
-          { key: 'new', label: 'New' },
-          { key: 'by', label: 'By' },
-          { key: 'comment', label: 'Comment' }
-        ],
-        rows: events.map(function (event) {
-          var previous = event.previousValue || {};
-          var next = event.newValue || {};
-          var oldStatus = previous.reviewStatus || previous.status || '';
-          var newStatus = next.reviewStatus || next.status || '';
-          return {
-            cells: {
-              when: String(event.timestamp || '').replace('T', ' ').slice(0, 19),
-              action: event.action || '',
-              old: oldStatus ? P.statusBadge({ label: oldStatus, tone: resolveReviewTone(oldStatus) }) : '—',
-              new: newStatus ? P.statusBadge({ label: newStatus, tone: resolveReviewTone(newStatus) }) : '—',
-              by: event.user || '',
-              comment: event.reason || ''
-            }
-          };
-        })
+      return P.emptyState({
+        icon: '◇', title: 'No recorded history yet',
+        description: 'Every workflow action is recorded here with who, when, the previous and new state, the reason, and any comment.'
       });
     }
-
-    P.openDrawer({
-      eyebrow: 'Audit log',
-      title: 'Status history · ' + row.id,
-      subtitle: row.title || '',
-      badges: row.status ? [{ label: row.status, tone: row.statusTone }] : [],
-      wide: true,
-      content: [content]
+    return P.dataGrid({
+      density: 'compact',
+      caption: 'Audit history for ' + row.id,
+      columns: [
+        { key: 'when', label: 'When', width: '10rem' },
+        { key: 'user', label: 'User' },
+        { key: 'action', label: 'Action' },
+        { key: 'previous', label: 'Previous state' },
+        { key: 'next', label: 'New state' },
+        { key: 'reason', label: 'Reason' },
+        { key: 'comment', label: 'Comment' }
+      ],
+      rows: events.map(function (event) {
+        var previous = event.previousValue || {};
+        var next = event.newValue || {};
+        var oldStatus = previous.reviewStatus || previous.status || '';
+        var newStatus = next.reviewStatus || next.status || '';
+        return {
+          cells: {
+            when: String(event.timestamp || '').replace('T', ' ').slice(0, 19),
+            user: event.user || '',
+            action: event.action || '',
+            previous: oldStatus ? P.statusBadge({ label: oldStatus, tone: resolveReviewTone(oldStatus) }) : '—',
+            next: newStatus ? P.statusBadge({ label: newStatus, tone: resolveReviewTone(newStatus) }) : '—',
+            reason: event.reason || '',
+            comment: event.comment || ''
+          }
+        };
+      })
     });
-  }
-
-  /** Builds the Metadata body: the shared Metadata List of presentation fields. */
-  function buildMetadataBody(metadata) {
-    var pairs = [
-      { term: 'Created', detail: metadata.created },
-      { term: 'Modified', detail: metadata.modified },
-      { term: 'Owner', detail: metadata.owner },
-      { term: 'Version', detail: metadata.version },
-      { term: 'Tags', detail: asArray(metadata.tags).join(' · ') },
-      { term: 'Source', detail: metadata.source }
-    ];
-    return WS.metadataBody(pairs);
-  }
-
-  /** Builds the Related information supporting panel body: related audit objects with navigation. */
-  function buildRelatedBody(relationships) {
-    return WS.buildRelatedBody(relationships, {
-      icon: '◇', title: 'No related objects',
-      description: 'The audit domains the evidence connects to appear here once they hold data.'
-    });
-  }
-
-  /** Builds the Activity Feed for the activity supporting panel. */
-  function buildActivityBody(activity) {
-    return WS.buildActivityBody(activity, {
-      icon: '◇', title: 'No recent activity',
-      description: 'Evidence receipts, submissions, and approval decisions appear here as the engagement progresses.'
-    });
-  }
-
-  /** Builds a run of labeled value items for the workspace footer. */
-  function buildFooterItems(entries) {
-    return WS.buildFooterItems('aos-evidence', entries);
   }
 
   /**
-   * Host-agnostic renderer (§9): given the evidence rows and the resolution
-   * context, returns the one self-contained enterprise Evidence board — the KPI
-   * band, charts, filters, and dense table — making no assumption about where it
-   * is mounted. Exposed on the public API so any host can reuse it.
+   * Builds the AI lineage section: the reusable lineage architecture
+   * (js/services/ai-lineage-service.js) rendered for this record — Evidence
+   * is the first implementation. Stages without recorded data read as
+   * absent; nothing is fabricated.
    */
-  function renderInspector(rows, context) {
-    return buildBoard({ rows: asArray(rows), context: context, statusOptions: context.statusOptions || [],
-      typeOptions: collectRowValues(rows, 'evidenceType'), teamOptions: collectRowValues(rows, 'team') });
+  function buildLineageSection(row) {
+    var P = presentation();
+    var lineageService = AuditOS.aiLineage;
+    if (!lineageService) {
+      return null;
+    }
+    var lineage = lineageService.buildLineage(row.evidence, {
+      collectionId: 'evidence',
+      objectLabel: row.title || row.id
+    });
+    var wrap = el('div', 'aos-evidence__lineage-body');
+    if (!lineageService.isAiGenerated(row.evidence)) {
+      wrap.appendChild(el('p', 'aos-evidence__workflow-card-meta',
+        'This evidence declares no AI origin — it was collected directly. AI-generated objects carry their complete lineage here: origin, walkthrough session, transcript, evidence references, reasoning, generation, review, and approval.'));
+    }
+    var list = el('ol', 'aos-evidence__lineage-stages');
+    lineage.stages.forEach(function (stage) {
+      var item = el('li', 'aos-evidence__lineage-stage' +
+        (stage.present ? '' : ' aos-evidence__lineage-stage--absent'));
+      item.appendChild(el('span', 'aos-evidence__lineage-stage-label', stage.label));
+      if (stage.present) {
+        stage.items.forEach(function (fact) {
+          var line = el('span', 'aos-evidence__lineage-stage-item',
+            [fact.title, fact.detail].filter(Boolean).join(' · '));
+          item.appendChild(line);
+        });
+      } else {
+        item.appendChild(el('span', 'aos-evidence__lineage-stage-item', '—'));
+      }
+      list.appendChild(item);
+    });
+    wrap.appendChild(list);
+    return wrap;
+  }
+
+  /** Wraps a drawer section: a fixed structural title plus its body. */
+  function drawerSection(title, body) {
+    var section = el('section', 'aos-inspector__section');
+    section.appendChild(el('h3', 'aos-inspector__section-title', title));
+    section.appendChild(body);
+    return section;
+  }
+
+  /**
+   * Opens the shared enterprise drawer for one evidence record: the
+   * inspector, the lifecycle timeline, the entire workflow, the complete
+   * audit history, and the AI lineage — everything in one place (Issue #39).
+   */
+  function openEvidenceDrawer(row, context) {
+    var P = presentation();
+    tableState.drawerEvidenceId = row.id;
+    var config = buildEvidenceInspector(row.evidence, context);
+    var content = [
+      drawerSection('Lifecycle', buildLifecycleTimeline(row)),
+      P.inspectorSections(config.sections),
+      drawerSection('Workflow', buildWorkflowBody(row, context)),
+      drawerSection('History', buildHistoryBody(row, context))
+    ];
+    var lineageSection = buildLineageSection(row);
+    if (lineageSection) {
+      content.push(drawerSection('AI lineage', lineageSection));
+    }
+    P.openDrawer({
+      eyebrow: config.eyebrow,
+      title: config.title,
+      subtitle: config.subtitle,
+      badges: config.badges,
+      wide: true,
+      content: content,
+      onClose: function () { tableState.drawerEvidenceId = ''; }
+    });
   }
 
   // ------------------------------------------------------------------
   // Slot rendering
   // ------------------------------------------------------------------
 
-  /** Returns a framework slot inside the active workspace view. */
-  var slotElement = WS.slotElement;
-
   /** Replaces a slot's content with the given nodes (or clears it). */
   var fillSlot = WS.fillSlot;
+
+  /**
+   * Hides the framework's supporting panels and footer for this workspace:
+   * the consolidated Evidence surface is filters, metrics, table, drawer,
+   * and workflow — nothing else (Issue #39).
+   */
+  function collapseSupportingRegions(view) {
+    var panels = view.querySelector('[data-region="supporting-panels"]');
+    if (panels) {
+      panels.hidden = true;
+    }
+  }
 
   /** Renders the ready evidence experience into the framework slots. */
   function renderReady(view, viewModel) {
@@ -1579,14 +1475,10 @@
     var targetId = router && router.getCurrentRecordId ? router.getCurrentRecordId() : '';
 
     AuditOS.workspaceFramework.configure(view, {
-      header: viewModel.header,
-      contextSummary: viewModel.ribbon,
-      toolbar: viewModel.toolbar,
-      filterBar: viewModel.filterBar
+      header: viewModel.header
     });
+    collapseSupportingRegions(view);
 
-    // One engagement-scoped enterprise table (Issue #38 Part 7): the table owns
-    // its own scrolling and the page stays fixed-height.
     var canvas = el('div', 'aos-evidence');
     canvas.setAttribute('data-canvas', 'flush');
     var board = buildBoard(viewModel);
@@ -1594,10 +1486,10 @@
     canvas.appendChild(board);
     fillSlot(view, SLOTS.CONTENT, [canvas]);
 
-    // Drawer synchronization (Issue #37 Parts 8/9): a Repository write that
-    // re-renders the workspace refreshes the already-open drawer with the same
-    // record's fresh data instead of closing it; a route that names a record
-    // opens its drawer once per navigation.
+    // Drawer synchronization: a Repository write that re-renders the
+    // workspace refreshes the already-open drawer with fresh data instead of
+    // closing it; a route that names a record opens its drawer once per
+    // navigation.
     function findRow(id) {
       return viewModel.rows.filter(function (row) { return row.id === id; })[0] || null;
     }
@@ -1613,42 +1505,24 @@
       }
     }
     tableState.lastTargetId = targetId;
-
-    var related = buildRelatedBody(viewModel.relationships);
-    related.classList.add('aos-fade-in');
-    fillSlot(view, SLOTS.RELATED, [related]);
-
-    var ai = P.emptyState({
-      icon: '✦', title: 'Reserved for AI advisory',
-      description: 'AI-drafted evidence analysis — gap detection, reuse suggestions, and requirement coverage — will appear here once the AI foundation is implemented. AI remains advisory; human approval remains mandatory.'
-    });
-    ai.classList.add('aos-tint-brand', 'aos-fade-in');
-    fillSlot(view, SLOTS.AI, [ai]);
-
-    var activity = buildActivityBody(viewModel.activity);
-    activity.classList.add('aos-fade-in');
-    fillSlot(view, SLOTS.ACTIVITY, [activity]);
-
-    fillSlot(view, SLOTS.FOOTER, [buildFooterItems(viewModel.footer)]);
   }
 
   /** Renders the layout-stable loading state (§15.12 — Loading). */
   function renderLoading(view) {
     var P = presentation();
+    collapseSupportingRegions(view);
     fillSlot(view, SLOTS.CONTENT, [P.loadingState({ variant: 'table', label: 'Loading evidence' })]);
-    fillSlot(view, SLOTS.RELATED, [P.loadingState({ variant: 'list', label: 'Loading related information' })]);
-    fillSlot(view, SLOTS.AI, [P.loadingState({ variant: 'list', label: 'Loading AI advisory' })]);
-    fillSlot(view, SLOTS.ACTIVITY, [P.loadingState({ variant: 'list', label: 'Loading activity' })]);
   }
 
   /** Renders the degraded state (§15.12 — Empty / Error). */
   function renderDegraded(view, viewModel) {
     var P = presentation();
+    collapseSupportingRegions(view);
     fillSlot(view, SLOTS.CONTENT, [P.emptyState({
-      icon: '◇', title: 'No engagement available',
-      description: 'The Shared Audit State holds no engagement to present' +
+      icon: '◇', title: 'No engagement in context',
+      description: 'Evidence is engagement-scoped: open it from a client’s engagement' +
         (viewModel.status && viewModel.status.degradedReason ? ' (' + viewModel.status.degradedReason + ')' : '') +
-        '. Regenerate the demo-data bundle and reload to restore the Evidence Workspace.'
+        '. Select a client from the AuditOS breadcrumb to begin.'
     })]);
   }
 
@@ -1658,8 +1532,8 @@
 
   /**
    * Renders the Evidence Workspace when it is the active workspace: the ready
-   * experience once the state has loaded, the loading skeleton before that, and
-   * the degraded explanation when no engagement is available.
+   * experience once the state has loaded, the loading skeleton before that,
+   * and the degraded explanation when the route carries no engagement.
    */
   function renderActiveEvidence() {
     var registry = AuditOS.workspaceRegistry;
@@ -1700,8 +1574,8 @@
       formatDate: formatDate,
       formatPeriod: formatPeriod,
       normalizeFrameworks: normalizeFrameworks,
-      deriveCurrentEngagement: deriveCurrentEngagement,
       resolveReviewTone: resolveReviewTone,
+      typeColorKey: typeColorKey,
       normalizeReuse: normalizeReuse,
       deriveEvidenceSource: deriveEvidenceSource,
       indexControlsByCode: indexControlsByCode,
@@ -1712,30 +1586,35 @@
       deriveEvidenceRows: deriveEvidenceRows,
       collectStatusOptions: collectStatusOptions,
       collectRowValues: collectRowValues,
+      pendingStatusSuggestion: pendingStatusSuggestion,
+      proposedStatusOf: proposedStatusOf,
+      deriveProjectedStatus: deriveProjectedStatus,
       deriveKpis: deriveKpis,
       deriveDistribution: deriveDistribution,
       deriveStatusChart: deriveStatusChart,
       deriveTypeChart: deriveTypeChart,
-      deriveRelationships: deriveRelationships,
-      deriveActivity: deriveActivity,
-      deriveMetadata: deriveMetadata,
-      deriveCollectionStatus: deriveCollectionStatus,
       buildEvidenceInspector: buildEvidenceInspector
     },
 
     collectViewModel: collectViewModel,
 
-    // Host-agnostic renderer (§9): data → one self-contained node, mountable in
-    // any host. Release 1 mounts the enterprise Evidence board in the content slot.
-    renderInspector: renderInspector,
+    /**
+     * The host-agnostic renderer: the one consolidated Evidence board
+     * (metrics band, filter row, and the dense enterprise table that owns
+     * its scrolling) built from a ready view model — data in, node out, so
+     * any host can mount it. The workspace's own `renderReady` mounts exactly
+     * this node into the framework's content slot.
+     */
+    renderBoard: function (viewModel) {
+      return buildBoard(viewModel);
+    },
 
     /**
      * Binds the Evidence Workspace to the router and the Shared Audit State.
      * Safe to call once, after the DOM is ready, the router has resolved the
-     * initial route, and the framework has rendered its skeleton (script order
-     * guarantees the framework's route listener runs first). Does nothing when
-     * the routing or state foundations are absent, so the shell degrades rather
-     * than throwing.
+     * initial route, and the framework has rendered its skeleton. Does
+     * nothing when the routing or state foundations are absent, so the shell
+     * degrades rather than throwing.
      */
     init: function () {
       var router = AuditOS.router;
@@ -1744,9 +1623,9 @@
         return;
       }
 
-      // Navigating away closes the evidence drawer (Issue #37 Part 9) — an
-      // overlay never outlives the page that opened it. Repository writes
-      // (STATE_CHANGED) do not close it; renderReady refreshes it in place.
+      // Navigating away closes the evidence drawer — an overlay never
+      // outlives the page that opened it. Repository writes (STATE_CHANGED)
+      // do not close it; renderReady refreshes it in place.
       global.document.addEventListener(router.ROUTE_CHANGED_EVENT, function () {
         if (tableState.drawerEvidenceId && AuditOS.presentation && AuditOS.presentation.closeDrawer) {
           AuditOS.presentation.closeDrawer();

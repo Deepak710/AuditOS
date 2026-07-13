@@ -2,6 +2,45 @@
 
 ## Chapter 66 — Evidence Workspace
 
+> **Issue #39 (Evidence Workspace Consolidation) — reflects the shipped
+> implementation.** Evidence is now **the** operational object of an
+> engagement; the separate Requirements workspace was removed (Chapter 68 is
+> superseded). The shipped workspace is deliberately consolidated to filters,
+> metrics, table, drawer, and workflow — nothing else:
+>
+> * **Viewport-height board.** The board fills the remaining viewport height
+>   and the dense enterprise table owns all scrolling internally; the page
+>   itself never scrolls.
+> * **Focus-stable search.** The search input is mounted once and never
+>   rebuilt; typing filters the rows and live metrics synchronously, so focus
+>   and the caret never move.
+> * **Canonical Evidence Lifecycle.** Every status renders through the
+>   expanded lifecycle vocabulary (`js/services/evidence-lifecycle.js`):
+>   Requested → Population Pending → Partially Received → Received → Under
+>   Review → Clarification Needed / Revision Requested → Accepted / Rejected /
+>   Not Applicable / Duplicate / Reused / Cross Engagement → Archived / Closed.
+>   Each status carries a lifecycle phase, a presentation tone, and whether it
+>   is a pending decision.
+> * **Persistent evidence-type colors.** Each evidence type has one
+>   application-wide color; the evidence title renders in its type color.
+> * **Predictive metrics.** The lifecycle chart shows Current and a ghosted
+>   Projected overlay (assuming every pending approval is accepted).
+> * **Consolidated workflow drawer.** One shared enterprise drawer holds the
+>   lifecycle timeline, the propose/approve/reject/ignore workflow, the
+>   in-flight suggestions, the complete audit history (user, timestamp,
+>   previous state, new state, reason, comment), and the AI lineage. No
+>   floating popups. Status changes never edit production state directly — a
+>   proposal walks the Suggestion Lifecycle (Suggested → Reviewed → Approved →
+>   Applied) and the Repository is written only on Apply.
+> * **AI Lineage architecture.** Evidence is the first implementation of the
+>   reusable lineage model (`js/services/ai-lineage-service.js`): Origin →
+>   Walkthrough session → Transcript → Evidence references → AI reasoning →
+>   Generated object → Review history → Approval history → Current object.
+>   Human-created evidence honestly shows the AI stages as absent.
+>
+> The sections below retain the broader conceptual model of evidence as a
+> governed business object.
+
 ---
 
 ### 66.1 Purpose

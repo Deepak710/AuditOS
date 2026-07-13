@@ -507,6 +507,214 @@ a.aos-evidence__pill:hover {
 }
 
 /* ========================================
+ * VIEWPORT-HEIGHT BOARD (Issue #39 — Table Layout)
+ * The board fills the remaining viewport height; the table owns all
+ * scrolling internally, so the page itself never scrolls.
+ * ======================================== */
+
+.aos-evidence__board {
+  height: calc(100dvh - 19rem);
+  min-height: 26rem;
+}
+
+.aos-evidence__grid-mount {
+  flex: 1 1 auto;
+  min-height: 8rem;
+  max-height: none;
+}
+
+/* ========================================
+ * EVIDENCE TYPE IDENTITY (Issue #39 — Evidence Types)
+ * Persistent per-type colors from the Design Token Foundation. The type name
+ * always reads as text; color only reinforces identity.
+ * ======================================== */
+
+.aos-evidence-type--configuration { --aos-evidence-type-color: var(--aos-evidence-type-configuration); }
+.aos-evidence-type--documentation { --aos-evidence-type-color: var(--aos-evidence-type-documentation); }
+.aos-evidence-type--population { --aos-evidence-type-color: var(--aos-evidence-type-population); }
+.aos-evidence-type--photograph { --aos-evidence-type-color: var(--aos-evidence-type-photograph); }
+.aos-evidence-type--walkthrough { --aos-evidence-type-color: var(--aos-evidence-type-walkthrough); }
+.aos-evidence-type--sample { --aos-evidence-type-color: var(--aos-evidence-type-sample); }
+.aos-evidence-type--sample-documentation { --aos-evidence-type-color: var(--aos-evidence-type-sample-documentation); }
+.aos-evidence-type--sample-configuration { --aos-evidence-type-color: var(--aos-evidence-type-sample-configuration); }
+.aos-evidence-type--slate { --aos-evidence-type-color: var(--aos-evidence-type-slate); }
+.aos-evidence-type--teal { --aos-evidence-type-color: var(--aos-evidence-type-teal); }
+.aos-evidence-type--indigo { --aos-evidence-type-color: var(--aos-evidence-type-indigo); }
+.aos-evidence-type--amber { --aos-evidence-type-color: var(--aos-evidence-type-amber); }
+.aos-evidence-type--rose { --aos-evidence-type-color: var(--aos-evidence-type-rose); }
+.aos-evidence-type--cyan { --aos-evidence-type-color: var(--aos-evidence-type-cyan); }
+
+/* The evidence title renders in its type color (Issue #39). */
+.aos-evidence__table-title.aos-evidence-type--configuration,
+.aos-evidence__table-title[class*='aos-evidence-type--'] {
+  color: var(--aos-evidence-type-color, var(--aos-text-link));
+}
+
+.aos-evidence__type {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-1);
+  min-width: 0;
+  color: var(--aos-evidence-type-color, var(--aos-text-secondary));
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-medium);
+}
+
+.aos-evidence__type-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: none;
+  border-radius: var(--aos-radius-full);
+  background-color: var(--aos-evidence-type-color, var(--aos-surface-border-strong));
+}
+
+.aos-evidence__type-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ========================================
+ * PREDICTIVE METRICS (Issue #39)
+ * The projected distribution renders as a ghosted second bar beneath the
+ * current one; the toggle states its assumption in its title.
+ * ======================================== */
+
+.aos-evidence__chart-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+}
+
+.aos-evidence__chart-projected-toggle {
+  padding: 0 var(--aos-space-2);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-full);
+  background: transparent;
+  color: var(--aos-text-tertiary);
+  font-size: var(--aos-text-xs);
+  line-height: 1.6;
+  cursor: pointer;
+  transition: color var(--aos-transition-fast), border-color var(--aos-transition-fast);
+}
+
+.aos-evidence__chart-projected-toggle--active {
+  color: var(--aos-text-link);
+  border-color: var(--aos-text-link);
+}
+
+.aos-evidence__chart-projected-toggle:focus-visible {
+  outline: none;
+  box-shadow: var(--aos-focus-ring);
+}
+
+.aos-evidence__chart-bar--projected {
+  margin-top: var(--aos-space-1);
+  opacity: 0.38;
+}
+
+/* ========================================
+ * LIFECYCLE TIMELINE (Issue #39 — drawer)
+ * The canonical phases as a connected chain; the record's current phase is
+ * highlighted and names its exact status.
+ * ======================================== */
+
+.aos-evidence__lifecycle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: var(--aos-space-1);
+}
+
+.aos-evidence__lifecycle-connector {
+  align-self: center;
+  color: var(--aos-text-tertiary);
+  font-size: var(--aos-text-xs);
+}
+
+.aos-evidence__lifecycle-node {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding: var(--aos-space-1) var(--aos-space-2);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  color: var(--aos-text-tertiary);
+  font-size: var(--aos-text-xs);
+}
+
+.aos-evidence__lifecycle-node--reached {
+  color: var(--aos-text-secondary);
+  border-color: var(--aos-surface-border-strong);
+}
+
+.aos-evidence__lifecycle-node--current {
+  color: var(--aos-text-primary);
+  border-color: var(--aos-color-primary-500);
+  background-color: var(--aos-color-primary-50);
+}
+
+:root[data-aos-theme='dark'] .aos-evidence__lifecycle-node--current {
+  background-color: transparent;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-aos-theme='light']) .aos-evidence__lifecycle-node--current {
+    background-color: transparent;
+  }
+}
+
+.aos-evidence__lifecycle-phase {
+  font-weight: var(--aos-font-semibold);
+}
+
+.aos-evidence__lifecycle-status {
+  color: var(--aos-text-secondary);
+}
+
+/* ========================================
+ * AI LINEAGE (Issue #39 — drawer)
+ * The reusable lineage stages, origin to current object; absent stages read
+ * as dashes, never fabricated content.
+ * ======================================== */
+
+.aos-evidence__lineage-stages {
+  margin: 0;
+  padding: 0 0 0 var(--aos-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+}
+
+.aos-evidence__lineage-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  font-size: var(--aos-text-sm);
+}
+
+.aos-evidence__lineage-stage--absent {
+  color: var(--aos-text-tertiary);
+}
+
+.aos-evidence__lineage-stage-label {
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-evidence__lineage-stage--absent .aos-evidence__lineage-stage-label {
+  color: var(--aos-text-tertiary);
+  font-weight: var(--aos-font-medium);
+}
+
+.aos-evidence__lineage-stage-item {
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-secondary);
+  overflow-wrap: anywhere;
+}
+
+/* ========================================
  * RESPONSIVE ARCHITECTURE
  * The KPI grid and charts are fluid by construction. The shell breakpoints
  * tighten the rhythm on tablets and let the table scroll on smaller screens.
@@ -524,8 +732,15 @@ a.aos-evidence__pill:hover {
     align-items: stretch;
   }
 
+  /* Small screens fall back to normal page flow — a fixed-height board would
+   * crush the table below the stacked filters. */
+  .aos-evidence__board {
+    height: auto;
+    min-height: 0;
+  }
+
   .aos-evidence__grid-mount {
-    max-height: none;
+    max-height: 60vh;
   }
 
   .aos-evidence-footer__item {

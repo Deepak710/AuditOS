@@ -6,16 +6,23 @@
     "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)"
   },
   "evidenceStatus": [
-    "No Action",
-    "No Action - POC Details Requested by HA",
-    "Requested by Consulting Team",
-    "Requested by SOC Team",
-    "Evidence Received - Under HA Review",
-    "Evidence Reviewed - Clarification Needed",
-    "Evidence Partially Received",
-    "Population Pending - HA unable to share samples",
-    "All Evidence Received",
-    "Not Applicable"
+    "Requested",
+    "Requested by Consulting",
+    "Population Pending",
+    "Population Received",
+    "Partially Received",
+    "Received",
+    "Under Review",
+    "Clarification Needed",
+    "Revision Requested",
+    "Accepted",
+    "Rejected",
+    "Not Applicable",
+    "Duplicate",
+    "Reused",
+    "Cross Engagement",
+    "Archived",
+    "Closed"
   ],
   "documentationStatus": [
     "Pending - Evidence not received",
@@ -62,5 +69,17 @@
   "tickmarks": {
     "P": "Pass",
     "O": "Fail"
-  }
+  },
+  "evidenceStatusLegacy": [
+    "No Action",
+    "No Action - POC Details Requested by HA",
+    "Requested by Consulting Team",
+    "Requested by SOC Team",
+    "Evidence Received - Under HA Review",
+    "Evidence Reviewed - Clarification Needed",
+    "Evidence Partially Received",
+    "Population Pending - HA unable to share samples",
+    "All Evidence Received",
+    "Not Applicable"
+  ]
 }

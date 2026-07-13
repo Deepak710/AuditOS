@@ -19,7 +19,7 @@
  * workspace presentation-only and offline.
  */
 
-const { SCRIPTS, readText, loadClassicScripts } = require('../lib/prototype');
+const { SCRIPTS, readText, loadClassicScripts, engagementRouteContext } = require('../lib/prototype');
 
 /** Boots the state foundations plus the Findings workspace in one sandbox window. */
 function bootFindingsSandbox() {
@@ -122,7 +122,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the Findings workspace collects a ready, non-degraded view model from the loaded state', async function () {
     const AuditOS = bootFindingsSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.findingsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.findingsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     assert.ok(viewModel, 'a view model is collected once the state is ready');
     assert.equal(viewModel.degraded, false, 'demo data loads without degradation');
@@ -133,7 +133,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the findings queue and health strip read real values from the current engagement', async function () {
     const AuditOS = bootFindingsSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.findingsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.findingsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     // Production carries zero findings for every engagement today ("Findings
     // — none recorded in any source artifact" — faithful, not fabricated);
@@ -154,7 +154,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the related control, domain, and owner resolve through real joins whenever findings exist', async function () {
     const AuditOS = bootFindingsSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.findingsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.findingsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     // Production carries zero findings for every engagement today, so there
     // is nothing to join against; the join logic itself has synthetic
@@ -175,7 +175,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the related test resolves against the engagement testing set whenever findings exist', async function () {
     const AuditOS = bootFindingsSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.findingsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.findingsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     if (Array.from(viewModel.queue).length === 0) {
       return;
@@ -187,7 +187,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('remediation status reads real closed / total counts, never an estimated percentage', async function () {
     const AuditOS = bootFindingsSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.findingsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.findingsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     const remediation = viewModel.remediation;
     assert.equal(remediation.total, Array.from(viewModel.queue).length, 'the remediation total is the real finding count');
@@ -199,7 +199,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the four presentation modes regroup one dataset without changing it', async function () {
     const AuditOS = bootFindingsSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.findingsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.findingsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     const total = Array.from(viewModel.queue).length;
     const views = Array.from(viewModel.views);
@@ -213,7 +213,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the audit lineage highlights Finding and carries only real, current counts', async function () {
     const AuditOS = bootFindingsSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.findingsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.findingsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     const lineage = Array.from(viewModel.lineage);
     const findingNode = lineage.filter(function (node) { return node.label === 'Finding'; })[0];
@@ -238,7 +238,7 @@ module.exports = function registerIntegrationTests(harness) {
       SCRIPTS.findingsWorkspace
     ]).AuditOS;
     return AuditOS.state.init().then(function () {
-      const viewModel = AuditOS.findingsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+      const viewModel = AuditOS.findingsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
       assert.equal(viewModel.degraded, true, 'no engagement yields a degraded model, never an exception');
     });
   });
@@ -260,7 +260,7 @@ module.exports = function registerIntegrationTests(harness) {
     await AuditOS.state.init();
     win.document = createDocument();
 
-    const viewModel = AuditOS.findingsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.findingsWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
     const node = AuditOS.findingsWorkspace.renderInspector(viewModel.queue, viewModel.context);
     const findingCount = Array.from(viewModel.queue).length;
 

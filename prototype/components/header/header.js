@@ -39,8 +39,9 @@
   var THEMES = { LIGHT: 'light', DARK: 'dark' };
 
   /** Business status vocabulary of the demo-data (read, never invented). */
-  var ENGAGEMENT_STATUS = { IN_PROGRESS: 'In Progress', COMPLETED: 'Completed' };
-  var REVIEW_STATUS = { PENDING_REVIEW: 'Pending Review', REJECTED: 'Rejected' };
+  var ENGAGEMENT_STATUS = { COMPLETED: 'Completed' };
+  /** Evidence Lifecycle states that request attention (canonical vocabulary, Issue #39). */
+  var ATTENTION_STATUSES = ['Under Review', 'Rejected', 'Clarification Needed', 'Revision Requested'];
   var REQUEST_STATUS = { SUBMITTED: 'Submitted' };
 
   /**
@@ -49,7 +50,7 @@
    * workspace groups its inbox by, so the navigation badge and the inbox
    * always count the same records.
    */
-  var PENDING_APPROVAL_STATUSES = ['Pending Review', 'Evidence Received - Under HA Review', 'Submitted'];
+  var PENDING_APPROVAL_STATUSES = ['Pending Review', 'Under Review', 'Submitted'];
 
   // Established during init().
   var actionsRegion = null;
@@ -121,29 +122,23 @@
   // ------------------------------------------------------------------
 
   /**
-   * The current engagement: the engagement named by the active route context
-   * (Issue #38 Part 2 — the header always describes the engagement in scope,
-   * never a global default when a hierarchical route names one). When the
-   * route carries no engagement (flat routes, the platform dashboard), it
-   * falls back to the first in-progress engagement in record order, then the
-   * first engagement, or null when none exist — the same rule the Home
-   * workspace applies.
+   * The current engagement: exactly the engagement the Context Resolver
+   * derived from the active route (Issue #39 — no page derives context
+   * independently, no "find first engagement", no global fallback). On
+   * platform- and client-scoped routes this is null and the header describes
+   * the platform, never a guessed engagement.
    */
   function currentEngagement(state, routeContext) {
-    var engagements = state.listRecords('engagements');
-    if (routeContext && routeContext.engagement) {
-      for (var routed = 0; routed < engagements.length; routed += 1) {
-        if (engagements[routed].id === routeContext.engagement.id) {
-          return engagements[routed];
-        }
-      }
+    if (!routeContext || !routeContext.engagement) {
+      return null;
     }
+    var engagements = state.listRecords('engagements');
     for (var index = 0; index < engagements.length; index += 1) {
-      if (engagements[index].status === ENGAGEMENT_STATUS.IN_PROGRESS) {
+      if (engagements[index].id === routeContext.engagement.id) {
         return engagements[index];
       }
     }
-    return engagements.length > 0 ? engagements[0] : null;
+    return null;
   }
 
   /** Reads the first dataset document an engagement owns in a collection. */
@@ -172,8 +167,7 @@
     var count = 0;
 
     (evidenceDocument.evidence || []).forEach(function (item) {
-      if (item.reviewStatus === REVIEW_STATUS.PENDING_REVIEW ||
-        item.reviewStatus === REVIEW_STATUS.REJECTED) {
+      if (ATTENTION_STATUSES.indexOf(item.reviewStatus) !== -1) {
         count += 1;
       }
     });
@@ -181,6 +175,22 @@
       if (request.status === REQUEST_STATUS.SUBMITTED) {
         count += 1;
       }
+    });
+    return count;
+  }
+
+  /**
+   * Operational events requesting attention across the whole platform — the
+   * platform-scope aggregate shown when the route carries no engagement.
+   * A legitimate platform-level figure, not an engagement fallback.
+   */
+  function deriveGlobalAttentionCount(state) {
+    var count = 0;
+    state.listRecords('engagements').forEach(function (engagement) {
+      if (engagement.status === ENGAGEMENT_STATUS.COMPLETED) {
+        return;
+      }
+      count += deriveAttentionCount(state, engagement);
     });
     return count;
   }
@@ -280,8 +290,11 @@
    * the AI Telemetry workspace.
    */
   function buildAiUsageIndicator(summary) {
+    var navigation = AuditOS.navigationService;
+    var registry = AuditOS.workspaceRegistry;
     var link = el('a', 'aos-global-header__icon-button aos-global-header__ai-usage');
-    link.setAttribute('href', '#/ai-usage');
+    link.setAttribute('href', navigation && registry
+      ? navigation.hrefPlatform(registry.IDS.AI_USAGE) : '#/ai-usage');
     link.setAttribute('aria-label', 'AI usage — open AI telemetry');
     link.setAttribute('aria-describedby', 'aos-ai-usage-tooltip');
 
@@ -340,8 +353,11 @@
    * approval count as its badge.
    */
   function buildApprovalsIndicator(count) {
+    var navigation = AuditOS.navigationService;
+    var registry = AuditOS.workspaceRegistry;
     var link = el('a', 'aos-global-header__icon-button');
-    link.setAttribute('href', '#/approvals');
+    link.setAttribute('href', navigation && registry
+      ? navigation.hrefPlatform(registry.IDS.APPROVALS) : '#/approvals');
     link.setAttribute('aria-label', count > 0
       ? count + ' pending approvals — open Global Approvals'
       : 'Global Approvals — nothing awaiting a decision');
@@ -364,8 +380,9 @@
    * Signals section lists every operational event.
    */
   function buildNotifications(count) {
+    var navigation = AuditOS.navigationService;
     var link = el('a', 'aos-global-header__icon-button');
-    link.setAttribute('href', '#/dashboard');
+    link.setAttribute('href', navigation ? navigation.hrefHome() : '#/home');
     link.setAttribute('aria-label', count > 0
       ? count + ' notifications — review in AuditOS Home'
       : 'Notifications — none require attention');
@@ -691,11 +708,13 @@
           permissionService.can(AUDIT_VIEW_CAPABILITY)) {
         actionChildren.push(buildActivityIndicator());
       }
+      // Notifications describe the engagement in scope, or the platform
+      // aggregate when the route carries none — never a guessed engagement.
       var engagement = currentEngagement(state, routeContext);
-      if (engagement) {
-        actionChildren.push(buildNotifications(deriveAttentionCount(state, engagement)));
-        profileChildren.push(buildUserControl(engagement));
-      }
+      actionChildren.push(buildNotifications(engagement
+        ? deriveAttentionCount(state, engagement)
+        : deriveGlobalAttentionCount(state)));
+      profileChildren.push(buildUserControl(engagement));
     }
 
     actionsRegion.replaceChildren.apply(actionsRegion, actionChildren);

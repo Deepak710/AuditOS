@@ -66,7 +66,7 @@
    * invented) — identical to the list the global header badge counts, so
    * every surface reports one number.
    */
-  var PENDING_APPROVAL_STATUSES = ['Pending Review', 'Evidence Received - Under HA Review', 'Submitted'];
+  var PENDING_APPROVAL_STATUSES = ['Pending Review', 'Under Review', 'Submitted'];
 
   /** The capability that gates recording an approval decision (Permission Foundation). */
   var DECIDE_CAPABILITY = 'approvals.decide';
@@ -90,15 +90,14 @@
   ];
 
   /**
-   * Simulated decision transitions over the dataset's own evidence status
-   * vocabulary (enums.json — read, never invented): approving review marks
-   * the evidence received in full; rejecting or requesting changes returns
-   * it for clarification.
+   * Simulated decision transitions over the canonical Evidence Lifecycle
+   * (Issue #39, enums.json): approving accepts the evidence; rejecting
+   * rejects it; requesting changes asks for a revision.
    */
   var DECISION_STATUS = {
-    approve: 'All Evidence Received',
-    reject: 'Evidence Reviewed - Clarification Needed',
-    'request-changes': 'Evidence Reviewed - Clarification Needed'
+    approve: 'Accepted',
+    reject: 'Rejected',
+    'request-changes': 'Revision Requested'
   };
 
   /** Decision → workflow record status. */

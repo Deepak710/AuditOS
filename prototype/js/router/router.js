@@ -1,32 +1,33 @@
 /**
- * AuditOS Static Router
- * Routing Architecture — Chapter 130 / Platform Foundation II — GitHub Issue
- * #34 (Repository-aware hierarchical routing)
+ * AuditOS Router
+ * Navigation & Context Architecture — GitHub Issue #39 (canonical
+ * hierarchical routing) / Routing Architecture — Chapter 130
  *
  * The navigation backbone of the static prototype. The router switches
  * between the Workspace Hosts declared in the Workspace Registry, keeps the
  * URL synchronized for deep linking and browser history, and announces the
  * change to assistive technology.
  *
- * Two route shapes resolve through one flow (Issue #34):
+ * One canonical route contract (Issue #39):
  *
- *   Flat (preserved verbatim from earlier issues):
- *     #/{workspacePath}[?id={recordId}]
+ *   #/home
+ *   #/{platformWorkspacePath}[/{recordId}]
+ *   #/client/{clientId}
+ *   #/client/{clientId}/engagement/{engagementId}
+ *   #/client/{clientId}/engagement/{engagementId}/{workspacePath}[/{recordId}[/{pocId}]]
  *
- *   Hierarchical (Repository-aware):
- *     #/{clientSlug}[/{engagementSlug}[/{workspacePath}[/{recordId}]]]
+ * The router parses nothing itself: every hash resolves through the Context
+ * Resolver (js/services/context-resolver.js), which returns the resolved
+ * context, a `{ redirect }` to the canonical equivalent of a legacy route,
+ * `{ pending: true }` while the Shared Audit State loads, or null. Legacy
+ * flat routes, slug hierarchies, and removed workspaces (Requirements →
+ * Evidence) redirect internally with `history.replaceState`, so old deep
+ * links keep working without polluting history.
  *
- * The router parses URL segments only. The Repository Foundation resolves
- * hierarchical segments into Client → Engagement → Workspace → Entity
- * (`AuditOS.repository.resolveHierarchy`); when a later segment cannot be
- * resolved the deepest valid parent opens, and when nothing resolves the
- * default workspace opens — malformed URLs always recover. While the Shared
- * Audit State is still loading, a hierarchical deep link stays untouched and
- * re-resolves the moment the state is ready.
- *
- * Out of scope by design: workspace content, navigation UI, Business
- * Objects, AI, and any business logic. Navigation is implemented before page
- * logic and remains separate from it (Routing Architecture §130.29).
+ * Route transitions are initiated exclusively through the Navigation Service
+ * (js/services/navigation-service.js); this module renders what the hash
+ * resolves to. Out of scope by design: workspace content, navigation UI,
+ * business logic.
  *
  * Loaded as a classic script so the prototype runs directly from
  * file:///.../prototype/index.html with no build step, module loader, or
@@ -39,10 +40,8 @@
   var registry = AuditOS.workspaceRegistry;
 
   /**
-   * Element id of the workspace canvas the router renders into. This is the
-   * shell's primary content region and the skip-link target, so rendering the
-   * active workspace inside it preserves skip-link continuity
-   * (Routing Architecture §130.26 — Accessibility).
+   * Element id of the workspace canvas the router renders into — the shell's
+   * primary content region and the skip-link target (§130.26).
    */
   var MOUNT_ID = 'workspace-canvas';
 
@@ -54,88 +53,45 @@
   var ROUTE_HASH_PREFIX = '#/';
 
   /**
-   * Business event announced whenever the active workspace changes. Named as a
-   * completed fact (Coding Standards §30.13 — Event Standards). Dispatched on
-   * `document`; detail carries the current and previous workspace identifiers
-   * and (Issue #34) the resolved hierarchy context.
+   * Business event announced whenever the active workspace changes. Named as
+   * a completed fact (§30.13). Dispatched on `document`; detail carries the
+   * workspace identifiers and the resolved context.
    */
   var ROUTE_CHANGED_EVENT = 'auditos:route-changed';
 
+  /** Redirect hops resolved internally before falling back Home (loop safety). */
+  var MAX_REDIRECTS = 5;
+
   // Router state, established during init().
-  var mountElement = null;   // The workspace canvas (skip-link target).
-  var outletElement = null;  // Router-owned container the active host renders into.
-  var announcerElement = null; // Visually hidden aria-live region.
+  var mountElement = null;
+  var outletElement = null;
+  var announcerElement = null;
   var currentWorkspaceId = null;
   var currentRecordId = '';
-  var currentContext = null; // Resolved hierarchy context, or null on flat routes.
+  var currentContext = null; // The Context Resolver's resolved context.
   var hasActivatedOnce = false;
   var scrollPositions = {}; // workspace id -> last scrollY recorded while leaving it.
 
-  /**
-   * Splits a route hash into its raw path segments. Returns [] when the hash
-   * is absent or is a namespaced route with no segment. The first segment may
-   * carry a legacy `?id=` query string, which stays attached here and is
-   * handled by the flat-route readers below.
-   */
-  function parseRouteSegments(hash) {
-    if (!isRouteHash(hash)) {
-      return [];
-    }
-    return hash.slice(ROUTE_HASH_PREFIX.length).split('/').filter(function (segment) {
-      return segment !== '';
-    });
-  }
-
-  /**
-   * Extracts the flat route path from a hash value: the first segment with
-   * any `?id=` query string stripped (the query is read separately by
-   * `parseRouteRecordId`). Returns '' when the hash carries no segment.
-   */
-  function parseRoutePath(hash) {
-    var segments = parseRouteSegments(hash);
-    return segments.length > 0 ? segments[0].split('?')[0] : '';
-  }
-
-  /**
-   * Extracts the record id carried by a flat route's query string (Issue
-   * #31 — Cross-Workspace Record Navigation), e.g. "#/requirements?id=REQ-004"
-   * resolves to "REQ-004". Returns "" when the hash carries no query string
-   * or no `id` parameter.
-   */
-  function parseRouteRecordId(hash) {
-    var segments = parseRouteSegments(hash);
-    if (segments.length === 0) {
-      return '';
-    }
-    var queryIndex = segments[0].indexOf('?');
-    if (queryIndex === -1) {
-      return '';
-    }
-    var params = new global.URLSearchParams(segments[0].slice(queryIndex + 1));
-    return params.get('id') || '';
-  }
-
-  /**
-   * Reports whether a hash value is a router route (namespaced with "#/")
-   * rather than an ordinary in-page anchor.
-   */
+  /** Whether a hash value is a router route rather than an in-page anchor. */
   function isRouteHash(hash) {
     return typeof hash === 'string' && hash.indexOf(ROUTE_HASH_PREFIX) === 0;
   }
 
-  /**
-   * Builds the canonical flat route hash for a workspace, optionally carrying
-   * a record id (`#/{path}?id={recordId}`) for a stable deep link to one
-   * record within that workspace (Issue #31).
-   */
-  function toRouteHash(workspace, recordId) {
-    var hash = ROUTE_HASH_PREFIX + workspace.path;
-    return recordId ? hash + '?id=' + global.encodeURIComponent(recordId) : hash;
+  /** The Context Resolver, resolved at call time so load order stays flexible. */
+  function contextResolver() {
+    return AuditOS.contextResolver || null;
   }
 
-  /** The Repository Foundation, resolved at call time so load order stays flexible. */
-  function repositoryService() {
-    return AuditOS.repository || null;
+  /** The Navigation Service, resolved at call time. */
+  function navigationService() {
+    return AuditOS.navigationService || null;
+  }
+
+  /** Rewrites the URL in place without adding a history entry. */
+  function replaceHash(hash) {
+    if (global.location.hash !== hash) {
+      global.history.replaceState(null, '', hash);
+    }
   }
 
   /**
@@ -154,60 +110,59 @@
       return;
     }
 
-    var segments = parseRouteSegments(hash);
-    var path = segments.length > 0 ? segments[0].split('?')[0] : '';
-    var workspace = path ? registry.findByPath(path) : null;
-
-    // Flat route — the first segment names a registered workspace. Preserved
-    // verbatim: registered paths always win over client slugs, so every
-    // pre-#34 deep link keeps resolving exactly as before.
-    if (workspace) {
-      var recordId = parseRouteRecordId(hash);
-      var canonicalHash = toRouteHash(workspace, recordId);
-      if (global.location.hash !== canonicalHash) {
-        global.history.replaceState(null, '', canonicalHash);
-      }
-      activateWorkspace(workspace, true, recordId, null);
+    var resolver = contextResolver();
+    var navigation = navigationService();
+    if (!resolver || !navigation) {
+      activateFallback();
       return;
     }
 
-    // Hierarchical route — the Repository resolves the segments into
-    // Client → Engagement → Workspace → Entity (Issue #34).
-    if (path) {
-      var repository = repositoryService();
-      var resolved = repository ? repository.resolveHierarchy(segments, registry) : null;
-
-      // The state is still loading: keep the URL untouched, show the default
-      // workspace host, and re-resolve when the state announces readiness.
-      if (resolved && resolved.pending) {
-        activateWorkspace(registry.findById(registry.DEFAULT_WORKSPACE_ID), false, '', null);
-        return;
-      }
-
-      if (resolved) {
-        var target = registry.findById(resolved.workspaceId);
-        // Unresolvable tail segments were ignored by the resolver; normalize
-        // the URL to the deepest valid route without adding a history entry.
-        var canonical = repository.buildHierarchicalHash(resolved, registry);
-        if (canonical && global.location.hash !== canonical) {
-          global.history.replaceState(null, '', canonical);
-        }
-        activateWorkspace(target, true, resolved.recordId, resolved);
-        return;
-      }
+    // An empty hash is the canonical Home route.
+    if (!hash) {
+      hash = navigation.hrefHome();
     }
 
-    // Unknown or empty route falls back to the default workspace
-    // (Routing Architecture §130.6).
-    var fallback = registry.findById(registry.DEFAULT_WORKSPACE_ID);
-    var fallbackHash = toRouteHash(fallback, '');
-    if (global.location.hash !== fallbackHash) {
-      global.history.replaceState(null, '', fallbackHash);
+    // Resolve, following internal redirects (legacy routes → canonical) with
+    // replaceState so no history entries accumulate.
+    var result = resolver.resolve(hash);
+    var hops = 0;
+    while (result && result.redirect && hops < MAX_REDIRECTS) {
+      hash = result.redirect;
+      replaceHash(hash);
+      result = resolver.resolve(hash);
+      hops += 1;
     }
-    activateWorkspace(fallback, false, '', null);
+
+    // The state is still loading: keep the URL untouched, show the default
+    // workspace host, and re-resolve when the state announces readiness.
+    if (result && result.pending) {
+      activateWorkspace(registry.findById(registry.DEFAULT_WORKSPACE_ID), false, null);
+      return;
+    }
+
+    if (result && !result.redirect && result.workspace) {
+      replaceHash(hash);
+      activateWorkspace(result.workspace, result.isKnownRoute !== false, result);
+      return;
+    }
+
+    // Unknown or empty route falls back to Home (§130.6).
+    activateFallback();
   }
 
-  /** A stable signature of a hierarchy context for change detection. */
+  /** Activates the default workspace on the canonical Home route. */
+  function activateFallback() {
+    var navigation = navigationService();
+    var fallback = registry.findById(registry.DEFAULT_WORKSPACE_ID);
+    if (navigation) {
+      replaceHash(navigation.hrefHome());
+    }
+    var resolver = contextResolver();
+    var context = resolver ? resolver.resolve(navigation ? navigation.hrefHome() : '#/home') : null;
+    activateWorkspace(fallback, false, context && context.workspace ? context : null);
+  }
+
+  /** A stable signature of a resolved context for change detection. */
   function contextKey(context) {
     if (!context) {
       return '';
@@ -220,12 +175,11 @@
    * Renders a workspace's placeholder host into the outlet and publishes the
    * route change. Skips redundant work only when the workspace, the record
    * id, the POC sub-id, and the hierarchy context are all unchanged, so
-   * navigating between records, between a Team and one of its POCs (Issue
-   * #36), or between hierarchy scopes within one workspace still republishes
-   * the route change (Issues #31 / #34 / #36).
+   * navigating between records, Teams, POCs, or hierarchy scopes within one
+   * workspace still republishes the route change.
    */
-  function activateWorkspace(workspace, isKnownRoute, recordId, context) {
-    var normalizedRecordId = recordId || '';
+  function activateWorkspace(workspace, isKnownRoute, context) {
+    var normalizedRecordId = (context && context.recordId) || '';
     var normalizedPocId = (context && context.pocId) || '';
     var currentPocId = (currentContext && currentContext.pocId) || '';
     var sameWorkspace = hasActivatedOnce && workspace.id === currentWorkspaceId;
@@ -236,9 +190,8 @@
     }
 
     // Remember where the user was scrolled within the workspace they are
-    // leaving, so returning to it (e.g. Back) can restore it (Issue #31 —
-    // Context Preservation). Only recorded on a genuine workspace change, not
-    // a record-to-record move within the same workspace.
+    // leaving, so returning to it (e.g. Back) can restore it. Only recorded
+    // on a genuine workspace change, not a record-to-record move.
     if (hasActivatedOnce && !sameWorkspace) {
       scrollPositions[currentWorkspaceId] = global.scrollY;
     }
@@ -249,13 +202,20 @@
     currentRecordId = normalizedRecordId;
     currentContext = context || null;
 
+    // The Context Resolver mirrors the active route — the one place pages
+    // read context from.
+    var resolver = contextResolver();
+    if (resolver && typeof resolver.setCurrent === 'function') {
+      resolver.setCurrent(currentContext);
+    }
+
     global.document.title = workspace.title + ' — AuditOS';
     announce(workspace.label);
 
     // Move focus into the freshly rendered workspace on genuine route changes
     // so keyboard and screen reader users follow the navigation. The first
-    // render (initial page load) leaves focus at the top of the document so
-    // the skip link remains the entry point (Coding Standards §30.17).
+    // render leaves focus at the top of the document so the skip link remains
+    // the entry point (§30.17).
     if (hasActivatedOnce) {
       currentView().focus();
     }
@@ -264,8 +224,7 @@
     dispatchRouteChanged(workspace, previousWorkspaceId, isKnownRoute, currentRecordId);
 
     // Land a fresh workspace at the top; restore a remembered scroll position
-    // when returning to one, unless a specific record is being deep-linked to
-    // (that record's own selection is the more relevant destination).
+    // when returning to one, unless a specific record is being deep-linked to.
     if (!sameWorkspace) {
       var restoreY = !normalizedRecordId && Object.prototype.hasOwnProperty.call(scrollPositions, workspace.id)
         ? scrollPositions[workspace.id] : 0;
@@ -311,9 +270,7 @@
         previousWorkspaceId: previousWorkspaceId,
         isKnownRoute: isKnownRoute,
         recordId: recordId || '',
-        // Issue #34 — the resolved hierarchy context of the route, when the
-        // route carries one. Flat routes carry nulls; consumers treat the
-        // fields as optional.
+        scope: currentContext ? currentContext.scope : null,
         clientId: currentContext && currentContext.client ? currentContext.client.id : null,
         engagementId: currentContext && currentContext.engagement ? currentContext.engagement.id : null
       }
@@ -345,9 +302,9 @@
     ROUTE_CHANGED_EVENT: ROUTE_CHANGED_EVENT,
 
     /**
-     * Wires the router to the shell and renders the initial route. Safe to call
-     * once, after the DOM is ready. Does nothing if the workspace canvas is
-     * absent, so the shell degrades rather than throwing.
+     * Wires the router to the shell and renders the initial route. Safe to
+     * call once, after the DOM is ready. Does nothing if the workspace canvas
+     * is absent, so the shell degrades rather than throwing.
      */
     init: function () {
       mountElement = global.document.getElementById(MOUNT_ID);
@@ -364,7 +321,7 @@
 
       // A hierarchical deep link cannot resolve before the Shared Audit
       // State loads; re-resolving on readiness turns the pending route into
-      // the real one (Issue #34). Flat routes re-resolve idempotently.
+      // the real one.
       var state = AuditOS.state;
       if (state && typeof state.subscribe === 'function') {
         state.subscribe(state.EVENTS.STATE_LOADED, resolveRoute);
@@ -374,18 +331,20 @@
     },
 
     /**
-     * Navigates to a registered workspace by identifier, optionally to one
-     * stable record within it (Issue #31 — `recordId`). Updating the hash
-     * routes through the standard `hashchange` flow, so history, the URL,
-     * and the rendered host all stay consistent. Unknown identifiers are
-     * ignored.
+     * Navigates to a registered workspace by identifier within the current
+     * context, optionally to one record within it. Retained as a thin
+     * compatibility shim — the Navigation Service is the canonical
+     * navigation API (Issue #39); this delegates to it.
      */
     navigate: function (workspaceId, recordId) {
-      var workspace = registry.findById(workspaceId);
-      if (!workspace) {
+      var navigation = navigationService();
+      if (!navigation) {
         return;
       }
-      global.location.hash = toRouteHash(workspace, recordId);
+      var href = navigation.hrefFor(workspaceId, null, recordId);
+      if (href) {
+        navigation.navigate(href);
+      }
     },
 
     /** Returns the identifier of the currently active workspace. */
@@ -394,18 +353,18 @@
     },
 
     /**
-     * Returns the record id carried by the current route (Issue #31), or ""
-     * when the route names no specific record.
+     * Returns the record id carried by the current route, or "" when the
+     * route names no specific record.
      */
     getCurrentRecordId: function () {
       return currentRecordId;
     },
 
     /**
-     * Returns the resolved hierarchy context of the current route (Issue
-     * #34): `{ client, engagement, workspaceId, recordId, depth }`, or null
-     * when the current route is flat. The entities are Repository read
-     * copies — mutating them changes nothing.
+     * Returns the resolved context of the current route — the Context
+     * Resolver's context object (client, program, engagement, workspace,
+     * frameworks, audit, permissions, hierarchy, recordId, teamId, pocId),
+     * or null before the first resolution.
      */
     getCurrentContext: function () {
       return currentContext;

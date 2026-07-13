@@ -37,9 +37,9 @@ module.exports = function registerSmokeTests(harness) {
     const walkthrough = registry.findById(registry.IDS.WALKTHROUGH);
     assert.ok(walkthrough, 'the walkthrough workspace is registered');
     assert.equal(walkthrough.id, 'walkthrough', 'the stable workspace identifier');
-    assert.equal(walkthrough.path, 'walkthroughs', 'the stable hash path');
+    assert.equal(walkthrough.path, 'walkthrough', 'the canonical hash path (Issue #39 renamed walkthroughs→walkthrough)');
     assert.equal(walkthrough.label, 'Walkthrough', 'the workspace label');
-    assert.equal(registry.findByPath('walkthroughs').id, 'walkthrough', 'the path resolves back to the workspace');
+    assert.equal(registry.findByPath('walkthrough').id, 'walkthrough', 'the path resolves back to the workspace');
   });
 
   test('the Walkthrough workspace files exist under their owned locations', function () {

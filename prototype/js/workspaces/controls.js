@@ -566,7 +566,6 @@
 
     var nodes = [
       { id: ids.WALKTHROUGH, label: 'Walkthrough', count: null, present: false, hint: 'Knowledge acquisition' },
-      { id: ids.REQUIREMENTS, label: 'Requirement', count: requirements.requirements || 0, present: (requirements.requirements || 0) > 0, hint: 'What the control satisfies' },
       { id: ids.CONTROLS, label: 'Control', count: controls.controls || 0, present: (controls.controls || 0) > 0, hint: 'How the objective is met', highlighted: true },
       { id: ids.EVIDENCE, label: 'Evidence', count: evidence.evidenceItems || 0, present: (evidence.evidenceItems || 0) > 0, hint: 'What proves the control' },
       { id: ids.TESTING, label: 'Testing', count: testing.tests || 0, present: (testing.tests || 0) > 0, hint: 'What the control is tested against' },
@@ -596,7 +595,6 @@
     var ids = workspaceRegistry.IDS;
 
     var related = [
-      { id: ids.REQUIREMENTS, title: 'Requirements', meta: String(requirements.requirements || 0), present: (requirements.requirements || 0) > 0 },
       { id: ids.EVIDENCE, title: 'Evidence', meta: String(evidence.evidenceItems || 0), present: (evidence.evidenceItems || 0) > 0 },
       { id: ids.TESTING, title: 'Testing', meta: String(testing.tests || 0), present: (testing.tests || 0) > 0 },
       { id: ids.FINDINGS, title: 'Findings', meta: String(findings.findings || 0), present: (findings.findings || 0) > 0 },
@@ -783,9 +781,6 @@
         listSection('Framework mappings',
           frameworkMappings.map(function (mapping) { return { title: mapping, tone: TONES.INFO }; }),
           'No framework mapping declared for this control.'),
-        listSection('Related requirements',
-          requirementIds.map(function (id) { return toRefItem(id, ctx.requirementsById, 'title', ctx.workspaceRegistry, ids.REQUIREMENTS); }),
-          'No linked requirements recorded.'),
         listSection('Related evidence',
           evidenceIds.map(function (id) { return toRefItem(id, ctx.evidenceById, 'title', ctx.workspaceRegistry, ids.EVIDENCE); }),
           'No evidence linked yet — this control is still outstanding.'),

@@ -271,12 +271,14 @@ module.exports = function registerUnitTests(harness) {
   }
 
   test('deriveLineage renders the full chain with Control highlighted and real counts', function () {
+    // Requirements ceased to be a user-facing workspace (Issue #39): the
+    // audit lineage no longer carries a Requirement node.
     const lineage = Array.from(derive.deriveLineage(fixtureRegistry(), {
       requirements: { requirements: 104 }, controls: { controls: 52 }, evidence: { evidenceItems: 0 },
       testing: { tests: 0 }, findings: { findings: 0 }, report: null
     }));
     assert.deepEqual(lineage.map(function (node) { return node.label; }), [
-      'Walkthrough', 'Requirement', 'Control', 'Evidence', 'Testing', 'Finding', 'Report'
+      'Walkthrough', 'Control', 'Evidence', 'Testing', 'Finding', 'Report'
     ]);
     const controlNode = lineage.filter(function (node) { return node.label === 'Control'; })[0];
     assert.equal(controlNode.highlighted, true, 'the Control node is highlighted');
@@ -286,11 +288,13 @@ module.exports = function registerUnitTests(harness) {
   });
 
   test('deriveRelationships lists only the domains with real data and never lists Control itself', function () {
+    // Requirements are internal now (Issue #39): the relationship panel
+    // links Evidence, not Requirements.
     const relationships = Array.from(derive.deriveRelationships(fixtureRegistry(), {
-      requirements: { requirements: 104 }, evidence: { evidenceItems: 0 }, testing: {}, findings: {}, report: null
+      requirements: { requirements: 104 }, evidence: { evidenceItems: 8 }, testing: {}, findings: {}, report: null
     }));
-    assert.deepEqual(relationships.map(function (item) { return item.title; }), ['Requirements']);
-    assert.equal(relationships[0].path, 'path-requirements');
+    assert.deepEqual(relationships.map(function (item) { return item.title; }), ['Evidence']);
+    assert.equal(relationships[0].path, 'path-evidence');
   });
 
   // ---- Activity + metadata — only what the JSON records.
@@ -357,7 +361,7 @@ module.exports = function registerUnitTests(harness) {
     const sections = {};
     inspector.sections.forEach(function (section) { sections[section.title] = section; });
     assert.equal(sections['Framework mappings'].items[0].title, 'SOC 2 Type II', 'framework maps to the engagement framework, a real join');
-    assert.equal(sections['Related requirements'].items[0].title, 'Access Requirement', 'a joining requirement resolves to its title');
+    assert.equal(sections['Related requirements'], undefined, 'Requirements are internal now — the control drawer exposes no requirement section');
     assert.equal(sections['Related evidence'].items[0].title, 'No evidence linked yet — this control is still outstanding.');
     assert.equal(sections['Related walkthroughs'].items[0].title, 'No linked walkthroughs yet — walkthrough linkage arrives with the walkthrough collection.');
     assert.equal(sections['Related testing'].items[0].title, 'Methodology inherited from prior year');

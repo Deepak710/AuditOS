@@ -14,7 +14,7 @@
  * identity and the real downstream domain counts still resolve correctly.
  */
 
-const { SCRIPTS, readText, loadClassicScripts, loadWalkthroughWorkspace } = require('../lib/prototype');
+const { SCRIPTS, readText, loadClassicScripts, loadWalkthroughWorkspace, engagementRouteContext } = require('../lib/prototype');
 
 /** Boots the state foundations plus the Walkthrough workspace in one sandbox window. */
 function bootWalkthroughSandbox() {
@@ -43,7 +43,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the Walkthrough workspace collects a ready, non-degraded view model from the loaded state', async function () {
     const AuditOS = bootWalkthroughSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.walkthroughWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.walkthroughWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     assert.ok(viewModel, 'a view model is collected once the state is ready');
     assert.equal(viewModel.degraded, false, 'demo data loads without degradation');
@@ -54,7 +54,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the walkthrough-specific collections read real, never-fabricated records', async function () {
     const AuditOS = bootWalkthroughSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.walkthroughWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.walkthroughWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     // The current engagement's production walkthrough data carries real,
     // logged EY/client remarks as sessions; processes and questions are
@@ -74,7 +74,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the Audit Health strip reads five real, non-fabricated indicators', async function () {
     const AuditOS = bootWalkthroughSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.walkthroughWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.walkthroughWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     const health = Array.from(viewModel.auditHealth);
     assert.deepEqual(health.map(function (item) { return item.label; }), [
@@ -89,7 +89,7 @@ module.exports = function registerIntegrationTests(harness) {
   test('the relationship panel reflects the real, current downstream domain counts', async function () {
     const AuditOS = bootWalkthroughSandbox();
     await AuditOS.state.init();
-    const viewModel = AuditOS.walkthroughWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+    const viewModel = AuditOS.walkthroughWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
 
     const relationships = Array.from(viewModel.relationships);
     assert.ok(relationships.length > 0, 'the current engagement already has real downstream domain data');
@@ -109,7 +109,7 @@ module.exports = function registerIntegrationTests(harness) {
       SCRIPTS.walkthroughWorkspace
     ]).AuditOS;
     return AuditOS.state.init().then(function () {
-      const viewModel = AuditOS.walkthroughWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
+      const viewModel = AuditOS.walkthroughWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry, engagementRouteContext(AuditOS));
       assert.equal(viewModel.degraded, true, 'no engagement yields a degraded model, never an exception');
     });
   });

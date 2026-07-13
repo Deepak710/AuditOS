@@ -1,6 +1,16 @@
 # PART IX — WORKSPACE SPECIFICATIONS
 
-## Chapter 69 — Evidence Status Workflow (Issue #37 ✓ COMPLETE)
+## Chapter 69 — Evidence Status Workflow (Issue #37 ✓; extended by Issue #39)
+
+> **Issue #39 update.** The status vocabulary is now the canonical Evidence
+> Lifecycle (`js/services/evidence-lifecycle.js`) — expanded from the earlier
+> three-state model to the full Request → Collection → Review → Resolution →
+> Closure phases. The legacy demo vocabulary (e.g. "All Evidence Received",
+> "Evidence Received - Under HA Review") maps onto the canonical labels, and
+> the entire workflow now lives inside the Evidence drawer alongside the
+> lifecycle timeline, complete audit history, and AI lineage. The
+> Suggested → Reviewed → Approved → Applied governance below is unchanged: the
+> Repository is still written only on Apply.
 
 ---
 

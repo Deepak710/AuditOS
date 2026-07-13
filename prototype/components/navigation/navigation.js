@@ -1,29 +1,29 @@
 /**
  * AuditOS Breadcrumb Navigation Content
- * Navigation Components — Chapter 76 (§76.10 Breadcrumbs) / Routing
- * Architecture — Chapter 130 / Platform Foundation II — GitHub Issue #34
- * (Breadcrumb Architecture)
+ * Navigation & Context Architecture — GitHub Issue #39 / Navigation
+ * Components — Chapter 76 (§76.10 Breadcrumbs)
  *
- * Renders the Repository-driven hierarchical breadcrumb into the global
- * header's breadcrumb region:
+ * Renders the canonical hierarchical breadcrumb into the global header's
+ * breadcrumb region:
  *
- *   Client → Engagement → Workspace → Team → POC
+ *   AuditOS → Client → Engagement → Workspace [→ Team → POC]
  *
- * The AuditOS logo is the breadcrumb root (GitHub Issue #38 Part 1): a Home
- * crumb is never rendered. Every crumb is interactive. The client crumb opens
- * a menu of the clients the session may access, the engagement crumb a menu of
- * that client's accessible engagements, and the workspace crumb the workspace
- * switcher — all resolved live from the Repository Foundation and the
- * Workspace Registry, never fabricated. Opening a menu never navigates; only
- * selecting a destination does. The trail always mirrors the URL: flat routes
- * render the workspace crumb; hierarchical routes add the client and
- * engagement crumbs the route carries.
+ * This component renders only. The trail data comes entirely from the
+ * Breadcrumb Generator (js/services/breadcrumb-generator.js), which derives
+ * it from the Context Resolver's route context and the Hierarchy Builder's
+ * canonical hierarchy — no page-specific breadcrumb logic, no locally
+ * derived client/engagement/workspace lists, no URL construction here.
  *
- * The router remains the single source of truth: destinations are derived
- * from the Workspace Registry and the Repository's routing slugs (never
- * redefined here), route changes are driven by the router, and the active
- * crumb follows the route rather than the click. Destinations are real
- * anchors so keyboard, focus, and deep linking work natively.
+ * Crumb rules (Issue #39): the AuditOS crumb's dropdown lists clients, the
+ * client crumb's dropdown lists ONLY that client's engagements, the
+ * engagement crumb's dropdown lists ONLY that engagement's workspaces, and
+ * the workspace crumb never has a dropdown. Opening a menu never navigates;
+ * only selecting a destination does — destinations are real anchors so
+ * keyboard, focus, and deep linking work natively.
+ *
+ * Hover behaviour (Issue #39): no floating menu may render outside the
+ * viewport — every opened menu is measured and repositioned (right-aligned
+ * and/or height-capped) to stay fully on screen.
  *
  * Accessibility: each crumb with a menu is a real button carrying
  * aria-haspopup / aria-expanded; each menu is a role="menu" of anchor
@@ -38,24 +38,15 @@
   'use strict';
 
   var AuditOS = global.AuditOS = global.AuditOS || {};
-  var registry = AuditOS.workspaceRegistry;
-  var router = AuditOS.router;
 
-  /**
-   * CSS selector for the header region this content mounts into — the
-   * breadcrumb region of the Global Header (index.html).
-   */
+  /** The header region this content mounts into (index.html). */
   var BREADCRUMB_REGION_SELECTOR = '.aos-global-header__breadcrumb';
-
-  /**
-   * Canonical route hash prefix. Mirrors the router's documented URL contract
-   * so each destination is a real, deep-linkable anchor. The router resolves
-   * the resulting hash; this content never resolves routes itself.
-   */
-  var ROUTE_HASH_PREFIX = '#/';
 
   /** Marks the menu destination that is currently active. */
   var ACTIVE_CLASS = 'is-active';
+
+  /** Viewport safety margin (px) for floating menu repositioning. */
+  var VIEWPORT_MARGIN = 8;
 
   // Established during init().
   var breadcrumbRegion = null;
@@ -71,11 +62,6 @@
     return node;
   }
 
-  /** The Repository Foundation, resolved at render time. */
-  function repository() {
-    return AuditOS.repository || null;
-  }
-
   /** Builds the leading "/" separator of one trail item. */
   function buildSeparator() {
     var separator = el('span', 'aos-breadcrumb__separator', '/');
@@ -83,12 +69,25 @@
     return separator;
   }
 
+  /** Builds one plain crumb: a real anchor to its canonical destination. */
+  function buildLinkCrumb(descriptor) {
+    var item = el('li', 'aos-breadcrumb__item');
+    item.appendChild(buildSeparator());
+    var link = el('a', 'aos-breadcrumb__crumb aos-breadcrumb__crumb--link');
+    link.setAttribute('href', descriptor.href);
+    if (descriptor.current) {
+      link.setAttribute('aria-current', 'page');
+    }
+    link.appendChild(el('span', 'aos-breadcrumb__crumb-label', descriptor.label));
+    item.appendChild(link);
+    return { item: item };
+  }
+
   /**
-   * Builds one interactive crumb: a menu button labeled with the current
-   * entity plus a role="menu" of anchor destinations. `descriptor` is
-   * `{ label, ariaLabel, menuLabel, options: [{ label, href, active }] }`.
-   * Opening the menu never navigates; selecting one of its real anchors
-   * does, through the router's standard hashchange flow.
+   * Builds one menu crumb: a menu button labeled with the current entity
+   * plus a role="menu" of anchor destinations. Opening the menu never
+   * navigates; selecting one of its real anchors does, through the router's
+   * standard hashchange flow.
    */
   function buildMenuCrumb(descriptor) {
     var item = el('li', 'aos-breadcrumb__item');
@@ -98,7 +97,7 @@
     button.setAttribute('type', 'button');
     button.setAttribute('aria-haspopup', 'menu');
     button.setAttribute('aria-expanded', 'false');
-    button.setAttribute('aria-label', descriptor.ariaLabel);
+    button.setAttribute('aria-label', descriptor.label + ' — open ' + descriptor.menu.label.toLowerCase() + ' menu');
     button.appendChild(el('span', 'aos-breadcrumb__crumb-label', descriptor.label));
 
     var chevron = el('span', 'aos-breadcrumb__chevron');
@@ -109,10 +108,10 @@
 
     var menu = el('ul', 'aos-breadcrumb__menu');
     menu.setAttribute('role', 'menu');
-    menu.setAttribute('aria-label', descriptor.menuLabel);
+    menu.setAttribute('aria-label', descriptor.menu.label);
     menu.hidden = true;
 
-    descriptor.options.forEach(function (option) {
+    descriptor.menu.options.forEach(function (option) {
       var entry = el('li', '');
       entry.setAttribute('role', 'none');
 
@@ -144,6 +143,28 @@
     return Array.prototype.slice.call(menu.querySelectorAll('.aos-breadcrumb__option'));
   }
 
+  /**
+   * Keeps an opened floating menu fully inside the viewport (Issue #39 —
+   * hover behaviour): right-aligns a menu that would overflow the right
+   * edge, and caps the height (internal scroll) of one that would overflow
+   * the bottom.
+   */
+  function repositionMenu(menu) {
+    menu.classList.remove('aos-breadcrumb__menu--align-end');
+    menu.style.maxHeight = '';
+    var bounds = menu.getBoundingClientRect();
+    var viewportWidth = global.document.documentElement.clientWidth;
+    var viewportHeight = global.document.documentElement.clientHeight;
+    if (bounds.right > viewportWidth - VIEWPORT_MARGIN) {
+      menu.classList.add('aos-breadcrumb__menu--align-end');
+    }
+    bounds = menu.getBoundingClientRect();
+    if (bounds.bottom > viewportHeight - VIEWPORT_MARGIN) {
+      menu.style.maxHeight = Math.max(120, viewportHeight - bounds.top - VIEWPORT_MARGIN) + 'px';
+      menu.style.overflowY = 'auto';
+    }
+  }
+
   /** Opens a crumb's menu (closing any other) and focuses the active destination. */
   function openMenu(crumb) {
     if (openCrumb && openCrumb !== crumb) {
@@ -152,6 +173,7 @@
     crumb.menu.hidden = false;
     crumb.button.setAttribute('aria-expanded', 'true');
     openCrumb = crumb;
+    repositionMenu(crumb.menu);
     var links = menuLinks(crumb.menu);
     var active = links.filter(function (link) {
       return link.classList.contains(ACTIVE_CLASS);
@@ -220,251 +242,30 @@
   }
 
   /**
-   * The workspaces the current session may navigate to (Issue #33 §5): an
-   * entry that declares a `capability` the Permission Foundation does not
-   * grant is hidden entirely — never rendered as a disabled destination.
-   * When the Permission Foundation is absent the menu degrades open rather
-   * than throwing.
-   */
-  function visibleWorkspaces() {
-    var permissions = AuditOS.permissions;
-    return registry.WORKSPACES.filter(function (workspace) {
-      return !workspace.capability || !permissions || permissions.can(workspace.capability);
-    });
-  }
-
-  /**
-   * Engagement Navigation (GitHub Issue #36 §2): once an engagement is
-   * selected, the workspace switcher exposes only these four destinations —
-   * nothing else. Requirements, Controls & Documentation, and Report remain
-   * registered, already-built workspaces (Requirements/Controls #22/#23,
-   * Documentation #26); this issue only narrows engagement-scoped navigation
-   * to reach them, and reserves "Controls & Documentation" and "Report" as
-   * integration points — Report has no dedicated implementation yet
-   * (out of scope by design; see the Reporting workspace registration).
-   * `label` overrides the registry's own label for this curated menu only —
-   * the registry label (and every other surface that reads it) is
-   * unchanged.
-   */
-  var ENGAGEMENT_NAV_ITEMS = [
-    { id: registry.IDS.WALKTHROUGH, label: 'Walkthrough' },
-    { id: registry.IDS.REQUIREMENTS, label: 'Requirements & Evidence' },
-    { id: registry.IDS.CONTROLS, label: 'Controls & Documentation' },
-    { id: registry.IDS.REPORTING, label: 'Report' }
-  ];
-
-  /** The curated Engagement Navigation entries, capability-filtered like `visibleWorkspaces`. */
-  function engagementNavWorkspaces() {
-    var permissions = AuditOS.permissions;
-    var entries = [];
-    ENGAGEMENT_NAV_ITEMS.forEach(function (item) {
-      var workspace = registry.findById(item.id);
-      if (!workspace) {
-        return;
-      }
-      if (workspace.capability && permissions && !permissions.can(workspace.capability)) {
-        return;
-      }
-      entries.push({ id: workspace.id, path: workspace.path, label: item.label });
-    });
-    return entries;
-  }
-
-  /** The route hash of a workspace within the current hierarchy context. */
-  function workspaceHref(workspace, context) {
-    var repositoryService = repository();
-    if (context && context.engagement && repositoryService) {
-      var base = ROUTE_HASH_PREFIX +
-        repositoryService.clientSlug(context.client) + '/' +
-        repositoryService.engagementSlug(context.engagement);
-      if (workspace.id === registry.IDS.ENGAGEMENT) {
-        return base;
-      }
-      return base + '/' + workspace.path;
-    }
-    return ROUTE_HASH_PREFIX + workspace.path;
-  }
-
-  /**
-   * The route hash into the Walkthrough hierarchy (Issue #36): the
-   * workspace itself, one Team within it, or one POC within that Team.
-   */
-  function walkthroughHref(context, teamId, pocId) {
-    var walkthroughWorkspace = registry.findById(registry.IDS.WALKTHROUGH);
-    var base = workspaceHref(walkthroughWorkspace, context);
-    if (!teamId) {
-      return base;
-    }
-    var withTeam = base + '/' + encodeURIComponent(teamId);
-    return pocId ? withTeam + '/' + encodeURIComponent(pocId) : withTeam;
-  }
-
-  /**
-   * The Teams recorded against one engagement's Walkthrough Teams dataset
-   * (Issue #36 §3 — Team → POC hierarchy), read live from the Repository so
-   * the Team crumb menu never goes stale. Returns [] when the engagement
-   * has no walkthrough-teams dataset yet.
-   */
-  function engagementTeams(engagementId) {
-    var repositoryService = repository();
-    if (!repositoryService || !engagementId) {
-      return [];
-    }
-    var datasets = repositoryService.walkthroughTeams.datasetsForEngagement(engagementId);
-    if (datasets.length === 0) {
-      return [];
-    }
-    return repositoryService.walkthroughTeams.list({ datasetId: datasets[0] });
-  }
-
-  /** The real POC records for a Team's roster, resolved from the shared `pocs` collection. */
-  function teamPocs(team) {
-    var state = AuditOS.state;
-    if (!state || !team) {
-      return [];
-    }
-    var pocs = state.listRecords('pocs');
-    var byId = {};
-    pocs.forEach(function (poc) { byId[poc.id] = poc; });
-    return (Array.isArray(team.pocIds) ? team.pocIds : [])
-      .map(function (id) { return byId[id]; })
-      .filter(Boolean);
-  }
-
-  /**
-   * Renders the complete breadcrumb trail for the current route (GitHub Issue
-   * #38 Part 1): the AuditOS logo is the breadcrumb root, so no Home crumb is
-   * ever rendered. The trail begins with the client crumb (accessible
-   * clients), then — within a client — the engagement crumb (that client's
-   * accessible engagements), then the workspace crumb (the visible workspace
-   * switcher), then any Walkthrough Team / POC crumbs. Rebuilt whole on every
-   * route, state, or session change so the trail always mirrors the URL and
-   * the data. The first crumb's leading separator is hidden by the stylesheet
-   * (`.aos-breadcrumb__item:first-child .aos-breadcrumb__separator`).
+   * Renders the complete breadcrumb trail for the current route: the crumb
+   * descriptors come from the Breadcrumb Generator over the Context
+   * Resolver's current context. Rebuilt whole on every route, state, or
+   * session change so the trail always mirrors the URL and the data. The
+   * first crumb's leading separator is hidden by the stylesheet.
    */
   function renderTrail() {
+    var generator = AuditOS.breadcrumbGenerator;
+    var resolver = AuditOS.contextResolver;
+    if (!generator || !resolver) {
+      return;
+    }
     var trail = el('ol', 'aos-breadcrumb');
     // Preserve list semantics for screen readers even though the visual list
-    // marker is removed (Navigation Components §76.18 — Accessibility).
+    // marker is removed (§76.18 — Accessibility).
     trail.setAttribute('role', 'list');
     openCrumb = null;
 
-    var context = router.getCurrentContext ? router.getCurrentContext() : null;
-    var repositoryService = repository();
-    var workspaceId = router.getCurrentWorkspaceId();
-    var workspace = registry.findById(workspaceId);
-
-    // Client crumb — rendered from the Repository once it is ready; a trail
-    // without data degrades to Home + workspace rather than fabricating.
-    if (repositoryService && repositoryService.isReady()) {
-      var clients = repositoryService.listAccessibleClients();
-      if (clients.length > 0) {
-        var activeClient = context && context.client ? context.client : null;
-        trail.appendChild(buildMenuCrumb({
-          label: activeClient ? activeClient.name : 'Clients',
-          ariaLabel: activeClient
-            ? 'Current client: ' + activeClient.name + ' — switch client'
-            : 'Select a client',
-          menuLabel: 'Clients',
-          options: clients.map(function (client) {
-            return {
-              label: client.name,
-              href: ROUTE_HASH_PREFIX + repositoryService.clientSlug(client),
-              active: Boolean(activeClient && activeClient.id === client.id)
-            };
-          })
-        }).item);
-      }
-
-      // Engagement crumb (Issue #35 §2) — only once an engagement has
-      // actually been selected, never a placeholder "Select an engagement"
-      // crumb for a client with no engagement in context yet: the trail
-      // mirrors the URL, and a depth-1 client route carries no engagement.
-      if (context && context.client && context.engagement) {
-        var engagements = repositoryService.listAccessibleEngagements(context.client.id);
-        var activeEngagement = context.engagement;
-        var clientSlug = repositoryService.clientSlug(context.client);
-        trail.appendChild(buildMenuCrumb({
-          label: activeEngagement.name || activeEngagement.id,
-          ariaLabel: 'Current engagement: ' + (activeEngagement.name || activeEngagement.id) + ' — switch engagement',
-          menuLabel: 'Engagements',
-          options: engagements.map(function (engagement) {
-            return {
-              label: engagement.name || engagement.id,
-              href: ROUTE_HASH_PREFIX + clientSlug + '/' + repositoryService.engagementSlug(engagement),
-              active: Boolean(activeEngagement.id === engagement.id)
-            };
-          })
-        }).item);
-      }
-    }
-
-    // Workspace crumb — the switcher over every visible registered
-    // workspace, narrowed to the curated Engagement Navigation (Issue #36
-    // §2 — Walkthrough / Requirements / Controls & Documentation / Report,
-    // nothing else) once an engagement is in context; the full platform
-    // switcher applies everywhere else, unchanged. Suppressed while the
-    // active workspace is the Client Workspace itself (Issue #35 §2): the
-    // client crumb above already names that identity, so a trailing "Client
-    // Workspace" crumb would only repeat it. Once an engagement is selected
-    // the active workspace is never the Client Workspace, so this crumb
-    // reappears automatically.
-    var inEngagementScope = Boolean(context && context.client && context.engagement);
-    if (!workspace || workspace.id !== registry.IDS.CLIENT) {
-      var navSource = inEngagementScope ? engagementNavWorkspaces() : visibleWorkspaces();
-      trail.appendChild(buildMenuCrumb({
-        label: workspace ? workspace.label : '',
-        ariaLabel: workspace
-          ? 'Current workspace: ' + workspace.label + ' — switch workspace'
-          : 'Switch workspace',
-        menuLabel: inEngagementScope ? 'Engagement navigation' : 'Workspaces',
-        options: navSource.map(function (entry) {
-          return {
-            label: entry.label,
-            href: workspaceHref(entry, context),
-            active: Boolean(workspace && workspace.id === entry.id)
-          };
-        })
-      }).item);
-    }
-
-    // Team and POC crumbs (Issue #36 §3 / Breadcrumbs — Walkthrough → Team →
-    // POC): only within the Walkthrough workspace, and only as deep as the
-    // route actually carries. Breadcrumbs disappear when navigating upward
-    // because the trail is always rebuilt fresh from the current context.
-    if (inEngagementScope && workspace && workspace.id === registry.IDS.WALKTHROUGH && context.teamId) {
-      var teams = engagementTeams(context.engagement.id);
-      var activeTeam = teams.filter(function (team) { return team.id === context.teamId; })[0] || null;
-      trail.appendChild(buildMenuCrumb({
-        label: activeTeam ? activeTeam.name : context.teamId,
-        ariaLabel: 'Current team: ' + (activeTeam ? activeTeam.name : context.teamId) + ' — switch team',
-        menuLabel: 'Teams',
-        options: teams.map(function (team) {
-          return {
-            label: team.name || team.id,
-            href: walkthroughHref(context, team.id, null),
-            active: Boolean(team.id === context.teamId)
-          };
-        })
-      }).item);
-
-      if (context.pocId && activeTeam) {
-        var pocs = teamPocs(activeTeam);
-        var activePoc = pocs.filter(function (poc) { return poc.id === context.pocId; })[0] || null;
-        trail.appendChild(buildMenuCrumb({
-          label: activePoc ? activePoc.name : context.pocId,
-          ariaLabel: 'Current POC: ' + (activePoc ? activePoc.name : context.pocId) + ' — switch POC',
-          menuLabel: 'POCs',
-          options: pocs.map(function (poc) {
-            return {
-              label: poc.name || poc.id,
-              href: walkthroughHref(context, activeTeam.id, poc.id),
-              active: Boolean(poc.id === context.pocId)
-            };
-          })
-        }).item);
-      }
-    }
+    generator.generate(resolver.current()).forEach(function (descriptor) {
+      var crumb = descriptor.menu && descriptor.menu.options.length > 0
+        ? buildMenuCrumb(descriptor)
+        : buildLinkCrumb(descriptor);
+      trail.appendChild(crumb.item);
+    });
 
     breadcrumbRegion.replaceChildren(trail);
   }
@@ -480,12 +281,13 @@
     /**
      * Renders the breadcrumb and binds it to the router, the Shared Audit
      * State, and the Permission Foundation. Safe to call once, after the DOM
-     * is ready and the router has initialized. Does nothing when the
-     * registry, router, or breadcrumb region is absent, so the shell
-     * degrades rather than throwing.
+     * is ready and the router has initialized. Does nothing when the router
+     * or breadcrumb region is absent, so the shell degrades rather than
+     * throwing.
      */
     init: function () {
-      if (!registry || !router) {
+      var router = AuditOS.router;
+      if (!router) {
         return;
       }
 
@@ -509,7 +311,7 @@
       }
 
       // Workspace visibility is capability-gated; the trail follows session
-      // switches (Issue #34 — Demo Mode role switching).
+      // switches (Demo Mode role switching).
       var permissions = AuditOS.permissions;
       if (permissions && typeof permissions.subscribe === 'function') {
         permissions.subscribe(renderTrail);

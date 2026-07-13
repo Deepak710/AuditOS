@@ -1,13 +1,26 @@
 /**
  * AuditOS Workspace Registry
- * Routing Architecture — Chapter 130 / Information Architecture — Chapter 10
+ * Routing Architecture — Chapter 130 / Navigation & Context Architecture —
+ * GitHub Issue #39
  *
- * Single, authoritative list of the placeholder Workspace Hosts the Static
- * Routing Foundation can switch between. Each entry is a workspace identity
- * only — an identifier, a human-readable label, a document title, and the
- * stable hash path used for deep linking. No workspace content, Business
- * Objects, Shared Audit State, or logic live here; later workspace issues
- * render into these hosts.
+ * Single, authoritative list of the Workspace Hosts the router can switch
+ * between. Each entry is a workspace identity only — an identifier, a
+ * human-readable label, a document title, the stable hash path used for deep
+ * linking, and (Issue #39) the hierarchy scope the workspace resolves at:
+ *
+ *   platform   — reachable flat (`#/{path}`), no client/engagement context.
+ *   client     — reachable only inside a client (`#/client/{clientId}`).
+ *   engagement — reachable only inside an engagement
+ *                (`#/client/{clientId}/engagement/{engagementId}/{path}`).
+ *
+ * No workspace content, Business Objects, Shared Audit State, or logic live
+ * here; workspace modules render into these hosts.
+ *
+ * Issue #39 removals/renames: the Requirements workspace is removed entirely
+ * (Evidence is the operational object; `#/requirements` redirects there), the
+ * Home path is the canonical `home` (legacy `dashboard` redirects), and the
+ * Walkthrough path is the canonical singular `walkthrough` (legacy
+ * `walkthroughs` redirects).
  *
  * Loaded as a classic script so the prototype runs directly from
  * file:///.../prototype/index.html with no build step or module loader.
@@ -17,19 +30,24 @@
 
   var AuditOS = global.AuditOS = global.AuditOS || {};
 
+  /** Workspace hierarchy scopes (Issue #39). */
+  var SCOPES = {
+    PLATFORM: 'platform',
+    CLIENT: 'client',
+    ENGAGEMENT: 'engagement'
+  };
+
   /**
    * Canonical workspace identifiers.
    *
-   * Centralized so routing, future navigation, and future workspaces reference
-   * one constant instead of repeating string literals (Coding Standards
-   * §30.11 — Constants).
+   * Centralized so routing, navigation, and workspaces reference one constant
+   * instead of repeating string literals (Coding Standards §30.11).
    */
   var WORKSPACE_IDS = {
     DASHBOARD: 'dashboard',
     ENGAGEMENT: 'engagement',
     WORKQUEUE: 'work-queue',
     WALKTHROUGH: 'walkthrough',
-    REQUIREMENTS: 'requirements',
     CONTROLS: 'controls',
     EVIDENCE: 'evidence',
     TESTING: 'testing',
@@ -52,72 +70,49 @@
    * Ordered workspace registry.
    *
    * `path` is the stable, lowercase, hyphenated hash segment used for deep
-   * linking (Routing Architecture §130.28 — URL Design Principles). `title`
-   * feeds the document title and the accessible route-change announcement.
-   * The order reflects the documented global navigation hierarchy
-   * (Routing Architecture §130.5).
+   * linking (Routing Architecture §130.28). `title` feeds the document title
+   * and the accessible route-change announcement. `scope` declares where in
+   * the AuditOS → Client → Engagement hierarchy the workspace resolves
+   * (Issue #39); the router enforces it.
    */
   var WORKSPACES = [
-    // Renamed by GitHub Issue #15: the Dashboard becomes AuditOS Home, the
-    // permanent operational landing workspace. The identifier and hash path
-    // stay stable so routing, deep links, and history remain unchanged.
-    { id: WORKSPACE_IDS.DASHBOARD,   path: 'dashboard',    label: 'AuditOS Home',        title: 'AuditOS Home' },
-    { id: WORKSPACE_IDS.ENGAGEMENT,  path: 'engagements',  label: 'Engagement',          title: 'Engagement' },
-    // Cross-workspace operational queue (GitHub Issue #28): aggregates work
-    // items from every operational workspace below, so it is registered right
-    // after the Engagement overview, ahead of the lifecycle chain it surfaces.
-    { id: WORKSPACE_IDS.WORKQUEUE,   path: 'work-queue',   label: 'Work Queue',          title: 'Work Queue' },
-    { id: WORKSPACE_IDS.WALKTHROUGH, path: 'walkthroughs', label: 'Walkthrough',         title: 'Walkthrough' },
-    { id: WORKSPACE_IDS.REQUIREMENTS, path: 'requirements', label: 'Requirements',       title: 'Requirements' },
-    { id: WORKSPACE_IDS.CONTROLS,    path: 'controls',     label: 'Controls',            title: 'Controls' },
-    { id: WORKSPACE_IDS.EVIDENCE,    path: 'evidence',     label: 'Evidence',            title: 'Evidence' },
-    { id: WORKSPACE_IDS.TESTING,     path: 'testing',      label: 'Testing',             title: 'Testing' },
-    { id: WORKSPACE_IDS.FINDINGS,    path: 'findings',     label: 'Findings',            title: 'Findings' },
-    { id: WORKSPACE_IDS.DOCUMENTATION, path: 'documentation', label: 'Documentation',     title: 'Documentation' },
-    { id: WORKSPACE_IDS.REPORTING,   path: 'reporting',    label: 'Reporting',           title: 'Reporting' },
-    { id: WORKSPACE_IDS.GOVERNANCE,  path: 'governance',   label: 'Governance',          title: 'Governance' },
-    { id: WORKSPACE_IDS.AI,          path: 'ai',           label: 'AI Workspace',        title: 'AI Workspace' },
-    { id: WORKSPACE_IDS.EXECUTIVE,   path: 'executive',    label: 'Executive Dashboard', title: 'Executive Dashboard' },
-    // Cross-engagement Audit Program overview (GitHub Issue #32): appended
-    // last so every existing workspace keeps its registered position.
-    { id: WORKSPACE_IDS.PROGRAM,     path: 'program',      label: 'Audit Program',       title: 'Audit Program' },
-    // Platform Information Architecture (GitHub Issue #33): the client level
-    // of the permanent AuditOS → Client → Program → Engagement hierarchy plus
-    // the two platform-level surfaces. Appended after every existing
-    // workspace so no registered position (and no existing deep link) moves.
-    // The `dashboard` entry above stays the stable Home id/path (#15/#31);
-    // only its rendered content became client-centric.
-    //
-    // Renamed by GitHub Issue #35: the Client Dashboard becomes the primary
-    // modular Client Workspace — the client's operational portfolio view,
-    // not a landing page. The identifier and hash path (`client` / `clients`)
-    // stay stable so routing and deep links remain unchanged; only the label
-    // and document title changed to reflect the new identity.
-    { id: WORKSPACE_IDS.CLIENT,      path: 'clients',      label: 'Client Workspace',    title: 'Client Workspace' },
-    { id: WORKSPACE_IDS.APPROVALS,   path: 'approvals',    label: 'Global Approvals',    title: 'Global Approvals' },
+    // AuditOS Home — the platform operational landing workspace. The
+    // identifier stays `dashboard` for module stability; the canonical path
+    // is `home` (Issue #39 routing contract), with `dashboard` redirected.
+    { id: WORKSPACE_IDS.DASHBOARD,   path: 'home',         label: 'AuditOS Home',        title: 'AuditOS Home',        scope: SCOPES.PLATFORM },
+    { id: WORKSPACE_IDS.ENGAGEMENT,  path: 'engagements',  label: 'Engagement',          title: 'Engagement',          scope: SCOPES.ENGAGEMENT },
+    { id: WORKSPACE_IDS.WORKQUEUE,   path: 'work-queue',   label: 'Work Queue',          title: 'Work Queue',          scope: SCOPES.ENGAGEMENT },
+    { id: WORKSPACE_IDS.WALKTHROUGH, path: 'walkthrough',  label: 'Walkthrough',         title: 'Walkthrough',         scope: SCOPES.ENGAGEMENT },
+    { id: WORKSPACE_IDS.CONTROLS,    path: 'controls',     label: 'Controls',            title: 'Controls',            scope: SCOPES.ENGAGEMENT },
+    { id: WORKSPACE_IDS.EVIDENCE,    path: 'evidence',     label: 'Evidence',            title: 'Evidence',            scope: SCOPES.ENGAGEMENT },
+    { id: WORKSPACE_IDS.TESTING,     path: 'testing',      label: 'Testing',             title: 'Testing',             scope: SCOPES.ENGAGEMENT },
+    { id: WORKSPACE_IDS.FINDINGS,    path: 'findings',     label: 'Findings',            title: 'Findings',            scope: SCOPES.ENGAGEMENT },
+    { id: WORKSPACE_IDS.DOCUMENTATION, path: 'documentation', label: 'Documentation',    title: 'Documentation',       scope: SCOPES.ENGAGEMENT },
+    { id: WORKSPACE_IDS.REPORTING,   path: 'reporting',    label: 'Reporting',           title: 'Reporting',           scope: SCOPES.ENGAGEMENT },
+    { id: WORKSPACE_IDS.GOVERNANCE,  path: 'governance',   label: 'Governance',          title: 'Governance',          scope: SCOPES.ENGAGEMENT },
+    { id: WORKSPACE_IDS.AI,          path: 'ai',           label: 'AI Workspace',        title: 'AI Workspace',        scope: SCOPES.ENGAGEMENT },
+    { id: WORKSPACE_IDS.EXECUTIVE,   path: 'executive',    label: 'Executive Dashboard', title: 'Executive Dashboard', scope: SCOPES.PLATFORM },
+    { id: WORKSPACE_IDS.PROGRAM,     path: 'program',      label: 'Audit Program',       title: 'Audit Program',       scope: SCOPES.PLATFORM },
+    { id: WORKSPACE_IDS.CLIENT,      path: 'clients',      label: 'Client Workspace',    title: 'Client Workspace',    scope: SCOPES.CLIENT },
+    { id: WORKSPACE_IDS.APPROVALS,   path: 'approvals',    label: 'Global Approvals',    title: 'Global Approvals',    scope: SCOPES.PLATFORM },
     // `capability` is access identity, not business content: navigation
-    // surfaces hide this workspace from sessions the Permission Foundation
-    // (js/platform/permissions.js) does not grant the capability to.
-    { id: WORKSPACE_IDS.AI_USAGE,    path: 'ai-usage',     label: 'AI Usage',            title: 'AI Usage', capability: 'ai-usage.view' },
-    // Platform Foundation II (GitHub Issue #34): the platform-wide immutable
-    // audit trail and the two Repository-backed creation wizards. Appended
-    // after every existing workspace so no registered position (and no
-    // existing deep link) moves. Capability gates follow the same
-    // hidden-not-disabled pattern as AI Usage.
-    { id: WORKSPACE_IDS.AUDIT_LOG,         path: 'audit-log',      label: 'Audit Log',         title: 'Audit Log', capability: 'audit-log.view' },
-    { id: WORKSPACE_IDS.CLIENT_WIZARD,     path: 'new-client',     label: 'New Client',        title: 'New Client', capability: 'clients.create' },
-    { id: WORKSPACE_IDS.ENGAGEMENT_WIZARD, path: 'new-engagement', label: 'New Engagement',    title: 'New Engagement', capability: 'engagements.create' }
+    // surfaces hide capability-gated workspaces from sessions the Permission
+    // Foundation does not grant the capability to.
+    { id: WORKSPACE_IDS.AI_USAGE,    path: 'ai-usage',     label: 'AI Usage',            title: 'AI Usage',            scope: SCOPES.PLATFORM, capability: 'ai-usage.view' },
+    { id: WORKSPACE_IDS.AUDIT_LOG,         path: 'audit-log',      label: 'Audit Log',      title: 'Audit Log',      scope: SCOPES.PLATFORM, capability: 'audit-log.view' },
+    { id: WORKSPACE_IDS.CLIENT_WIZARD,     path: 'new-client',     label: 'New Client',     title: 'New Client',     scope: SCOPES.PLATFORM, capability: 'clients.create' },
+    { id: WORKSPACE_IDS.ENGAGEMENT_WIZARD, path: 'new-engagement', label: 'New Engagement', title: 'New Engagement', scope: SCOPES.PLATFORM, capability: 'engagements.create' }
   ];
 
   /**
    * Workspace shown for the default route and for any unknown route
-   * (Routing Architecture §130.6 — Primary Routes; the application root
-   * resolves to the Dashboard).
+   * (Routing Architecture §130.6 — the application root resolves to Home).
    */
   var DEFAULT_WORKSPACE_ID = WORKSPACE_IDS.DASHBOARD;
 
   AuditOS.workspaceRegistry = {
     IDS: WORKSPACE_IDS,
+    SCOPES: SCOPES,
     WORKSPACES: WORKSPACES,
     DEFAULT_WORKSPACE_ID: DEFAULT_WORKSPACE_ID,
 

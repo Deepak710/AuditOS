@@ -28,6 +28,12 @@ const SCRIPTS = {
   presentation: ['components', 'presentation', 'presentation.js'],
   workspaceRegistry: ['js', 'router', 'workspace-registry.js'],
   router: ['js', 'router', 'router.js'],
+  navigationService: ['js', 'services', 'navigation-service.js'],
+  contextResolver: ['js', 'services', 'context-resolver.js'],
+  hierarchyBuilder: ['js', 'services', 'hierarchy-builder.js'],
+  breadcrumbGenerator: ['js', 'services', 'breadcrumb-generator.js'],
+  evidenceLifecycle: ['js', 'services', 'evidence-lifecycle.js'],
+  aiLineage: ['js', 'services', 'ai-lineage-service.js'],
   demoDataBundle: ['demo-data', 'demo-data.js'],
   demoDataRegistry: ['js', 'state', 'demo-data-registry.js'],
   stateStore: ['js', 'state', 'state-store.js'],
@@ -45,7 +51,6 @@ const SCRIPTS = {
   engagementWorkspace: ['js', 'workspaces', 'engagement.js'],
   walkthroughWorkspace: ['js', 'workspaces', 'walkthrough.js'],
   evidenceWorkspace: ['js', 'workspaces', 'evidence.js'],
-  requirementsWorkspace: ['js', 'workspaces', 'requirements.js'],
   controlsWorkspace: ['js', 'workspaces', 'controls.js'],
   testingWorkspace: ['js', 'workspaces', 'testing.js'],
   findingsWorkspace: ['js', 'workspaces', 'findings.js'],
@@ -171,18 +176,10 @@ function loadWalkthroughWorkspace() {
  * no document exists; suites exercise its pure derivations directly.
  */
 function loadEvidenceWorkspace() {
-  return loadClassicScripts([SCRIPTS.relationships, SCRIPTS.workspaceShared, SCRIPTS.evidenceWorkspace]).AuditOS.evidenceWorkspace;
-}
-
-/**
- * Loads the Requirements workspace module
- * (window.AuditOS.requirementsWorkspace). The module guards its DOM self-init on
- * `document` and reads the presentation system only inside DOM builders, so it
- * registers cleanly in the sandbox where no document exists; suites exercise its
- * pure derivations directly.
- */
-function loadRequirementsWorkspace() {
-  return loadClassicScripts([SCRIPTS.relationships, SCRIPTS.workspaceShared, SCRIPTS.requirementsWorkspace]).AuditOS.requirementsWorkspace;
+  return loadClassicScripts([
+    SCRIPTS.relationships, SCRIPTS.workspaceShared,
+    SCRIPTS.evidenceLifecycle, SCRIPTS.aiLineage, SCRIPTS.evidenceWorkspace
+  ]).AuditOS.evidenceWorkspace;
 }
 
 /**
@@ -331,6 +328,30 @@ function toHostArray(value) {
   return Array.from(value);
 }
 
+/**
+ * Builds the route context an engagement-scoped workspace resolves against
+ * (GitHub Issue #39 — the Context Resolver contract). Engagement-scoped
+ * workspaces no longer fall back to a "current" engagement: they are only
+ * reached through a hierarchical route, so a suite must supply the engagement
+ * in scope exactly as the router would. This names the first In-Progress
+ * engagement in the loaded state (else the first), the same engagement the
+ * former shared fallback selected, so the assertions still describe the same
+ * records. Returns null when no engagement exists (a degraded state), which
+ * the workspace resolves to its degraded model.
+ */
+function engagementRouteContext(AuditOS) {
+  var engagements = AuditOS && AuditOS.state && AuditOS.state.isReady()
+    ? AuditOS.state.listRecords('engagements') : [];
+  var target = null;
+  for (var index = 0; index < engagements.length; index += 1) {
+    if (!target && engagements[index].status === 'In Progress') {
+      target = engagements[index];
+    }
+  }
+  target = target || engagements[0] || null;
+  return target ? { engagement: { id: target.id } } : null;
+}
+
 module.exports = {
   PROTOTYPE_DIR: PROTOTYPE_DIR,
   SCRIPTS: SCRIPTS,
@@ -344,7 +365,6 @@ module.exports = {
   loadEngagementWorkspace: loadEngagementWorkspace,
   loadWalkthroughWorkspace: loadWalkthroughWorkspace,
   loadEvidenceWorkspace: loadEvidenceWorkspace,
-  loadRequirementsWorkspace: loadRequirementsWorkspace,
   loadControlsWorkspace: loadControlsWorkspace,
   loadTestingWorkspace: loadTestingWorkspace,
   loadFindingsWorkspace: loadFindingsWorkspace,
@@ -360,5 +380,6 @@ module.exports = {
   loadClientWizardWorkspace: loadClientWizardWorkspace,
   loadEngagementWizardWorkspace: loadEngagementWizardWorkspace,
   loadAuditLogWorkspace: loadAuditLogWorkspace,
-  toHostArray: toHostArray
+  toHostArray: toHostArray,
+  engagementRouteContext: engagementRouteContext
 };

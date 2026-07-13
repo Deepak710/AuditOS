@@ -174,11 +174,12 @@ a.aos-engagement__health-item:hover {
 }
 
 /* ========================================
- * LIFECYCLE NAVIGATION (MIDDLE)
- * The audit lifecycle as navigation cards — Walkthrough → Evidence → Controls →
- * Testing → Findings → Reporting. Each card is a link into its workspace and
- * shows the stage's operational status, pending work, and progress. A quiet
- * arrow affordance slides on hover. Navigation, not a process diagram.
+ * LIFECYCLE WORKFLOW (MIDDLE) — Issue #39 redesign
+ * The audit lifecycle as one connected enterprise workflow: an ordered
+ * stepper rail of numbered stages — Walkthrough → Evidence → Controls →
+ * Testing → Findings → Reporting — joined by visible connectors so the chain
+ * reads as one process, never disconnected cards. Each step is a link into
+ * its workspace with the stage's status, pending work, and progress.
  * ======================================== */
 
 .aos-engagement__lifecycle {
@@ -186,10 +187,32 @@ a.aos-engagement__health-item:hover {
   grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   gap: var(--aos-space-4);
   align-items: stretch;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.aos-engagement__lifecycle-step {
+  position: relative;
+  display: flex;
+  min-width: 0;
+}
+
+/* The connector rail: every step after the first joins its predecessor with
+ * a short horizontal rule bridging the grid gap. */
+.aos-engagement__lifecycle-step + .aos-engagement__lifecycle-step::before {
+  content: '';
+  position: absolute;
+  top: 2rem;
+  left: calc(-1 * var(--aos-space-4));
+  width: var(--aos-space-4);
+  height: 2px;
+  background-color: var(--aos-surface-border-strong);
 }
 
 .aos-engagement__stage {
   position: relative;
+  flex: 1 1 auto;
   flex-direction: column;
   gap: var(--aos-space-3);
   text-decoration: none;
@@ -201,6 +224,28 @@ a.aos-engagement__health-item:hover {
   align-items: center;
   justify-content: space-between;
   gap: var(--aos-space-2);
+}
+
+.aos-engagement__stage-identity {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-engagement__stage-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  flex: none;
+  border: 1px solid var(--aos-surface-border-strong);
+  border-radius: var(--aos-radius-full);
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-secondary);
+  background-color: var(--aos-surface-workspace);
 }
 
 .aos-engagement__stage-name {
@@ -233,21 +278,6 @@ a.aos-engagement__health-item:hover {
  * read as text, so the bar carries no independent meaning. */
 .aos-engagement__stage-progress {
   margin-top: var(--aos-space-1);
-}
-
-.aos-engagement__stage-arrow {
-  position: absolute;
-  bottom: var(--aos-space-4);
-  right: var(--aos-space-4);
-  font-size: var(--aos-text-xs);
-  line-height: var(--aos-leading-tight);
-  color: var(--aos-text-tertiary);
-  transition: transform var(--aos-transition-fast), color var(--aos-transition-fast);
-}
-
-.aos-engagement__stage:hover .aos-engagement__stage-arrow {
-  transform: translateX(var(--aos-space-1));
-  color: var(--aos-text-link);
 }
 
 /* ========================================

@@ -149,11 +149,15 @@
     'Rejected': TONES.ERROR, 'Fail': TONES.ERROR
   };
 
-  /** The seven operational item types the Work Queue aggregates (§ Workspace Filter), in audit-lifecycle order. */
+  /**
+   * The six operational item types the Work Queue aggregates (§ Workspace
+   * Filter), in audit-lifecycle order. Requirements ceased to exist as a
+   * user-facing workspace (Issue #39 — Evidence is the operational object);
+   * requirement-driven work reaches the queue through evidence requests.
+   */
   var ITEM_TYPES = {
     WALKTHROUGH: 'Walkthrough',
     EVIDENCE: 'Evidence',
-    REQUIREMENTS: 'Requirements',
     CONTROLS: 'Controls',
     TESTING: 'Testing',
     FINDINGS: 'Findings',
@@ -162,7 +166,7 @@
 
   /** Canonical item-type order for the health strip and the workspace filter. */
   var ITEM_TYPE_ORDER = [
-    ITEM_TYPES.WALKTHROUGH, ITEM_TYPES.EVIDENCE, ITEM_TYPES.REQUIREMENTS, ITEM_TYPES.CONTROLS,
+    ITEM_TYPES.WALKTHROUGH, ITEM_TYPES.EVIDENCE, ITEM_TYPES.CONTROLS,
     ITEM_TYPES.TESTING, ITEM_TYPES.FINDINGS, ITEM_TYPES.DOCUMENTATION
   ];
 
@@ -356,34 +360,6 @@
   }
 
   /**
-   * The Requirements work items — one per recorded requirement. Priority reads
-   * the requirement's own recorded priority (when present) as an escalation
-   * over its status.
-   */
-  function deriveRequirementItems(requirements, context) {
-    var ctx = context || {};
-    return asArray(requirements).map(function (requirement) {
-      var source = requirement || {};
-      var priority = classifyPriority(source.status, escalateFromRecordedPriority(source.priority));
-      return {
-        key: 'requirements-' + (source.id || ''),
-        itemType: ITEM_TYPES.REQUIREMENTS,
-        title: source.title || source.id || '',
-        owner: resolveName(ctx.pocsById, source.primaryPocId, 'name') || source.primaryPocId || '',
-        status: source.status || '',
-        statusTone: resolveStatusTone(source.status),
-        priority: priority,
-        priorityTone: resolvePriorityTone(priority),
-        meta: '',
-        dueDate: '',
-        related: null,
-        actionText: '',
-        record: source
-      };
-    });
-  }
-
-  /**
    * The Evidence work items drawn from evidence requests — one per recorded
    * request ("Requested evidence" — § Product Philosophy). Priority reads the
    * request's own recorded priority as an escalation over its status. The
@@ -503,7 +479,6 @@
     var idByType = {
       Walkthrough: ids.WALKTHROUGH,
       Evidence: ids.EVIDENCE,
-      Requirements: ids.REQUIREMENTS,
       Controls: ids.CONTROLS,
       Testing: ids.TESTING,
       Findings: ids.FINDINGS,
@@ -672,7 +647,6 @@
     var idByType = {
       Walkthrough: ids.WALKTHROUGH,
       Evidence: ids.EVIDENCE,
-      Requirements: ids.REQUIREMENTS,
       Controls: ids.CONTROLS,
       Testing: ids.TESTING,
       Findings: ids.FINDINGS,
@@ -822,7 +796,6 @@
       .concat(deriveWalkthroughItems())
       .concat(deriveEvidenceRequestItems(requestsDocument.requests, itemContext))
       .concat(deriveEvidenceLibraryItems(evidenceDocument.evidence, itemContext))
-      .concat(deriveRequirementItems(requirementsDocument.requirements, itemContext))
       .concat(deriveControlItems(controlsDocument.controls))
       .concat(deriveTestingItems(testingDocument.tests, itemContext))
       .concat(deriveFindingItems(findingsDocument.findings, itemContext))
@@ -1255,7 +1228,6 @@
       deriveFindingItems: deriveFindingItems,
       deriveTestingItems: deriveTestingItems,
       deriveControlItems: deriveControlItems,
-      deriveRequirementItems: deriveRequirementItems,
       deriveEvidenceRequestItems: deriveEvidenceRequestItems,
       deriveEvidenceLibraryItems: deriveEvidenceLibraryItems,
       deriveDocumentationItems: deriveDocumentationItems,
