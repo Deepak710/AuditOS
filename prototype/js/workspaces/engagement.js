@@ -639,31 +639,6 @@
     };
   }
 
-  function deriveTeam(pocs, teams, companyId) {
-    var teamsById = {};
-    asArray(teams).forEach(function (team) {
-      teamsById[team.id] = team;
-    });
-    return asArray(pocs)
-      .filter(function (poc) { return poc.companyId === companyId; })
-      .slice(0, LIST_LIMIT)
-      .map(function (poc) {
-        var team = teamsById[poc.teamId];
-        var responsibilities = team ? team.name : (poc.teamId || asArray(poc.teamNames).join(', '));
-        if (team && asArray(team.responsibleControlFamilies).length > 0) {
-          responsibilities += ' · ' + team.responsibleControlFamilies.join(', ');
-        }
-        return {
-          name: poc.name,
-          role: poc.role,
-          designation: poc.designation,
-          responsibilities: responsibilities,
-          status: poc.status,
-          contact: poc.preferredCommunication
-        };
-      });
-  }
-
   /**
    * Related objects (§12.13 relationship navigation): the engagement's
    * operational domains as a count-annotated list, each linking to its
@@ -782,7 +757,7 @@
    * null while the state is not ready, and a degraded model when no engagement
    * exists (§15.12).
    */
-  function collectViewModel(state, workspaceRegistry, targetId) {
+  function collectViewModel(state, workspaceRegistry, targetId, routeContext) {
     if (!state || !state.isReady()) {
       return null;
     }
@@ -790,7 +765,13 @@
     var status = state.getStatus();
     var engagementsDocument = state.getDocument('engagements') || {};
     var engagements = state.listRecords('engagements');
-    var engagement = deriveCurrentEngagement(engagements, targetId);
+    // Engagement-scoped resolution (Issue #38 Part 2): a hierarchical route
+    // names the engagement in context — resolve that exact record and never
+    // fall back to the global first-in-progress default. A flat `?id=` deep
+    // link still resolves through the shared targetId contract (Issue #31).
+    var engagement = (routeContext && routeContext.engagement)
+      ? WS.resolveContextEngagement(engagements, routeContext)
+      : deriveCurrentEngagement(engagements, targetId);
     if (!engagement) {
       return { degraded: true, status: status };
     }
@@ -798,7 +779,6 @@
     var companies = state.listRecords('companies');
     var company = findById(companies, engagement.companyId);
     var pocs = state.listRecords('pocs');
-    var teams = state.listRecords('teams');
     var users = state.listRecords('users');
 
     var controlsDocument = readEngagementDocument(state, 'controls', engagement.id) || {};
@@ -841,6 +821,20 @@
         '/' + walkthroughWorkspace.path + '/' + encodeURIComponent(teamId);
     }
 
+    // Engagement-scoped navigation (Issue #38 Part 4): links into another
+    // workspace preserve the client/engagement hierarchy so the route never
+    // drops to a generic `#/{path}` that would lose the engagement context.
+    // Degrades to the flat route only where the Repository is not loaded
+    // (offline unit sandboxes), never fabricating a hierarchy it cannot build.
+    function engagementHref(workspaceId) {
+      var hierarchical = WS.buildHierarchicalHref(repositoryForHref, workspaceRegistry, company, engagement, workspaceId);
+      if (hierarchical) {
+        return hierarchical;
+      }
+      var workspace = workspaceRegistry ? workspaceRegistry.findById(workspaceId) : null;
+      return workspace ? '#/' + workspace.path : '#/';
+    }
+
     var evidenceRecords = evidenceDocument.evidence || [];
     var requestRecords = requestsDocument.requests || [];
     var findingRecords = findingsDocument.findings || [];
@@ -867,7 +861,6 @@
 
     var frameworks = normalizeFrameworks(engagement);
     var focus = deriveOperationalFocus(engagement, operational);
-    var team = deriveTeam(pocs, teams, engagement.companyId);
     var timeline = deriveTimeline(engagement, findingRecords);
     var relationships = deriveRelationships(workspaceRegistry, operational);
     var declaredTeamIds = [engagement.engagementManager, engagement.engagementLead]
@@ -898,8 +891,8 @@
           ? 'Updated ' + formatDate(String(engagementsDocument.metadata.generatedAt).slice(0, 10))
           : '',
         actions: [
-          { label: 'Engagement report', href: '#/reporting', variant: 'subtle' },
-          { label: 'View controls', href: '#/controls', variant: 'subtle' }
+          { label: 'Engagement report', href: engagementHref(workspaceRegistry.IDS.REPORTING), variant: 'subtle' },
+          { label: 'View controls', href: engagementHref(workspaceRegistry.IDS.CONTROLS), variant: 'subtle' }
         ]
       },
 
@@ -950,8 +943,7 @@
         ]
       },
 
-      team: team,
-      inspector: buildInspectorEntities(engagement, company, frameworks, team, timeline, relationships, operational),
+      inspector: buildInspectorEntities(engagement, company, frameworks, timeline, relationships, operational),
       metadata: deriveMetadata(engagement, company, engagementsDocument.metadata),
       relationships: relationships,
       activity: deriveActivity(activityRecords, reportDocument, actorNames),
@@ -968,7 +960,7 @@
    * attached framework. Selecting an entity opens its Inspector Panel
    * configuration. Pure.
    */
-  function buildInspectorEntities(engagement, company, frameworks, team, timeline, relationships, operational) {
+  function buildInspectorEntities(engagement, company, frameworks, timeline, relationships, operational) {
     var ops = operational || {};
     var entities = [];
 
@@ -1004,12 +996,6 @@
           {
             title: 'Frameworks', kind: 'list',
             items: frameworks.map(function (framework) { return { title: framework, tone: TONES.INFO }; })
-          },
-          {
-            title: 'Team', kind: 'list',
-            items: asArray(team).slice(0, 5).map(function (member) {
-              return { title: member.name, description: member.role, tone: TONES.INFO };
-            })
           },
           { title: 'Timeline', kind: 'timeline', events: asArray(timeline) },
           {
@@ -1236,25 +1222,6 @@
     return surface;
   }
 
-  /** Builds the Team body: one Entity Card per participating member. */
-  function buildTeamBody(team) {
-    var P = presentation();
-    var grid = el('div', 'aos-engagement__team');
-    asArray(team).forEach(function (member) {
-      grid.appendChild(P.entityCard({
-        title: member.name,
-        subtitle: member.designation,
-        badge: { label: member.role, tone: TONES.INFO },
-        facts: [
-          { term: 'Responsibilities', detail: member.responsibilities },
-          { term: 'Status', detail: member.status },
-          { term: 'Contact', detail: member.contact }
-        ]
-      }));
-    });
-    return grid;
-  }
-
   /**
    * Builds a list body of Walkthrough Team links (Active Walkthroughs,
    * Upcoming Walkthroughs, Team Status — Issue #36 §1). `item.path`, when
@@ -1451,14 +1418,8 @@
         present: true, body: function () { return buildSummaryBody(viewModel.summary); }
       },
       {
-        id: 'team', kicker: 'People', title: 'Team',
-        present: viewModel.team.length > 0,
-        body: function () { return buildTeamBody(viewModel.team); },
-        empty: { icon: '◇', title: 'No members yet', description: 'Participating engagement members appear here once contacts exist.' }
-      },
-      {
         id: 'inspector', kicker: 'Detail', title: 'Engagement inspector',
-        description: 'Select the engagement or a framework to inspect its properties, team, frameworks, timeline, and relationships.',
+        description: 'Select the engagement or a framework to inspect its properties, frameworks, timeline, and relationships.',
         present: viewModel.inspector.length > 0,
         body: function () { return renderInspector(viewModel.inspector); },
         empty: { icon: '◇', title: 'Nothing to inspect', description: 'Engagement details appear here once the engagement has data.' }
@@ -1568,7 +1529,8 @@
     }
 
     var targetId = router.getCurrentRecordId ? router.getCurrentRecordId() : '';
-    var viewModel = state ? collectViewModel(state, registry, targetId) : null;
+    var routeContext = router.getCurrentContext ? router.getCurrentContext() : null;
+    var viewModel = state ? collectViewModel(state, registry, targetId, routeContext) : null;
     if (!viewModel) {
       renderLoading(view);
       return;
@@ -1595,7 +1557,6 @@
       deriveNextActions: deriveNextActions,
       deriveBlockingItems: deriveBlockingItems,
       deriveLifecycle: deriveLifecycle,
-      deriveTeam: deriveTeam,
       deriveRelationships: deriveRelationships,
       deriveActivity: deriveActivity,
       deriveMetadata: deriveMetadata,

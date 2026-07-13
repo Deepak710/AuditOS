@@ -117,7 +117,7 @@ module.exports = function registerIntegrationTests(harness) {
     });
 
     assert.ok(Array.isArray(viewModel.blocking), 'blocking items are derived (possibly empty)');
-    assert.ok(Array.from(viewModel.team).length > 0, 'participating members derive from the point-of-contact records');
+    assert.equal(viewModel.team, undefined, 'no client Team roster is derived — Walkthrough owns Teams and POCs (Issue #38 Part 3)');
     assert.ok(Array.from(viewModel.relationships).length > 0, 'related objects derive from the operational domains');
     assert.ok(Array.from(viewModel.activity).length > 0, 'recent activity derives from state records');
   });

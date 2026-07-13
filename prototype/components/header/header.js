@@ -121,12 +121,23 @@
   // ------------------------------------------------------------------
 
   /**
-   * The current engagement: the first in-progress engagement in record order,
-   * falling back to the first engagement, or null when none exist (the same
-   * rule the Home workspace applies).
+   * The current engagement: the engagement named by the active route context
+   * (Issue #38 Part 2 — the header always describes the engagement in scope,
+   * never a global default when a hierarchical route names one). When the
+   * route carries no engagement (flat routes, the platform dashboard), it
+   * falls back to the first in-progress engagement in record order, then the
+   * first engagement, or null when none exist — the same rule the Home
+   * workspace applies.
    */
-  function currentEngagement(state) {
+  function currentEngagement(state, routeContext) {
     var engagements = state.listRecords('engagements');
+    if (routeContext && routeContext.engagement) {
+      for (var routed = 0; routed < engagements.length; routed += 1) {
+        if (engagements[routed].id === routeContext.engagement.id) {
+          return engagements[routed];
+        }
+      }
+    }
     for (var index = 0; index < engagements.length; index += 1) {
       if (engagements[index].status === ENGAGEMENT_STATUS.IN_PROGRESS) {
         return engagements[index];
@@ -680,7 +691,7 @@
           permissionService.can(AUDIT_VIEW_CAPABILITY)) {
         actionChildren.push(buildActivityIndicator());
       }
-      var engagement = currentEngagement(state);
+      var engagement = currentEngagement(state, routeContext);
       if (engagement) {
         actionChildren.push(buildNotifications(deriveAttentionCount(state, engagement)));
         profileChildren.push(buildUserControl(engagement));

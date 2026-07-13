@@ -7,15 +7,16 @@
  * Renders the Repository-driven hierarchical breadcrumb into the global
  * header's breadcrumb region:
  *
- *   Home → Client → Engagement → Workspace
+ *   Client → Engagement → Workspace → Team → POC
  *
- * Every crumb is interactive. The client crumb opens a menu of the clients
- * the session may access, the engagement crumb a menu of that client's
- * accessible engagements, and the workspace crumb the workspace switcher —
- * all resolved live from the Repository Foundation and the Workspace
- * Registry, never fabricated. Opening a menu never navigates; only selecting
- * a destination does. The trail always mirrors the URL: flat routes render
- * Home and the workspace crumb; hierarchical routes add the client and
+ * The AuditOS logo is the breadcrumb root (GitHub Issue #38 Part 1): a Home
+ * crumb is never rendered. Every crumb is interactive. The client crumb opens
+ * a menu of the clients the session may access, the engagement crumb a menu of
+ * that client's accessible engagements, and the workspace crumb the workspace
+ * switcher — all resolved live from the Repository Foundation and the
+ * Workspace Registry, never fabricated. Opening a menu never navigates; only
+ * selecting a destination does. The trail always mirrors the URL: flat routes
+ * render the workspace crumb; hierarchical routes add the client and
  * engagement crumbs the route carries.
  *
  * The router remains the single source of truth: destinations are derived
@@ -330,25 +331,16 @@
       .filter(Boolean);
   }
 
-  /** Builds the Home crumb — a plain link to the AuditOS Home workspace. */
-  function buildHomeCrumb() {
-    var item = el('li', 'aos-breadcrumb__item');
-    var home = registry.findById(registry.DEFAULT_WORKSPACE_ID);
-    var link = el('a', 'aos-breadcrumb__crumb aos-breadcrumb__crumb--home');
-    link.setAttribute('href', ROUTE_HASH_PREFIX + home.path);
-    link.setAttribute('aria-label', 'Home — ' + home.label);
-    link.appendChild(el('span', 'aos-breadcrumb__crumb-label', 'Home'));
-    item.appendChild(link);
-    return item;
-  }
-
   /**
-   * Renders the complete breadcrumb trail for the current route: Home, then
-   * the client crumb (accessible clients), then — within a client — the
-   * engagement crumb (that client's accessible engagements), then the
-   * workspace crumb (the visible workspace switcher). Rebuilt whole on every
+   * Renders the complete breadcrumb trail for the current route (GitHub Issue
+   * #38 Part 1): the AuditOS logo is the breadcrumb root, so no Home crumb is
+   * ever rendered. The trail begins with the client crumb (accessible
+   * clients), then — within a client — the engagement crumb (that client's
+   * accessible engagements), then the workspace crumb (the visible workspace
+   * switcher), then any Walkthrough Team / POC crumbs. Rebuilt whole on every
    * route, state, or session change so the trail always mirrors the URL and
-   * the data.
+   * the data. The first crumb's leading separator is hidden by the stylesheet
+   * (`.aos-breadcrumb__item:first-child .aos-breadcrumb__separator`).
    */
   function renderTrail() {
     var trail = el('ol', 'aos-breadcrumb');
@@ -356,8 +348,6 @@
     // marker is removed (Navigation Components §76.18 — Accessibility).
     trail.setAttribute('role', 'list');
     openCrumb = null;
-
-    trail.appendChild(buildHomeCrumb());
 
     var context = router.getCurrentContext ? router.getCurrentContext() : null;
     var repositoryService = repository();

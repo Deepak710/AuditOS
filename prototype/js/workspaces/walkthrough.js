@@ -512,7 +512,12 @@
     return counts;
   }
 
-  /** Formats a `{ timezone }`-bearing entity's current local time, or '' when the timezone is absent/invalid. */
+  /**
+   * Formats a `{ timezone }`-bearing entity's current local time with its
+   * timezone abbreviation (Issue #38 Part 6 — e.g. "…08:10 PM EDT",
+   * "…05:40 AM GMT+5:30"), or '' when the timezone is absent/invalid. The
+   * abbreviation lets the auditor and POC clocks be told apart at a glance.
+   */
   function currentTimeInZone(timezone, now) {
     if (!timezone) {
       return '';
@@ -520,7 +525,7 @@
     try {
       return new Intl.DateTimeFormat('en-US', {
         timeZone: timezone, weekday: 'short', month: 'short', day: 'numeric',
-        hour: '2-digit', minute: '2-digit', hour12: true
+        hour: '2-digit', minute: '2-digit', hour12: true, timeZoneName: 'short'
       }).format(now || new Date());
     } catch (error) {
       return '';
@@ -1343,19 +1348,25 @@
       { label: 'Escalation status', value: team.escalationStatus }
     ], { columns: 3 }));
 
+    // Auditor / POC local time (Issue #38 Part 6): the two clocks are swapped
+    // from their prior order — the Auditor clock leads with the auditing
+    // team's own timezone and the POC clock with the client contact's — each
+    // now carrying its timezone abbreviation (via currentTimeInZone). The
+    // view-model fields keep their zone-of-origin names; only the display
+    // pairing is swapped here.
     var clocks = el('div', 'aos-walkthrough__timezones');
     clocks.setAttribute('role', 'group');
     clocks.setAttribute('aria-label', 'Auditor and POC local time');
     var auditorClock = el('div', 'aos-walkthrough__timezone');
     auditorClock.appendChild(el('span', 'aos-walkthrough__timezone-label', 'Auditor local time'));
-    auditorClock.appendChild(el('span', 'aos-walkthrough__timezone-value', team.auditorLocalTime || 'Not recorded'));
+    auditorClock.appendChild(el('span', 'aos-walkthrough__timezone-value', team.teamLocalTime || 'Not recorded'));
     clocks.appendChild(auditorClock);
     var arrow = el('span', 'aos-walkthrough__timezone-arrow', '↓');
     arrow.setAttribute('aria-hidden', 'true');
     clocks.appendChild(arrow);
     var pocClock = el('div', 'aos-walkthrough__timezone');
     pocClock.appendChild(el('span', 'aos-walkthrough__timezone-label', 'POC local time'));
-    pocClock.appendChild(el('span', 'aos-walkthrough__timezone-value', team.teamLocalTime || 'Not recorded'));
+    pocClock.appendChild(el('span', 'aos-walkthrough__timezone-value', team.auditorLocalTime || 'Not recorded'));
     clocks.appendChild(pocClock);
     surface.appendChild(clocks);
 

@@ -1,18 +1,19 @@
 /**
  * AuditOS Evidence Workspace
  * Workspaces and Navigation — Chapter 12 / Workspace Design System — Chapter 15 /
- * Layout Components — Chapter 75
+ * Layout Components — Chapter 75 / Engagement Evidence Workspace — GitHub Issue #38
  *
- * The workspace-layer stylesheet of the Evidence Workspace (GitHub Issue #21).
- * It owns only the evidence-specific layout — the section stack, the Evidence
- * Health strip, the shared master rail and its rows, the library status filter,
- * the audit lineage chain, and the footer — plus their responsive behavior.
- * Every visible surface inside those regions is a Shared Enterprise Component
- * Library component (css/components.css) produced by the Enterprise Data
- * Presentation System, so this stylesheet never redefines component chrome.
- * Consumes only the Design Token Foundation (variables.css); introduces no new
- * visual values. Entrance motion comes from the shared design language
- * (design-language.css).
+ * The workspace-layer stylesheet of the engagement Evidence Workspace. It owns
+ * only the evidence-specific layout — the fixed-height board, the KPI band and
+ * operational charts, the composing filter toolbar, the dense enterprise table
+ * that owns its own scrolling, the inline status control, the control-mapping
+ * pills, the row action icons, the drawer status workflow, and the footer —
+ * plus their responsive behavior. Every visible surface inside those regions is
+ * a Shared Enterprise Component Library component (css/components.css) produced
+ * by the Enterprise Data Presentation System, so this stylesheet never
+ * redefines component chrome. Consumes only the Design Token Foundation
+ * (variables.css); introduces no new visual values. Entrance motion comes from
+ * the shared design language (design-language.css).
  *
  * Every selector in this file is scoped under the `.aos-evidence` prefix so the
  * workspace layer can never leak into the shell, components, or other
@@ -22,53 +23,178 @@
 @import 'variables.css';
 
 /* ========================================
- * SECTION STACK
- * The evidence workspace reads top-to-bottom as the operational sequence:
- * health, the outstanding queue, the library and its inspector, reuse, the
- * audit lineage, then the collection metadata.
+ * BOARD — FIXED-HEIGHT PAGE, SCROLLING TABLE
+ * The evidence workspace is one board: a header band of KPIs and charts, a
+ * composing filter toolbar, then the dense table. The page stays fixed-height
+ * and the table owns the scrolling (Issue #38 Part 7).
  * ======================================== */
 
 .aos-evidence {
   display: flex;
   flex-direction: column;
-  gap: var(--aos-space-8);
   min-width: 0;
 }
 
-.aos-evidence__section {
+.aos-evidence__board {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
   min-width: 0;
+}
+
+.aos-evidence__header-band {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
 }
 
 /* ========================================
- * EVIDENCE HEALTH STRIP
- * A slim, segmented status bar (editor status-bar style, not cards) — six
- * evidence-scoped indicators, each a tone dot + label + short status. The
- * status text carries the meaning; the dot only reinforces the tone.
+ * KPI STRIP
+ * One stat tile per KPI; each tile is a toggle filter (Issue #38 Part 8). The
+ * value always reads as text; tone and the active state only reinforce it.
  * ======================================== */
 
-.aos-evidence__health {
+.aos-evidence__kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+  gap: var(--aos-space-3);
+}
+
+.aos-evidence__kpi {
   display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  padding: var(--aos-space-1) var(--aos-space-2);
-  background-color: var(--aos-surface-workspace);
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  padding: var(--aos-space-3) var(--aos-space-4);
+  text-align: start;
+  background-color: var(--aos-surface-panel);
   border: 1px solid var(--aos-surface-border);
   border-radius: var(--aos-radius-md);
-  font-size: var(--aos-text-xs);
+  cursor: pointer;
+  transition: border-color var(--aos-transition-fast), box-shadow var(--aos-transition-fast),
+    background-color var(--aos-transition-fast);
 }
 
-.aos-evidence__health-item {
-  display: inline-flex;
+.aos-evidence__kpi:hover {
+  border-color: var(--aos-surface-border-strong);
+}
+
+.aos-evidence__kpi:focus-visible {
+  outline: none;
+  box-shadow: var(--aos-focus-ring);
+}
+
+.aos-evidence__kpi--active {
+  background-color: var(--aos-surface-active);
+  border-color: var(--aos-color-primary-600);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-evidence__kpi-value {
+  font-size: var(--aos-text-xl);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-evidence__kpi-label {
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-secondary);
+}
+
+.aos-evidence__kpi--success { border-left: 3px solid var(--aos-color-success-700); }
+.aos-evidence__kpi--warning { border-left: 3px solid var(--aos-color-warning-700); }
+.aos-evidence__kpi--error { border-left: 3px solid var(--aos-color-error-700); }
+.aos-evidence__kpi--info { border-left: 3px solid var(--aos-color-primary-500); }
+
+/* ========================================
+ * OPERATIONAL CHARTS
+ * A segmented proportion bar plus a legend of toggle buttons — the review-status
+ * and evidence-type distributions. Every segment and legend row is a filter
+ * (Issue #38 Parts 8 / 10).
+ * ======================================== */
+
+.aos-evidence__charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: var(--aos-space-4);
+}
+
+.aos-evidence__chart {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-3) var(--aos-space-4);
+  background-color: var(--aos-surface-panel);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  min-width: 0;
+}
+
+.aos-evidence__chart-title {
+  margin: 0;
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-evidence__chart-bar {
+  display: flex;
+  height: 0.75rem;
+  overflow: hidden;
+  border-radius: var(--aos-radius-full);
+  background-color: var(--aos-surface-workspace);
+}
+
+.aos-evidence__chart-segment {
+  height: 100%;
+  min-width: 2px;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  background-color: var(--aos-text-tertiary);
+  transition: opacity var(--aos-transition-fast);
+}
+
+.aos-evidence__chart-segment:hover { opacity: 0.85; }
+.aos-evidence__chart-segment--active { outline: 2px solid var(--aos-color-primary-600); outline-offset: -2px; }
+.aos-evidence__chart-segment--info { background-color: var(--aos-color-info-600); }
+.aos-evidence__chart-segment--success { background-color: var(--aos-color-success-700); }
+.aos-evidence__chart-segment--warning { background-color: var(--aos-color-warning-700); }
+.aos-evidence__chart-segment--error { background-color: var(--aos-color-error-700); }
+
+.aos-evidence__chart-legend {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.aos-evidence__chart-legend-button {
+  display: flex;
   align-items: center;
   gap: var(--aos-space-2);
-  padding: var(--aos-space-1) var(--aos-space-3);
+  width: 100%;
+  padding: var(--aos-space-1) var(--aos-space-2);
+  text-align: start;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--aos-radius-sm);
+  cursor: pointer;
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-secondary);
+  transition: background-color var(--aos-transition-fast), border-color var(--aos-transition-fast);
 }
 
-.aos-evidence__health-item + .aos-evidence__health-item {
-  border-left: 1px solid var(--aos-surface-border);
+.aos-evidence__chart-legend-button:hover { background-color: var(--aos-surface-hover); }
+.aos-evidence__chart-legend-button--active {
+  border-color: var(--aos-color-primary-600);
+  background-color: var(--aos-surface-active);
 }
 
-.aos-evidence__health-dot {
+.aos-evidence__chart-dot {
   width: 0.5rem;
   height: 0.5rem;
   flex-shrink: 0;
@@ -76,200 +202,279 @@
   background-color: var(--aos-text-tertiary);
 }
 
-.aos-evidence__health-dot--info { background-color: var(--aos-color-info-600); }
-.aos-evidence__health-dot--success { background-color: var(--aos-color-success-700); }
-.aos-evidence__health-dot--warning { background-color: var(--aos-color-warning-700); }
-.aos-evidence__health-dot--error { background-color: var(--aos-color-error-700); }
+.aos-evidence__chart-dot--info { background-color: var(--aos-color-info-600); }
+.aos-evidence__chart-dot--success { background-color: var(--aos-color-success-700); }
+.aos-evidence__chart-dot--warning { background-color: var(--aos-color-warning-700); }
+.aos-evidence__chart-dot--error { background-color: var(--aos-color-error-700); }
 
-.aos-evidence__health-label {
-  font-weight: var(--aos-font-semibold);
-  color: var(--aos-text-primary);
-}
-
-.aos-evidence__health-status {
-  color: var(--aos-text-secondary);
-  white-space: nowrap;
-}
-
-/* ========================================
- * MASTER RAIL + ROWS
- * The Master–Detail component owns the two-column layout; this stylesheet owns
- * only the master rail's rows, shared by the Outstanding queue and the Evidence
- * Library. Selecting a row swaps the Inspector Panel detail beside it.
- * ======================================== */
-
-.aos-evidence__row-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--aos-space-2);
+.aos-evidence__chart-legend-label {
+  flex: 1 1 auto;
   min-width: 0;
-}
-
-.aos-evidence__row {
-  display: flex;
-  flex-direction: column;
-  gap: var(--aos-space-1);
-  width: 100%;
-  padding: var(--aos-space-3);
-  text-align: start;
-  background-color: var(--aos-surface-card);
-  border: 1px solid var(--aos-surface-border);
-  border-radius: var(--aos-radius-md);
-  cursor: pointer;
-  transition: background-color var(--aos-transition-fast), border-color var(--aos-transition-fast),
-    opacity var(--aos-transition-fast);
-}
-
-.aos-evidence__row:hover {
-  background-color: var(--aos-surface-hover);
-  border-color: var(--aos-surface-border-strong);
-}
-
-.aos-evidence__row--selected {
-  background-color: var(--aos-surface-active);
-  border-color: var(--aos-surface-border-strong);
-  box-shadow: var(--aos-shadow-sm);
-}
-
-.aos-evidence__row--dimmed {
-  opacity: 0.4;
-}
-
-.aos-evidence__row-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--aos-space-2);
-}
-
-.aos-evidence__row-title {
-  font-size: var(--aos-text-sm);
-  font-weight: var(--aos-font-semibold);
-  line-height: var(--aos-leading-snug);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   color: var(--aos-text-primary);
 }
 
-.aos-evidence__row-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--aos-space-1) var(--aos-space-3);
-  font-size: var(--aos-text-xs);
+.aos-evidence__chart-legend-value {
+  flex-shrink: 0;
   color: var(--aos-text-tertiary);
 }
 
-.aos-evidence__row-flag {
-  font-weight: var(--aos-font-semibold);
-  color: var(--aos-color-info-600);
-}
-
-.aos-evidence__detail-mount {
-  min-width: 0;
-}
-
 /* ========================================
- * LIBRARY STATUS FILTER
- * A chip group above the library master rail. Choosing a status dims the rows
- * that do not match; presentation-only, memory-only.
+ * FILTER TOOLBAR
+ * Search plus the status / type / team dropdowns and a reset. Every control
+ * composes with the KPI and chart filters (Issue #38 Part 10).
  * ======================================== */
 
-.aos-evidence__library {
+.aos-evidence__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--aos-space-3);
+}
+
+.aos-evidence__search {
   display: flex;
   flex-direction: column;
-  gap: var(--aos-space-3);
+  gap: var(--aos-space-1);
+  flex: 1 1 16rem;
   min-width: 0;
+}
+
+.aos-evidence__search-input {
+  padding: var(--aos-space-2) var(--aos-space-3);
+  font: inherit;
+  color: var(--aos-text-primary);
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+}
+
+.aos-evidence__search-input:focus-visible {
+  outline: none;
+  border-color: var(--aos-color-primary-600);
+  box-shadow: var(--aos-focus-ring);
 }
 
 .aos-evidence__filter {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--aos-space-2);
+  flex-direction: column;
+  gap: var(--aos-space-1);
 }
 
-.aos-evidence__filter-chip {
-  padding: var(--aos-space-1) var(--aos-space-3);
+.aos-evidence__filter-label {
   font-size: var(--aos-text-xs);
-  font-weight: var(--aos-font-medium);
+  font-weight: var(--aos-font-semibold);
   color: var(--aos-text-secondary);
-  background-color: var(--aos-surface-card);
-  border: 1px solid var(--aos-surface-border);
-  border-radius: var(--aos-radius-full);
-  cursor: pointer;
-  transition: background-color var(--aos-transition-fast), border-color var(--aos-transition-fast),
-    color var(--aos-transition-fast);
-}
-
-.aos-evidence__filter-chip:hover {
-  border-color: var(--aos-surface-border-strong);
-}
-
-.aos-evidence__filter-chip--active {
-  color: var(--aos-text-inverse);
-  background-color: var(--aos-color-primary-600);
-  border-color: var(--aos-color-primary-600);
 }
 
 /* ========================================
- * AUDIT LINEAGE
- * The methodology chain rendered as connected nodes, Evidence highlighted. The
- * chain reads left-to-right on wide canvases and stacks on narrow ones.
+ * DENSE TABLE — THE TABLE OWNS SCROLLING
+ * The grid mount scrolls internally while the KPI band, charts, and toolbar
+ * stay fixed above it; the header row stays visible while scrolling.
  * ======================================== */
 
-.aos-evidence__lineage {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  gap: var(--aos-space-2);
-}
-
-.aos-evidence__lineage-node {
-  display: flex;
-  flex: 1 1 8rem;
-  flex-direction: column;
-  gap: var(--aos-space-1);
-  min-width: 7rem;
-  padding: var(--aos-space-3);
-  text-decoration: none;
-  background-color: var(--aos-surface-card);
+.aos-evidence__grid-mount {
+  min-width: 0;
+  max-height: clamp(24rem, 58vh, 60rem);
+  overflow: auto;
   border: 1px solid var(--aos-surface-border);
   border-radius: var(--aos-radius-md);
-  transition: border-color var(--aos-transition-fast), box-shadow var(--aos-transition-fast);
 }
 
-a.aos-evidence__lineage-node:hover {
-  border-color: var(--aos-surface-border-strong);
-  box-shadow: var(--aos-shadow-sm);
+.aos-evidence__grid-mount .aos-data-grid__table thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: var(--aos-surface-panel);
 }
 
-.aos-evidence__lineage-node--highlighted {
-  background-color: var(--aos-surface-active);
-  border-color: var(--aos-color-primary-600);
-  box-shadow: var(--aos-shadow-sm);
+.aos-evidence__table-title {
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  text-align: left;
+  color: var(--aos-text-link);
+  cursor: pointer;
 }
 
-.aos-evidence__lineage-node--empty {
-  opacity: 0.6;
+.aos-evidence__table-title:hover {
+  color: var(--aos-text-link-hover);
+  text-decoration: underline;
 }
 
-.aos-evidence__lineage-label {
-  font-size: var(--aos-text-sm);
-  font-weight: var(--aos-font-semibold);
-  color: var(--aos-text-primary);
+.aos-evidence__table-title:focus-visible {
+  outline: none;
+  box-shadow: var(--aos-focus-ring);
+  border-radius: var(--aos-radius-sm);
 }
 
-.aos-evidence__lineage-count {
-  font-size: var(--aos-text-lg);
-  font-weight: var(--aos-font-bold);
-  color: var(--aos-text-primary);
+/* ========================================
+ * INLINE STATUS CONTROL (Issue #38 Part 11)
+ * A dropdown of the real status vocabulary; a change proposes a Suggestion
+ * rather than writing the record. A pending proposal shows a clock affordance.
+ * ======================================== */
+
+.aos-evidence__status-cell {
+  display: flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+  min-width: 0;
 }
 
-.aos-evidence__lineage-hint {
+.aos-evidence__status-select {
+  max-width: 12rem;
+  border-left-width: 3px;
+  border-left-style: solid;
+  border-left-color: var(--aos-surface-border-strong);
+}
+
+.aos-evidence__status-select--success { border-left-color: var(--aos-color-success-700); }
+.aos-evidence__status-select--warning { border-left-color: var(--aos-color-warning-700); }
+.aos-evidence__status-select--error { border-left-color: var(--aos-color-error-700); }
+.aos-evidence__status-select--info { border-left-color: var(--aos-color-primary-500); }
+
+.aos-evidence__status-pending {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--aos-space-1);
+  color: var(--aos-color-warning-700);
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--aos-radius-sm);
+}
+
+.aos-evidence__status-pending:hover { background-color: var(--aos-surface-hover); }
+.aos-evidence__status-pending:focus-visible { outline: none; box-shadow: var(--aos-focus-ring); }
+
+/* ========================================
+ * CONTROL MAPPING PILLS (Issue #38 Part 15)
+ * One pill per mapped control; clicking navigates to that control. Reused
+ * (cross-engagement) mappings are visually distinguished from current ones.
+ * ======================================== */
+
+.aos-evidence__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-1);
+  min-width: 0;
+}
+
+.aos-evidence__pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--aos-space-2);
   font-size: var(--aos-text-xs);
-  line-height: var(--aos-leading-snug);
+  font-weight: var(--aos-font-medium);
+  line-height: 1.65;
+  text-decoration: none;
+  color: var(--aos-text-link);
+  background-color: var(--aos-surface-workspace);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-full);
+  transition: border-color var(--aos-transition-fast), background-color var(--aos-transition-fast);
+}
+
+a.aos-evidence__pill:hover {
+  border-color: var(--aos-color-primary-600);
+  background-color: var(--aos-surface-hover);
+}
+
+.aos-evidence__pill--reused {
+  color: var(--aos-color-info-600);
+  border-style: dashed;
+}
+
+.aos-evidence__pills-empty {
   color: var(--aos-text-tertiary);
 }
 
-.aos-evidence__lineage-connector {
-  align-self: center;
+/* ========================================
+ * ROW ACTIONS (Issue #38 Part 12)
+ * Minimal professional iconography — an Eye that opens the drawer and a History
+ * icon that opens the Status History.
+ * ======================================== */
+
+.aos-evidence__actions {
+  display: inline-flex;
+  gap: var(--aos-space-1);
+}
+
+.aos-evidence__icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  color: var(--aos-text-secondary);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--aos-radius-sm);
+  cursor: pointer;
+  transition: color var(--aos-transition-fast), background-color var(--aos-transition-fast),
+    border-color var(--aos-transition-fast);
+}
+
+.aos-evidence__icon-button:hover {
+  color: var(--aos-text-primary);
+  background-color: var(--aos-surface-hover);
+  border-color: var(--aos-surface-border);
+}
+
+.aos-evidence__icon-button:focus-visible {
+  outline: none;
+  box-shadow: var(--aos-focus-ring);
+}
+
+/* ========================================
+ * DRAWER STATUS WORKFLOW (Issue #38 Part 11)
+ * Rendered inside the shared drawer beneath the inspector sections: the propose
+ * control, pending proposals with their lifecycle actions, and recent history.
+ * ======================================== */
+
+.aos-evidence__workflow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-3);
+}
+
+.aos-evidence__workflow-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--aos-space-2);
+}
+
+.aos-evidence__workflow-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+}
+
+.aos-evidence__workflow-card-title {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+  overflow-wrap: anywhere;
+}
+
+.aos-evidence__workflow-card-meta {
+  margin: var(--aos-space-1) 0 0;
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-secondary);
+}
+
+.aos-evidence__workflow-subtitle {
+  margin: var(--aos-space-2) 0 0;
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--aos-text-tertiary);
 }
 
@@ -303,27 +508,24 @@ a.aos-evidence__lineage-node:hover {
 
 /* ========================================
  * RESPONSIVE ARCHITECTURE
- * The rows and lineage are fluid by construction. The shell breakpoints tighten
- * the rhythm on tablets and settle the lineage into a single column on mobile.
+ * The KPI grid and charts are fluid by construction. The shell breakpoints
+ * tighten the rhythm on tablets and let the table scroll on smaller screens.
  * ======================================== */
 
 @media (max-width: 1024px) {
-  .aos-evidence {
-    gap: var(--aos-space-6);
+  .aos-evidence__board {
+    gap: var(--aos-space-3);
   }
 }
 
 @media (max-width: 640px) {
-  .aos-evidence {
-    gap: var(--aos-space-5);
-  }
-
-  .aos-evidence__lineage {
+  .aos-evidence__toolbar {
     flex-direction: column;
+    align-items: stretch;
   }
 
-  .aos-evidence__lineage-connector {
-    transform: rotate(90deg);
+  .aos-evidence__grid-mount {
+    max-height: none;
   }
 
   .aos-evidence-footer__item {

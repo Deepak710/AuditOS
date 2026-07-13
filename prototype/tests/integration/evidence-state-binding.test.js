@@ -11,11 +11,12 @@
  *
  * The demo bundle carries real evidence, requests, requirements, controls,
  * testing, findings, and report data for the current engagement, so this suite
- * asserts the full Release 1 promise against live data: a ready, non-degraded
- * view model whose health, outstanding queue, library, reuse, and lineage all
- * read real values; a host-agnostic inspector that renders those records into
- * presentation components without throwing (the render validation); and the
- * source contracts that keep the workspace presentation-only and offline.
+ * asserts the full promise against live data: a ready, non-degraded view model
+ * whose engagement-scoped rows, KPIs, and charts read real values; a
+ * host-agnostic enterprise table that renders those records into presentation
+ * components without throwing (the render validation); and the source contracts
+ * that keep the workspace engagement-scoped, offline, and writing only through
+ * the Suggestion Lifecycle (GitHub Issue #38).
  */
 
 const { SCRIPTS, readText, loadClassicScripts, loadEvidenceWorkspace } = require('../lib/prototype');
@@ -129,44 +130,42 @@ module.exports = function registerIntegrationTests(harness) {
       'the company is resolved from the current engagement, same rule as the other workspaces');
   });
 
-  test('the evidence library and health strip read real values from the current engagement', async function () {
+  test('the evidence table, KPIs, and charts read real engagement-scoped values', async function () {
     const AuditOS = bootEvidenceSandbox();
     await AuditOS.state.init();
     const viewModel = AuditOS.evidenceWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
 
-    assert.ok(Array.from(viewModel.library).length > 0, 'the current engagement holds real evidence');
-    const health = Array.from(viewModel.evidenceHealth);
-    assert.deepEqual(health.map(function (item) { return item.label; }), [
-      'Pending requests', 'Submitted', 'Approved', 'Rejected', 'Reusable evidence', 'Outstanding approvals'
-    ]);
-    viewModel.library.forEach(function (row) {
-      assert.ok(row.status, 'every library row carries a real review status');
+    assert.ok(Array.from(viewModel.rows).length > 0, 'the current engagement holds real evidence rows');
+    viewModel.rows.forEach(function (row) {
+      assert.ok(row.status, 'every evidence row carries a real review status');
+      assert.ok(row.id, 'every evidence row carries a real identifier');
+    });
+
+    const kpis = Array.from(AuditOS.evidenceWorkspace.derivations.deriveKpis(viewModel.rows));
+    assert.equal(kpis[0].label, 'Evidence', 'the KPI strip leads with the total');
+    assert.equal(kpis[0].value, String(viewModel.rows.length), 'the total KPI counts the real rows');
+
+    const statusChart = Array.from(AuditOS.evidenceWorkspace.derivations.deriveStatusChart(viewModel.rows));
+    assert.ok(statusChart.length > 0, 'the status chart distributes the real rows');
+    statusChart.forEach(function (segment) {
+      assert.equal(segment.filter.field, 'status', 'each status segment is a status filter facet');
     });
   });
 
-  test('the audit lineage highlights Evidence and carries only real, current counts', async function () {
+  test('every control mapping resolves within the current engagement, never fabricated', async function () {
     const AuditOS = bootEvidenceSandbox();
     await AuditOS.state.init();
     const viewModel = AuditOS.evidenceWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
 
-    const lineage = Array.from(viewModel.lineage);
-    const evidenceNode = lineage.filter(function (node) { return node.label === 'Evidence'; })[0];
-    assert.ok(evidenceNode, 'the lineage includes an Evidence node');
-    assert.equal(evidenceNode.highlighted, true, 'Evidence is highlighted as the object this workspace owns');
-    lineage.forEach(function (node) {
-      if (node.path) {
-        assert.ok(AuditOS.workspaceRegistry.findByPath(node.path), node.label + ' navigates to a registered workspace');
-      }
+    let mapped = 0;
+    viewModel.rows.forEach(function (row) {
+      Array.from(row.mappings).forEach(function (mapping) {
+        mapped += 1;
+        assert.ok(mapping.code, 'every mapping carries a real control code');
+        assert.equal(typeof mapping.sameEngagement, 'boolean', 'each mapping records whether it is same-engagement');
+      });
     });
-  });
-
-  test('reuse renders only what the JSON declares, deriving no relationships itself', async function () {
-    const AuditOS = bootEvidenceSandbox();
-    await AuditOS.state.init();
-    const viewModel = AuditOS.evidenceWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
-    Array.from(viewModel.reuse).forEach(function (item) {
-      assert.ok(item.decision, 'every reuse row carries a real decision read from the record');
-    });
+    assert.ok(mapped > 0, 'the engagement evidence maps to real controls through its requirements');
   });
 
   test('a degraded state yields a degraded model rather than throwing', function () {
@@ -184,9 +183,9 @@ module.exports = function registerIntegrationTests(harness) {
     });
   });
 
-  // ---- Render validation — the host-agnostic inspector renders real records.
+  // ---- Render validation — the host-agnostic enterprise table renders real records.
 
-  test('the host-agnostic inspector renders the real library into presentation components without throwing', async function () {
+  test('the host-agnostic renderer renders the real evidence into the enterprise table without throwing', async function () {
     const win = loadClassicScripts([
       SCRIPTS.demoDataBundle,
       SCRIPTS.demoDataRegistry,
@@ -202,32 +201,37 @@ module.exports = function registerIntegrationTests(harness) {
     win.document = createDocument();
 
     const viewModel = AuditOS.evidenceWorkspace.collectViewModel(AuditOS.state, AuditOS.workspaceRegistry);
-    const node = AuditOS.evidenceWorkspace.renderInspector(viewModel.library, viewModel.context);
+    const node = AuditOS.evidenceWorkspace.renderInspector(viewModel.rows, viewModel.context);
 
-    assert.ok(node, 'the inspector renders a node');
-    assert.ok(hasClass(node, 'aos-master-detail'), 'it composes the shared Master–Detail component');
-    assert.ok(countClass(node, 'aos-evidence__row') > 0, 'the master rail renders a row per evidence record');
-    assert.ok(hasClass(node, 'aos-inspector'), 'the detail pane renders the shared Inspector Panel');
-    assert.equal(countClass(node, 'aos-evidence__row--selected'), 1, 'the first row is selected by default');
+    assert.ok(node, 'the renderer returns a node');
+    assert.ok(hasClass(node, 'aos-evidence__board'), 'it renders the one engagement Evidence board');
+    assert.ok(hasClass(node, 'aos-data-grid'), 'the dense enterprise table composes the shared Data Grid');
+    assert.ok(hasClass(node, 'aos-evidence__kpis'), 'the header band renders the KPI strip');
+    assert.ok(hasClass(node, 'aos-evidence__chart'), 'the header band renders operational charts');
+    assert.ok(countClass(node, 'aos-evidence__table-title') > 0, 'the table renders a row per evidence record');
   });
 
-  test('the inspector renderer is host-agnostic and exposed for reuse', function () {
+  test('the enterprise-table renderer is host-agnostic and exposed for reuse', function () {
     const AuditOS = bootEvidenceSandbox();
     assert.equal(typeof AuditOS.evidenceWorkspace.renderInspector, 'function',
-      'the Inspector renderer is exposed so any host can mount it');
-    assert.match(evidenceJs, /function renderInspector\(library, context\)/, 'the renderer is data-in, node-out');
+      'the renderer is exposed so any host can mount it');
+    assert.match(evidenceJs, /function renderInspector\(rows, context\)/, 'the renderer is data-in, node-out');
   });
 
   // ---- Source contracts.
 
-  test('the Evidence workspace reads business data only through AuditOS.state', function () {
+  test('the Evidence workspace reads business data only through AuditOS.state and writes only through the Suggestion Lifecycle', function () {
     assert.match(evidenceJs, /AuditOS\.state/, 'the workspace consumes the Shared Audit State');
     assert.match(evidenceJs, /listRecords|getDocument|findDatasetsForEngagement/, 'the workspace uses the read API');
     assert.doesNotMatch(evidenceJs, /demoDataBundle/, 'the workspace never touches the demo-data bundle');
     assert.doesNotMatch(evidenceJs, /fetch\s*\(|XMLHttpRequest/, 'the workspace performs no network access');
     assert.doesNotMatch(evidenceJs, /demo-data\//, 'the workspace references no demo-data paths');
-    assert.doesNotMatch(evidenceJs, /createRecord|updateRecord|removeRecord/,
-      'the workspace renders presentation only; it performs no writes');
+    // Status editing is the only write, and it goes through the shared
+    // Suggestion Lifecycle (Issue #38 Part 11) — the record is written on
+    // Apply, never by the workspace calling the state write API directly.
+    assert.match(evidenceJs, /suggestionService/, 'status changes flow through the Suggestion Lifecycle service');
+    assert.doesNotMatch(evidenceJs, /state\.(createRecord|updateRecord|removeRecord)/,
+      'the workspace never writes the Shared Audit State directly');
   });
 
   test('the Evidence workspace carries no hardcoded business values', function () {

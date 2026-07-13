@@ -1429,7 +1429,14 @@
       return;
     }
 
-    var targetId = router.getCurrentRecordId ? router.getCurrentRecordId() : '';
+    // Client-scoped resolution (Issue #38 Part 2): a hierarchical route names
+    // the client in context — resolve that exact client and never fall back to
+    // the first company. A flat `#/clients?id=` deep link still resolves
+    // through the shared record-id contract (Issue #34).
+    var routeContext = router.getCurrentContext ? router.getCurrentContext() : null;
+    var targetId = (routeContext && routeContext.client)
+      ? routeContext.client.id
+      : (router.getCurrentRecordId ? router.getCurrentRecordId() : '');
     var viewModel = state ? collectViewModel(state, registry, targetId) : null;
     if (!viewModel) {
       renderLoading(view);

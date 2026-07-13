@@ -45,6 +45,12 @@
   user-select: none;
 }
 
+/* The AuditOS logo is the breadcrumb root (Issue #38 Part 1) — the first
+ * crumb owns no leading separator, since no Home crumb precedes it. */
+.aos-breadcrumb__item:first-child .aos-breadcrumb__separator {
+  display: none;
+}
+
 /* ========================================
  * WORKSPACE CRUMB — THE SWITCHER
  * The current workspace, presented as a crumb that opens the workspace menu

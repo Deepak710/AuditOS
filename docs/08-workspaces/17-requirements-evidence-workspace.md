@@ -269,7 +269,7 @@ Dense table displays all filtered requirements on one page (Release 1 limit: ~10
 
 ---
 
-### 68.11 Requirement Detail Drawer (Issue #37, Phase 5)
+### 68.11 Requirement Detail Drawer (Issue #37, Phase 5 ✓ COMPLETE)
 
 When user clicks a requirement row, a shared enterprise drawer opens.
 
@@ -364,7 +364,7 @@ The drawer renders a multi-section inspector showing:
 
 ---
 
-### 68.12 Evidence Status Workflow (Issue #37, Phase 6)
+### 68.12 Evidence Status Workflow (Issue #37, Phase 6 ✓ COMPLETE)
 
 The drawer includes an Evidence Status Workflow section managing requirement evidence through the Suggestion Service.
 
@@ -414,7 +414,7 @@ Shows activity on this requirement:
 
 ---
 
-### 68.13 Shared Drawer Component (Issue #37, Phase 5)
+### 68.13 Shared Drawer Component (Issue #37, Phase 5 ✓ COMPLETE)
 
 The Requirement Detail Drawer uses the Shared Enterprise Drawer component.
 
@@ -487,7 +487,7 @@ This allows future releases to reorder or customize the workspace without code c
 
 ---
 
-### 68.16 Control Mapping Architecture (Issue #37, Phase 4)
+### 68.16 Control Mapping Architecture (Issue #37, Phase 4 ✓ COMPLETE)
 
 Three shapes are supported for requirement-to-control mapping:
 
@@ -582,7 +582,7 @@ The workspace maintains:
 
 ---
 
-### 68.21 Historical Context (Issue #37, Phase 4)
+### 68.21 Historical Context (Issue #37 ✓ COMPLETE)
 
 Prior to Issue #37:
 * Requirements appeared only in the Engagement Workspace as part of a lifecycle visualization

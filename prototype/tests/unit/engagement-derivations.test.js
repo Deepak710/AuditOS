@@ -241,21 +241,13 @@ module.exports = function registerUnitTests(harness) {
     assert.match(walkthrough.detail, /refine requirements, controls/, 'it explains the future workflow');
   });
 
-  // ---- Team.
+  // ---- Team roster removed (Issue #38 Part 3 — Walkthrough owns Teams and
+  // POCs; the Engagement workspace and its Inspector present engagement-level
+  // operational information only, with no Team or POC roster).
 
-  test('deriveTeam profiles the client participants and resolves their responsibilities', function () {
-    const team = Array.from(derive.deriveTeam(
-      [
-        { name: 'Member A', role: 'Control Owner', designation: 'Engineer', teamId: 'T-1', status: 'Active', preferredCommunication: 'Email', companyId: 'C-1' },
-        { name: 'Member B', role: 'Evidence Owner', designation: 'Manager', teamId: 'T-2', status: 'Active', companyId: 'C-2' }
-      ],
-      [{ id: 'T-1', name: 'Fixture Team', responsibleControlFamilies: ['CC6', 'CC7'] }],
-      'C-1'
-    ));
-    assert.equal(team.length, 1, 'only the engagement company\'s participants appear');
-    assert.equal(team[0].name, 'Member A');
-    assert.match(team[0].responsibilities, /Fixture Team · CC6, CC7/, 'responsibilities resolve through the team');
-    assert.equal(team[0].status, 'Active');
+  test('the engagement no longer derives a client Team roster (Issue #38 Part 3)', function () {
+    assert.equal(typeof derive.deriveTeam, 'undefined',
+      'deriveTeam is removed — the incorrect Team listing no longer exists');
   });
 
   // ---- Relationships, activity, metadata, timeline.
@@ -325,7 +317,6 @@ module.exports = function registerUnitTests(harness) {
       { name: 'Fixture Engagement', engagementCode: 'FX-1', status: 'In Progress', framework: 'Alpha' },
       { name: 'Fixture Client' },
       ['Alpha', 'Beta'],
-      [{ name: 'Member A', role: 'Control Owner' }],
       [{ timestamp: 'Jan 1, 2026', title: 'Audit period begins' }],
       [{ title: 'Controls', meta: '52' }],
       fixtureOperational()
@@ -334,7 +325,7 @@ module.exports = function registerUnitTests(harness) {
     assert.equal(entities[0].key, 'engagement');
     assert.equal(entities[1].key, 'framework:Alpha');
     const sectionTitles = Array.from(entities[0].inspector.sections).map(function (section) { return section.title; });
-    assert.deepEqual(sectionTitles, ['Properties', 'Frameworks', 'Team', 'Timeline', 'Relationships'],
-      'the engagement inspector renders the sections required by §9');
+    assert.deepEqual(sectionTitles, ['Properties', 'Frameworks', 'Timeline', 'Relationships'],
+      'the engagement inspector presents engagement-level information only — no Team roster (Issue #38 Part 3)');
   });
 };
