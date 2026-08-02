@@ -287,14 +287,52 @@ module.exports = function registerUnitTests(harness) {
     assert.equal(derive.deriveLineage(null, {}).length, 0, 'no registry yields no lineage');
   });
 
-  test('deriveRelationships lists only the domains with real data and never lists Control itself', function () {
-    // Requirements are internal now (Issue #39): the relationship panel
-    // links Evidence, not Requirements.
-    const relationships = Array.from(derive.deriveRelationships(fixtureRegistry(), {
-      requirements: { requirements: 104 }, evidence: { evidenceItems: 8 }, testing: {}, findings: {}, report: null
-    }));
-    assert.deepEqual(relationships.map(function (item) { return item.title; }), ['Evidence']);
-    assert.equal(relationships[0].path, 'path-evidence');
+  test('matchesSearch reads the fields the row displays, and an empty query matches everything', function () {
+    const row = {
+      id: 'CTL-1', controlCode: 'CSC-01', title: 'IP Whitelisting',
+      owner: 'Alex Zolin', type: 'CSC', status: 'Completed', framework: 'CC6.1'
+    };
+    assert.equal(derive.matchesSearch(row, ''), true, 'an empty query matches every row');
+    assert.equal(derive.matchesSearch(row, '   '), true, 'a whitespace query matches every row');
+    assert.equal(derive.matchesSearch(row, 'csc-01'), true, 'matching is case-insensitive on the control code');
+    assert.equal(derive.matchesSearch(row, 'whitelist'), true, 'the title is searched');
+    assert.equal(derive.matchesSearch(row, 'zolin'), true, 'the owner is searched');
+    assert.equal(derive.matchesSearch(row, 'cc6.1'), true, 'the framework mapping is searched');
+    assert.equal(derive.matchesSearch(row, 'encryption'), false, 'a term present in no displayed field never matches');
+  });
+
+  test('deriveReadiness states recorded facts only, and reads "Not recorded" where nothing is recorded', function () {
+    const readiness = Array.from(derive.deriveReadiness(
+      { status: 'Completed', walkthroughStatus: 'Completed', testingStatus: 'Data not received' },
+      [{ phase: 'Resolution' }, { phase: 'Collection' }]
+    ));
+    const byKey = {};
+    readiness.forEach(function (item) { byKey[item.key] = item; });
+    assert.equal(byKey.walkthrough.status, 'Completed');
+    assert.equal(byKey.testing.status, 'Data not received');
+    assert.equal(byKey.evidence.status, '1 of 2 settled', 'evidence readiness is a real count of real rows');
+    assert.equal(byKey.control.status, 'Completed');
+
+    const bare = {};
+    Array.from(derive.deriveReadiness({}, [])).forEach(function (item) { bare[item.key] = item; });
+    assert.equal(bare.walkthrough.status, 'Not recorded', 'an unrecorded state is never given a fabricated default');
+    assert.equal(bare.evidence.status, 'None linked', 'a control with no evidence says so');
+  });
+
+  test('deriveControlSuggestions attributes only the suggestions that name the control', function () {
+    const control = { id: 'CTL-1', controlCode: 'CSC-01' };
+    const suggestions = [
+      { id: 'S1', affectedControls: ['CTL-1'], auditReferences: [] },
+      { id: 'S2', affectedControls: [], auditReferences: ['CSC-01'] },
+      { id: 'S3', affectedControls: ['CTL-9'], auditReferences: [] },
+      { id: 'S4' }
+    ];
+    assert.deepEqual(
+      Array.from(derive.deriveControlSuggestions(control, suggestions)).map(function (item) { return item.id; }),
+      ['S1', 'S2'],
+      'a suggestion naming neither the record id nor the control code is never attributed to the control');
+    assert.equal(Array.from(derive.deriveControlSuggestions({}, suggestions)).length, 0,
+      'a control with no identity claims no suggestion');
   });
 
   // ---- Activity + metadata — only what the JSON records.

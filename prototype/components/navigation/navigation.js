@@ -14,12 +14,19 @@
  * canonical hierarchy — no page-specific breadcrumb logic, no locally
  * derived client/engagement/workspace lists, no URL construction here.
  *
- * Crumb rules (Issue #39): the AuditOS crumb's dropdown lists clients, the
- * client crumb's dropdown lists ONLY that client's engagements, the
- * engagement crumb's dropdown lists ONLY that engagement's workspaces, and
- * the workspace crumb never has a dropdown. Opening a menu never navigates;
- * only selecting a destination does — destinations are real anchors so
- * keyboard, focus, and deep linking work natively.
+ * Crumb rules (Issue #40 §1). Every dropdown is a PEER switcher: a crumb's
+ * menu lists the other objects at its own level of the hierarchy, so a menu
+ * can never expose an unrelated object:
+ *   • AuditOS crumb — never a dropdown; it always returns Home.
+ *   • Client crumb — dropdown of clients ONLY.
+ *   • Engagement crumb — dropdown of engagements under the selected client.
+ *   • Workspace crumb — dropdown of that engagement's workspaces.
+ *   • Record crumbs (Team, POC) — never have a dropdown.
+ * Hierarchy levels keep their switcher wherever they appear, including as the
+ * final crumb: standing on a workspace is when its sibling workspaces are
+ * most useful. Opening a menu never navigates; only selecting a destination
+ * does — destinations are real anchors so keyboard, focus, and deep linking
+ * work natively.
  *
  * Hover behaviour (Issue #39): no floating menu may render outside the
  * viewport — every opened menu is measured and repositioned (right-aligned
@@ -98,6 +105,12 @@
     button.setAttribute('aria-haspopup', 'menu');
     button.setAttribute('aria-expanded', 'false');
     button.setAttribute('aria-label', descriptor.label + ' — open ' + descriptor.menu.label.toLowerCase() + ' menu');
+    // A crumb can be both the current location and a peer switcher (Issue #40
+    // §1 — hierarchy levels keep their dropdown even as the final crumb), so
+    // the current marker belongs on the menu crumb too, not only on plain ones.
+    if (descriptor.current) {
+      button.setAttribute('aria-current', 'page');
+    }
     button.appendChild(el('span', 'aos-breadcrumb__crumb-label', descriptor.label));
 
     var chevron = el('span', 'aos-breadcrumb__chevron');

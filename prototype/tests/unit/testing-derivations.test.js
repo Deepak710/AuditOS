@@ -280,12 +280,71 @@ module.exports = function registerUnitTests(harness) {
     assert.equal(derive.deriveLineage(null, {}).length, 0, 'no registry yields no lineage');
   });
 
-  test('deriveRelationships lists only the domains with real data and never lists Testing itself', function () {
-    const relationships = Array.from(derive.deriveRelationships(fixtureRegistry(), {
-      requirements: { requirements: 0 }, controls: { controls: 52 }, evidence: { evidenceItems: 0 }, findings: {}, report: null
-    }));
-    assert.deepEqual(relationships.map(function (item) { return item.title; }), ['Controls']);
-    assert.equal(relationships[0].path, 'path-controls');
+  // ---- Workpaper selector (Issue #40 §3) — one row per control, carrying the
+  // workpaper recorded against it. An untested control is never hidden.
+
+  test('deriveWorkpaperRows pairs every control with its workpaper and never hides an untested control', function () {
+    const rows = Array.from(derive.deriveWorkpaperRows(
+      [
+        { id: 'CTL-B', controlCode: 'CSC-02', title: 'Second', family: 'CSC' },
+        { id: 'CTL-A', controlCode: 'CSC-01', title: 'First', family: 'CSC', testingStatus: 'Not Started' }
+      ],
+      [{ id: 'WPR-1', controlId: 'CTL-B', testingStatus: 'Completed', result: 'Pass' }]
+    ));
+
+    assert.deepEqual(rows.map(function (row) { return row.controlCode; }), ['CSC-01', 'CSC-02'],
+      'rows are ordered by control code so the selector is stable');
+    assert.equal(rows[0].generated, false, 'a control with no workpaper is still listed');
+    assert.equal(rows[0].workpaperId, '', 'and claims no workpaper reference it does not have');
+    assert.equal(rows[0].status, 'Not Started', 'it falls back to the control’s own recorded testing status');
+    assert.equal(rows[1].generated, true, 'a control with a workpaper is marked generated');
+    assert.equal(rows[1].workpaperId, 'WPR-1');
+    assert.equal(rows[1].status, 'Completed', 'the workpaper’s own status wins where one exists');
+    assert.equal(rows[1].result, 'Pass');
+    assert.equal(rows[1].test.id, 'WPR-1', 'the workpaper record is carried through for the worksheet');
+  });
+
+  test('matchesSearch reads the fields the selector row displays, and an empty query matches everything', function () {
+    const row = {
+      controlCode: 'CSC-01', title: 'IP Whitelisting', family: 'CSC',
+      status: 'Completed', result: 'Pass', workpaperId: 'WPR-CSP-CSC-01'
+    };
+    assert.equal(derive.matchesSearch(row, ''), true, 'an empty query matches every row');
+    assert.equal(derive.matchesSearch(row, 'csc-01'), true, 'matching is case-insensitive on the control code');
+    assert.equal(derive.matchesSearch(row, 'whitelist'), true, 'the title is searched');
+    assert.equal(derive.matchesSearch(row, 'wpr-csp'), true, 'the workpaper reference is searched');
+    assert.equal(derive.matchesSearch(row, 'encryption'), false, 'a term present in no displayed field never matches');
+  });
+
+  test('deriveWorkpaperSuggestions attributes only the suggestions that name the control or its workpaper', function () {
+    const row = { id: 'CTL-A', controlCode: 'CSC-01', workpaperId: 'WPR-1' };
+    const suggestions = [
+      { id: 'S1', affectedControls: ['CTL-A'] },
+      { id: 'S2', auditReferences: ['WPR-1', 'conclusion'] },
+      { id: 'S3', affectedControls: ['CTL-Z'], auditReferences: ['WPR-9'] },
+      { id: 'S4' }
+    ];
+    assert.deepEqual(
+      Array.from(derive.deriveWorkpaperSuggestions(row, suggestions)).map(function (item) { return item.id; }),
+      ['S1', 'S2'],
+      'a suggestion naming neither the control nor the workpaper is never attributed to it');
+    assert.equal(Array.from(derive.deriveWorkpaperSuggestions({}, suggestions)).length, 0,
+      'a row with no identity claims no suggestion');
+  });
+
+  test('sectionText flattens a section to exactly the content the reader sees, and an absent section to nothing', function () {
+    assert.equal(derive.sectionText({ kind: 'text', present: true, text: 'Inspected the configuration.' }),
+      'Inspected the configuration.');
+    assert.equal(derive.sectionText({ kind: 'text', present: false, text: 'ignored' }), '',
+      'a section with no recorded data offers nothing to edit');
+    assert.equal(derive.sectionText({
+      kind: 'properties', present: true,
+      rows: [{ label: 'Client name', value: 'Meridian' }, { label: 'Control number', value: 'CSC-01' }]
+    }), 'Client name: Meridian\nControl number: CSC-01');
+    assert.equal(derive.sectionText({
+      kind: 'attributes', present: true,
+      rows: [{ key: 'A', text: 'IP range whitelisted', result: 'P' }]
+    }), 'A | IP range whitelisted | P');
   });
 
   // ---- Activity + metadata — only what the JSON records.

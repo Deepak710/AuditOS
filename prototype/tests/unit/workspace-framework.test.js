@@ -29,6 +29,24 @@ module.exports = function registerWorkspaceFrameworkTests(harness) {
     assert.equal(typeof framework.SLOTS, 'object', 'the slot map is exposed');
   });
 
+  test('the framework recognizes exactly three application shells (Issue #34 / #40 §12)', function () {
+    const framework = loadWorkspaceFramework();
+    assert.deepEqual(Array.from(framework.SHELLS), ['single', 'split', 'viewport'],
+      'Single Pane, Split Pane, and the fixed-frame Viewport shell');
+
+    assert.equal(framework.normalizeShell('viewport'), 'viewport');
+    assert.equal(framework.normalizeShell('split'), 'split');
+    assert.equal(framework.normalizeShell('single'), 'single');
+    assert.equal(framework.normalizeShell(undefined), 'single',
+      'an unconfigured workspace keeps the flowing canvas');
+    assert.equal(framework.normalizeShell('three-pane'), 'single',
+      'an unknown shell degrades to the default rather than stamping an unstyled variant');
+
+    assert.equal(framework.normalizeConfiguration({ shell: 'viewport' }).shell, 'viewport',
+      'the shell is resolved through the configuration a workspace declares');
+    assert.equal(framework.normalizeConfiguration({}).shell, 'single');
+  });
+
   test('an absent configuration normalizes every section to collapsed defaults', function () {
     const framework = loadWorkspaceFramework();
     const normalized = framework.normalizeConfiguration();

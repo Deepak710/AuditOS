@@ -1,18 +1,22 @@
 /**
  * AuditOS Evidence Lifecycle
- * Evidence Workspace Consolidation — GitHub Issue #39
+ * Evidence Workspace Consolidation — GitHub Issue #39 /
+ * Canonical Status Model — GitHub Issue #40 §11
  *
- * The canonical, expanded evidence status model — the one vocabulary every
- * surface (table, drawer, charts, filters, approvals, audit history) renders
- * evidence status from. Each status declares its lifecycle phase, its
- * presentation tone, and whether it is a pending state (a state an approval
- * decision can still move), which the predictive metrics use to project
- * "all pending approvals accepted".
+ * The canonical, expanded record status model — the one vocabulary every
+ * surface (table, drawer, charts, filters, approvals, audit history, and the
+ * generated testing workpaper) renders status from. Each status declares its
+ * lifecycle phase, its presentation tone, and whether it is a pending state
+ * (a state an approval decision can still move), which the predictive metrics
+ * use to project "all pending approvals accepted".
  *
  * The legacy demo vocabulary (enums.json `evidenceStatusLegacy`) maps onto
- * this model via `LEGACY_STATUS_MAP`, so differently sourced datasets still
- * resolve; an unknown status renders as itself with a neutral tone — never
- * fabricated, never dropped.
+ * this model via `LEGACY_STATUS_MAP`, and the workpaper / testing vocabulary
+ * (enums.json `testingStatus`) via `WORKPAPER_STATUS_MAP`, so differently
+ * sourced datasets still resolve through one model; an unknown status renders
+ * as itself with a neutral tone — never fabricated, never dropped. Testing
+ * therefore has no status model of its own (Issue #40 §11): it records its
+ * own status label and reads phase, tone, and order from here.
  *
  * Evidence Types (Issue #39 — persistent colors): every evidence type is
  * assigned one persistent color key, consistent across the application. The
@@ -81,6 +85,31 @@
     'Rejected': 'Rejected'
   };
 
+  /**
+   * The workpaper / testing vocabulary (enums.json `testingStatus`) →
+   * canonical status (Issue #40 §11 — Testing does not create a separate
+   * status model). Each mapping is a one-to-one semantic correspondence, not
+   * an approximation:
+   *
+   *   Not Started        → Requested          the workpaper exists, nothing gathered (Request)
+   *   Data not received  → Population Pending waiting on the client for the data (Collection)
+   *   Pending            → Under Review       execution has begun, no result yet (Review)
+   *   In Progress        → Under Review       execution underway (Review)
+   *   Retesting Required → Revision Requested rework needed before it can settle (Review)
+   *   Completed          → Accepted           settled with a recorded conclusion (Resolution)
+   *
+   * The recorded label is always what renders; this map supplies only the
+   * phase, tone, and lifecycle order the canonical model derives.
+   */
+  var WORKPAPER_STATUS_MAP = {
+    'Not Started': 'Requested',
+    'Data not received': 'Population Pending',
+    'Pending': 'Under Review',
+    'In Progress': 'Under Review',
+    'Retesting Required': 'Revision Requested',
+    'Completed': 'Accepted'
+  };
+
   /** Status label → status descriptor index. */
   var BY_LABEL = {};
   STATUSES.forEach(function (status, index) {
@@ -107,7 +136,12 @@
   /** Deterministic fallback color keys for types the map does not register. */
   var FALLBACK_COLOR_KEYS = ['slate', 'teal', 'indigo', 'amber', 'rose', 'cyan'];
 
-  /** Canonicalizes a status value: legacy vocabulary maps, canonical passes through. */
+  /**
+   * Canonicalizes a status value: canonical labels pass through, then the
+   * legacy evidence vocabulary, then the workpaper / testing vocabulary. A
+   * value none of them registers is returned unchanged — rendered as itself
+   * with a neutral tone, never dropped and never fabricated.
+   */
   function canonicalStatus(value) {
     if (!value) {
       return '';
@@ -115,7 +149,7 @@
     if (Object.prototype.hasOwnProperty.call(BY_LABEL, value)) {
       return value;
     }
-    return LEGACY_STATUS_MAP[value] || value;
+    return LEGACY_STATUS_MAP[value] || WORKPAPER_STATUS_MAP[value] || value;
   }
 
   /** The descriptor of a status label (legacy values map first), or null. */
@@ -129,6 +163,7 @@
     PHASES: PHASES,
     STATUSES: STATUSES,
     LEGACY_STATUS_MAP: LEGACY_STATUS_MAP,
+    WORKPAPER_STATUS_MAP: WORKPAPER_STATUS_MAP,
 
     /** The canonical status labels, in lifecycle order. */
     statusLabels: function () {

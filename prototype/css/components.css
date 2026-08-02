@@ -1521,6 +1521,107 @@ button.aos-chip:focus-visible {
 }
 
 /* ============================================================================
+ * WORKFLOW — SUGGESTION CARD (Issue #40 §5)
+ * The one in-flight proposal card of the platform: title and status, the
+ * proposal text, then only the lifecycle actions the current status allows.
+ * Composes the Surface, Status Badge, Button, and Action Group primitives; this
+ * rule owns only the card's internal rhythm.
+ * ========================================================================== */
+
+.aos-workflow-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-workflow-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+}
+
+.aos-workflow-card__title {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-workflow-card__meta {
+  margin: 0;
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-secondary);
+}
+
+/* ============================================================================
+ * LAYOUT — WORKBENCH (Issue #40 §2 / §3 / §12)
+ * The three-pane operating-system geometry the full-height workspaces share:
+ * a browse rail, the object canvas, and an operational inspector. Master–Detail
+ * with a third region, defined once so no workspace assembles its own columns.
+ *
+ * Every pane scrolls independently and none of them lets the page scroll:
+ * `min-height: 0` allows a flex child to shrink below its content, and
+ * `overflow-y: auto` then gives that pane its own scrollbar. Inside a viewport
+ * shell (workspace-framework.css) the workbench inherits the measured
+ * remaining height; inside a flowing canvas it simply grows.
+ *
+ * It collapses to a single stacked column at the tablet breakpoint, where
+ * three columns would leave none of them usable.
+ * ========================================================================== */
+
+.aos-workbench {
+  --aos-workbench-rail: 22%;
+  --aos-workbench-inspector: 26%;
+  display: flex;
+  align-items: stretch;
+  gap: var(--aos-space-4);
+  min-width: 0;
+  min-height: 0;
+  flex: 1 1 auto;
+}
+
+.aos-workbench__pane {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.aos-workbench__rail {
+  flex: 0 0 var(--aos-workbench-rail);
+}
+
+.aos-workbench__canvas {
+  flex: 1 1 auto;
+}
+
+.aos-workbench__inspector {
+  flex: 0 0 var(--aos-workbench-inspector);
+}
+
+@media (max-width: 1024px) {
+  .aos-workbench {
+    flex-direction: column;
+    gap: var(--aos-space-4);
+  }
+
+  .aos-workbench__pane {
+    flex-basis: auto;
+    overflow: visible;
+  }
+
+  /* Stacked panes need a bound of their own so one long list does not push
+   * the others off the page entirely. */
+  .aos-workbench__rail {
+    max-height: 22rem;
+    overflow-y: auto;
+  }
+}
+
+/* ============================================================================
  * DATA DISPLAY — INSPECTOR PANEL (§77.9 Detail View / Issue #18 §3)
  * The reusable object detail panel: an identity header (eyebrow, title,
  * subtitle, status badges), a body of titled sections — properties, metadata,

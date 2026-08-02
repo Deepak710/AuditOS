@@ -106,11 +106,39 @@ rhythm, hairline rules for structure, and a subtle enter animation
 `prefers-reduced-motion`. Dark mode is inherited automatically from the token
 foundation.
 
-**Scroll architecture:** the Workspace Host canvas remains the single scroll
-surface. The framework flows inside it and stretches the router's outlet /
-view chain to full canvas height (a layout-only mount chain in
-`workspace-framework.css`), so the footer anchors to the canvas base and no
-nested scrollbars compete with the primary task.
+**Application shells** (Issue #34 / Issue #40 §12). A workspace declares one of
+three shells through its configuration (`configure(view, { shell })`); the
+framework stamps it on the framework root as `data-shell` and a matching
+modifier class, and the stylesheet lays each out differently over one skeleton.
+No workspace invents its own page structure.
+
+| Shell | For | Behaviour |
+| --- | --- | --- |
+| `single` (default) | dashboards, reports, forms, telemetry, wizards | The flowing canvas: the Workspace Host canvas is the single scroll surface. |
+| `split` | walkthroughs, findings, approvals, audit log | Master–Detail panes bounded to the viewport with a fixed height allowance, so the rail and inspector scroll independently. |
+| `viewport` | Controls, Testing, Evidence | A fixed frame: the page never scrolls and the workspace's own internal panes own every scrollbar. |
+
+**Scroll architecture.** Under `single` and `split`, the Workspace Host canvas
+remains the single scroll surface; the framework flows inside it and stretches
+the router's outlet / view chain to full canvas height (a layout-only mount
+chain in `workspace-framework.css`), so the footer anchors to the canvas base
+and no nested scrollbars compete with the primary task.
+
+Under `viewport`, the framework instead propagates the **real remaining height**
+down that same mount chain — host body → outlet → view → framework → content →
+flush canvas — with `min-height: 0` at every link so each flex child can shrink
+below its content and scroll internally. The available space is therefore
+measured rather than guessed, and stays correct at any zoom level, header
+height, or viewport size. Browsers without `:has()` fall back to the flowing
+single-pane canvas, the same graceful degradation the flush-canvas opt-in
+already relies on; below the tablet breakpoint the shell also reverts to normal
+page flow, where a fixed frame would crush the stacked panes.
+
+The three-column geometry those viewport workspaces use is **not** part of this
+framework: it is the shared **Workbench** composition
+(`AuditOS.presentation.workbench`, styled in `css/components.css`) — a rail, a
+canvas, and an operational inspector, defined once so no workspace assembles its
+own columns.
 
 **Accessibility:** the workspace title is the page `<h1>`; each supporting
 panel is a labelled `<section>` with an `<h2>` title; the ribbon is a labelled

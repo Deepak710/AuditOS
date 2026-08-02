@@ -507,20 +507,205 @@ a.aos-evidence__pill:hover {
 }
 
 /* ========================================
- * VIEWPORT-HEIGHT BOARD (Issue #39 — Table Layout)
- * The board fills the remaining viewport height; the table owns all
+ * VIEWPORT-HEIGHT BOARD (Issue #39 — Table Layout / Issue #40 §8 / §12)
+ * The board fills the remaining viewport height and the table owns all
  * scrolling internally, so the page itself never scrolls.
+ *
+ * Issue #40 replaces the fixed `calc(100dvh - 19rem)` allowance with the
+ * framework's viewport shell: the real remaining height now arrives down the
+ * mount chain, so the table gets every pixel the chrome above it does not use
+ * instead of a guessed subtrahend — which is what "increase visible rows at
+ * 100% zoom, no browser zoom required" actually requires (§8). `min-height: 0`
+ * is what lets these flex children shrink below their content and scroll.
  * ======================================== */
 
+.aos-evidence {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
 .aos-evidence__board {
-  height: calc(100dvh - 19rem);
-  min-height: 26rem;
+  flex: 1 1 auto;
+  min-height: 22rem;
+}
+
+.aos-evidence__header-band,
+.aos-evidence__toolbar {
+  flex-shrink: 0;
 }
 
 .aos-evidence__grid-mount {
   flex: 1 1 auto;
   min-height: 8rem;
   max-height: none;
+}
+
+/* ========================================
+ * REDUCED CHROME FOOTPRINT (Issue #40 §8)
+ * The KPI tiles and the distribution charts are orientation; the table is the
+ * task. Three changes hand the table back most of the band's height without
+ * removing a single metric or making any of them harder to read:
+ *
+ *   1. the band lays KPIs and charts SIDE BY SIDE on wide viewports instead of
+ *      stacking them, which was the single largest cost;
+ *   2. tile and chart padding, type scale, and track minimums tighten;
+ *   3. a long chart legend scrolls inside its own card rather than growing the
+ *      whole band — the legend is a filter list, and its length is a property
+ *      of the data, so it must never dictate how many rows are visible.
+ * ======================================== */
+
+.aos-evidence__board {
+  gap: var(--aos-space-3);
+}
+
+.aos-evidence__header-band {
+  gap: var(--aos-space-3);
+}
+
+.aos-evidence__kpis {
+  grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+  gap: var(--aos-space-2);
+  align-content: start;
+}
+
+.aos-evidence__kpi {
+  gap: 0;
+  padding: var(--aos-space-2) var(--aos-space-3);
+}
+
+.aos-evidence__kpi-value {
+  font-size: var(--aos-text-lg);
+  line-height: var(--aos-leading-tight);
+}
+
+.aos-evidence__charts {
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--aos-space-2);
+  align-content: start;
+}
+
+.aos-evidence__chart {
+  gap: var(--aos-space-1);
+  padding: var(--aos-space-2) var(--aos-space-3);
+}
+
+.aos-evidence__chart-legend {
+  max-height: 5.5rem;
+  overflow-y: auto;
+}
+
+/* Wide viewports: metrics and distributions share one row, so the band costs
+ * roughly the height of the taller of the two rather than the sum of both. */
+@media (min-width: 1200px) {
+  .aos-evidence__header-band {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    align-items: start;
+  }
+}
+
+/* ========================================
+ * SINGLE-LINE ROWS (Issue #40 §8)
+ * The other half of "increase visible rows": a row that wraps to three lines
+ * costs three rows of viewport. Every cell now reads on one line and truncates
+ * with an ellipsis, which is standard dense-table behavior and loses nothing —
+ * the full evidence title is one click away in the drawer, and it is also
+ * carried on the row's title attribute for hover and assistive technology.
+ *
+ * Scoped to the Evidence grid mount so no other table's wrapping changes.
+ * ======================================== */
+
+.aos-evidence__grid-mount .aos-data-grid__cell {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 0;
+}
+
+/* The status column hosts a real control, so it keeps its intrinsic width. */
+.aos-evidence__grid-mount .aos-data-grid__cell--status,
+.aos-evidence__grid-mount .aos-data-grid__cell--actions {
+  max-width: none;
+  overflow: visible;
+}
+
+.aos-evidence__grid-mount .aos-evidence__table-title {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Control mapping is a run of pills; a row shows as many as fit on its line
+ * rather than growing the row to fit them all. */
+.aos-evidence__grid-mount .aos-evidence__pills {
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+/* The status control is the tallest thing in a row, so it sets the row height
+ * for the whole table. Sizing it to the row's own type scale — instead of the
+ * default form-control height — is worth several visible rows on its own. */
+.aos-evidence__grid-mount .aos-data-grid__cell {
+  padding-block: var(--aos-space-1);
+}
+
+.aos-evidence__grid-mount .aos-evidence__status-select {
+  padding-block: 0;
+  padding-inline: var(--aos-space-2);
+  height: var(--aos-space-6);
+  font-size: var(--aos-text-xs);
+  /* The control shrinks with its cell instead of overflowing it: the longest
+   * status label ("Requested by Consulting") is wider than the column, and a
+   * select that overflows clips its own text rather than truncating it. */
+  min-width: 0;
+  max-width: 100%;
+  text-overflow: ellipsis;
+}
+
+.aos-evidence__grid-mount .aos-evidence__status-cell {
+  min-width: 0;
+}
+
+/* ========================================
+ * COMPACT FILTER TOOLBAR (Issue #40 §8)
+ * The filter labels sit beside their controls instead of above them, halving
+ * the toolbar's height and handing those pixels to the table.
+ * ======================================== */
+
+.aos-evidence__toolbar {
+  align-items: center;
+  gap: var(--aos-space-2) var(--aos-space-3);
+}
+
+.aos-evidence__search,
+.aos-evidence__filter {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--aos-space-2);
+}
+
+.aos-evidence__search-input {
+  padding-block: var(--aos-space-1);
+}
+
+.aos-evidence__filter .aos-select__control {
+  padding-block: var(--aos-space-1);
+  font-size: var(--aos-text-xs);
+}
+
+/* ========================================
+ * BOUNDED CONTEXT BAND (Issue #40 §8)
+ * The metrics band is orientation and must never dictate how much of the table
+ * is visible: it is capped, and scrolls inside itself if the engagement's
+ * status vocabulary or evidence types make it taller than its cap. The table
+ * below keeps the rest of the viewport at every data volume.
+ * ======================================== */
+
+.aos-evidence__header-band {
+  max-height: 10.5rem;
+  overflow-y: auto;
 }
 
 /* ========================================

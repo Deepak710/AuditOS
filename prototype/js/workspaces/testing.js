@@ -39,16 +39,39 @@
  * the workspace faithful across the mixed datasets while opening the Release 2
  * seams (AI-assisted testing, methodology reuse).
  *
- * The Test Procedure Queue is the primary operational surface. It renders every
- * test once and offers three presentation modes over that single dataset — Test
- * view, By control, and By result — each a pure regrouping of the same rows.
- * Changing the view changes presentation only; no test is added, removed, or
- * mutated. Selecting a row opens the Test Inspector beside it. The inspector
- * renderer is host-agnostic (data in, one self-contained node out) so a later
- * release can mount it in a dedicated region with no change here, and it exposes
- * the related control, sample selection, evidence used, methodology reuse, and an
- * approval reflection only when the JSON records them, never fabricating a
- * conclusion.
+ * The generated workpaper is the primary operational surface (Issue #40 §3).
+ * Testing is not a queue of test rows: it is the audit workpaper for a selected
+ * control, generated from what the engagement records and regenerated the
+ * instant another control is selected. The viewport shell fixes the frame and
+ * the shared Workbench divides it into three panes that each own their scrolling:
+ *
+ *   Left    the control selector — search, status, and every control
+ *   Middle  the generated worksheet — Overview, Control description, Walkthrough
+ *           summary, Testing objective, Testing procedure, Population, Evidence
+ *           references, Attributes, Exceptions, Conclusion, Reviewer notes,
+ *           Approval — every section editable except its AI provenance
+ *   Right   review, AI, and provenance — the workpaper's canonical status, the
+ *           in-flight review workflow, AI advisory, and the complete AI lineage
+ *
+ * The worksheet model itself is NOT defined here. It comes from the canonical
+ * Workpaper Service (js/services/workpaper-service.js), which the HTML document
+ * and the Excel workbook read from too, so the screen, the document, and the
+ * workbook can never disagree about what the workpaper says (§6).
+ *
+ * Editing (§3 / §5). A section edit never writes production state: it enters the
+ * canonical Suggested → Reviewed → Approved → Applied lifecycle through the
+ * shared Suggestion Lifecycle Service, and the shared workflow card renders the
+ * decision. Release 1 builds the workflow; Release 2 performs the AI propagation
+ * back through walkthrough, evidence, and controls.
+ *
+ * Status (§11). Testing declares no status model of its own — the recorded
+ * status renders verbatim and its phase, tone, and order come from the canonical
+ * lifecycle, the same one Evidence reads.
+ *
+ * The Test Procedure Queue derivations remain: they still describe the
+ * engagement's testing health, progress, exceptions, and per-test inspector, and
+ * `renderInspector` still exposes the host-agnostic test rail → Test Inspector
+ * for any other host to mount. Nothing about them was re-derived or duplicated.
  *
  * Presentation only. Every business value is read through `AuditOS.state`;
  * nothing is written. Sections with no data render shared Empty State
@@ -73,6 +96,21 @@
 
   /** Cross-Workspace Relationship Engine (Issue #30) — shared relationship/derivation layer. */
   var RE = AuditOS.relationships || {};
+
+  /** The canonical workpaper model (Issue #40) — resolved at call time. */
+  function workpapers() {
+    return AuditOS.workpaperService || null;
+  }
+
+  /** The canonical workpaper serializers (Issue #40 §6) — resolved at call time. */
+  function workpaperExport() {
+    return AuditOS.workpaperExport || null;
+  }
+
+  /** The canonical AI Lineage Service (Issue #39 / §10) — resolved at call time. */
+  function lineageService() {
+    return AuditOS.aiLineage || null;
+  }
 
   // ------------------------------------------------------------------
   // Constants
@@ -139,9 +177,6 @@
 
   /** Maximum entries per supporting list so panels stay scannable. */
   var LIST_LIMIT = WS.LIST_LIMIT;
-
-  /** Entrance stagger ceiling — sections beyond this share the last delay. */
-  var STAGGER_LIMIT = WS.STAGGER_LIMIT;
 
   // ------------------------------------------------------------------
   // Pure derivation helpers — no DOM, no AuditOS.state access. Each takes plain
@@ -394,6 +429,75 @@
       .sort(function (a, b) { return String(a.id).localeCompare(String(b.id)); });
   }
 
+  /**
+   * The workpaper selector rows (Issue #40 §3 — Left Panel): one row per
+   * control the engagement holds, carrying the workpaper recorded against it
+   * where one exists. A control with no workpaper still appears — an untested
+   * control is a real, current fact about the engagement, and hiding it would
+   * misrepresent testing coverage — and reads "Not started" rather than a
+   * fabricated status.
+   */
+  function deriveWorkpaperRows(controls, tests) {
+    var byControlId = {};
+    asArray(tests).forEach(function (test) {
+      if (test && test.controlId && !byControlId[test.controlId]) {
+        byControlId[test.controlId] = test;
+      }
+    });
+    return asArray(controls).map(function (control) {
+      var source = control || {};
+      var test = byControlId[source.id] || null;
+      var status = (test && (test.testingStatus || test.status)) || source.testingStatus || '';
+      return {
+        id: source.id || '',
+        control: source,
+        test: test,
+        controlCode: source.controlCode || source.controlId || source.id || '',
+        title: source.title || source.id || '',
+        family: source.family || source.category || '',
+        workpaperId: test && test.id ? test.id : '',
+        status: status,
+        statusTone: status ? resolveStatusTone(status) : null,
+        result: (test && test.result) || '',
+        resultTone: resolveResultTone(test && test.result),
+        generated: Boolean(test)
+      };
+    }).sort(function (a, b) { return String(a.controlCode).localeCompare(String(b.controlCode)); });
+  }
+
+  /**
+   * Whether a workpaper selector row matches a free-text query. Matching is
+   * case-insensitive across the fields the row displays, so what the user reads
+   * is what the search looks at. An empty query matches everything.
+   */
+  function matchesSearch(row, query) {
+    var needle = String(query || '').trim().toLowerCase();
+    if (!needle) {
+      return true;
+    }
+    return [row.controlCode, row.title, row.family, row.status, row.result, row.workpaperId]
+      .filter(Boolean)
+      .some(function (field) {
+        return String(field).toLowerCase().indexOf(needle) !== -1;
+      });
+  }
+
+  /**
+   * The suggestions that genuinely target one workpaper: those naming its
+   * control or its workpaper record. A suggestion naming neither is never
+   * attributed to it.
+   */
+  function deriveWorkpaperSuggestions(row, suggestions) {
+    var keys = [row && row.id, row && row.controlCode, row && row.workpaperId].filter(Boolean);
+    if (keys.length === 0) {
+      return [];
+    }
+    return asArray(suggestions).filter(function (suggestion) {
+      var references = asArray(suggestion.affectedControls).concat(asArray(suggestion.auditReferences));
+      return keys.some(function (key) { return references.indexOf(key) !== -1; });
+    });
+  }
+
   // ---- Presentation views — three regroupings of the one queue dataset. Each is
   // pure and returns `{ groups: [{ label, rows }] }` from the same rows, so
   // changing the view changes presentation only and never the data.
@@ -483,33 +587,6 @@
     ];
 
     return WS.resolveLineageNodes(workspaceRegistry, nodes);
-  }
-
-  /**
-   * Related audit objects for the supporting panel: the domains testing connects
-   * to, each with its real count, only when data exists. Reuses the same chain
-   * the lineage draws from (Testing is the workspace's own object, so it is not
-   * listed as a relation).
-   */
-  function deriveRelationships(workspaceRegistry, operational) {
-    if (!workspaceRegistry) {
-      return [];
-    }
-    var ops = operational || {};
-    var requirements = ops.requirements || {};
-    var controls = ops.controls || {};
-    var evidence = ops.evidence || {};
-    var findings = ops.findings || {};
-    var report = ops.report || null;
-    var ids = workspaceRegistry.IDS;
-
-    var related = [
-      { id: ids.CONTROLS, title: 'Controls', meta: String(controls.controls || 0), present: (controls.controls || 0) > 0 },
-      { id: ids.EVIDENCE, title: 'Evidence', meta: String(evidence.evidenceItems || 0), present: (evidence.evidenceItems || 0) > 0 },
-      { id: ids.FINDINGS, title: 'Findings', meta: String(findings.findings || 0), present: (findings.findings || 0) > 0 },
-      { id: ids.REPORTING, title: 'Report', meta: report ? String(report.status) : '—', present: Boolean(report) }
-    ];
-    return WS.resolveRelationships(workspaceRegistry, related);
   }
 
   /**
@@ -740,9 +817,12 @@
     var evidenceDocument = readEngagementDocument(state, 'evidence', engagement.id) || {};
     var findingsDocument = readEngagementDocument(state, 'findings', engagement.id) || {};
     var reportsDocument = readEngagementDocument(state, 'reports', engagement.id) || {};
+    var walkthroughDocument = readEngagementDocument(state, 'walkthroughs', engagement.id) || {};
+    var suggestionsDocument = readEngagementDocument(state, 'suggestions', engagement.id) || {};
 
     var testRecords = asArray(testingDocument.tests);
-    var controlsById = indexById(controlsDocument.controls);
+    var controlRecords = asArray(controlsDocument.controls);
+    var controlsById = indexById(controlRecords);
     var findingsById = indexById(findingsDocument.findings);
 
     var frameworks = normalizeFrameworks(engagement);
@@ -752,6 +832,17 @@
       controlsById: controlsById,
       libraryControlsById: libraryControlsById,
       findingsById: findingsById,
+      // The joins the generated workpaper reads: requirements and evidence for
+      // the evidence-reference register (§7), walkthrough sessions for the
+      // walkthrough summary and its provenance (§4), points of contact and
+      // users for owner and sign-off names, and the in-flight suggestions the
+      // review workflow renders (§5).
+      requirementsById: indexById(requirementsDocument.requirements),
+      evidenceById: indexById(evidenceDocument.evidence),
+      pocsById: indexById(state.listRecords('pocs')),
+      usersById: indexById(state.listRecords('users')),
+      walkthroughSessions: asArray(walkthroughDocument.sessions),
+      suggestions: asArray(suggestionsDocument.suggestions),
       workspaceRegistry: workspaceRegistry,
       frameworks: frameworks,
       auditPeriodLabel: auditPeriodLabel,
@@ -759,9 +850,16 @@
       company: company
     };
 
+    // Engagement-level review context the right pane renders beneath the
+    // record-level review. Attached to the context so the pane builders stay
+    // pure functions of `(row, context)` and never reach back into the
+    // view model.
+    context.exceptions = deriveExceptions(testRecords, context);
+    context.activity = deriveActivity(testRecords);
+
     var operational = {
       requirements: { requirements: asArray(requirementsDocument.requirements).length },
-      controls: { controls: asArray(controlsDocument.controls).length },
+      controls: { controls: controlRecords.length },
       evidence: evidenceDocument.summary || {},
       testing: { tests: testRecords.length },
       findings: findingsDocument.summary || {},
@@ -771,6 +869,7 @@
     var queue = deriveQueue(testRecords, context);
     var testingStatus = deriveTestingStatus(testRecords);
     var progress = deriveTestingProgress(testRecords);
+    var metadata = deriveMetadata(testingDocument.metadata, engagement, company, testRecords);
 
     return {
       degraded: false,
@@ -798,25 +897,28 @@
         { label: 'Tests', value: String(testRecords.length) }
       ],
 
-      toolbar: { search: { placeholder: 'Search tests' } },
-      filterBar: {
-        dropdowns: [{ label: 'Framework', options: ['All frameworks'].concat(frameworks) }]
-      },
-
       testingHealth: deriveTestingHealth(testRecords),
       progress: progress,
       queue: queue,
       views: deriveViews(queue),
-      exceptions: deriveExceptions(testRecords, context),
+      // The workpaper selector: one row per control, carrying the workpaper
+      // recorded against it (Issue #40 §3).
+      workpapers: deriveWorkpaperRows(controlRecords, testRecords),
+      exceptions: context.exceptions,
       lineage: deriveLineage(workspaceRegistry, operational),
-      relationships: deriveRelationships(workspaceRegistry, operational),
-      activity: deriveActivity(testRecords),
-      metadata: deriveMetadata(testingDocument.metadata, engagement, company, testRecords),
+      activity: context.activity,
+      metadata: metadata,
 
+      // The workspace status strip. Collection metadata reads here rather than
+      // in a panel of its own: the viewport shell gives its whole canvas to the
+      // workpaper (Issue #40 §12).
       footer: [
         { label: 'Environment', value: 'Static prototype' },
-        { label: 'Demo status', value: status.demoDataLoaded ? 'Demo data loaded' : 'Demo data degraded' }
-      ]
+        { label: 'Demo status', value: status.demoDataLoaded ? 'Demo data loaded' : 'Demo data degraded' },
+        { label: 'Version', value: metadata.version },
+        { label: 'Source', value: metadata.source },
+        { label: 'Modified', value: metadata.modified }
+      ].filter(function (entry) { return entry.value; })
     };
   }
 
@@ -831,11 +933,6 @@
 
   /** The shared presentation system, resolved at render time. */
   var presentation = WS.presentation;
-
-  /** Builds one Section component: an eyebrow, a title, an optional description, then a body node. */
-  function buildSection(id, meta, bodyNode) {
-    return WS.buildSection('aos-testing', id, meta, bodyNode);
-  }
 
   /**
    * Builds the Testing Health strip: a row of tone-dot indicators (editor
@@ -1003,27 +1100,6 @@
     return WS.buildLineageBody('aos-testing', lineage);
   }
 
-  /** Builds the Metadata body: the shared Metadata List of presentation fields. */
-  function buildMetadataBody(metadata) {
-    var pairs = [
-      { term: 'Created', detail: metadata.created },
-      { term: 'Modified', detail: metadata.modified },
-      { term: 'Owner', detail: metadata.owner },
-      { term: 'Version', detail: metadata.version },
-      { term: 'Tags', detail: asArray(metadata.tags).join(' · ') },
-      { term: 'Source', detail: metadata.source }
-    ];
-    return WS.metadataBody(pairs);
-  }
-
-  /** Builds the Related information supporting panel body: related audit objects with navigation. */
-  function buildRelatedBody(relationships) {
-    return WS.buildRelatedBody(relationships, {
-      icon: '◇', title: 'No related objects',
-      description: 'The audit domains testing connects to appear here once they hold data.'
-    });
-  }
-
   /** Builds the Activity Feed for the activity supporting panel. */
   function buildActivityBody(activity) {
     return WS.buildActivityBody(activity, {
@@ -1057,129 +1133,676 @@
   }
 
   // ------------------------------------------------------------------
-  // Slot rendering
+  // Generated workpaper (Issue #40 §3 / §4 / §5) — the middle and right panes.
+  // The worksheet model comes from the canonical Workpaper Service; nothing
+  // here re-derives an audit fact. Presentation state is memory-only: which
+  // control is selected, the rail query, and which sections are open for edit.
   // ------------------------------------------------------------------
 
-  /** Returns a framework slot inside the active workspace view. */
-  var slotElement = WS.slotElement;
+  var boardState = { controlId: '', search: '', editing: {}, lastTargetId: '' };
+
+  /** Builds one titled pane block: a fixed structural heading above its body. */
+  function paneBlock(title, body) {
+    var block = el('section', 'aos-testing__block');
+    block.appendChild(el('h3', 'aos-testing__block-title', title));
+    block.appendChild(body);
+    return block;
+  }
+
+  /**
+   * The plain-text representation of a section — what the reviewer sees when
+   * they open it for editing, and what a proposed change is measured against.
+   * Structured sections flatten to `label: value` lines so a reviewer edits the
+   * same content they were reading, never a different encoding of it.
+   */
+  function sectionText(section) {
+    if (!section || !section.present) {
+      return '';
+    }
+    switch (section.kind) {
+      case 'text':
+        return section.text;
+      case 'narrative':
+        return [section.text].concat(asArray(section.items).map(function (item) {
+          return [item.title, item.description].filter(Boolean).join(' — ');
+        })).filter(Boolean).join('\n');
+      case 'properties':
+        return asArray(section.rows).map(function (row) {
+          return row.label + ': ' + row.value;
+        }).join('\n');
+      case 'attributes':
+        return asArray(section.rows).map(function (row) {
+          return [row.key, row.text, row.result].filter(Boolean).join(' | ');
+        }).join('\n');
+      case 'evidence':
+        return asArray(section.rows).map(function (row) {
+          return [row.id, row.title, row.evidenceType, row.status, row.owner].filter(Boolean).join(' | ');
+        }).join('\n');
+      case 'list':
+        return asArray(section.items).map(function (item) {
+          return [item.title, item.description].filter(Boolean).join(' — ');
+        }).join('\n');
+      case 'conclusion':
+        return asArray(section.rows).map(function (row) {
+          return row.label + ': ' + row.value;
+        }).concat(section.text ? [section.text] : []).join('\n');
+      default:
+        return '';
+    }
+  }
+
+  /** Builds the read-only body of one worksheet section, by kind. */
+  function sectionBody(section, context) {
+    var P = presentation();
+    if (!section.present) {
+      return P.emptyState(section.empty);
+    }
+    switch (section.kind) {
+      case 'text':
+        return el('p', 'aos-testing__worksheet-text', section.text);
+
+      case 'narrative':
+        var narrative = el('div', 'aos-testing__worksheet-narrative');
+        if (section.text) {
+          narrative.appendChild(el('p', 'aos-testing__worksheet-text', section.text));
+        }
+        if (asArray(section.items).length > 0) {
+          narrative.appendChild(P.itemList(section.items, { compact: true }));
+        }
+        return narrative;
+
+      case 'properties':
+        return P.propertyGrid(section.rows, { columns: 2 });
+
+      case 'conclusion':
+        var conclusion = el('div', 'aos-testing__worksheet-narrative');
+        if (asArray(section.rows).length > 0) {
+          conclusion.appendChild(P.propertyGrid(section.rows, { columns: 2 }));
+        }
+        if (section.text) {
+          conclusion.appendChild(el('p', 'aos-testing__worksheet-text', section.text));
+        }
+        return conclusion;
+
+      case 'attributes':
+        return P.dataGrid({
+          density: 'compact',
+          caption: 'Tested attributes',
+          columns: [
+            { key: 'key', label: 'Attribute', width: '7rem' },
+            { key: 'text', label: 'Attribute details' },
+            { key: 'result', label: 'Result', width: '8rem' }
+          ],
+          rows: section.rows.map(function (row) {
+            return { cells: { key: row.key, text: row.text, result: row.result || '—' } };
+          })
+        });
+
+      case 'evidence':
+        return P.dataGrid({
+          density: 'compact',
+          caption: 'Evidence supporting this control',
+          columns: [
+            { key: 'id', label: 'Reference', width: '10rem' },
+            { key: 'title', label: 'Evidence' },
+            { key: 'type', label: 'Type', width: '10rem' },
+            { key: 'status', label: 'Status', width: '10rem' },
+            { key: 'phase', label: 'Lifecycle', width: '8rem' },
+            { key: 'owner', label: 'Owner', width: '10rem' }
+          ],
+          rows: section.rows.map(function (row) {
+            return { cells: buildEvidenceCells(row, context) };
+          })
+        });
+
+      case 'list':
+        return P.itemList(section.items, { compact: true });
+
+      default:
+        return P.emptyState(section.empty);
+    }
+  }
+
+  /**
+   * The cells of one evidence-reference row. The reference is a link into the
+   * Evidence workspace — the canonical route carries the client and engagement,
+   * so the context is preserved and the drawer opens on arrival (§9) — but only
+   * where the evidence record genuinely resolves.
+   */
+  function buildEvidenceCells(row, context) {
+    var registry = context.workspaceRegistry;
+    var ids = registry ? registry.IDS : {};
+    var href = row.resolved ? WS.buildRecordHref(registry, ids.EVIDENCE, row.id) : null;
+    var reference = row.id;
+    if (href) {
+      var link = el('a', 'aos-testing__worksheet-link', row.id);
+      link.setAttribute('href', href);
+      reference = link;
+    }
+    return {
+      id: reference,
+      title: row.title,
+      type: row.evidenceType,
+      status: row.status,
+      phase: row.phase,
+      owner: row.owner
+    };
+  }
+
+  /**
+   * Builds one section's AI provenance (§4): an expand/collapse disclosure of
+   * what the block was generated from — walkthrough sessions, evidence, control
+   * metadata, AI rationale — with each source present only where the data backs
+   * it. This is the one part of the worksheet that is never editable.
+   */
+  function buildProvenanceDisclosure(section) {
+    var disclosure = el('details', 'aos-testing__provenance');
+    var summary = el('summary', 'aos-testing__provenance-summary', 'Generated from');
+    disclosure.appendChild(summary);
+    var list = el('ul', 'aos-testing__provenance-list');
+    asArray(section.provenance).forEach(function (entry) {
+      var item = el('li', 'aos-testing__provenance-item' +
+        (entry.present ? '' : ' aos-testing__provenance-item--absent'));
+      item.appendChild(el('span', 'aos-testing__provenance-label', entry.label));
+      if (entry.present) {
+        entry.items.forEach(function (fact) {
+          item.appendChild(el('span', 'aos-testing__provenance-fact',
+            [fact.title, fact.detail].filter(Boolean).join(' — ')));
+        });
+      } else {
+        item.appendChild(el('span', 'aos-testing__provenance-fact', 'Not recorded'));
+      }
+      list.appendChild(item);
+    });
+    disclosure.appendChild(list);
+    return disclosure;
+  }
+
+  /**
+   * Proposes a worksheet edit (§5 — Reviewer edits → AI Suggestion →
+   * Approval). Production state is never edited directly: the proposal enters
+   * the canonical Suggested → Reviewed → Approved → Applied lifecycle through
+   * the shared Suggestion Lifecycle Service, which performs the audited write
+   * and records who proposed what against which workpaper section.
+   */
+  function proposeSectionEdit(row, section, draft, context) {
+    var suggestionService = AuditOS.suggestionService;
+    var repository = AuditOS.repository;
+    if (!suggestionService || !repository || !context.engagement) {
+      return null;
+    }
+    return suggestionService.propose(repository, context.engagement.id, {
+      title: 'Workpaper edit — ' + row.controlCode + ' · ' + section.title,
+      description: draft,
+      category: 'workpaper-section',
+      affectedControls: [row.id],
+      auditReferences: [row.workpaperId, section.id].filter(Boolean)
+    });
+  }
+
+  /**
+   * Builds one worksheet section: its heading, the recorded content, an Edit
+   * affordance for everything except the provenance, and the provenance
+   * disclosure. Opening Edit shows the section's current content in a textarea;
+   * proposing the change enters the review workflow and never writes the record.
+   */
+  function buildWorksheetSection(section, row, context, onProposed) {
+    var P = presentation();
+    var node = el('section', 'aos-testing__worksheet-section');
+
+    var head = el('div', 'aos-testing__worksheet-head');
+    head.appendChild(el('h3', 'aos-testing__worksheet-title', section.title));
+    var bodyMount = el('div', 'aos-testing__worksheet-body');
+
+    function renderRead() {
+      bodyMount.replaceChildren(sectionBody(section, context));
+    }
+
+    function renderEdit() {
+      var editor = el('div', 'aos-testing__editor');
+      var field = el('textarea', 'aos-testing__editor-field');
+      field.value = sectionText(section);
+      field.setAttribute('aria-label', 'Proposed ' + section.title.toLowerCase());
+      field.rows = 6;
+      editor.appendChild(field);
+
+      var note = el('p', 'aos-testing__editor-note',
+        'Proposing a change never edits the record. It enters the Suggested → Reviewed → Approved → Applied workflow; the workpaper is written only on Apply.');
+      editor.appendChild(note);
+
+      var actions = el('div', 'aos-action-group');
+      actions.setAttribute('role', 'group');
+      actions.setAttribute('aria-label', section.title + ' edit actions');
+
+      var proposeButton = P.button({ label: 'Propose change', variant: 'primary' });
+      proposeButton.addEventListener('click', function () {
+        var draft = String(field.value || '').trim();
+        if (!draft || draft === sectionText(section)) {
+          return;
+        }
+        proposeSectionEdit(row, section, draft, context);
+        boardState.editing[section.id] = false;
+        if (typeof onProposed === 'function') {
+          onProposed();
+        }
+      });
+      actions.appendChild(proposeButton);
+
+      var cancelButton = P.button({ label: 'Cancel', variant: 'subtle' });
+      cancelButton.addEventListener('click', function () {
+        boardState.editing[section.id] = false;
+        toggle.textContent = 'Edit';
+        toggle.setAttribute('aria-expanded', 'false');
+        renderRead();
+      });
+      actions.appendChild(cancelButton);
+      editor.appendChild(actions);
+      bodyMount.replaceChildren(editor);
+    }
+
+    var toggle = el('button', 'aos-testing__worksheet-edit',
+      boardState.editing[section.id] ? 'Editing' : 'Edit');
+    toggle.type = 'button';
+    toggle.setAttribute('aria-expanded', boardState.editing[section.id] ? 'true' : 'false');
+    toggle.setAttribute('aria-label', 'Edit ' + section.title);
+    toggle.addEventListener('click', function () {
+      var open = !boardState.editing[section.id];
+      boardState.editing[section.id] = open;
+      toggle.textContent = open ? 'Editing' : 'Edit';
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) {
+        renderEdit();
+      } else {
+        renderRead();
+      }
+    });
+    head.appendChild(toggle);
+    node.appendChild(head);
+    node.appendChild(bodyMount);
+
+    if (boardState.editing[section.id]) {
+      renderEdit();
+    } else {
+      renderRead();
+    }
+
+    node.appendChild(buildProvenanceDisclosure(section));
+    return node;
+  }
+
+  /**
+   * Builds the middle pane: the generated worksheet for the selected control
+   * (§3). Selecting another control regenerates it from the canonical model —
+   * there is no cached worksheet and no second definition of its structure.
+   */
+  function buildWorksheetCanvas(row, context, onProposed) {
+    var P = presentation();
+    var service = workpapers();
+    var canvas = el('div', 'aos-testing__worksheet');
+    if (!row || !service) {
+      canvas.appendChild(P.emptyState({
+        icon: '◇', title: 'No control selected',
+        description: 'Select a control to generate its audit workpaper here.'
+      }));
+      return canvas;
+    }
+
+    var model = service.buildWorkpaper(row.control, row.test, context);
+
+    var head = el('header', 'aos-testing__worksheet-header');
+    var identity = el('div', 'aos-testing__worksheet-identity');
+    identity.appendChild(el('p', 'aos-testing__worksheet-eyebrow',
+      [model.controlCode, model.workpaperId].filter(Boolean).join(' · ')));
+    identity.appendChild(el('h2', 'aos-testing__worksheet-heading', model.title || model.controlId));
+    head.appendChild(identity);
+
+    var badges = el('div', 'aos-testing__worksheet-badges');
+    if (model.status.label) {
+      badges.appendChild(P.statusBadge({ label: model.status.label, tone: model.status.tone }));
+    }
+    if (model.status.phase) {
+      badges.appendChild(P.statusBadge({ label: model.status.phase, tone: null }));
+    }
+    if (!model.generated) {
+      badges.appendChild(P.statusBadge({ label: 'Not started', tone: TONES.WARNING }));
+    }
+    head.appendChild(badges);
+
+    // §6 — the workpaper leaves the application in both formats the issue asks
+    // for, serialized from this same model by the canonical export service.
+    var exportService = workpaperExport();
+    if (exportService) {
+      var actions = el('div', 'aos-action-group');
+      actions.setAttribute('role', 'group');
+      actions.setAttribute('aria-label', 'Workpaper export');
+      var htmlButton = P.button({ label: 'Download HTML workpaper', variant: 'subtle' });
+      htmlButton.addEventListener('click', function () {
+        exportService.downloadHtml(model, {
+          clientName: context.company ? context.company.name : '',
+          engagementName: context.engagement ? context.engagement.name : ''
+        });
+      });
+      actions.appendChild(htmlButton);
+      var excelButton = P.button({ label: 'Download Excel', variant: 'primary' });
+      excelButton.addEventListener('click', function () {
+        exportService.downloadExcel(model);
+      });
+      actions.appendChild(excelButton);
+      head.appendChild(actions);
+    }
+    canvas.appendChild(head);
+
+    model.sections.forEach(function (section) {
+      canvas.appendChild(buildWorksheetSection(section, row, context, onProposed));
+    });
+    return canvas;
+  }
+
+  /**
+   * Builds the right pane: review, AI, and provenance (§3 — Right Panel). The
+   * review workflow is the canonical Suggestion lifecycle rendered by the
+   * shared workflow card; the provenance is the canonical AI lineage. Neither
+   * is re-implemented here (§10).
+   */
+  function buildReviewPane(row, context) {
+    var P = presentation();
+    var service = workpapers();
+    var pane = el('div', 'aos-testing__review');
+    if (!row || !service) {
+      pane.appendChild(P.emptyState({
+        icon: '◇', title: 'Nothing selected',
+        description: 'The review state of the selected workpaper appears here.'
+      }));
+      return pane;
+    }
+
+    var model = service.buildWorkpaper(row.control, row.test, context);
+
+    var statusRows = [
+      { label: 'Workpaper', value: model.workpaperId || 'Not generated' },
+      { label: 'Status', value: model.status.label || 'Not recorded' },
+      { label: 'Lifecycle phase', value: model.status.phase || 'Not recorded' },
+      { label: 'Result', value: row.result || 'Not recorded' }
+    ];
+    pane.appendChild(paneBlock('Workpaper status', P.propertyGrid(statusRows, { columns: 1 })));
+
+    var suggestions = deriveWorkpaperSuggestions(row, context.suggestions).filter(function (suggestion) {
+      return suggestion.status !== 'Applied' && suggestion.status !== 'Rejected';
+    });
+    var workflow = el('div', 'aos-testing__workflow');
+    if (suggestions.length === 0) {
+      workflow.appendChild(el('p', 'aos-testing__workflow-note',
+        'No change in flight. A proposed worksheet edit enters the Suggested → Reviewed → Approved → Applied workflow; the workpaper is written only on Apply. Release 2 propagates an applied change back through walkthrough, evidence, and controls.'));
+    }
+    var engagementId = context.engagement ? context.engagement.id : '';
+    suggestions.forEach(function (suggestion) {
+      workflow.appendChild(WS.buildSuggestionWorkflowCard(suggestion, engagementId, resolveStatusTone));
+    });
+    pane.appendChild(paneBlock('Review workflow', workflow));
+
+    var ai = P.emptyState({
+      icon: '✦', title: 'Reserved for AI advisory',
+      description: 'AI-assisted testing — drafted procedures, recommended sample selections, identified testing gaps, evaluated evidence, and proposed conclusions — appears here once the AI foundation is implemented. AI remains advisory; human approval remains mandatory.'
+    });
+    ai.classList.add('aos-tint-brand');
+    pane.appendChild(paneBlock('AI recommendations', ai));
+
+    pane.appendChild(paneBlock('AI lineage', buildLineageStages(model)));
+
+    // Engagement-level review context beneath the record-level review: the
+    // exceptions testing has actually surfaced across the engagement, and the
+    // dated testing activity it has recorded. Both are clearly scoped to the
+    // engagement, not to the selected workpaper.
+    pane.appendChild(paneBlock('Engagement exceptions',
+      buildExceptionsBody(asArray(context.exceptions))));
+    pane.appendChild(paneBlock('Recent testing activity',
+      buildActivityBody(asArray(context.activity))));
+    return pane;
+  }
+
+  /**
+   * Builds the object-level AI lineage from the canonical service (§10): the
+   * nine ordered stages, rendered only from recorded facts. A workpaper with no
+   * declared AI origin says so plainly rather than implying one.
+   */
+  function buildLineageStages(model) {
+    var wrap = el('div', 'aos-testing__lineage-stages-wrap');
+    if (!model.lineage) {
+      return wrap;
+    }
+    if (!model.isAiGenerated) {
+      wrap.appendChild(el('p', 'aos-testing__lineage-note',
+        'This workpaper declares no AI origin — it was prepared directly. An AI-generated workpaper carries its complete lineage here: origin, walkthrough session, transcript, evidence references, reasoning, generation, review, and approval.'));
+    }
+    var list = el('ol', 'aos-testing__lineage-stages');
+    model.lineage.stages.forEach(function (stage) {
+      var item = el('li', 'aos-testing__lineage-stage' +
+        (stage.present ? '' : ' aos-testing__lineage-stage--absent'));
+      item.appendChild(el('span', 'aos-testing__lineage-stage-label', stage.label));
+      if (stage.present) {
+        stage.items.forEach(function (fact) {
+          item.appendChild(el('span', 'aos-testing__lineage-stage-item',
+            [fact.title, fact.detail].filter(Boolean).join(' · ')));
+        });
+      } else {
+        item.appendChild(el('span', 'aos-testing__lineage-stage-item', '—'));
+      }
+      list.appendChild(item);
+    });
+    wrap.appendChild(list);
+    return wrap;
+  }
+
+  /** Builds one control-selector row: control code + title, status, and result. */
+  function buildSelectorRow(row) {
+    var P = presentation();
+    var node = el('button', null);
+    node.type = 'button';
+
+    var head = el('div', 'aos-testing__row-head');
+    var identity = el('div', 'aos-testing__row-identity');
+    identity.appendChild(el('span', 'aos-testing__row-code aos-numeric', row.controlCode));
+    identity.appendChild(el('span', 'aos-testing__row-title', row.title));
+    // The rail truncates to keep rows to two lines; the full title stays
+    // available on hover and to assistive technology, and in full in the
+    // generated worksheet. Nothing is hidden.
+    node.setAttribute('title', [row.controlCode, row.title].filter(Boolean).join(' — '));
+    head.appendChild(identity);
+    if (row.status) {
+      head.appendChild(P.statusBadge({ label: row.status, tone: row.statusTone }));
+    }
+    node.appendChild(head);
+
+    var meta = el('div', 'aos-testing__row-meta');
+    if (row.family) {
+      meta.appendChild(el('span', null, row.family));
+    }
+    if (row.result) {
+      meta.appendChild(el('span', 'aos-testing__row-result aos-testing__row-result--' + (row.resultTone || 'neutral'), row.result));
+    }
+    meta.appendChild(el('span', 'aos-testing__row-coverage', row.generated ? 'Workpaper generated' : 'No workpaper'));
+    node.appendChild(meta);
+    return node;
+  }
+
+  /**
+   * Builds the left pane: the control selector (§3 — Left Panel). The search
+   * input is built once and never rebuilt, so typing never loses focus; only
+   * the list is re-rendered, and selecting a control replaces only the two
+   * right-hand panes, so the rail's scroll position survives.
+   */
+  function buildSelectorRail(viewModel, targetId, onSelect) {
+    var P = presentation();
+    var context = viewModel.context;
+    var rail = el('div', 'aos-testing__rail');
+
+    var searchLabel = el('label', 'aos-testing__search');
+    searchLabel.appendChild(el('span', 'aos-testing__search-label', 'Search controls'));
+    var searchInput = el('input', 'aos-testing__search-input');
+    searchInput.type = 'search';
+    searchInput.value = boardState.search;
+    searchInput.setAttribute('placeholder', 'Code, title, family, or status');
+    searchInput.setAttribute('aria-label', 'Search controls');
+    searchLabel.appendChild(searchInput);
+    rail.appendChild(searchLabel);
+
+    var countLabel = el('p', 'aos-testing__rail-count');
+    var listNode = el('div', 'aos-testing__row-list');
+    listNode.setAttribute('role', 'list');
+
+    function render(preferredId) {
+      var rows = viewModel.workpapers.filter(function (row) {
+        return matchesSearch(row, boardState.search);
+      });
+      countLabel.textContent = rows.length === viewModel.workpapers.length
+        ? rows.length + ' controls'
+        : rows.length + ' of ' + viewModel.workpapers.length + ' controls';
+      if (rows.length === 0) {
+        listNode.replaceChildren(P.emptyState({
+          icon: '◇', title: 'No control matches the search',
+          description: 'Clear or change the query to see more of the engagement’s controls.'
+        }));
+        onSelect(null);
+        return;
+      }
+      WS.mountRailGroups('aos-testing', listNode, null, [{ label: '', rows: rows }], context,
+        buildSelectorRow, null, null, preferredId, onSelect);
+    }
+
+    rail.appendChild(countLabel);
+    rail.appendChild(listNode);
+
+    searchInput.addEventListener('input', function () {
+      boardState.search = searchInput.value;
+      render(boardState.controlId);
+    });
+
+    render(targetId || boardState.controlId);
+    return rail;
+  }
+
+  // ------------------------------------------------------------------
+  // Slot rendering
+  // ------------------------------------------------------------------
 
   /** Replaces a slot's content with the given nodes (or clears it). */
   var fillSlot = WS.fillSlot;
 
   /**
-   * The ordered testing sections (§ Workspace Structure): operational health,
-   * testing progress, the test procedure queue with its three views and the
-   * inspector, the exceptions, the audit lineage, then the testing metadata. Each
-   * entry names the section id, its header, whether it has data, its body builder,
-   * and an empty descriptor used when the data is absent (§ Empty States).
+   * Hides the framework's supporting-panel band for this workspace: the
+   * Workbench's own right pane IS the supporting information, so the band below
+   * would duplicate it and push the application below the fold (§3 / §12).
    */
-  function primarySections(viewModel, targetId) {
-    var context = viewModel.context;
-    return [
-      {
-        id: 'health', kicker: 'Operational status', title: 'Testing health',
-        present: true, body: function () { return buildHealthStrip(viewModel.testingHealth); }
-      },
-      {
-        id: 'progress', kicker: 'Completion', title: 'Testing progress',
-        description: 'Completed tests over the total recorded for the engagement. Real counts only — no estimated percentages.',
-        present: viewModel.progress.total > 0,
-        body: function () { return buildProgressBody(viewModel.progress); },
-        empty: {
-          icon: '◇', title: 'No tests yet',
-          description: 'Testing progress appears here once tests are recorded for the engagement.'
-        }
-      },
-      {
-        id: 'queue', kicker: 'Operational queue', title: 'Test procedure queue',
-        description: 'Every test procedure for the engagement. Switch between Test view, By control, and By result — the same dataset, regrouped — and select a test to open its Inspector, with the related control, sample selection, evidence used, and methodology reuse.',
-        present: viewModel.queue.length > 0,
-        body: function () { return buildQueueBody(viewModel.views, context, targetId); },
-        empty: {
-          icon: '◇', title: 'No tests yet',
-          description: 'Test procedures appear here as they are performed for the engagement. Release 2 adds AI-drafted procedures, recommended samples, and proposed conclusions; Release 1 renders only the current testing state.'
-        }
-      },
-      {
-        id: 'exceptions', kicker: 'Results', title: 'Exceptions',
-        description: 'The tests whose recorded result is an exception, each linking to the finding it raised.',
-        present: true, body: function () { return buildExceptionsBody(viewModel.exceptions); }
-      },
-      {
-        id: 'lineage', kicker: 'Relationships', title: 'Audit lineage',
-        description: 'Where testing sits in the audit chain, from walkthrough through to report.',
-        present: viewModel.lineage.length > 0,
-        body: function () { return buildLineageBody(viewModel.lineage); },
-        empty: {
-          icon: '◇', title: 'No lineage available',
-          description: 'The audit lineage appears here once the workspaces are registered.'
-        }
-      },
-      {
-        id: 'metadata', kicker: 'Record', title: 'Metadata',
-        present: true, body: function () { return buildMetadataBody(viewModel.metadata); }
-      }
-    ];
+  function collapseSupportingRegions(view) {
+    var panels = view.querySelector('[data-region="supporting-panels"]');
+    if (panels) {
+      panels.hidden = true;
+    }
   }
 
-  /** Renders the ready testing experience into the framework slots. */
+  /**
+   * Renders the ready testing experience: the fixed-frame viewport shell
+   * hosting one Workbench — control selector, generated worksheet, review pane
+   * — with the engagement-level testing health, progress, and audit chain in
+   * the compact context band above it.
+   */
   function renderReady(view, viewModel) {
     var P = presentation();
     var router = AuditOS.router;
     var targetId = router && router.getCurrentRecordId ? router.getCurrentRecordId() : '';
 
     AuditOS.workspaceFramework.configure(view, {
+      shell: 'viewport',
       header: viewModel.header,
-      contextSummary: viewModel.ribbon,
-      toolbar: viewModel.toolbar,
-      filterBar: viewModel.filterBar
+      contextSummary: viewModel.ribbon
     });
+    collapseSupportingRegions(view);
 
     var canvas = el('div', 'aos-testing');
     canvas.setAttribute('data-canvas', 'flush');
-    var rendered = 0;
-    primarySections(viewModel, targetId).forEach(function (section) {
-      var body = section.present ? section.body() : P.emptyState(section.empty);
-      var built = buildSection(section.id, section, body);
-      built.classList.add('aos-rise-in');
-      if (rendered > 0) {
-        built.classList.add('aos-rise-in--' + Math.min(rendered, STAGGER_LIMIT));
-      }
-      rendered += 1;
-      canvas.appendChild(built);
+
+    // The compact context band: engagement-level testing health, progress, and
+    // the audit chain. Each is a single row, so the operational panes below
+    // keep the viewport (§12 — the chrome never crowds the task).
+    var band = el('div', 'aos-testing__band');
+    var health = buildHealthStrip(viewModel.testingHealth);
+    health.classList.add('aos-testing__health');
+    band.appendChild(health);
+    if (viewModel.progress.total > 0) {
+      band.appendChild(buildProgressBody(viewModel.progress));
+    }
+    if (viewModel.lineage.length > 0) {
+      band.appendChild(buildLineageBody(viewModel.lineage));
+    }
+    canvas.appendChild(band);
+
+    var canvasMount = el('div', 'aos-testing__canvas-mount');
+    var reviewMount = el('div', 'aos-testing__review-mount');
+    var selectedRow = null;
+
+    function renderPanes() {
+      canvasMount.replaceChildren(buildWorksheetCanvas(selectedRow, viewModel.context, renderPanes));
+      reviewMount.replaceChildren(buildReviewPane(selectedRow, viewModel.context));
+    }
+
+    function selectWorkpaper(row) {
+      selectedRow = row;
+      boardState.controlId = row && row.id ? row.id : '';
+      // A different control means a different worksheet: reset which sections
+      // are open for edit so an edit box never carries across records.
+      boardState.editing = {};
+      renderPanes();
+    }
+
+    // The route may name either a control or a workpaper record; both resolve
+    // to the same selector row, so a deep link from Controls and one from a
+    // findings/test reference both land on the right worksheet.
+    var routedRow = targetId
+      ? viewModel.workpapers.filter(function (row) {
+        return row.id === targetId || row.workpaperId === targetId;
+      })[0] || null
+      : null;
+    var preferredId = (routedRow && targetId !== boardState.lastTargetId)
+      ? routedRow.id : boardState.controlId;
+    boardState.lastTargetId = targetId;
+
+    var workbench = P.workbench({
+      rail: viewModel.workpapers.length > 0
+        ? buildSelectorRail(viewModel, preferredId, selectWorkpaper)
+        : P.emptyState({
+          icon: '◇', title: 'No controls yet',
+          description: 'The generated workpaper is built per control. Controls appear here as they are drafted for the engagement.'
+        }),
+      canvas: canvasMount,
+      inspector: reviewMount,
+      railRatio: 22,
+      inspectorRatio: 26,
+      railLabel: 'Control selector',
+      canvasLabel: 'Generated workpaper',
+      inspectorLabel: 'Review, AI, and provenance'
     });
+    workbench.classList.add('aos-rise-in');
+    canvas.appendChild(workbench);
+
+    if (viewModel.workpapers.length === 0) {
+      selectWorkpaper(null);
+    }
+
     fillSlot(view, SLOTS.CONTENT, [canvas]);
-
-    var related = buildRelatedBody(viewModel.relationships);
-    related.classList.add('aos-fade-in');
-    fillSlot(view, SLOTS.RELATED, [related]);
-
-    var ai = P.emptyState({
-      icon: '✦', title: 'Reserved for AI advisory',
-      description: 'AI-assisted testing — drafted test procedures, recommended sample selections, identified testing gaps, evaluated evidence, and proposed conclusions — will appear here once the AI foundation is implemented. AI remains advisory; human approval remains mandatory.'
-    });
-    ai.classList.add('aos-tint-brand', 'aos-fade-in');
-    fillSlot(view, SLOTS.AI, [ai]);
-
-    var activity = buildActivityBody(viewModel.activity);
-    activity.classList.add('aos-fade-in');
-    fillSlot(view, SLOTS.ACTIVITY, [activity]);
-
     fillSlot(view, SLOTS.FOOTER, [buildFooterItems(viewModel.footer)]);
   }
 
   /** Renders the layout-stable loading state (§15.12 — Loading). */
   function renderLoading(view) {
     var P = presentation();
+    collapseSupportingRegions(view);
     fillSlot(view, SLOTS.CONTENT, [P.loadingState({ variant: 'detail', label: 'Loading testing' })]);
-    fillSlot(view, SLOTS.RELATED, [P.loadingState({ variant: 'list', label: 'Loading related information' })]);
-    fillSlot(view, SLOTS.AI, [P.loadingState({ variant: 'list', label: 'Loading AI advisory' })]);
-    fillSlot(view, SLOTS.ACTIVITY, [P.loadingState({ variant: 'list', label: 'Loading activity' })]);
   }
 
   /** Renders the degraded state (§15.12 — Empty / Error). */
   function renderDegraded(view, viewModel) {
     var P = presentation();
+    collapseSupportingRegions(view);
     fillSlot(view, SLOTS.CONTENT, [P.emptyState({
       icon: '◇', title: 'No engagement available',
       description: 'The Shared Audit State holds no engagement to present' +
@@ -1245,6 +1868,10 @@
       normalizeMethodologyReuse: normalizeMethodologyReuse,
       deriveTestRow: deriveTestRow,
       deriveQueue: deriveQueue,
+      deriveWorkpaperRows: deriveWorkpaperRows,
+      matchesSearch: matchesSearch,
+      deriveWorkpaperSuggestions: deriveWorkpaperSuggestions,
+      sectionText: sectionText,
       deriveTestingHealth: deriveTestingHealth,
       deriveTestingProgress: deriveTestingProgress,
       deriveTestingStatus: deriveTestingStatus,
@@ -1254,7 +1881,6 @@
       resultView: resultView,
       deriveViews: deriveViews,
       deriveLineage: deriveLineage,
-      deriveRelationships: deriveRelationships,
       deriveActivity: deriveActivity,
       deriveMetadata: deriveMetadata,
       deriveMethodologyReuseItems: deriveMethodologyReuseItems,

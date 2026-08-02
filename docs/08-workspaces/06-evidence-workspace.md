@@ -2,15 +2,35 @@
 
 ## Chapter 66 — Evidence Workspace
 
-> **Issue #39 (Evidence Workspace Consolidation) — reflects the shipped
-> implementation.** Evidence is now **the** operational object of an
+> **Issue #39 (Evidence Workspace Consolidation) + Issue #40 §8 / §12
+> (Evidence viewport optimization) — reflects the shipped implementation.** Evidence is now **the** operational object of an
 > engagement; the separate Requirements workspace was removed (Chapter 68 is
 > superseded). The shipped workspace is deliberately consolidated to filters,
 > metrics, table, drawer, and workflow — nothing else:
 >
 > * **Viewport-height board.** The board fills the remaining viewport height
 >   and the dense enterprise table owns all scrolling internally; the page
->   itself never scrolls.
+>   itself never scrolls. **Issue #40 §8 / §12** replaced the fixed
+>   `calc(100dvh - 19rem)` allowance with the framework's **viewport shell**
+>   (`shell: 'viewport'`), so the real remaining height arrives down the mount
+>   chain and the table gets every pixel the chrome above it does not use —
+>   correct at any zoom level, header height, or viewport size, instead of a
+>   guessed subtrahend.
+> * **Reduced chrome footprint (Issue #40 §8).** No metric was removed; the
+>   space they cost was. On wide viewports the KPI tiles and the distribution
+>   charts sit **side by side** instead of stacking; tile and chart padding,
+>   type scale, and track minimums tighten; a long chart legend scrolls inside
+>   its own card rather than growing the band; the filter labels sit beside
+>   their controls instead of above them; and the band is capped so it can
+>   never dictate how much of the table is visible. Table rows now read on one
+>   line and truncate with an ellipsis — the full title stays on the row's
+>   `title` attribute and in the drawer. Measured at 1366×768 the visible-row
+>   count went from **1 to 6**, and at 1920×1080 to **14**, with the page still
+>   not scrolling.
+> * **Highlighted arrival (Issue #40 §2).** An evidence link from Controls or
+>   Testing lands with its row already selected and scrolled into view, and its
+>   drawer open — the row to open is resolved *before* the table is built, so
+>   the highlight is never one render late.
 > * **Focus-stable search.** The search input is mounted once and never
 >   rebuilt; typing filters the rows and live metrics synchronously, so focus
 >   and the caret never move.

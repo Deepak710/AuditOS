@@ -8,7 +8,45 @@
 
 The Controls Workspace is the operational environment for discovering, designing, governing, assessing, and maintaining Business Controls throughout the assurance lifecycle.
 
-**Release 1 Status (GitHub Issue #23):** Faithful JSON rendering with Master→Detail inspection, three presentation modes (Control view / By family / By coverage), audit lineage, and framework mapping. Pure derivations, offline-compatible, zero AI writes. Extensible for Release 2 AI refinement, test-procedure drafting, and duplicate detection.
+**Release 1 Status (GitHub Issue #23, rebuilt by Issue #40 §2 / §7 / §12):**
+Faithful JSON rendering, three presentation modes (Control view / By family /
+By coverage), audit lineage, and framework mapping. Pure derivations,
+offline-compatible, zero AI writes. Extensible for Release 2 AI refinement,
+test-procedure drafting, and duplicate detection.
+
+**Layout — a viewport application, not a scrolling page (Issue #40 §2 / §12).**
+Controls renders on the framework's **viewport shell** (`shell: 'viewport'`),
+which fixes the frame and propagates the measured remaining height down the
+mount chain. Inside it, the shared **Workbench** composition
+(`AuditOS.presentation.workbench`) divides the canvas into three panes that each
+own their own scrolling — the browser window never scrolls and no zooming out
+is required at any viewport size:
+
+| Pane | Contents |
+| --- | --- |
+| **Left — control list** | Search across the fields the row displays, the three presentation views, and every control for the engagement. |
+| **Middle — selected control** | Control metadata, description, risk, assertions, framework mappings, testing objective, the test-procedure preview, history — and the **required-evidence register**. |
+| **Right — operational inspector** | Control readiness, approval state, in-flight suggestions, recent recorded activity, AI recommendations, and generation provenance. |
+
+Selecting a control replaces **only** the middle and right panes. The rail is
+never rebuilt, so its scroll position — and the user's place in a long control
+library — survives every selection.
+
+**Controls ↔ Evidence (Issue #40 §7).** The middle pane shows *every* evidence
+item as its own row — status, owner, evidence type, current lifecycle phase, and
+a link that opens the Evidence workspace on that record with the client and
+engagement context intact and the drawer already open. Never a count. The join
+is the one the dataset actually declares: control → `requirementIds` →
+requirement → `linkedEvidenceIds` → evidence, derived once in
+`js/services/workpaper-service.js` and read identically by Controls, the
+generated workpaper, and both exports. A requirement that resolves but links no
+evidence still contributes a row, because an outstanding requirement is a real,
+current fact about the control's coverage.
+
+**Generation provenance (Issue #40 §4 / §10).** The right pane renders the
+canonical AI Lineage Service's nine ordered stages. A control with no declared
+AI origin says so plainly — a hand-authored control is not an AI-generated one,
+and the difference is never blurred.
 
 Within AuditOS, controls are not merely checklist items tied to a specific framework.
 

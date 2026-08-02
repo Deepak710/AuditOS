@@ -190,6 +190,21 @@
   <script src="js/services/ai-lineage-service.js"></script>
 
   <!-- ========================================================= -->
+  <!-- AI Workpaper Foundation (Issue #40)                       -->
+  <!-- WorkpaperService (the one model of a generated audit      -->
+  <!-- workpaper — sections, provenance, canonical status),      -->
+  <!-- WorkbookExport (the one .xlsx writer: OOXML parts in a    -->
+  <!-- STORE-method ZIP, zero dependency), and WorkpaperExport   -->
+  <!-- (the HTML document and the CSC-01 sheet mapping). The     -->
+  <!-- service reads the canonical lifecycle and AI Lineage      -->
+  <!-- above; it defines no status model and no lineage of its   -->
+  <!-- own.                                                      -->
+  <!-- ========================================================= -->
+  <script src="js/services/workpaper-service.js"></script>
+  <script src="js/services/workbook-export.js"></script>
+  <script src="js/services/workpaper-export.js"></script>
+
+  <!-- ========================================================= -->
   <!-- Engagement Operating System Foundation (Issue #36)        -->
   <!-- SynchronizationBus (pages publish events; the bus updates  -->
   <!-- EngagementContext), EngagementContextService (the single   -->

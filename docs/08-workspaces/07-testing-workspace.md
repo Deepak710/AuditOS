@@ -2,6 +2,42 @@
 
 ## Chapter 67 — Testing Workspace
 
+> **Issue #40 (§3 / §4 / §5 / §6 / §10 / §11) — reflects the shipped
+> implementation.** Testing is no longer a queue of test rows. It is **the
+> generated audit workpaper** for a selected control, regenerated the instant
+> another control is selected.
+>
+> **Layout — a viewport application.** Testing renders on the framework's
+> viewport shell and the shared Workbench composition; the page never scrolls
+> and each pane owns its own scrolling:
+>
+> | Pane | Contents |
+> | --- | --- |
+> | **Left — control selector** | Search plus one row per control, carrying the workpaper recorded against it. A control with no workpaper is still listed and reads *No workpaper* — hiding it would misrepresent testing coverage. |
+> | **Middle — generated worksheet** | The twelve canonical sections, in order: Overview · Control description · Walkthrough summary · Testing objective · Testing procedure · Population · Evidence references · Attributes · Exceptions · Conclusion · Reviewer notes · Approval. |
+> | **Right — review, AI, provenance** | Workpaper status, the in-flight review workflow, AI advisory, the complete AI lineage, and engagement-level exceptions and testing activity. |
+>
+> **The worksheet model is not defined in the workspace.** It comes from the
+> canonical **Workpaper Service** (`js/services/workpaper-service.js`), which
+> the HTML document and the Excel workbook read from too — so the screen, the
+> document, and the workbook can never disagree about what the workpaper says.
+> See §67.14 below.
+>
+> **Every section is editable except its AI provenance (§3).** An edit never
+> writes production state: it enters the canonical Suggested → Reviewed →
+> Approved → Applied lifecycle through the shared Suggestion Lifecycle Service,
+> rendered by the shared workflow card. Release 1 builds the workflow; Release 2
+> performs the AI propagation back through walkthrough, evidence, and controls
+> (§5).
+>
+> **Testing declares no status model of its own (§11).** The recorded status
+> renders verbatim; its phase, tone, and lifecycle order come from the canonical
+> lifecycle (`js/services/evidence-lifecycle.js`) — the same one Evidence reads.
+>
+> The Test Procedure Queue derivations remain and are still exported: testing
+> health, progress, exceptions, the three queue views, and the per-test
+> Inspector, whose host-agnostic renderer any other host can still mount.
+
 ---
 
 ### 67.1 Purpose
@@ -623,3 +659,69 @@ The following architectural seams are intentionally left open for Release 2 AI-a
 * **Approval History** — Currently renders reviewer + outcome; Release 2 may add AI-proposed approval workflows.
 
 ---
+
+### 67.27 The AI Workpaper Foundation (Issue #40 §3 / §4 / §6 / §10 / §11)
+
+Three canonical services implement the workpaper. They are pure — no DOM, no
+`AuditOS.state`, no writes — so the offline suites exercise them directly.
+
+#### `js/services/workpaper-service.js` — the model
+
+`buildWorkpaper(control, test, context)` returns one declarative model: the
+twelve canonical sections in order, each with its declared editability, its
+content, its provenance, and its reserved placeholder. Editability is a
+property of the section, declared once, so the renderer never decides it and
+the exports never re-derive it.
+
+The demo datasets already carry the workpaper shape — `walkthroughTest`
+(procedure, attributes, steps, conclusion), `oeTest` (applicability, sampling
+method, population, sample size, samples, design and operating effectiveness,
+issue description), preparer and reviewer ids, and the date performed. The
+service reads those recorded facts **and nothing else**. A section with no
+recorded data returns `present: false` with its placeholder — never invented
+prose, never an invented sample, never an invented conclusion. A point-in-time
+control's recorded "OE testing not applicable, because …" is rendered as the
+fact it is, not as missing data.
+
+`buildWorkpaper` never re-implements object lineage: it attaches the canonical
+AI Lineage Service's model (§10). Nor does it define a status model: it reads
+phase, tone, and order from the canonical lifecycle (§11), which Issue #40
+extended with a documented `WORKPAPER_STATUS_MAP` so the testing vocabulary
+resolves through the one model.
+
+#### AI provenance (§4)
+
+Every generated block declares what it was generated from — **Walkthrough
+sessions**, **Evidence**, **Control metadata**, **AI rationale** — as an
+expand/collapse disclosure that is the one part of the worksheet that is never
+editable. Each source is `present: true` only where a real join or a real
+declaration backs it:
+
+* walkthrough sessions relate to a control only through the requirements the
+  control declares — never inferred from titles, dates, or proximity;
+* evidence resolves through the same requirement hop Controls uses;
+* an AI rationale appears only where the record declares one.
+
+A source with no recorded backing reads *Not recorded*. It is never justified.
+
+#### `js/services/workbook-export.js` — the workbook writer
+
+The one `.xlsx` writer of the platform, with zero dependencies: a minimal but
+standards-correct SpreadsheetML part set inside a ZIP built with the **STORE**
+method, which needs no compressor — only a CRC-32. That is why Issue #40 §6
+ships a real writer rather than the Release 2 placeholder the issue allows.
+Deliberately not implemented: shared strings (cells are inline strings, which
+is valid and simpler), formulas, charts, and any calculation chain.
+
+#### `js/services/workpaper-export.js` — the two serializations
+
+* **HTML workpaper** — a self-contained document (inline styles, no script, no
+  external request) that opens by double-click on a machine with only a
+  browser, the same portability contract as the prototype itself.
+* **Excel workbook** — the CSC-01 sheet structure the issue names as the
+  template — *Title Sheet · Population IPE · WT Test Sheet · OE Test Sheet* —
+  plus the two registers AuditOS holds that the spreadsheet never did:
+  **Evidence References** (every item, never a count) and **AI Provenance**.
+
+Both read the model the Workpaper Service builds. Neither re-derives an audit
+fact.

@@ -40,16 +40,27 @@
  * mixed datasets while opening the Release 2 seams (AI control refinement,
  * immutable version history).
  *
- * The Control Library is the primary operational surface. It renders every
- * control once and offers three presentation modes over that single dataset —
- * Control view, By family, and By coverage — each a pure regrouping of the same
- * rows. Changing the view changes presentation only; no control is added,
- * removed, or mutated. Selecting a row opens the Control Inspector beside it. The
- * inspector renderer is host-agnostic (data in, one self-contained node out) so a
- * later release can mount it in a dedicated region with no change here, and it
- * exposes framework mappings, a test-procedure preview, related audit objects,
- * and immutable history only when the JSON records them, never fabricating a
- * relationship or a past state.
+ * Layout (Issue #40 §2 / §12) — Controls is a viewport application, not a
+ * scrolling page. The framework's viewport shell fixes the frame and the shared
+ * Workbench composition divides it into three panes that each own their own
+ * scrolling:
+ *
+ *   Left    the control list — search, the three presentation views, every control
+ *   Middle  the selected control — metadata, description, risk, assertions,
+ *           walkthrough references, testing objective, and every required
+ *           evidence item as its own row (§7 — rows, never counts)
+ *   Right   the operational inspector — readiness, approval state, suggestions,
+ *           recent activity, AI recommendations, and generation provenance
+ *
+ * Selecting a control replaces only the middle and right panes; the rail is
+ * never rebuilt, so its scroll position and the user's place in a long control
+ * library survive every selection. Changing the presentation view — Control
+ * view, By family, By coverage — regroups the same rows and changes nothing
+ * about the data.
+ *
+ * The Control Inspector configuration (`buildControlInspector`) remains pure and
+ * host-agnostic: data in, one plain configuration out. The middle pane renders
+ * it; nothing about it assumes where it is mounted.
  *
  * Presentation only. Every business value is read through `AuditOS.state`;
  * nothing is written. Sections with no data render shared Empty State
@@ -74,6 +85,21 @@
 
   /** Cross-Workspace Relationship Engine (Issue #30) — shared relationship/derivation layer. */
   var RE = AuditOS.relationships || {};
+
+  /** The canonical workpaper service (Issue #40) — resolved at call time. */
+  function workpapers() {
+    return AuditOS.workpaperService || null;
+  }
+
+  /** The canonical AI Lineage Service (Issue #39) — resolved at call time. */
+  function lineageService() {
+    return AuditOS.aiLineage || null;
+  }
+
+  /** The canonical record lifecycle (Issue #39 / #40 §11) — resolved at call time. */
+  function lifecycle() {
+    return AuditOS.evidenceLifecycle || null;
+  }
 
   // ------------------------------------------------------------------
   // Constants
@@ -147,9 +173,6 @@
 
   /** Maximum entries per supporting list so panels stay scannable. */
   var LIST_LIMIT = WS.LIST_LIMIT;
-
-  /** Entrance stagger ceiling — sections beyond this share the last delay. */
-  var STAGGER_LIMIT = WS.STAGGER_LIMIT;
 
   // ------------------------------------------------------------------
   // Pure derivation helpers — no DOM, no AuditOS.state access. Each takes plain
@@ -577,33 +600,6 @@
   }
 
   /**
-   * Related audit objects for the supporting panel: the domains the controls
-   * connect to, each with its real count, only when data exists. Reuses the same
-   * chain the lineage draws from (Control is the workspace's own object, so it is
-   * not listed as a relation).
-   */
-  function deriveRelationships(workspaceRegistry, operational) {
-    if (!workspaceRegistry) {
-      return [];
-    }
-    var ops = operational || {};
-    var requirements = ops.requirements || {};
-    var evidence = ops.evidence || {};
-    var testing = ops.testing || {};
-    var findings = ops.findings || {};
-    var report = ops.report || null;
-    var ids = workspaceRegistry.IDS;
-
-    var related = [
-      { id: ids.EVIDENCE, title: 'Evidence', meta: String(evidence.evidenceItems || 0), present: (evidence.evidenceItems || 0) > 0 },
-      { id: ids.TESTING, title: 'Testing', meta: String(testing.tests || 0), present: (testing.tests || 0) > 0 },
-      { id: ids.FINDINGS, title: 'Findings', meta: String(findings.findings || 0), present: (findings.findings || 0) > 0 },
-      { id: ids.REPORTING, title: 'Report', meta: report ? String(report.status) : '—', present: Boolean(report) }
-    ];
-    return WS.resolveRelationships(workspaceRegistry, related);
-  }
-
-  /**
    * Recent control-related activity, newest first, drawn only from dated history
    * the controls carry (activity / history entries, or a recorded update
    * timestamp). Undated controls never appear, so an engagement whose controls
@@ -812,6 +808,88 @@
     };
   }
 
+  /**
+   * Whether a library row matches a free-text query. Matching is
+   * case-insensitive across the fields the row already displays — code, title,
+   * owner, type, status, and framework mapping — so what the user reads is what
+   * the search looks at. An empty query matches everything.
+   */
+  function matchesSearch(row, query) {
+    var needle = String(query || '').trim().toLowerCase();
+    if (!needle) {
+      return true;
+    }
+    return [row.controlCode, row.title, row.owner, row.type, row.status, row.framework, row.id]
+      .filter(Boolean)
+      .some(function (field) {
+        return String(field).toLowerCase().indexOf(needle) !== -1;
+      });
+  }
+
+  /**
+   * The operational readiness of one control (Issue #40 §2 — Control
+   * readiness), derived only from recorded facts: the walkthrough and testing
+   * statuses the control records, and the real evidence coverage behind it.
+   * Nothing is scored, weighted, or predicted — each indicator is a statement
+   * of a recorded state, and an unrecorded state reads "Not recorded" rather
+   * than a fabricated default.
+   */
+  function deriveReadiness(control, evidenceRows) {
+    var source = control || {};
+    var rows = asArray(evidenceRows);
+    var received = rows.filter(function (row) {
+      var phase = row.phase;
+      return phase === 'Resolution' || phase === 'Closure' || row.status === 'Received';
+    }).length;
+
+    var indicators = [];
+    var walkthroughStatus = source.walkthroughStatus || '';
+    indicators.push({
+      key: 'walkthrough', label: 'Walkthrough',
+      status: walkthroughStatus || 'Not recorded',
+      tone: walkthroughStatus ? resolveStatusTone(walkthroughStatus) : null
+    });
+
+    var testingStatus = source.testingStatus || '';
+    indicators.push({
+      key: 'testing', label: 'Testing',
+      status: testingStatus || 'Not recorded',
+      tone: testingStatus ? resolveStatusTone(testingStatus) : null
+    });
+
+    indicators.push({
+      key: 'evidence', label: 'Evidence',
+      status: rows.length === 0 ? 'None linked' : (received + ' of ' + rows.length + ' settled'),
+      tone: rows.length === 0 ? TONES.WARNING : (received === rows.length ? TONES.SUCCESS : TONES.WARNING)
+    });
+
+    var status = source.status || '';
+    indicators.push({
+      key: 'control', label: 'Control',
+      status: status || 'Not recorded',
+      tone: status ? resolveStatusTone(status) : null
+    });
+
+    return indicators;
+  }
+
+  /**
+   * The suggestions that genuinely target one control: those naming it in
+   * `affectedControls` or `auditReferences`. A suggestion that names neither is
+   * never attributed to a control it does not reference.
+   */
+  function deriveControlSuggestions(control, suggestions) {
+    var id = control && control.id ? control.id : '';
+    var code = control && control.controlCode ? control.controlCode : '';
+    if (!id && !code) {
+      return [];
+    }
+    return asArray(suggestions).filter(function (suggestion) {
+      var references = asArray(suggestion.affectedControls).concat(asArray(suggestion.auditReferences));
+      return references.indexOf(id) !== -1 || (code && references.indexOf(code) !== -1);
+    });
+  }
+
   // ------------------------------------------------------------------
   // View model — the single place this workspace reads AuditOS.state.
   // ------------------------------------------------------------------
@@ -854,6 +932,8 @@
     var testingDocument = readEngagementDocument(state, 'testing', engagement.id) || {};
     var findingsDocument = readEngagementDocument(state, 'findings', engagement.id) || {};
     var reportsDocument = readEngagementDocument(state, 'reports', engagement.id) || {};
+    var walkthroughDocument = readEngagementDocument(state, 'walkthroughs', engagement.id) || {};
+    var suggestionsDocument = readEngagementDocument(state, 'suggestions', engagement.id) || {};
 
     var controlRecords = asArray(controlsDocument.controls);
     var requirementsById = indexById(requirementsDocument.requirements);
@@ -868,6 +948,11 @@
       businessUnitsById: businessUnitsById,
       requirementsById: requirementsById,
       evidenceById: evidenceById,
+      // The walkthrough sessions and in-flight suggestions the operational
+      // inspector and the evidence hop read (Issue #40 §2). Both are engagement
+      // documents; neither is re-derived anywhere else in this workspace.
+      walkthroughSessions: asArray(walkthroughDocument.sessions),
+      suggestions: asArray(suggestionsDocument.suggestions),
       workspaceRegistry: workspaceRegistry,
       frameworks: frameworks,
       auditPeriodLabel: auditPeriodLabel,
@@ -886,6 +971,7 @@
 
     var library = deriveLibrary(controlRecords, context);
     var collectionStatus = deriveCollectionStatus(controlRecords);
+    var metadata = deriveMetadata(controlsDocument.metadata, engagement, company, controlRecords);
 
     return {
       degraded: false,
@@ -913,23 +999,24 @@
         { label: 'Controls', value: String(controlRecords.length) }
       ],
 
-      toolbar: { search: { placeholder: 'Search controls' } },
-      filterBar: {
-        dropdowns: [{ label: 'Framework', options: ['All frameworks'].concat(frameworks) }]
-      },
-
       controlHealth: deriveControlHealth(controlRecords),
       library: library,
       views: deriveViews(library),
       lineage: deriveLineage(workspaceRegistry, operational),
-      relationships: deriveRelationships(workspaceRegistry, operational),
       activity: deriveActivity(controlRecords),
-      metadata: deriveMetadata(controlsDocument.metadata, engagement, company, controlRecords),
+      metadata: metadata,
 
+      // The workspace status strip. The collection metadata reads here rather
+      // than in a panel of its own: the viewport shell gives its whole canvas
+      // to the operational task, and record-level facts belong on the status
+      // line (Issue #40 §12).
       footer: [
         { label: 'Environment', value: 'Static prototype' },
-        { label: 'Demo status', value: status.demoDataLoaded ? 'Demo data loaded' : 'Demo data degraded' }
-      ]
+        { label: 'Demo status', value: status.demoDataLoaded ? 'Demo data loaded' : 'Demo data degraded' },
+        { label: 'Version', value: metadata.version },
+        { label: 'Source', value: metadata.source },
+        { label: 'Modified', value: metadata.modified }
+      ].filter(function (entry) { return entry.value; })
     };
   }
 
@@ -944,11 +1031,6 @@
 
   /** The shared presentation system, resolved at render time. */
   var presentation = WS.presentation;
-
-  /** Builds one Section component: an eyebrow, a title, an optional description, then a body node. */
-  function buildSection(id, meta, bodyNode) {
-    return WS.buildSection('aos-controls', id, meta, bodyNode);
-  }
 
   /**
    * Builds the Control Health strip: a row of tone-dot indicators (editor
@@ -972,6 +1054,10 @@
       identity.appendChild(el('span', 'aos-controls__row-code aos-numeric', row.controlCode));
     }
     identity.appendChild(el('span', 'aos-controls__row-title', row.title || row.id));
+    // The rail truncates to keep rows to two lines; the full title stays
+    // available on hover and to assistive technology, and in full in the
+    // middle pane. Nothing is hidden.
+    node.setAttribute('title', [row.controlCode, row.title || row.id].filter(Boolean).join(' — '));
     head.appendChild(identity);
     if (row.status) {
       head.appendChild(P.statusBadge({ label: row.status, tone: row.statusTone }));
@@ -1006,61 +1092,12 @@
    * the detail mount. Clears the list first, so the same node re-renders when the
    * presentation view changes — the mechanism behind the three views over one
    * dataset. Group labels render as a labeled divider carrying the group's count.
+   * `onSelect` (Issue #40) lets the three-pane host update both of its panes
+   * from one selection instead of a single Master–Detail mount.
    */
-  function mountRailGroups(listNode, detailMount, groups, context, targetId) {
-    WS.mountRailGroups('aos-controls', listNode, detailMount, groups, context, buildRow, buildControlInspector, 'control', targetId);
-  }
-
-  /**
-   * Builds the Control Library: a view switcher above a Master–Detail whose master
-   * rail lists the controls for the active view and whose detail shows the
-   * selected control's Inspector Panel. The switcher swaps between the three
-   * presentation modes — Control view, By family, By coverage — by re-rendering
-   * the same rail from the same dataset (presentation-only, memory-only); it never
-   * changes the data. `targetId` (Issue #31) selects that control on first render
-   * and again on every view switch.
-   */
-  function buildLibraryBody(views, context, targetId) {
-    var wrap = el('div', 'aos-controls__library');
-    var detailMount = el('div', 'aos-controls__detail-mount');
-    var listNode = el('div', 'aos-controls__row-list');
-    listNode.setAttribute('role', 'list');
-
-    var switcher = el('div', 'aos-controls__views');
-    switcher.setAttribute('role', 'group');
-    switcher.setAttribute('aria-label', 'Control views');
-    var chips = [];
-
-    function activate(index) {
-      chips.forEach(function (chip, chipIndex) {
-        var selected = chipIndex === index;
-        chip.classList.toggle('aos-controls__view-chip--active', selected);
-        chip.setAttribute('aria-pressed', selected ? 'true' : 'false');
-      });
-      mountRailGroups(listNode, detailMount, views[index].view.groups, context, targetId);
-    }
-
-    asArray(views).forEach(function (view, index) {
-      var chip = el('button', 'aos-controls__view-chip', view.label);
-      chip.type = 'button';
-      chip.setAttribute('aria-pressed', index === 0 ? 'true' : 'false');
-      if (index === 0) {
-        chip.classList.add('aos-controls__view-chip--active');
-      }
-      chip.addEventListener('click', function () { activate(index); });
-      chips.push(chip);
-      switcher.appendChild(chip);
-    });
-
-    var masterDetail = presentation().masterDetail({
-      list: listNode, detail: detailMount, ratio: 42,
-      listLabel: 'Control library', detailLabel: 'Control inspector'
-    });
-
-    wrap.appendChild(switcher);
-    wrap.appendChild(masterDetail);
-    activate(0);
-    return wrap;
+  function mountRailGroups(listNode, detailMount, groups, context, targetId, onSelect) {
+    return WS.mountRailGroups('aos-controls', listNode, detailMount, groups, context,
+      buildRow, buildControlInspector, 'control', targetId, onSelect);
   }
 
   /**
@@ -1073,153 +1110,453 @@
     return WS.buildLineageBody('aos-controls', lineage);
   }
 
-  /** Builds the Metadata body: the shared Metadata List of presentation fields. */
-  function buildMetadataBody(metadata) {
-    var pairs = [
-      { term: 'Created', detail: metadata.created },
-      { term: 'Modified', detail: metadata.modified },
-      { term: 'Owner', detail: metadata.owner },
-      { term: 'Version', detail: metadata.version },
-      { term: 'Tags', detail: asArray(metadata.tags).join(' · ') },
-      { term: 'Source', detail: metadata.source }
-    ];
-    return WS.metadataBody(pairs);
-  }
-
-  /** Builds the Related information supporting panel body: related audit objects with navigation. */
-  function buildRelatedBody(relationships) {
-    return WS.buildRelatedBody(relationships, {
-      icon: '◇', title: 'No related objects',
-      description: 'The audit domains the controls connect to appear here once they hold data.'
-    });
-  }
-
-  /** Builds the Activity Feed for the activity supporting panel. */
-  function buildActivityBody(activity) {
-    return WS.buildActivityBody(activity, {
-      icon: '◇', title: 'No recent activity',
-      description: 'Control drafts, refinements, and approval decisions appear here as the engagement progresses.'
-    });
-  }
-
   /** Builds a run of labeled value items for the workspace footer. */
   function buildFooterItems(entries) {
     return WS.buildFooterItems('aos-controls', entries);
   }
 
   /**
-   * Host-agnostic Inspector renderer (§9): given the control library and the
-   * resolution context, returns one self-contained Master–Detail node — the
-   * control rail beside the Control Inspector — making no assumption about where
-   * it is mounted. Release 1 mounts the fuller Library (with its view switcher) in
-   * the primary content; this renderer exposes the same master → detail
-   * interaction for any other host with no change here.
+   * Host-agnostic renderer (§9): given the control library and the resolution
+   * context, returns one self-contained node — the control rail beside the
+   * control canvas and the operational inspector — making no assumption about
+   * where it is mounted. The workspace mounts the fuller Workbench (with its
+   * search and view switcher) in the primary content; this renderer exposes the
+   * same selection interaction for any other host with no change here.
    */
   function renderInspector(library, context) {
-    var detailMount = el('div', 'aos-controls__detail-mount');
+    var P = presentation();
+    var canvasMount = el('div', 'aos-controls__canvas-mount');
+    var inspectorMount = el('div', 'aos-controls__inspector-mount');
     var listNode = el('div', 'aos-controls__row-list');
     listNode.setAttribute('role', 'list');
-    mountRailGroups(listNode, detailMount, [{ label: '', rows: library }], context);
-    return presentation().masterDetail({
-      list: listNode, detail: detailMount, ratio: 42,
-      listLabel: 'Control library', detailLabel: 'Control inspector'
+
+    function selectControl(control) {
+      canvasMount.replaceChildren(buildControlCanvas(control, context));
+      inspectorMount.replaceChildren(buildOperationalInspector(control, context));
+    }
+
+    mountRailGroups(listNode, null, [{ label: '', rows: library }], context, '', selectControl);
+    return P.workbench({
+      rail: listNode, canvas: canvasMount, inspector: inspectorMount,
+      railRatio: 24, inspectorRatio: 26,
+      railLabel: 'Control library',
+      canvasLabel: 'Selected control',
+      inspectorLabel: 'Operational inspector'
     });
+  }
+
+  // ------------------------------------------------------------------
+  // Three-pane Workbench (Issue #40 §2) — presentation state and the panes.
+  // The state is memory-only: which control is selected, which presentation
+  // view is active, and the rail's search query. Nothing here is business
+  // data and nothing is written back to the Repository.
+  // ------------------------------------------------------------------
+
+  var boardState = { controlId: '', view: 0, search: '', lastTargetId: '' };
+
+  /** Builds one titled pane block: a fixed structural heading above its body. */
+  function paneBlock(title, body) {
+    var block = el('section', 'aos-controls__block');
+    block.appendChild(el('h3', 'aos-controls__block-title', title));
+    block.appendChild(body);
+    return block;
+  }
+
+  /**
+   * Builds one required-evidence row (§7): every evidence item the control
+   * resolves to, showing its status, owner, type, and current lifecycle phase,
+   * with a link that opens the Evidence workspace on that record — where the
+   * canonical route carries the client and engagement, so the context is
+   * preserved and the drawer opens on arrival (§2 / §9).
+   */
+  function buildEvidenceRow(row, context) {
+    var P = presentation();
+    var registry = context.workspaceRegistry;
+    var ids = registry ? registry.IDS : {};
+    var node = el('div', 'aos-controls__evidence-row');
+    node.setAttribute('role', 'listitem');
+
+    var head = el('div', 'aos-controls__evidence-head');
+    head.appendChild(el('span', 'aos-controls__evidence-id aos-numeric', row.id));
+    if (row.status) {
+      head.appendChild(P.statusBadge({ label: row.status, tone: row.statusTone }));
+    }
+    node.appendChild(head);
+
+    if (row.title) {
+      node.appendChild(el('p', 'aos-controls__evidence-title', row.title));
+    }
+
+    var meta = el('div', 'aos-controls__evidence-meta');
+    [
+      row.evidenceType ? 'Type: ' + row.evidenceType : '',
+      row.owner ? 'Owner: ' + row.owner : '',
+      row.phase ? 'Lifecycle: ' + row.phase : ''
+    ].filter(Boolean).forEach(function (entry) {
+      meta.appendChild(el('span', null, entry));
+    });
+    node.appendChild(meta);
+
+    // The link exists only where the evidence record genuinely resolves; an
+    // unresolved reference still renders as a row (it is a real requirement)
+    // but never as a link to a record that is not there.
+    var href = row.resolved ? WS.buildRecordHref(registry, ids.EVIDENCE, row.id) : null;
+    if (href) {
+      var link = el('a', 'aos-controls__evidence-link', 'Open evidence');
+      link.setAttribute('href', href);
+      node.appendChild(link);
+    }
+    return node;
+  }
+
+  /**
+   * Builds the middle pane: the selected control in full (§2 — Middle Panel).
+   * The control's own Inspector configuration supplies metadata, description,
+   * objective, framework mappings, procedure, and history — one definition,
+   * rendered here — and the required-evidence register is appended beneath it
+   * as rows rather than a count.
+   */
+  function buildControlCanvas(control, context) {
+    var P = presentation();
+    var service = workpapers();
+    var canvas = el('div', 'aos-controls__canvas');
+    if (!control) {
+      canvas.appendChild(P.emptyState({
+        icon: '◇', title: 'No control selected',
+        description: 'Select a control from the list to open it here.'
+      }));
+      return canvas;
+    }
+
+    var config = buildControlInspector(control, context);
+    canvas.appendChild(P.inspectorPanel(config));
+
+    var evidenceRows = service ? service.deriveEvidenceRows(control, context) : [];
+    var evidenceBody;
+    if (evidenceRows.length === 0) {
+      evidenceBody = P.emptyState({
+        icon: '◇', title: 'No evidence linked to this control',
+        description: 'Evidence reaches a control through the requirements it declares. This control declares none that resolve to evidence yet.'
+      });
+    } else {
+      evidenceBody = el('div', 'aos-controls__evidence-list');
+      evidenceBody.setAttribute('role', 'list');
+      evidenceRows.forEach(function (row) {
+        evidenceBody.appendChild(buildEvidenceRow(row, context));
+      });
+    }
+    canvas.appendChild(paneBlock('Required evidence (' + evidenceRows.length + ')', evidenceBody));
+
+    var sessions = service ? service.relatedWalkthroughSessions(control, context) : [];
+    var walkthroughBody = sessions.length > 0
+      ? P.itemList(sessions.map(function (session) {
+        return { title: session.title || session.id, description: session.date || '', meta: session.source || '' };
+      }), { compact: true })
+      : P.emptyState({
+        icon: '◇', title: 'No walkthrough references',
+        description: 'Walkthrough sessions reach a control through the requirements it declares. None of this control’s requirements were discussed in a recorded session.'
+      });
+    canvas.appendChild(paneBlock('Walkthrough references', walkthroughBody));
+
+    return canvas;
+  }
+
+  /**
+   * Builds the right pane: the operational inspector (§2 — Right Panel).
+   * Readiness, approval state, suggestions, recent activity, AI
+   * recommendations, and generation provenance — the last read through the
+   * canonical AI Lineage Service, never re-derived here (§10).
+   */
+  function buildOperationalInspector(control, context) {
+    var P = presentation();
+    var service = workpapers();
+    var pane = el('div', 'aos-controls__operational');
+    if (!control) {
+      pane.appendChild(P.emptyState({
+        icon: '◇', title: 'Nothing selected',
+        description: 'The operational state of the selected control appears here.'
+      }));
+      return pane;
+    }
+
+    var evidenceRows = service ? service.deriveEvidenceRows(control, context) : [];
+    pane.appendChild(paneBlock('Control readiness',
+      buildHealthStrip(deriveReadiness(control, evidenceRows))));
+
+    pane.appendChild(paneBlock('Approval state',
+      P.itemList(deriveApprovalHistory(control), { compact: true })));
+
+    var suggestions = deriveControlSuggestions(control, context.suggestions);
+    pane.appendChild(paneBlock('Suggestions', suggestions.length > 0
+      ? P.itemList(suggestions.map(function (suggestion) {
+        return {
+          title: suggestion.title,
+          description: suggestion.description || '',
+          meta: suggestion.status || ''
+        };
+      }), { compact: true })
+      : P.emptyState({
+        icon: '◇', title: 'No suggestions in flight',
+        description: 'Proposed changes to this control enter the Suggested → Reviewed → Approved → Applied workflow and appear here.'
+      })));
+
+    var auditService = AuditOS.auditService;
+    var events = auditService ? auditService.listForEntity(control.id, 'controls') : [];
+    pane.appendChild(paneBlock('Recent activity', events.length > 0
+      ? P.activityFeed({
+        groups: [{
+          label: 'Recorded',
+          events: events.slice(0, LIST_LIMIT).map(function (event) {
+            return {
+              title: event.action || '',
+              description: [event.user, event.reason, event.comment].filter(Boolean).join(' · '),
+              timestamp: String(event.timestamp || '').replace('T', ' ').slice(0, 16)
+            };
+          })
+        }]
+      })
+      : P.emptyState({
+        icon: '◇', title: 'No recorded activity',
+        description: 'Every write against this control is recorded here with who, when, the previous and new state, and the reason.'
+      })));
+
+    var ai = P.emptyState({
+      icon: '✦', title: 'Reserved for AI advisory',
+      description: 'AI-drafted control refinement — proposed mappings, drafted test procedures, and duplicate or obsolete detection — appears here once the AI foundation is implemented. AI remains advisory; human approval remains mandatory.'
+    });
+    ai.classList.add('aos-tint-brand');
+    pane.appendChild(paneBlock('AI recommendations', ai));
+
+    pane.appendChild(paneBlock('Generation provenance', buildProvenanceBody(control)));
+    return pane;
+  }
+
+  /**
+   * Builds the generation-provenance body from the canonical AI Lineage
+   * Service (§10): the nine ordered stages, each rendered only from recorded
+   * facts. A control with no declared AI origin says so plainly — a
+   * hand-authored control is not an AI-generated one, and the difference is
+   * never blurred.
+   */
+  function buildProvenanceBody(control) {
+    var service = lineageService();
+    var wrap = el('div', 'aos-controls__provenance');
+    if (!service) {
+      return wrap;
+    }
+    var lineage = service.buildLineage(control, {
+      collectionId: 'controls',
+      objectLabel: control.title || control.id
+    });
+    if (!service.isAiGenerated(control)) {
+      wrap.appendChild(el('p', 'aos-controls__provenance-note',
+        'This control declares no AI origin — it was authored directly. An AI-generated control carries its complete lineage here: origin, walkthrough session, transcript, evidence references, reasoning, generation, review, and approval.'));
+    }
+    var list = el('ol', 'aos-controls__provenance-stages');
+    lineage.stages.forEach(function (stage) {
+      var item = el('li', 'aos-controls__provenance-stage' +
+        (stage.present ? '' : ' aos-controls__provenance-stage--absent'));
+      item.appendChild(el('span', 'aos-controls__provenance-stage-label', stage.label));
+      if (stage.present) {
+        stage.items.forEach(function (fact) {
+          item.appendChild(el('span', 'aos-controls__provenance-stage-item',
+            [fact.title, fact.detail].filter(Boolean).join(' · ')));
+        });
+      } else {
+        item.appendChild(el('span', 'aos-controls__provenance-stage-item', '—'));
+      }
+      list.appendChild(item);
+    });
+    wrap.appendChild(list);
+    return wrap;
+  }
+
+  /**
+   * Builds the left pane: search, the three presentation views, and the
+   * scrollable control list (§2 — Left Panel). The search input and the view
+   * chips are built once and never rebuilt, so typing never loses focus; only
+   * the list node is re-rendered, and only the two right-hand panes change on
+   * selection, so the rail's scroll position is preserved.
+   */
+  function buildControlRail(viewModel, targetId, onSelect) {
+    var P = presentation();
+    var context = viewModel.context;
+    var rail = el('div', 'aos-controls__rail');
+
+    var searchLabel = el('label', 'aos-controls__search');
+    searchLabel.appendChild(el('span', 'aos-controls__search-label', 'Search controls'));
+    var searchInput = el('input', 'aos-controls__search-input');
+    searchInput.type = 'search';
+    searchInput.value = boardState.search;
+    searchInput.setAttribute('placeholder', 'Code, title, owner, or family');
+    searchInput.setAttribute('aria-label', 'Search controls');
+    searchLabel.appendChild(searchInput);
+    rail.appendChild(searchLabel);
+
+    var switcher = el('div', 'aos-controls__views');
+    switcher.setAttribute('role', 'group');
+    switcher.setAttribute('aria-label', 'Control views');
+    var chips = [];
+
+    var listNode = el('div', 'aos-controls__row-list');
+    listNode.setAttribute('role', 'list');
+    var countLabel = el('p', 'aos-controls__rail-count');
+
+    /**
+     * Re-renders the list for the active view and query. The rows are the same
+     * dataset regrouped and filtered for display — no control is added,
+     * removed, or mutated.
+     */
+    function render(preferredId) {
+      var view = viewModel.views[boardState.view] || viewModel.views[0];
+      var groups = asArray(view && view.view.groups).map(function (group) {
+        return {
+          label: group.label,
+          rows: group.rows.filter(function (row) { return matchesSearch(row, boardState.search); })
+        };
+      }).filter(function (group) { return group.rows.length > 0; });
+
+      var total = groups.reduce(function (sum, group) { return sum + group.rows.length; }, 0);
+      countLabel.textContent = total === viewModel.library.length
+        ? total + ' controls'
+        : total + ' of ' + viewModel.library.length + ' controls';
+
+      if (total === 0) {
+        listNode.replaceChildren(P.emptyState({
+          icon: '◇', title: 'No control matches the search',
+          description: 'Clear or change the query to see more of the control library.'
+        }));
+        onSelect(null);
+        return;
+      }
+      mountRailGroups(listNode, null, groups, context, preferredId, onSelect);
+    }
+
+    asArray(viewModel.views).forEach(function (view, index) {
+      var chip = el('button', 'aos-controls__view-chip', view.label);
+      chip.type = 'button';
+      chip.setAttribute('aria-pressed', index === boardState.view ? 'true' : 'false');
+      if (index === boardState.view) {
+        chip.classList.add('aos-controls__view-chip--active');
+      }
+      chip.addEventListener('click', function () {
+        boardState.view = index;
+        chips.forEach(function (candidate, candidateIndex) {
+          var selected = candidateIndex === index;
+          candidate.classList.toggle('aos-controls__view-chip--active', selected);
+          candidate.setAttribute('aria-pressed', selected ? 'true' : 'false');
+        });
+        render(boardState.controlId);
+      });
+      chips.push(chip);
+      switcher.appendChild(chip);
+    });
+    rail.appendChild(switcher);
+    rail.appendChild(countLabel);
+    rail.appendChild(listNode);
+
+    // Filter on every keystroke: only the list is replaced, so the caret and
+    // focus never move (the same contract the Evidence search already keeps).
+    searchInput.addEventListener('input', function () {
+      boardState.search = searchInput.value;
+      render(boardState.controlId);
+    });
+
+    render(targetId || boardState.controlId);
+    return rail;
   }
 
   // ------------------------------------------------------------------
   // Slot rendering
   // ------------------------------------------------------------------
 
-  /** Returns a framework slot inside the active workspace view. */
-  var slotElement = WS.slotElement;
-
   /** Replaces a slot's content with the given nodes (or clears it). */
   var fillSlot = WS.fillSlot;
 
   /**
-   * The ordered controls sections (§ Workspace Structure): operational health, the
-   * control library with its three views and the inspector, the audit lineage,
-   * then the collection metadata. Each entry names the section id, its header,
-   * whether it has data, its body builder, and an empty descriptor used when the
-   * data is absent (§ Empty States).
+   * Hides the framework's supporting-panel band for this workspace: the
+   * Workbench's own right pane IS the supporting information, so the band
+   * below would duplicate it and push the application below the fold
+   * (Issue #40 §2 / §12).
    */
-  function primarySections(viewModel, targetId) {
-    var context = viewModel.context;
-    return [
-      {
-        id: 'health', kicker: 'Operational status', title: 'Control health',
-        present: true, body: function () { return buildHealthStrip(viewModel.controlHealth); }
-      },
-      {
-        id: 'library', kicker: 'Operational queue', title: 'Control library',
-        description: 'Every control for the engagement. Switch between Control view, By family, and By coverage — the same dataset, regrouped — and select a control to open its Inspector, with framework mappings, the test-procedure preview, related audit objects, and history.',
-        present: viewModel.library.length > 0,
-        body: function () { return buildLibraryBody(viewModel.views, context, targetId); },
-        empty: {
-          icon: '◇', title: 'No controls yet',
-          description: 'Controls appear here as they are drafted for the engagement. Release 2 adds AI-drafted, AI-refined, and AI-reconciled controls; Release 1 renders only the current control state.'
-        }
-      },
-      {
-        id: 'lineage', kicker: 'Relationships', title: 'Audit lineage',
-        description: 'Where controls sit in the audit chain, from walkthrough through to report.',
-        present: viewModel.lineage.length > 0,
-        body: function () { return buildLineageBody(viewModel.lineage); },
-        empty: {
-          icon: '◇', title: 'No lineage available',
-          description: 'The audit lineage appears here once the workspaces are registered.'
-        }
-      },
-      {
-        id: 'metadata', kicker: 'Record', title: 'Metadata',
-        present: true, body: function () { return buildMetadataBody(viewModel.metadata); }
-      }
-    ];
+  function collapseSupportingRegions(view) {
+    var panels = view.querySelector('[data-region="supporting-panels"]');
+    if (panels) {
+      panels.hidden = true;
+    }
   }
 
-  /** Renders the ready controls experience into the framework slots. */
+  /**
+   * Renders the ready controls experience: the fixed-frame viewport shell
+   * hosting one Workbench — control list, selected control, operational
+   * inspector — with the engagement-level health strip and audit lineage in
+   * the compact context band above it.
+   */
   function renderReady(view, viewModel) {
     var P = presentation();
     var router = AuditOS.router;
     var targetId = router && router.getCurrentRecordId ? router.getCurrentRecordId() : '';
 
     AuditOS.workspaceFramework.configure(view, {
+      shell: 'viewport',
       header: viewModel.header,
-      contextSummary: viewModel.ribbon,
-      toolbar: viewModel.toolbar,
-      filterBar: viewModel.filterBar
+      contextSummary: viewModel.ribbon
     });
+    collapseSupportingRegions(view);
 
     var canvas = el('div', 'aos-controls');
     canvas.setAttribute('data-canvas', 'flush');
-    var rendered = 0;
-    primarySections(viewModel, targetId).forEach(function (section) {
-      var body = section.present ? section.body() : P.emptyState(section.empty);
-      var built = buildSection(section.id, section, body);
-      built.classList.add('aos-rise-in');
-      if (rendered > 0) {
-        built.classList.add('aos-rise-in--' + Math.min(rendered, STAGGER_LIMIT));
-      }
-      rendered += 1;
-      canvas.appendChild(built);
+
+    // The compact context band: engagement-level control health beside the
+    // audit chain. Both are single rows, so the operational panes below keep
+    // the viewport (Issue #40 §12 — the chrome never crowds the task).
+    var band = el('div', 'aos-controls__band');
+    var health = buildHealthStrip(viewModel.controlHealth);
+    health.classList.add('aos-controls__health');
+    band.appendChild(health);
+    if (viewModel.lineage.length > 0) {
+      band.appendChild(buildLineageBody(viewModel.lineage));
+    }
+    canvas.appendChild(band);
+
+    var canvasMount = el('div', 'aos-controls__canvas-mount');
+    var inspectorMount = el('div', 'aos-controls__inspector-mount');
+
+    function selectControl(control) {
+      boardState.controlId = control && control.id ? control.id : '';
+      canvasMount.replaceChildren(buildControlCanvas(control, viewModel.context));
+      inspectorMount.replaceChildren(buildOperationalInspector(control, viewModel.context));
+    }
+
+    // A record-level deep link selects that control once per navigation; after
+    // that the user's own selection stands, so a state refresh never yanks the
+    // pane back to the routed record.
+    var preferredId = targetId && targetId !== boardState.lastTargetId ? targetId : boardState.controlId;
+    boardState.lastTargetId = targetId;
+
+    var workbench = P.workbench({
+      rail: viewModel.library.length > 0
+        ? buildControlRail(viewModel, preferredId, selectControl)
+        : P.emptyState({
+          icon: '◇', title: 'No controls yet',
+          description: 'Controls appear here as they are drafted for the engagement. Release 2 adds AI-drafted, AI-refined, and AI-reconciled controls; Release 1 renders only the current control state.'
+        }),
+      canvas: canvasMount,
+      inspector: inspectorMount,
+      railRatio: 24,
+      inspectorRatio: 26,
+      railLabel: 'Control library',
+      canvasLabel: 'Selected control',
+      inspectorLabel: 'Operational inspector'
     });
+    workbench.classList.add('aos-rise-in');
+    canvas.appendChild(workbench);
+
+    if (viewModel.library.length === 0) {
+      selectControl(null);
+    }
+
     fillSlot(view, SLOTS.CONTENT, [canvas]);
-
-    var related = buildRelatedBody(viewModel.relationships);
-    related.classList.add('aos-fade-in');
-    fillSlot(view, SLOTS.RELATED, [related]);
-
-    var ai = P.emptyState({
-      icon: '✦', title: 'Reserved for AI advisory',
-      description: 'AI-drafted control refinement — draft controls, proposed mappings, drafted test procedures, and duplicate or obsolete detection — will appear here once the AI foundation is implemented. AI remains advisory; human approval remains mandatory.'
-    });
-    ai.classList.add('aos-tint-brand', 'aos-fade-in');
-    fillSlot(view, SLOTS.AI, [ai]);
-
-    var activity = buildActivityBody(viewModel.activity);
-    activity.classList.add('aos-fade-in');
-    fillSlot(view, SLOTS.ACTIVITY, [activity]);
-
     fillSlot(view, SLOTS.FOOTER, [buildFooterItems(viewModel.footer)]);
   }
 
@@ -1315,7 +1652,9 @@
       coverageView: coverageView,
       deriveViews: deriveViews,
       deriveLineage: deriveLineage,
-      deriveRelationships: deriveRelationships,
+      matchesSearch: matchesSearch,
+      deriveReadiness: deriveReadiness,
+      deriveControlSuggestions: deriveControlSuggestions,
       deriveActivity: deriveActivity,
       deriveMetadata: deriveMetadata,
       deriveTestProcedure: deriveTestProcedure,

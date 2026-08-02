@@ -3,16 +3,19 @@
  * Workspaces and Navigation — Chapter 12 / Workspace Design System — Chapter 15 /
  * Layout Components — Chapter 75
  *
- * The workspace-layer stylesheet of the Testing Workspace (GitHub Issue #24). It
- * owns only the testing-specific layout — the section stack, the Testing Health
- * strip, the testing-progress breakdown, the queue's view switcher and grouped
- * master rail, the audit lineage chain, and the footer — plus their responsive
+ * The workspace-layer stylesheet of the Testing Workspace (GitHub Issue #24,
+ * rebuilt as the generated audit workpaper by Issue #40 §3 / §12). It owns only
+ * the testing-specific layout — the compact context band, the three Workbench
+ * panes and what they contain, the Testing Health strip, the progress
+ * breakdown, the selector rail, the worksheet's sections and their provenance
+ * disclosures, the audit lineage chain, and the footer — plus their responsive
  * behavior. Every visible surface inside those regions is a Shared Enterprise
  * Component Library component (css/components.css) produced by the Enterprise Data
- * Presentation System, so this stylesheet never redefines component chrome.
- * Consumes only the Design Token Foundation (variables.css); introduces no new
- * visual values. Entrance motion comes from the shared design language
- * (design-language.css).
+ * Presentation System, so this stylesheet never redefines component chrome, and
+ * the three-column geometry itself belongs to the shared Workbench
+ * (components.css), not here. Consumes only the Design Token Foundation
+ * (variables.css); introduces no new visual values. Entrance motion comes from
+ * the shared design language (design-language.css).
  *
  * Every selector in this file is scoped under the `.aos-testing` prefix so the
  * workspace layer can never leak into the shell, components, or other workspaces.
@@ -21,21 +24,424 @@
 @import 'variables.css';
 
 /* ========================================
- * SECTION STACK
- * The testing workspace reads top-to-bottom as the operational sequence: health,
- * progress, the queue and its inspector, exceptions, the audit lineage, then the
- * testing metadata.
+ * VIEWPORT CANVAS
+ * A fixed frame: the compact context band, then the Workbench filling every
+ * remaining pixel. The page never scrolls — each pane does (Issue #40 §12).
  * ======================================== */
 
 .aos-testing {
   display: flex;
   flex-direction: column;
-  gap: var(--aos-space-8);
+  gap: var(--aos-space-3);
   min-width: 0;
+  min-height: 0;
 }
 
 .aos-testing__section {
   min-width: 0;
+}
+
+.aos-testing__band {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--aos-space-3);
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.aos-testing__band > * {
+  min-width: 0;
+}
+
+/* The audit chain was designed for a full-width section. In the band it has a
+ * fraction of that width, where wrapping would cost more vertical space than
+ * the operational panes can spare — so inside the band it stays one row and
+ * scrolls horizontally instead, with each node compacted to a label and a
+ * count. The chain still reads left-to-right and every node is still a link. */
+.aos-testing__band .aos-testing__lineage {
+  flex: 1 1 20rem;
+  flex-wrap: nowrap;
+  align-items: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: var(--aos-space-1);
+}
+
+.aos-testing__band .aos-testing__lineage-node {
+  flex: 0 0 auto;
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  min-width: 0;
+  padding: var(--aos-space-1) var(--aos-space-3);
+}
+
+.aos-testing__band .aos-testing__lineage-label {
+  font-size: var(--aos-text-xs);
+  white-space: nowrap;
+}
+
+.aos-testing__band .aos-testing__lineage-count {
+  font-size: var(--aos-text-sm);
+}
+
+.aos-testing__band .aos-testing__lineage-hint {
+  display: none;
+}
+
+.aos-testing__band .aos-testing__lineage-connector {
+  flex: 0 0 auto;
+}
+
+/* Progress sits inline with the health strip rather than stacking its meter
+ * above its breakdown, so the band stays one band. */
+.aos-testing__band .aos-testing__progress {
+  flex: 0 1 auto;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--aos-space-3);
+}
+
+.aos-testing__band .aos-testing__progress-breakdown {
+  flex-wrap: nowrap;
+  gap: var(--aos-space-3);
+}
+
+/* ========================================
+ * WORKBENCH PANES
+ * The shared Workbench owns the columns; these rules own only what sits inside
+ * each pane — the selector rail's fixed search above its scrolling list, and the
+ * rhythm of the worksheet and review panes as they scroll.
+ * ======================================== */
+
+.aos-testing__rail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-height: 0;
+}
+
+.aos-testing__search {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  min-width: 0;
+}
+
+.aos-testing__search-label {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-secondary);
+}
+
+.aos-testing__search-input {
+  padding: var(--aos-space-2) var(--aos-space-3);
+  font: inherit;
+  color: var(--aos-text-primary);
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  min-width: 0;
+}
+
+.aos-testing__search-input:focus-visible {
+  outline: none;
+  border-color: var(--aos-color-primary-600);
+  box-shadow: var(--aos-focus-ring);
+}
+
+.aos-testing__rail-count {
+  margin: 0;
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-testing__canvas-mount,
+.aos-testing__review-mount {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.aos-testing__review {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
+  min-width: 0;
+}
+
+.aos-testing__block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-testing__block-title {
+  margin: 0;
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--aos-tracking-wide);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-testing__workflow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-testing__workflow-note {
+  margin: 0;
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+/* ========================================
+ * GENERATED WORKSHEET (Issue #40 §3)
+ * The audit workpaper: an identity header with its export actions, then the
+ * twelve canonical sections. Each section reads as a document block — heading,
+ * recorded content, its edit affordance, and its provenance disclosure.
+ * ======================================== */
+
+.aos-testing__worksheet {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
+  min-width: 0;
+}
+
+.aos-testing__worksheet-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--aos-space-3);
+  padding-bottom: var(--aos-space-3);
+  border-bottom: 1px solid var(--aos-surface-border);
+}
+
+.aos-testing__worksheet-identity {
+  min-width: 0;
+}
+
+.aos-testing__worksheet-eyebrow {
+  margin: 0;
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: var(--aos-tracking-wide);
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-testing__worksheet-heading {
+  margin: 0;
+  font-size: var(--aos-text-lg);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-testing__worksheet-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-2);
+}
+
+.aos-testing__worksheet-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  padding-bottom: var(--aos-space-3);
+  border-bottom: 1px solid var(--aos-surface-border);
+  min-width: 0;
+}
+
+.aos-testing__worksheet-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+}
+
+.aos-testing__worksheet-title {
+  margin: 0;
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-testing__worksheet-edit {
+  padding: var(--aos-space-1) var(--aos-space-3);
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-secondary);
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-full);
+  cursor: pointer;
+  transition: border-color var(--aos-transition-fast), color var(--aos-transition-fast);
+}
+
+.aos-testing__worksheet-edit:hover {
+  border-color: var(--aos-surface-border-strong);
+  color: var(--aos-text-primary);
+}
+
+.aos-testing__worksheet-edit[aria-expanded='true'] {
+  color: var(--aos-text-inverse);
+  background-color: var(--aos-color-primary-600);
+  border-color: var(--aos-color-primary-600);
+}
+
+.aos-testing__worksheet-body {
+  min-width: 0;
+}
+
+.aos-testing__worksheet-text {
+  margin: 0;
+  font-size: var(--aos-text-sm);
+  color: var(--aos-text-primary);
+  white-space: pre-line;
+}
+
+.aos-testing__worksheet-narrative {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-testing__worksheet-link {
+  color: var(--aos-text-link);
+}
+
+/* ---- Section editor: a proposal, never a direct write (Issue #40 §5) ---- */
+
+.aos-testing__editor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-testing__editor-field {
+  width: 100%;
+  padding: var(--aos-space-2) var(--aos-space-3);
+  font: inherit;
+  font-size: var(--aos-text-sm);
+  color: var(--aos-text-primary);
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  resize: vertical;
+}
+
+.aos-testing__editor-field:focus-visible {
+  outline: none;
+  border-color: var(--aos-color-primary-600);
+  box-shadow: var(--aos-focus-ring);
+}
+
+.aos-testing__editor-note {
+  margin: 0;
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+/* ---- AI provenance disclosure: expand/collapse, never editable (§4) ---- */
+
+.aos-testing__provenance {
+  padding: var(--aos-space-2) var(--aos-space-3);
+  background-color: var(--aos-surface-workspace);
+  border-left: 3px solid var(--aos-surface-border-strong);
+  border-radius: var(--aos-radius-sm);
+  font-size: var(--aos-text-xs);
+}
+
+.aos-testing__provenance-summary {
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-secondary);
+  cursor: pointer;
+}
+
+.aos-testing__provenance-summary:focus-visible {
+  outline: none;
+  box-shadow: var(--aos-focus-ring);
+}
+
+.aos-testing__provenance-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  margin: var(--aos-space-2) 0 0;
+  padding-left: var(--aos-space-5);
+}
+
+.aos-testing__provenance-item {
+  display: flex;
+  flex-direction: column;
+  color: var(--aos-text-secondary);
+}
+
+.aos-testing__provenance-item--absent {
+  color: var(--aos-text-tertiary);
+}
+
+.aos-testing__provenance-label {
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-testing__provenance-item--absent .aos-testing__provenance-label {
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-tertiary);
+}
+
+/* ---- Object-level AI lineage (§10) ---- */
+
+.aos-testing__lineage-stages-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-testing__lineage-note {
+  margin: 0;
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-testing__lineage-stages {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  margin: 0;
+  padding-left: var(--aos-space-5);
+  font-size: var(--aos-text-xs);
+}
+
+.aos-testing__lineage-stage {
+  display: flex;
+  flex-direction: column;
+  color: var(--aos-text-secondary);
+}
+
+.aos-testing__lineage-stage--absent {
+  color: var(--aos-text-tertiary);
+}
+
+.aos-testing__lineage-stage-label {
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-testing__lineage-stage--absent .aos-testing__lineage-stage-label {
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-tertiary);
 }
 
 /* ========================================
@@ -245,13 +651,22 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+/* The status badge keeps its intrinsic width; the identity beside it absorbs
+ * the remainder and truncates, so the badge is never squeezed or pushed out. */
+.aos-testing__row-head > .aos-status-badge {
+  flex: 0 0 auto;
 }
 
 .aos-testing__row-identity {
   display: flex;
+  flex: 1 1 auto;
   align-items: baseline;
   gap: var(--aos-space-2);
   min-width: 0;
+  overflow: hidden;
 }
 
 .aos-testing__row-code {
@@ -262,7 +677,17 @@
   color: var(--aos-text-tertiary);
 }
 
+/* A selector row reads on two lines — identity, then meta — and truncates
+ * rather than wrapping. A row that wraps to four lines costs three other
+ * controls their place in the viewport; the full title is always in the
+ * generated worksheet one click away, and stays on the row's title attribute
+ * for hover and assistive technology. */
 .aos-testing__row-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: var(--aos-text-sm);
   font-weight: var(--aos-font-semibold);
   line-height: var(--aos-leading-snug);
@@ -271,10 +696,18 @@
 
 .aos-testing__row-meta {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  align-items: baseline;
   gap: var(--aos-space-1) var(--aos-space-3);
+  min-width: 0;
+  overflow: hidden;
   font-size: var(--aos-text-xs);
   color: var(--aos-text-tertiary);
+}
+
+.aos-testing__row-meta > * {
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 .aos-testing__row-control {
@@ -390,6 +823,39 @@ a.aos-testing__lineage-node:hover {
 
 .aos-testing-footer__value {
   color: var(--aos-text-secondary);
+}
+
+/* ========================================
+ * RAIL DENSITY (Issue #40 final polish)
+ * The rail's own header — search and count — is chrome above the list. Laying
+ * the search label beside its input and tightening the row box hands those
+ * pixels back to the list, which is the thing being browsed. No control is
+ * removed and no row loses information: rows already truncate, and the full
+ * title is on each row's title attribute.
+ * ======================================== */
+
+.aos-testing__search {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--aos-space-2);
+}
+
+.aos-testing__search-label {
+  flex: 0 0 auto;
+}
+
+.aos-testing__search-input {
+  flex: 1 1 auto;
+  padding-block: var(--aos-space-1);
+}
+
+.aos-testing__row {
+  gap: 2px;
+  padding: var(--aos-space-2) var(--aos-space-3);
+}
+
+.aos-testing__row-list {
+  gap: var(--aos-space-1);
 }
 
 /* ========================================

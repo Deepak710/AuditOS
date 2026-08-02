@@ -684,6 +684,12 @@
     if (selected) {
       tr.setAttribute('aria-selected', 'true');
     }
+    // An optional record identifier, stamped so a consumer can find and
+    // re-select one row without rebuilding the table — and therefore without
+    // losing its scroll position (Issue #40 §2).
+    if (source.id !== undefined && source.id !== null && source.id !== '') {
+      tr.setAttribute('data-row-id', String(source.id));
+    }
 
     if (hasStatus) {
       var status = source.status || {};
@@ -866,6 +872,46 @@
       detail.appendChild(source.detail);
     }
     container.appendChild(detail);
+    return container;
+  }
+
+  /**
+   * Builds the Workbench layout (Issue #40 §2 / §3 / §12): the three-pane
+   * operating-system geometry the full-height workspaces share — a browse
+   * rail, the object canvas, and an operational inspector, side by side.
+   *
+   * `{ rail, canvas, inspector, railRatio, inspectorRatio, railLabel,
+   *    canvasLabel, inspectorLabel }`. It is the same idea as Master–Detail
+   * with a third region, expressed once rather than assembled ad hoc in each
+   * workspace: the rail and inspector take fixed proportions, the canvas
+   * takes the rest, and every pane scrolls independently so the page itself
+   * never does. Omitting the inspector yields a two-pane workbench, so a
+   * narrow surface composes from the same builder.
+   */
+  function workbench(config) {
+    var source = config || {};
+    var hasInspector = isNode(source.inspector);
+    var container = element('div', 'aos-workbench' + (hasInspector ? '' : ' aos-workbench--two-pane'));
+    container.style.setProperty('--aos-workbench-rail',
+      clampRatio(source.railRatio !== undefined ? source.railRatio : 22, 12, 40) + '%');
+    container.style.setProperty('--aos-workbench-inspector',
+      clampRatio(source.inspectorRatio !== undefined ? source.inspectorRatio : 26, 15, 45) + '%');
+
+    function pane(modifier, label, content) {
+      var node = element('div', 'aos-workbench__pane aos-workbench__' + modifier);
+      node.setAttribute('aria-label', label);
+      node.setAttribute('role', 'region');
+      if (isNode(content)) {
+        node.appendChild(content);
+      }
+      return node;
+    }
+
+    container.appendChild(pane('rail', source.railLabel || 'Collection', source.rail));
+    container.appendChild(pane('canvas', source.canvasLabel || 'Selected record', source.canvas));
+    if (hasInspector) {
+      container.appendChild(pane('inspector', source.inspectorLabel || 'Operational inspector', source.inspector));
+    }
     return container;
   }
 
@@ -1142,6 +1188,7 @@
     entityCard: entityCard,
     dataGrid: dataGrid,
     masterDetail: masterDetail,
+    workbench: workbench,
     inspectorPanel: inspectorPanel,
     inspectorSections: inspectorSections,
     emptyState: emptyState,

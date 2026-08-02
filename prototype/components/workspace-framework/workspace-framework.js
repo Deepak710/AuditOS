@@ -432,6 +432,14 @@
   // consume the normalized result.
   // ------------------------------------------------------------------
 
+  /** The application shell variants the framework recognizes (Issue #34 / #40 §12). */
+  var SHELLS = ['single', 'split', 'viewport'];
+
+  /** Resolves a shell name to a known variant, defaulting to the flowing Single Pane. */
+  function normalizeShell(value) {
+    return SHELLS.indexOf(value) !== -1 ? value : 'single';
+  }
+
   /**
    * Resolves a raw configuration into a normalized descriptor with defaults
    * applied and explicit, inspectable section data. Absent sections normalize
@@ -443,13 +451,15 @@
     var toolbar = source.toolbar || {};
     var filterBar = source.filterBar || {};
     return {
-      // Application shell variant (Issue #34): 'single' for dashboards,
-      // reports, forms, telemetry, and wizards; 'split' for the rail +
-      // inspector workspaces (controls, requirements, evidence,
-      // walkthroughs, findings, approvals). The framework stamps the shell
-      // on the root region; the stylesheet gives split shells independent
-      // pane scrolling with the inspector always visible.
-      shell: source.shell === 'split' ? 'split' : 'single',
+      // Application shell variant (Issue #34 / Issue #40 §12): 'single' for
+      // dashboards, reports, forms, telemetry, and wizards; 'split' for the
+      // rail + inspector workspaces (walkthroughs, findings, approvals,
+      // audit log); 'viewport' for the full-height operating-system
+      // workspaces (Controls, Testing, Evidence) whose internal panels own
+      // every scrollbar. The framework stamps the shell on the root region;
+      // the stylesheet gives split shells independent pane scrolling and
+      // viewport shells a fixed page that never scrolls as a whole.
+      shell: normalizeShell(source.shell),
       header: source.header || null,
       contextSummary: asArray(source.contextSummary),
       toolbar: {
@@ -648,8 +658,9 @@
       (view.getAttribute && view.getAttribute('data-region') === 'workspace-framework' ? view : null);
     if (frameworkRoot) {
       frameworkRoot.setAttribute('data-shell', normalized.shell);
-      frameworkRoot.classList.toggle('aos-workspace-framework--split', normalized.shell === 'split');
-      frameworkRoot.classList.toggle('aos-workspace-framework--single', normalized.shell === 'single');
+      SHELLS.forEach(function (shell) {
+        frameworkRoot.classList.toggle('aos-workspace-framework--' + shell, normalized.shell === shell);
+      });
     }
 
     if (normalized.header) {
@@ -712,8 +723,10 @@
 
   AuditOS.workspaceFramework = {
     SLOTS: SLOTS,
+    SHELLS: SHELLS,
     render: render,
     configure: configure,
+    normalizeShell: normalizeShell,
     normalizeConfiguration: normalizeConfiguration,
 
     // Shared component builders — one implementation every workspace reuses.

@@ -2,11 +2,13 @@
 
 ## Chapter 65 — Navigation & Context Architecture
 
-> **Issue #39 (Navigation & Context Architecture Rewrite) — reflects the shipped implementation.**
+> **Issue #39 (Navigation & Context Architecture Rewrite) + Issue #40 §1
+> (Breadcrumb UX Finalization) — reflects the shipped implementation.**
 > This chapter documents the canonical hierarchical routing model as it is
 > actually built in `prototype/`. It supersedes the earlier slug-based routing
 > description; legacy routes still resolve, but only as redirects to the
-> canonical form.
+> canonical form. Issue #40 changed breadcrumb *behaviour* only (§65.6); the
+> routing architecture itself is unchanged.
 
 ---
 
@@ -149,17 +151,36 @@ AuditOS → Meridian → Zephyr
 AuditOS → Meridian → Zephyr → Evidence
 ```
 
-Crumb rules:
+Crumb rules (Issue #40 §1). **Every dropdown is a peer switcher**: a crumb's
+menu lists the other objects at its own level of the hierarchy. That is what
+makes the guarantee "no breadcrumb may ever expose an unrelated object"
+structural rather than a matter of care — a menu cannot contain the wrong kind
+of thing, because it only ever contains its own siblings.
 
-* The **AuditOS** crumb's dropdown lists clients.
-* The **client** crumb's dropdown lists ONLY that client's engagements.
-* The **engagement** crumb's dropdown lists ONLY that engagement's workspaces.
-* The **workspace** crumb is never a dropdown.
-* On the Walkthrough route the trail extends with **Team** and **POC** crumbs.
+* The **AuditOS** crumb never has a dropdown. Clicking it always returns Home.
+* The **client** crumb's dropdown lists ONLY clients.
+* The **engagement** crumb's dropdown lists ONLY the engagements under the
+  selected client.
+* The **workspace** crumb's dropdown lists ONLY that engagement's workspaces.
+* The **record** crumbs — Team and POC on the Walkthrough route — never have a
+  dropdown.
+
+The hierarchy levels (client, engagement, workspace) keep their switcher
+wherever they appear, including when they are the last crumb in the trail:
+standing on a workspace is exactly when its sibling workspaces are most useful.
+Only the record level, which has no peer list to offer, is always plain. This
+is enforced structurally once in `generate()` after the trail is built, so it
+holds at every hierarchy depth without each crumb builder needing to know
+whether it is last.
 
 Opening a menu never navigates; only selecting a destination does — menu items
 are real anchors. Menus are viewport-aware (repositioned to stay on screen)
 and fully keyboard-accessible.
+
+> **Superseded:** Issue #39 gave each crumb a dropdown of its *children* (the
+> AuditOS crumb listed clients, the client crumb listed engagements). Issue #40
+> shifts every dropdown one level up to peers and removes the AuditOS dropdown
+> entirely.
 
 ---
 
@@ -221,10 +242,15 @@ new-tab navigation work natively.
   engagement context; breadcrumbs could not reflect hierarchy.
 * **Issue #34:** slug-based hierarchical routes
   `#/{clientSlug}/{engagementSlug}/{workspacePath}`.
-* **Issue #39 (this chapter):** one canonical id-based route contract behind
-  four services (Navigation Service, Context Resolver, Hierarchy Builder,
-  Breadcrumb Generator); all earlier route shapes preserved as internal
-  redirects; Requirements removed in favor of Evidence.
+* **Issue #39:** one canonical id-based route contract behind four services
+  (Navigation Service, Context Resolver, Hierarchy Builder, Breadcrumb
+  Generator); all earlier route shapes preserved as internal redirects;
+  Requirements removed in favor of Evidence.
+* **Issue #40 (this chapter's §65.6):** breadcrumb dropdowns became peer
+  switchers — AuditOS lost its dropdown and always returns Home. The hierarchy
+  levels (client, engagement, workspace) keep their switcher even as the final
+  crumb, while only record crumbs (Team, POC) are always plain. No routing
+  change.
 
 ---
 

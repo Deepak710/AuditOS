@@ -125,7 +125,7 @@ module.exports = function registerPresentationTests(harness) {
     ['resolveTone', 'resolveGlyph', 'normalizeDensity', 'normalizeSort', 'nextSortDirection',
       'sortIndicator', 'normalizeColumns', 'clampRatio', 'normalizeActivityGroups',
       'statusBadge', 'progressMeter', 'metadataList', 'propertyGrid', 'timeline', 'itemList',
-      'listView', 'activityFeed', 'entityCard', 'dataGrid', 'masterDetail', 'inspectorPanel',
+      'listView', 'activityFeed', 'entityCard', 'dataGrid', 'masterDetail', 'workbench', 'inspectorPanel',
       'emptyState', 'loadingState', 'button'].forEach(function (name) {
       assert.equal(typeof p[name], 'function', name + ' is exposed as a function');
     });
@@ -379,6 +379,39 @@ module.exports = function registerPresentationTests(harness) {
   });
 
   // ---- Builders render JSON: Master–Detail (Issue #18 §2) ------------------
+
+  test('workbench composes three independently scrolling panes with clamped proportions (Issue #40 §2/§3/§12)', function () {
+    const dom = withDom();
+    const rail = dom.itemList([{ title: 'CSC-01' }]);
+    const canvas = dom.inspectorPanel({ title: 'Selected control' });
+    const inspector = dom.itemList([{ title: 'Readiness' }]);
+    const layout = dom.workbench({
+      rail: rail, canvas: canvas, inspector: inspector,
+      railRatio: 5, inspectorRatio: 99,
+      railLabel: 'Control library', canvasLabel: 'Selected control', inspectorLabel: 'Operational inspector'
+    });
+
+    assert.ok(hasClass(layout, 'aos-workbench'), 'is a workbench layout');
+    assert.equal(layout.style['--aos-workbench-rail'], '12%', 'an out-of-range rail ratio clamps to the minimum');
+    assert.equal(layout.style['--aos-workbench-inspector'], '45%', 'an out-of-range inspector ratio clamps to the maximum');
+
+    const railRegion = findByClass(layout, 'aos-workbench__rail');
+    const canvasRegion = findByClass(layout, 'aos-workbench__canvas');
+    const inspectorRegion = findByClass(layout, 'aos-workbench__inspector');
+    assert.ok(railRegion && canvasRegion && inspectorRegion, 'all three panes render');
+    assert.equal(railRegion.attributes['aria-label'], 'Control library', 'each pane names itself for assistive technology');
+    assert.equal(canvasRegion.attributes.role, 'region');
+    assert.ok(findByClass(canvasRegion, 'aos-inspector'), 'the canvas adopts the supplied node');
+    assert.ok(findByClass(inspectorRegion, 'aos-item-list'), 'the inspector adopts the supplied node');
+  });
+
+  test('workbench omitting the inspector degrades to a two-pane layout rather than an empty column', function () {
+    const dom = withDom();
+    const layout = dom.workbench({ rail: dom.itemList([{ title: 'One' }]), canvas: dom.inspectorPanel({ title: 'Detail' }) });
+
+    assert.ok(hasClass(layout, 'aos-workbench--two-pane'), 'the two-pane modifier is applied');
+    assert.equal(findByClass(layout, 'aos-workbench__inspector'), null, 'no empty third pane is rendered');
+  });
 
   test('masterDetail composes two regions with a clamped proportion and a resizer', function () {
     const dom = withDom();

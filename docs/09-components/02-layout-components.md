@@ -287,6 +287,18 @@ Business workflows remain external to the canvas.
 
 The Shared Workspace Framework (`prototype/components/workspace-framework/`) realizes the Workspace Canvas as one reusable renderer: a workspace header, a context summary strip, a toolbar, a filter bar, a workspace action area, the primary content region, and the supporting panel band, in that fixed order. A workspace configures these regions through a declarative descriptor (`AuditOS.workspaceFramework.configure`) instead of assembling its own canvas layout; regions left unconfigured collapse via the stylesheet.
 
+#### Application Shells (GitHub Issue #34 / Issue #40 §12)
+
+One skeleton, three shells, declared by the workspace as `configure(view, { shell })` and stamped on the framework root:
+
+* **`single`** (default) — the flowing canvas for dashboards, reports, forms, telemetry, and wizards. The Workspace Host canvas is the single scroll surface.
+* **`split`** — Master–Detail panes bounded to the viewport by a fixed height allowance, so a rail and an inspector scroll independently (walkthroughs, findings, approvals, audit log).
+* **`viewport`** — a fixed frame for the operating-system workspaces (Controls, Testing, Evidence). The page never scrolls; the workspace's internal panes own every scrollbar. Rather than reserving height with a subtracted constant, the shell propagates the **measured** remaining height down the mount chain (host body → outlet → view → framework → content → flush canvas) with `min-height: 0` at every link, so the available space stays correct at any zoom level, header height, or viewport size. Browsers without `:has()` degrade to the flowing canvas; below the tablet breakpoint the shell reverts to page flow, where a fixed frame would crush stacked panes.
+
+#### Workbench (GitHub Issue #40 §2 / §3 / §12)
+
+`AuditOS.presentation.workbench({ rail, canvas, inspector, railRatio, inspectorRatio, … })` is the **three-pane operating-system geometry** the full-height workspaces share — a browse rail, the object canvas, and an operational inspector. It is Master–Detail with a third region, expressed once so no workspace assembles its own columns: the rail and inspector take clamped proportions, the canvas takes the rest, and every pane scrolls independently. Omitting the inspector yields a two-pane workbench from the same builder rather than an empty third column. It collapses to a single stacked column at the tablet breakpoint.
+
 ---
 
 ### 75.10 Panel Components

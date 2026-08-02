@@ -432,15 +432,15 @@
 }
 
 /* ========================================
- * APPLICATION SHELL VARIANTS (Issue #34)
- * Two reusable shells over one framework skeleton. Single Pane (default) —
+ * APPLICATION SHELL VARIANTS (Issue #34 / Issue #40 §12)
+ * Three reusable shells over one framework skeleton. Single Pane (default) —
  * dashboards, reports, forms, telemetry, wizards — keeps the flowing canvas.
- * Split Pane — controls, requirements, evidence, walkthroughs, findings,
- * approvals — bounds its Master–Detail compositions to the viewport so the
- * rail and the inspector scroll independently and the inspector remains
- * visible regardless of list length, browser zoom, or screen size. Pane
- * proportions stay standardized by the shared --aos-master-detail-list
- * ratio (components.css); no workspace overrides it.
+ * Split Pane — walkthroughs, findings, approvals, audit log — bounds its
+ * Master–Detail compositions to the viewport so the rail and the inspector
+ * scroll independently and the inspector remains visible regardless of list
+ * length, browser zoom, or screen size. Pane proportions stay standardized by
+ * the shared --aos-master-detail-list ratio (components.css); no workspace
+ * overrides it.
  * ======================================== */
 
 .aos-workspace-framework--split .aos-master-detail__list,
@@ -452,4 +452,88 @@
   max-height: calc(100vh - var(--aos-space-header-height) - 19rem);
   min-height: 18rem;
   overflow-y: auto;
+}
+
+/* ========================================
+ * VIEWPORT SHELL (Issue #40 §12 — Full Height Applications)
+ * The operating-system shell: Controls, Testing, and Evidence are fixed-frame
+ * applications, not documents. The browser window never scrolls and the page
+ * never needs zooming out — the framework fills the host exactly once and the
+ * workspace's own internal panels own every scrollbar.
+ *
+ * Where the Split Pane shell reserves height with a fixed subtrahend, this
+ * shell propagates real height down the mount chain (host body → outlet →
+ * view → framework → content → flush canvas), so the available space is
+ * measured rather than guessed and stays correct at any zoom level, header
+ * height, or viewport size. `min-height: 0` at every link is what lets a
+ * flex child shrink below its content and scroll internally.
+ *
+ * Browsers without :has() fall back to the flowing single-pane canvas —
+ * the same graceful degradation the flush-canvas opt-in already relies on.
+ * ======================================== */
+
+.aos-workspace-host__body:has(.aos-workspace-framework--viewport) {
+  overflow: hidden;
+  padding-block: var(--aos-space-4);
+}
+
+.aos-workspace-host__body:has(.aos-workspace-framework--viewport) > .aos-router-outlet {
+  height: 100%;
+  min-height: 0;
+}
+
+.aos-workspace-host__body .aos-workspace-view:has(.aos-workspace-framework--viewport) {
+  min-height: 0;
+}
+
+.aos-workspace-framework--viewport {
+  min-height: 0;
+  gap: var(--aos-space-4);
+}
+
+/* The header band stays compact so the operational canvas — not the chrome —
+ * owns the viewport (Issue #40 §8 — reduce header footprint). */
+.aos-workspace-framework--viewport .aos-workspace-framework__header {
+  padding-bottom: var(--aos-space-3);
+}
+
+.aos-workspace-framework--viewport .aos-workspace-framework__content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.aos-workspace-framework--viewport .aos-workspace-framework__content > [data-canvas='flush'] {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* Master–Detail inside a viewport shell inherits the measured height instead
+ * of the Split Pane's fixed allowance, so one composition serves both shells. */
+.aos-workspace-framework--viewport .aos-master-detail {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.aos-workspace-framework--viewport .aos-master-detail__list,
+.aos-workspace-framework--viewport .aos-master-detail__detail {
+  max-height: none;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* Below the tablet breakpoint the three-pane geometry stacks, so the fixed
+ * frame would crush each pane; the shell falls back to normal page flow. */
+@media (max-width: 1024px) {
+  .aos-workspace-host__body:has(.aos-workspace-framework--viewport) {
+    overflow-y: auto;
+  }
+
+  .aos-workspace-framework--viewport .aos-workspace-framework__content {
+    overflow: visible;
+  }
 }

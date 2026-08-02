@@ -3,15 +3,18 @@
  * Workspaces and Navigation — Chapter 12 / Workspace Design System — Chapter 15 /
  * Layout Components — Chapter 75
  *
- * The workspace-layer stylesheet of the Controls Workspace (GitHub Issue #23). It
- * owns only the controls-specific layout — the section stack, the Control Health
- * strip, the library's view switcher and grouped master rail, the audit lineage
- * chain, and the footer — plus their responsive behavior. Every visible surface
- * inside those regions is a Shared Enterprise Component Library component
- * (css/components.css) produced by the Enterprise Data Presentation System, so
- * this stylesheet never redefines component chrome. Consumes only the Design
- * Token Foundation (variables.css); introduces no new visual values. Entrance
- * motion comes from the shared design language (design-language.css).
+ * The workspace-layer stylesheet of the Controls Workspace (GitHub Issue #23,
+ * rebuilt as a viewport application by Issue #40 §2 / §12). It owns only the
+ * controls-specific layout — the compact context band, the three Workbench
+ * panes and what they contain, the Control Health strip, the view switcher and
+ * grouped rail, the audit lineage chain, and the footer — plus their responsive
+ * behavior. Every visible surface inside those regions is a Shared Enterprise
+ * Component Library component (css/components.css) produced by the Enterprise
+ * Data Presentation System, so this stylesheet never redefines component
+ * chrome, and the three-column geometry itself belongs to the shared Workbench
+ * (components.css), not here. Consumes only the Design Token Foundation
+ * (variables.css); introduces no new visual values. Entrance motion comes from
+ * the shared design language (design-language.css).
  *
  * Every selector in this file is scoped under the `.aos-controls` prefix so the
  * workspace layer can never leak into the shell, components, or other workspaces.
@@ -20,21 +23,265 @@
 @import 'variables.css';
 
 /* ========================================
- * SECTION STACK
- * The controls workspace reads top-to-bottom as the operational sequence:
- * health, the library and its inspector, the audit lineage, then the collection
- * metadata.
+ * VIEWPORT CANVAS
+ * A fixed frame: the compact context band, then the Workbench filling every
+ * remaining pixel. The page never scrolls — each pane does (Issue #40 §12).
  * ======================================== */
 
 .aos-controls {
   display: flex;
   flex-direction: column;
-  gap: var(--aos-space-8);
+  gap: var(--aos-space-3);
   min-width: 0;
+  min-height: 0;
 }
 
 .aos-controls__section {
   min-width: 0;
+}
+
+/* The context band keeps engagement-level orientation to a single row so the
+ * operational panes below own the viewport. */
+.aos-controls__band {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--aos-space-3);
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.aos-controls__band > * {
+  min-width: 0;
+}
+
+/* The audit chain was designed for a full-width section. In the band it has a
+ * fraction of that width, where wrapping would cost more vertical space than
+ * the operational panes can spare — so inside the band it stays one row and
+ * scrolls horizontally instead, with each node compacted to a label and a
+ * count. The chain still reads left-to-right and every node is still a link. */
+.aos-controls__band .aos-controls__lineage {
+  flex: 1 1 22rem;
+  flex-wrap: nowrap;
+  align-items: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: var(--aos-space-1);
+}
+
+.aos-controls__band .aos-controls__lineage-node {
+  flex: 0 0 auto;
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  min-width: 0;
+  padding: var(--aos-space-1) var(--aos-space-3);
+}
+
+.aos-controls__band .aos-controls__lineage-label {
+  font-size: var(--aos-text-xs);
+  white-space: nowrap;
+}
+
+.aos-controls__band .aos-controls__lineage-count {
+  font-size: var(--aos-text-sm);
+}
+
+/* The hint is the node's explanatory subtitle; it is the first thing to go
+ * when the chain is compacted, and it survives in the workspace’s own
+ * full-width surfaces. */
+.aos-controls__band .aos-controls__lineage-hint {
+  display: none;
+}
+
+.aos-controls__band .aos-controls__lineage-connector {
+  flex: 0 0 auto;
+}
+
+/* ========================================
+ * WORKBENCH PANES
+ * The shared Workbench owns the columns; these rules own only what sits inside
+ * each pane — the rail's fixed search and switcher above its scrolling list,
+ * and the padding that keeps the canvas and inspector readable while scrolling.
+ * ======================================== */
+
+.aos-controls__rail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-height: 0;
+}
+
+.aos-controls__search {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  min-width: 0;
+}
+
+.aos-controls__search-label {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-secondary);
+}
+
+.aos-controls__search-input {
+  padding: var(--aos-space-2) var(--aos-space-3);
+  font: inherit;
+  color: var(--aos-text-primary);
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  min-width: 0;
+}
+
+.aos-controls__search-input:focus-visible {
+  outline: none;
+  border-color: var(--aos-color-primary-600);
+  box-shadow: var(--aos-focus-ring);
+}
+
+.aos-controls__rail-count {
+  margin: 0;
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-controls__canvas,
+.aos-controls__operational {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
+  min-width: 0;
+}
+
+.aos-controls__canvas-mount,
+.aos-controls__inspector-mount {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.aos-controls__block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-controls__block-title {
+  margin: 0;
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--aos-tracking-wide);
+  color: var(--aos-text-tertiary);
+}
+
+/* ========================================
+ * REQUIRED EVIDENCE REGISTER (Issue #40 §7)
+ * Every evidence item as its own row — status, owner, type, lifecycle — never a
+ * count. The row is a reading surface with one link out, not a control.
+ * ======================================== */
+
+.aos-controls__evidence-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-controls__evidence-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  padding: var(--aos-space-2) var(--aos-space-3);
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  min-width: 0;
+}
+
+.aos-controls__evidence-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+}
+
+.aos-controls__evidence-id {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-secondary);
+}
+
+.aos-controls__evidence-title {
+  margin: 0;
+  font-size: var(--aos-text-sm);
+  color: var(--aos-text-primary);
+}
+
+.aos-controls__evidence-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-1) var(--aos-space-3);
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-controls__evidence-link {
+  align-self: flex-start;
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-link);
+}
+
+/* ========================================
+ * GENERATION PROVENANCE (Issue #40 §4)
+ * The canonical AI lineage stages. A stage with no recorded data reads as
+ * absent — dimmed and dashed — and is never filled with invented content.
+ * ======================================== */
+
+.aos-controls__provenance {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-controls__provenance-note {
+  margin: 0;
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-controls__provenance-stages {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  margin: 0;
+  padding-left: var(--aos-space-5);
+  font-size: var(--aos-text-xs);
+}
+
+.aos-controls__provenance-stage {
+  display: flex;
+  flex-direction: column;
+  color: var(--aos-text-secondary);
+}
+
+.aos-controls__provenance-stage--absent {
+  color: var(--aos-text-tertiary);
+}
+
+.aos-controls__provenance-stage-label {
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-controls__provenance-stage--absent .aos-controls__provenance-stage-label {
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-tertiary);
 }
 
 /* ========================================
@@ -92,16 +339,9 @@
 
 /* ========================================
  * CONTROL LIBRARY — VIEW SWITCHER
- * A chip group above the library master rail. Choosing a view regroups the same
- * rows; presentation-only, memory-only — the underlying dataset never changes.
+ * A chip group above the rail's scrolling list. Choosing a view regroups the
+ * same rows; presentation-only, memory-only — the dataset never changes.
  * ======================================== */
-
-.aos-controls__library {
-  display: flex;
-  flex-direction: column;
-  gap: var(--aos-space-3);
-  min-width: 0;
-}
 
 .aos-controls__views {
   display: flex;
@@ -205,13 +445,22 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+/* The status badge keeps its intrinsic width; the identity beside it absorbs
+ * the remainder and truncates, so the badge is never squeezed or pushed out. */
+.aos-controls__row-head > .aos-status-badge {
+  flex: 0 0 auto;
 }
 
 .aos-controls__row-identity {
   display: flex;
+  flex: 1 1 auto;
   align-items: baseline;
   gap: var(--aos-space-2);
   min-width: 0;
+  overflow: hidden;
 }
 
 .aos-controls__row-code {
@@ -222,7 +471,17 @@
   color: var(--aos-text-tertiary);
 }
 
+/* A rail row reads on two lines — identity, then meta — and truncates rather
+ * than wrapping. A row that wraps to four lines costs three other controls
+ * their place in the viewport; the full title is always in the middle pane one
+ * click away, and stays on the row's title attribute for hover and assistive
+ * technology. */
 .aos-controls__row-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: var(--aos-text-sm);
   font-weight: var(--aos-font-semibold);
   line-height: var(--aos-leading-snug);
@@ -231,10 +490,18 @@
 
 .aos-controls__row-meta {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  align-items: baseline;
   gap: var(--aos-space-1) var(--aos-space-3);
+  min-width: 0;
+  overflow: hidden;
   font-size: var(--aos-text-xs);
   color: var(--aos-text-tertiary);
+}
+
+.aos-controls__row-meta > * {
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 .aos-controls__row-coverage {
@@ -245,10 +512,6 @@
 .aos-controls__row-reuse {
   font-weight: var(--aos-font-medium);
   color: var(--aos-color-success-700);
-}
-
-.aos-controls__detail-mount {
-  min-width: 0;
 }
 
 /* ========================================
@@ -342,6 +605,39 @@ a.aos-controls__lineage-node:hover {
 
 .aos-controls-footer__value {
   color: var(--aos-text-secondary);
+}
+
+/* ========================================
+ * RAIL DENSITY (Issue #40 final polish)
+ * The rail's own header — search, view switcher, count — is chrome above the
+ * list. Laying the search label beside its input and tightening the row box
+ * hands those pixels back to the list, which is the thing being browsed. No
+ * control is removed and no row loses information: rows already truncate, and
+ * the full title is on each row's title attribute.
+ * ======================================== */
+
+.aos-controls__search {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--aos-space-2);
+}
+
+.aos-controls__search-label {
+  flex: 0 0 auto;
+}
+
+.aos-controls__search-input {
+  flex: 1 1 auto;
+  padding-block: var(--aos-space-1);
+}
+
+.aos-controls__row {
+  gap: 2px;
+  padding: var(--aos-space-2) var(--aos-space-3);
+}
+
+.aos-controls__row-list {
+  gap: var(--aos-space-1);
 }
 
 /* ========================================

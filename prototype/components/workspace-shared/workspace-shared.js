@@ -573,6 +573,92 @@
   }
 
   /**
+   * The one in-flight Suggestion card of the platform (Issue #40 §5 / §10).
+   * Every workspace that puts a proposal in front of a reviewer renders this
+   * card: the proposal's title, status, and description, then exactly the
+   * lifecycle actions its current status allows —
+   *
+   *   Suggested → Mark reviewed → Reviewed → Approve / Reject → Approved → Apply
+   *
+   * with Ignore always available as an explicit, reasoned rejection so the
+   * audit trail never reads a bare "status changed". Nothing is written by the
+   * card itself: every action goes through the canonical Suggestion Lifecycle
+   * Service, which performs the audited Repository write. Where the session
+   * lacks the decide capability the actions are hidden and the shared
+   * permission notice explains why (hidden, never disabled).
+   *
+   * Extracted from the Evidence drawer so Testing's review workflow reuses one
+   * implementation rather than growing a second copy of the same lifecycle.
+   */
+  function buildSuggestionWorkflowCard(suggestion, engagementId, resolveTone) {
+    var P = presentation();
+    var repository = AuditOS.repository;
+    var suggestionService = AuditOS.suggestionService;
+    var permissions = AuditOS.permissions;
+    var denial = (permissions && suggestionService)
+      ? permissions.explainDenial(suggestionService.DECIDE_CAPABILITY) : null;
+
+    var card = el('div', 'aos-surface aos-surface--padded aos-workflow-card');
+    var head = el('div', 'aos-workflow-card__head');
+    head.appendChild(el('span', 'aos-workflow-card__title', suggestion.title || suggestion.id || ''));
+    if (suggestion.status) {
+      head.appendChild(P.statusBadge({
+        label: suggestion.status,
+        tone: typeof resolveTone === 'function' ? resolveTone(suggestion.status) : TONES.INFO
+      }));
+    }
+    card.appendChild(head);
+    if (suggestion.description) {
+      card.appendChild(el('p', 'aos-workflow-card__meta', suggestion.description));
+    }
+
+    if (!suggestionService || !repository) {
+      return card;
+    }
+
+    var actions = el('div', 'aos-action-group');
+    actions.setAttribute('role', 'group');
+    actions.setAttribute('aria-label', 'Suggestion actions');
+
+    function addAction(label, variant, handler) {
+      var button = P.button({ label: label, variant: variant });
+      button.addEventListener('click', handler);
+      actions.appendChild(button);
+    }
+
+    if (suggestion.status === suggestionService.STATUS.SUGGESTED) {
+      addAction('Mark reviewed', 'subtle', function () {
+        suggestionService.review(repository, engagementId, suggestion, '');
+      });
+    }
+    if (!denial) {
+      if (suggestion.status === suggestionService.STATUS.REVIEWED) {
+        addAction('Approve', 'primary', function () {
+          suggestionService.decide(repository, engagementId, suggestion, 'approve', '');
+        });
+        addAction('Reject', 'subtle', function () {
+          suggestionService.decide(repository, engagementId, suggestion, 'reject', '');
+        });
+      }
+      if (suggestion.status === suggestionService.STATUS.APPROVED) {
+        addAction('Apply', 'primary', function () {
+          suggestionService.decide(repository, engagementId, suggestion, 'apply', '');
+        });
+      }
+      addAction('Ignore', 'subtle', function () {
+        suggestionService.decide(repository, engagementId, suggestion, 'reject', 'Ignored without adoption');
+      });
+    }
+    if (actions.firstChild) {
+      card.appendChild(actions);
+    }
+    if (denial) {
+      card.appendChild(buildPermissionNotice(denial, ''));
+    }
+    return card;
+  }
+
+  /**
    * A selection controller shared by every rail rendering: registering a row
    * wires its click to swap the caller's Inspector into the detail mount;
    * selecting the first row establishes the default detail. Memory-only
@@ -581,8 +667,15 @@
    * the raw business record; omit it when the inspector takes the row itself)
    * are supplied by the caller, so each workspace's own Inspector stays
    * exactly as it was.
+   *
+   * `onSelect(record, row)` (Issue #40) replaces the default single-mount
+   * rendering for hosts that own more than one pane — the three-panel
+   * Workbench workspaces update a canvas AND an inspector from one selection.
+   * Callers that omit it keep the existing Master–Detail behavior exactly.
+   * Either way the rail itself is never rebuilt on selection, so its scroll
+   * position survives every selection (Issue #40 §2).
    */
-  function createRailSelection(prefix, detailMount, buildInspector, context, recordKey) {
+  function createRailSelection(prefix, detailMount, buildInspector, context, recordKey, onSelect) {
     var entries = [];
     function select(index) {
       entries.forEach(function (entry, entryIndex) {
@@ -590,10 +683,15 @@
         entry.node.classList.toggle(prefix + '__row--selected', selected);
         entry.node.setAttribute('aria-pressed', selected ? 'true' : 'false');
       });
-      if (entries[index]) {
-        var record = recordKey ? entries[index].row[recordKey] : entries[index].row;
-        detailMount.replaceChildren(presentation().inspectorPanel(buildInspector(record, context)));
+      if (!entries[index]) {
+        return;
       }
+      var record = recordKey ? entries[index].row[recordKey] : entries[index].row;
+      if (typeof onSelect === 'function') {
+        onSelect(record, entries[index].row);
+        return;
+      }
+      detailMount.replaceChildren(presentation().inspectorPanel(buildInspector(record, context)));
     }
     return {
       register: function (row, node) {
@@ -639,9 +737,9 @@
    * ungrouped set) renders no divider. `buildRow(row)` stays owned by the
    * calling workspace.
    */
-  function mountRailGroups(prefix, listNode, detailMount, groups, context, buildRow, buildInspector, recordKey, targetId) {
+  function mountRailGroups(prefix, listNode, detailMount, groups, context, buildRow, buildInspector, recordKey, targetId, onSelect) {
     listNode.replaceChildren();
-    var selection = createRailSelection(prefix, detailMount, buildInspector, context, recordKey);
+    var selection = createRailSelection(prefix, detailMount, buildInspector, context, recordKey, onSelect);
     asArray(groups).forEach(function (group) {
       if (group.label) {
         var divider = el('div', prefix + '__group');
@@ -710,6 +808,7 @@
     metadataBody: metadataBody,
     buildPermissionNotice: buildPermissionNotice,
     buildPermissionAwareActions: buildPermissionAwareActions,
+    buildSuggestionWorkflowCard: buildSuggestionWorkflowCard,
     createRailSelection: createRailSelection,
     mountRailGroups: mountRailGroups
   };

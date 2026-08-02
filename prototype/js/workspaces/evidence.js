@@ -998,9 +998,18 @@
     var open = el('button', 'aos-evidence__table-title aos-evidence-type--' + row.typeColor);
     open.type = 'button';
     open.textContent = row.title || row.id;
+    // The cell truncates to one line so the table shows more rows (Issue #40
+    // §8); the full recorded title stays available on hover and to assistive
+    // technology, and in full inside the drawer. Nothing is hidden.
+    open.setAttribute('title', row.title || row.id);
     open.addEventListener('click', function () { openEvidenceDrawer(row, context); });
     return {
+      id: row.id,
       status: { tone: row.statusTone, label: row.status },
+      // The row whose drawer is open reads as selected, so arriving from a
+      // Controls or Testing evidence link highlights the record it opened
+      // (Issue #40 §2 — "opens the Evidence workspace highlighted").
+      selected: Boolean(tableState.drawerEvidenceId) && row.id === tableState.drawerEvidenceId,
       cells: {
         id: row.id,
         title: open,
@@ -1190,73 +1199,14 @@
     return chain;
   }
 
-  /** Builds one in-flight suggestion card with Approve / Reject / Ignore inside the drawer. */
+  /**
+   * Builds one in-flight suggestion card with its lifecycle actions. The card
+   * itself is the shared platform component (Issue #40 §5) — one Suggested →
+   * Reviewed → Approved → Applied implementation for every workspace — so
+   * Evidence contributes only its own review-status tone vocabulary.
+   */
   function buildWorkflowSuggestionCard(suggestion, engagementId) {
-    var P = presentation();
-    var repository = AuditOS.repository;
-    var suggestionService = AuditOS.suggestionService;
-    var permissions = AuditOS.permissions;
-    var denial = (permissions && suggestionService) ? permissions.explainDenial(suggestionService.DECIDE_CAPABILITY) : null;
-
-    var card = el('div', 'aos-surface aos-surface--padded aos-evidence__workflow-card');
-    var head = el('div', 'aos-evidence__workflow-card-head');
-    head.appendChild(el('span', 'aos-evidence__workflow-card-title', suggestion.title));
-    head.appendChild(P.statusBadge({ label: suggestion.status, tone: resolveReviewTone(suggestion.status) }));
-    card.appendChild(head);
-    if (suggestion.description) {
-      card.appendChild(el('p', 'aos-evidence__workflow-card-meta', suggestion.description));
-    }
-
-    if (!suggestionService || !repository) {
-      return card;
-    }
-    var actions = el('div', 'aos-action-group');
-    actions.setAttribute('role', 'group');
-    actions.setAttribute('aria-label', 'Suggestion actions');
-    if (suggestion.status === suggestionService.STATUS.SUGGESTED) {
-      var reviewButton = P.button({ label: 'Mark reviewed', variant: 'subtle' });
-      reviewButton.addEventListener('click', function () {
-        suggestionService.review(repository, engagementId, suggestion, '');
-      });
-      actions.appendChild(reviewButton);
-    }
-    if (!denial) {
-      if (suggestion.status === suggestionService.STATUS.REVIEWED) {
-        var approveButton = P.button({ label: 'Approve', variant: 'primary' });
-        approveButton.addEventListener('click', function () {
-          suggestionService.decide(repository, engagementId, suggestion, 'approve', '');
-        });
-        actions.appendChild(approveButton);
-
-        var rejectButton = P.button({ label: 'Reject', variant: 'subtle' });
-        rejectButton.addEventListener('click', function () {
-          suggestionService.decide(repository, engagementId, suggestion, 'reject', '');
-        });
-        actions.appendChild(rejectButton);
-      }
-      if (suggestion.status === suggestionService.STATUS.APPROVED) {
-        var applyButton = P.button({ label: 'Apply', variant: 'primary' });
-        applyButton.addEventListener('click', function () {
-          suggestionService.decide(repository, engagementId, suggestion, 'apply', '');
-        });
-        actions.appendChild(applyButton);
-      }
-      // Ignore dismisses the proposal without adopting it — recorded as a
-      // rejection with an explicit reason, so the audit trail never reads
-      // a bare "status changed".
-      var ignoreButton = P.button({ label: 'Ignore', variant: 'subtle' });
-      ignoreButton.addEventListener('click', function () {
-        suggestionService.decide(repository, engagementId, suggestion, 'reject', 'Ignored without adoption');
-      });
-      actions.appendChild(ignoreButton);
-    }
-    if (actions.firstChild) {
-      card.appendChild(actions);
-    }
-    if (denial && WS.buildPermissionNotice) {
-      card.appendChild(WS.buildPermissionNotice(denial, ''));
-    }
-    return card;
+    return WS.buildSuggestionWorkflowCard(suggestion, engagementId, resolveReviewTone);
   }
 
   /**
@@ -1411,6 +1361,29 @@
     return wrap;
   }
 
+  /**
+   * Marks one table row as the selected one, in place. Toggling the classes
+   * directly — rather than re-rendering the grid — is what lets the highlight
+   * follow the open record without resetting the table's scroll position
+   * (Issue #40 §2 — "highlighted … scroll preserved"). Does nothing outside a
+   * browser, so the offline suites can call the drawer builders.
+   */
+  function highlightSelectedRow(recordId) {
+    if (!global.document || typeof global.document.querySelectorAll !== 'function') {
+      return;
+    }
+    var rows = global.document.querySelectorAll('.aos-evidence__grid-mount .aos-data-grid__row');
+    Array.prototype.forEach.call(rows, function (node) {
+      var selected = node.getAttribute('data-row-id') === recordId;
+      node.classList.toggle('aos-data-grid__row--selected', selected);
+      if (selected) {
+        node.setAttribute('aria-selected', 'true');
+      } else {
+        node.removeAttribute('aria-selected');
+      }
+    });
+  }
+
   /** Wraps a drawer section: a fixed structural title plus its body. */
   function drawerSection(title, body) {
     var section = el('section', 'aos-inspector__section');
@@ -1427,6 +1400,7 @@
   function openEvidenceDrawer(row, context) {
     var P = presentation();
     tableState.drawerEvidenceId = row.id;
+    highlightSelectedRow(row.id);
     var config = buildEvidenceInspector(row.evidence, context);
     var content = [
       drawerSection('Lifecycle', buildLifecycleTimeline(row)),
@@ -1475,9 +1449,38 @@
     var targetId = router && router.getCurrentRecordId ? router.getCurrentRecordId() : '';
 
     AuditOS.workspaceFramework.configure(view, {
+      // Evidence is a viewport application (Issue #40 §8 / §12): the framework
+      // fixes the frame and propagates the measured remaining height down to
+      // the table, which owns every scrollbar. No browser zoom is required to
+      // see more rows.
+      shell: 'viewport',
       header: viewModel.header
     });
     collapseSupportingRegions(view);
+
+    function findRow(id) {
+      return viewModel.rows.filter(function (row) { return row.id === id; })[0] || null;
+    }
+
+    // Drawer synchronization: a Repository write that re-renders the
+    // workspace refreshes the already-open drawer with fresh data instead of
+    // closing it; a route that names a record opens its drawer once per
+    // navigation.
+    //
+    // The record to open is resolved BEFORE the board is built so the table
+    // renders its row already selected: an evidence link arriving from Controls
+    // or Testing must land on a highlighted row, not one that highlights only
+    // after a later re-render (Issue #40 §2).
+    var openRow = null;
+    var reopen = false;
+    if (tableState.drawerEvidenceId && P.isDrawerOpen && P.isDrawerOpen()) {
+      openRow = findRow(tableState.drawerEvidenceId);
+      reopen = true;
+    } else if (targetId && targetId !== tableState.lastTargetId) {
+      openRow = findRow(targetId);
+    }
+    tableState.drawerEvidenceId = openRow ? openRow.id : '';
+    tableState.lastTargetId = targetId;
 
     var canvas = el('div', 'aos-evidence');
     canvas.setAttribute('data-canvas', 'flush');
@@ -1486,25 +1489,25 @@
     canvas.appendChild(board);
     fillSlot(view, SLOTS.CONTENT, [canvas]);
 
-    // Drawer synchronization: a Repository write that re-renders the
-    // workspace refreshes the already-open drawer with fresh data instead of
-    // closing it; a route that names a record opens its drawer once per
-    // navigation.
-    function findRow(id) {
-      return viewModel.rows.filter(function (row) { return row.id === id; })[0] || null;
-    }
-    if (tableState.drawerEvidenceId && P.isDrawerOpen && P.isDrawerOpen()) {
-      var openRow = findRow(tableState.drawerEvidenceId);
-      if (openRow) {
-        openEvidenceDrawer(openRow, viewModel.context);
-      }
-    } else if (targetId && targetId !== tableState.lastTargetId) {
-      var targetRow = findRow(targetId);
-      if (targetRow) {
-        openEvidenceDrawer(targetRow, viewModel.context);
+    if (openRow) {
+      openEvidenceDrawer(openRow, viewModel.context);
+      if (!reopen) {
+        scrollSelectedRowIntoView(view);
       }
     }
-    tableState.lastTargetId = targetId;
+  }
+
+  /**
+   * Brings the selected row into view inside the table's own scroll region —
+   * the record a deep link named is highlighted, so it must also be visible
+   * without the user hunting for it (Issue #40 §2). Scrolls the table, never
+   * the page: the page does not scroll at all in the viewport shell.
+   */
+  function scrollSelectedRowIntoView(view) {
+    var selected = view.querySelector('.aos-data-grid__row--selected');
+    if (selected && typeof selected.scrollIntoView === 'function') {
+      selected.scrollIntoView({ block: 'nearest' });
+    }
   }
 
   /** Renders the layout-stable loading state (§15.12 — Loading). */

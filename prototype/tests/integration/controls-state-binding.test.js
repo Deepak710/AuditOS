@@ -200,6 +200,9 @@ module.exports = function registerIntegrationTests(harness) {
       SCRIPTS.stateStore,
       SCRIPTS.workspaceRegistry,
       SCRIPTS.relationships,
+      SCRIPTS.evidenceLifecycle,
+      SCRIPTS.aiLineage,
+      SCRIPTS.workpaperService,
       SCRIPTS.workspaceShared,
       SCRIPTS.controlsWorkspace
     ]).AuditOS;
@@ -219,6 +222,9 @@ module.exports = function registerIntegrationTests(harness) {
       SCRIPTS.workspaceRegistry,
       SCRIPTS.presentation,
       SCRIPTS.relationships,
+      SCRIPTS.evidenceLifecycle,
+      SCRIPTS.aiLineage,
+      SCRIPTS.workpaperService,
       SCRIPTS.workspaceShared,
       SCRIPTS.controlsWorkspace
     ]);
@@ -230,13 +236,16 @@ module.exports = function registerIntegrationTests(harness) {
     const node = AuditOS.controlsWorkspace.renderInspector(viewModel.library, viewModel.context);
 
     assert.ok(node, 'the inspector renders a node');
-    assert.ok(hasClass(node, 'aos-master-detail'), 'it composes the shared Master–Detail component');
-    assert.ok(countClass(node, 'aos-controls__row') > 0, 'the master rail renders a row per control');
-    assert.ok(hasClass(node, 'aos-inspector'), 'the detail pane renders the shared Inspector Panel');
+    assert.ok(hasClass(node, 'aos-workbench'), 'it composes the shared three-pane Workbench component (Issue #40 §2)');
+    assert.ok(countClass(node, 'aos-workbench__pane') === 3, 'the Workbench renders rail, canvas, and inspector');
+    assert.ok(countClass(node, 'aos-controls__row') > 0, 'the rail renders a row per control');
+    assert.ok(hasClass(node, 'aos-inspector'), 'the canvas renders the shared Inspector Panel for the selected control');
     assert.equal(countClass(node, 'aos-controls__row--selected'), 1, 'the first row is selected by default');
+    assert.ok(countClass(node, 'aos-controls__evidence-list') + countClass(node, 'aos-empty-state') > 0,
+      'the required-evidence register renders as rows, or says plainly that none resolve (Issue #40 §7)');
   });
 
-  test('the control library body renders the three-view switcher over the shared Master–Detail without throwing', async function () {
+  test('the control library body renders the three-view switcher over the shared Workbench without throwing', async function () {
     const win = loadClassicScripts([
       SCRIPTS.demoDataBundle,
       SCRIPTS.demoDataRegistry,
@@ -244,6 +253,9 @@ module.exports = function registerIntegrationTests(harness) {
       SCRIPTS.workspaceRegistry,
       SCRIPTS.presentation,
       SCRIPTS.relationships,
+      SCRIPTS.evidenceLifecycle,
+      SCRIPTS.aiLineage,
+      SCRIPTS.workpaperService,
       SCRIPTS.workspaceShared,
       SCRIPTS.controlsWorkspace
     ]);
