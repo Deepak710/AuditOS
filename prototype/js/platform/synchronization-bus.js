@@ -12,15 +12,23 @@
  * second, independent event channel (Architectural Decision #4).
  *
  * `propagate()` simulates the full downstream chain a walkthrough-originated
- * change triggers: Walkthrough → Requirements → Controls & Documentation →
- * Report → Approvals → Audit → AI Usage → Timeline → Context. This issue
- * intentionally stops at the integration boundary — Requirements, Controls &
- * Documentation, and Report are out of scope and are not mutated here.
- * Release 1 simulates the chain as one immutable audit event per hop (so the
- * propagation is inspectable in the Audit Log) plus one EngagementContext
- * timeline entry summarizing it. Release 2 replaces the simulated publishers
- * with real event producers inside each downstream workspace; this bus's
- * public `publish`/`subscribe` contract does not change when that happens.
+ * change triggers: Walkthrough → Requirements → Controls → Report →
+ * Approvals → Audit → AI Usage → Timeline → Context. Release 1 simulates the
+ * chain as one immutable audit event per hop (so the propagation is
+ * inspectable in the Audit Log) plus one EngagementContext timeline entry
+ * summarizing it. Release 2 replaces the simulated publishers with real event
+ * producers inside each downstream workspace; this bus's public
+ * `publish`/`subscribe` contract does not change when that happens.
+ *
+ * Living Reporting (GitHub Issue #41) brings the Report inside the bus for the
+ * first time, and in the opposite direction. An approved report edit
+ * propagates *upstream* — Reporting → Findings → Testing → Controls →
+ * Evidence → Walkthrough — because a change to what the report says about a
+ * control is a change to the understanding underneath it.
+ * `REPORT_PROPAGATION_CHAIN` declares that order and `propagateFrom()` walks
+ * any chain from a named origin, so only the objects downstream of the origin
+ * receive events. Neither addition changes `PROPAGATION_CHAIN` or `propagate`,
+ * which keep their Issue #36 contract exactly.
  *
  * Depends on nothing in components/, keeping the js → components boundary
  * one-way. Loaded as a classic script so the prototype runs directly from
@@ -45,7 +53,13 @@
     AUDIT_RECORDED: 'audit-recorded',
     AI_USAGE_RECORDED: 'ai-usage-recorded',
     TIMELINE_UPDATED: 'timeline-updated',
-    CONTEXT_UPDATED: 'context-updated'
+    CONTEXT_UPDATED: 'context-updated',
+    // Living Reporting (Issue #41): the upstream objects an approved report
+    // edit propagates into. Evidence and Testing had no event of their own
+    // before the report could originate a change.
+    FINDINGS_UPDATED: 'findings-updated',
+    TESTING_UPDATED: 'testing-updated',
+    EVIDENCE_UPDATED: 'evidence-updated'
   };
 
   /**
@@ -63,6 +77,25 @@
     EVENT_TYPES.AI_USAGE_RECORDED,
     EVENT_TYPES.TIMELINE_UPDATED,
     EVENT_TYPES.CONTEXT_UPDATED
+  ];
+
+  /**
+   * The report propagation chain (Issue #41 — Propagation), in hop order:
+   *
+   *   Reporting → Findings → Testing → Controls → Evidence → Walkthrough
+   *
+   * An approved report edit travels upstream through the objects the edited
+   * section is actually generated from. `propagateFrom` starts the walk at the
+   * origin, so only the objects downstream of it receive events — a change that
+   * originates in Testing never re-notifies Findings above it.
+   */
+  var REPORT_PROPAGATION_CHAIN = [
+    EVENT_TYPES.REPORT_UPDATED,
+    EVENT_TYPES.FINDINGS_UPDATED,
+    EVENT_TYPES.TESTING_UPDATED,
+    EVENT_TYPES.CONTROLS_UPDATED,
+    EVENT_TYPES.EVIDENCE_UPDATED,
+    EVENT_TYPES.WALKTHROUGH_UPDATED
   ];
 
   /** Per-event-type subscriber lists, plus one list of "every event" subscribers. */
@@ -143,12 +176,34 @@
    * state directly; those remain out of scope for this issue.
    */
   function propagate(originEventType, context) {
+    return runChain(PROPAGATION_CHAIN, originEventType, context, 'walkthroughs');
+  }
+
+  /**
+   * Propagates along a named chain starting at `originEventType` (Issue #41).
+   * Every hop from the origin onward is published, audited under one shared
+   * correlation id, and summarized in the EngagementContext timeline — the
+   * identical mechanics `propagate` uses, with the starting point moved. An
+   * origin the chain does not declare propagates nothing, so a caller can never
+   * fan out an event the architecture has no path for.
+   */
+  function propagateFrom(chain, originEventType, context) {
+    var hops = asArray(chain);
+    var start = hops.indexOf(originEventType);
+    if (start === -1) {
+      return { hops: [], correlationId: null };
+    }
+    return runChain(hops.slice(start), originEventType, context, 'reporting');
+  }
+
+  /** Publishes every hop of a chain, audits each, and records one timeline entry. */
+  function runChain(chain, originEventType, context, defaultWorkspaceId) {
     var ctx = context || {};
     var auditService = AuditOS.auditService;
     var correlationId = auditService ? auditService.newCorrelationId() : null;
     var hops = [];
 
-    PROPAGATION_CHAIN.forEach(function (eventType) {
+    asArray(chain).forEach(function (eventType) {
       publish(eventType, {
         origin: originEventType,
         engagementId: ctx.engagementId || null,
@@ -161,7 +216,7 @@
           action: 'sync-bus-propagated',
           reason: ctx.reason || null,
           engagementId: ctx.engagementId || null,
-          workspaceId: ctx.workspaceId || 'walkthroughs',
+          workspaceId: ctx.workspaceId || defaultWorkspaceId,
           correlationId: correlationId,
           metadata: { hop: eventType, origin: originEventType, teamId: ctx.teamId || null }
         });
@@ -187,9 +242,11 @@
   AuditOS.synchronizationBus = {
     EVENT_TYPES: EVENT_TYPES,
     PROPAGATION_CHAIN: PROPAGATION_CHAIN,
+    REPORT_PROPAGATION_CHAIN: REPORT_PROPAGATION_CHAIN,
     publish: publish,
     subscribe: subscribe,
     subscribeAll: subscribeAll,
-    propagate: propagate
+    propagate: propagate,
+    propagateFrom: propagateFrom
   };
 })(window);

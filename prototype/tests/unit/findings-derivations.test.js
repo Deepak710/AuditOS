@@ -69,7 +69,7 @@ module.exports = function registerUnitTests(harness) {
 
   function rowContext() {
     return {
-      controlsById: { 'ENGCTRL-9': { id: 'ENGCTRL-9', controlId: 'GOV-01', title: 'Information Security Policy', category: 'Governance', requirementIds: ['REQ-1', 'REQ-2'] } },
+      controlsById: { 'ENGCTRL-9': { id: 'ENGCTRL-9', controlCode: 'GOV-01', title: 'Information Security Policy', category: 'Governance', requirementIds: ['REQ-1', 'REQ-2'] } },
       libraryControlsById: { 'LIB-CTRL-0001': { id: 'LIB-CTRL-0001', controlCode: 'CSC-01', title: 'User Access Provisioning', controlFamilyId: 'CF-003' } },
       controlFamiliesById: { 'CF-003': { id: 'CF-003', name: 'Identity & Access Management' } },
       pocsById: { 'POC-001': { id: 'POC-001', name: 'Arjun Menon', designation: 'Director, Information Security' } },
@@ -173,10 +173,10 @@ module.exports = function registerUnitTests(harness) {
     assert.equal(byLabel['Reportable'].status, '2', 'two findings are reportable');
   });
 
-  test('deriveFindingsHealth reads an empty engagement as a single Findings / None indicator, never fabricated buckets', function () {
+  test('deriveFindingsHealth reads an empty engagement as a single Observations / None indicator, never fabricated buckets', function () {
     const health = Array.from(derive.deriveFindingsHealth([]));
     assert.equal(health.length, 1);
-    assert.equal(health[0].label, 'Findings');
+    assert.equal(health[0].label, 'Observations');
     assert.equal(health[0].status, 'None');
     assert.equal(health[0].tone, 'success');
   });
@@ -189,11 +189,77 @@ module.exports = function registerUnitTests(harness) {
     assert.equal(remediation.open, 1, 'open is the total minus closed and accepted-risk');
   });
 
-  test('deriveFindingsStatus reads No findings / Open findings / Resolved faithfully', function () {
-    assert.equal(derive.deriveFindingsStatus([]).label, 'No findings');
-    assert.equal(derive.deriveFindingsStatus(sampleFindings()).label, 'Open findings');
+  test('deriveFindingsStatus reads No observations / Open observations / Resolved faithfully', function () {
+    assert.equal(derive.deriveFindingsStatus([]).label, 'No observations');
+    assert.equal(derive.deriveFindingsStatus(sampleFindings()).label, 'Open observations');
     assert.equal(derive.deriveFindingsStatus([{ status: 'Closed' }, { status: 'Accepted Risk' }]).label, 'Resolved',
       'closed and accepted-risk are both resolved states');
+  });
+
+  // ---- Observation lifecycle (Issue #41) — Detected → AI Drafted → Under
+  // Review → Management Response → Accepted → Resolved → Closed.
+
+  test('deriveObservationLifecycle marks the recorded stage current and every earlier stage reached', function () {
+    const stages = Array.from(derive.deriveObservationLifecycle({ status: 'Under Review' }));
+    assert.deepEqual(stages.map(function (stage) { return stage.label; }), [
+      'Detected', 'AI Drafted', 'Under Review', 'Management Response', 'Accepted', 'Resolved', 'Closed'
+    ], 'the observation lifecycle appears in order');
+    assert.equal(stages[0].reached, true);
+    assert.equal(stages[1].reached, true);
+    assert.equal(stages[2].current, true, 'the recorded status is the current stage');
+    assert.equal(stages[3].reached, false, 'a stage the record has not reached is never marked reached');
+    assert.equal(stages[3].current, false);
+  });
+
+  test('deriveObservationLifecycle leaves every stage unreached for a status outside the lifecycle', function () {
+    const stages = Array.from(derive.deriveObservationLifecycle({ status: 'Accepted Risk' }));
+    assert.equal(stages.filter(function (stage) { return stage.reached || stage.current; }).length, 0,
+      'a legacy status is never mapped onto a lifecycle stage the record never claimed');
+    assert.equal(Array.from(derive.deriveObservationLifecycle({})).filter(function (stage) {
+      return stage.current;
+    }).length, 0, 'a record with no status claims no stage');
+  });
+
+  test('isAwaitingResponse reads only the pre-response states, and clears once a response is recorded', function () {
+    assert.equal(derive.isAwaitingResponse({ status: 'Under Review' }), true);
+    assert.equal(derive.isAwaitingResponse({ status: 'Open' }), true, 'the legacy Open status still awaits a response');
+    assert.equal(derive.isAwaitingResponse({ status: 'Under Review', managementResponse: 'Accepted' }), false,
+      'a recorded management response clears the wait');
+    assert.equal(derive.isAwaitingResponse({ status: 'Closed' }), false);
+    assert.equal(derive.isAwaitingResponse({}), false, 'a record with no status is never fabricated into a wait');
+  });
+
+  test('isApprovedObservation reads only the states past management response, plus the reportable flag', function () {
+    assert.equal(derive.isApprovedObservation({ status: 'Accepted' }), true);
+    assert.equal(derive.isApprovedObservation({ status: 'Resolved' }), true);
+    assert.equal(derive.isApprovedObservation({ status: 'Closed' }), true);
+    assert.equal(derive.isApprovedObservation({ status: 'Open', reportable: true }), true);
+    assert.equal(derive.isApprovedObservation({ status: 'Under Review' }), false);
+    assert.equal(derive.isApprovedObservation({}), false);
+  });
+
+  test('resolveLinkedReportSections resolves only sections the engagement report declares, never a fabricated name', function () {
+    const context = { reportSectionsById: { 'SEC-4': { id: 'SEC-4', name: 'Testing Results' } } };
+    const resolved = Array.from(derive.resolveLinkedReportSections({ reportSection: 'SEC-4' }, context));
+    assert.equal(resolved.length, 1);
+    assert.equal(resolved[0].label, 'SEC-4 · Testing Results', 'a section that joins resolves to its real name');
+
+    const unresolved = Array.from(derive.resolveLinkedReportSections({ reportSection: 'SEC-99' }, context));
+    assert.equal(unresolved[0].title, '', 'a section that joins nothing carries no fabricated title');
+    assert.equal(unresolved[0].label, 'SEC-99', 'it renders the raw identifier instead');
+
+    assert.equal(Array.from(derive.resolveLinkedReportSections({}, context)).length, 0,
+      'an observation naming no section links to none');
+  });
+
+  test('deriveComments reads only recorded comments, never fabricating a discussion', function () {
+    const comments = Array.from(derive.deriveComments({
+      comments: [{ author: 'Reviewer', on: '2027-03-11', text: 'Root cause needs confirming' }, { text: '' }]
+    }));
+    assert.equal(comments.length, 1, 'an empty comment is dropped rather than rendered blank');
+    assert.equal(comments[0].title, 'Root cause needs confirming');
+    assert.equal(comments[0].description, 'Reviewer · Mar 11, 2027');
+    assert.equal(Array.from(derive.deriveComments({})).length, 0);
   });
 
   // ---- Four presentation modes over one dataset — regroup, never change the data.
@@ -358,15 +424,17 @@ module.exports = function registerUnitTests(harness) {
     const sections = {};
     inspector.sections.forEach(function (section) { sections[section.title] = section; });
     const props = sections['Properties'].rows.reduce(function (acc, row) { acc[row.label] = row.value; return acc; }, {});
-    assert.equal(props['Related control'], 'CSC-01 · User Access Provisioning', 'the related control resolves, a real join');
+    assert.equal(props['Linked control'], 'CSC-01 · User Access Provisioning', 'the linked control resolves, a real join');
     assert.equal(props['Owner'], 'Arjun Menon', 'the owner resolves through the directory');
     assert.equal(props['Domain'], 'Identity & Access Management');
-    assert.equal(props['Related test'], 'TEST-1');
-    assert.equal(props['Target closure'], 'Mar 11, 2027');
+    assert.equal(props['Linked test'], 'TEST-1');
+    assert.equal(props['Due date'], 'Mar 11, 2027');
     assert.equal(props['Root cause'], undefined, 'a missing root cause is dropped from properties, never a fabricated value');
-    assert.equal(sections['Description'].items[0].title, 'Firewall rule review evidence lacked documented approval.');
-    assert.equal(sections['Impact'].items[0].title, 'Control effectiveness may be reduced until remediation is completed.');
+    assert.equal(sections['Observation'].items[0].title, 'Firewall rule review evidence lacked documented approval.');
+    assert.equal(sections['Risk'].items[0].title, 'Control effectiveness may be reduced until remediation is completed.');
     assert.equal(sections['Recommendation'].items[0].title, 'Implement corrective action and validate through retesting.');
+    assert.equal(sections['Management response'].items[0].title, 'Updated change workflow implemented.',
+      'the recorded management response renders as its own Observation Register field');
     assert.match(sections['Prior-year knowledge'].items[0].title, /OBS-005-05/, 'a recorded prior-year link renders, never fabricated');
   });
 
@@ -375,9 +443,23 @@ module.exports = function registerUnitTests(harness) {
     const sections = {};
     inspector.sections.forEach(function (section) { sections[section.title] = section; });
     assert.equal(sections['Root cause'].items[0].title, 'No root cause recorded. Release 2 adds AI-recommended root causes for human approval.');
+    assert.equal(sections['Management response'].items[0].title,
+      'No management response recorded. This observation is still awaiting the client’s response.');
+    assert.equal(sections['Linked report sections'].items[0].title, 'No report section linked to this observation.');
     assert.equal(sections['Prior-year knowledge'].kind, 'placeholder', 'no reuse block renders the reserved placeholder');
-    assert.equal(sections['Activity'].kind, 'placeholder', 'the activity trail is a reserved placeholder in Release 1');
-    assert.equal(sections['Approval history'].kind, 'placeholder', 'the approval history is a reserved placeholder in Release 1');
-    assert.equal(sections['Related requirements'], undefined, 'Requirements are internal now — the finding drawer exposes no requirement section');
+    assert.equal(sections['Comments'].kind, 'placeholder', 'no recorded comments renders the reserved placeholder');
+    // The approval history falls back to the observation's own current status —
+    // a real, current fact, not a fabricated past (the shared history helper's
+    // documented contract). A record with no status at all renders the
+    // reserved placeholder instead.
+    assert.equal(sections['Approval history'].kind, 'list');
+    assert.equal(sections['Approval history'].items[0].title, 'Open');
+    const statusless = derive.buildFindingInspector({ id: 'OBS-10' }, {});
+    const statuslessSections = {};
+    statusless.sections.forEach(function (section) { statuslessSections[section.title] = section; });
+    assert.equal(statuslessSections['Approval history'].kind, 'placeholder',
+      'an observation with no recorded status has no approval history to show');
+    assert.equal(sections['Related requirements'], undefined,
+      'the register exposes Linked requirements, resolved through the control, not a Related requirements list');
   });
 };

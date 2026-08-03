@@ -22,6 +22,38 @@ Every stage contributes to the final assurance opinion.
 
 This chapter defines the operational lifecycle that governs every engagement executed within AuditOS.
 
+**Release 1 Status (GitHub Issue #41 — Living Reporting and Operational
+Findings).** The conceptual, product-level lifecycle below spans the full
+engagement — from creation through organizational learning. Within one active
+engagement, the concrete work an audit team executes day to day is the
+**six-stage operational pipeline** the Engagement Workspace surfaces as
+navigation (`prototype/js/workspaces/engagement.js`):
+
+```text
+Walkthrough → Evidence → Controls → Testing → Findings → Reporting
+```
+
+Each stage in that pipeline shows its completion, its blockers, its pending
+approvals, and any AI suggestions in flight, and the connector joining two
+stages carries the health of the one it leaves — **flowing** (green),
+**waiting** (amber), or **blocked** (red) — so the pipeline reads as one
+connected operational flow rather than disconnected cards. §11.13 below maps
+this pipeline onto the broader fourteen-stage lifecycle.
+
+Documentation is **not** a stage a user works in. Issue #41 removed the
+Documentation workspace entirely: documentation is an internal AI artifact
+that lives inside the report (concretely, the Reporting workspace's
+continuously generated Section III — System Description), never a surface a
+user opens to write or edit prose by hand. Wherever this chapter previously
+described a standalone "Documentation" stage, that content now describes the
+report's own continuous generation instead — see §11.13.
+
+Pending work — evidence awaiting review, worksheets awaiting approval,
+observations awaiting a management response, report edits awaiting a
+decision — is not a separate stage or a standalone queue either. It lives
+inside the workspace that owns it, and the six-stage pipeline's health
+indicators are the one place it aggregates across the whole engagement.
+
 ---
 
 ## 11.2 Lifecycle Philosophy
@@ -81,9 +113,6 @@ Observations
         │
         ▼
 Findings
-        │
-        ▼
-Documentation
         │
         ▼
 Reporting
@@ -297,27 +326,58 @@ Nothing should become disconnected from its supporting rationale.
 
 ---
 
-## 11.13 Stage 10 — Documentation
+## 11.13 Documentation as a Continuous, Internal Artifact — Not a Stage
 
-Documentation represents the formal expression of engagement knowledge.
+Earlier drafts of this lifecycle modeled Documentation as its own stage
+between Findings and Reporting. GitHub Issue #41 removed that stage: AuditOS
+does not treat documentation as a place a user works.
 
-AuditOS does not treat documentation as manual data entry.
+Instead, documentation is a projection of the Shared Audit State that lives
+**inside the report itself** — concretely, the Reporting workspace's Section
+III (System Description), generated continuously from approved walkthroughs,
+evidence, controls, testing, and findings by the Report Generation Service
+(`prototype/js/services/report-generation-service.js`). Examples of the
+knowledge this generation draws on include:
 
-Instead, documentation becomes a projection of the Shared Audit State.
-
-Examples include:
-
-* Walkthrough documentation.
+* Walkthrough understanding.
 * Testing workpapers.
 * Evidence summaries.
-* Internal documentation.
-* Engagement narratives.
+* Approved observations.
+* Engagement narrative facts (Release 1: recorded counts per domain; Release
+  2: AI-drafted prose over the same inputs, through the reserved
+  `draftNarrative` extension point).
 
-Documentation continuously evolves as engagement understanding matures.
+Documentation continuously evolves as engagement understanding matures — the
+mechanism is unchanged from the original intent of this chapter. What changed
+is where it surfaces: never a standalone workspace, always the report's own
+generated content, with human approval required for every change before it
+propagates (§11.13a).
+
+### 11.13a The Six-Stage Operational Pipeline
+
+Within an active engagement, the concrete work spanning Stages 5 through 11 of
+this chapter — Walkthroughs through Reporting — is what the Engagement
+Workspace's lifecycle rail presents as one connected operational pipeline:
+
+| Pipeline stage | Corresponds to |
+| --- | --- |
+| Walkthrough | Stage 5 — Walkthroughs |
+| Evidence | Stages 6–7 — Evidence Requests, Evidence Collection |
+| Controls | Stage 4 — Control Identification (ongoing refinement) |
+| Testing | Stage 8 — Control Testing |
+| Findings | Stage 9 — Observations and Findings |
+| Reporting | Stage 10 (renumbered below — Documentation no longer occupies a stage of its own), continuous from engagement start |
+
+Every stage's health — flowing, waiting, or blocked — and its pending
+approvals and AI suggestions are real, derived figures, never estimated. A
+report edit that is approved propagates **upstream** through this same chain
+— Reporting → Findings → Testing → Controls → Evidence → Walkthrough — as a
+Suggestion each affected workspace's owner must approve before anything
+regenerates (see the Reporting Workspace chapter, §69.16).
 
 ---
 
-## 11.14 Stage 11 — Reporting
+## 11.14 Stage 10 — Reporting
 
 Reporting communicates the final understanding of the engagement.
 
@@ -332,13 +392,13 @@ Reports remain synchronized with the engagement throughout preparation.
 
 ---
 
-## 11.15 Stage 12 — Review and Approval
+## 11.15 Stage 11 — Review and Approval
 
 Every authoritative change passes through formal review.
 
 Approval applies to:
 
-* Documentation.
+* Report edits (which carry the engagement's documentation with them).
 * AI recommendations.
 * Findings.
 * Reports.
@@ -360,7 +420,7 @@ Every approval records:
 
 ---
 
-## 11.16 Stage 13 — Engagement Completion
+## 11.16 Stage 12 — Engagement Completion
 
 Completion represents the transition from active engagement to organizational knowledge.
 
@@ -378,7 +438,7 @@ Completion never destroys knowledge.
 
 ---
 
-## 11.17 Stage 14 — Organizational Learning
+## 11.17 Stage 13 — Organizational Learning
 
 Every completed engagement contributes to future engagements.
 
@@ -412,7 +472,8 @@ During evidence collection it identifies relationships.
 
 During testing it identifies inconsistencies.
 
-During documentation it prepares drafts.
+During report generation it prepares drafts of narrative sections (Release 2
+— Release 1 renders only recorded facts, drafting nothing).
 
 During reporting it proposes refinements.
 
@@ -441,7 +502,7 @@ Examples include:
 * Finding Created
 * Recommendation Generated
 * Recommendation Approved
-* Documentation Updated
+* Report Section Regenerated
 * Report Generated
 * Engagement Closed
 
@@ -457,8 +518,8 @@ The AuditOS lifecycle is governed by the following principles.
 * Knowledge accumulates rather than resets.
 * Artificial intelligence assists every stage without replacing professional judgment.
 * Human approval governs every authoritative change.
-* Documentation is derived from understanding.
-* Reports are generated from knowledge.
+* Documentation is derived from understanding, and lives inside the report — never a stage of its own.
+* Reports are generated from knowledge, continuously, from engagement start.
 * Every action is traceable.
 * Every recommendation is explainable.
 * Organizational knowledge compounds across engagements.

@@ -22,6 +22,21 @@
  * Walkthrough path is the canonical singular `walkthrough` (legacy
  * `walkthroughs` redirects).
  *
+ * Issue #41 removals: the Documentation workspace is removed entirely —
+ * documentation is an internal AI artifact folded into the report, never a
+ * surface a user works in, so `#/documentation` redirects to Reporting. The
+ * Work Queue workspace is removed entirely — pending work always lives inside
+ * the workspace that owns it (Evidence approvals, Testing worksheet review,
+ * Findings management response, Reporting report approvals), so
+ * `#/work-queue` redirects to the engagement overview, whose lifecycle
+ * pipeline is the one aggregate view of pending work. Both redirects live in
+ * the Context Resolver's legacy-alias table; no workspace identity for either
+ * remains here.
+ *
+ * The engagement-scoped workspaces are declared in the operational order of
+ * the audit pipeline (Issue #41): Walkthrough → Evidence → Controls →
+ * Testing → Findings → Reporting.
+ *
  * Loaded as a classic script so the prototype runs directly from
  * file:///.../prototype/index.html with no build step or module loader.
  */
@@ -46,13 +61,11 @@
   var WORKSPACE_IDS = {
     DASHBOARD: 'dashboard',
     ENGAGEMENT: 'engagement',
-    WORKQUEUE: 'work-queue',
     WALKTHROUGH: 'walkthrough',
     CONTROLS: 'controls',
     EVIDENCE: 'evidence',
     TESTING: 'testing',
     FINDINGS: 'findings',
-    DOCUMENTATION: 'documentation',
     REPORTING: 'reporting',
     GOVERNANCE: 'governance',
     AI: 'ai',
@@ -81,13 +94,12 @@
     // is `home` (Issue #39 routing contract), with `dashboard` redirected.
     { id: WORKSPACE_IDS.DASHBOARD,   path: 'home',         label: 'AuditOS Home',        title: 'AuditOS Home',        scope: SCOPES.PLATFORM },
     { id: WORKSPACE_IDS.ENGAGEMENT,  path: 'engagements',  label: 'Engagement',          title: 'Engagement',          scope: SCOPES.ENGAGEMENT },
-    { id: WORKSPACE_IDS.WORKQUEUE,   path: 'work-queue',   label: 'Work Queue',          title: 'Work Queue',          scope: SCOPES.ENGAGEMENT },
+    // The six-stage operational pipeline, in flow order (Issue #41).
     { id: WORKSPACE_IDS.WALKTHROUGH, path: 'walkthrough',  label: 'Walkthrough',         title: 'Walkthrough',         scope: SCOPES.ENGAGEMENT },
-    { id: WORKSPACE_IDS.CONTROLS,    path: 'controls',     label: 'Controls',            title: 'Controls',            scope: SCOPES.ENGAGEMENT },
     { id: WORKSPACE_IDS.EVIDENCE,    path: 'evidence',     label: 'Evidence',            title: 'Evidence',            scope: SCOPES.ENGAGEMENT },
+    { id: WORKSPACE_IDS.CONTROLS,    path: 'controls',     label: 'Controls',            title: 'Controls',            scope: SCOPES.ENGAGEMENT },
     { id: WORKSPACE_IDS.TESTING,     path: 'testing',      label: 'Testing',             title: 'Testing',             scope: SCOPES.ENGAGEMENT },
     { id: WORKSPACE_IDS.FINDINGS,    path: 'findings',     label: 'Findings',            title: 'Findings',            scope: SCOPES.ENGAGEMENT },
-    { id: WORKSPACE_IDS.DOCUMENTATION, path: 'documentation', label: 'Documentation',    title: 'Documentation',       scope: SCOPES.ENGAGEMENT },
     { id: WORKSPACE_IDS.REPORTING,   path: 'reporting',    label: 'Reporting',           title: 'Reporting',           scope: SCOPES.ENGAGEMENT },
     { id: WORKSPACE_IDS.GOVERNANCE,  path: 'governance',   label: 'Governance',          title: 'Governance',          scope: SCOPES.ENGAGEMENT },
     { id: WORKSPACE_IDS.AI,          path: 'ai',           label: 'AI Workspace',        title: 'AI Workspace',        scope: SCOPES.ENGAGEMENT },

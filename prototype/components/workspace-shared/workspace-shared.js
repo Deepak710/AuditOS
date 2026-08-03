@@ -6,7 +6,7 @@
  * Extracts the presentation and derivation patterns that stabilized identically
  * (or near-identically, modulo a CSS class prefix or a tone resolver) across the
  * Engagement, Walkthrough, Evidence, Requirements, Controls, Testing, Findings,
- * and Documentation workspaces. This module holds no business logic and no
+ * and Reporting workspaces. This module holds no business logic and no
  * status vocabulary of its own — every tone mapping, field shape, and node chain
  * stays owned by the workspace that declares it and is passed in as data or a
  * callback (Never over-centralize — some things should stay slightly duplicated
@@ -702,8 +702,8 @@
       selectFirst: function () { if (entries.length > 0) { select(0); } },
       /**
        * Selects the entry whose row (or, absent that, its underlying record —
-       * covering aggregating rails like the Work Queue, whose rows carry the
-       * source record under `row.record`) carries the given id, and scrolls it
+       * covering rails whose rows wrap the source record under `row.record`)
+       * carries the given id, and scrolls it
        * into view (Issue #31 — arriving at a workspace via a record-level deep
        * link or a "Related X" link selects that record and highlights it, the
        * same shared selection controller every rail already uses). Falls back

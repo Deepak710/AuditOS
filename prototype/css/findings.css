@@ -1,18 +1,21 @@
 /**
- * AuditOS Findings Workspace
- * Workspaces and Navigation — Chapter 12 / Workspace Design System — Chapter 15 /
- * Layout Components — Chapter 75
+ * AuditOS Findings Workspace — the Observation Register
+ * Living Reporting & Operational Findings — GitHub Issue #41 / Workspaces and
+ * Navigation — Chapter 12 / Workspace Design System — Chapter 15 / Layout
+ * Components — Chapter 75
  *
- * The workspace-layer stylesheet of the Findings Workspace (GitHub Issue #25). It
- * owns only the findings-specific layout — the section stack, the Findings Health
- * strip, the remediation-status breakdown, the queue's view switcher and grouped
- * master rail, the audit lineage chain, and the footer — plus their responsive
- * behavior. Every visible surface inside those regions is a Shared Enterprise
- * Component Library component (css/components.css) produced by the Enterprise Data
- * Presentation System, so this stylesheet never redefines component chrome.
- * Consumes only the Design Token Foundation (variables.css); introduces no new
- * visual values. Entrance motion comes from the shared design language
- * (design-language.css).
+ * The workspace-layer stylesheet of the Findings Workspace (GitHub Issue #25,
+ * rebuilt as a full-height Observation Register workbench by Issue #41). It owns
+ * only the findings-specific layout — the compact context band, what sits inside
+ * the three Workbench panes, the Observation Health strip, the remediation
+ * breakdown, the register's view switcher and grouped rail, the observation
+ * lifecycle rail, the audit lineage chain, and the footer — plus their
+ * responsive behavior. Every visible surface inside those regions is a Shared
+ * Enterprise Component Library component (css/components.css) produced by the
+ * Enterprise Data Presentation System, and the three-column geometry itself
+ * belongs to the shared Workbench (components.css), not here. Consumes only the
+ * Design Token Foundation (variables.css); introduces no new visual values.
+ * Entrance motion comes from the shared design language (design-language.css).
  *
  * Every selector in this file is scoped under the `.aos-findings` prefix so the
  * workspace layer can never leak into the shell, components, or other workspaces.
@@ -21,21 +24,229 @@
 @import 'variables.css';
 
 /* ========================================
- * SECTION STACK
- * The findings workspace reads top-to-bottom as the operational sequence: health,
- * the queue and its inspector, remediation status, the audit lineage, then the
- * findings metadata.
+ * VIEWPORT CANVAS
+ * A fixed frame: the compact context band, then the Workbench filling every
+ * remaining pixel. The page never scrolls — each pane does.
  * ======================================== */
 
 .aos-findings {
   display: flex;
   flex-direction: column;
-  gap: var(--aos-space-8);
+  gap: var(--aos-space-3);
   min-width: 0;
+  min-height: 0;
 }
 
 .aos-findings__section {
   min-width: 0;
+}
+
+/* The context band keeps engagement-level orientation to a single row so the
+ * operational panes below own the viewport. */
+.aos-findings__band {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--aos-space-3);
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.aos-findings__band > * {
+  min-width: 0;
+}
+
+/* In the band the audit chain has a fraction of a full-width section, where
+ * wrapping would cost more vertical space than the operational panes can
+ * spare — so it stays one row and scrolls horizontally instead. */
+.aos-findings__band .aos-findings__lineage {
+  flex: 1 1 22rem;
+  flex-wrap: nowrap;
+  align-items: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: var(--aos-space-1);
+}
+
+.aos-findings__band .aos-findings__lineage-node {
+  flex: 0 0 auto;
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  min-width: 0;
+  padding: var(--aos-space-1) var(--aos-space-3);
+}
+
+.aos-findings__band .aos-findings__lineage-label {
+  font-size: var(--aos-text-xs);
+  white-space: nowrap;
+}
+
+.aos-findings__band .aos-findings__lineage-count {
+  font-size: var(--aos-text-sm);
+}
+
+.aos-findings__band .aos-findings__lineage-hint {
+  display: none;
+}
+
+.aos-findings__band .aos-findings__lineage-connector {
+  flex: 0 0 auto;
+}
+
+.aos-findings__band .aos-findings__remediation {
+  flex: 0 1 18rem;
+}
+
+/* ========================================
+ * WORKBENCH PANES
+ * The shared Workbench owns the columns; these rules own only what sits inside
+ * each pane — the rail's fixed search and switcher above its scrolling list,
+ * and the padding that keeps the canvas and inspector readable while scrolling.
+ * ======================================== */
+
+.aos-findings__rail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-height: 0;
+}
+
+.aos-findings__search {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-findings__search-label {
+  flex: 0 0 auto;
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-secondary);
+}
+
+.aos-findings__search-input {
+  flex: 1 1 auto;
+  padding: var(--aos-space-1) var(--aos-space-3);
+  font: inherit;
+  color: var(--aos-text-primary);
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  min-width: 0;
+}
+
+.aos-findings__search-input:focus-visible {
+  outline: none;
+  border-color: var(--aos-color-primary-600);
+  box-shadow: var(--aos-focus-ring);
+}
+
+.aos-findings__rail-count {
+  margin: 0;
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-findings__canvas,
+.aos-findings__operational {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
+  min-width: 0;
+}
+
+.aos-findings__canvas-mount,
+.aos-findings__inspector-mount {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.aos-findings__block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-findings__block-title {
+  margin: 0;
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--aos-tracking-wide);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-findings__suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-findings__note {
+  margin: 0;
+  font-size: var(--aos-text-xs);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-tertiary);
+}
+
+/* ========================================
+ * OBSERVATION LIFECYCLE RAIL
+ * Detected → AI Drafted → Under Review → Management Response → Accepted →
+ * Resolved → Closed. Stages the record has not reached read as pending; a
+ * status that predates the lifecycle leaves every stage unreached rather than
+ * being mapped onto a stage the record never claimed.
+ * ======================================== */
+
+.aos-findings__lifecycle {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-findings__lifecycle-rail {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--aos-space-1) var(--aos-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-width: 0;
+}
+
+.aos-findings__lifecycle-step {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--aos-space-1) var(--aos-space-3);
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+  background-color: var(--aos-surface-card);
+  border: 1px dashed var(--aos-surface-border);
+  border-radius: var(--aos-radius-full);
+}
+
+.aos-findings__lifecycle-step--reached {
+  color: var(--aos-text-secondary);
+  border-style: solid;
+}
+
+.aos-findings__lifecycle-step--current {
+  color: var(--aos-text-inverse);
+  background-color: var(--aos-color-primary-600);
+  border-color: var(--aos-color-primary-600);
+  border-style: solid;
+  font-weight: var(--aos-font-semibold);
+}
+
+.aos-findings__lifecycle-label {
+  white-space: nowrap;
 }
 
 /* ========================================
@@ -131,17 +342,10 @@
 }
 
 /* ========================================
- * FINDINGS QUEUE — VIEW SWITCHER
- * A chip group above the queue master rail. Choosing a view regroups the same
+ * OBSERVATION REGISTER — VIEW SWITCHER
+ * A chip group above the register rail. Choosing a view regroups the same
  * rows; presentation-only, memory-only — the underlying dataset never changes.
  * ======================================== */
-
-.aos-findings__queue {
-  display: flex;
-  flex-direction: column;
-  gap: var(--aos-space-3);
-  min-width: 0;
-}
 
 .aos-findings__views {
   display: flex;
@@ -247,11 +451,25 @@
   gap: var(--aos-space-2);
 }
 
+/* The status badge keeps its intrinsic width up to a cap; the identity beside
+ * it absorbs the remainder and truncates, so neither is squeezed out. */
+.aos-findings__row-head > .aos-status-badge {
+  display: inline-block;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 45%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .aos-findings__row-identity {
   display: flex;
+  flex: 1 1 auto;
   align-items: baseline;
   gap: var(--aos-space-2);
   min-width: 0;
+  overflow: hidden;
 }
 
 .aos-findings__row-code {
@@ -262,19 +480,39 @@
   color: var(--aos-text-tertiary);
 }
 
+/* In a browse rail the observation title truncates rather than wrapping: a row
+ * that wraps to four lines costs three other observations their place in the
+ * viewport, and the full title is always in the details pane one click away. */
 .aos-findings__row-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: var(--aos-text-sm);
   font-weight: var(--aos-font-semibold);
   line-height: var(--aos-leading-snug);
   color: var(--aos-text-primary);
 }
 
+/* A rail row reads on two lines — identity, then meta — and truncates rather
+ * than wrapping. A row that wraps to four lines costs three other observations
+ * their place in the viewport; the full record is always in the middle pane one
+ * click away. */
 .aos-findings__row-meta {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  align-items: baseline;
   gap: var(--aos-space-1) var(--aos-space-3);
+  min-width: 0;
+  overflow: hidden;
   font-size: var(--aos-text-xs);
   color: var(--aos-text-tertiary);
+}
+
+.aos-findings__row-meta > * {
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 .aos-findings__row-control {
@@ -285,6 +523,17 @@
 .aos-findings__row-test {
   font-weight: var(--aos-font-medium);
   color: var(--aos-text-secondary);
+}
+
+.aos-findings__row-due {
+  color: var(--aos-text-secondary);
+}
+
+/* An observation still waiting on the client's response is the pending work
+ * this workspace owns; the flag is how the register surfaces it inline. */
+.aos-findings__row-flag {
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-color-warning-700);
 }
 
 .aos-findings__row-severity {

@@ -57,6 +57,9 @@
     { name: 'walkthroughs',     collectionId: 'walkthroughs' },
     { name: 'walkthroughTeams', collectionId: 'walkthrough-teams' },
     { name: 'reports',          collectionId: 'reports' },
+    // Living Reporting (GitHub Issue #41): the report version register, whose
+    // records accumulate at runtime as the report advances Draft → Issued.
+    { name: 'reportVersions',   collectionId: 'report-versions' },
     { name: 'approvals',        collectionId: 'approvals' },
     { name: 'auditLogs',        collectionId: 'audit-logs' },
     { name: 'telemetry',        collectionId: 'ai-telemetry' },

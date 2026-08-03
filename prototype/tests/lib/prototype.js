@@ -37,10 +37,15 @@ const SCRIPTS = {
   workpaperService: ['js', 'services', 'workpaper-service.js'],
   workbookExport: ['js', 'services', 'workbook-export.js'],
   workpaperExport: ['js', 'services', 'workpaper-export.js'],
+  reportGeneration: ['js', 'services', 'report-generation-service.js'],
+  reportVersion: ['js', 'services', 'report-version-service.js'],
+  reportPropagation: ['js', 'services', 'report-propagation-service.js'],
+  documentExport: ['js', 'services', 'document-export.js'],
   demoDataBundle: ['demo-data', 'demo-data.js'],
   demoDataRegistry: ['js', 'state', 'demo-data-registry.js'],
   stateStore: ['js', 'state', 'state-store.js'],
   relationships: ['js', 'platform', 'relationships.js'],
+  idService: ['js', 'platform', 'id-service.js'],
   permissions: ['js', 'platform', 'permissions.js'],
   auditService: ['js', 'platform', 'audit-service.js'],
   repository: ['js', 'platform', 'repository.js'],
@@ -57,8 +62,7 @@ const SCRIPTS = {
   controlsWorkspace: ['js', 'workspaces', 'controls.js'],
   testingWorkspace: ['js', 'workspaces', 'testing.js'],
   findingsWorkspace: ['js', 'workspaces', 'findings.js'],
-  documentationWorkspace: ['js', 'workspaces', 'documentation.js'],
-  workQueueWorkspace: ['js', 'workspaces', 'work-queue.js'],
+  reportingWorkspace: ['js', 'workspaces', 'reporting.js'],
   programWorkspace: ['js', 'workspaces', 'program.js'],
   clientDashboardWorkspace: ['js', 'workspaces', 'client-dashboard.js'],
   globalApprovalsWorkspace: ['js', 'workspaces', 'global-approvals.js'],
@@ -165,7 +169,7 @@ function loadWorkspaceFramework() {
  */
 function loadWalkthroughWorkspace() {
   return loadClassicScripts([
-    SCRIPTS.relationships, SCRIPTS.permissions, SCRIPTS.auditService, SCRIPTS.repository,
+    SCRIPTS.relationships, SCRIPTS.idService, SCRIPTS.permissions, SCRIPTS.auditService, SCRIPTS.repository,
     SCRIPTS.synchronizationBus, SCRIPTS.engagementContextService, SCRIPTS.dependencyService,
     SCRIPTS.industryKnowledge, SCRIPTS.suggestionService,
     SCRIPTS.workspaceShared, SCRIPTS.walkthroughWorkspace
@@ -216,25 +220,35 @@ function loadFindingsWorkspace() {
 }
 
 /**
- * Loads the Documentation workspace module
- * (window.AuditOS.documentationWorkspace). The module guards its DOM
- * self-init on `document` and reads the presentation system only inside DOM
- * builders, so it registers cleanly in the sandbox where no document exists;
- * suites exercise its pure derivations directly.
+ * Loads the Reporting workspace module (window.AuditOS.reportingWorkspace)
+ * over the Living Reporting services it composes (Issue #41). The module
+ * guards its DOM self-init on `document` and reads the presentation system
+ * only inside DOM builders, so it registers cleanly in the sandbox where no
+ * document exists; suites exercise its pure derivations directly.
  */
-function loadDocumentationWorkspace() {
-  return loadClassicScripts([SCRIPTS.relationships, SCRIPTS.workspaceShared, SCRIPTS.documentationWorkspace]).AuditOS.documentationWorkspace;
+function loadReportingWorkspace() {
+  return loadClassicScripts([
+    SCRIPTS.relationships, SCRIPTS.idService, SCRIPTS.workspaceShared,
+    SCRIPTS.workbookExport, SCRIPTS.reportGeneration, SCRIPTS.reportVersion,
+    SCRIPTS.reportPropagation, SCRIPTS.documentExport, SCRIPTS.reportingWorkspace
+  ]).AuditOS.reportingWorkspace;
+}
+
+/** Loads the Report Generation Service (window.AuditOS.reportGenerationService). */
+function loadReportGenerationService() {
+  return loadClassicScript(SCRIPTS.reportGeneration).AuditOS.reportGenerationService;
 }
 
 /**
- * Loads the Work Queue workspace module (window.AuditOS.workQueueWorkspace).
- * The module guards its DOM self-init on `document` and reads the
- * presentation system only inside DOM builders, so it registers cleanly in
- * the sandbox where no document exists; suites exercise its pure derivations
- * directly.
+ * Loads the Document Export service (window.AuditOS.documentExport) over the
+ * Workbook Export ZIP writer it composes and the Report Generation Service
+ * whose model it serializes. Returns the populated window so a suite can reach
+ * both services.
  */
-function loadWorkQueueWorkspace() {
-  return loadClassicScripts([SCRIPTS.relationships, SCRIPTS.workspaceShared, SCRIPTS.workQueueWorkspace]).AuditOS.workQueueWorkspace;
+function loadDocumentExport() {
+  return loadClassicScripts([
+    SCRIPTS.workbookExport, SCRIPTS.reportGeneration, SCRIPTS.documentExport
+  ]).AuditOS;
 }
 
 /**
@@ -371,8 +385,9 @@ module.exports = {
   loadControlsWorkspace: loadControlsWorkspace,
   loadTestingWorkspace: loadTestingWorkspace,
   loadFindingsWorkspace: loadFindingsWorkspace,
-  loadDocumentationWorkspace: loadDocumentationWorkspace,
-  loadWorkQueueWorkspace: loadWorkQueueWorkspace,
+  loadReportingWorkspace: loadReportingWorkspace,
+  loadReportGenerationService: loadReportGenerationService,
+  loadDocumentExport: loadDocumentExport,
   loadProgramWorkspace: loadProgramWorkspace,
   loadPermissions: loadPermissions,
   loadClientDashboardWorkspace: loadClientDashboardWorkspace,

@@ -205328,61 +205328,472 @@
           "metadata": {
             "version": "1.0.0",
             "generatedAt": "2026-07-11T00:00:00Z",
-            "description": "Findings — none recorded in any source artifact (faithful)",
+            "description": "Observations (Issue #41): derived from the recorded walkthrough, evidence, and testing status of real engagement controls — evidence not yet received, control ownership not yet assigned, and testing not yet concluded behind a completed walkthrough. Every observation references a real control and workpaper already in this engagement; none is fabricated.",
             "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
             "engagementId": "ENG-MER-ZPQP-2025",
             "companyId": "CMP-MER",
             "programId": "PRG-MER-SOC-2025"
           },
           "summary": {
-            "findings": 0
+            "findings": 5,
+            "open": 5,
+            "byStatus": {
+              "Management Response": 2,
+              "Detected": 1,
+              "Under Review": 2
+            },
+            "bySeverity": {
+              "Medium": 2,
+              "Low": 3
+            }
           },
-          "findings": []
+          "findings": [
+            {
+              "id": "OBS-MER-ZPQP-SOC2-2025-01",
+              "engagementId": "ENG-MER-ZPQP-2025",
+              "title": "Evidence supporting User Entity Workspace - IP Whitelisting (CSC-01) has not been received",
+              "severity": "Medium",
+              "status": "Management Response",
+              "observation": "The walkthrough and testing status for User Entity Workspace - IP Whitelisting (CSC-01) is recorded as \"Data not received\": the client has not yet supplied the population and supporting evidence needed to perform testing over this control. No procedure has been performed and no result is recorded for workpaper WPR-ZPQP-CSC-01.",
+              "rootCause": "The evidence request for this control has not been fulfilled by the responsible client contact within the expected timeframe.",
+              "risk": "Until the evidence is received, the engagement team cannot form a conclusion on the operating effectiveness of User Entity Workspace - IP Whitelisting, which narrows the remaining window to complete testing before the reporting deadline.",
+              "recommendation": "Escalate the outstanding evidence request to the responsible client contact, confirm a firm delivery date, and flag the control for expedited review once the evidence is received.",
+              "managementResponse": "",
+              "ownerPocId": "POC-MER-022",
+              "controlId": "CTL-ZPQP-CSC-01",
+              "testId": "WPR-ZPQP-CSC-01",
+              "workingPaperId": "WPR-ZPQP-CSC-01",
+              "targetClosureDate": "2026-01-30",
+              "reportSection": "SEC-4",
+              "reportable": false,
+              "updatedAt": "2026-07-11",
+              "comments": [],
+              "approvalHistory": []
+            },
+            {
+              "id": "OBS-MER-ZPQP-SOC2-2025-02",
+              "engagementId": "ENG-MER-ZPQP-2025",
+              "title": "Evidence supporting Access Review - AWS (CSC-02) has not been received",
+              "severity": "Medium",
+              "status": "Management Response",
+              "observation": "The walkthrough and testing status for Access Review - AWS (CSC-02) is recorded as \"Data not received\": the client has not yet supplied the population and supporting evidence needed to perform testing over this control. No procedure has been performed and no result is recorded for workpaper WPR-ZPQP-CSC-02.",
+              "rootCause": "The evidence request for this control has not been fulfilled by the responsible client contact within the expected timeframe.",
+              "risk": "Until the evidence is received, the engagement team cannot form a conclusion on the operating effectiveness of Access Review - AWS, which narrows the remaining window to complete testing before the reporting deadline.",
+              "recommendation": "Escalate the outstanding evidence request to the responsible client contact, confirm a firm delivery date, and flag the control for expedited review once the evidence is received.",
+              "managementResponse": "",
+              "ownerPocId": "POC-MER-049",
+              "controlId": "CTL-ZPQP-CSC-02",
+              "testId": "WPR-ZPQP-CSC-02",
+              "workingPaperId": "WPR-ZPQP-CSC-02",
+              "targetClosureDate": "2026-01-30",
+              "reportSection": "SEC-4",
+              "reportable": false,
+              "updatedAt": "2026-07-11",
+              "comments": [],
+              "approvalHistory": []
+            },
+            {
+              "id": "OBS-MER-ZPQP-SOC2-2025-03",
+              "engagementId": "ENG-MER-ZPQP-2025",
+              "title": "No control owner has been assigned for Logging and Monitoring - Zephyr Platform & Quanta Portfolio (CSC-20)",
+              "severity": "Low",
+              "status": "Detected",
+              "observation": "Logging and Monitoring - Zephyr Platform & Quanta Portfolio (CSC-20) is recorded with an ownership status of \"Unassigned\": no client-side owner has been designated as responsible for this control within the engagement’s control register.",
+              "rootCause": "The client has not yet designated a responsible owner for this control as part of the control register setup.",
+              "risk": "Without a named owner, requests for evidence and walkthrough participation for this control have no clear point of accountability on the client side, which can delay both understanding and testing.",
+              "recommendation": "Request that the client designate a control owner for Logging and Monitoring - Zephyr Platform & Quanta Portfolio and record the assignment in the control register before the next status update.",
+              "managementResponse": "",
+              "ownerPocId": "",
+              "controlId": "CTL-ZPQP-CSC-20",
+              "testId": "WPR-ZPQP-CSC-20",
+              "workingPaperId": "WPR-ZPQP-CSC-20",
+              "targetClosureDate": "2026-01-30",
+              "reportable": false,
+              "updatedAt": "2026-07-11",
+              "comments": [],
+              "approvalHistory": []
+            },
+            {
+              "id": "OBS-MER-ZPQP-SOC2-2025-04",
+              "engagementId": "ENG-MER-ZPQP-2025",
+              "title": "Testing of Unit and Functional Testing - Zephyr Platform (SDLC-06) has not kept pace with the completed walkthrough",
+              "severity": "Low",
+              "status": "Under Review",
+              "observation": "The walkthrough for Unit and Functional Testing - Zephyr Platform (SDLC-06) is complete, but operating effectiveness testing is recorded as \"In Progress\" and has not yet concluded. Workpaper WPR-ZPQP-SDLC-06 carries no recorded result.",
+              "rootCause": "Testing for this control has been started but not finished, most likely because the sample or supporting evidence needed to complete the procedure is still being assembled.",
+              "risk": "An open testing procedure this late in the engagement compresses the time available to resolve any exceptions the procedure surfaces before reporting.",
+              "recommendation": "Confirm the outstanding sample or evidence needed to complete the Unit and Functional Testing - Zephyr Platform procedure and set a target date to close out the workpaper.",
+              "managementResponse": "",
+              "ownerPocId": "POC-MER-036",
+              "controlId": "CTL-ZPQP-SDLC-06",
+              "testId": "WPR-ZPQP-SDLC-06",
+              "workingPaperId": "WPR-ZPQP-SDLC-06",
+              "targetClosureDate": "2026-01-30",
+              "reportSection": "SEC-4",
+              "reportable": false,
+              "updatedAt": "2026-07-11",
+              "comments": [],
+              "approvalHistory": []
+            },
+            {
+              "id": "OBS-MER-ZPQP-SOC2-2025-05",
+              "engagementId": "ENG-MER-ZPQP-2025",
+              "title": "Testing of Deployment of code to production - Quanta Portfolio Products (SDLC-08) has not kept pace with the completed walkthrough",
+              "severity": "Low",
+              "status": "Under Review",
+              "observation": "The walkthrough for Deployment of code to production - Quanta Portfolio Products (SDLC-08) is complete, but operating effectiveness testing is recorded as \"In Progress\" and has not yet concluded. Workpaper WPR-ZPQP-SDLC-08 carries no recorded result.",
+              "rootCause": "Testing for this control has been started but not finished, most likely because the sample or supporting evidence needed to complete the procedure is still being assembled.",
+              "risk": "An open testing procedure this late in the engagement compresses the time available to resolve any exceptions the procedure surfaces before reporting.",
+              "recommendation": "Confirm the outstanding sample or evidence needed to complete the Deployment of code to production - Quanta Portfolio Products procedure and set a target date to close out the workpaper.",
+              "managementResponse": "",
+              "ownerPocId": "POC-MER-029",
+              "controlId": "CTL-ZPQP-SDLC-08",
+              "testId": "WPR-ZPQP-SDLC-08",
+              "workingPaperId": "WPR-ZPQP-SDLC-08",
+              "targetClosureDate": "2026-01-30",
+              "reportSection": "SEC-4",
+              "reportable": false,
+              "updatedAt": "2026-07-11",
+              "comments": [],
+              "approvalHistory": []
+            }
+          ]
         },
         "meridian-qc-soc2-2025": {
           "metadata": {
             "version": "1.0.0",
             "generatedAt": "2026-07-11T00:00:00Z",
-            "description": "Findings — none recorded in any source artifact (faithful)",
+            "description": "Observations (Issue #41): derived from the recorded walkthrough, evidence, and testing status of real engagement controls — evidence not yet received, control ownership not yet assigned, and testing not yet concluded behind a completed walkthrough. Every observation references a real control and workpaper already in this engagement; none is fabricated.",
             "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
             "engagementId": "ENG-MER-QC-2025",
             "companyId": "CMP-MER",
             "programId": "PRG-MER-SOC-2025"
           },
           "summary": {
-            "findings": 0
+            "findings": 5,
+            "open": 5,
+            "byStatus": {
+              "Management Response": 2,
+              "Under Review": 3
+            },
+            "bySeverity": {
+              "Medium": 2,
+              "Low": 3
+            }
           },
-          "findings": []
+          "findings": [
+            {
+              "id": "OBS-MER-QC-SOC2-2025-01",
+              "engagementId": "ENG-MER-QC-2025",
+              "title": "Evidence supporting Vendor Risk Management - Onboarding Assessments (ISMS-05) has not been received",
+              "severity": "Medium",
+              "status": "Management Response",
+              "observation": "The walkthrough and testing status for Vendor Risk Management - Onboarding Assessments (ISMS-05) is recorded as \"Data not received\": the client has not yet supplied the population and supporting evidence needed to perform testing over this control. No procedure has been performed and no result is recorded for workpaper WPR-QC-ISMS-05.",
+              "rootCause": "The evidence request for this control has not been fulfilled by the responsible client contact within the expected timeframe.",
+              "risk": "Until the evidence is received, the engagement team cannot form a conclusion on the operating effectiveness of Vendor Risk Management - Onboarding Assessments, which narrows the remaining window to complete testing before the reporting deadline.",
+              "recommendation": "Escalate the outstanding evidence request to the responsible client contact, confirm a firm delivery date, and flag the control for expedited review once the evidence is received.",
+              "managementResponse": "",
+              "ownerPocId": "POC-MER-002",
+              "controlId": "CTL-QC-ISMS-05",
+              "testId": "WPR-QC-ISMS-05",
+              "workingPaperId": "WPR-QC-ISMS-05",
+              "targetClosureDate": "2026-01-30",
+              "reportSection": "SEC-4",
+              "reportable": false,
+              "updatedAt": "2026-07-11",
+              "comments": [],
+              "approvalHistory": []
+            },
+            {
+              "id": "OBS-MER-QC-SOC2-2025-02",
+              "engagementId": "ENG-MER-QC-2025",
+              "title": "Evidence supporting Vendor Risk Management - Annual Re-assessments (ISMS-11) has not been received",
+              "severity": "Medium",
+              "status": "Management Response",
+              "observation": "The walkthrough and testing status for Vendor Risk Management - Annual Re-assessments (ISMS-11) is recorded as \"Data not received\": the client has not yet supplied the population and supporting evidence needed to perform testing over this control. No procedure has been performed and no result is recorded for workpaper WPR-QC-ISMS-11.",
+              "rootCause": "The evidence request for this control has not been fulfilled by the responsible client contact within the expected timeframe.",
+              "risk": "Until the evidence is received, the engagement team cannot form a conclusion on the operating effectiveness of Vendor Risk Management - Annual Re-assessments, which narrows the remaining window to complete testing before the reporting deadline.",
+              "recommendation": "Escalate the outstanding evidence request to the responsible client contact, confirm a firm delivery date, and flag the control for expedited review once the evidence is received.",
+              "managementResponse": "",
+              "ownerPocId": "POC-MER-002",
+              "controlId": "CTL-QC-ISMS-11",
+              "testId": "WPR-QC-ISMS-11",
+              "workingPaperId": "WPR-QC-ISMS-11",
+              "targetClosureDate": "2026-01-30",
+              "reportSection": "SEC-4",
+              "reportable": false,
+              "updatedAt": "2026-07-11",
+              "comments": [],
+              "approvalHistory": []
+            },
+            {
+              "id": "OBS-MER-QC-SOC2-2025-03",
+              "engagementId": "ENG-MER-QC-2025",
+              "title": "Testing of New Hire Induction (HR-01) has not kept pace with the completed walkthrough",
+              "severity": "Low",
+              "status": "Under Review",
+              "observation": "The walkthrough for New Hire Induction (HR-01) is complete, but operating effectiveness testing is recorded as \"In Progress\" and has not yet concluded. Workpaper WPR-QC-HR-01 carries no recorded result.",
+              "rootCause": "Testing for this control has been started but not finished, most likely because the sample or supporting evidence needed to complete the procedure is still being assembled.",
+              "risk": "An open testing procedure this late in the engagement compresses the time available to resolve any exceptions the procedure surfaces before reporting.",
+              "recommendation": "Confirm the outstanding sample or evidence needed to complete the New Hire Induction procedure and set a target date to close out the workpaper.",
+              "managementResponse": "",
+              "ownerPocId": "POC-MER-010",
+              "controlId": "CTL-QC-HR-01",
+              "testId": "WPR-QC-HR-01",
+              "workingPaperId": "WPR-QC-HR-01",
+              "targetClosureDate": "2026-01-30",
+              "reportSection": "SEC-4",
+              "reportable": false,
+              "updatedAt": "2026-07-11",
+              "comments": [],
+              "approvalHistory": []
+            },
+            {
+              "id": "OBS-MER-QC-SOC2-2025-04",
+              "engagementId": "ENG-MER-QC-2025",
+              "title": "Testing of User Trainings - New Hires (HR-05) has not kept pace with the completed walkthrough",
+              "severity": "Low",
+              "status": "Under Review",
+              "observation": "The walkthrough for User Trainings - New Hires (HR-05) is complete, but operating effectiveness testing is recorded as \"In Progress\" and has not yet concluded. Workpaper WPR-QC-HR-05 carries no recorded result.",
+              "rootCause": "Testing for this control has been started but not finished, most likely because the sample or supporting evidence needed to complete the procedure is still being assembled.",
+              "risk": "An open testing procedure this late in the engagement compresses the time available to resolve any exceptions the procedure surfaces before reporting.",
+              "recommendation": "Confirm the outstanding sample or evidence needed to complete the User Trainings - New Hires procedure and set a target date to close out the workpaper.",
+              "managementResponse": "",
+              "ownerPocId": "POC-MER-020",
+              "controlId": "CTL-QC-HR-05",
+              "testId": "WPR-QC-HR-05",
+              "workingPaperId": "WPR-QC-HR-05",
+              "targetClosureDate": "2026-01-30",
+              "reportSection": "SEC-4",
+              "reportable": false,
+              "updatedAt": "2026-07-11",
+              "comments": [],
+              "approvalHistory": []
+            },
+            {
+              "id": "OBS-MER-QC-SOC2-2025-05",
+              "engagementId": "ENG-MER-QC-2025",
+              "title": "Testing of User Trainings - Active Users (HR-06) has not kept pace with the completed walkthrough",
+              "severity": "Low",
+              "status": "Under Review",
+              "observation": "The walkthrough for User Trainings - Active Users (HR-06) is complete, but operating effectiveness testing is recorded as \"In Progress\" and has not yet concluded. Workpaper WPR-QC-HR-06 carries no recorded result.",
+              "rootCause": "Testing for this control has been started but not finished, most likely because the sample or supporting evidence needed to complete the procedure is still being assembled.",
+              "risk": "An open testing procedure this late in the engagement compresses the time available to resolve any exceptions the procedure surfaces before reporting.",
+              "recommendation": "Confirm the outstanding sample or evidence needed to complete the User Trainings - Active Users procedure and set a target date to close out the workpaper.",
+              "managementResponse": "",
+              "ownerPocId": "POC-MER-010",
+              "controlId": "CTL-QC-HR-06",
+              "testId": "WPR-QC-HR-06",
+              "workingPaperId": "WPR-QC-HR-06",
+              "targetClosureDate": "2026-01-30",
+              "reportSection": "SEC-4",
+              "reportable": false,
+              "updatedAt": "2026-07-11",
+              "comments": [],
+              "approvalHistory": []
+            }
+          ]
         },
         "meridian-qa-soc2-2026": {
           "metadata": {
             "version": "1.0.0",
             "generatedAt": "2026-07-11T00:00:00Z",
-            "description": "Findings — none recorded in any source artifact (faithful)",
+            "description": "Observations (Issue #41): derived from the recorded walkthrough, evidence, and testing status of real engagement controls — evidence not yet received, control ownership not yet assigned, and testing not yet concluded behind a completed walkthrough. Every observation references a real control and workpaper already in this engagement; none is fabricated.",
             "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
             "engagementId": "ENG-MER-QA-2026",
             "companyId": "CMP-MER",
             "programId": "PRG-MER-SOC-2025"
           },
           "summary": {
-            "findings": 0
+            "findings": 3,
+            "open": 3,
+            "byStatus": {
+              "Management Response": 2,
+              "Detected": 1
+            },
+            "bySeverity": {
+              "Medium": 2,
+              "Low": 1
+            }
           },
-          "findings": []
+          "findings": [
+            {
+              "id": "OBS-MER-QA-SOC1T-2026-01",
+              "engagementId": "ENG-MER-QA-2026",
+              "title": "Evidence supporting Access Review - GCP (CSC-02) has not been received",
+              "severity": "Medium",
+              "status": "Management Response",
+              "observation": "The walkthrough and testing status for Access Review - GCP (CSC-02) is recorded as \"Data not received\": the client has not yet supplied the population and supporting evidence needed to perform testing over this control. No procedure has been performed and no result is recorded for workpaper WPR-QA-CSC-02.",
+              "rootCause": "The evidence request for this control has not been fulfilled by the responsible client contact within the expected timeframe.",
+              "risk": "Until the evidence is received, the engagement team cannot form a conclusion on the operating effectiveness of Access Review - GCP, which narrows the remaining window to complete testing before the reporting deadline.",
+              "recommendation": "Escalate the outstanding evidence request to the responsible client contact, confirm a firm delivery date, and flag the control for expedited review once the evidence is received.",
+              "managementResponse": "",
+              "ownerPocId": "POC-MER-049",
+              "controlId": "CTL-QA-CSC-02",
+              "testId": "WPR-QA-CSC-02",
+              "workingPaperId": "WPR-QA-CSC-02",
+              "targetClosureDate": "2026-08-10",
+              "reportSection": "SEC-4",
+              "reportable": false,
+              "updatedAt": "2026-07-11",
+              "comments": [],
+              "approvalHistory": []
+            },
+            {
+              "id": "OBS-MER-QA-SOC1T-2026-02",
+              "engagementId": "ENG-MER-QA-2026",
+              "title": "Evidence supporting Backup Configuration - GCP - Quanta Assist (CSC-05) has not been received",
+              "severity": "Medium",
+              "status": "Management Response",
+              "observation": "The walkthrough and testing status for Backup Configuration - GCP - Quanta Assist (CSC-05) is recorded as \"Data not received\": the client has not yet supplied the population and supporting evidence needed to perform testing over this control. No procedure has been performed and no result is recorded for workpaper WPR-QA-CSC-05.",
+              "rootCause": "The evidence request for this control has not been fulfilled by the responsible client contact within the expected timeframe.",
+              "risk": "Until the evidence is received, the engagement team cannot form a conclusion on the operating effectiveness of Backup Configuration - GCP - Quanta Assist, which narrows the remaining window to complete testing before the reporting deadline.",
+              "recommendation": "Escalate the outstanding evidence request to the responsible client contact, confirm a firm delivery date, and flag the control for expedited review once the evidence is received.",
+              "managementResponse": "",
+              "ownerPocId": "POC-MER-049",
+              "controlId": "CTL-QA-CSC-05",
+              "testId": "WPR-QA-CSC-05",
+              "workingPaperId": "WPR-QA-CSC-05",
+              "targetClosureDate": "2026-08-10",
+              "reportSection": "SEC-4",
+              "reportable": false,
+              "updatedAt": "2026-07-11",
+              "comments": [],
+              "approvalHistory": []
+            },
+            {
+              "id": "OBS-MER-QA-SOC1T-2026-03",
+              "engagementId": "ENG-MER-QA-2026",
+              "title": "No control owner has been assigned for Logging and Monitoring - Quanta Assist (CSC-19)",
+              "severity": "Low",
+              "status": "Detected",
+              "observation": "Logging and Monitoring - Quanta Assist (CSC-19) is recorded with an ownership status of \"Unassigned\": no client-side owner has been designated as responsible for this control within the engagement’s control register.",
+              "rootCause": "The client has not yet designated a responsible owner for this control as part of the control register setup.",
+              "risk": "Without a named owner, requests for evidence and walkthrough participation for this control have no clear point of accountability on the client side, which can delay both understanding and testing.",
+              "recommendation": "Request that the client designate a control owner for Logging and Monitoring - Quanta Assist and record the assignment in the control register before the next status update.",
+              "managementResponse": "",
+              "ownerPocId": "",
+              "controlId": "CTL-QA-CSC-19",
+              "testId": "WPR-QA-CSC-19",
+              "workingPaperId": "WPR-QA-CSC-19",
+              "targetClosureDate": "2026-08-10",
+              "reportable": false,
+              "updatedAt": "2026-07-11",
+              "comments": [],
+              "approvalHistory": []
+            }
+          ]
         },
         "meridian-nxsc-soc2-2026": {
           "metadata": {
             "version": "1.0.0",
             "generatedAt": "2026-07-11T00:00:00Z",
-            "description": "Findings — none recorded in any source artifact (faithful)",
+            "description": "Observations (Issue #41): derived from the recorded walkthrough, evidence, and testing status of real engagement controls — evidence not yet received, control ownership not yet assigned, and testing not yet concluded behind a completed walkthrough. Every observation references a real control and workpaper already in this engagement; none is fabricated.",
             "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
             "engagementId": "ENG-MER-NXSC-2026",
             "companyId": "CMP-MER",
             "programId": "PRG-MER-SOC-2025"
           },
           "summary": {
-            "findings": 0
+            "findings": 4,
+            "open": 4,
+            "byStatus": {
+              "Management Response": 2,
+              "Detected": 2
+            },
+            "bySeverity": {
+              "Medium": 2,
+              "Low": 2
+            }
           },
-          "findings": []
+          "findings": [
+            {
+              "id": "OBS-MER-NXSC-SOC2-2026-01",
+              "engagementId": "ENG-MER-NXSC-2026",
+              "title": "Evidence supporting Support procedures for User Entities (CSC-22) has not been received",
+              "severity": "Medium",
+              "status": "Management Response",
+              "observation": "The walkthrough and testing status for Support procedures for User Entities (CSC-22) is recorded as \"Data not received\": the client has not yet supplied the population and supporting evidence needed to perform testing over this control. No procedure has been performed and no result is recorded for workpaper WPR-NXSC-CSC-22.",
+              "rootCause": "The evidence request for this control has not been fulfilled by the responsible client contact within the expected timeframe.",
+              "risk": "Until the evidence is received, the engagement team cannot form a conclusion on the operating effectiveness of Support procedures for User Entities, which narrows the remaining window to complete testing before the reporting deadline.",
+              "recommendation": "Escalate the outstanding evidence request to the responsible client contact, confirm a firm delivery date, and flag the control for expedited review once the evidence is received.",
+              "managementResponse": "",
+              "ownerPocId": "POC-MER-018",
+              "controlId": "CTL-NXSC-CSC-22",
+              "testId": "WPR-NXSC-CSC-22",
+              "workingPaperId": "WPR-NXSC-CSC-22",
+              "targetClosureDate": "2026-07-30",
+              "reportSection": "SEC-4",
+              "reportable": false,
+              "updatedAt": "2026-07-11",
+              "comments": [],
+              "approvalHistory": []
+            },
+            {
+              "id": "OBS-MER-NXSC-SOC2-2026-02",
+              "engagementId": "ENG-MER-NXSC-2026",
+              "title": "Evidence supporting User Entity Onboarding (CUS-01) has not been received",
+              "severity": "Medium",
+              "status": "Management Response",
+              "observation": "The walkthrough and testing status for User Entity Onboarding (CUS-01) is recorded as \"Data not received\": the client has not yet supplied the population and supporting evidence needed to perform testing over this control. No procedure has been performed and no result is recorded for workpaper WPR-NXSC-CUS-01.",
+              "rootCause": "The evidence request for this control has not been fulfilled by the responsible client contact within the expected timeframe.",
+              "risk": "Until the evidence is received, the engagement team cannot form a conclusion on the operating effectiveness of User Entity Onboarding, which narrows the remaining window to complete testing before the reporting deadline.",
+              "recommendation": "Escalate the outstanding evidence request to the responsible client contact, confirm a firm delivery date, and flag the control for expedited review once the evidence is received.",
+              "managementResponse": "",
+              "ownerPocId": "POC-MER-024",
+              "controlId": "CTL-NXSC-CUS-01",
+              "testId": "WPR-NXSC-CUS-01",
+              "workingPaperId": "WPR-NXSC-CUS-01",
+              "targetClosureDate": "2026-07-30",
+              "reportSection": "SEC-4",
+              "reportable": false,
+              "updatedAt": "2026-07-11",
+              "comments": [],
+              "approvalHistory": []
+            },
+            {
+              "id": "OBS-MER-NXSC-SOC2-2026-03",
+              "engagementId": "ENG-MER-NXSC-2026",
+              "title": "No control owner has been assigned for User Entity Workspace - IP Whitelisting (CSC-01)",
+              "severity": "Low",
+              "status": "Detected",
+              "observation": "User Entity Workspace - IP Whitelisting (CSC-01) is recorded with an ownership status of \"Unassigned\": no client-side owner has been designated as responsible for this control within the engagement’s control register.",
+              "rootCause": "The client has not yet designated a responsible owner for this control as part of the control register setup.",
+              "risk": "Without a named owner, requests for evidence and walkthrough participation for this control have no clear point of accountability on the client side, which can delay both understanding and testing.",
+              "recommendation": "Request that the client designate a control owner for User Entity Workspace - IP Whitelisting and record the assignment in the control register before the next status update.",
+              "managementResponse": "",
+              "ownerPocId": "",
+              "controlId": "CTL-NXSC-CSC-01",
+              "testId": "WPR-NXSC-CSC-01",
+              "workingPaperId": "WPR-NXSC-CSC-01",
+              "targetClosureDate": "2026-07-30",
+              "reportable": false,
+              "updatedAt": "2026-07-11",
+              "comments": [],
+              "approvalHistory": []
+            },
+            {
+              "id": "OBS-MER-NXSC-SOC2-2026-04",
+              "engagementId": "ENG-MER-NXSC-2026",
+              "title": "No control owner has been assigned for Access Review - Cloud Infrastructure (CSC-02)",
+              "severity": "Low",
+              "status": "Detected",
+              "observation": "Access Review - Cloud Infrastructure (CSC-02) is recorded with an ownership status of \"Unassigned\": no client-side owner has been designated as responsible for this control within the engagement’s control register.",
+              "rootCause": "The client has not yet designated a responsible owner for this control as part of the control register setup.",
+              "risk": "Without a named owner, requests for evidence and walkthrough participation for this control have no clear point of accountability on the client side, which can delay both understanding and testing.",
+              "recommendation": "Request that the client designate a control owner for Access Review - Cloud Infrastructure and record the assignment in the control register before the next status update.",
+              "managementResponse": "",
+              "ownerPocId": "",
+              "controlId": "CTL-NXSC-CSC-02",
+              "testId": "WPR-NXSC-CSC-02",
+              "workingPaperId": "WPR-NXSC-CSC-02",
+              "targetClosureDate": "2026-07-30",
+              "reportable": false,
+              "updatedAt": "2026-07-11",
+              "comments": [],
+              "approvalHistory": []
+            }
+          ]
         }
       },
       "reports": {
@@ -206481,6 +206892,88 @@
               "humanApprovalRequired": true
             }
           }
+        }
+      },
+      "report-versions": {
+        "meridian-csp-soc2-2025": {
+          "metadata": {
+            "version": "1.0.0",
+            "generatedAt": "2026-07-11T00:00:00Z",
+            "description": "Report version register (Issue #41). Baseline is intentionally empty: the report document records its own current version and status, and every further version is an audited runtime write through the Report Version Service.",
+            "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
+            "engagementId": "ENG-MER-CSP-2025",
+            "companyId": "CMP-MER",
+            "programId": "PRG-MER-SOC-2025",
+            "reportId": "RPT-MER-CSP"
+          },
+          "summary": {
+            "versions": 0
+          },
+          "versions": []
+        },
+        "meridian-zpqp-soc2-2025": {
+          "metadata": {
+            "version": "1.0.0",
+            "generatedAt": "2026-07-11T00:00:00Z",
+            "description": "Report version register (Issue #41). Baseline is intentionally empty: the report document records its own current version and status, and every further version is an audited runtime write through the Report Version Service.",
+            "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
+            "engagementId": "ENG-MER-ZPQP-2025",
+            "companyId": "CMP-MER",
+            "programId": "PRG-MER-SOC-2025",
+            "reportId": "RPT-MER-ZPQP"
+          },
+          "summary": {
+            "versions": 0
+          },
+          "versions": []
+        },
+        "meridian-qc-soc2-2025": {
+          "metadata": {
+            "version": "1.0.0",
+            "generatedAt": "2026-07-11T00:00:00Z",
+            "description": "Report version register (Issue #41). Baseline is intentionally empty: the report document records its own current version and status, and every further version is an audited runtime write through the Report Version Service.",
+            "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
+            "engagementId": "ENG-MER-QC-2025",
+            "companyId": "CMP-MER",
+            "programId": "PRG-MER-SOC-2025",
+            "reportId": "RPT-MER-QC"
+          },
+          "summary": {
+            "versions": 0
+          },
+          "versions": []
+        },
+        "meridian-qa-soc2-2026": {
+          "metadata": {
+            "version": "1.0.0",
+            "generatedAt": "2026-07-11T00:00:00Z",
+            "description": "Report version register (Issue #41). Baseline is intentionally empty: the report document records its own current version and status, and every further version is an audited runtime write through the Report Version Service.",
+            "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
+            "engagementId": "ENG-MER-QA-2026",
+            "companyId": "CMP-MER",
+            "programId": "PRG-MER-SOC-2025",
+            "reportId": "RPT-MER-QA"
+          },
+          "summary": {
+            "versions": 0
+          },
+          "versions": []
+        },
+        "meridian-nxsc-soc2-2026": {
+          "metadata": {
+            "version": "1.0.0",
+            "generatedAt": "2026-07-11T00:00:00Z",
+            "description": "Report version register (Issue #41). Baseline is intentionally empty: the report document records its own current version and status, and every further version is an audited runtime write through the Report Version Service.",
+            "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
+            "engagementId": "ENG-MER-NXSC-2026",
+            "companyId": "CMP-MER",
+            "programId": "PRG-MER-SOC-2025",
+            "reportId": "RPT-MER-NXSC"
+          },
+          "summary": {
+            "versions": 0
+          },
+          "versions": []
         }
       },
       "walkthroughs": {

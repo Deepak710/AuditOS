@@ -174,12 +174,16 @@ a.aos-engagement__health-item:hover {
 }
 
 /* ========================================
- * LIFECYCLE WORKFLOW (MIDDLE) — Issue #39 redesign
- * The audit lifecycle as one connected enterprise workflow: an ordered
- * stepper rail of numbered stages — Walkthrough → Evidence → Controls →
- * Testing → Findings → Reporting — joined by visible connectors so the chain
- * reads as one process, never disconnected cards. Each step is a link into
- * its workspace with the stage's status, pending work, and progress.
+ * LIFECYCLE PIPELINE (MIDDLE) — Issue #39 redesign, Issue #41 pipeline health
+ * The audit lifecycle as one operational pipeline: an ordered rail of numbered
+ * stages — Walkthrough → Evidence → Controls → Testing → Findings →
+ * Reporting — joined by connectors that carry the health of the stage they
+ * leave, so the chain shows where the audit is moving (green), where it is
+ * waiting (amber), and where it is blocked (red), never merely what order the
+ * stages come in. Each step is a link into its workspace with the stage's
+ * completion, blockers, pending approvals, AI suggestions, and progress. The
+ * health is always stated in text beside the color, so the pipeline reads
+ * without relying on color alone.
  * ======================================== */
 
 .aos-engagement__lifecycle {
@@ -198,8 +202,9 @@ a.aos-engagement__health-item:hover {
   min-width: 0;
 }
 
-/* The connector rail: every step after the first joins its predecessor with
- * a short horizontal rule bridging the grid gap. */
+/* The connector rail: every step after the first joins its predecessor with a
+ * short horizontal rule bridging the grid gap. The rule carries the health of
+ * the stage it leaves — flowing, waiting, or blocked (Issue #41). */
 .aos-engagement__lifecycle-step + .aos-engagement__lifecycle-step::before {
   content: '';
   position: absolute;
@@ -210,11 +215,25 @@ a.aos-engagement__health-item:hover {
   background-color: var(--aos-surface-border-strong);
 }
 
+.aos-engagement__lifecycle-step--from-flowing::before {
+  background-color: var(--aos-color-success-700);
+}
+
+.aos-engagement__lifecycle-step--from-waiting::before {
+  background-color: var(--aos-color-warning-700);
+}
+
+.aos-engagement__lifecycle-step--from-blocked::before {
+  background-color: var(--aos-color-error-700);
+}
+
 .aos-engagement__stage {
   position: relative;
   flex: 1 1 auto;
   flex-direction: column;
   gap: var(--aos-space-3);
+  min-width: 0;
+  overflow: hidden;
   text-decoration: none;
   color: inherit;
 }
@@ -224,6 +243,25 @@ a.aos-engagement__health-item:hover {
   align-items: center;
   justify-content: space-between;
   gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+/* A recorded stage status can be a whole sentence (a report's "Final (pending
+ * Sections I–II at issuance)"). In a pipeline stage it must never squeeze the
+ * stage's own number and name out of the card: the badge yields first and
+ * truncates, and the full status is one click away inside the workspace. */
+.aos-engagement__stage-head > .aos-status-badge {
+  /* The badge is an inline-flex component, where text-overflow never applies
+   * to the text inside it. Overriding the display to inline-block for this one
+   * placement is what lets a long status truncate with an ellipsis instead of
+   * being clipped mid-word by the card. */
+  display: inline-block;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 55%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .aos-engagement__stage-identity {
@@ -272,6 +310,68 @@ a.aos-engagement__health-item:hover {
   font-size: var(--aos-text-xs);
   font-weight: var(--aos-font-medium);
   color: var(--aos-text-link);
+}
+
+/* A blocker is a recorded fact that stops the pipeline at this stage; it reads
+ * as the strongest line in the card because it is the reason nothing downstream
+ * is moving. */
+.aos-engagement__stage-blocker {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-color-error-700);
+}
+
+.aos-engagement__stage-suggestions {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-color-info-600);
+}
+
+/* The stage's own pipeline health, stated as text beside a tone dot so it never
+ * depends on color alone. */
+.aos-engagement__stage-health {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: var(--aos-tracking-wide);
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-engagement__stage-health-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: none;
+  border-radius: var(--aos-radius-full);
+  background-color: var(--aos-text-tertiary);
+}
+
+.aos-engagement__stage-health--flowing .aos-engagement__stage-health-dot {
+  background-color: var(--aos-color-success-700);
+}
+
+.aos-engagement__stage-health--waiting .aos-engagement__stage-health-dot {
+  background-color: var(--aos-color-warning-700);
+}
+
+.aos-engagement__stage-health--blocked .aos-engagement__stage-health-dot {
+  background-color: var(--aos-color-error-700);
+}
+
+/* A blocked stage carries a left rule so the break in the pipeline is visible
+ * at a glance across the whole rail. */
+.aos-engagement__stage--blocked {
+  border-left: 3px solid var(--aos-color-error-700);
+}
+
+.aos-engagement__stage--waiting {
+  border-left: 3px solid var(--aos-color-warning-700);
+}
+
+.aos-engagement__stage--flowing {
+  border-left: 3px solid var(--aos-color-success-700);
 }
 
 /* A slim, decorative progress track inside a stage card — the figures already

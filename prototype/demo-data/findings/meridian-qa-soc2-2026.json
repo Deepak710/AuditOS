@@ -2,14 +2,89 @@
   "metadata": {
     "version": "1.0.0",
     "generatedAt": "2026-07-11T00:00:00Z",
-    "description": "Findings — none recorded in any source artifact (faithful)",
+    "description": "Observations (Issue #41): derived from the recorded walkthrough, evidence, and testing status of real engagement controls — evidence not yet received, control ownership not yet assigned, and testing not yet concluded behind a completed walkthrough. Every observation references a real control and workpaper already in this engagement; none is fabricated.",
     "source": "Meridian artifacts (MRL, Control List, CSC-01, CSP SOC 2 report)",
     "engagementId": "ENG-MER-QA-2026",
     "companyId": "CMP-MER",
     "programId": "PRG-MER-SOC-2025"
   },
   "summary": {
-    "findings": 0
+    "findings": 3,
+    "open": 3,
+    "byStatus": {
+      "Management Response": 2,
+      "Detected": 1
+    },
+    "bySeverity": {
+      "Medium": 2,
+      "Low": 1
+    }
   },
-  "findings": []
+  "findings": [
+    {
+      "id": "OBS-MER-QA-SOC1T-2026-01",
+      "engagementId": "ENG-MER-QA-2026",
+      "title": "Evidence supporting Access Review - GCP (CSC-02) has not been received",
+      "severity": "Medium",
+      "status": "Management Response",
+      "observation": "The walkthrough and testing status for Access Review - GCP (CSC-02) is recorded as \"Data not received\": the client has not yet supplied the population and supporting evidence needed to perform testing over this control. No procedure has been performed and no result is recorded for workpaper WPR-QA-CSC-02.",
+      "rootCause": "The evidence request for this control has not been fulfilled by the responsible client contact within the expected timeframe.",
+      "risk": "Until the evidence is received, the engagement team cannot form a conclusion on the operating effectiveness of Access Review - GCP, which narrows the remaining window to complete testing before the reporting deadline.",
+      "recommendation": "Escalate the outstanding evidence request to the responsible client contact, confirm a firm delivery date, and flag the control for expedited review once the evidence is received.",
+      "managementResponse": "",
+      "ownerPocId": "POC-MER-049",
+      "controlId": "CTL-QA-CSC-02",
+      "testId": "WPR-QA-CSC-02",
+      "workingPaperId": "WPR-QA-CSC-02",
+      "targetClosureDate": "2026-08-10",
+      "reportSection": "SEC-4",
+      "reportable": false,
+      "updatedAt": "2026-07-11",
+      "comments": [],
+      "approvalHistory": []
+    },
+    {
+      "id": "OBS-MER-QA-SOC1T-2026-02",
+      "engagementId": "ENG-MER-QA-2026",
+      "title": "Evidence supporting Backup Configuration - GCP - Quanta Assist (CSC-05) has not been received",
+      "severity": "Medium",
+      "status": "Management Response",
+      "observation": "The walkthrough and testing status for Backup Configuration - GCP - Quanta Assist (CSC-05) is recorded as \"Data not received\": the client has not yet supplied the population and supporting evidence needed to perform testing over this control. No procedure has been performed and no result is recorded for workpaper WPR-QA-CSC-05.",
+      "rootCause": "The evidence request for this control has not been fulfilled by the responsible client contact within the expected timeframe.",
+      "risk": "Until the evidence is received, the engagement team cannot form a conclusion on the operating effectiveness of Backup Configuration - GCP - Quanta Assist, which narrows the remaining window to complete testing before the reporting deadline.",
+      "recommendation": "Escalate the outstanding evidence request to the responsible client contact, confirm a firm delivery date, and flag the control for expedited review once the evidence is received.",
+      "managementResponse": "",
+      "ownerPocId": "POC-MER-049",
+      "controlId": "CTL-QA-CSC-05",
+      "testId": "WPR-QA-CSC-05",
+      "workingPaperId": "WPR-QA-CSC-05",
+      "targetClosureDate": "2026-08-10",
+      "reportSection": "SEC-4",
+      "reportable": false,
+      "updatedAt": "2026-07-11",
+      "comments": [],
+      "approvalHistory": []
+    },
+    {
+      "id": "OBS-MER-QA-SOC1T-2026-03",
+      "engagementId": "ENG-MER-QA-2026",
+      "title": "No control owner has been assigned for Logging and Monitoring - Quanta Assist (CSC-19)",
+      "severity": "Low",
+      "status": "Detected",
+      "observation": "Logging and Monitoring - Quanta Assist (CSC-19) is recorded with an ownership status of \"Unassigned\": no client-side owner has been designated as responsible for this control within the engagement’s control register.",
+      "rootCause": "The client has not yet designated a responsible owner for this control as part of the control register setup.",
+      "risk": "Without a named owner, requests for evidence and walkthrough participation for this control have no clear point of accountability on the client side, which can delay both understanding and testing.",
+      "recommendation": "Request that the client designate a control owner for Logging and Monitoring - Quanta Assist and record the assignment in the control register before the next status update.",
+      "managementResponse": "",
+      "ownerPocId": "",
+      "controlId": "CTL-QA-CSC-19",
+      "testId": "WPR-QA-CSC-19",
+      "workingPaperId": "WPR-QA-CSC-19",
+      "targetClosureDate": "2026-08-10",
+      "reportable": false,
+      "updatedAt": "2026-07-11",
+      "comments": [],
+      "approvalHistory": []
+    }
+  ]
 }

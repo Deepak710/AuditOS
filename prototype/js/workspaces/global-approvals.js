@@ -118,7 +118,11 @@
     { key: 'workflow', label: 'Workflow requests', live: true },
     { key: 'requirements', label: 'Requirements', live: false },
     { key: 'walkthroughs', label: 'Walkthroughs', live: false },
-    { key: 'documentation', label: 'Documentation', live: false },
+    // Issue #41: Documentation ceased to exist as an approvable object —
+    // documentation is an internal AI artifact inside the report, so report
+    // approvals are the surface, and observations carry their own management
+    // response approvals in the Findings workspace that owns them.
+    { key: 'findings', label: 'Observations', live: false },
     { key: 'reports', label: 'Reports', live: false },
     { key: 'ai-recommendations', label: 'AI recommendations', live: false }
   ];
@@ -1055,7 +1059,11 @@
 
     var relatedItems = WS.resolveRelationships(workspaceRegistry, [
       { id: workspaceRegistry.IDS.EVIDENCE, title: 'Evidence', meta: String(viewModel.rows.evidence.length), present: true },
-      { id: workspaceRegistry.IDS.WORKQUEUE, title: 'Work queue', meta: '', present: true },
+      // Issue #41: the standalone Work Queue is gone — pending work lives in
+      // the workspace that owns it, so the related destinations are those
+      // workspaces themselves.
+      { id: workspaceRegistry.IDS.FINDINGS, title: 'Findings', meta: '', present: true },
+      { id: workspaceRegistry.IDS.REPORTING, title: 'Reporting', meta: '', present: true },
       { id: workspaceRegistry.IDS.AUDIT_LOG, title: 'Audit log', meta: '', present: true }
     ]);
     var related = el('div', 'aos-approvals__related');

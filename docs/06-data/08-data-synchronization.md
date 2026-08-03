@@ -14,6 +14,20 @@ This duplication introduces inconsistency, increases manual effort, and reduces 
 
 The purpose of this chapter is to define the architectural synchronization model that ensures every component within AuditOS reflects a single authoritative business state while remaining loosely coupled, scalable, and provider-neutral.
 
+**Release 1 Status.** `js/platform/synchronization-bus.js` is a real, shipped
+partial realization of this model: a publish/subscribe Event Bus (Issue #36)
+carrying a downstream propagation chain — Walkthrough → Requirements →
+Controls → Report → Approvals → Audit → AI Usage → Timeline → Context — for
+walkthrough-originated changes, each hop recorded in the Platform Audit
+Service under one correlation id. Issue #41 added a second, **upstream**
+chain, `REPORT_PROPAGATION_CHAIN` (Reporting → Findings → Testing → Controls
+→ Evidence → Walkthrough), walked by `propagateFrom()` for approved report
+edits — see the Reporting Workspace chapter (§69.1) for the full mechanism.
+Both chains are simulated propagation over the Shared Audit State's in-memory
+writes, not a distributed event system; Release 2 replaces the simulated
+publishers with real event producers behind the same `publish`/`subscribe`
+contract.
+
 ---
 
 ### 50.2 Synchronization Philosophy
@@ -166,15 +180,12 @@ Refresh visualizations.
 
 ---
 
-#### Documentation
-
-Regenerates affected documentation.
-
----
-
 #### Reports
 
-Regenerate affected report sections.
+Regenerate affected report sections — including the report's own
+continuously generated documentation content (System Description); Issue #41
+removed documentation as an independent synchronization participant, since it
+is not a separate artifact but a projection of the report itself.
 
 ---
 
@@ -237,10 +248,6 @@ Control Workspace Refreshes
 ↓
 
 Evidence Workspace Refreshes
-
-↓
-
-Documentation Refreshes
 
 ↓
 
@@ -329,11 +336,16 @@ The Evidence Workspace observes:
 * Samples
 * Testing Results
 
-The Documentation Workspace observes:
+The Reporting Workspace observes:
 
 * Approved Business Objects
 * Findings
 * Report Sections
+
+(Documentation is not a separate observer — Issue #41 removed it as a
+standalone workspace; its content is the Reporting Workspace's own
+continuously generated System Description, so it observes exactly what
+Reporting already observes.)
 
 The Executive Dashboard observes:
 

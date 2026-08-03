@@ -25,6 +25,21 @@ Unlike traditional document generators, the Documentation Agent does not generat
 
 It continuously transforms approved Business Objects within the Shared Audit State into structured, high-quality assurance documentation.
 
+**Release 1 / Release 2 Status.** This chapter describes a Release 2
+capability; the Documentation Agent itself is not implemented. Its landing
+surface, however, is real and already built: GitHub Issue #41 established
+that documentation is never a workspace a user opens, but content generated
+continuously inside the Reporting Workspace's Section III (System
+Description). The reserved seam this agent will fill is
+`reportGenerationService.draftNarrative(sectionKey, blocks, context)`
+(`js/services/report-generation-service.js`) — Release 1 returns `null` from
+it, so a section with no recorded content states that honestly rather than
+inventing prose; Release 2 replaces exactly this one function with the
+agent's drafted narrative over the same recorded facts. Every other part of
+the path — which section, which sources, the Suggestion → Approval →
+Propagation route a change to that narrative would still travel — is
+unchanged when that happens.
+
 ---
 
 ### 84.2 Documentation Agent Philosophy

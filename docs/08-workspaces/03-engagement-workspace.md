@@ -185,7 +185,7 @@ Operational Dashboard
 
 ↓
 
-Work Queue
+Operational Pipeline (Walkthrough → Evidence → Controls → Testing → Findings → Reporting)
 
 ↓
 
@@ -206,7 +206,17 @@ Workspace Navigation
 
 Each region consumes the Shared Audit State independently.
 
-#### Release 1 Implementation (GitHub Issue #19)
+> **Superseded (Issue #41 — Living Reporting and Operational Findings):** the
+> composition previously included a standalone **Work Queue** region. The Work
+> Queue workspace has been removed entirely: pending work — evidence awaiting
+> review, worksheets awaiting approval, observations awaiting a management
+> response, report edits awaiting a decision — now lives inside the workspace
+> that owns it. The lifecycle pipeline's per-stage pending-approval counts
+> (§63.8 below) are the one place it aggregates across the whole engagement;
+> there is no second, standalone queue. Legacy `#/…/work-queue` deep links
+> redirect to this workspace.
+
+#### Release 1 Implementation (GitHub Issue #19, redesigned by Issue #39, extended by Issue #41)
 
 The Engagement Workspace is realized in `prototype/js/workspaces/engagement.js` (with `prototype/css/engagement.css`) as the first production workspace on the Shared Workspace Framework (Issue #17) and the Enterprise Data Presentation System (Issue #18). It reads exclusively through the Shared Audit State and composes those two systems — it introduces no new UI primitives.
 
@@ -217,9 +227,42 @@ Release 1 realizes this composition as an **operational, workflow-first** experi
 * **Next Actions** — "what should I do?" — the prioritized pending work, each navigating into its workspace.
 * **Blocking Items** — "what is preventing progress?" — rejected evidence, failed tests, and high-severity findings.
 
-Beneath the operational band, the **audit lifecycle** (Walkthrough → Evidence → Controls → Testing → Findings → Reporting) is presented as **navigation cards** — the lifecycle is navigation, not a process diagram — followed by the operational context: a compact engagement summary, the participating team, a host-agnostic Inspector renderer (mounted in a bottom section for Release 1, mountable in any host later), and metadata. The universal supporting panels carry related information, a reserved AI advisory surface, and the activity feed.
+Beneath the operational band, the **operational pipeline** (Walkthrough →
+Evidence → Controls → Testing → Findings → Reporting) is presented as
+**navigation, not a process diagram** — an ordered rail of connected stages
+(`deriveLifecycle`). Issue #41 extended this pipeline beyond stage order
+into real operational health, so each stage now carries:
 
-Release 1 renders only the existing demo JSON: no AI behaviour, no workflow engine, no business logic, and no writes. Two forward-compatibility seams keep Release 2 pluggable without a UI redesign — frameworks are array-driven (`normalizeFrameworks`: a single framework today, every entry of a future engagement `frameworks` array with no code change), and the Walkthrough stage always appears first even though no walkthrough data exists yet, shown "not started" and never fabricated. Reporting is presented as continuous, beginning on day one rather than as an end-of-project activity.
+* its **completion** (a real progress ratio where one exists);
+* its **blockers** — real, recorded facts (evidence not received, high-severity observations open) that are actually stopping the stage, never a generic warning;
+* its **pending approvals** (the count of items in that stage awaiting a decision — the aggregation point the removed Work Queue used to be);
+* its **AI suggestions in flight** (report-edit and other proposals attributed to that stage through the Suggestion Lifecycle Service); and
+* its **pipeline health** — **flowing**, **waiting**, or **blocked** — stated in text next to a tone dot, never color alone.
+
+The **connector** joining one stage to the next carries the health of the
+stage it leaves, so a blocked stage visibly blocks everything drawn
+downstream of it — the pipeline reads as one connected flow, not disconnected
+cards. Testing's summary is read across both recorded shapes a dataset may
+carry (`tests`/`passed`/`failed`/`pending`, or `workpapers` with a
+`byTestingStatus` distribution), so the pipeline never under-reports a
+completed engagement as "not started."
+
+Beneath the pipeline sits the operational context: a compact engagement
+summary, the participating team, a host-agnostic Inspector renderer (mounted
+in a bottom section for Release 1, mountable in any host later), and
+metadata. The universal supporting panels carry related information, a
+reserved AI advisory surface, and the activity feed.
+
+Release 1 renders only real, recorded state: no fabricated blocker, no
+invented AI-suggestion count, no writes. Two forward-compatibility seams keep
+Release 2 pluggable without a UI redesign — frameworks are array-driven
+(`normalizeFrameworks`: a single framework today, every entry of a future
+engagement `frameworks` array with no code change), and the Walkthrough stage
+always appears first even when no walkthrough data exists yet, shown "not
+started" and never fabricated. Reporting is presented as continuous,
+beginning on day one rather than as an end-of-project activity — see the
+Reporting Workspace chapter (Chapter 69) for the report's own five-section
+model, versioning, and propagation.
 
 ---
 
@@ -253,7 +296,7 @@ Illustrative indicators include:
 * walkthrough completion
 * evidence collection
 * testing completion
-* documentation readiness
+* report narrative readiness
 * report readiness
 * governance status
 
@@ -280,21 +323,38 @@ The timeline is generated from immutable Audit Events.
 
 ---
 
-### 63.12 Operational Work Queue
+### 63.12 Pending Work — Owned by Each Workspace, Not a Standalone Queue
 
-The Work Queue presents actionable work for the current user.
+**Release 1 Status (GitHub Issue #41):** AuditOS no longer presents a
+standalone Work Queue workspace. Actionable work for the current user is
+presented inside the workspace that owns it:
 
-Illustrative items include:
+* **Evidence** — pending approvals, pending suggestions.
+* **Testing** — pending worksheet approval.
+* **Findings** — observations pending a management response (the Observation
+  Register's own "Pending management response" panel).
+* **Reporting** — report edits pending an approval decision, surfaced in the
+  Reporting workbench's right rail and counted in that stage's pipeline
+  health.
 
-* assigned walkthroughs
-* pending evidence
-* testing assignments
-* review requests
-* approval requests
-* documentation tasks
+This is a deliberate architectural choice, not an omission: a standalone
+queue duplicated state that each owning workspace already had to track
+correctly, and routinely drifted out of sync with it. The Engagement
+Workspace's operational pipeline (§63.8) is the one place pending work
+aggregates *across* workspaces — each stage's pending-approval count is a
+real, current figure read from the workspace that owns that stage, not a
+separately maintained total.
+
+Illustrative examples of what "pending" means per workspace:
+
+* assigned walkthroughs awaiting a session
+* evidence awaiting review
+* testing worksheets awaiting approval
+* observations awaiting a management response
+* report edits awaiting a decision
 * AI recommendations awaiting review
 
-The queue adapts to organizational role and current engagement context.
+Legacy `#/…/work-queue` deep links redirect to the engagement overview.
 
 ---
 
@@ -338,6 +398,14 @@ Governance activities remain separate from operational execution while remaining
 
 The Engagement Workspace serves as the entry point into specialized operational workspaces.
 
+**Release 1 Status:** the real, registered engagement navigation
+(`hierarchyBuilder.engagementWorkspaceIds()`) is the six-stage operational
+pipeline in flow order — Walkthrough, Evidence, Controls, Testing, Findings,
+Reporting — plus the Overview itself. Documentation and Work Queue are not
+registered destinations (Issue #41); Scope and Governance remain part of the
+broader conceptual navigation this section describes but are not yet
+distinct Release 1 workspaces.
+
 Illustrative destinations include:
 
 * Scope
@@ -346,8 +414,7 @@ Illustrative destinations include:
 * Evidence
 * Testing
 * Findings
-* Documentation
-* Reports
+* Reporting
 * Governance
 * Analytics
 
@@ -435,7 +502,7 @@ Illustrative health dimensions include:
 * walkthrough coverage
 * evidence readiness
 * testing progress
-* documentation completeness
+* report narrative completeness
 * governance health
 * report readiness
 * quality indicators

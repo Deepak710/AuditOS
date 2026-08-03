@@ -119,7 +119,7 @@ Components:
 * Team Panel
 * Scope Panel
 * Milestone Timeline
-* Document Hub
+* Report Status Panel
 * Activity Feed
 * AI Panel
 * Governance Panel

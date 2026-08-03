@@ -45,13 +45,21 @@
 
   var ROUTE_HASH_PREFIX = '#/';
 
-  /** Legacy paths with fixed canonical targets (Issue #39 — internal redirects). */
+  /** Legacy paths with fixed canonical targets (Issue #39 / #41 — internal redirects). */
   var LEGACY_PATH_ALIASES = {
     'dashboard': 'home',
     'walkthroughs': 'walkthrough',
     // Requirements ceased to exist as a user-facing workspace; Evidence is
     // the operational object.
-    'requirements': 'evidence'
+    'requirements': 'evidence',
+    // Issue #41: Documentation ceased to exist as a user-facing workspace —
+    // documentation is an internal AI artifact that lives inside the report,
+    // so its old deep links resolve to Reporting.
+    'documentation': 'reporting',
+    // Issue #41: the Work Queue ceased to exist — pending work always lives
+    // inside the workspace that owns it, and the engagement overview's
+    // lifecycle pipeline is the one place it aggregates.
+    'work-queue': 'engagements'
   };
 
   /**

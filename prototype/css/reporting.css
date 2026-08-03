@@ -1,0 +1,706 @@
+/**
+ * AuditOS Reporting Workspace
+ * Living Reporting & Operational Findings — GitHub Issue #41 / Workspace Design
+ * System — Chapter 15 / Layout Components — Chapter 75
+ *
+ * The workspace-layer stylesheet of the Reporting Workspace. It owns only the
+ * reporting-specific layout — the compact context band, what sits inside the
+ * three Workbench panes, the Report Health strip, the report navigator rows,
+ * the section canvas and its notices, the AI lineage chips, the change-proposal
+ * editor, and the footer — plus their responsive behavior. Every visible
+ * surface inside those regions is a Shared Enterprise Component Library
+ * component (css/components.css) produced by the Enterprise Data Presentation
+ * System, and the three-column geometry itself belongs to the shared Workbench
+ * (components.css), not here. Consumes only the Design Token Foundation
+ * (variables.css); introduces no new visual values. Entrance motion comes from
+ * the shared design language (design-language.css).
+ *
+ * Every selector in this file is scoped under the `.aos-reporting` prefix so the
+ * workspace layer can never leak into the shell, components, or other workspaces.
+ */
+
+@import 'variables.css';
+
+/* ========================================
+ * VIEWPORT CANVAS
+ * A fixed frame: the compact context band, then the Workbench filling every
+ * remaining pixel. The page never scrolls — each pane does.
+ * ======================================== */
+
+.aos-reporting {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-3);
+  min-width: 0;
+  min-height: 0;
+}
+
+.aos-reporting__band {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--aos-space-3);
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.aos-reporting__band > * {
+  min-width: 0;
+}
+
+/* In the band the audit chain has a fraction of a full-width section, where
+ * wrapping would cost more vertical space than the operational panes can
+ * spare — so it stays one row and scrolls horizontally instead. */
+.aos-reporting__band .aos-reporting__lineage {
+  flex: 1 1 22rem;
+  flex-wrap: nowrap;
+  align-items: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: var(--aos-space-1);
+}
+
+.aos-reporting__band .aos-reporting__lineage-node {
+  flex: 0 0 auto;
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  min-width: 0;
+  padding: var(--aos-space-1) var(--aos-space-3);
+}
+
+.aos-reporting__band .aos-reporting__lineage-label {
+  font-size: var(--aos-text-xs);
+  white-space: nowrap;
+}
+
+.aos-reporting__band .aos-reporting__lineage-count {
+  font-size: var(--aos-text-sm);
+}
+
+.aos-reporting__band .aos-reporting__lineage-hint {
+  display: none;
+}
+
+.aos-reporting__band .aos-reporting__lineage-connector {
+  flex: 0 0 auto;
+}
+
+/* ========================================
+ * REPORT HEALTH STRIP
+ * A slim, segmented status bar — one indicator per report section, then the
+ * current version and the count of report edits awaiting a decision. The
+ * status text carries the meaning; the dot only reinforces the tone.
+ * ======================================== */
+
+.aos-reporting__health {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  padding: var(--aos-space-1) var(--aos-space-2);
+  background-color: var(--aos-surface-workspace);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  font-size: var(--aos-text-xs);
+}
+
+.aos-reporting__health-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-1) var(--aos-space-3);
+}
+
+.aos-reporting__health-item + .aos-reporting__health-item {
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+.aos-reporting__health-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex-shrink: 0;
+  border-radius: var(--aos-radius-full);
+  background-color: var(--aos-text-tertiary);
+}
+
+.aos-reporting__health-dot--info { background-color: var(--aos-color-info-600); }
+.aos-reporting__health-dot--success { background-color: var(--aos-color-success-700); }
+.aos-reporting__health-dot--warning { background-color: var(--aos-color-warning-700); }
+.aos-reporting__health-dot--error { background-color: var(--aos-color-error-700); }
+
+.aos-reporting__health-label {
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-reporting__health-status {
+  color: var(--aos-text-secondary);
+  white-space: nowrap;
+}
+
+/* ========================================
+ * WORKBENCH PANES
+ * The shared Workbench owns the columns; these rules own only what sits inside
+ * each pane.
+ * ======================================== */
+
+.aos-reporting__rail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-height: 0;
+}
+
+.aos-reporting__rail-count {
+  margin: 0;
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-reporting__canvas,
+.aos-reporting__operational {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-4);
+  min-width: 0;
+}
+
+.aos-reporting__canvas-mount,
+.aos-reporting__inspector-mount {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.aos-reporting__block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-reporting__block-title {
+  margin: 0;
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--aos-tracking-wide);
+  color: var(--aos-text-tertiary);
+}
+
+/* ========================================
+ * REPORT NAVIGATOR
+ * The five sections in document order — never re-sorted, because the order is
+ * the report's table of contents. Each row leads with its roman numeral.
+ * ======================================== */
+
+.aos-reporting__row-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  min-width: 0;
+}
+
+.aos-reporting__row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  padding: var(--aos-space-2) var(--aos-space-3);
+  text-align: start;
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  cursor: pointer;
+  transition: background-color var(--aos-transition-fast), border-color var(--aos-transition-fast);
+}
+
+.aos-reporting__row:hover {
+  background-color: var(--aos-surface-hover);
+  border-color: var(--aos-surface-border-strong);
+}
+
+.aos-reporting__row--selected {
+  background-color: var(--aos-surface-active);
+  border-color: var(--aos-surface-border-strong);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-reporting__row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+/* A recorded section status can be a whole sentence ("Placeholder — filled as
+ * part of report issuance process"). In the rail it must never squeeze the
+ * section's own identity out of the row: the badge yields first and truncates,
+ * and the full status is always one click away in the canvas. */
+.aos-reporting__row-head > .aos-status-badge {
+  /* The badge is an inline-flex component, where text-overflow never applies
+   * to the text inside it; inline-block for this one placement is what lets a
+   * long status truncate with an ellipsis rather than be clipped mid-word. */
+  display: inline-block;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 45%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.aos-reporting__row-identity {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  min-width: 0;
+  overflow: hidden;
+}
+
+.aos-reporting__row-numeral {
+  flex-shrink: 0;
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  color: var(--aos-text-tertiary);
+}
+
+/* A rail row reads on two lines and truncates rather than wrapping: the full
+ * section title is always one click away in the middle pane. */
+.aos-reporting__row-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-primary);
+}
+
+.aos-reporting__row-meta {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: baseline;
+  gap: var(--aos-space-1) var(--aos-space-3);
+  min-width: 0;
+  overflow: hidden;
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-reporting__row-meta > * {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.aos-reporting__row-source {
+  font-weight: var(--aos-font-medium);
+  color: var(--aos-text-secondary);
+}
+
+.aos-reporting__row-flag {
+  color: var(--aos-color-info-600);
+}
+
+.aos-reporting__row-flag--warning {
+  color: var(--aos-color-warning-700);
+  font-weight: var(--aos-font-semibold);
+}
+
+.aos-reporting__row-count {
+  margin-left: auto;
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-secondary);
+}
+
+/* ========================================
+ * SECTION CANVAS
+ * The selected report section in full: identity, the continuous-generation
+ * notice, the not-audited notice where it applies, the content, and the
+ * change-proposal editor.
+ * ======================================== */
+
+.aos-reporting__canvas-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-reporting__canvas-eyebrow {
+  margin: 0;
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: var(--aos-tracking-wide);
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-reporting__canvas-title {
+  margin: 0;
+  font-size: var(--aos-text-xl);
+  font-weight: var(--aos-font-bold);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-primary);
+}
+
+.aos-reporting__canvas-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-2);
+}
+
+.aos-reporting__canvas-summary {
+  margin: 0;
+  font-size: var(--aos-text-sm);
+  line-height: var(--aos-leading-relaxed);
+  color: var(--aos-text-secondary);
+}
+
+/* The generation and not-audited notices are statements of fact about the
+ * document, so they read as quiet framed prose rather than alerts. */
+.aos-reporting__notice {
+  margin: 0;
+  padding: var(--aos-space-2) var(--aos-space-3);
+  font-size: var(--aos-text-xs);
+  line-height: var(--aos-leading-relaxed);
+  color: var(--aos-text-secondary);
+  background-color: var(--aos-surface-workspace);
+  border-left: 3px solid var(--aos-surface-border-strong);
+  border-radius: var(--aos-radius-sm);
+}
+
+.aos-reporting__notice--warning {
+  border-left-color: var(--aos-color-warning-700);
+  color: var(--aos-text-primary);
+}
+
+.aos-reporting__note {
+  margin: 0;
+  font-size: var(--aos-text-xs);
+  color: var(--aos-text-tertiary);
+}
+
+/* ---- System description: one factual block per operational domain. A domain
+ * with no recorded data reads as absent and is never filled with narrative. */
+
+.aos-reporting__blocks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-reporting__narrative {
+  margin: 0;
+  font-size: var(--aos-text-sm);
+  line-height: var(--aos-leading-relaxed);
+  color: var(--aos-text-primary);
+}
+
+.aos-reporting__fact {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--aos-space-2) var(--aos-space-3);
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+}
+
+.aos-reporting__fact--absent {
+  opacity: 0.7;
+  border-style: dashed;
+}
+
+.aos-reporting__fact-label {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--aos-tracking-wide);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-reporting__fact-text {
+  margin: 0;
+  font-size: var(--aos-text-sm);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-primary);
+}
+
+/* ---- Generated registers: the Section IV results grid and the Section V
+ * entity registers. Wide tables scroll inside their own pane, never the page. */
+
+.aos-reporting__grid,
+.aos-reporting__registers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-3);
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.aos-reporting__register {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  min-width: 0;
+}
+
+.aos-reporting__register-title {
+  margin: 0;
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-reporting__register-description {
+  margin: 0;
+  font-size: var(--aos-text-xs);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-tertiary);
+}
+
+/* ========================================
+ * AI LINEAGE CHIPS
+ * "Generated From" — every domain a section is generated from, with its real
+ * count and a link into the workspace that owns the source objects. A domain
+ * with no data is shown as absent rather than hidden.
+ * ======================================== */
+
+.aos-reporting__lineage-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+.aos-reporting__lineage-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  padding: var(--aos-space-1) var(--aos-space-3);
+  font-size: var(--aos-text-xs);
+  text-decoration: none;
+  color: var(--aos-text-secondary);
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-full);
+  transition: border-color var(--aos-transition-fast), box-shadow var(--aos-transition-fast);
+}
+
+a.aos-reporting__lineage-chip:hover {
+  border-color: var(--aos-surface-border-strong);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-reporting__lineage-chip--empty {
+  opacity: 0.65;
+  border-style: dashed;
+}
+
+.aos-reporting__lineage-chip-label {
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-reporting__lineage-chip-count {
+  color: var(--aos-text-secondary);
+}
+
+/* ========================================
+ * CHANGE PROPOSAL EDITOR
+ * The report is never written directly: a proposal is analyzed for impact,
+ * becomes a suggestion, and propagates only once approved.
+ * ======================================== */
+
+.aos-reporting__proposal {
+  padding: var(--aos-space-3);
+  background-color: var(--aos-surface-workspace);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+}
+
+.aos-reporting__proposal-help {
+  margin: 0;
+  font-size: var(--aos-text-xs);
+  line-height: var(--aos-leading-relaxed);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-reporting__proposal-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  min-width: 0;
+}
+
+.aos-reporting__proposal-label {
+  font-size: var(--aos-text-xs);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-secondary);
+}
+
+.aos-reporting__proposal-input {
+  padding: var(--aos-space-2) var(--aos-space-3);
+  font: inherit;
+  font-size: var(--aos-text-sm);
+  color: var(--aos-text-primary);
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  resize: vertical;
+  min-width: 0;
+}
+
+.aos-reporting__proposal-input:focus-visible {
+  outline: none;
+  border-color: var(--aos-color-primary-600);
+  box-shadow: var(--aos-focus-ring);
+}
+
+.aos-reporting__proposal-impact {
+  min-width: 0;
+}
+
+/* ========================================
+ * OPERATIONAL INSPECTOR
+ * Suggestions in flight, the version register, pending approvals, lineage, the
+ * regeneration plan, and the Release 1 improvement-register entry.
+ * ======================================== */
+
+.aos-reporting__suggestions,
+.aos-reporting__versions,
+.aos-reporting__improvement {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aos-space-2);
+  min-width: 0;
+}
+
+/* ========================================
+ * AUDIT LINEAGE
+ * The methodology chain rendered as connected nodes, Report highlighted.
+ * ======================================== */
+
+.aos-reporting__lineage {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: var(--aos-space-2);
+}
+
+.aos-reporting__lineage-node {
+  display: flex;
+  flex: 1 1 8rem;
+  flex-direction: column;
+  gap: var(--aos-space-1);
+  min-width: 7rem;
+  padding: var(--aos-space-3);
+  text-decoration: none;
+  background-color: var(--aos-surface-card);
+  border: 1px solid var(--aos-surface-border);
+  border-radius: var(--aos-radius-md);
+  transition: border-color var(--aos-transition-fast), box-shadow var(--aos-transition-fast);
+}
+
+a.aos-reporting__lineage-node:hover {
+  border-color: var(--aos-surface-border-strong);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-reporting__lineage-node--highlighted {
+  background-color: var(--aos-surface-active);
+  border-color: var(--aos-color-primary-600);
+  box-shadow: var(--aos-shadow-sm);
+}
+
+.aos-reporting__lineage-node--empty {
+  opacity: 0.6;
+}
+
+.aos-reporting__lineage-label {
+  font-size: var(--aos-text-sm);
+  font-weight: var(--aos-font-semibold);
+  color: var(--aos-text-primary);
+}
+
+.aos-reporting__lineage-count {
+  font-size: var(--aos-text-lg);
+  font-weight: var(--aos-font-bold);
+  color: var(--aos-text-primary);
+}
+
+.aos-reporting__lineage-hint {
+  font-size: var(--aos-text-xs);
+  line-height: var(--aos-leading-snug);
+  color: var(--aos-text-tertiary);
+}
+
+.aos-reporting__lineage-connector {
+  align-self: center;
+  color: var(--aos-text-tertiary);
+}
+
+/* ========================================
+ * WORKSPACE FOOTER ITEMS
+ * ======================================== */
+
+.aos-reporting-footer__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--aos-space-2);
+  white-space: nowrap;
+}
+
+.aos-reporting-footer__item:not(:first-child) {
+  padding-left: var(--aos-space-4);
+  border-left: 1px solid var(--aos-surface-border);
+}
+
+.aos-reporting-footer__label {
+  font-weight: var(--aos-font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aos-text-tertiary);
+}
+
+.aos-reporting-footer__value {
+  color: var(--aos-text-secondary);
+}
+
+/* ========================================
+ * RESPONSIVE ARCHITECTURE
+ * The rows, chips, and lineage are fluid by construction. The shell breakpoints
+ * tighten the rhythm on tablets and settle the lineage into a single column on
+ * mobile.
+ * ======================================== */
+
+@media (max-width: 1024px) {
+  .aos-reporting {
+    gap: var(--aos-space-6);
+  }
+}
+
+@media (max-width: 640px) {
+  .aos-reporting {
+    gap: var(--aos-space-5);
+  }
+
+  .aos-reporting__lineage {
+    flex-direction: column;
+  }
+
+  .aos-reporting__lineage-connector {
+    transform: rotate(90deg);
+  }
+
+  .aos-reporting-footer__item {
+    white-space: normal;
+  }
+}

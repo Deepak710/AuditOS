@@ -14,8 +14,11 @@
  * Layout (hybrid operational):
  *   Top    — current operational focus + engagement status, the prioritized
  *            Next actions, and Blocking items.
- *   Middle — the lifecycle as navigation cards; each stage shows its current
- *            operational status, pending work, progress, and a way in.
+ *   Middle — the operational pipeline (Issue #41): Walkthrough → Evidence →
+ *            Controls → Testing → Findings → Reporting, connected stages whose
+ *            connectors carry health (flowing / waiting / blocked). Each stage
+ *            shows its completion, blockers, pending approvals, AI suggestions,
+ *            and a way in.
  *   Bottom — operational context: engagement summary, framework badges, team,
  *            an inspector, recent activity, and metadata.
  *
@@ -411,79 +414,205 @@
   }
 
   /**
-   * The audit lifecycle as navigation (§63.15 / §12.13): one card per stage in
-   * operational order — Walkthrough → Evidence → Controls → Testing → Findings →
-   * Reporting. Each stage carries its current operational status, its pending
-   * work, an optional progress ratio, a caption, and the workspace it opens.
-   * The lifecycle is navigation, not a process diagram; every figure is real.
+   * Pipeline connector health (Issue #41 — "Pipeline connectors indicate
+   * health"): green flows, amber waits, red is blocked. The connector leaving a
+   * stage carries that stage's own health, because a stage that is blocked
+   * blocks everything downstream of it.
    */
-  function deriveLifecycle(workspaceRegistry, operational) {
+  var PIPELINE_HEALTH = { FLOWING: 'flowing', WAITING: 'waiting', BLOCKED: 'blocked' };
+
+  /** Connector health → presentation tone. */
+  var PIPELINE_HEALTH_TONES = {
+    flowing: TONES.SUCCESS,
+    waiting: TONES.WARNING,
+    blocked: TONES.ERROR
+  };
+
+  /** Connector health → the text label the stage states alongside the color. */
+  var PIPELINE_HEALTH_LABELS = {
+    flowing: 'Flowing',
+    waiting: 'Waiting',
+    blocked: 'Blocked'
+  };
+
+  /**
+   * Normalizes the testing summary across the shapes the datasets record. Some
+   * summaries carry `tests` / `passed` / `failed` / `pending` directly; others
+   * carry `workpapers` with a `byTestingStatus` distribution. Both are read;
+   * neither is invented, and a summary carrying neither yields zeroes.
+   */
+  function normalizeTestingSummary(testing) {
+    var source = testing || {};
+    var byStatus = source.byTestingStatus || {};
+    var total = source.tests || source.workpapers || 0;
+    if (total === 0) {
+      total = Object.keys(byStatus).reduce(function (sum, key) { return sum + (byStatus[key] || 0); }, 0);
+    }
+    var completed = source.passed !== undefined ? source.passed
+      : (byStatus.Completed || 0) + (byStatus.Passed || 0);
+    var exceptions = source.failed !== undefined ? source.failed
+      : (byStatus.Exception || 0) + (byStatus.Failed || 0) + (byStatus['Exception Noted'] || 0);
+    var pending = source.pending !== undefined ? source.pending
+      : Math.max(0, total - completed - exceptions);
+    return { total: total, completed: completed, exceptions: exceptions, pending: pending };
+  }
+
+  /**
+   * The AI suggestions in flight per pipeline stage (Issue #41 — "Each stage
+   * displays … AI suggestions"). A suggestion counts for a stage only where the
+   * record genuinely declares that stage: through the `propagationTargets` a
+   * report-originated proposal records, through `affectedReportSections`
+   * (Reporting), or through `affectedControls` (Controls). A suggestion that
+   * declares no target counts for no stage — never a fabricated attribution.
+   * Only suggestions still awaiting a decision are counted; a decided one is
+   * no longer in flight.
+   */
+  function derivePipelineSuggestions(suggestions) {
+    var counts = { walkthrough: 0, evidence: 0, controls: 0, testing: 0, findings: 0, reporting: 0 };
+    asArray(suggestions).forEach(function (suggestion) {
+      var status = suggestion && suggestion.status;
+      if (status !== 'Suggested' && status !== 'Reviewed') {
+        return;
+      }
+      var counted = {};
+      asArray(suggestion.propagationTargets).forEach(function (target) {
+        if (Object.prototype.hasOwnProperty.call(counts, target) && !counted[target]) {
+          counts[target] += 1;
+          counted[target] = true;
+        }
+      });
+      if (asArray(suggestion.affectedReportSections).length > 0 && !counted.reporting) {
+        counts.reporting += 1;
+        counted.reporting = true;
+      }
+      if (asArray(suggestion.affectedControls).length > 0 && !counted.controls) {
+        counts.controls += 1;
+        counted.controls = true;
+      }
+    });
+    return counts;
+  }
+
+  /**
+   * The audit lifecycle as an operational pipeline (Issue #41 — Audit
+   * Lifecycle): one connected stage per step in operational order —
+   *
+   *   Walkthrough → Evidence → Controls → Testing → Findings → Reporting
+   *
+   * Each stage carries its completion, its blockers, its pending approvals, its
+   * AI suggestions, its health, and the workspace it opens. The connector
+   * leaving each stage carries that stage's health, so the chain reads as one
+   * flowing (green), waiting (amber), or blocked (red) pipeline rather than as
+   * disconnected cards. Every figure is real: a stage with no recorded data
+   * reads "not started" rather than a fabricated number, and a blocker is only
+   * ever a blocker the engagement actually records.
+   *
+   * `findings` is the observation record list, used only to count the
+   * high-severity open observations that genuinely block the Findings stage;
+   * omitting it simply yields no findings blockers.
+   */
+  function deriveLifecycle(workspaceRegistry, operational, findings) {
     if (!workspaceRegistry) {
       return [];
     }
     var ops = operational || {};
     var controls = ops.controls || {};
     var evidence = ops.evidence || {};
-    var requests = ops.requests || {};
-    var testing = ops.testing || {};
-    var findings = ops.findings || {};
+    var testing = normalizeTestingSummary(ops.testing);
+    var findingsSummary = ops.findings || {};
+    var walkthrough = ops.walkthrough || {};
+    var suggestions = ops.suggestions || {};
     var report = ops.report || null;
     var ids = workspaceRegistry.IDS;
 
     var evidenceItems = evidence.evidenceItems || 0;
     var evidenceApproved = evidence.approved || 0;
-    var testsTotal = testing.tests || 0;
-    var testsExecuted = (testing.passed || 0) + (testing.failed || 0);
-    var findingsTotal = findings.findings || 0;
-    var findingsOpen = findings.open || 0;
+    var evidencePending = evidence.pendingReview || 0;
+    var testsTotal = testing.total;
+    var testsExecuted = testing.completed + testing.exceptions;
+    var findingsTotal = findingsSummary.findings || 0;
+    var findingsOpen = findingsSummary.open || 0;
+    var sessions = walkthrough.sessions || 0;
+    var criticalOpen = asArray(findings).filter(function (finding) {
+      return finding && finding.status === FINDING_STATUS.OPEN && finding.severity === SEVERITY.HIGH;
+    }).length;
+    var reportPending = report && report.pendingApprovals ? report.pendingApprovals : 0;
 
     var stages = [
       {
         id: ids.WALKTHROUGH, label: 'Walkthrough',
-        status: STAGE_STATUS.NOT_STARTED,
-        pending: 'No walkthrough sessions',
-        detail: 'Knowledge acquisition — will refine requirements, controls, and evidence',
-        progress: null
+        status: sessions > 0 ? STAGE_STATUS.ACTIVE : STAGE_STATUS.NOT_STARTED,
+        pending: sessions > 0 ? '' : 'No walkthrough sessions',
+        detail: sessions > 0
+          ? sessions + ' recorded ' + plural(sessions, 'session')
+          : 'Knowledge acquisition — will refine requirements, controls, and evidence',
+        progress: null,
+        blockers: [],
+        pendingApprovals: 0,
+        aiSuggestions: suggestions.walkthrough || 0
       },
       {
         id: ids.EVIDENCE, label: 'Evidence',
         status: ratioStatus(evidenceApproved, evidenceItems),
-        pending: (evidence.pendingReview || 0) > 0 ? evidence.pendingReview + ' pending review' : '',
+        pending: evidencePending > 0 ? evidencePending + ' pending review' : '',
         detail: evidenceItems > 0 ? evidenceApproved + ' of ' + evidenceItems + ' approved' : 'Not yet collected',
-        progress: evidenceItems > 0 ? { value: evidenceApproved, total: evidenceItems } : null
+        progress: evidenceItems > 0 ? { value: evidenceApproved, total: evidenceItems } : null,
+        blockers: [],
+        pendingApprovals: evidencePending,
+        aiSuggestions: suggestions.evidence || 0
       },
       {
         id: ids.CONTROLS, label: 'Controls',
         status: (controls.controls || 0) > 0 ? STAGE_STATUS.ACTIVE : STAGE_STATUS.NOT_STARTED,
         pending: '',
         detail: (controls.controls || 0) + ' controls in scope',
-        progress: null
+        progress: null,
+        blockers: [],
+        pendingApprovals: 0,
+        aiSuggestions: suggestions.controls || 0
       },
       {
         id: ids.TESTING, label: 'Testing',
         status: ratioStatus(testsExecuted, testsTotal),
-        pending: (testing.pending || 0) > 0 ? testing.pending + ' pending' : '',
-        detail: testsTotal > 0 ? (testing.passed || 0) + ' of ' + testsTotal + ' passed' : 'Not yet started',
-        progress: testsTotal > 0 ? { value: testsExecuted, total: testsTotal } : null
+        pending: testing.pending > 0 ? testing.pending + ' pending' : '',
+        detail: testsTotal > 0 ? testing.completed + ' of ' + testsTotal + ' passed' : 'Not yet started',
+        progress: testsTotal > 0 ? { value: testsExecuted, total: testsTotal } : null,
+        blockers: testing.exceptions > 0
+          ? [testing.exceptions + ' ' + plural(testing.exceptions, 'exception') + ' noted']
+          : [],
+        pendingApprovals: testing.pending,
+        aiSuggestions: suggestions.testing || 0
       },
       {
         id: ids.FINDINGS, label: 'Findings',
         status: findingsTotal === 0 ? STAGE_STATUS.NOT_STARTED : (findingsOpen > 0 ? STAGE_STATUS.ACTIVE : STAGE_STATUS.RESOLVED),
         pending: findingsOpen > 0 ? findingsOpen + ' open' : '',
         detail: findingsTotal > 0 ? findingsOpen + ' open of ' + findingsTotal : 'None recorded',
-        progress: findingsTotal > 0 ? { value: findingsTotal - findingsOpen, total: findingsTotal } : null
+        progress: findingsTotal > 0 ? { value: findingsTotal - findingsOpen, total: findingsTotal } : null,
+        blockers: criticalOpen > 0
+          ? [criticalOpen + ' high-severity ' + plural(criticalOpen, 'observation') + ' open']
+          : [],
+        pendingApprovals: findingsOpen,
+        aiSuggestions: suggestions.findings || 0
       },
       {
         id: ids.REPORTING, label: 'Reporting',
         status: report ? (report.status || STAGE_STATUS.ACTIVE) : STAGE_STATUS.NOT_STARTED,
-        pending: '',
+        pending: reportPending > 0 ? reportPending + ' awaiting approval' : '',
         detail: report ? 'Continuously evolving' + (report.version ? ' · v' + report.version : '') : 'Not yet started',
-        progress: null
+        progress: null,
+        blockers: [],
+        pendingApprovals: reportPending,
+        aiSuggestions: suggestions.reporting || 0
       }
     ];
 
-    return stages.map(function (stage) {
+    return stages.map(function (stage, index) {
       var workspace = workspaceRegistry.findById(stage.id);
+      var health = stage.blockers.length > 0 ? PIPELINE_HEALTH.BLOCKED
+        : (stage.pending || stage.pendingApprovals > 0 || stage.status === STAGE_STATUS.NOT_STARTED)
+          ? PIPELINE_HEALTH.WAITING
+          : PIPELINE_HEALTH.FLOWING;
       return {
         label: stage.label,
         path: workspace ? workspace.path : null,
@@ -491,7 +620,15 @@
         statusTone: resolveStageTone(stage.status),
         pending: stage.pending,
         detail: stage.detail,
-        progress: stage.progress
+        progress: stage.progress,
+        blockers: stage.blockers,
+        pendingApprovals: stage.pendingApprovals,
+        aiSuggestions: stage.aiSuggestions,
+        health: health,
+        healthTone: PIPELINE_HEALTH_TONES[health],
+        // The connector leaving this stage carries its health; the last stage
+        // has nothing downstream, so it has no connector.
+        connector: index < stages.length - 1 ? health : null
       };
     });
   }
@@ -803,6 +940,16 @@
       : industryKnowledgeItems;
     var contextDocument = readEngagementDocument(state, 'engagement-context', engagement.id) || {};
     var engagementContext = asArray(contextDocument.context)[0] || null;
+    var walkthroughDocument = readEngagementDocument(state, 'walkthroughs', engagement.id) || {};
+
+    // Issue #41 — the Reporting stage's pending work: report edits awaiting a
+    // decision, read through the canonical Report Propagation Service so the
+    // engagement pipeline declares no second definition of "pending report
+    // approval". Absent the service (offline unit sandboxes) the list is empty.
+    var repositoryForApprovals = repositoryService();
+    var propagationService = AuditOS.reportPropagationService;
+    var pendingReportApprovals = propagationService && repositoryForApprovals
+      ? propagationService.listPendingApprovals(repositoryForApprovals, engagement.id) : [];
 
     // The hierarchical link into a Walkthrough Team's command center
     // (Issue #36 §3). Read-only — resolved lazily so this workspace still
@@ -865,7 +1012,18 @@
       testing: testingDocument.summary || {},
       findings: findingsDocument.summary || {},
       requests: requestsDocument.summary || {},
-      report: reportDocument
+      // Issue #41 — the pipeline's Walkthrough and Reporting stages read real
+      // recorded state too: the walkthrough sessions the engagement records,
+      // the AI suggestions in flight per stage, and the report edits awaiting
+      // an approval decision. Every figure is a count of real records.
+      walkthrough: { sessions: asArray(walkthroughDocument.sessions).length },
+      suggestions: derivePipelineSuggestions(suggestions),
+      report: reportDocument ? {
+        title: reportDocument.title,
+        status: reportDocument.status,
+        version: reportDocument.version,
+        pendingApprovals: pendingReportApprovals.length
+      } : null
     };
 
     var frameworks = normalizeFrameworks(engagement);
@@ -924,7 +1082,7 @@
       auditHealth: deriveAuditHealth(operational, findingRecords, workspaceRegistry),
       nextActions: deriveNextActions(operational, workspaceRegistry),
       blocking: deriveBlockingItems(findingRecords, evidenceRecords, testRecords, workspaceRegistry),
-      lifecycle: deriveLifecycle(workspaceRegistry, operational),
+      lifecycle: deriveLifecycle(workspaceRegistry, operational, findingRecords),
 
       // Engagement Operating System Foundation (Issue #36 §1): the
       // executive walkthrough-operations surfaces, each real and derived
@@ -1166,27 +1324,41 @@
   }
 
   /**
-   * Builds the lifecycle body as one connected enterprise workflow (Issue
-   * #39 — Lifecycle redesign): an ordered stepper rail. Every stage is a
-   * numbered step joined to the next by a visible connector, so the chain
-   * reads as one process rather than disconnected cards. Each step is still
-   * a link into its workspace carrying the stage's operational status,
-   * pending work, caption, and (where a ratio exists) a slim progress track.
+   * Builds the lifecycle body as one operational pipeline (Issue #41 — Audit
+   * Lifecycle): an ordered rail whose stages are joined by health-carrying
+   * connectors. Every stage is a numbered step, and the connector leaving it
+   * reads green (flowing), amber (waiting), or red (blocked) from that stage's
+   * own health — so the chain shows where the audit is moving and where it has
+   * stopped, not merely what order the stages come in.
+   *
+   * Each step is a link into its workspace carrying the stage's completion,
+   * blockers, pending approvals, AI suggestions, status, and (where a ratio
+   * exists) a slim progress track. The health is always stated in text as well
+   * as color, so the pipeline reads without relying on color alone.
    */
   function buildLifecycleBody(lifecycle) {
     var P = presentation();
     var rail = el('ol', 'aos-engagement__lifecycle');
     rail.setAttribute('role', 'list');
-    asArray(lifecycle).forEach(function (stage, index) {
-      var step = el('li', 'aos-engagement__lifecycle-step');
+    var stages = asArray(lifecycle);
+    stages.forEach(function (stage, index) {
+      // The connector into this step is the health of the stage before it: a
+      // blocked stage blocks everything downstream. The first step has no
+      // upstream stage, so it has no connector.
+      var incoming = index > 0 ? stages[index - 1].connector : null;
+      var step = el('li', 'aos-engagement__lifecycle-step' +
+        (incoming ? ' aos-engagement__lifecycle-step--from-' + incoming : ''));
 
-      var card = el(stage.path ? 'a' : 'div', 'aos-card aos-card--interactive aos-engagement__stage');
+      var card = el(stage.path ? 'a' : 'div', 'aos-card aos-card--interactive aos-engagement__stage' +
+        (stage.health ? ' aos-engagement__stage--' + stage.health : ''));
       if (stage.path) {
         var href = WS.workspacePathHref ? WS.workspacePathHref(stage.path) : null;
         if (href) {
           card.setAttribute('href', href);
         }
-        card.setAttribute('aria-label', stage.label + ' — ' + stage.status + (stage.pending ? ' · ' + stage.pending : ''));
+        card.setAttribute('aria-label', stage.label + ' — ' + stage.status +
+          (stage.pending ? ' · ' + stage.pending : '') +
+          (stage.health ? ' · pipeline ' + stage.health : ''));
       }
 
       var head = el('div', 'aos-engagement__stage-head');
@@ -1204,8 +1376,25 @@
       if (stage.pending) {
         body.appendChild(el('span', 'aos-engagement__stage-pending', stage.pending));
       }
+      asArray(stage.blockers).forEach(function (blocker) {
+        body.appendChild(el('span', 'aos-engagement__stage-blocker', 'Blocked: ' + blocker));
+      });
+      if (stage.aiSuggestions > 0) {
+        body.appendChild(el('span', 'aos-engagement__stage-suggestions',
+          stage.aiSuggestions + ' AI ' + plural(stage.aiSuggestions, 'suggestion')));
+      }
       if (stage.progress && stage.progress.total > 0) {
         body.appendChild(buildSlimProgress(stage.progress.value, stage.progress.total));
+      }
+      // The health reads as text, not color alone, so the pipeline is legible
+      // to anyone who cannot distinguish the connector tones.
+      if (stage.health) {
+        var healthNode = el('span', 'aos-engagement__stage-health aos-engagement__stage-health--' + stage.health);
+        var dot = el('span', 'aos-engagement__stage-health-dot');
+        dot.setAttribute('aria-hidden', 'true');
+        healthNode.appendChild(dot);
+        healthNode.appendChild(el('span', null, PIPELINE_HEALTH_LABELS[stage.health] || stage.health));
+        body.appendChild(healthNode);
       }
       card.appendChild(body);
 
@@ -1397,8 +1586,8 @@
         present: true, body: function () { return buildOperationalStatusBody(viewModel); }
       },
       {
-        id: 'lifecycle', kicker: 'Audit workflow', title: 'Lifecycle',
-        description: 'The audit lifecycle as navigation — open a stage to work in it.',
+        id: 'lifecycle', kicker: 'Audit workflow', title: 'Operational pipeline',
+        description: 'Walkthrough → Evidence → Controls → Testing → Findings → Reporting. Each stage shows its completion, blockers, pending approvals, and AI suggestions; the connector between two stages carries the health of the one it leaves — flowing, waiting, or blocked. Open a stage to work in it.',
         present: viewModel.lifecycle.length > 0,
         body: function () { return buildLifecycleBody(viewModel.lifecycle); },
         empty: { icon: '◇', title: 'No lifecycle stages', description: 'Operational stages appear here once the workspaces are registered.' }
@@ -1578,6 +1767,8 @@
       deriveNextActions: deriveNextActions,
       deriveBlockingItems: deriveBlockingItems,
       deriveLifecycle: deriveLifecycle,
+      derivePipelineSuggestions: derivePipelineSuggestions,
+      normalizeTestingSummary: normalizeTestingSummary,
       deriveRelationships: deriveRelationships,
       deriveActivity: deriveActivity,
       deriveMetadata: deriveMetadata,

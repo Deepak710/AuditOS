@@ -330,7 +330,7 @@ Examples include:
 * Walkthrough Workspace
 * Evidence Workspace
 * Testing Workspace
-* Documentation Workspace
+* Findings Workspace
 * Reporting Workspace
 * Executive Workspace
 

@@ -170,8 +170,9 @@
       return null;
     }
     var auditService = AuditOS.auditService;
+    var idService = AuditOS.idService;
     var record = {
-      id: 'SUG-' + engagementId + '-' + Date.now(),
+      id: idService ? idService.next('SUG-' + engagementId) : 'SUG-' + engagementId + '-' + Date.now(),
       engagementId: engagementId,
       teamId: proposal.teamId || '',
       title: proposal.title,

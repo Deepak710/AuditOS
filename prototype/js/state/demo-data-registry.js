@@ -85,6 +85,13 @@
     { id: 'testing',               scope: SCOPES.ENGAGEMENT, manifestPath: 'demo-data/testing.json',               recordsKey: 'tests' },
     { id: 'findings',              scope: SCOPES.ENGAGEMENT, manifestPath: 'demo-data/findings.json',              recordsKey: 'findings' },
     { id: 'reports',               scope: SCOPES.ENGAGEMENT, manifestPath: 'demo-data/reports.json',               recordsKey: 'sections' },
+    // Living Reporting (GitHub Issue #41): the report's immutable version
+    // register — Draft → AI Draft → Reviewer Approved → Partner Approved →
+    // Issued. Its baseline is intentionally empty, exactly like audit-logs:
+    // the report document already records its own current version and status,
+    // and every further version is an audited runtime write through the
+    // Report Version Service.
+    { id: 'report-versions',       scope: SCOPES.ENGAGEMENT, manifestPath: 'demo-data/report-versions.json',       recordsKey: 'versions' },
     { id: 'walkthroughs',          scope: SCOPES.ENGAGEMENT, manifestPath: 'demo-data/walkthroughs.json',          recordsKey: 'sessions' },
     { id: 'activity',              scope: SCOPES.ENGAGEMENT, manifestPath: 'demo-data/activity.json',              recordsKey: 'events' },
 

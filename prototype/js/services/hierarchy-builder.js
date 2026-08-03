@@ -34,9 +34,16 @@
 
   /**
    * The engagement-scoped workspaces exposed as an engagement's navigation
-   * (Issue #39 — the engagement crumb's dropdown): the operational lifecycle
-   * chain. Requirements is intentionally absent — Evidence is the
-   * operational object.
+   * (Issue #39 — the engagement crumb's dropdown): the six-stage operational
+   * pipeline, in flow order (Issue #41) —
+   *
+   *   Walkthrough → Evidence → Controls → Testing → Findings → Reporting
+   *
+   * Requirements is intentionally absent (Evidence is the operational
+   * object). Documentation and the Work Queue are intentionally absent
+   * (Issue #41): documentation is an internal AI artifact inside the report,
+   * and pending work lives inside the workspace that owns it rather than in a
+   * standalone queue.
    */
   function engagementWorkspaceIds() {
     var reg = registry();
@@ -49,9 +56,7 @@
       reg.IDS.CONTROLS,
       reg.IDS.TESTING,
       reg.IDS.FINDINGS,
-      reg.IDS.DOCUMENTATION,
-      reg.IDS.REPORTING,
-      reg.IDS.WORKQUEUE
+      reg.IDS.REPORTING
     ];
   }
 

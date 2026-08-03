@@ -4,6 +4,12 @@
 
 ---
 
+> **Release 1 Status:** for what is actually shipped — the Observation
+> Register, its full-height three-pane Workbench, the seven-stage
+> Observation Lifecycle, its real data joins, and the Issue #41 fixture data
+> — see Part IX, Chapter 68 (`docs/08-workspaces/08-findings-workspace.md`),
+> §68.1. This chapter remains the longer-term screen-level vision.
+
 ### 121.1 Purpose
 
 The Findings Workspace is the authoritative environment for identifying, documenting, governing, prioritizing, reviewing, remediating, and reporting assurance findings throughout their complete lifecycle.

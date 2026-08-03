@@ -64,7 +64,7 @@ module.exports = function registerUnitTests(harness) {
 
   function rowContext() {
     return {
-      controlsById: { 'ENGCTRL-9': { id: 'ENGCTRL-9', controlId: 'GOV-01', title: 'Information Security Policy' } },
+      controlsById: { 'ENGCTRL-9': { id: 'ENGCTRL-9', controlCode: 'GOV-01', title: 'Information Security Policy' } },
       libraryControlsById: { 'LIB-CTRL-0001': { id: 'LIB-CTRL-0001', controlCode: 'CSC-01', title: 'User Access Provisioning' } },
       findingsById: { 'OBS-1': { id: 'OBS-1', title: 'Missing approval', severity: 'Medium', status: 'Open' } },
       frameworks: ['SOC 2 Type II']

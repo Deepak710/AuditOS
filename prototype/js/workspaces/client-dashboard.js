@@ -687,7 +687,7 @@
       if (reportDocument.document && reportDocument.document.title) {
         results.push({
           kind: 'Report', title: reportDocument.document.title, meta: engagement.name || '',
-          href: hierarchicalHref(engagement, workspaceRegistry.IDS.DOCUMENTATION)
+          href: hierarchicalHref(engagement, workspaceRegistry.IDS.REPORTING)
         });
       }
 

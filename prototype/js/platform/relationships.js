@@ -77,7 +77,11 @@
     if (engagementControl) {
       return {
         id: source.controlId,
-        code: engagementControl.controlId || '',
+        // The engagement's own control record carries its human-readable
+        // code as `controlCode` (its `id` is the internal record identifier,
+        // e.g. `CTL-NXSC-CSC-01`, and carries no `controlId` field of its
+        // own) — read the field the real dataset actually declares.
+        code: engagementControl.controlCode || '',
         title: engagementControl.title || '',
         familyId: '',
         category: engagementControl.category || ''
@@ -97,7 +101,7 @@
   // Activity derivations — extracted from the near-identical "iterate
   // records, read dated history, append a synthetic updated-at event, sort
   // newest first, cap the list" algorithm independently reimplemented in
-  // controls.js, requirements.js, findings.js, testing.js, and work-queue.js.
+  // controls.js, requirements.js, findings.js, and testing.js.
   // Each workspace keeps its own entity noun, subject text, meta fallback,
   // and status-tone vocabulary by passing them in; the shared function only
   // stops re-typing the read/normalize/sort/slice shape.
@@ -108,8 +112,8 @@
    * entries, plus one synthetic "updated" event reflecting its own
    * `updatedAt` / `updatedOn`, when present. Every event derives from a real,
    * dated field; undated entries never appear. Options:
-   *  - getRecord(item): unwraps the underlying record (default: identity;
-   *    Work Queue passes `item.record`)
+   *  - getRecord(item): unwraps the underlying record (default: identity; a
+   *    caller whose rows wrap a record passes `item.record`)
    *  - entityNoun: string or `function(item, record)` — the label used in the
    *    synthetic "<Noun> updated" title
    *  - getSubject(record, item): the text appended after the title's colon
@@ -203,10 +207,9 @@
   // tags in first-seen order, then read created / modified / owner / version
   // / source" shape independently reimplemented in controls.js,
   // requirements.js, findings.js, testing.js, and (a minor variant of) evidence.js.
-  // Entities with a genuinely different metadata shape (documentation's
-  // report metadata, engagement's framework-derived tags, work queue's
-  // minimal created/owner) are not forced into this shape and stay owned by
-  // their own workspace.
+  // Entities with a genuinely different metadata shape (the Reporting
+  // workspace's report metadata, engagement's framework-derived tags) are not
+  // forced into this shape and stay owned by their own workspace.
   // ------------------------------------------------------------------
 
   /**

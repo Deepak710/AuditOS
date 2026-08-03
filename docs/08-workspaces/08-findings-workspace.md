@@ -14,6 +14,74 @@ A Finding is a governed Business Object representing a professionally supported 
 
 The purpose of the Findings Workspace is to provide a centralized operational environment for creating, analyzing, governing, collaborating upon, and managing Findings throughout their lifecycle while preserving complete explainability and traceability to the Shared Audit State.
 
+#### Release 1 Status (GitHub Issue #25, rebuilt as the Observation Register by GitHub Issue #41)
+
+Issue #41 rebuilt this workspace from a Findings Queue into a true
+**Observation Register**. Every observation owns its own observation text,
+root cause, risk, recommendation, management response, owner, due date,
+status, linked controls, linked evidence, linked tests, linked report
+sections, AI lineage, comments, and approval history, and moves through one
+governed **Observation Lifecycle**:
+
+```text
+Detected → AI Drafted → Under Review → Management Response → Accepted → Resolved → Closed
+```
+
+The register renders that lifecycle as an ordered rail on every observation's
+detail pane: every stage the recorded status has reached is marked reached,
+the recorded status itself is marked current, and every later stage is
+plainly unreached. A record whose status predates this lifecycle (a legacy
+"Open" / "In Remediation" / "Accepted Risk" value some datasets still carry)
+leaves every stage unreached and says so explicitly, rather than being
+silently mapped onto a stage the record never claimed.
+
+**Layout — a full-height, three-pane Workbench** (`AuditOS.presentation.workbench`, the identical composition Controls, Testing, and Reporting already share):
+
+| Pane | Contents |
+| --- | --- |
+| **Left — Observation Register** | Search, four presentation modes (Register / By severity / By domain / By owner) over the one dataset, and every observation for the engagement. |
+| **Middle — Observation Details** | The observation lifecycle rail, then the full Inspector: properties, observation, root cause, risk, recommendation, management response, linked controls/evidence/tests/report sections/requirements, remediation, prior-year knowledge, comments, and approval history. |
+| **Right — Operational Inspector** | AI suggestions in flight (the one Suggestion card of the platform), History (recorded activity plus this session's audited events), Propagation (the upstream/downstream objects an approved change to this observation reaches), and Pending management response — the register's own aggregation of observations still awaiting the client's response, now that the standalone Work Queue is gone. |
+
+Selecting an observation replaces only the middle and right panes; the rail
+is never rebuilt, so scroll position survives every selection.
+
+**Data joins — real, never fabricated.** An identifier that does not join
+renders raw, never a fabricated label:
+
+* **Linked control** — `libraryControlId` against the shared control library first, then `controlId` against the engagement's own control set (reading the control's own `controlCode` field — a pre-existing join defect that silently dropped the code prefix from every control label across Testing and Findings was fixed alongside this rebuild).
+* **Owner** — `ownerPocId` against the points-of-contact directory.
+* **Linked test** — `testId` against the engagement's testing set.
+* **Linked report sections** — `reportSection` / `reportSectionIds` against the engagement's own report document's declared sections (never a section the report does not actually carry).
+* **Linked requirements** — traced through the linked control's own `requirementIds`, not a direct join.
+
+**Pending work lives here, not in a queue (Issue #41).** The observations
+still awaiting a management response are the pending work this workspace
+owns; they surface in the right rail's "Pending management response" panel
+and in the Engagement Workspace's operational pipeline (Chapter 63) as that
+stage's pending-approval count. There is no second, standalone queue.
+
+**Release 1 fixture data (Issue #41 Fix 1).** The register is populated with
+observations *derived* from data already recorded elsewhere in the demo
+set — never invented. Each observation is built from one of three real,
+recorded operational states a control genuinely carries: evidence not yet
+received (`walkthroughStatus: 'Data not received'`), no control owner
+assigned (`ownershipStatus: 'Unassigned'`), or testing not yet concluded
+behind a completed walkthrough. Every observation's linked control, linked
+test/workpaper, and (where the control records one) owner are real
+identifiers already present in that engagement's own controls and testing
+datasets. The CSP engagement is deliberately left with zero observations:
+its testing recorded 94 of 94 controls Pass with no recorded evidence gaps,
+so there is nothing to honestly derive a finding from — the same "faithful,
+not fabricated" outcome the original Release 1 findings data already
+recorded for it.
+
+**Release 2 extension points** (opened, not implemented): AI-drafted
+observations, duplicate detection, recommended severity and root causes, and
+suggested remediation all enter through the same Suggestion Lifecycle Service
+this register already composes, so AI stays advisory and human approval
+stays mandatory.
+
 ---
 
 ### 68.2 Findings Workspace Philosophy
@@ -505,14 +573,21 @@ Executive Dashboard Updated
 
 ↓
 
-Documentation Updated
-
-↓
-
 Analytics Updated
 ```
 
 Synchronization remains deterministic and event-driven.
+
+**Release 1 Status.** The concrete, shipped mechanism runs in the other
+direction from what this diagram illustrates: an *approved report edit*
+propagates upstream — Reporting → Findings → Testing → Controls → Evidence →
+Walkthrough (`js/services/report-propagation-service.js`, walking the
+Synchronization Bus's `REPORT_PROPAGATION_CHAIN`) — rather than an approved
+observation automatically pushing a synchronized update downstream into the
+report. Publishing an observation's own downstream synchronization into
+Reporting, the Executive Dashboard, and Analytics remains a Release 2
+capability. There is no "Documentation Updated" step: documentation is not a
+separate synchronized artifact — it is the report's own generated content.
 
 ---
 

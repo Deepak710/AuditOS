@@ -210,7 +210,7 @@ Examples include:
 * Walkthrough Workspace
 * Evidence Workspace
 * Testing Workspace
-* Documentation Workspace
+* Findings Workspace
 * Reporting Workspace
 * Approval Center
 * AI Timeline

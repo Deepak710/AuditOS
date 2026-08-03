@@ -218,17 +218,9 @@
       var reg = registry();
       if (reg) { navigate(hrefWorkspace(clientId, engagementId, reg.IDS.FINDINGS, findingId)); }
     },
-    goDocumentation: function (clientId, engagementId, sectionId) {
+    goReporting: function (clientId, engagementId, sectionId) {
       var reg = registry();
-      if (reg) { navigate(hrefWorkspace(clientId, engagementId, reg.IDS.DOCUMENTATION, sectionId)); }
-    },
-    goReporting: function (clientId, engagementId) {
-      var reg = registry();
-      if (reg) { navigate(hrefWorkspace(clientId, engagementId, reg.IDS.REPORTING)); }
-    },
-    goWorkQueue: function (clientId, engagementId) {
-      var reg = registry();
-      if (reg) { navigate(hrefWorkspace(clientId, engagementId, reg.IDS.WORKQUEUE)); }
+      if (reg) { navigate(hrefWorkspace(clientId, engagementId, reg.IDS.REPORTING, sectionId)); }
     },
 
     /**
@@ -238,6 +230,25 @@
      */
     goRequirements: function (clientId, engagementId) {
       this.goEvidence(clientId, engagementId);
+    },
+
+    /**
+     * Documentation ceased to exist as a user-facing workspace (Issue #41 —
+     * documentation is an internal AI artifact inside the report); its
+     * navigation resolves to the Reporting workspace.
+     */
+    goDocumentation: function (clientId, engagementId, sectionId) {
+      this.goReporting(clientId, engagementId, sectionId);
+    },
+
+    /**
+     * The Work Queue ceased to exist as a user-facing workspace (Issue #41 —
+     * pending work lives inside the workspace that owns it); its navigation
+     * resolves to the engagement overview, whose lifecycle pipeline is the
+     * one aggregate view of pending work.
+     */
+    goWorkQueue: function (clientId, engagementId) {
+      navigate(hrefEngagement(clientId, engagementId));
     },
 
     goApprovals: function () {

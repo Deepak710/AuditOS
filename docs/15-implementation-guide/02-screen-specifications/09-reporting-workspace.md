@@ -4,6 +4,13 @@
 
 ---
 
+> **Release 1 Status:** for what is actually shipped — the three-pane
+> Workbench, the five real report sections, continuous section-scoped
+> regeneration, AI Lineage, the version lifecycle, report-edit propagation,
+> and native DOCX/PDF/HTML export — see Part IX, Chapter 69
+> (`docs/08-workspaces/09-reporting-workspace.md`), §69.1. This chapter
+> remains the longer-term screen-level vision.
+
 ### 122.1 Purpose
 
 The Reporting Workspace is the authoritative environment for composing, reviewing, approving, publishing, and governing assurance reports within AuditOS.
