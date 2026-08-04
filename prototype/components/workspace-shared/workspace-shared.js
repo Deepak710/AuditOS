@@ -281,6 +281,47 @@
     return datasetIds.length > 0 ? state.getDocument(collectionId, datasetIds[0]) : null;
   }
 
+  /**
+   * The single source of truth for a report's lifecycle status (Issue #42 —
+   * documentation-validation fix, GitHub Issue #41's Report Versions register
+   * corrected against a real UI defect found while screenshotting it). A
+   * report document's own `document.status`/`document.version` record the
+   * report's identity as of whenever it was last authored; they never change
+   * again on their own. `AuditOS.reportVersionService`'s version register is
+   * the one place a report's lifecycle actually advances (Draft → AI Draft →
+   * Reviewer Approved → Partner Approved → Issued), so it — not the frozen
+   * recorded fields — is canonical for every consumer that displays "the
+   * report's current status": the Reporting workspace's own header, and the
+   * Report relationship/lineage hints every other operational workspace
+   * (Engagement, Walkthrough, Evidence, Controls, Testing, Findings) renders
+   * for the "Report" node in its own audit chain.
+   *
+   * Overwrites `reportDocument.document.status` / `.statusTone` / `.version`
+   * in place with the version register's current answer, when one resolves,
+   * and returns the same object so a caller may chain it inline. `getDocument`
+   * (above) already returns a fresh deep clone per call, so this mutation
+   * never touches the Shared Audit State baseline or any other caller's own
+   * independently-cloned copy — the same safety property every simulated
+   * write in this platform already relies on. A no-op, returned unchanged,
+   * when there is no report document, no repository, or no version service
+   * to resolve against.
+   */
+  function resolveReportStatus(engagementId, reportDocument) {
+    var identity = reportDocument && reportDocument.document;
+    var service = AuditOS.reportVersionService;
+    var repository = AuditOS.repository;
+    if (!identity || !service || !repository || !engagementId) {
+      return reportDocument;
+    }
+    var current = service.currentVersion(repository, engagementId, reportDocument);
+    if (current) {
+      identity.status = current.status || identity.status;
+      identity.statusTone = current.immutable ? TONES.SUCCESS : TONES.INFO;
+      identity.version = current.version || identity.version;
+    }
+    return reportDocument;
+  }
+
   /** Finds a record by id within a list. */
   function findById(records, id) {
     for (var index = 0; index < asArray(records).length; index += 1) {
@@ -790,6 +831,7 @@
     deriveActivityHistory: deriveActivityHistory,
 
     readEngagementDocument: readEngagementDocument,
+    resolveReportStatus: resolveReportStatus,
     findById: findById,
     indexById: indexById,
 

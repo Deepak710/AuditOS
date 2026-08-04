@@ -819,6 +819,9 @@
     var reportsDocument = readEngagementDocument(state, 'reports', engagement.id) || {};
     var walkthroughDocument = readEngagementDocument(state, 'walkthroughs', engagement.id) || {};
     var suggestionsDocument = readEngagementDocument(state, 'suggestions', engagement.id) || {};
+    // Single source of truth for the report's lifecycle position (Issue #42
+    // documentation-validation fix) — see workspace-shared.js's own comment.
+    WS.resolveReportStatus(engagement.id, reportsDocument);
 
     var testRecords = asArray(testingDocument.tests);
     var controlRecords = asArray(controlsDocument.controls);

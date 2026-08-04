@@ -338,6 +338,14 @@
       walkthroughs: readEngagementDocument(state, 'walkthroughs', engagement.id) || {}
     };
 
+    // Single source of truth for the report's lifecycle position (Issue #42
+    // documentation-validation fix): overwrites `documents.report.document`'s
+    // recorded `status`/`version` with the report-version register's current
+    // answer before anything else reads it, so `buildReport` below, this
+    // workspace's header badge, and `documentExport`'s cover-page metadata —
+    // which all ultimately read the same report model — can never disagree.
+    WS.resolveReportStatus(engagement.id, documents.report);
+
     var operational = deriveOperational(documents);
     var context = {
       controlsById: indexById(documents.controls.controls),
